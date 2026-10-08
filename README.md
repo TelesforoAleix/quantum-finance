@@ -1,60 +1,74 @@
 # Quantum Finance
 
-Public edition of the parent research project for an MSc thesis on practical
-quantum advantage in finance at Copenhagen Business School.
+Shared utilities from an MSc thesis on practical quantum advantage in finance.
 
-The research connects systematic literature review, structured extraction,
-thematic synthesis, and assessment of quantum advantage claims. The practical
-question is whether an advantage survives data preparation, resource costs,
-and comparison with a classical baseline.
+> [!NOTE]
+> **Reference only.** Curated public edition of a completed MSc thesis. It does not include the paper corpus or reproduce the thesis results.
 
-## Research Workflow
+## Overview
 
-| Stage | Purpose |
-| --- | --- |
-| Framework synthesis | Develop a taxonomy for financial problems, quantum methods, and evidence. |
-| Systematic review and classification | Identify studies and classify them against the framework. |
-| Thematic synthesis | Compare findings within financial problem domains and across the corpus. |
-| Experimental assessment | Examine resource estimates and advantage claims under explicit assumptions. |
+The MSc thesis at Copenhagen Business School asks: does gate-based quantum
+computing deliver practical advantage in finance? It screened 6,232 records down
+to 777 papers and synthesised them across eight problem areas through an
+AI-supported thematic-analysis workflow using several LLMs. The thesis PDF is
+not published in this repo; see [methodology and limitations](docs/methodology.md).
 
-The classified research corpus contains 777 papers. This public edition does
-not redistribute that corpus or claim to reproduce the thesis results on its own.
-See [methodology and limitations](docs/methodology.md).
+## Result
 
-## Related Repositories
+The 13 candidates favoured by the literature were costed with Azure's Quantum
+Resource Estimator, including the cost of loading classical data. None of the
+13 clears the practical-advantage bar once that cost is counted. Quantum finance
+is an integration problem rather than a list of algorithms.
 
-The parent project brought together work developed in these earlier repositories:
+## Architecture
+
+```mermaid
+flowchart LR
+    subgraph slr["Upstream SLR toolkit"]
+        search["Database search"] --> dedup["Deduplication"]
+        dedup --> screening["LLM-assisted screening<br>6,232 records"]
+        screening --> classification["Classification<br>777 papers"]
+    end
+    classification --> synthesis["Thematic synthesis<br>8 problem areas"]
+    synthesis --> estimation["Resource estimation<br>Azure QRE, 13 candidates"]
+    estimation --> finding["Finding<br>No candidate clears the bar including data loading"]
+    utilities["This repo: shared utilities<br>chunker, logger, paths"]
+```
+
+- Search through classification ran in the upstream SLR toolkit.
+- This repo publishes only the shared utilities; the corpus and extraction pipeline stay private.
+
+## Included utilities
+
+- [Text chunker](shared/tools/text_chunker.py): section-aware chunking and token-budget truncation.
+- [Logger](shared/tools/logger.py): structured local logging with revision metadata.
+- [Paths](shared/tools/_paths.py): project-root discovery with an environment override.
+
+## Quick start
+
+Use Python 3.12+ from the repo root. The default path uses the standard library
+and needs no API credentials. Run the utility tests:
+
+```bash
+git clone https://github.com/TelesforoAleix/quantum-finance.git && cd quantum-finance
+python3 -m unittest discover -s tests -v
+```
+
+Token budgeting falls back to approximately four characters per token. Optional
+`tiktoken` enables tokenizer-based counting and may download tokenizer data.
+Utilities write logs under `logs/`, which is excluded from version control.
+
+## Related repositories
 
 | Repository | Role |
 | --- | --- |
 | [quantum-finance-slr](https://github.com/vallahrich/quantum-finance-slr) | Systematic-review toolkit: searching, ingestion, deduplication, screening, and topic coding. |
-| [quantum-finance-analysis](https://github.com/TelesforoAleix/quantum-finance-analysis) | Earlier extraction and cross-paper analysis pipeline. |
 
-These are separate repositories with their own history, dependencies, and setup
-instructions. Their files are not bundled into this release, and this release's
-publication review does not cover their contents or history.
+The extraction pipeline is kept private.
 
-## Included Utilities
-
-This edition includes three reviewed Python utilities from the parent project:
-
-- `shared/tools/text_chunker.py`: section-aware chunking and token-budget truncation.
-- `shared/tools/logger.py`: structured local logging with revision metadata.
-- `shared/tools/_paths.py`: project-root discovery with an environment override.
-
-Python 3.12+ is the supported runtime. The default path uses only the standard
-library and needs no API credentials. Token budgeting uses an approximate
-four-characters-per-token fallback. An optional `tiktoken` installation enables
-tokenizer-based counting; encoder loading may download tokenizer data.
-
-```bash
-git clone https://github.com/TelesforoAleix/quantum-finance.git
-cd quantum-finance
-python3 -m unittest discover -s tests -v
-python3 -c "from shared.tools.text_chunker import chunk_by_sections; print(chunk_by_sections('Example research text.', max_tokens=8))"
-```
-
-Logs are written locally under `logs/` and are excluded from version control.
+The upstream toolkit has its own history, dependencies, and setup instructions.
+Its files are not bundled here, and this release's publication review does not
+cover its contents or history.
 
 ## Contributors
 
