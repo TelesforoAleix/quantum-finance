@@ -7,6 +7,8 @@ ALLOWED = {
     ".gitignore",
     "LICENSE",
     "README.md",
+    "docs/diagrams/research-pipeline-dark.svg",
+    "docs/diagrams/research-pipeline-light.svg",
     "docs/methodology.md",
     "docs/publication-scope.md",
     "scripts/check_publication.py",

@@ -19,9 +19,9 @@ We followed a pipeline from the literature to a resource estimate:
 
 1. **Database search** for relevant records.
 2. **Deduplication** of the records.
-3. **LLM-assisted screening** of 6,232 records.
+3. **LLM-assisted screening** of 6,232 records. Several LLMs supported this step.
 4. **Classification** of the 777 papers that remained.
-5. **Thematic synthesis** across eight problem areas, in an AI-supported workflow with several LLMs.
+5. **Thematic synthesis** across eight problem areas. Several LLMs supported this step too, in an AI-supported thematic-analysis workflow.
 6. **Resource estimation** of the 13 leading candidates with Azure's Quantum Resource Estimator.
    The estimate includes the cost of loading classical data.
 
