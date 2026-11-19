@@ -1,0 +1,863 @@
+{
+  "paper_id": "ea4504852540",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T10:17:24+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "ea4504852540_quantum_binomial_tree_an_exponential_speedup_for_derivative_pricing.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.9,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 18,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='option price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='option price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='option price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='option price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='option price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='algorithm executions of A' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='cx gates' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='steps' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[0].unit='option price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[1].unit='option price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[2].unit='option price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[3].unit='option price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[4].unit='option price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[10].unit='algorithm executions of A' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[12].unit='cx gates' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[13].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[14].unit='steps' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.9,
+      "completeness": 0.9,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.9,
+        0.9
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum Binomial Tree, an effective method for probability distribution loading for derivative pricing",
+    "authors": [
+      "Rafał Pracht"
+    ],
+    "year": 2023,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": [
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a gate‑based Quantum Binomial Tree method for loading probability distributions for derivative pricing within Quantum Monte Carlo. Simulator experiments with N=5 time steps and P=6 precision used 14 qubits and 330 CX gates (first‑order Taylor) or 28 qubits and 5850 CX gates (second‑order Taylor), producing option prices within roughly 3–12% error of classical Monte Carlo. The authors claim a theoretical quadratic speedup via amplitude estimation but acknowledge that practical deployment would require fault‑tolerant quantum computers.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Gate-based quantum Monte Carlo option pricing experiment using the Quantum Binomial Tree to load a one-dimensional time-dependent volatility distribution, evaluated with first-order Taylor approximation for the exponential function on a quantum simulator.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Quantum Binomial Tree + Quantum Monte Carlo option pricing; first-order Taylor expansion for exp(x)",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "number_of_time_steps_N": 5,
+          "fractional_precision_P": 6,
+          "strike_values": [
+            0.9,
+            0.95,
+            1.0,
+            1.05,
+            1.1
+          ],
+          "spot_price_S0": 1.0,
+          "volatility_function": "sigma(t)=0.2+min(max(1.2t,0),0.1)",
+          "risk_free_rate_r": 0.1,
+          "maturity_T": "1/12",
+          "classical_mc_replications": 100000000,
+          "classical_mc_time_steps": 30
+        },
+        "parameter_initialization": "Not reported; coin register initialized with Hadamard gates and stock register initialized to log(S0)",
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Coin-toss register of N qubits encodes 2^N binomial paths; stock price stored in a fixed-point QuantumFloat register in logarithmic form; payoff encoded into ancilla amplitude via controlled Ry rotations",
+        "objective_function": "Price a European call option by estimating E[max(S_T-K,0)] via amplitude estimation",
+        "constraints_handling": "Comparator via subtraction in two's complement; payoff encoded by controlled Ry; amplitude estimation extracts payoff probability",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "One-dimensional derivative pricing with time-dependent volatility under a binomial-tree-loaded path distribution",
+        "num_assets": 1,
+        "time_steps": 5,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Synthetic SDE model with S0=1.0, r=0.1, T=1/12, sigma(t)=0.2+min(max(1.2t,0),0.1), strikes in [0.9,1.1]"
+        },
+        "data_preprocessing_details": "No external dataset; discretize SDE with Euler scheme and load binomial paths on quantum register",
+        "evaluation_methodology": "Compare quantum Monte Carlo prices against classical Monte Carlo with 100,000,000 replications and also classical Monte Carlo with the same N=5 time steps"
+      },
+      "quantum_resources": {
+        "num_qubits": 14,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": 330,
+        "two_qubit_gate_count": 330,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "QuantumCircuits.jl (Julia) with simulator; statevector simulation referenced via Qiskit framework discussion",
+        "device_name": null,
+        "framework": "Qiskit",
+        "framework_version": null,
+        "transpilation_target": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/fin-Qbit/QuantumCircuits.jl/blob/main/examples/binomial_tree_model.jl",
+        "classical_solver": "classical Monte Carlo",
+        "classical_preprocessing": "Classical Monte Carlo baseline and option pricing comparison; parameters chosen for synthetic SDE",
+        "classical_postprocessing": "Map estimated payoff probability to option price using classical formula",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "transpilation_settings": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "price",
+          "value": 0.096138,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "option price",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price",
+          "value": 0.058523,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "option price",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price",
+          "value": 0.030559,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "option price",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price",
+          "value": 0.012242,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "option price",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price",
+          "value": 0.003567,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "option price",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 11.92,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 11.22,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 7.41,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 7.49,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 14.72,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": 32,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "algorithm executions of A",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 330,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "cnot_count",
+          "value": 14,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "cx gates",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "num_underlyings",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "time_steps",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "steps",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "fractional_precision",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "bits",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical Monte Carlo",
+          "metric_name": "price",
+          "value": 0.109148,
+          "unit": "option price"
+        },
+        {
+          "method_name": "classical Monte Carlo",
+          "metric_name": "price",
+          "value": 0.065919,
+          "unit": "option price"
+        },
+        {
+          "method_name": "classical Monte Carlo",
+          "metric_name": "price",
+          "value": 0.033004,
+          "unit": "option price"
+        },
+        {
+          "method_name": "classical Monte Carlo",
+          "metric_name": "price",
+          "value": 0.013234,
+          "unit": "option price"
+        },
+        {
+          "method_name": "classical Monte Carlo",
+          "metric_name": "price",
+          "value": 0.004182,
+          "unit": "option price"
+        },
+        {
+          "method_name": "classical Monte Carlo",
+          "metric_name": "price",
+          "value": 0.108907,
+          "unit": "option price"
+        },
+        {
+          "method_name": "classical Monte Carlo",
+          "metric_name": "price",
+          "value": 0.065266,
+          "unit": "option price"
+        },
+        {
+          "method_name": "classical Monte Carlo",
+          "metric_name": "price",
+          "value": 0.032057,
+          "unit": "option price"
+        },
+        {
+          "method_name": "classical Monte Carlo",
+          "metric_name": "price",
+          "value": 0.012401,
+          "unit": "option price"
+        },
+        {
+          "method_name": "classical Monte Carlo",
+          "metric_name": "price",
+          "value": 0.003707,
+          "unit": "option price"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical Monte Carlo",
+          "conditions": "when amplitude estimation is used to estimate the payoff probability; asymptotic statement in the paper",
+          "is_demonstrated": false,
+          "caveats": "The paper states the overall quantum Monte Carlo speedup is quadratic, but the reported experiment is a simulator-based proof of concept with finite-size errors and no wall-clock timing comparison."
+        },
+        {
+          "type": "asymptotic",
+          "factor": "O(N) path growth from O(P^3 + PN) resource scaling for single algorithm A, with exponentially many paths 2^N loaded",
+          "baseline_method": "classical binomial-tree/path enumeration",
+          "conditions": "for the binomial tree loading subroutine; gate-based quantum implementation",
+          "is_demonstrated": true,
+          "caveats": "This is a resource-scaling claim, not an empirical runtime speedup; it depends on fault-tolerant execution for the reported resource counts."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 1,
+          "num_qubits": 330,
+          "metric_name": "price",
+          "metric_value": 0.096138
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(P^3 + PN)",
+        "classical_complexity": "O(1/epsilon^2) for Monte Carlo estimation; paper states classical Monte Carlo converges as O(1/sqrt(n)) in error",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not quantified; complexity analysis states n = 2^N paths with O(N) CX scaling for distribution loading but no classical crossover calculation",
+        "resources_for_advantage": "Requires fault‑tolerant quantum computer; Table 4 examples show ~190k CX gates and ~87 qubits for N=10 when precision CP=24, scaling upward for larger N",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Only quadratic speedup via amplitude estimation",
+          "Experiments run only on noiseless simulator",
+          "Large arithmetic circuits required for SDE evaluation",
+          "Fault‑tolerant hardware required for realistic parameter sizes",
+          "State preparation and arithmetic overhead dominate circuit cost"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_statevector from explicit statement that the paper uses the quantum simulator and from the use of Qiskit statevector simulation for experiments.",
+          "Circuit depth not explicitly reported; only CNOT counts and qubit counts are given in Table 1.",
+          "Classical complexity is reported qualitatively in the paper as Monte Carlo convergence O(1/sqrt(n)); the epsilon-form is a standard restatement.",
+          "Authors claim quadratic speedup from Quantum Amplitude Estimation but provide only simulator experiments on small toy instances (N=5).",
+          "Paper explicitly states implementation on a simulator and notes that practical execution would require fault‑tolerant quantum computers."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Gate-based quantum Monte Carlo option pricing experiment using the Quantum Binomial Tree to load a one-dimensional time-dependent volatility distribution, evaluated with second-order Taylor approximation for the exponential function on a quantum simulator.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Quantum Binomial Tree + Quantum Monte Carlo option pricing; second-order Taylor expansion for exp(x)",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "number_of_time_steps_N": 5,
+          "fractional_precision_P": 6,
+          "strike_values": [
+            0.9,
+            0.95,
+            1.0,
+            1.05,
+            1.1
+          ],
+          "spot_price_S0": 1.0,
+          "volatility_function": "sigma(t)=0.2+min(max(1.2t,0),0.1)",
+          "risk_free_rate_r": 0.1,
+          "maturity_T": "1/12",
+          "classical_mc_replications": 100000000,
+          "classical_mc_time_steps": 30
+        },
+        "parameter_initialization": "Not reported; coin register initialized with Hadamard gates and stock register initialized to log(S0)",
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Coin-toss register of N qubits encodes 2^N binomial paths; stock price stored in a fixed-point QuantumFloat register in logarithmic form; payoff encoded into ancilla amplitude via controlled Ry rotations",
+        "objective_function": "Price a European call option by estimating E[max(S_T-K,0)] via amplitude estimation",
+        "constraints_handling": "Comparator via subtraction in two's complement; payoff encoded by controlled Ry; amplitude estimation extracts payoff probability",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "One-dimensional derivative pricing with time-dependent volatility under a binomial-tree-loaded path distribution",
+        "num_assets": 1,
+        "time_steps": 5,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Synthetic SDE model with S0=1.0, r=0.1, T=1/12, sigma(t)=0.2+min(max(1.2t,0),0.1), strikes in [0.9,1.1]"
+        },
+        "data_preprocessing_details": "No external dataset; discretize SDE with Euler scheme and load binomial paths on quantum register",
+        "evaluation_methodology": "Compare quantum Monte Carlo prices against classical Monte Carlo with 100,000,000 replications and also classical Monte Carlo with the same N=5 time steps"
+      },
+      "quantum_resources": {
+        "num_qubits": 28,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": 5850,
+        "two_qubit_gate_count": 5850,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "QuantumCircuits.jl (Julia) with simulator; statevector simulation referenced via Qiskit framework discussion",
+        "device_name": null,
+        "framework": "Qiskit",
+        "framework_version": null,
+        "transpilation_target": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/fin-Qbit/QuantumCircuits.jl/blob/main/examples/binomial_tree_model.jl",
+        "classical_solver": "classical Monte Carlo",
+        "classical_preprocessing": "Classical Monte Carlo baseline and option pricing comparison; parameters chosen for synthetic SDE",
+        "classical_postprocessing": "Map estimated payoff probability to option price using classical formula",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "transpilation_settings": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "price",
+          "value": 0.104142,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "option price",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price",
+          "value": 0.062439,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "option price",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price",
+          "value": 0.031778,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "option price",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price",
+          "value": 0.012722,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "option price",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price",
+          "value": 0.003764,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "option price",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 4.59,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 5.28,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 3.71,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 3.86,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 10.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": 32,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "algorithm executions of A",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 5850,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "cnot_count",
+          "value": 28,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "cx gates",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "num_underlyings",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "time_steps",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "steps",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "fractional_precision",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "bits",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical Monte Carlo",
+          "metric_name": "price",
+          "value": 0.109148,
+          "unit": "option price"
+        },
+        {
+          "method_name": "classical Monte Carlo",
+          "metric_name": "price",
+          "value": 0.065919,
+          "unit": "option price"
+        },
+        {
+          "method_name": "classical Monte Carlo",
+          "metric_name": "price",
+          "value": 0.033004,
+          "unit": "option price"
+        },
+        {
+          "method_name": "classical Monte Carlo",
+          "metric_name": "price",
+          "value": 0.013234,
+          "unit": "option price"
+        },
+        {
+          "method_name": "classical Monte Carlo",
+          "metric_name": "price",
+          "value": 0.004182,
+          "unit": "option price"
+        },
+        {
+          "method_name": "classical Monte Carlo",
+          "metric_name": "price",
+          "value": 0.108907,
+          "unit": "option price"
+        },
+        {
+          "method_name": "classical Monte Carlo",
+          "metric_name": "price",
+          "value": 0.065266,
+          "unit": "option price"
+        },
+        {
+          "method_name": "classical Monte Carlo",
+          "metric_name": "price",
+          "value": 0.032057,
+          "unit": "option price"
+        },
+        {
+          "method_name": "classical Monte Carlo",
+          "metric_name": "price",
+          "value": 0.012401,
+          "unit": "option price"
+        },
+        {
+          "method_name": "classical Monte Carlo",
+          "metric_name": "price",
+          "value": 0.003707,
+          "unit": "option price"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical Monte Carlo",
+          "conditions": "when amplitude estimation is used to estimate the payoff probability; asymptotic statement in the paper",
+          "is_demonstrated": false,
+          "caveats": "The paper states the overall quantum Monte Carlo speedup is quadratic, but the reported experiment is a simulator-based proof of concept with finite-size errors and no wall-clock timing comparison."
+        },
+        {
+          "type": "asymptotic",
+          "factor": "O(N) path growth from O(P^3 + PN) resource scaling for single algorithm A, with exponentially many paths 2^N loaded",
+          "baseline_method": "classical binomial-tree/path enumeration",
+          "conditions": "for the binomial tree loading subroutine; gate-based quantum implementation",
+          "is_demonstrated": true,
+          "caveats": "This is a resource-scaling claim, not an empirical runtime speedup; it depends on fault-tolerant execution for the reported resource counts."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 1,
+          "num_qubits": 5850,
+          "metric_name": "price",
+          "metric_value": 0.104142
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(P^3 + PN)",
+        "classical_complexity": "O(1/epsilon^2) for Monte Carlo estimation; paper states classical Monte Carlo converges as O(1/sqrt(n)) in error",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not quantified; same asymptotic analysis as exp_1",
+        "resources_for_advantage": "Second‑order Taylor implementation requires significantly more arithmetic resources; Table 1 reports 28 qubits and 5850 CX gates even for the small N=5 demonstration",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Quadratic speedup only",
+          "Large arithmetic circuits for exponential evaluation",
+          "No real‑hardware validation",
+          "Large gate counts even for small instances",
+          "Error correction overhead likely to dominate"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_statevector from explicit statement that the paper uses the quantum simulator and from the use of Qiskit statevector simulation for experiments.",
+          "Circuit depth not explicitly reported; only CNOT counts and qubit counts are given in Table 1.",
+          "Classical complexity is reported qualitatively in the paper as Monte Carlo convergence O(1/sqrt(n)); the epsilon-form is a standard restatement.",
+          "Same algorithmic framework as exp_1 but with a higher‑order Taylor expansion increasing circuit cost.",
+          "Results are still simulator‑only and evaluated on very small problem sizes."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

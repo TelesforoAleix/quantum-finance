@@ -1,0 +1,788 @@
+{
+  "paper_id": "41d2d7bb257a",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:35:03+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "41d2d7bb257a_enhancing_credit_risk_prediction_through_co_trained_hybrid_quantum_transfer_lear.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.85,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 6,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='instances' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='instances' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[0].unit='instances' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[10].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[11].unit='epoch' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.85,
+      "completeness": 0.85,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.85,
+        0.85
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Enhancing Credit Risk Prediction through Co-trained Hybrid Quantum Transfer Learning Model",
+    "authors": [
+      "Parvathy Gopakumar",
+      "Rubell Marion Lincy G",
+      "Salvatore Sinno",
+      "Shruthi Thuravakkath"
+    ],
+    "year": 2025,
+    "doi": "10.1109/QAI63978.2025.00021",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "credit-lending",
+    "secondary_silos": [
+      "risk-management",
+      "quantum-ml-finance"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper evaluates a 4‑qubit variational QNN and a hybrid quantum transfer learning (QTL) model for credit default prediction on a Kaggle dataset (32,580 samples). The standalone QNN achieves 0.8097 accuracy and AUC 0.7446, while the hybrid QTL model improves to 0.9117 accuracy and AUC 0.9134 with minority‑class recall increasing from 0.16 to 0.73. All experiments run on the PennyLane default.qubit simulator with no real quantum hardware.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Standalone 4-qubit variational quantum neural network baseline for credit risk classification on a reduced stratified subset of the Kaggle credit risk dataset.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "standalone Quantum Neural Network (QNN) with 4-qubit variational circuit",
+        "ansatz": "parameterized variational quantum circuit with angle encoding and entanglement layer",
+        "optimizer": "Adam",
+        "num_layers": null,
+        "convergence_criteria": "trained for 10 epochs",
+        "hyperparameters": {
+          "epochs": 10,
+          "learning_rate": 0.01,
+          "train_test_split": "80/20 (for overall study); baseline QNN trained on stratified subset",
+          "training_subset_size": 1000,
+          "qubits": 4,
+          "feature_dimension": 4,
+          "loss": "binary cross-entropy"
+        },
+        "parameter_initialization": "not_specified",
+        "optimizer_settings": {
+          "learning_rate": 0.01,
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "classical features linearly projected to a 4-dimensional latent space and encoded into 4 qubits using RY rotations",
+        "objective_function": "binary classification of loan default vs non-default using binary cross-entropy loss",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Credit risk prediction on a real-world Kaggle credit risk dataset",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 24,
+        "dataset_size": 32580,
+        "data_type": "public_benchmark",
+        "dataset_name": "Kaggle Credit Risk Dataset",
+        "dataset_specification": {
+          "benchmark_name": "credit risk dataset",
+          "preprocessing": "normalized with Min-Max scaling; stratified sampling; reduced to 1,000 samples for standalone QNN baseline",
+          "train_test_split": "80% training / 20% testing for the overall study; stratified subset used for QNN baseline"
+        },
+        "data_preprocessing_details": "EDA performed; Min-Max normalization; class imbalance noted; SMOTE tested but unbalanced dataset selected due to better performance; baseline QNN used linearly projected 4D latent features from the credit data",
+        "evaluation_methodology": "trained for 10 epochs; evaluated on test set; compared against hybrid QTL and classical neural network baselines"
+      },
+      "quantum_resources": {
+        "num_qubits": 4,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "PennyLane",
+        "device_name": "default.qubit",
+        "framework": "PennyLane"
+      },
+      "noise_model": {
+        "noise_model": "not_specified",
+        "noise_parameters": null,
+        "mitigation_details": null,
+        "is_noisy": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Min-Max scaling; linear projection to 4D latent space; stratified sampling",
+        "classical_postprocessing": "sigmoid output layer for binary classification",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 10,
+          "final_loss_value": null,
+          "loss_curve_shape": "more stable convergence than hybrid model",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_baselines": [
+          "classical feedforward neural network for credit risk classification"
+        ],
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "dataset_size",
+          "value": 32580,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "instances",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "default_prediction_accuracy",
+          "value": 0.8097,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 0.7446,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision_class_0",
+          "value": 0.81,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall_class_0",
+          "value": 0.99,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score_class_0",
+          "value": 0.89,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision_class_1",
+          "value": 0.82,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall_class_1",
+          "value": 0.16,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score_class_1",
+          "value": 0.27,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "hours",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "epochs",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_subset_size",
+          "value": 1000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "instances",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "hybrid_co_trained_qtl_model",
+          "metric_name": "accuracy",
+          "value": 0.9117,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "hybrid_co_trained_qtl_model",
+          "metric_name": "auc_roc",
+          "value": 0.9134,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "hybrid_co_trained_qtl_model",
+          "metric_name": "precision_class_0",
+          "value": 0.93,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "hybrid_co_trained_qtl_model",
+          "metric_name": "recall_class_0",
+          "value": 0.96,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "hybrid_co_trained_qtl_model",
+          "metric_name": "f1_score_class_0",
+          "value": 0.94,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "hybrid_co_trained_qtl_model",
+          "metric_name": "precision_class_1",
+          "value": 0.82,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "hybrid_co_trained_qtl_model",
+          "metric_name": "recall_class_1",
+          "value": 0.73,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "hybrid_co_trained_qtl_model",
+          "metric_name": "f1_score_class_1",
+          "value": 0.77,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "approximately 2.25x faster training than standalone QNN",
+          "baseline_method": "standalone 4-qubit variational quantum neural network",
+          "conditions": "reported training times on the same credit risk task; QNN ~9 hours vs hybrid QTL ~3 hours",
+          "is_demonstrated": true,
+          "caveats": "This is a wall-clock training-time comparison on a simulator-based setup, not an asymptotic or hardware-level speedup claim."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 32580,
+          "num_qubits": 4,
+          "metric_name": "dataset_size",
+          "metric_value": 32580
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": "approximately 9 hours training time",
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "unknown",
+        "resources_for_advantage": "not specified; experiment uses only 4 logical qubits on a noiseless simulator with ~1000 training samples",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Only 4 qubits used",
+          "No hardware execution; simulator only",
+          "Small training subset (1000 samples)",
+          "No complexity or scaling analysis",
+          "Performance worse than hybrid and likely classical models",
+          "Angle encoding requires classical data loading per sample"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": null,
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "default.qubit backend explicitly reported; treated as simulator_other because it is a CPU-based quantum simulator rather than a named statevector/noisy backend.",
+          "4 qubits explicitly stated in the methodology and baseline description.",
+          "No circuit depth, gate counts, or shot count reported.",
+          "Paper discusses training time comparison but does not provide asymptotic complexity or proven speedup order.",
+          "Standalone QNN achieves accuracy 0.8097 and recall 0.16 for defaulters, significantly worse than the hybrid model and not competitive with modern classical credit scoring models."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Hybrid co-trained quantum transfer learning model for credit risk classification, jointly training a classical feature extractor and a 4-qubit variational quantum circuit on the full credit risk dataset.",
+      "algorithm": {
+        "family": "hybrid",
+        "variant": "co-trained hybrid quantum transfer learning (QTL) model",
+        "ansatz": "4-qubit variational quantum circuit with angle encoding, entanglement layer, and trainable parameterized rotation gates",
+        "optimizer": "Adam",
+        "num_layers": null,
+        "convergence_criteria": "trained for 10 epochs; best performance reached at epoch 8",
+        "hyperparameters": {
+          "epochs": 10,
+          "learning_rate": 0.01,
+          "train_test_split": "80/20 with stratification",
+          "qubits": 4,
+          "feature_extractor": "3-layer MLP with ReLU and Tanh activations",
+          "latent_dimension": 4,
+          "loss": "binary cross-entropy",
+          "optimizer": "Adam"
+        },
+        "parameter_initialization": "parameters of both classical network and quantum circuit initialized before joint training; exact scheme not specified",
+        "optimizer_settings": {
+          "learning_rate": 0.01,
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "classical feature extractor compresses 24 input features to 4 learned features, each encoded on one qubit via RY rotations",
+        "objective_function": "binary classification of credit default risk; minimize binary cross-entropy",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Real-world credit risk classification with imbalanced default prediction",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 24,
+        "dataset_size": 32580,
+        "data_type": "public_benchmark",
+        "dataset_name": "Kaggle Credit Risk Dataset",
+        "dataset_specification": {
+          "benchmark_name": "credit risk dataset",
+          "preprocessing": "normalized with Min-Max scaling; unbalanced dataset selected after SMOTE was found to overfit synthetic samples",
+          "train_test_split": "80% training / 20% testing with stratification"
+        },
+        "data_preprocessing_details": "EDA; Min-Max scaling; class imbalance analysis; SMOTE evaluated but rejected; classical feature extractor used to reduce dimensionality before quantum encoding",
+        "evaluation_methodology": "test-set evaluation over 10 training epochs; metrics reported include accuracy, AUC, precision, recall, and F1-score; convergence monitored"
+      },
+      "quantum_resources": {
+        "num_qubits": 4,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "PennyLane",
+        "device_name": "default.qubit",
+        "framework": "PennyLane"
+      },
+      "noise_model": {
+        "noise_model": "not_specified",
+        "noise_parameters": null,
+        "mitigation_details": null,
+        "is_noisy": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Min-Max scaling; 3-layer MLP feature extractor; dimensionality reduction to 4 features; stratified 80/20 split",
+        "classical_postprocessing": "linear output layer nn.Linear(1,1) followed by sigmoid",
+        "total_execution_time": "approximately 3 hours training time",
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 10,
+          "final_loss_value": null,
+          "loss_curve_shape": "dynamic/fluctuating but overall improving",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_baselines": [
+          "standalone classical feedforward neural network",
+          "standalone 4‑qubit QNN baseline"
+        ],
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "dataset_size",
+          "value": 32580,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "instances",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "default_prediction_accuracy",
+          "value": 0.9117,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 0.9134,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision_class_0",
+          "value": 0.93,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall_class_0",
+          "value": 0.96,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score_class_0",
+          "value": 0.94,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision_class_1",
+          "value": 0.82,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall_class_1",
+          "value": 0.73,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score_class_1",
+          "value": 0.77,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "hours",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "epochs",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "best_epoch",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "epoch",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "standalone_qnn",
+          "metric_name": "accuracy",
+          "value": 0.8097,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "standalone_qnn",
+          "metric_name": "auc_roc",
+          "value": 0.7446,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "standalone_qnn",
+          "metric_name": "precision_class_0",
+          "value": 0.81,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "standalone_qnn",
+          "metric_name": "recall_class_0",
+          "value": 0.99,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "standalone_qnn",
+          "metric_name": "f1_score_class_0",
+          "value": 0.89,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "standalone_qnn",
+          "metric_name": "precision_class_1",
+          "value": 0.82,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "standalone_qnn",
+          "metric_name": "recall_class_1",
+          "value": 0.16,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "standalone_qnn",
+          "metric_name": "f1_score_class_1",
+          "value": 0.27,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "standalone_qnn",
+          "metric_name": "training_time",
+          "value": 9,
+          "unit": "hours"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "approximately 3x faster training than standalone QNN",
+          "baseline_method": "standalone 4-qubit variational quantum neural network",
+          "conditions": "reported training times on the same credit risk task; hybrid QTL ~3 hours vs QNN ~9 hours",
+          "is_demonstrated": true,
+          "caveats": "This is a simulator-based wall-clock comparison, not a proven asymptotic quantum speedup."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 32580,
+          "num_qubits": 4,
+          "metric_name": "dataset_size",
+          "metric_value": 32580
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": "approximately 3 hours training time",
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "parity_with_classical",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not analyzed",
+        "resources_for_advantage": "unknown; current experiment uses a 4‑qubit variational circuit embedded in a classical neural network and executed on the PennyLane default.qubit simulator",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "No comparison showing superiority over classical neural networks with similar capacity",
+          "Executed only on noiseless simulator",
+          "Very small quantum model (4 qubits)",
+          "No scaling analysis or asymptotic complexity advantage",
+          "Quantum layer adds training overhead",
+          "Data encoding requires classical preprocessing and per-sample state preparation"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": null,
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "default.qubit backend explicitly reported; treated as simulator_other because it is a CPU-based quantum simulator rather than a named statevector/noisy backend.",
+          "4 qubits explicitly stated for the quantum circuit.",
+          "No circuit depth, gate counts, shot count, or parameter count reported.",
+          "Training time and performance metrics are reported, but no asymptotic complexity or formal speedup claim is given.",
+          "Authors report improved metrics vs standalone QNN (AUC 0.9134 vs 0.7446; recall for defaults 0.73 vs 0.16) but do not demonstrate improvement over strong classical baselines.",
+          "Paper frames results as feasibility of hybrid QML rather than quantum advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

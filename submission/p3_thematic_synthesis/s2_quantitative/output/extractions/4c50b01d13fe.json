@@ -1,0 +1,937 @@
+{
+  "paper_id": "4c50b01d13fe",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:39:57+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "4c50b01d13fe_quantum_walks_based_adaptive_distribution_generation_with_efficient_cuda_q_accel.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.539,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 4,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[1].results[1].unit='points' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[5].unit='years' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[0].unit='pixels' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[1].unit='classes' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.539,
+      "completeness": 0.539,
+      "num_experiments": 3,
+      "experiment_scores": [
+        0.233,
+        0.783,
+        0.6
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.5,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 0.3333333333333333
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum Walks–Based Adaptive Distribution Generation with Efficient CUDA-Q Acceleration",
+    "authors": [
+      "Yen Jui Chang",
+      "Wei-Ting Wang",
+      "Chen-Yu Liu",
+      "Yun-Yuan Wang",
+      "Ching-Ray Chang"
+    ],
+    "year": 2025,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": [
+      "simulation-monte-carlo",
+      "quantum-ml-finance"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a variational split-step quantum walk Adaptive Distribution Generator implemented in CUDA-Q GPU simulation. A 5-qubit setup (1 coin + 4 position qubits) is used to approximate a log-normal distribution for option pricing on a 16-point grid, producing call-price errors ranging from about 3.4% to 19.9% compared with Black–Scholes. Additional simulations show fitting of six 1D distributions and generation of 8×8 digit patterns using entangled quantum walkers.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "CUDA-Q simulated split-step quantum-walk adaptive distribution generation for one-dimensional target distributions (NVDA returns, beta, binomial, bimodal, exponential, Poisson) with variational tuning of coin parameters.",
+      "algorithm": {
+        "family": "quantum-walk",
+        "variant": "adaptive distribution generation with split-step quantum walks (SSQW) and variational coin tuning",
+        "ansatz": "parameterized U3 coin gates within SSQW layers",
+        "optimizer": "classical gradient descent",
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "target_distributions": [
+            "NVDA returns",
+            "beta",
+            "binomial",
+            "bimodal",
+            "exponential",
+            "poisson"
+          ],
+          "coin_operator": "U3",
+          "coin_parameters": [
+            "theta",
+            "phi",
+            "lambda"
+          ],
+          "number_of_coins_varied": true
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "learning_rate": null,
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "position basis states encode discrete probability mass over the 1D lattice; coin qubit controls conditional shifts",
+        "objective_function": "minimize discrepancy between simulated distribution Psim(x) and target distribution Ptarget(x)",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Learning and reproducing several 1D probability distributions, including an empirical financial return distribution (NVDA) and standard synthetic distributions.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "real_market",
+        "dataset_name": "NVDA returns; beta, binomial, bimodal, exponential, Poisson",
+        "dataset_specification": null,
+        "data_preprocessing_details": null,
+        "evaluation_methodology": "boxplots of final optimization error across number of coins; average computation time vs number of coins; distribution comparison at optimal coin configuration"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 3,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "NVIDIA",
+        "device_name": null,
+        "framework": "CUDA-Q"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "classical gradient descent",
+        "transpilation_settings": null,
+        "classical_preprocessing": null,
+        "classical_postprocessing": "compare simulated distribution to target distribution; compute final optimization error and runtime",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "final_optimization_error",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "average_computation_time",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The paper reports reduced computational overhead via CUDA-Q/GPU acceleration, but does not provide a quantified speedup versus a classical baseline."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": null,
+          "num_qubits": null,
+          "metric_name": "final_optimization_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": null,
+          "num_qubits": null,
+          "metric_name": "average_computation_time",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Not specified; experiments are GPU-accelerated simulations in CUDA-Q with unspecified qubit counts for the 1D tasks.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Only classical GPU simulation (CUDA-Q) is used; no QPU experiments",
+          "No asymptotic complexity analysis or speedup claim",
+          "No classical generative-model baselines (e.g., normalizing flows, GANs, or classical random-walk models)",
+          "Problem sizes are small and primarily illustrative"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_other because the paper states the method is implemented and benchmarked on CUDA-Q with GPU acceleration, with no physical QPU used.",
+          "Num qubits and circuit depth are not explicitly stated for the 1D benchmark; only the number of coins is varied, so these fields are left null/inferred only at a high level.",
+          "No asymptotic speedup claim is characterized; the paper reports reduced simulation overhead via GPU acceleration, not a proven quantum speedup.",
+          "The paper reports distribution-fitting results but does not claim computational advantage over classical algorithms.",
+          "Benchmarks focus on fidelity and runtime scaling with number of coins, not quantum vs classical performance."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "CUDA-Q simulated split-step quantum-walk adaptive distribution generation for a log-normal distribution used in European call option pricing.",
+      "algorithm": {
+        "family": "quantum-walk",
+        "variant": "adaptive distribution generation with split-step quantum walks (SSQW) for log-normal state preparation",
+        "ansatz": "parameterized U3 coin gates within SSQW layers",
+        "optimizer": "classical gradient descent",
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "spot_price": 6.0,
+          "volatility": 0.4,
+          "risk_free_rate": 0.04,
+          "time_to_maturity": "90/365",
+          "price_grid_points": 16,
+          "position_qubits": 4,
+          "coin_qubits": 1,
+          "total_qubits": 5
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "learning_rate": null,
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "one coin qubit plus four position qubits encode a 16-point discrete price grid",
+        "objective_function": "fit the simulated position-space probability distribution to a target log-normal density",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Log-normal distribution calibration for European call option pricing.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": "log-normal option-pricing distribution",
+        "dataset_specification": {
+          "description": "S = 6.0, sigma = 0.4, r = 0.04, T = 90/365"
+        },
+        "data_preprocessing_details": "discretize continuous log-normal density onto 16 price points",
+        "evaluation_methodology": "compare simulated option prices against analytical Black-Scholes values across strikes K = 1..10"
+      },
+      "quantum_resources": {
+        "num_qubits": 5,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 3,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "NVIDIA",
+        "device_name": null,
+        "framework": "CUDA-Q"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "classical gradient descent",
+        "transpilation_settings": null,
+        "classical_preprocessing": "discretize log-normal distribution to 16 points",
+        "classical_postprocessing": "compute expected payoff and compare simulated option prices to Black-Scholes benchmark",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_qubits",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "price_grid_points",
+          "value": 16,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "points",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "spot_price",
+          "value": 6.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "volatility",
+          "value": 0.4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "risk_free_rate",
+          "value": 0.04,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "time_to_maturity",
+          "value": 0.2465753424657534,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "years",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "option_price_error",
+          "value": 3.41,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "option_price_error",
+          "value": 4.25,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "option_price_error",
+          "value": 5.63,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "option_price_error",
+          "value": 8.21,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "option_price_error",
+          "value": 11.41,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "option_price_error",
+          "value": 12.6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "option_price_error",
+          "value": 5.41,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "option_price_error",
+          "value": 5.92,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "option_price_error",
+          "value": 19.87,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "option_price_error",
+          "value": 4.43,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "black_scholes",
+          "metric_name": "option_price",
+          "value": 5.0098,
+          "unit": null
+        },
+        {
+          "method_name": "black_scholes",
+          "metric_name": "option_price",
+          "value": 4.0196,
+          "unit": null
+        },
+        {
+          "method_name": "black_scholes",
+          "metric_name": "option_price",
+          "value": 3.0295,
+          "unit": null
+        },
+        {
+          "method_name": "black_scholes",
+          "metric_name": "option_price",
+          "value": 2.0457,
+          "unit": null
+        },
+        {
+          "method_name": "black_scholes",
+          "metric_name": "option_price",
+          "value": 1.1447,
+          "unit": null
+        },
+        {
+          "method_name": "black_scholes",
+          "metric_name": "option_price",
+          "value": 0.5024,
+          "unit": null
+        },
+        {
+          "method_name": "black_scholes",
+          "metric_name": "option_price",
+          "value": 0.1745,
+          "unit": null
+        },
+        {
+          "method_name": "black_scholes",
+          "metric_name": "option_price",
+          "value": 0.0502,
+          "unit": null
+        },
+        {
+          "method_name": "black_scholes",
+          "metric_name": "option_price",
+          "value": 0.0126,
+          "unit": null
+        },
+        {
+          "method_name": "black_scholes",
+          "metric_name": "option_price",
+          "value": 0.0029,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": "black_scholes",
+          "conditions": "The paper compares simulated option prices against analytical Black-Scholes values; it does not claim a computational speedup.",
+          "is_demonstrated": false,
+          "caveats": "Reported results are pricing accuracy errors, not runtime or oracle-query speedups."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 1.0,
+          "num_qubits": 5,
+          "metric_name": "price_error",
+          "metric_value": 3.41
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": 5,
+          "metric_name": "price_error",
+          "metric_value": 4.25
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 5,
+          "metric_name": "price_error",
+          "metric_value": 5.63
+        },
+        {
+          "problem_size": 4.0,
+          "num_qubits": 5,
+          "metric_name": "price_error",
+          "metric_value": 8.21
+        },
+        {
+          "problem_size": 5.0,
+          "num_qubits": 5,
+          "metric_name": "price_error",
+          "metric_value": 11.41
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 5,
+          "metric_name": "price_error",
+          "metric_value": 12.6
+        },
+        {
+          "problem_size": 7.0,
+          "num_qubits": 5,
+          "metric_name": "price_error",
+          "metric_value": 5.41
+        },
+        {
+          "problem_size": 8.0,
+          "num_qubits": 5,
+          "metric_name": "price_error",
+          "metric_value": 5.92
+        },
+        {
+          "problem_size": 9.0,
+          "num_qubits": 5,
+          "metric_name": "price_error",
+          "metric_value": 19.87
+        },
+        {
+          "problem_size": 10.0,
+          "num_qubits": 5,
+          "metric_name": "price_error",
+          "metric_value": 4.43
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Would require larger position registers and integration with amplitude estimation–style algorithms for pricing to potentially realize quadratic Monte Carlo speedups.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Simulation only (CUDA-Q GPU backend)",
+          "Very small problem size: 5 qubits total (1 coin + 4 position qubits)",
+          "Distribution discretized to only 16 price points",
+          "Option prices deviate up to ~19.87% for deep out-of-the-money strikes",
+          "No runtime comparison against classical Monte Carlo or PDE solvers"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper explicitly states a five-qubit setup (1 coin + 4 position qubits) for the log-normal option-pricing experiment.",
+          "Hardware is CUDA-Q simulation, not a physical QPU.",
+          "No circuit depth or gate counts are reported.",
+          "The paper compares simulated prices to the analytical Black–Scholes model but does not demonstrate computational improvement.",
+          "Quantum amplitude estimation is referenced in related work but not implemented here."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "CUDA-Q simulated entangled quantum-walk adaptive distribution generation for two-dimensional 8x8 digit patterns (0-9).",
+      "algorithm": {
+        "family": "quantum-walk",
+        "variant": "entangled quantum walks with a shared 4-dimensional coin space for 2D pattern generation",
+        "ansatz": "parameterized 4x4 entangled coin operators within 2D entangled SSQW layers",
+        "optimizer": "classical gradient descent",
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "grid_size": "8x8",
+          "digits": [
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9"
+          ],
+          "joint_coin_dimension": 4,
+          "coin_registers": 2,
+          "position_dimensions": 2
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "learning_rate": null,
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "2D lattice basis states |x,y> encode pixel locations; entangled two-qubit coin controls correlated shifts in x and y",
+        "objective_function": "match the simulated 2D probability distribution to target digit images on an 8x8 grid",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Generate MNIST-style digit patterns on an 8x8 grid using entangled quantum walkers.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 10,
+        "data_type": "public_benchmark",
+        "dataset_name": "digit patterns 0-9",
+        "dataset_specification": {
+          "description": "8x8 target digit images"
+        },
+        "data_preprocessing_details": null,
+        "evaluation_methodology": "visual comparison of target vs simulated 2D distributions for digits 0-9"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "NVIDIA",
+        "device_name": null,
+        "framework": "CUDA-Q"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "classical gradient descent",
+        "transpilation_settings": null,
+        "classical_preprocessing": null,
+        "classical_postprocessing": "compare simulated 2D distributions with target digit images",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "grid_size",
+          "value": 64,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "pixels",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_digits",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "classes",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The paper presents visual 2D pattern generation results only; no runtime or accuracy baseline is reported."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 8.0,
+          "num_qubits": null,
+          "metric_name": "pattern_generation",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Not specified; experiments are illustrative generative tasks for 8×8 patterns.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Only classical simulation via CUDA-Q",
+          "No quantitative performance metrics versus classical generative models",
+          "Small toy problem (8×8 images)",
+          "No circuit resource counts or hardware feasibility analysis"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper reports entangled coin registers and 8x8 digit generation, but does not state a total qubit count or circuit depth for the 2D experiment.",
+          "Hardware is CUDA-Q simulation, not a physical QPU.",
+          "No asymptotic speedup claim is provided.",
+          "The digit-generation task is presented as a proof-of-concept generative modeling demonstration without claims of quantum advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

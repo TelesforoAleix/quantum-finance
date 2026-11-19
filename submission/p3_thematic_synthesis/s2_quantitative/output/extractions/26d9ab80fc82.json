@@ -1,0 +1,568 @@
+{
+  "paper_id": "26d9ab80fc82",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:19:47+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "26d9ab80fc82_research_on_financial_stock_market_prediction_based_on_the_hidden_quantum_markov.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.8,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 15,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[1].unit='min' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='min' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='CNY' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='CNY' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='CNY' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='states' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='components' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='clusters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='CNY' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='days' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='days' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[15].unit='days' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[17].unit='CNY' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[18].unit='CNY' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[19].unit='CNY' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.8,
+      "completeness": 0.8,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.8
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Research on Financial Stock Market Prediction Based on the Hidden Quantum Markov Model",
+    "authors": [
+      "Xingyao Song",
+      "Wenyu Chen",
+      "Junyi Lu"
+    ],
+    "year": 2025,
+    "doi": "10.3390/math13152505",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper evaluates a Hidden Quantum Markov Model (HQMM) for predicting 15 Chinese stock indices and reports an average capital of 1,404,827 CNY using HQMM with GMM+MVTF discretization versus 1,390,860 CNY for classical HMM, with runtime 12 minutes versus 40 minutes. Experiments use daily SSE/SZSE data from 2018–2021 with prediction windows of 90, 180, and 360 days. The implementation appears to be a classical simulation of HQMM rather than execution on quantum hardware.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Hidden Quantum Markov Model (HQMM) stock trend forecasting on 15 Shanghai/Shenzhen stock indices using two discretization schemes: even discretization and GMM+MVTF discretization, compared against classical HMM baseline.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "Hidden Quantum Markov Model (HQMM) with Kraus-operator training; compared under even discretization and GMM+MVTF discretization",
+        "ansatz": null,
+        "optimizer": "gradient descent",
+        "num_layers": null,
+        "convergence_criteria": "training iterates until DA converges; paper notes convergence after more than 40 iterations",
+        "hyperparameters": {
+          "number_of_hidden_states": 6,
+          "GMM_components_n": 5,
+          "GMM_cluster_number_K": 6,
+          "prediction_periods_days": [
+            90,
+            180,
+            360
+          ],
+          "initial_capital_CNY": 1000000,
+          "initial_density_matrix_rho0": "[[8.0360857e-2,-3.4289963e-2],[-3.4289963e-2,9.1963914e-1]]",
+          "step_size_tau": "in [0,1]",
+          "stock_observation_states": 6
+        },
+        "parameter_initialization": "Initial density matrix ρ0 manually set; Kraus operators initialized as in prior references; GMM parameters initialized by random initialization or k-means",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": "tau in [0,1]",
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Continuous stock data are discretized into 6 observation states (S values 1–6) before HQMM training; each observation state corresponds to a Kraus operator / output matrix",
+        "objective_function": "Maximize likelihood ς = ln tr(K_Sn ··· (K_S1 ρ0 K†_S1) ··· K†_Sn) under Kraus-operator constraints ∑ K†_m K_m = I",
+        "constraints_handling": "Kraus operators constrained by ∑ K†_m K_m = I; optimization transformed to unconstrained Stiefel-manifold update",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Forecasting bullish/bearish/range-bound stock market regimes for 15 Chinese stock indices from SSE and SZSE",
+        "num_assets": 15,
+        "time_steps": 2018,
+        "num_features": 5,
+        "dataset_size": null,
+        "data_type": "real_market",
+        "dataset_name": "SSE/SZSE stock data via Tushare",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "000901",
+            "000036",
+            "000031",
+            "601318",
+            "600519",
+            "600009",
+            "600004",
+            "600050",
+            "600022",
+            "000623",
+            "000401",
+            "000488",
+            "000518",
+            "000800",
+            "000895"
+          ],
+          "date_range": "2018-06 to 2021-06",
+          "benchmark_name": "natural growth capital (NC) and classical HMM baseline",
+          "preprocessing": "daily open/high/low/close/volume collected; price differences computed from consecutive closing prices; data split into 30-day groups; discretized either by even binning or by GMM+MVTF",
+          "train_test_split": "training: 2018-06-01 to 2019-10-26; validation: 2019-10-30 to 2020-08-24; testing: 2020-08-24 to 2021-06-23"
+        },
+        "data_preprocessing_details": "Collect 5 daily indicators (open, high, low, close, volume); compute day-to-day closing-price differences; split into 30-day windows; either map directly to 6 discrete states or fit 1D GMM (n=5 components, K=6) and convert means/variances to trend state via MVTF",
+        "evaluation_methodology": "Compare HQMM (even discretization and GMM+MVTF) against classical HMM across 15 stocks and 3 prediction horizons; metrics include DA, final capital (FC), comparative growth rate R, and average capital over stocks"
+      },
+      "quantum_resources": {
+        "num_qubits": 2,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": "Qiskit",
+        "framework_version": null,
+        "transpilation_target": null
+      },
+      "noise_model": {
+        "noise_model": null,
+        "noise_parameters": null,
+        "mitigation_details": null,
+        "is_noisy": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/ljy623669155/HQMM-IN-FINANCE.git",
+        "classical_solver": "hmmlearn, scikit-learn, GMM/EM, gradient descent on Stiefel manifold",
+        "classical_preprocessing": "pandas and NumPy preprocessing; Tushare data acquisition; backtrader used for stock data workflow",
+        "classical_postprocessing": "Compute predicted state from minimum J_n; simulate buy/long or sell/short decisions; calculate FC, NC, and R",
+        "total_execution_time": "12 min for HQMM variants; 40 min for HMM baseline",
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 40,
+          "final_loss_value": null,
+          "loss_curve_shape": "DA rises rapidly in first <5 iterations and converges after ~40 iterations",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "directional_accuracy",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 40,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "min",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 12,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "min",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "average_capital_with_shorting_longing_as_predicted",
+          "value": 1390860,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "CNY",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "average_capital_with_shorting_longing_as_predicted",
+          "value": 1362922,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "CNY",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "average_capital_with_shorting_longing_as_predicted",
+          "value": 1404827,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "CNY",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "average_r",
+          "value": 3.73,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "average_r",
+          "value": 1.59,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "average_r",
+          "value": 4.96,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "number_of_hidden_states",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "states",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gmm_components_n",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "components",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gmm_cluster_number_k",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "clusters",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "initial_capital",
+          "value": 1000000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "CNY",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "prediction_period",
+          "value": 90,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "days",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "prediction_period",
+          "value": 180,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "days",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "prediction_period",
+          "value": 360,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "days",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "iterations_to_converge",
+          "value": 40,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "average_capital_under_no_operation",
+          "value": 1343373,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "CNY",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "average_capital_under_no_operation",
+          "value": 1343373,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "CNY",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "average_capital_under_no_operation",
+          "value": 1343373,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "CNY",
+          "higher_is_better": true,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical_hmm",
+          "metric_name": "average_capital_with_shorting_longing_as_predicted",
+          "value": 1390860,
+          "unit": "CNY"
+        },
+        {
+          "method_name": "classical_hmm",
+          "metric_name": "average_r",
+          "value": 3.73,
+          "unit": "%"
+        },
+        {
+          "method_name": "classical_hmm",
+          "metric_name": "training_time",
+          "value": 40,
+          "unit": "min"
+        },
+        {
+          "method_name": "hqmm_with_evenly_discretized_data",
+          "metric_name": "average_capital_with_shorting_longing_as_predicted",
+          "value": 1362922,
+          "unit": "CNY"
+        },
+        {
+          "method_name": "hqmm_with_evenly_discretized_data",
+          "metric_name": "average_r",
+          "value": 1.59,
+          "unit": "%"
+        },
+        {
+          "method_name": "hqmm_with_evenly_discretized_data",
+          "metric_name": "training_time",
+          "value": 12,
+          "unit": "min"
+        },
+        {
+          "method_name": "hqmm_with_gmm_mvtf_discretization",
+          "metric_name": "average_capital_with_shorting_longing_as_predicted",
+          "value": 1404827,
+          "unit": "CNY"
+        },
+        {
+          "method_name": "hqmm_with_gmm_mvtf_discretization",
+          "metric_name": "average_r",
+          "value": 4.96,
+          "unit": "%"
+        },
+        {
+          "method_name": "hqmm_with_gmm_mvtf_discretization",
+          "metric_name": "training_time",
+          "value": 12,
+          "unit": "min"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "asymptotic",
+          "factor": "O(Tnw) vs O(Tn^2)",
+          "baseline_method": "classical HMM",
+          "conditions": "T is prediction sequence length, n is number of hidden states, w is observable space dimension",
+          "is_demonstrated": true,
+          "caveats": "This is a complexity claim from the paper; it is not tied to a hardware benchmark."
+        },
+        {
+          "type": "empirical",
+          "factor": "3.33x faster wall-clock (12 min vs 40 min)",
+          "baseline_method": "classical HMM",
+          "conditions": "reported average total time required over the 15-stock experiment",
+          "is_demonstrated": true,
+          "caveats": "The 12 min figure applies to both HQMM variants; the paper does not separate quantum circuit runtime from classical preprocessing/training overhead."
+        },
+        {
+          "type": "empirical",
+          "factor": "70% faster",
+          "baseline_method": "classical HMM",
+          "conditions": "as stated in the conclusion and Table 8 comparison",
+          "is_demonstrated": true,
+          "caveats": "The paper reports 12 min vs 40 min, which corresponds to 70% less time, not a quantum hardware speedup."
+        },
+        {
+          "type": "theoretical",
+          "factor": "linear scaling in w versus quadratic dependence on n",
+          "baseline_method": "classical HMM",
+          "conditions": "for the stated complexity expressions",
+          "is_demonstrated": false,
+          "caveats": "Presented as an advantage of HQMM; no scaling experiment over varying w or n is shown."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 15.0,
+          "num_qubits": 2,
+          "metric_name": "average_r",
+          "metric_value": 4.96
+        },
+        {
+          "problem_size": 15.0,
+          "num_qubits": 2,
+          "metric_name": "average_capital_with_shorting_longing_as_predicted",
+          "metric_value": 1404827
+        },
+        {
+          "problem_size": 15.0,
+          "num_qubits": 2,
+          "metric_name": "training_time",
+          "metric_value": 12
+        },
+        {
+          "problem_size": 90.0,
+          "num_qubits": 2,
+          "metric_name": "average_r",
+          "metric_value": 4.96
+        },
+        {
+          "problem_size": 180.0,
+          "num_qubits": 2,
+          "metric_name": "average_r",
+          "metric_value": 4.96
+        },
+        {
+          "problem_size": 360.0,
+          "num_qubits": 2,
+          "metric_name": "average_r",
+          "metric_value": 4.96
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(Tnw)",
+        "classical_complexity": "O(Tn2)",
+        "speedup_order": "polynomial_other",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": "12 min",
+        "wall_clock_classical": "40 min"
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Not specified; the method uses classical computation of density matrices and Kraus operators rather than a physical quantum circuit.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "No execution on quantum hardware or even a quantum simulator with circuits",
+          "HQMM implemented as classical matrix optimization",
+          "Reported complexity improvement (O(Tnw) vs O(Tn^2)) is algorithmic but not tied to quantum hardware",
+          "Performance gains are modest and dataset size is small (15 stocks)",
+          "No scaling study demonstrating advantage at larger problem sizes"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "hardware.type is not explicitly tied to a named QPU; Qiskit is mentioned for quantum circuit implementation, but no device or simulator is specified.",
+          "num_qubits inferred as 2 because the paper constructs 2×2 Kraus operators and a 2-dimensional density matrix; the paper does not explicitly state a qubit count.",
+          "circuit_depth not reported; the paper discusses iterations of training, not circuit depth.",
+          "speedup_order inferred as polynomial_other from reported O(Tnw) vs O(Tn^2) and 12 min vs 40 min wall-clock comparison.",
+          "Authors claim 'quantum advantage' and faster computation (12 min vs 40 min) in Table 8.",
+          "However the implementation appears to be a classical simulation of HQMM rather than a gate-based quantum algorithm.",
+          "Therefore any advantage is algorithmic or implementation-specific rather than quantum."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

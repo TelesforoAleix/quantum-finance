@@ -1,0 +1,696 @@
+{
+  "paper_id": "75d6acf76068",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:59:37+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "75d6acf76068_ml_driven_quantum_portfolio_optimization_hybrid_cnn_lstm_architecture_with_adapt.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.8,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 5,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='relative decrease in extrapolation inaccuracies (%)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='loss' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='ms per prediction' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[4].unit='features' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[6].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.8,
+      "completeness": 0.8,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.75,
+        0.85
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "ML-Driven Quantum Portfolio Optimization: Hybrid CNN-LSTM Architecture with Adaptive Zero-Noise Extrapolation on NISQ Devices",
+    "authors": [
+      "Maryam Arif",
+      "Soban Saeed"
+    ],
+    "year": 2025,
+    "doi": "https://doi.org/10.21203/rs.3.rs-8423464/v1",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "portfolio-optimization",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a CNN–LSTM–based machine‑learning zero‑noise extrapolation (ML‑ZNE) method for NISQ portfolio optimization. Using a Qiskit Aer simulator with a FakeMontreal noise model, the approach reportedly reduces extrapolation error by about 58% and yields higher Sharpe ratios than static ZNE when applied to a 6‑qubit QAOA portfolio optimization experiment using Fama–French financial data (9223 samples).",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Adaptive ML-ZNE applied to a six-qubit benchmark quantum circuit for expectation-value estimation under realistic NISQ noise, comparing against static ZNE and unmitigated execution.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Machine-learning-driven zero-noise extrapolation (ML-ZNE) with hybrid CNN-LSTM",
+        "ansatz": null,
+        "optimizer": "Adam",
+        "num_layers": null,
+        "convergence_criteria": "trained for 100 epochs",
+        "hyperparameters": {
+          "learning_rate": 0.0001,
+          "epochs": 100,
+          "noise_scaling_factors": [
+            1,
+            3,
+            5,
+            7
+          ],
+          "static_zne_polynomial_order": 2,
+          "input_tensor_shape": "(1, 10, 27, 5)",
+          "calibration_feature_matrix_shape": "27 x 5",
+          "time_steps": 10
+        },
+        "parameter_initialization": "not_specified",
+        "optimizer_settings": {
+          "learning_rate": 0.0001,
+          "max_iterations": 100,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Expectation values of a benchmark circuit are estimated under scaled noise; no explicit binary-variable mapping is given for this experiment.",
+        "objective_function": "Minimize extrapolation error between mitigated and ideal expectation values.",
+        "constraints_handling": "Zero-noise extrapolation via noise scaling and extrapolation; adaptive ML-based prediction of zero-noise limit.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Six-qubit benchmark circuit used to test noise mitigation and expectation-value recovery.",
+        "num_assets": null,
+        "time_steps": 10,
+        "num_features": 5,
+        "dataset_size": 100,
+        "data_type": "synthetic",
+        "dataset_name": "FakeMontreal calibration-derived synthetic dataset",
+        "dataset_specification": {
+          "description": "27-qubit backend calibration features (T1, T2, readout error, SX, CX) with synthetic temporal drift over 10 time steps; 100 samples generated."
+        },
+        "data_preprocessing_details": "Calibration data transformed into 27 x 5 feature vectors; Gaussian perturbations applied over ten time steps to simulate temporal drift.",
+        "evaluation_methodology": "Comparison of mean absolute error between mitigated and ideal expectation values; training loss convergence; comparison against static ZNE and unmitigated results."
+      },
+      "quantum_resources": {
+        "num_qubits": 6,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": 0.975,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_noisy",
+        "provider": "IBM",
+        "device_name": "FakeMontreal",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "decoherence, gate errors, measurement/readout error, non-Markovian drift",
+        "error_mitigation_method": "ML-ZNE and static ZNE"
+      },
+      "implementation_details": {
+        "noise_parameters": {
+          "T1": "99.8 µs",
+          "T2": "86.1 µs",
+          "average_readout_error": "2.5%",
+          "SX": "3.5 × 10−4",
+          "CX": "56 nonzero couplings"
+        },
+        "mitigation_details": "Noise scaling via simplified circuit repetition and standard unitary folding; static ZNE uses second-order polynomial fitting; ML-ZNE uses CNN-LSTM trained on noisy/ideal pairs with calibration data.",
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": "FakeMontreal / IBM Quantum backend noise model",
+        "classical_solver": "COBYLA",
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": null,
+          "routing_method": null
+        },
+        "classical_preprocessing": "Synthetic dataset generation from calibration features; state-vector simulation used as ground truth for supervised learning.",
+        "classical_postprocessing": "Mean absolute error computation and loss tracking.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "near-zero loss after training",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "mean_absolute_error",
+          "value": 0.58,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "relative decrease in extrapolation inaccuracies (%)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "mean_absolute_error",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "sharpe_ratio",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "training_loss",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "loss",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "prediction_latency",
+          "value": 23,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ms per prediction",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "mae_increase_non_native_connectivity",
+          "value": 15.3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "pricing_error_reduction_european_options",
+          "value": 32,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "risk_budget_improvement",
+          "value": 19,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sharpe_ratio_improvement_over_polynomial_zne",
+          "value": 16.8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sharpe_ratio_improvement_over_polynomial_zne_after_backtest",
+          "value": 9.2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "static_zne",
+          "metric_name": "mean_absolute_error",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "unmitigated_execution",
+          "metric_name": "mean_absolute_error",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "static_zne",
+          "metric_name": "sharpe_ratio",
+          "value": null,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "unmitigated_optimization",
+          "metric_name": "sharpe_ratio",
+          "value": null,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No computational speedup or asymptotic advantage is reported; the paper focuses on error mitigation and portfolio-performance improvement."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 6,
+          "num_qubits": 6,
+          "metric_name": "mean_absolute_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 1,
+          "num_qubits": 6,
+          "metric_name": "mean_absolute_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 2,
+          "num_qubits": 6,
+          "metric_name": "mean_absolute_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": 6,
+          "metric_name": "mean_absolute_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 6,
+          "num_qubits": 6,
+          "metric_name": "mean_absolute_error",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L2_noisy_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Not analyzed; experiment focuses on error mitigation accuracy for expectation values rather than algorithmic speedup.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Only simulated experiments using Qiskit Aer with FakeMontreal noise model",
+          "Very small circuits (6 qubits)",
+          "No classical vs quantum runtime comparison",
+          "Focus is mitigation quality rather than computational advantage"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_noisy because the paper states Qiskit Aer Simulator with a FakeMontreal noise model rather than a real QPU.",
+          "Circuit depth not explicitly reported for the six-qubit benchmark circuit; only the QAOA depth-4 portfolio circuit is stated elsewhere.",
+          "Speedup order not characterized in the paper.",
+          "Paper does not claim computational quantum advantage; it evaluates error mitigation accuracy improvements.",
+          "All experiments performed on a noisy simulator rather than real hardware."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "QAOA-based portfolio optimization on Fama-French market data, evaluated under static ZNE and ML-ZNE across circuit depths 1, 2, 4, and 6.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "QAOA with COBYLA optimization",
+        "ansatz": null,
+        "optimizer": "COBYLA",
+        "num_layers": 4,
+        "convergence_criteria": "not_specified",
+        "hyperparameters": {
+          "circuit_depths_tested": [
+            1,
+            2,
+            4,
+            6
+          ],
+          "noise_scaling_factors": [
+            1,
+            3,
+            5,
+            7
+          ],
+          "static_zne_polynomial_order": 2,
+          "optimizer": "COBYLA"
+        },
+        "parameter_initialization": "not_specified",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "ising_hamiltonian_mapping",
+        "encoding_details": "Binary asset-selection variables x_i are encoded into a QAOA cost Hamiltonian; the paper does not specify a qubit-per-asset mapping beyond the six-qubit benchmark circuit and portfolio Hamiltonian form.",
+        "objective_function": "H = Σ_i μ_i x_i − γ Σ_{i,j} x_i x_j, with portfolio performance assessed via Sharpe ratio after expectation-value estimation.",
+        "constraints_handling": "Implicit QAOA cost Hamiltonian; no explicit penalty terms or feasibility filter reported.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": "H = Σ_i μ_i x_i − γ Σ_{i,j} x_i x_j",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Quantum portfolio optimization using historical Fama-French factors and portfolios data.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 5,
+        "dataset_size": 9223,
+        "data_type": "public_benchmark",
+        "dataset_name": "Fama-French dataset",
+        "dataset_specification": {
+          "description": "Daily market returns from 02-07-1990 to 31-10-2025; 9223 samples; 5 features."
+        },
+        "data_preprocessing_details": "Returns normalized before computing baseline and Sharpe ratios.",
+        "evaluation_methodology": "Comparison of expectation values and Sharpe ratios under static ZNE vs ML-ZNE; scalability checked across circuit depths 1, 2, 4, and 6."
+      },
+      "quantum_resources": {
+        "num_qubits": 6,
+        "qubit_type": "logical",
+        "circuit_depth": 4,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": 0.975,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_noisy",
+        "provider": "IBM",
+        "device_name": "FakeMontreal",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "decoherence, gate errors, measurement/readout error",
+        "error_mitigation_method": "ML-ZNE and static ZNE"
+      },
+      "implementation_details": {
+        "noise_parameters": {
+          "T1": "99.8 µs",
+          "T2": "86.1 µs",
+          "average_readout_error": "2.5%",
+          "SX": "3.5 × 10−4",
+          "CX": "56 nonzero couplings"
+        },
+        "mitigation_details": "Noise scaling via simplified circuit repetition and standard unitary folding; static ZNE uses second-order polynomial fitting; ML-ZNE uses CNN-LSTM trained on noisy/ideal pairs with calibration data.",
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": "FakeMontreal / IBM Quantum backend noise model",
+        "classical_solver": "COBYLA",
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": null,
+          "routing_method": null
+        },
+        "classical_preprocessing": "Fama-French returns normalized; portfolio Hamiltonian constructed from expected returns and covariance matrix.",
+        "classical_postprocessing": "Sharpe ratio computation and comparison of mitigated expectation values.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "near-zero loss after training",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "sharpe_ratio",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "mean_absolute_error",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "expected_return",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 9223,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_features",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "features",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": null,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "static_zne",
+          "metric_name": "sharpe_ratio",
+          "value": null,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "no_error_mitigation",
+          "metric_name": "sharpe_ratio",
+          "value": null,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "static_zne",
+          "metric_name": "mean_absolute_error",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No runtime or asymptotic speedup is claimed; the paper reports improved portfolio performance and mitigation accuracy only."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 1,
+          "num_qubits": 6,
+          "metric_name": "mean_absolute_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 2,
+          "num_qubits": 6,
+          "metric_name": "mean_absolute_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": 6,
+          "metric_name": "mean_absolute_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 6,
+          "num_qubits": 6,
+          "metric_name": "mean_absolute_error",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": null,
+        "maturity_level": "L2_noisy_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Not provided; no scaling analysis or classical optimization benchmark beyond ZNE variants.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Very small problem size (6 qubits)",
+          "No comparison to classical portfolio optimizers (e.g., quadratic programming solvers)",
+          "Results measured only as Sharpe ratio differences between mitigation strategies",
+          "Experiments executed on noisy simulator rather than real QPU"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware reported as Qiskit Aer Simulator with FakeMontreal noise model.",
+          "The paper states QAOA depth 4 for the portfolio circuit and also varies circuit depth n ∈ {1,2,4,6} for generalization tests.",
+          "No asymptotic speedup analysis is provided.",
+          "The paper suggests improved portfolio performance using ML-ZNE but does not demonstrate superiority over classical portfolio optimization methods.",
+          "The only comparisons are between mitigation strategies (ML-ZNE vs static ZNE vs none)."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

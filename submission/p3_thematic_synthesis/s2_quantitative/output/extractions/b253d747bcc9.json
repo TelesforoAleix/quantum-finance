@@ -1,0 +1,550 @@
+{
+  "paper_id": "b253d747bcc9",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:36:25+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "b253d747bcc9_quantum_machine_learning_and_fraud_detection.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.875,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 2,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[4].unit='features/qubits' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[4].unit='features/qubits' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.875,
+      "completeness": 0.875,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.8,
+        0.95
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Unsupervised quantum machine learning for fraud detection",
+    "authors": [
+      "Oleksandr Kyriienko",
+      "Einar B. Magnusson"
+    ],
+    "year": 2022,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "fraud-detection",
+    "secondary_silos": [
+      "quantum-ml-finance"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper evaluates quantum kernel methods using IQP feature maps for credit‑card fraud detection on a 500‑sample Kaggle dataset. Statevector simulations up to 20 qubits show that quantum kernels achieve about a 15% higher average precision than classical RBF kernels in unsupervised anomaly detection. All experiments are noiseless simulations and retain the same O(N_s^2) kernel Gram matrix scaling as classical methods.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Supervised fraud classification using a quantum kernel (IQP feature map with data re-uploading) on a credit card fraud dataset, compared against classical logistic regression and RBF SVC baselines.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "quantum kernel SVM with IQP feature map and data re-uploading (d=3)",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": 3,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "feature_map": "IQP",
+          "re_uploading": "d=3",
+          "feature_scaling_eta": 0.1,
+          "kernel_evaluation": "return probabilities",
+          "variational_parameters": 0
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "One feature per qubit; each feature is scaled and embedded via x-dependent rotations in an IQP-style circuit.",
+        "objective_function": "Kernel-based supervised classification maximizing average precision on fraud vs genuine transactions.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Credit card fraud detection on anonymized transaction data with PCA-reduced features.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 20,
+        "dataset_size": 500,
+        "data_type": "public_benchmark",
+        "dataset_name": "Kaggle Credit Card Fraud Detection",
+        "dataset_specification": {
+          "description": "28 anonymized features; paper subsamples to 500 total samples with 25 fraud cases; PCA used to reduce dimensionality to N features matching qubit count; features standardized before PCA and scaled by eta=0.1 for quantum embedding."
+        },
+        "data_preprocessing_details": "Feature-wise standard scaling; PCA dimensionality reduction; subsampling to 500 samples with 25 fraud cases; quantum features scaled by 0.1 to keep phases below 2π.",
+        "evaluation_methodology": "Average precision reported as a function of number of features/qubits; simulations run with statevector methods; comparison against classical baselines."
+      },
+      "quantum_resources": {
+        "num_qubits": 20,
+        "qubit_type": "logical",
+        "circuit_depth": 3,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 0,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": null,
+        "device_name": null,
+        "framework": "PennyLane",
+        "framework_version": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "transpilation_target": null,
+        "classical_solver": "scikit-learn SVC with RBF kernel; logistic regression baseline",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Random search hyperparameter tuning applied only to supervised models (LogReg and SVC); OC‑SVM uses default γ and ν values without extensive tuning.",
+        "classical_postprocessing": "Average precision computed from predictions; Gram matrices assembled from kernel evaluations.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": null,
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "average_precision",
+          "value": 0.9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "average_precision",
+          "value": 0.7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 500,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "fraud_cases",
+          "value": 25,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_features",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "features/qubits",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "quantum_classical_separation",
+          "value": 0.15,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "logistic_regression",
+          "metric_name": "average_precision",
+          "value": null,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "support_vector_classification_rbf",
+          "metric_name": "average_precision",
+          "value": null,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": "no asymptotic speedup established",
+          "baseline_method": "classical RBF SVC / OC-SVM kernel methods",
+          "conditions": "kernel evaluation and Gram matrix construction both scale as O(N_s^2); comparison is empirical on a small benchmark dataset",
+          "is_demonstrated": false,
+          "caveats": "Paper reports empirical performance separation in average precision, not a proven computational speedup."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 20,
+          "num_qubits": 20,
+          "metric_name": "average_precision",
+          "metric_value": 0.9
+        },
+        {
+          "problem_size": 20,
+          "num_qubits": 20,
+          "metric_name": "quantum_classical_separation",
+          "metric_value": 0.15
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "Kernel evaluation and Gram matrix construction scale as O(N_s^2) for training and O(N_d N_s) for inference; per-circuit evaluation depends on shots.",
+        "classical_complexity": "Classical kernel methods also require O(N_s^2) Gram matrix evaluations; no asymptotic quantum speedup established.",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": "Observed performance separation at around 10-20 features/qubits; no asymptotic crossover established.",
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Observed empirical performance separation at ~20 qubits/features but no algorithmic complexity crossover demonstrated.",
+        "resources_for_advantage": "Authors suggest 50–100 qubits with deeper kernels and fast sampling may be required for potential practical advantage.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Statevector simulation only (no hardware execution)",
+          "Very small dataset (500 samples)",
+          "No asymptotic speedup proven over classical kernel methods",
+          "Training requires O(N_s^2) Gram matrix evaluations identical to classical kernels",
+          "Quantum kernel evaluation overhead and measurement shots dominate runtime",
+          "Feature encoding and classical preprocessing dominate pipeline"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_statevector because the paper states state vector simulation and use of PennyLane/JAX on CPU/GPU, with no physical QPU device.",
+          "Circuit depth not explicitly quantified; only the re-uploading count d=3 and IQP layer structure are reported.",
+          "The paper reports a 10–15% improvement in average precision relative to classical kernels at 20 features but does not claim computational speedup.",
+          "Experiments are purely noiseless simulations with small datasets."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Unsupervised fraud/anomaly detection using a quantum kernel in one-class SVM, compared against classical RBF OC-SVM.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "one-class SVM with IQP quantum kernel and data re-uploading (d=3)",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": 3,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "feature_map": "IQP",
+          "re_uploading": "d=3",
+          "feature_scaling_eta": 0.1,
+          "kernel_evaluation": "return probabilities",
+          "ocsvm_nu": 0.1,
+          "ocsvm_gamma": "1/(NVar[X])",
+          "variational_parameters": 0
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "One feature per qubit; PCA-reduced features are embedded into an IQP-style quantum feature map.",
+        "objective_function": "Novelty/anomaly detection by separating nominal transactions from anomalous fraud cases using one-class SVM with a quantum kernel.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Unsupervised credit card fraud detection on a public benchmark dataset using only nominal data for training OC-SVM.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 20,
+        "dataset_size": 500,
+        "data_type": "public_benchmark",
+        "dataset_name": "Kaggle Credit Card Fraud Detection",
+        "dataset_specification": {
+          "description": "28 anonymized features; paper subsamples to 500 total samples with 25 fraud cases; PCA used to reduce dimensionality to N features matching qubit count; nominal data used to train OC-SVM."
+        },
+        "data_preprocessing_details": "Feature-wise standard scaling; PCA dimensionality reduction; subsampling to 500 samples with 25 fraud cases; quantum features scaled by 0.1 to keep phases below 2π.",
+        "evaluation_methodology": "Average precision reported versus number of features/qubits; unsupervised model trained on nominal data only; compared to classical OC-SVM with RBF kernel."
+      },
+      "quantum_resources": {
+        "num_qubits": 20,
+        "qubit_type": "logical",
+        "circuit_depth": 3,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 0,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": null,
+        "device_name": null,
+        "framework": "PennyLane",
+        "framework_version": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "transpilation_target": null,
+        "classical_solver": "scikit-learn OneClassSVM with RBF kernel",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Standard scaling and PCA; hyperparameter tuning by random search and cross-validation AP.",
+        "classical_postprocessing": "Average precision computed from predictions; Gram matrices assembled from kernel evaluations.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": null,
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "average_precision",
+          "value": 0.55,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "average_precision",
+          "value": 0.7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 500,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "fraud_cases",
+          "value": 25,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_features",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "features/qubits",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "quantum_classical_separation",
+          "value": 0.15,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "ocsvm_nu",
+          "value": 0.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "one_class_svm_rbf",
+          "metric_name": "average_precision",
+          "value": 0.55,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": "no asymptotic speedup established",
+          "baseline_method": "classical RBF OC-SVM",
+          "conditions": "empirical comparison on a 500-sample credit card fraud benchmark; quantum kernel uses IQP feature map with d=3 re-uploading",
+          "is_demonstrated": false,
+          "caveats": "The paper claims an empirical advantage in average precision, not a runtime or complexity speedup."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 20,
+          "num_qubits": 20,
+          "metric_name": "average_precision",
+          "metric_value": 0.7
+        },
+        {
+          "problem_size": 20,
+          "num_qubits": 20,
+          "metric_name": "quantum_classical_separation",
+          "metric_value": 0.15
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "Kernel evaluation and Gram matrix construction scale as O(N_s^2) for training and O(N_d N_s) for inference; per-circuit evaluation depends on shots.",
+        "classical_complexity": "Classical kernel methods also require O(N_s^2) Gram matrix evaluations; no asymptotic quantum speedup established.",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": "Observed quantum-classical separation in average precision begins past about 10 features and reaches about 15% at 20 qubits; no asymptotic crossover established.",
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Empirical performance improvement appears after ~10 features and reaches ~15% AP improvement at 20 qubits.",
+        "resources_for_advantage": "Potentially requires >50–100 qubits with scalable kernel evaluation and reduced shot requirements.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Kernel Gram matrix scaling O(N_s^2) identical to classical OC‑SVM",
+          "Only noiseless simulations up to 20 qubits",
+          "Small subsampled dataset (500 transactions)",
+          "No demonstrated runtime speedup",
+          "Inference cost O(N_d N_s) dominated by kernel evaluations"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_statevector because the paper states state vector simulation and use of PennyLane/JAX on CPU/GPU, with no physical QPU device.",
+          "Circuit depth not explicitly quantified; only the re-uploading count d=3 and IQP layer structure are reported.",
+          "Authors report ~15% higher average precision at 20 qubits relative to classical RBF kernels.",
+          "This is a performance improvement on a small simulated benchmark rather than a demonstrated computational advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

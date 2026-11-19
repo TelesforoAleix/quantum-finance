@@ -1,0 +1,1429 @@
+{
+  "paper_id": "685e76bf45ae",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:54:36+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "685e76bf45ae_implementing_the_quantum_approximate_optimization_algorithms_for_qubo_problems_a.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.87,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 14,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[2].results[1].unit='microseconds' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[2].unit='microseconds' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[3].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[4].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[5].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[3].results[1].unit='microseconds' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[3].results[2].unit='microseconds' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[3].results[3].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[3].results[4].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[3].results[5].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[4].results[0].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[4].results[1].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[4].results[2].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[4].results[3].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.87,
+      "completeness": 0.87,
+      "num_experiments": 5,
+      "experiment_scores": [
+        1.0,
+        0.85,
+        0.8,
+        0.85,
+        0.85
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Implementing the Quantum Approximate Optimization Algorithms for QUBO problems Across Quantum Hardware Platforms: Performance Analysis, Challenges, and Strategies",
+    "authors": [
+      "Teemu Pihkakoski",
+      "Aravind Plathanam Babu",
+      "Pauli Taipale",
+      "Petri Liimatta",
+      "Matti Silveri"
+    ],
+    "year": 2025,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "portfolio-optimization",
+    "secondary_silos": [
+      "quantum-ml-finance"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper evaluates standard QAOA and ADAPT‑QAOA for synthetic feature‑selection QUBO problems with 6, 10, and 14 variables using an ideal Qiskit simulator (up to 30 layers, 10,000 shots). ADAPT‑QAOA achieves higher approximation ratios on harder instances (α = 0.6), sometimes approaching the exact solution, but incurs longer runtimes due to mixer selection overhead, and a classical Gurobi QUBO solver scales significantly better in time‑to‑solution. The authors also estimate hardware performance using calibration data from ibm_brisbane and Quantinuum H2, finding superconducting devices faster but trapped‑ion systems lower in error probability.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Ideal-simulator study comparing standard QAOA and ADAPT-QAOA on randomly generated feature-selection QUBO instances of sizes 6, 10, and 14 features, with trade-off parameters alpha=0.2 and alpha=0.6, using up to 30 layers.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "standard QAOA",
+        "ansatz": null,
+        "optimizer": "Powell (SciPy)",
+        "num_layers": 30,
+        "convergence_criteria": "up to 30 layers; per-layer classical optimization with a maximum of 1500 iterations",
+        "hyperparameters": {
+          "shots_per_optimization_iteration": 10000,
+          "max_optimization_iterations_per_layer": 1500,
+          "problem_sizes": [
+            6,
+            10,
+            14
+          ],
+          "trade_off_parameter_alpha": [
+            0.2,
+            0.6
+          ],
+          "random_seeds_per_problem_size": 10,
+          "layer_range": "1-30"
+        },
+        "parameter_initialization": "gamma initialized randomly in [0, 2pi]; beta initialized randomly in [0, pi]",
+        "optimizer_settings": {
+          "max_iterations": 1500,
+          "parameter_bounds": {
+            "gamma": "[0, 2pi]",
+            "beta": "[0, pi]"
+          },
+          "optimizer": "Powell"
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "QUBO",
+        "encoding_details": "1 qubit per binary feature-selection variable; QUBO converted to Ising Hamiltonian for QAOA",
+        "objective_function": "f_FS(x) = -(1-alpha) sum_i Q_ii x_i + alpha sum_{i<j} Q_ij x_i x_j",
+        "constraints_handling": "none; unconstrained feature-selection QUBO",
+        "num_binary_variables": 14,
+        "problem_hamiltonian": "H_C = -(1-alpha) sum_i Q_ii (1-Z_i)/2 + alpha sum_{i<j} Q_ij (1-Z_i)/2 (1-Z_j)/2",
+        "num_ancilla_qubits": 0
+      },
+      "problem_instance": {
+        "description": "Synthetic/random feature-selection instances",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 14,
+        "dataset_size": 10,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "10 random instances per problem size generated from 10 different RNG seeds; same Q matrices reused across alpha values"
+        },
+        "data_preprocessing_details": "randomly generated QUBO matrices; no real-data preprocessing",
+        "evaluation_methodology": "10 independent problem instances per size; metrics averaged over instances; approximation ratio and time-to-solution reported"
+      },
+      "quantum_resources": {
+        "num_qubits": 14,
+        "qubit_type": "logical",
+        "circuit_depth": 30,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 10000,
+        "num_variational_params": 2,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "IBM",
+        "device_name": "Qiskit ideal quantum simulator",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Gurobi OptiMods (for exact classical optimum used in approximation ratio)",
+        "transpilation_settings": null,
+        "classical_preprocessing": "random QUBO generation; exact optimum computed classically for approximation ratio",
+        "classical_postprocessing": "approximation ratio and time-to-solution computed from simulator outputs",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": 10.0,
+          "num_independent_runs": 10
+        },
+        "classical_baseline": "Gurobi OptiMods classical QUBO solver used to compute exact solutions and time-to-solution scaling comparison",
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.8,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 1.0,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "time_to_solution",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "figure"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "Gurobi OptiMods",
+          "metric_name": "approximation_ratio",
+          "value": 1.0,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Gurobi OptiMods",
+          "metric_name": "time_to_solution",
+          "value": null,
+          "unit": "seconds"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": "Gurobi OptiMods",
+          "conditions": "feature-selection QUBO instances with 6, 10, and 14 features; alpha = 0.2 and 0.6; up to 30 layers on ideal simulator",
+          "is_demonstrated": false,
+          "caveats": "Paper reports that the classical solver has considerably better scaling in time-to-solution than standard QAOA/ADAPT-QAOA for these instances."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 6,
+          "num_qubits": 6,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.8
+        },
+        {
+          "problem_size": 10,
+          "num_qubits": 10,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.8
+        },
+        {
+          "problem_size": 14,
+          "num_qubits": 14,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.8
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not observed; classical solver scales better for tested sizes (6–14 variables).",
+        "resources_for_advantage": "Not specified; paper explicitly states classical Gurobi solver has better scaling.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "current_nisq",
+        "limiting_factors": [
+          "Very small problem sizes (6–14 qubits)",
+          "Ideal simulator rather than hardware",
+          "Classical QUBO solver scales better in time-to-solution",
+          "Variational optimization overhead"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "hardware.type inferred as simulator_statevector because the paper states use of the ideal quantum simulator of Qiskit.",
+          "num_qubits inferred from problem size: one qubit per feature-selection binary variable.",
+          "speedup_order not characterized asymptotically; paper compares empirical scaling only.",
+          "Section 4.2 explicitly states that the classical solver provides considerably better scaling than QAOA variants."
+        ],
+        "advantage_status": "paper_reported"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Ideal-simulator study comparing ADAPT-QAOA on the same feature-selection QUBO instances and settings as exp_1, with adaptive mixer selection from a pool of single- and two-qubit mixers.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "ADAPT-QAOA",
+        "ansatz": null,
+        "optimizer": "Powell (SciPy)",
+        "num_layers": 30,
+        "convergence_criteria": "up to 30 layers; per-layer classical optimization with a maximum of 1500 iterations",
+        "hyperparameters": {
+          "shots_per_optimization_iteration": 10000,
+          "max_optimization_iterations_per_layer": 1500,
+          "problem_sizes": [
+            6,
+            10,
+            14
+          ],
+          "trade_off_parameter_alpha": [
+            0.2,
+            0.6
+          ],
+          "random_seeds_per_problem_size": 10,
+          "layer_range": "1-30",
+          "mixer_pool_size": "O(n^2)",
+          "gamma0": 0.01
+        },
+        "parameter_initialization": "gamma initialized randomly in [0, 2pi]; beta initialized randomly in [0, pi]; mixer chosen by maximum-gradient criterion using gamma0=0.01",
+        "optimizer_settings": {
+          "max_iterations": 1500,
+          "parameter_bounds": {
+            "gamma": "[0, 2pi]",
+            "beta": "[0, pi]"
+          },
+          "optimizer": "Powell"
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "QUBO",
+        "encoding_details": "1 qubit per binary feature-selection variable; QUBO converted to Ising Hamiltonian for QAOA",
+        "objective_function": "f_FS(x) = -(1-alpha) sum_i Q_ii x_i + alpha sum_{i<j} Q_ij x_i x_j",
+        "constraints_handling": "adaptive mixer selection; otherwise unconstrained feature-selection QUBO",
+        "num_binary_variables": 14,
+        "problem_hamiltonian": "H_C = -(1-alpha) sum_i Q_ii (1-Z_i)/2 + alpha sum_{i<j} Q_ij (1-Z_i)/2 (1-Z_j)/2",
+        "num_ancilla_qubits": 0
+      },
+      "problem_instance": {
+        "description": "Synthetic/random feature-selection instances",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 14,
+        "dataset_size": 10,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "10 random instances per problem size generated from 10 different RNG seeds; same Q matrices reused across alpha values"
+        },
+        "data_preprocessing_details": "randomly generated QUBO matrices; no real-data preprocessing",
+        "evaluation_methodology": "10 independent problem instances per size; metrics averaged over instances; approximation ratio and time-to-solution reported"
+      },
+      "quantum_resources": {
+        "num_qubits": 14,
+        "qubit_type": "logical",
+        "circuit_depth": 30,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 10000,
+        "num_variational_params": 2,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "IBM",
+        "device_name": "Qiskit ideal quantum simulator",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Gurobi OptiMods (for exact classical optimum used in approximation ratio)",
+        "transpilation_settings": null,
+        "classical_preprocessing": "random QUBO generation; exact optimum computed classically for approximation ratio",
+        "classical_postprocessing": "approximation ratio and time-to-solution computed from simulator outputs",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": 10.0,
+          "num_independent_runs": 10
+        },
+        "classical_baseline": "Gurobi OptiMods classical QUBO solver used to compute exact solutions and time-to-solution scaling comparison",
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.8,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 1.0,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "time_to_solution",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "figure"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": "comparison against standard QAOA on the same synthetic feature-selection instances",
+          "is_demonstrated": false,
+          "caveats": "ADAPT-QAOA improves approximation ratio for harder problems (alpha = 0.6) but takes longer time-to-solution as problem size increases."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 6,
+          "num_qubits": 6,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.8
+        },
+        {
+          "problem_size": 10,
+          "num_qubits": 10,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.8
+        },
+        {
+          "problem_size": 14,
+          "num_qubits": 14,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.8
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not observed; ADAPT-QAOA improves approximation ratio but still slower than classical solver.",
+        "resources_for_advantage": "Not provided; algorithmic improvements focus on solution quality rather than outperforming classical methods.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Adaptive mixer selection increases runtime",
+          "Small problem sizes (6–14 qubits)",
+          "No hardware execution",
+          "Classical solver significantly faster"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "hardware.type inferred as simulator_statevector because the paper states use of the ideal quantum simulator of Qiskit.",
+          "num_qubits inferred from problem size: one qubit per feature-selection binary variable.",
+          "speedup_order not characterized asymptotically; paper compares empirical scaling only.",
+          "Paper shows ADAPT-QAOA improves approximation ratio but does not claim or demonstrate advantage over classical solvers."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "Theoretical resource-estimation study for standard QAOA on feature-selection QUBO instances, comparing estimated time-to-solution across hardware topologies and providers: ibm_brisbane heavy-hex, hypothetical ibm_brisbane square-lattice and all-to-all, and Quantinuum H2 all-to-all.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "standard QAOA",
+        "ansatz": null,
+        "optimizer": "Powell (SciPy)",
+        "num_layers": 30,
+        "convergence_criteria": "resource estimation for 30-layer circuits; no hardware execution",
+        "hyperparameters": {
+          "problem_sizes": [
+            6,
+            10,
+            14,
+            18,
+            22,
+            26,
+            30,
+            34,
+            38,
+            42,
+            46,
+            50,
+            54,
+            58,
+            62,
+            66
+          ],
+          "trade_off_parameter_alpha": 0.2,
+          "shots_per_optimization_iteration": 10000,
+          "max_optimization_iterations_per_layer": 1500,
+          "random_seeds_per_problem_size": 10
+        },
+        "parameter_initialization": "same as simulator study: gamma random in [0, 2pi], beta random in [0, pi]",
+        "optimizer_settings": {
+          "max_iterations": 1500,
+          "parameter_bounds": {
+            "gamma": "[0, 2pi]",
+            "beta": "[0, pi]"
+          },
+          "optimizer": "Powell"
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "QUBO",
+        "encoding_details": "1 qubit per binary feature-selection variable; QUBO converted to Ising Hamiltonian for QAOA",
+        "objective_function": "f_FS(x) = -(1-alpha) sum_i Q_ii x_i + alpha sum_{i<j} Q_ij x_i x_j",
+        "constraints_handling": "unconstrained QUBO",
+        "num_binary_variables": 66,
+        "problem_hamiltonian": "H_C = -(1-alpha) sum_i Q_ii (1-Z_i)/2 + alpha sum_{i<j} Q_ij (1-Z_i)/2 (1-Z_j)/2",
+        "num_ancilla_qubits": 0
+      },
+      "problem_instance": {
+        "description": "Synthetic/random feature-selection instances used for scaling estimates",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 66,
+        "dataset_size": 10,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "10 random instances per problem size generated from 10 different RNG seeds"
+        },
+        "data_preprocessing_details": "randomly generated QUBO matrices; no real-data preprocessing",
+        "evaluation_methodology": "estimated time-to-solution averaged over 10 problem instances per size"
+      },
+      "quantum_resources": {
+        "num_qubits": 66,
+        "qubit_type": "logical",
+        "circuit_depth": 30,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 10000,
+        "num_variational_params": 2,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": "IBM",
+        "device_name": "ibm_brisbane",
+        "framework": "Qiskit",
+        "additional_devices": [
+          "Quantinuum H2 trapped-ion QPU",
+          "ibm_brisbane (square lattice hypothetical topology)",
+          "ibm_brisbane (all-to-all hypothetical topology)"
+        ]
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "calibration-data-based resource/error estimation",
+        "error_mitigation_method": null,
+        "noise_parameters": {
+          "single_qubit_gate_duration": 63,
+          "two_qubit_gate_duration": 308,
+          "single_qubit_gate_error": 3e-05,
+          "two_qubit_gate_error": 0.001,
+          "measurement_error": 0.001
+        },
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": "all-to-all topology",
+        "classical_solver": "Gurobi OptiMods (for exact optimum in approximation ratio, from simulator study)",
+        "transpilation_settings": null,
+        "classical_preprocessing": "resource estimation from circuit gate counts and device calibration data",
+        "classical_postprocessing": "time-to-solution estimated from gate durations and optimization iterations",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": null,
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "time_to_solution",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "gate_duration_single_qubit",
+          "value": 63,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "microseconds",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gate_duration_two_qubit",
+          "value": 308,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "microseconds",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "single_qubit_gate_error",
+          "value": 3e-05,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "two_qubit_gate_error",
+          "value": 0.001,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "measurement_error",
+          "value": 0.001,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "ibm_brisbane heavy-hex and square-lattice topologies estimated faster than Quantinuum H2 in time-to-solution; all-to-all topology best among compared devices",
+          "baseline_method": "Quantinuum H2 trapped-ion device",
+          "conditions": "30-layer standard QAOA resource estimation for synthetic feature-selection instances with alpha = 0.2 across problem sizes 6 to 66",
+          "is_demonstrated": false,
+          "caveats": "This is a calibration-data-based estimate, not a hardware benchmark. Quantinuum H2 has slower gate durations but lower error rates."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 6,
+          "num_qubits": 6,
+          "metric_name": "time_to_solution",
+          "metric_value": null
+        },
+        {
+          "problem_size": 10,
+          "num_qubits": 10,
+          "metric_name": "time_to_solution",
+          "metric_value": null
+        },
+        {
+          "problem_size": 14,
+          "num_qubits": 14,
+          "metric_name": "time_to_solution",
+          "metric_value": null
+        },
+        {
+          "problem_size": 18,
+          "num_qubits": 18,
+          "metric_name": "time_to_solution",
+          "metric_value": null
+        },
+        {
+          "problem_size": 22,
+          "num_qubits": 22,
+          "metric_name": "time_to_solution",
+          "metric_value": null
+        },
+        {
+          "problem_size": 26,
+          "num_qubits": 26,
+          "metric_name": "time_to_solution",
+          "metric_value": null
+        },
+        {
+          "problem_size": 30,
+          "num_qubits": 30,
+          "metric_name": "time_to_solution",
+          "metric_value": null
+        },
+        {
+          "problem_size": 34,
+          "num_qubits": 34,
+          "metric_name": "time_to_solution",
+          "metric_value": null
+        },
+        {
+          "problem_size": 38,
+          "num_qubits": 38,
+          "metric_name": "time_to_solution",
+          "metric_value": null
+        },
+        {
+          "problem_size": 42,
+          "num_qubits": 42,
+          "metric_name": "time_to_solution",
+          "metric_value": null
+        },
+        {
+          "problem_size": 46,
+          "num_qubits": 46,
+          "metric_name": "time_to_solution",
+          "metric_value": null
+        },
+        {
+          "problem_size": 50,
+          "num_qubits": 50,
+          "metric_name": "time_to_solution",
+          "metric_value": null
+        },
+        {
+          "problem_size": 54,
+          "num_qubits": 54,
+          "metric_name": "time_to_solution",
+          "metric_value": null
+        },
+        {
+          "problem_size": 58,
+          "num_qubits": 58,
+          "metric_name": "time_to_solution",
+          "metric_value": null
+        },
+        {
+          "problem_size": 62,
+          "num_qubits": 62,
+          "metric_name": "time_to_solution",
+          "metric_value": null
+        },
+        {
+          "problem_size": 66,
+          "num_qubits": 66,
+          "metric_name": "time_to_solution",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L0_theory",
+        "crossover_size": "Not established; analysis only estimates runtime scaling across hardware architectures.",
+        "resources_for_advantage": "Would require larger qubit counts and improved error rates; current devices limited (e.g., Quantinuum H2 ~56 qubits).",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Analysis based on calibration data rather than real execution",
+          "Slow gate times on trapped-ion devices",
+          "Two-qubit gate errors and measurement errors",
+          "Limited qubit counts"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "hardware.type reported as Quantinuum H2 trapped-ion device.",
+          "num_qubits inferred from problem size: one qubit per feature-selection binary variable.",
+          "speedup_order not characterized asymptotically; paper provides only empirical resource estimates.",
+          "Section 4.3–4.4 provide only resource and error estimations using calibration data; no quantum-vs-classical advantage experiment."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_4",
+      "description": "Theoretical resource-estimation study for standard QAOA on feature-selection QUBO instances, comparing ibm_brisbane heavy-hex, hypothetical square-lattice, and hypothetical all-to-all topologies on the same superconducting device.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "standard QAOA",
+        "ansatz": null,
+        "optimizer": "Powell (SciPy)",
+        "num_layers": 30,
+        "convergence_criteria": "resource estimation for 30-layer circuits; no hardware execution",
+        "hyperparameters": {
+          "problem_sizes": [
+            6,
+            10,
+            14,
+            18,
+            22,
+            26,
+            30,
+            34,
+            38,
+            42,
+            46,
+            50,
+            54,
+            58,
+            62,
+            66
+          ],
+          "trade_off_parameter_alpha": 0.2,
+          "shots_per_optimization_iteration": 10000,
+          "max_optimization_iterations_per_layer": 1500,
+          "random_seeds_per_problem_size": 10
+        },
+        "parameter_initialization": "gamma random in [0, 2pi], beta random in [0, pi]",
+        "optimizer_settings": {
+          "max_iterations": 1500,
+          "parameter_bounds": {
+            "gamma": "[0, 2pi]",
+            "beta": "[0, pi]"
+          },
+          "optimizer": "Powell"
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "QUBO",
+        "encoding_details": "1 qubit per binary feature-selection variable; QUBO converted to Ising Hamiltonian for QAOA",
+        "objective_function": "f_FS(x) = -(1-alpha) sum_i Q_ii x_i + alpha sum_{i<j} Q_ij x_i x_j",
+        "constraints_handling": "unconstrained QUBO",
+        "num_binary_variables": 66,
+        "problem_hamiltonian": "H_C = -(1-alpha) sum_i Q_ii (1-Z_i)/2 + alpha sum_{i<j} Q_ij (1-Z_i)/2 (1-Z_j)/2",
+        "num_ancilla_qubits": 0
+      },
+      "problem_instance": {
+        "description": "Synthetic/random feature-selection instances used for scaling estimates",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 66,
+        "dataset_size": 10,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "10 random instances per problem size generated from 10 different RNG seeds"
+        },
+        "data_preprocessing_details": "randomly generated QUBO matrices; no real-data preprocessing",
+        "evaluation_methodology": "estimated time-to-solution averaged over 10 problem instances per size"
+      },
+      "quantum_resources": {
+        "num_qubits": 66,
+        "qubit_type": "logical",
+        "circuit_depth": 30,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 10000,
+        "num_variational_params": 2,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_superconducting",
+        "provider": "IBM",
+        "device_name": "ibm_brisbane",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "calibration-data-based resource/error estimation",
+        "error_mitigation_method": null,
+        "noise_parameters": {
+          "single_qubit_gate_duration": 0.06,
+          "two_qubit_gate_duration": 0.66,
+          "single_qubit_gate_error": 0.00033,
+          "two_qubit_gate_error": 0.012,
+          "measurement_error": 0.037
+        },
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": "heavy-hex, square lattice, and all-to-all topologies",
+        "classical_solver": "Gurobi OptiMods (for exact optimum in approximation ratio, from simulator study)",
+        "transpilation_settings": null,
+        "classical_preprocessing": "resource estimation from circuit gate counts and device calibration data",
+        "classical_postprocessing": "time-to-solution estimated from gate durations and optimization iterations",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": null,
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "time_to_solution",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "single_qubit_gate_duration",
+          "value": 0.06,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "microseconds",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "two_qubit_gate_duration",
+          "value": 0.66,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "microseconds",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "single_qubit_gate_error",
+          "value": 0.00033,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "two_qubit_gate_error",
+          "value": 0.012,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "measurement_error",
+          "value": 0.037,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "square-lattice topology better than heavy-hex; all-to-all topology best on ibm_brisbane",
+          "baseline_method": "ibm_brisbane heavy-hex topology",
+          "conditions": "30-layer standard QAOA resource estimation for synthetic feature-selection instances with alpha = 0.2 across problem sizes 6 to 66",
+          "is_demonstrated": false,
+          "caveats": "This is a topology-based resource estimate, not an experimental benchmark."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 6,
+          "num_qubits": 6,
+          "metric_name": "time_to_solution",
+          "metric_value": null
+        },
+        {
+          "problem_size": 10,
+          "num_qubits": 10,
+          "metric_name": "time_to_solution",
+          "metric_value": null
+        },
+        {
+          "problem_size": 14,
+          "num_qubits": 14,
+          "metric_name": "time_to_solution",
+          "metric_value": null
+        },
+        {
+          "problem_size": 18,
+          "num_qubits": 18,
+          "metric_name": "time_to_solution",
+          "metric_value": null
+        },
+        {
+          "problem_size": 22,
+          "num_qubits": 22,
+          "metric_name": "time_to_solution",
+          "metric_value": null
+        },
+        {
+          "problem_size": 26,
+          "num_qubits": 26,
+          "metric_name": "time_to_solution",
+          "metric_value": null
+        },
+        {
+          "problem_size": 30,
+          "num_qubits": 30,
+          "metric_name": "time_to_solution",
+          "metric_value": null
+        },
+        {
+          "problem_size": 34,
+          "num_qubits": 34,
+          "metric_name": "time_to_solution",
+          "metric_value": null
+        },
+        {
+          "problem_size": 38,
+          "num_qubits": 38,
+          "metric_name": "time_to_solution",
+          "metric_value": null
+        },
+        {
+          "problem_size": 42,
+          "num_qubits": 42,
+          "metric_name": "time_to_solution",
+          "metric_value": null
+        },
+        {
+          "problem_size": 46,
+          "num_qubits": 46,
+          "metric_name": "time_to_solution",
+          "metric_value": null
+        },
+        {
+          "problem_size": 50,
+          "num_qubits": 50,
+          "metric_name": "time_to_solution",
+          "metric_value": null
+        },
+        {
+          "problem_size": 54,
+          "num_qubits": 54,
+          "metric_name": "time_to_solution",
+          "metric_value": null
+        },
+        {
+          "problem_size": 58,
+          "num_qubits": 58,
+          "metric_name": "time_to_solution",
+          "metric_value": null
+        },
+        {
+          "problem_size": 62,
+          "num_qubits": 62,
+          "metric_name": "time_to_solution",
+          "metric_value": null
+        },
+        {
+          "problem_size": 66,
+          "num_qubits": 66,
+          "metric_name": "time_to_solution",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "data_loading_bottleneck": null
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "hardware.type reported as ibm_brisbane superconducting device.",
+          "num_qubits inferred from problem size: one qubit per feature-selection binary variable.",
+          "speedup_order not characterized asymptotically; paper provides only empirical resource estimates."
+        ]
+      }
+    },
+    {
+      "experiment_id": "exp_5",
+      "description": "Error-probability estimation for a 1-layer standard QAOA circuit solving a 6-feature feature-selection QUBO on ibm_brisbane heavy-hex, hypothetical ibm_brisbane square-lattice and all-to-all topologies, and Quantinuum H2 all-to-all.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "standard QAOA",
+        "ansatz": null,
+        "optimizer": "Powell (SciPy)",
+        "num_layers": 1,
+        "convergence_criteria": "single-layer error estimation; no hardware execution",
+        "hyperparameters": {
+          "problem_size_features": 6,
+          "trade_off_parameter_alpha": 0.2,
+          "shots_per_optimization_iteration": 10000,
+          "max_optimization_iterations_per_layer": 1500
+        },
+        "parameter_initialization": "not specified for the error-estimation calculation; based on QAOA circuit from the simulator study",
+        "optimizer_settings": {
+          "max_iterations": 1500,
+          "parameter_bounds": {
+            "gamma": "[0, 2pi]",
+            "beta": "[0, pi]"
+          },
+          "optimizer": "Powell"
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "QUBO",
+        "encoding_details": "1 qubit per binary feature-selection variable; QUBO converted to Ising Hamiltonian for QAOA",
+        "objective_function": "f_FS(x) = -(1-alpha) sum_i Q_ii x_i + alpha sum_{i<j} Q_ij x_i x_j",
+        "constraints_handling": "unconstrained QUBO",
+        "num_binary_variables": 6,
+        "problem_hamiltonian": "H_C = -(1-alpha) sum_i Q_ii (1-Z_i)/2 + alpha sum_{i<j} Q_ij (1-Z_i)/2 (1-Z_j)/2",
+        "num_ancilla_qubits": 0
+      },
+      "problem_instance": {
+        "description": "Synthetic/random 6-feature feature-selection instance used for error estimation",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 6,
+        "dataset_size": 1,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "single 6-feature instance; same random-QUBO setup as main experiments"
+        },
+        "data_preprocessing_details": "randomly generated QUBO matrix; no real-data preprocessing",
+        "evaluation_methodology": "estimated total error probability from gate counts and calibration data"
+      },
+      "quantum_resources": {
+        "num_qubits": 6,
+        "qubit_type": "logical",
+        "circuit_depth": 1,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 2,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_superconducting",
+        "provider": "IBM",
+        "device_name": "ibm_brisbane",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "calibration-data-based error estimation",
+        "error_mitigation_method": null,
+        "noise_parameters": {
+          "single_qubit_gate_error": 0.00033,
+          "two_qubit_gate_error": 0.012,
+          "measurement_error": 0.037
+        },
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": "heavy-hex, square lattice, and all-to-all topologies",
+        "classical_solver": "Gurobi OptiMods (for exact optimum in approximation ratio, from simulator study)",
+        "transpilation_settings": null,
+        "classical_preprocessing": "gate-count-based error estimation using calibration data",
+        "classical_postprocessing": "total error probability computed from per-gate error rates",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": null,
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "total_error_probability",
+          "value": 0.37,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "total_error_probability",
+          "value": 0.31,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "total_error_probability",
+          "value": 0.28,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "total_error_probability",
+          "value": 0.18,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": false,
+          "data_source": "figure"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": "1-layer standard QAOA on a 6-feature synthetic instance across four hardware/topology settings",
+          "is_demonstrated": false,
+          "caveats": "Quantinuum H2 all-to-all has the lowest estimated total error probability; ibm_brisbane all-to-all is better than square-lattice and heavy-hex."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 6,
+          "num_qubits": 6,
+          "metric_name": "total_error_probability",
+          "metric_value": 0.37
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "data_loading_bottleneck": null
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "hardware.type reported as ibm_brisbane/Quantinuum H2-based error estimation; represented here with ibm_brisbane as the superconducting case and the same methodology applies to Quantinuum H2.",
+          "num_qubits inferred from the 6-feature problem size.",
+          "speedup_order not characterized asymptotically; paper provides only empirical error estimates."
+        ]
+      }
+    }
+  ]
+}

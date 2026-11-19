@@ -1,0 +1,1125 @@
+{
+  "paper_id": "21e9746e62c2",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:18:18+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "21e9746e62c2_quantum_walk_based_portfolio_optimisation.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.9,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 22,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='objective value' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='objective value' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='objective value above optimum' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='% of QAOA search space' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='% of QAOAz search space' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='degenerate states' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='standard deviation' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='standard deviation' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[15].unit='standard deviation' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[0].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[4].unit='objective value' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[5].unit='standard deviation' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[6].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[7].unit='standard deviation' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[8].unit='standard deviation' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[0].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[3].unit='standard deviation' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[4].unit='standard deviation' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[7].unit='objective value' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[8].unit='objective value' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.9,
+      "completeness": 0.9,
+      "num_experiments": 3,
+      "experiment_scores": [
+        0.9,
+        0.9,
+        0.9
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum walk-based portfolio optimisation",
+    "authors": [
+      "N. Slate",
+      "E. Matwiejew",
+      "S. Marsh",
+      "J. B. Wang"
+    ],
+    "year": 2021,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "portfolio-optimization",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper compares QAOA, QAOAz, and a Quantum Walk Optimisation Algorithm (QWOA) for discrete Markowitz portfolio optimization with n=8 assets (16 qubits). In noiseless simulations up to p=19 layers, QWOA reduces the search space from 2^16=65,536 states (QAOA) to 266 valid portfolios and amplifies the optimal portfolio to >40% probability in one dataset, while QAOAz fails to amplify the optimum (<10^-9 probability). All results are obtained on classical simulation with no comparison to classical portfolio optimizers.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Numerical simulation of portfolio optimisation using the original QAOA with soft constraint penalty encoding on two real-market datasets (Data Set A and B), compared against QAOAz and QWOA.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "QAOA with soft constraint penalty encoding",
+        "ansatz": null,
+        "optimizer": "Broyden-Fletcher-Goldfarb-Shanno (BFGS)",
+        "num_layers": 1,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "lambda": 0.5,
+          "A": 4,
+          "p_range": "1-19",
+          "initial_gamma_range": "[0, 2π]",
+          "initial_t_range": "[0, 2π]",
+          "repeats_per_setting": 15,
+          "asset_count": 8
+        },
+        "parameter_initialization": "Randomly generated initial ⃗γ and ⃗t values uniformly distributed between 0 and 2π",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": "[0, 2π] for initial parameters"
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Two qubits per asset encode three discrete positions: |01⟩ long, |10⟩ short, |00⟩ no position; |11⟩ is degenerate with no position",
+        "objective_function": "c(z) = λ Σ_{i,j=1}^n σ_{ij} z_i z_j - (1-λ) Σ_{i=1}^n r_i z_i, with penalty ζ(z)=ϵ(A-Σ_i z_i)^2 for QAOA",
+        "constraints_handling": "Soft constraint via quadratic penalty term added to the objective",
+        "num_binary_variables": 16,
+        "problem_hamiltonian": "C|z⟩ = (c(z)+ζ(z))|z⟩",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Discrete mean-variance Markowitz portfolio optimisation with 8 assets and net position constraint A=4",
+        "num_assets": 8,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "real_market",
+        "dataset_name": "Data Set A and Data Set B",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "AMP",
+            "ANZ",
+            "AMC",
+            "BHP",
+            "BXB",
+            "CBA",
+            "CSL",
+            "IAG"
+          ],
+          "date_range": "2017-01-01 to 2018-12-31; 2020-03-24 to 2020-09-06",
+          "benchmark_name": "ASX.20 index",
+          "preprocessing": "Adjusted close prices used"
+        },
+        "data_preprocessing_details": "Daily adjusted close prices from Yahoo Finance; adjusted close used to account for corporate actions such as dividends",
+        "evaluation_methodology": "15 repeats per algorithm using the same set of randomly generated initial parameters; BFGS used for classical parameter optimisation; results reported as mean and standard deviation across repeats",
+        "dataset_specification.ticker_symbols": {
+          "Data_Set_A": [
+            "AMP",
+            "ANZ",
+            "AMC",
+            "BHP",
+            "BXB",
+            "CBA",
+            "CSL",
+            "IAG"
+          ],
+          "Data_Set_B": [
+            "FLT",
+            "QAN",
+            "WEB",
+            "REX",
+            "AIZ",
+            "SYD",
+            "SCG",
+            "CTD"
+          ]
+        }
+      },
+      "quantum_resources": {
+        "num_qubits": 16,
+        "qubit_type": "logical",
+        "circuit_depth": 19,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 2,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "QuOP MPI",
+        "framework_version": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "BFGS; brute-force classical iteration used to obtain the global optimum for comparison",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Historical price data selected from Yahoo Finance; objective and covariance estimated from data",
+        "classical_postprocessing": "Expectation values of return and risk computed from output state probabilities",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "Improves with p but generally worse than QAOAz and QWOA",
+          "variance_across_runs": 12.96,
+          "num_independent_runs": 15
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_assets",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": 15,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 16,
+          "uncertainty": null,
+          "num_runs": 15,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "expected_return",
+          "value": 490,
+          "uncertainty": null,
+          "num_runs": 15,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "expected_return",
+          "value": 40,
+          "uncertainty": null,
+          "num_runs": 15,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "expected_return",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": 15,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "expected_return",
+          "value": -0.318,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "objective value",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "expected_return",
+          "value": -0.305,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "objective value",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "expected_return",
+          "value": 0.2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "objective value above optimum",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "expected_return",
+          "value": 0.406,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "% of QAOA search space",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "expected_return",
+          "value": 14.61,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "% of QAOAz search space",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "expected_return",
+          "value": 1554,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "degenerate states",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "ground_state_probability",
+          "value": 40,
+          "uncertainty": null,
+          "num_runs": 15,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "ground_state_probability",
+          "value": 1e-09,
+          "uncertainty": null,
+          "num_runs": 15,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "expected_return",
+          "value": 0.011,
+          "uncertainty": null,
+          "num_runs": 15,
+          "unit": "standard deviation",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "expected_return",
+          "value": 12.96,
+          "uncertainty": null,
+          "num_runs": 15,
+          "unit": "standard deviation",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "expected_return",
+          "value": 0.038,
+          "uncertainty": null,
+          "num_runs": 15,
+          "unit": "standard deviation",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical brute-force optimum",
+          "metric_name": "expected_return",
+          "value": -0.318,
+          "unit": "objective value"
+        },
+        {
+          "method_name": "classical brute-force optimum",
+          "metric_name": "expected_return",
+          "value": -0.305,
+          "unit": "objective value"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "QWOA search space reduced to 0.406% of QAOA and 14.61% of QAOAz",
+          "baseline_method": "QAOA and QAOAz",
+          "conditions": "for n=8, A=4 in the reported portfolio instances",
+          "is_demonstrated": true,
+          "caveats": "This is a search-space reduction, not a proven runtime speedup."
+        },
+        {
+          "type": "theoretical",
+          "factor": "QWOA mixing circuit complexity O(n^2) per iteration",
+          "baseline_method": "QAOA/QAOAz O(n) per iteration",
+          "conditions": "asymptotic circuit-complexity comparison",
+          "is_demonstrated": false,
+          "caveats": "The paper argues the polynomial overhead is outweighed by the smaller search space and better convergence, but no formal speedup proof is given."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 8,
+          "num_qubits": 16,
+          "metric_name": "search_space",
+          "metric_value": 65536
+        },
+        {
+          "problem_size": 8,
+          "num_qubits": 16,
+          "metric_name": "search_space",
+          "metric_value": 1820
+        },
+        {
+          "problem_size": 8,
+          "num_qubits": null,
+          "metric_name": "search_space",
+          "metric_value": 66
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(n) mixing operator; overall QAOA circuit complexity O(n) per iteration as implied by comparison table",
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not analyzed",
+        "resources_for_advantage": "Not specified; experiment simulated 16 logical qubits for n=8 assets with p≤19 layers",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Only noiseless simulation",
+          "Small toy instance (8 assets, 16 qubits)",
+          "No competitive classical optimization baseline besides brute-force optimum",
+          "Heuristic variational algorithm with no proven speedup"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware is not a physical QPU; experiments are numerical simulations using QuOP MPI.",
+          "num_qubits inferred from 2 qubits per asset and n=8 assets.",
+          "Circuit depth is reported only parametrically via p and shown up to p=19.",
+          "Paper shows QAOA performs worse than QAOAz and QWOA in simulations (Fig. 7, Fig. 10).",
+          "No classical heuristic comparison demonstrating quantum superiority."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Numerical simulation of portfolio optimisation using QAOAz (Quantum Alternating Operator Ansatz) with parity-ring mixer on the same two 8-asset datasets, compared against QAOA and QWOA.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "QAOAz / Quantum Alternating Operator Ansatz with dual-parity-ring mixer",
+        "ansatz": null,
+        "optimizer": "Broyden-Fletcher-Goldfarb-Shanno (BFGS)",
+        "num_layers": 1,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "lambda": 0.5,
+          "A": 4,
+          "p_range": "1-19",
+          "initial_gamma_range": "[0, 2π]",
+          "initial_t_range": "[0, 2π]",
+          "repeats_per_setting": 15,
+          "asset_count": 8
+        },
+        "parameter_initialization": "Randomly generated initial ⃗γ and ⃗t values uniformly distributed between 0 and 2π",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": "[0, 2π] for initial parameters"
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Two qubits per asset; valid subspace enforced by dual-parity-ring mixer; degenerate |11⟩ and |00⟩ encodings both represent no position",
+        "objective_function": "c(z) = λ Σ_{i,j=1}^n σ_{ij} z_i z_j - (1-λ) Σ_{i=1}^n r_i z_i",
+        "constraints_handling": "Constraint handled by mixer preserving Hamming weight of short and long qubits independently; initial state prepared in the valid subspace",
+        "num_binary_variables": 16,
+        "problem_hamiltonian": "C|z⟩ = c(z)|z⟩",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Discrete mean-variance Markowitz portfolio optimisation with 8 assets and net position constraint A=4",
+        "num_assets": 8,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "real_market",
+        "dataset_name": "Data Set A and Data Set B",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "AMP",
+            "ANZ",
+            "AMC",
+            "BHP",
+            "BXB",
+            "CBA",
+            "CSL",
+            "IAG"
+          ],
+          "date_range": "2017-01-01 to 2018-12-31; 2020-03-24 to 2020-09-06",
+          "benchmark_name": "ASX.20 index",
+          "preprocessing": "Adjusted close prices used"
+        },
+        "data_preprocessing_details": "Daily adjusted close prices from Yahoo Finance; adjusted close used to account for corporate actions such as dividends",
+        "evaluation_methodology": "15 repeats per algorithm using the same set of randomly generated initial parameters; BFGS used for classical parameter optimisation; results reported as mean and standard deviation across repeats",
+        "dataset_specification.ticker_symbols": {
+          "Data_Set_A": [
+            "AMP",
+            "ANZ",
+            "AMC",
+            "BHP",
+            "BXB",
+            "CBA",
+            "CSL",
+            "IAG"
+          ],
+          "Data_Set_B": [
+            "FLT",
+            "QAN",
+            "WEB",
+            "REX",
+            "AIZ",
+            "SYD",
+            "SCG",
+            "CTD"
+          ]
+        }
+      },
+      "quantum_resources": {
+        "num_qubits": 16,
+        "qubit_type": "logical",
+        "circuit_depth": 19,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 2,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "QuOP MPI",
+        "framework_version": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "BFGS; brute-force classical iteration used to obtain the global optimum for comparison",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Historical price data selected from Yahoo Finance; objective and covariance estimated from data",
+        "classical_postprocessing": "Expectation values of return and risk computed from output state probabilities",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "Improves with p but saturates/diminishes past p≈8 on Data Set A; generally better than QAOA but worse than QWOA",
+          "variance_across_runs": 0.038,
+          "num_independent_runs": 15
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_assets",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": 15,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 16,
+          "uncertainty": null,
+          "num_runs": 15,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "expected_return",
+          "value": 490,
+          "uncertainty": null,
+          "num_runs": 15,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "expected_return",
+          "value": 542,
+          "uncertainty": null,
+          "num_runs": 15,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "expected_return",
+          "value": -0.305,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "objective value",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "expected_return",
+          "value": 0.61,
+          "uncertainty": null,
+          "num_runs": 15,
+          "unit": "standard deviation",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "ground_state_probability",
+          "value": 1e-06,
+          "uncertainty": null,
+          "num_runs": 15,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "expected_return",
+          "value": 12.75,
+          "uncertainty": null,
+          "num_runs": 15,
+          "unit": "standard deviation",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "expected_return",
+          "value": 0.038,
+          "uncertainty": null,
+          "num_runs": 15,
+          "unit": "standard deviation",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical brute-force optimum",
+          "metric_name": "expected_return",
+          "value": -0.305,
+          "unit": "objective value"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "QAOAz search space 1820 states for n=8, A=4",
+          "baseline_method": "QAOA full Hilbert space",
+          "conditions": "reported instance with 8 assets and A=4",
+          "is_demonstrated": true,
+          "caveats": "This is a search-space comparison, not a runtime benchmark."
+        },
+        {
+          "type": "theoretical",
+          "factor": "QWOA search space 66 states for n=8, A=4",
+          "baseline_method": "QAOAz and QAOA",
+          "conditions": "reported instance with 8 assets and A=4",
+          "is_demonstrated": true,
+          "caveats": "Search-space reduction only."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 8,
+          "num_qubits": 16,
+          "metric_name": "search_space",
+          "metric_value": 65536
+        },
+        {
+          "problem_size": 8,
+          "num_qubits": 16,
+          "metric_name": "search_space",
+          "metric_value": 1820
+        },
+        {
+          "problem_size": 8,
+          "num_qubits": null,
+          "metric_name": "search_space",
+          "metric_value": 66
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(n) mixing operator; overall QAOAz circuit complexity O(n) per iteration as implied by comparison table",
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not analyzed",
+        "resources_for_advantage": "Simulated 16 qubits (n=8 assets) with parity-ring mixer; p≤19 variational layers",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Disconnected parity bands limit search space mixing",
+          "Degenerate encodings inflate Hilbert space",
+          "No demonstrated scaling advantage vs classical solvers",
+          "Results based solely on noiseless simulation"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware is not a physical QPU; experiments are numerical simulations using QuOP MPI.",
+          "num_qubits inferred from 2 qubits per asset and n=8 assets.",
+          "Circuit depth is reported only parametrically via p and shown up to p=19.",
+          "Paper reports QAOAz improves over QAOA but still fails to amplify the optimal portfolio strongly (Fig. 8, Fig. 11).",
+          "No classical heuristic baseline used."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "Numerical simulation of portfolio optimisation using the Quantum Walk Optimisation Algorithm (QWOA) on the same two 8-asset datasets, compared against QAOA and QAOAz.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Quantum Walk Optimisation Algorithm (QWOA) with complete-graph mixer over valid canonical solutions",
+        "ansatz": null,
+        "optimizer": "Broyden-Fletcher-Goldfarb-Shanno (BFGS)",
+        "num_layers": 1,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "lambda": 0.5,
+          "A": 4,
+          "p_range": "1-19",
+          "initial_gamma_range": "[0, 2π]",
+          "initial_t_range": "[0, 2π]",
+          "repeats_per_setting": 15,
+          "asset_count": 8,
+          "mixer_graph": "complete graph K_M"
+        },
+        "parameter_initialization": "Randomly generated initial ⃗γ and ⃗t values uniformly distributed between 0 and 2π",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": "[0, 2π] for initial parameters"
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Canonical valid portfolios are indexed by a classical bijection; QWOA mixes only over the non-degenerate valid subspace",
+        "objective_function": "c(z) = λ Σ_{i,j=1}^n σ_{ij} z_i z_j - (1-λ) Σ_{i=1}^n r_i z_i",
+        "constraints_handling": "Strict feasibility via indexing to the valid non-degenerate subspace; no penalty term",
+        "num_binary_variables": 16,
+        "problem_hamiltonian": "C|z⟩ = c(z)|z⟩",
+        "num_ancilla_qubits": "O(log n) ancilla for indexing; O(log M(n,A)) index register and O(n) output register"
+      },
+      "problem_instance": {
+        "description": "Discrete mean-variance Markowitz portfolio optimisation with 8 assets and net position constraint A=4",
+        "num_assets": 8,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "real_market",
+        "dataset_name": "Data Set A and Data Set B",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "AMP",
+            "ANZ",
+            "AMC",
+            "BHP",
+            "BXB",
+            "CBA",
+            "CSL",
+            "IAG"
+          ],
+          "date_range": "2017-01-01 to 2018-12-31; 2020-03-24 to 2020-09-06",
+          "benchmark_name": "ASX.20 index",
+          "preprocessing": "Adjusted close prices used"
+        },
+        "data_preprocessing_details": "Daily adjusted close prices from Yahoo Finance; adjusted close used to account for corporate actions such as dividends",
+        "evaluation_methodology": "15 repeats per algorithm using the same set of randomly generated initial parameters; BFGS used for classical parameter optimisation; results reported as mean and standard deviation across repeats",
+        "dataset_specification.ticker_symbols": {
+          "Data_Set_A": [
+            "AMP",
+            "ANZ",
+            "AMC",
+            "BHP",
+            "BXB",
+            "CBA",
+            "CSL",
+            "IAG"
+          ],
+          "Data_Set_B": [
+            "FLT",
+            "QAN",
+            "WEB",
+            "REX",
+            "AIZ",
+            "SYD",
+            "SCG",
+            "CTD"
+          ]
+        }
+      },
+      "quantum_resources": {
+        "num_qubits": 8,
+        "qubit_type": "logical",
+        "circuit_depth": 2,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 2,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "QuOP MPI",
+        "framework_version": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "BFGS; brute-force classical iteration used to obtain the global optimum for comparison",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Historical price data selected from Yahoo Finance; objective and covariance estimated from data",
+        "classical_postprocessing": "Expectation values of return and risk computed from output state probabilities",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "Improves rapidly with p and outperforms QAOA/QAOAz; reaches near-optimal solutions at low p",
+          "variance_across_runs": 0.011,
+          "num_independent_runs": 15
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_assets",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": 15,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "expected_return",
+          "value": 490,
+          "uncertainty": null,
+          "num_runs": 15,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "expected_return",
+          "value": 542,
+          "uncertainty": null,
+          "num_runs": 15,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "expected_return",
+          "value": 0.011,
+          "uncertainty": null,
+          "num_runs": 15,
+          "unit": "standard deviation",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "expected_return",
+          "value": 0.115,
+          "uncertainty": null,
+          "num_runs": 15,
+          "unit": "standard deviation",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "ground_state_probability",
+          "value": 40,
+          "uncertainty": null,
+          "num_runs": 15,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "ground_state_probability",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": 15,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "expected_return",
+          "value": 0.318,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "objective value",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "expected_return",
+          "value": 0.305,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "objective value",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical brute-force optimum",
+          "metric_name": "expected_return",
+          "value": -0.318,
+          "unit": "objective value"
+        },
+        {
+          "method_name": "classical brute-force optimum",
+          "metric_name": "expected_return",
+          "value": -0.305,
+          "unit": "objective value"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "O(n^2) mixing circuit complexity per iteration",
+          "baseline_method": "QAOA/QAOAz O(n) per iteration",
+          "conditions": "asymptotic comparison for the QWOA mixer and indexing procedure",
+          "is_demonstrated": false,
+          "caveats": "The paper claims the reduced search space and improved convergence outweigh the polynomial overhead, but no formal speedup proof is provided."
+        },
+        {
+          "type": "empirical",
+          "factor": "QWOA converges to near-optimal solutions at low p and outperforms QAOA/QAOAz on both datasets",
+          "baseline_method": "QAOA and QAOAz",
+          "conditions": "for p up to 19 on the two 8-asset datasets",
+          "is_demonstrated": true,
+          "caveats": "Performance is shown in simulation only; no wall-clock runtime or shot-count comparison is reported."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 8,
+          "num_qubits": null,
+          "metric_name": "search_space",
+          "metric_value": 66
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(n^2) mixing circuit complexity per iteration; indexing and walk simulation dominate",
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not analyzed",
+        "resources_for_advantage": "Simulation of 16-qubit circuits implementing QWOA with O(n^2) mixer complexity and p≤19 layers",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Only 8-asset toy problem",
+          "No classical heuristic baseline (only brute-force optimum for reference)",
+          "Algorithmic advantage based on reduced search subspace rather than asymptotic complexity improvement",
+          "No resource estimate for fault-tolerant execution",
+          "Noisy hardware performance not evaluated"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware is not a physical QPU; experiments are numerical simulations using QuOP MPI.",
+          "Total qubits are not explicitly stated; inferred from O(log M(n,A)) index register plus O(n) output register and the example n=8, A=4 where M=66 implies 7 index qubits.",
+          "Circuit depth is reported parametrically as O(n^2) per iteration.",
+          "Authors claim QWOA provides 'substantially better performance' than QAOA and QAOAz (Abstract, Conclusion).",
+          "However results only show improvement over other quantum heuristics in simulation."
+        ],
+        "advantage_status": "paper_reported"
+      }
+    }
+  ]
+}

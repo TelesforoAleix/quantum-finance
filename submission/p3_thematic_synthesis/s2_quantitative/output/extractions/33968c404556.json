@@ -1,0 +1,561 @@
+{
+  "paper_id": "33968c404556",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:28:31+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "33968c404556_circuit_design_based_on_feature_similarity_for_quantum_generative_modeling.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.85,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 7,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='images' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='loss' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='loss' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='loss' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='loss' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[3].unit='loss' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[4].unit='loss' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.85,
+      "completeness": 0.85,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.85,
+        0.85
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Circuit Design based on Feature Similarity for Quantum Generative Modeling",
+    "authors": [
+      "Mathis Makarski",
+      "Jumpei Kato",
+      "Yuki Sato",
+      "Naoki Yamamoto"
+    ],
+    "year": 2025,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper studies a Quantum Circuit Born Machine (QCBM) with tensor‑network (MPS) pretraining and a metric‑based circuit extension heuristic. Experiments use noiseless Qiskit Aer simulations with 9 qubits on the 3×3 Bars‑and‑Stripes dataset (1000 iterations, 1000 shots) and 12 qubits for Japanese government bond interest‑rate data (4932 training samples). The proposed metric‑based circuit connectivity outperforms random circuit extensions with the same number of parameters in terms of MMD loss but does not demonstrate quantum advantage.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Bars and Stripes (3x3) quantum generative modeling with a pretrained linear MPS-derived circuit extended by different connectivity patterns: linear baseline, nearest-neighbor, metric-based, random, and all-to-all; evaluated by MMD loss on train/test sets.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "Quantum Circuit Born Machine with tensor-network pretraining and metric-based circuit extension",
+        "ansatz": "MPS-decomposed shallow PQC extended with SU(4) two-qubit gates",
+        "optimizer": "SGD with Adam meta-optimizer",
+        "num_layers": null,
+        "convergence_criteria": "1000 training iterations",
+        "hyperparameters": {
+          "dataset": "Bars and Stripes 3x3",
+          "qubits": 9,
+          "shots_per_iteration": 1000,
+          "iterations": 1000,
+          "train_test_split": "80/20",
+          "kernel_bandwidth_sigma": 1.0,
+          "MPS_truncation_cutoff": 5e-05,
+          "MPS_training_iterations": 10,
+          "MPS_learning_rate": 0.05,
+          "realized_max_bond_dimension": 5,
+          "extension_gate_type": "SU(4)",
+          "SU4_parameters_per_gate": 15,
+          "metric_threshold": 0.5,
+          "random_runs": 5,
+          "moving_average_window": 50
+        },
+        "parameter_initialization": "MPS pretrained classically; extension gates initialized near-identity with random normal parameters mean 0.0, variance 0.01",
+        "optimizer_settings": {
+          "learning_rate": 0.05,
+          "max_iterations": 1000,
+          "meta_optimizer": "Adam",
+          "gradient_method": "parameter-shift"
+        },
+        "hyperparameters.MPS_learning_rate": 0.05
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "9 binary pixels mapped to 9 qubits in row-major order",
+        "objective_function": "Minimize maximum mean discrepancy (MMD) between model distribution q_theta and target BAS distribution p",
+        "constraints_handling": null,
+        "num_binary_variables": 9,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "3x3 Bars and Stripes dataset with 14 valid binary images appearing with equal probability",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 9,
+        "dataset_size": 14,
+        "data_type": "public_benchmark",
+        "dataset_name": "Bars and Stripes (BAS)",
+        "dataset_specification": {
+          "description": "3x3 binary images; 14 distinct valid images out of 2^9 possible configurations; 80/20 train-test split (11 train, 3 test)"
+        },
+        "data_preprocessing_details": "Binary image dataset; qubits assigned in row-major order; features 3 and 5 swapped for the initial linear connectivity guess to avoid diagonal connections",
+        "evaluation_methodology": "5 independent training runs per connectivity; MMD evaluated on train and test sets after each iteration; mean and standard deviation reported"
+      },
+      "quantum_resources": {
+        "num_qubits": 9,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 1000,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "IBM",
+        "device_name": "Aer simulator",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "DMRG-like MPS pretraining; SGD/Adam optimization",
+        "transpilation_settings": null,
+        "classical_preprocessing": "MPS pretraining with tensor-network decomposition to shallow circuit; similarity metric computed from training data",
+        "classical_postprocessing": "MMD loss evaluation on train/test sets; moving average smoothing for plots",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 1000,
+          "final_loss_value": null,
+          "loss_curve_shape": "metric-based extension outperforms random and linear; all-to-all best on train but overfits on test",
+          "variance_across_runs": 5.0,
+          "num_independent_runs": 5
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "dataset_size",
+          "value": 14,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "images",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 1000,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "mmd",
+          "value": 0.0025,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "loss",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "mmd",
+          "value": 0.0225,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "loss",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "mmd",
+          "value": 0.4,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "loss",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "mmd",
+          "value": 0.435,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "loss",
+          "higher_is_better": false,
+          "data_source": "figure"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No quantum speedup or runtime comparison against a classical baseline is reported; results are empirical loss comparisons between circuit topologies."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 9,
+          "num_qubits": 9,
+          "metric_name": "mmd",
+          "metric_value": 0.0025
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Not discussed; experiments limited to 9‑qubit statevector simulation on a toy BAS dataset.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Only noiseless statevector simulation",
+          "Very small system size (9 qubits)",
+          "Toy benchmark dataset (BAS 3x3)",
+          "No comparison to classical generative models",
+          "No complexity or scaling analysis"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": null,
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as statevector simulator from explicit mention of IBM Qiskit Aer simulator.",
+          "Circuit depth not explicitly reported; only connectivity/number of extension gates are given, so depth is null.",
+          "No asymptotic speedup analysis is provided; only empirical performance comparisons on small datasets.",
+          "The authors do not claim quantum advantage; they explicitly state the goal is improving trainability and inductive bias in QCBMs.",
+          "Experiments only compare circuit connectivity variants within the same quantum model."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Japanese government bond (JGB) interest-rate generative modeling with a pretrained linear MPS-derived circuit extended by metric-based connectivity using variation of information; evaluated by MMD loss on train data (test set discussed qualitatively).",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "Quantum Circuit Born Machine with tensor-network pretraining and metric-based circuit extension",
+        "ansatz": "MPS-decomposed shallow PQC extended with SU(4) two-qubit gates",
+        "optimizer": "SGD with Adam meta-optimizer",
+        "num_layers": null,
+        "convergence_criteria": "1000 training iterations",
+        "hyperparameters": {
+          "features": 3,
+          "qubits": 12,
+          "bits_per_feature": 4,
+          "shots_per_iteration": 1000,
+          "iterations": 1000,
+          "train_test_split": "80/20",
+          "kernel_bandwidth_sigma": 3,
+          "MPS_truncation_cutoff": 5e-05,
+          "MPS_training_iterations": 10,
+          "MPS_learning_rate": 0.05,
+          "realized_max_bond_dimension": 25,
+          "extension_gate_type": "SU(4)",
+          "SU4_parameters_per_gate": 15,
+          "metric_threshold": 0.95,
+          "new_connections": 13,
+          "total_connections": 21,
+          "random_runs": 5,
+          "moving_average_window": 50,
+          "mini_batch_size_for_gradient": 1000
+        },
+        "parameter_initialization": "MPS pretrained classically; extension gates initialized near-identity with random normal parameters mean 0.0, variance 0.01",
+        "optimizer_settings": {
+          "learning_rate": 0.05,
+          "max_iterations": 1000,
+          "meta_optimizer": "Adam",
+          "gradient_method": "parameter-shift",
+          "mini_batch_size": 1000
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "3 time-series features quantized to 4-bit binary resolution each, mapped to 12 qubits total",
+        "objective_function": "Minimize maximum mean discrepancy (MMD) between model distribution q_theta and target JGB distribution p",
+        "constraints_handling": null,
+        "num_binary_variables": 12,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Daily Japanese government bond interest rates for 5-year, 10-year, and 20-year maturities; differenced and uniformly quantized to binary format",
+        "num_assets": 3,
+        "time_steps": null,
+        "num_features": 3,
+        "dataset_size": 6165,
+        "data_type": "public_benchmark",
+        "dataset_name": "Japanese government bond (JGB) interest rates",
+        "dataset_specification": {
+          "description": "Daily quotes from 2000-01-04 to 2025-02-28; 5-year, 10-year, 20-year rates; 80/20 train-test split (4932 train, 1233 test)"
+        },
+        "data_preprocessing_details": "Difference time series as D_t = S_t - S_{t-1} to ensure stationarity; uniform quantization of decimal values to 4-bit binary resolution per feature using min-max scaling; bits grouped as {0,1,2,3} for 5-year, {4,5,6,7} for 10-year, {8,9,10,11} for 20-year",
+        "evaluation_methodology": "5 independent training runs per extension method; MMD evaluated after each iteration on train set; test-set separation discussed qualitatively"
+      },
+      "quantum_resources": {
+        "num_qubits": 12,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 1000,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "IBM",
+        "device_name": "Aer simulator",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "DMRG-like MPS pretraining; SGD/Adam optimization",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Differencing of interest-rate series; min-max uniform quantization to 4-bit binary strings; similarity metric computed using standardized variation of information",
+        "classical_postprocessing": "MMD loss evaluation on train set; test-set comparison discussed qualitatively; moving average smoothing for plots",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 1000,
+          "final_loss_value": null,
+          "loss_curve_shape": "metric-based extension outperforms linear baseline and random extension on train set; test-set separation less clear",
+          "variance_across_runs": 5.0,
+          "num_independent_runs": 5
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "dataset_size",
+          "value": 6165,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 12,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 1000,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "mmd",
+          "value": 0.001,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "loss",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "mmd",
+          "value": 0.005,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "loss",
+          "higher_is_better": false,
+          "data_source": "figure"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No classical baseline or asymptotic/empirical speedup is reported; the paper only compares circuit extensions (linear, random, metric-based) on MMD loss."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 3,
+          "num_qubits": 12,
+          "metric_name": "mmd",
+          "metric_value": 0.001
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Not analyzed; experiment uses a 12‑qubit simulated PQC for generative modeling of discretized financial time‑series.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Statevector simulation only",
+          "Small circuit size (12 qubits)",
+          "No comparison against classical generative models used in finance",
+          "No complexity or runtime analysis",
+          "Quantum component is only the PQC sampling step within a hybrid workflow"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": null,
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as statevector simulator from explicit mention of IBM Qiskit Aer Simulator.",
+          "Circuit depth not explicitly reported; only number of added connections/gates is given, so depth is null.",
+          "No asymptotic speedup analysis is provided; only empirical training-loss comparisons.",
+          "The paper evaluates only relative performance between circuit extension strategies (linear, random, metric-based).",
+          "No classical ML baseline or advantage claim is made."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

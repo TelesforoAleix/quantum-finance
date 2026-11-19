@@ -1,0 +1,594 @@
+{
+  "paper_id": "4244a7279692",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:34:34+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "4244a7279692_scheduling_process_of_quantum_circuits_to_optimize_tasks_execution_on_quantum_co.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.617,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 2,
+    "validation_warnings": 12,
+    "validation_passed": false,
+    "validation_error_details": [
+      "Schema error at experiments.0.hardware.provider: ['IBM Quantum', 'Amazon Braket'] is not of type 'string', 'null'",
+      "Schema error at experiments.1.hardware.provider: ['IBM Quantum', 'Amazon Braket'] is not of type 'string', 'null'"
+    ],
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='seconds (average individual executions)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='seconds (scheduled execution average)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='% (Amazon Braket average reduction)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='USD (individual executions, Amazon Braket)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='USD (scheduled executions, Amazon Braket)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='% (IBM Quantum average reduction)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='USD (individual executions, IBM Quantum)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='USD (scheduled executions, IBM Quantum)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='% (close to 100% of QPUs)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[0].unit='distance (maximum reported; values do not exceed 0.4)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[1].unit='% (general percentage difference between scheduled and individual executions)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[2].unit='qualitative' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.617,
+      "completeness": 0.617,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.65,
+        0.583
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Scheduling process of quantum circuits to optimize tasks execution on quantum computers",
+    "authors": [
+      "Javier Romero-Alvarez",
+      "Jaime Alvarado-Valiente",
+      "Jorge Casco-Seco",
+      "Enrique Moguel",
+      "Jose Garcia-Alonso",
+      "Juan M. Murillo"
+    ],
+    "year": 2024,
+    "doi": "10.1109/QCE60285.2024.10275",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "other",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a quantum circuit scheduler that batches multiple user circuits into a single execution on cloud QPUs (IBM Eagle/Heron and Amazon Braket IQM Garnet). Using 10 benchmark algorithms, scheduled execution reduced average runtime from 80 s (individual runs) to 20 s and lowered execution cost from $44.40 to $11.10 on Braket (~75%) and from $363.08 to $23.27 on IBM (~93.53%), while maintaining similar output distributions (≈7% Wasserstein distance on average).",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Circuit scheduling experiment combining multiple gate-based quantum circuits into a single execution on IBM Quantum and Amazon Braket, evaluated on several benchmark algorithms and compared against individual executions.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Quantum circuit scheduling / circuit unification for multiple user circuits",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "algorithms_tested": [
+            "Berstein-Vazirani",
+            "Deutsch-Jozsa",
+            "Full Adder",
+            "Grover",
+            "Kickback",
+            "Phase Estimation",
+            "Quantum Walk",
+            "Shor",
+            "Simon",
+            "Travelling Salesman Problem (TSP)"
+          ],
+          "providers": [
+            "IBM Quantum",
+            "Amazon Braket"
+          ],
+          "QPU_targets": [
+            "IQM Garnet",
+            "IBM Eagle",
+            "IBM Heron r1",
+            "IBM Heron r2"
+          ],
+          "shot_configurations": "different shot configurations"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": null,
+        "encoding_details": "Multiple independent circuits are mapped to disjoint qubit subsets within a single scheduled circuit; e.g., a 3-qubit circuit assigned qubits 0-2 and a 4-qubit circuit assigned qubits 3-6.",
+        "objective_function": "Minimize queue waiting time and execution cost by combining multiple circuits into one execution while preserving individual circuit outputs.",
+        "constraints_handling": "Disjoint qubit allocation; circuits are scheduled FIFO within a cycle until available qubits are filled; results are unscheduled by splitting measured bitstrings back into per-circuit outputs.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Public benchmark quantum circuits from Zenodo used to validate scheduling across providers.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 10,
+        "data_type": "public_benchmark",
+        "dataset_name": "Zenodo public repository (doi:10.5281/zenodo.11633677)",
+        "dataset_specification": {
+          "description": "Circuit implementations for Berstein-Vazirani, Deutsch-Jozsa, Full Adder, Grover, Kickback, Phase Estimation, Quantum Walk, Shor, Simon, and TSP"
+        },
+        "data_preprocessing_details": "Circuits are adapted to provider connectivity and gate sets during transpilation; scheduled circuits are assigned to specific qubit ranges before execution.",
+        "evaluation_methodology": "Comparison of scheduled vs individual executions on IBM Quantum and Amazon Braket; noise impact assessed using Wasserstein distance between output probability distributions."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "physical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_superconducting",
+        "provider": [
+          "IBM Quantum",
+          "Amazon Braket"
+        ],
+        "device_name": "Eagle, Heron r1, Heron r2",
+        "framework": "Qiskit, Braket",
+        "framework_version": null,
+        "transpilation_target": "Provider-specific connectivity and gate sets; circuits transpiled before execution",
+        "classical_solver": null
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "hardware noise, decoherence, gate errors",
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://zenodo.org/doi/10.5281/zenodo.11633677",
+        "transpilation_settings": null,
+        "classical_preprocessing": null,
+        "classical_postprocessing": "Unscheduling: split combined measurement results into per-circuit outputs and store with unique identifiers.",
+        "total_execution_time": "Average individual executions: 80 s; scheduled execution: 20 s",
+        "quantum_execution_time": "Scheduled circuit execution time close to the deepest circuit time",
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": null,
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "execution_time",
+          "value": 80,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds (average individual executions)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "execution_time",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds (scheduled execution average)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "execution_cost_reduction",
+          "value": 75,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "% (Amazon Braket average reduction)",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "execution_cost",
+          "value": 44.4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "USD (individual executions, Amazon Braket)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "execution_cost",
+          "value": 11.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "USD (scheduled executions, Amazon Braket)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "execution_cost_reduction",
+          "value": 93.53,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "% (IBM Quantum average reduction)",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "execution_cost",
+          "value": 363.08,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "USD (individual executions, IBM Quantum)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "execution_cost",
+          "value": 23.27,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "USD (scheduled executions, IBM Quantum)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "qubit_utilization",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "% (close to 100% of QPUs)",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "4x",
+          "baseline_method": "individual circuit executions",
+          "conditions": "Average wall-clock execution time reduced from 80 s to 20 s using circuit scheduling",
+          "is_demonstrated": true,
+          "caveats": "This is a practical runtime reduction, not an asymptotic complexity result."
+        },
+        {
+          "type": "empirical",
+          "factor": "75% cost reduction",
+          "baseline_method": "individual circuit executions on Amazon Braket",
+          "conditions": "Average across the tested benchmark circuits",
+          "is_demonstrated": true,
+          "caveats": "Reported as average reduction in execution cost, not a theoretical speedup."
+        },
+        {
+          "type": "empirical",
+          "factor": "93.53% cost reduction",
+          "baseline_method": "individual circuit executions on IBM Quantum",
+          "conditions": "Average across the tested benchmark circuits",
+          "is_demonstrated": true,
+          "caveats": "Reported as average reduction in execution cost, not a theoretical speedup."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 10.0,
+          "num_qubits": null,
+          "metric_name": "dataset_size",
+          "metric_value": 10.0
+        },
+        {
+          "problem_size": 20.0,
+          "num_qubits": 20,
+          "metric_name": "qpu_capacity",
+          "metric_value": null
+        },
+        {
+          "problem_size": 127.0,
+          "num_qubits": 127,
+          "metric_name": "qpu_capacity",
+          "metric_value": null
+        },
+        {
+          "problem_size": 133.0,
+          "num_qubits": 133,
+          "metric_name": "qpu_capacity",
+          "metric_value": 1.0
+        },
+        {
+          "problem_size": 156.0,
+          "num_qubits": 156,
+          "metric_name": "qpu_capacity",
+          "metric_value": 2.0
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": "20 s scheduled execution (average)",
+        "wall_clock_classical": "80 s individual executions (average)"
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L4_qpu_scale",
+        "crossover_size": null,
+        "resources_for_advantage": "Not applicable; the work evaluates scheduling efficiency rather than algorithmic speedup.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "current_nisq",
+        "limiting_factors": [
+          "No comparison with classical scheduling frameworks for quantum workloads",
+          "Performance gains measured only as cost and queue-time reduction, not computational advantage",
+          "Results depend on cloud-provider pricing and queue structure rather than algorithmic complexity",
+          "Noise effects remain hardware dependent"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware type is reported as IBM Quantum and Amazon Braket QPUs; specific IBM devices are superconducting. The paper does not report exact qubit counts for each experiment in a single consolidated value, only device capacities (20, 127, 133, 156 qubits) and that circuits are assigned to available qubits.",
+          "Circuit depth is not numerically reported; only transpilation and 'deepest circuit' are mentioned.",
+          "Speedup order is inferred as none_proven because the paper reports practical cost/time reduction but no asymptotic complexity claim.",
+          "The paper does not claim quantum advantage; it proposes a scheduling system to combine multiple circuits in one job.",
+          "Reported improvements (execution time 80 s → 20 s and cost reductions of 75% on Braket and 93.53% on IBM) arise from batching circuits, not from a faster quantum algorithm."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Noise-impact validation of the same scheduled-vs-individual circuit executions using Wasserstein distance on output distributions across IBM Quantum and Amazon Braket.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Noise validation for scheduled quantum circuit execution",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "distance_metric": "Wasserstein distance",
+          "algorithms_compared": [
+            "Berstein-Vazirani",
+            "Deutsch-Jozsa",
+            "Full Adder",
+            "Grover",
+            "Kickback",
+            "Phase Estimation",
+            "Quantum Walk",
+            "Shor",
+            "Simon",
+            "TSP"
+          ],
+          "providers": [
+            "IBM Quantum",
+            "Amazon Braket"
+          ]
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": null,
+        "encoding_details": "Same scheduled-circuit qubit partitioning as the main experiment; outputs compared between scheduled and individual runs.",
+        "objective_function": "Quantify similarity between probability distributions from scheduled and individually executed circuits.",
+        "constraints_handling": "None beyond scheduled circuit partitioning and result unscheduling.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Same benchmark circuit set as the scheduling experiment, evaluated for noise sensitivity.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "public_benchmark",
+        "dataset_name": "Zenodo public repository (doi:10.5281/zenodo.11633677)",
+        "dataset_specification": {
+          "description": "Scheduled and individual executions of benchmark circuits; repeated algorithms appear in multiple scheduling compositions"
+        },
+        "data_preprocessing_details": "Probability distributions extracted from execution results and compared using Wasserstein distance.",
+        "evaluation_methodology": "Statistical comparison of scheduled vs individual executions; reported distances per algorithm and provider."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "physical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_superconducting",
+        "provider": [
+          "IBM Quantum",
+          "Amazon Braket"
+        ],
+        "device_name": "Eagle, Heron r1, Heron r2, IQM Garnet",
+        "framework": "Qiskit, Braket",
+        "framework_version": null,
+        "transpilation_target": "Provider-specific connectivity and gate sets",
+        "classical_solver": null
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "hardware noise and decoherence",
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://zenodo.org/doi/10.5281/zenodo.11633677",
+        "transpilation_settings": null,
+        "classical_preprocessing": null,
+        "classical_postprocessing": "Compute Wasserstein distances between scheduled and individual output distributions.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "variance_across_runs": 7.0,
+          "num_independent_runs": null,
+          "iterations_to_converge": null,
+          "final_loss_value": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "wasserstein_distance",
+          "value": 0.4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "distance (maximum reported; values do not exceed 0.4)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "distribution_difference",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "% (general percentage difference between scheduled and individual executions)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "noise_impact",
+          "value": "practically zero",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qualitative",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "This experiment is a noise/similarity validation only; no speedup claim is made."
+        }
+      ],
+      "scalability_data": [],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L4_qpu_scale",
+        "crossover_size": null,
+        "resources_for_advantage": "Not applicable; experiment measures statistical similarity between scheduled and standalone circuit executions.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "current_nisq",
+        "limiting_factors": [
+          "No classical algorithm comparison",
+          "Noise impact analysis limited to Wasserstein distance without full error characterization",
+          "Evaluation limited to a small benchmark set of 10 circuits"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "This is a validation experiment on the same gate-based scheduled circuits; no separate qubit count or depth is numerically reported for the noise study.",
+          "Speedup order is not claimed; the paper only reports practical similarity under noise.",
+          "The experiment evaluates noise effects of scheduling using Wasserstein distance between output distributions.",
+          "This is a validation of correctness under noise, not a performance comparison with classical computation."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

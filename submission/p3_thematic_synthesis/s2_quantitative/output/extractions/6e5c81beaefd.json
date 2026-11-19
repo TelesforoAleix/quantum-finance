@@ -1,0 +1,399 @@
+{
+  "paper_id": "6e5c81beaefd",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:57:08+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "6e5c81beaefd_classification_of_financial_data_using_quantum_support_vector_machine.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.95,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 1,
+    "validation_warnings": 3,
+    "validation_passed": false,
+    "validation_error_details": [
+      "Schema error at experiments.0.quantum_resources.two_qubit_gate_count: '(2 × F − 2) × R' is not of type 'integer', 'null'"
+    ],
+    "validation_warning_details": [
+      "experiments[0].results[4].unit='features' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='features' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='depth' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.95,
+      "completeness": 0.95,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.95
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Classification of Financial Data Using Quantum Support Vector Machine",
+    "authors": [
+      "Seemanta Bhattacharjee",
+      "MD. Muhtasim Fuad",
+      "A.K.M. Fakhrul Hossain"
+    ],
+    "year": 2024,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper evaluates a quantum support vector machine using quantum feature-map kernels on a curated Dhaka Stock Exchange dataset of 460 total points, running experiments on subsets of 200–400 samples with 5–7 features (thus 5–7 qubits) and up to 1024 shots. The Pauli YYY feature-map kernel reportedly outperforms a classical RBF SVM in balanced accuracy and F1 score across tested configurations, and experiments were run on Qiskit simulators and the 7‑qubit IBM Nairobi device.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum support vector machine classification of Dhaka Stock Exchange Broad Index financial data using several quantum feature-map kernels, compared against classical SVM baselines, evaluated on small subsets of 200-400 samples with 5-7 features on IBM Quantum simulators and IBM hardware.",
+      "algorithm": {
+        "family": "quantum-svm",
+        "variant": "QSVM with quantum feature maps (Pauli Y YY, Pauli Z, Pauli ZZ, Pauli Y ZZ, Pauli Z ZZ)",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "feature_maps": [
+            "Pauli Y YY",
+            "Pauli Z",
+            "Pauli ZZ",
+            "Pauli Y ZZ",
+            "Pauli Z ZZ"
+          ],
+          "dataset_sizes": [
+            200,
+            400
+          ],
+          "num_features": [
+            5,
+            7
+          ],
+          "shots_max": 1024,
+          "random_seed": "single random value used for consistency"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Classical features are encoded into parameterized quantum feature-map circuits; the paper shows a Pauli Y YY circuit with Hadamard layers, Rx rotations, phase gates P(2.0*x[i]), and entangling terms P(2.0*(pi-x[0])*(pi-x[1])) for a 4-feature example.",
+        "objective_function": "Binary classification of daily changes in the Dhaka Stock Exchange Broad Index using kernel-based SVM classification.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Binary classification of daily changes in the Dhaka Stock Exchange Broad Index, with gold price features merged into the dataset.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 5,
+        "dataset_size": 200,
+        "data_type": "real_market",
+        "dataset_name": "DSEx Broad Index dataset",
+        "dataset_specification": {
+          "ticker_symbols": null,
+          "date_range": null,
+          "benchmark_name": "Dhaka Stock Exchange Broad Index",
+          "preprocessing": "Merged historical DSEx index data from Investing.com with decade-long gold price data from usagold.com; exploratory data analysis performed; small random subsets selected for train/test.",
+          "train_test_split": null
+        },
+        "data_preprocessing_details": "Historical DSEx Broad Index data and gold prices were merged into a unified dataset; random subsets were selected for experiments; no noise model used on simulator.",
+        "evaluation_methodology": "Experiments run across varying dataset sizes and feature counts; balanced accuracy and F1 score reported; 200 separate classical SVM experiments used to characterize variability for one configuration; results compared across classical and quantum methods."
+      },
+      "quantum_resources": {
+        "num_qubits": 5,
+        "qubit_type": "not_specified",
+        "circuit_depth": 5,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": 11,
+        "cnot_count": 2,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 1024,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": "IBM",
+        "device_name": "ibm nairobi",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": null,
+        "noise_type": "no noise model on qasm simulator",
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "scikit-learn SVM with radial basis function kernel; precomputed kernel option used for QSVM training",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Kernel matrix computed from quantum feature maps; SVM trained using precomputed kernel in scikit-learn; one random seed used for consistency.",
+        "classical_postprocessing": "Balanced accuracy and F1 score computed; average performance and PTRI surfaces analyzed.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": 200.0,
+          "num_independent_runs": 200
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "balanced_accuracy",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 300,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 460,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_features",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "features",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_features",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "features",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots",
+          "value": 1024,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "standard_deviation",
+          "value": 2.1,
+          "uncertainty": null,
+          "num_runs": 200,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "qubits",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "qubits",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "depth",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "total_gates",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical_svm",
+          "metric_name": "balanced_accuracy",
+          "value": null,
+          "unit": "%"
+        },
+        {
+          "method_name": "classical_svm",
+          "metric_name": "f1_score",
+          "value": null,
+          "unit": "%"
+        },
+        {
+          "method_name": "classical_svm",
+          "metric_name": "standard_deviation",
+          "value": 2.1,
+          "unit": "%"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "empirical quantum advantage (EQA)",
+          "baseline_method": "classical SVM",
+          "conditions": "binary classification of DSEx Broad Index data on small subsets (200-400 samples) with 5-7 features; especially where classical SVM performance is closest to mean, minimum, or maximum performance",
+          "is_demonstrated": true,
+          "caveats": "The paper reports superiority in balanced accuracy for the Pauli Y YY feature map, but does not provide exact numeric accuracy values in the text excerpt. No asymptotic speedup is proven."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 200,
+          "num_qubits": 5,
+          "metric_name": "balanced_accuracy",
+          "metric_value": null
+        },
+        {
+          "problem_size": 400,
+          "num_qubits": 7,
+          "metric_name": "balanced_accuracy",
+          "metric_value": null
+        },
+        {
+          "problem_size": 200,
+          "num_qubits": 5,
+          "metric_name": "f1_score",
+          "metric_value": null
+        },
+        {
+          "problem_size": 400,
+          "num_qubits": 7,
+          "metric_name": "f1_score",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": null,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "not analyzed; experiments use only 5–7 qubits and datasets of 200–400 samples",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Very small datasets (200–400 samples)",
+          "Very small circuits (5–7 qubits)",
+          "No rigorous complexity or runtime comparison",
+          "Kernel advantage measured only as empirical accuracy differences",
+          "No demonstration that classical kernels were fully optimized",
+          "Quantum kernel evaluation cost grows quadratically with dataset size"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware type inferred as simulator_other because the paper explicitly states Qiskit and IBM Quantum simulators were used, and also mentions actual IBM Quantum hardware; the exact device execution split is not fully specified for each result.",
+          "num_qubits inferred from the number of features used in the feature map; the paper states the required number of qubits matches the number of features.",
+          "Speedup order set to none_proven because the paper claims empirical quantum advantage but does not provide an asymptotic complexity separation.",
+          "The authors claim 'empirical quantum advantage (EQA)' based on higher balanced accuracy of the Pauli YYY feature-map kernel compared to classical SVM.",
+          "However, experiments are performed on very small datasets (200–400 samples) with 5–7 qubits and no asymptotic runtime comparison, which does not meet Hoefler-style criteria for demonstrated advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

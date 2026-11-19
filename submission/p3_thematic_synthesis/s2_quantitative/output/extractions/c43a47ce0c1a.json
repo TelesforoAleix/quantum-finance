@@ -1,0 +1,433 @@
+{
+  "paper_id": "c43a47ce0c1a",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:48:37+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "c43a47ce0c1a_fraud_detection_using_quantum_machine_learning_qml.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.65,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 4,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[10].unit='transactions' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='transactions' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='transactions' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='transactions' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.65,
+      "completeness": 0.65,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.65
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Fraud Detection using Quantum Machine Learning (QML)",
+    "authors": [
+      "Sahil Somaji Kamble",
+      "Suyog Sudhir Pawar",
+      "Tejas Babasaheb Veer",
+      "Digambar M. Padulkar"
+    ],
+    "year": 2024,
+    "doi": "10.1109/GCCIT63234.2024.10862508",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": [
+      "fraud-detection"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a hybrid quantum–classical fraud detection model using a 16‑qubit angle‑encoded Qiskit circuit combined with classical neural networks. Evaluated on the Credit Card Fraud Detection dataset (284,807 transactions), the model reports 0.92 overall accuracy with fraud-class precision 0.65 and recall 0.68, using simulated circuits with average depth ≈7.3. No explicit classical baseline results or runtime comparisons are provided.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Hybrid fraud-detection experiment using a classical neural network for dimensionality reduction, quantum angle encoding with Qiskit QuantumCircuit, and a quantum neural network/classical classifier pipeline evaluated on the Credit Card Fraud Detection dataset.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "Quantum Neural Network (QNN) with angle-encoded quantum feature representation and hybrid quantum-classical pipeline",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "encoding": "angle encoding",
+          "classical_hidden_layers": [
+            64,
+            32,
+            16,
+            10,
+            8,
+            4
+          ],
+          "activation": "ReLU",
+          "classifier_output": "sigmoid",
+          "class_imbalance_method": [
+            "SMOTE",
+            "RandomOverSampler"
+          ],
+          "hyperparameter_tuning": "GridSearchCV"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Reduced features from the second-to-last classical neural-network layer (16 neurons) are mapped to qubits using U3 angle encoding with theta_i = pi * h_i; Hadamard gates and CZ entanglement are then applied in the circuit.",
+        "objective_function": "Binary fraud classification on transaction records",
+        "constraints_handling": "Class imbalance handled with SMOTE and RandomOverSampler; no explicit quantum constraints",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Credit card fraud detection on transaction records",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 284807,
+        "data_type": "public_benchmark",
+        "dataset_name": "Credit Card Fraud Detection dataset",
+        "dataset_specification": {
+          "description": "284,807 transactions with 492 fraudulent transactions; highly imbalanced dataset"
+        },
+        "data_preprocessing_details": "Normalization with min-max scaling to [0,1]; categorical encoding for variables such as CODE_GENDER and FLAG_OWN_CAR; missing values handled with forward-fill and backward-fill; classical neural network used for dimensionality reduction; class imbalance handled with SMOTE/RandomOverSampler",
+        "evaluation_methodology": "Performance evaluated with accuracy, precision, recall, and F1-score; classification report shown for the test/evaluation set"
+      },
+      "quantum_resources": {
+        "num_qubits": 16,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "Qiskit",
+        "framework_version": null,
+        "transpilation_target": null
+      },
+      "noise_model": {
+        "is_noisy": null,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "classical_solver": "Classical neural network / CNN-style dense classifier; GridSearchCV; SMOTE; RandomOverSampler",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Min-max normalization, categorical encoding, missing-value imputation, dimensionality reduction via classical neural network",
+        "classical_postprocessing": "Binary classification from sigmoid output; metrics computed from classification report",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": null,
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "accuracy",
+          "value": 0.92,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.65,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.68,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.66,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.92,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.92,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.95,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.65,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.68,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.66,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 284807,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "transactions",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "fraudulent_transactions",
+          "value": 492,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "transactions",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "class_0_support",
+          "value": 141324,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "transactions",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "class_1_support",
+          "value": 12432,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "transactions",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "macro_avg_precision",
+          "value": 0.78,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "macro_avg_recall",
+          "value": 0.8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "macro_avg_f1_score",
+          "value": 0.79,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "weighted_avg_precision",
+          "value": 0.89,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "weighted_avg_recall",
+          "value": 0.9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "weighted_avg_f1_score",
+          "value": 0.91,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 7.3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The paper claims improved performance over traditional machine learning, but provides no explicit classical baseline values or asymptotic/empirical speedup analysis."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 284807,
+          "num_qubits": null,
+          "metric_name": "accuracy",
+          "metric_value": 0.92
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Not discussed; current implementation uses ~16 qubits with shallow circuits (average depth ≈7.3) in simulation and hybrid classical training.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "No classical baseline experiments reported for quantitative comparison",
+          "Algorithm evaluated only in simulation, not on QPU hardware",
+          "No complexity or scaling analysis demonstrating asymptotic speedup",
+          "Hybrid model dominated by classical neural network preprocessing and training",
+          "Feature-to-qubit angle encoding introduces linear data-loading overhead"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "No specific QPU or simulator is named; hardware.type left not_specified.",
+          "The paper reports use of Qiskit QuantumCircuit and a QNN but does not state the qubit count explicitly; num_qubits could not be reliably extracted.",
+          "Average circuit depth of the first 10 records is explicitly reported as 7.3.",
+          "The paper claims improved performance but does not provide an asymptotic speedup analysis.",
+          "The authors claim improved performance relative to traditional ML but provide no explicit classical baseline metrics or runtime comparisons.",
+          "Results are reported only as standalone QNN accuracy/precision/recall on the dataset, so quantum advantage cannot be evaluated."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

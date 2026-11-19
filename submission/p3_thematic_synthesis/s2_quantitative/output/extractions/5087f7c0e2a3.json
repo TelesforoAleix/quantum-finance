@@ -1,0 +1,513 @@
+{
+  "paper_id": "5087f7c0e2a3",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:41:17+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "5087f7c0e2a3_quantum_computing_for_supply_chain_finance.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.75,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 22,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='features' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='matches' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='matches' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='matches' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='matches per trial' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='matches per trial' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='matches per trial' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='variance' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='variance' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='variance' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='F' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='p-value' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='df' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='df' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[15].unit='sum of squares' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[16].unit='sum of squares' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[17].unit='companies selected' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[18].unit='companies selected' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[19].unit='q' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[20].unit='q' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[21].unit='q' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.75,
+      "completeness": 0.75,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.75
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum Computing for Supply Chain Finance",
+    "authors": [
+      "Paolo Grillini",
+      "Ritesh Sampat"
+    ],
+    "year": 2021,
+    "doi": "10.1109/SCC53864.2021.00066",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "portfolio-optimization",
+    "secondary_silos": [
+      "risk-management"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper evaluates VQE and QAOA for supply‑chain finance portfolio optimization over 10 companies with 20 financial features, selecting 6 assets under a risk parameter q∈[0,1]. On noiseless Qiskit simulators, the classical minimum‑eigenvalue solver achieved higher average accuracy (0.5667) than VQE (0.4467) and QAOA (0.4183), and ANOVA shows no statistically significant difference (F(2,15)=0.9649, p=0.403).",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Portfolio optimization for supply chain finance using a classical minimum-eigenvalue solver, VQE, and QAOA on IBM Qiskit simulators; evaluated by matching selected companies against an underwriter's manual selections across risk levels q=0.0 to 1.0.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "classical minimum-eigenvalue algorithm, VQE, and QAOA applied to mean-variance portfolio optimization",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "risk_parameter_q": "0.0 to 1.0 in steps of 0.1",
+          "selection_size": "6 out of 10 companies (main experiment)",
+          "alternative_selection_size": "1 out of 10 companies (scalability check)",
+          "budget_constraint": "number of selected companies equals budget B; all financing amounts assumed equal",
+          "penalty_term": "(1^T x - B)^2"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "hamiltonian-mapping",
+        "encoding_details": "Binary decision variable x_i indicates whether company i is selected for financing (x_i=1) or not (x_i=0); problem mapped from mean-variance portfolio optimization to a Hamiltonian via a penalty term enforcing the budget constraint.",
+        "objective_function": "min q x^T Σ x - μ^T x, with equality constraint 1^T x = B enforced via penalty term (1^T x - B)^2; q controls risk appetite.",
+        "constraints_handling": "Penalty term (1^T x - B)^2 scaled by a parameter and subtracted from the objective; budget constraint requires selecting exactly B companies.",
+        "num_binary_variables": 10,
+        "problem_hamiltonian": "Hamiltonian corresponding to the penalized mean-variance objective; exact operator form not explicitly given in the paper.",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Trade finance / supply chain finance portfolio selection over 10 companies from retail and steel sectors, geographically diversified.",
+        "num_assets": 10,
+        "time_steps": null,
+        "num_features": 20,
+        "dataset_size": 10,
+        "data_type": "proprietary",
+        "dataset_name": null,
+        "dataset_specification": {
+          "ticker_symbols": [
+            "WOW",
+            "WMT",
+            "TSCO",
+            "SHP",
+            "DMART",
+            "5401",
+            "JSWSTEEL",
+            "MT",
+            "NLMK",
+            "HPG.HM"
+          ],
+          "date_range": null,
+          "benchmark_name": null,
+          "preprocessing": "20 performance parameters collected from annual reports, quarterly filings, manual underwriting, and country risk evaluation; weighted and summed into a score.",
+          "train_test_split": null
+        },
+        "data_preprocessing_details": "Performance parameters were mapped to values between 0 and 100, weighted by relative importance, and summed in Microsoft Excel; covariance computed in Python/NumPy; interest rate used as equivalent return.",
+        "evaluation_methodology": "For each q in {0.0,0.1,...,1.0}, algorithm selections were compared to manual underwriter selections; accuracy score computed as number of matching selections. Additional analysis reduced selection count from 6 to 1 and reran experiments across all q values. One-way ANOVA used to compare distributions."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "noise_type": "noiseless simulation",
+        "is_noisy": false,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": "Qiskit 0.24.0 documentation referenced",
+        "transpilation_target": null,
+        "classical_solver": "Microsoft Excel, Python/NumPy, and IBM Qiskit classical optimizer interfaces",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Data extracted from Excel using Pandas; covariance computed with NumPy; weighted scores calculated in Excel.",
+        "classical_postprocessing": "Accuracy scores and ANOVA computed from selection matches; results summarized across q values.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_assets",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_features",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "features",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy_score",
+          "value": 3.4,
+          "uncertainty": null,
+          "num_runs": 6,
+          "unit": "matches",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy_score",
+          "value": 2.68,
+          "uncertainty": null,
+          "num_runs": 6,
+          "unit": "matches",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy_score",
+          "value": 2.51,
+          "uncertainty": null,
+          "num_runs": 6,
+          "unit": "matches",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy_score",
+          "value": 0.566667,
+          "uncertainty": null,
+          "num_runs": 6,
+          "unit": "matches per trial",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy_score",
+          "value": 0.446667,
+          "uncertainty": null,
+          "num_runs": 6,
+          "unit": "matches per trial",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy_score",
+          "value": 0.418333,
+          "uncertainty": null,
+          "num_runs": 6,
+          "unit": "matches per trial",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy_score_variance",
+          "value": 0.022947,
+          "uncertainty": null,
+          "num_runs": 6,
+          "unit": "variance",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy_score_variance",
+          "value": 0.029387,
+          "uncertainty": null,
+          "num_runs": 6,
+          "unit": "variance",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy_score_variance",
+          "value": 0.063337,
+          "uncertainty": null,
+          "num_runs": 6,
+          "unit": "variance",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "anova_f_statistic",
+          "value": 0.964958,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "F",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "anova_p_value",
+          "value": 0.403435,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "p-value",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "anova_df_between_groups",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "df",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "anova_df_within_groups",
+          "value": 15,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "df",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "anova_ss_between_groups",
+          "value": 0.074411,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "sum of squares",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "anova_ss_within_groups",
+          "value": 0.57835,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "sum of squares",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "selection_size",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "companies selected",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "selection_size",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "companies selected",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "risk_parameter_q",
+          "value": 0.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "q",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "risk_parameter_q",
+          "value": 0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "q",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "risk_parameter_q",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "q",
+          "higher_is_better": null,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical minimum-eigenvalue algorithm",
+          "metric_name": "accuracy_score",
+          "value": 3.4,
+          "unit": "matches"
+        },
+        {
+          "method_name": "manual underwriter",
+          "metric_name": "accuracy_score",
+          "value": null,
+          "unit": "matches"
+        },
+        {
+          "method_name": "classical minimum-eigenvalue algorithm",
+          "metric_name": "accuracy_score",
+          "value": 0.566667,
+          "unit": "matches per trial"
+        },
+        {
+          "method_name": "manual underwriter",
+          "metric_name": "accuracy_score",
+          "value": null,
+          "unit": "matches per trial"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": "no demonstrated speedup",
+          "baseline_method": "classical minimum-eigenvalue algorithm / manual underwriter comparison",
+          "conditions": "on IBM Qiskit simulators for 10 companies, 20 features, q from 0.0 to 1.0",
+          "is_demonstrated": true,
+          "caveats": "Paper reports no statistically significant difference between VQE/QAOA and the classical algorithm (ANOVA p=0.403435); no quantum advantage observed."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 4,
+          "num_qubits": null,
+          "metric_name": "selection_size",
+          "metric_value": 2
+        },
+        {
+          "problem_size": 10,
+          "num_qubits": null,
+          "metric_name": "selection_size",
+          "metric_value": 6
+        },
+        {
+          "problem_size": 25,
+          "num_qubits": null,
+          "metric_name": "selection_size",
+          "metric_value": 10
+        },
+        {
+          "problem_size": 10,
+          "num_qubits": null,
+          "metric_name": "selection_size",
+          "metric_value": 1
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "parity_with_classical",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Not specified; experiments executed only on noiseless IBM Qiskit simulators without hardware resource estimates.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Experiments performed only on noiseless simulators",
+          "Very small problem size (10 assets, 10 binary variables)",
+          "No circuit resource metrics reported (qubits, depth, shots)",
+          "No complexity analysis or asymptotic speedup claims",
+          "Classical minimum-eigenvalue solver achieves higher mean accuracy",
+          "Results compared to human underwriter heuristic rather than strong classical optimization benchmark"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_other because the paper states all experiments were executed on quantum simulators and no specific simulator backend or QPU device is named.",
+          "Num qubits not explicitly stated; inferred problem size is 10 binary variables from selecting among 10 companies, but actual circuit register size is not reported.",
+          "The paper explicitly states no statistically significant difference and no advantage seen from quantum algorithms, supporting speedup_order='none'.",
+          "The paper uses Qiskit tutorials and IBM Quantum network simulators; VQE and QAOA are the gate-based quantum experiments, while the classical minimum-eigenvalue algorithm is a baseline within the same experiment.",
+          "Discussion explicitly states there is no statistically significant difference between classical and quantum algorithms (ANOVA F(2,15)=0.96, p=0.40).",
+          "Table III shows classical average accuracy 0.5667 vs VQE 0.4467 and QAOA 0.4183, indicating classical performs slightly better.",
+          "Therefore parity or slight classical advantage is observed rather than quantum advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

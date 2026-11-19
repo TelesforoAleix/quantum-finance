@@ -1,0 +1,1303 @@
+{
+  "paper_id": "06fdf18c23c4",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:00:09+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "06fdf18c23c4_a_hybrid_quantum_classical_model_for_stock_price_prediction_using_quantum_enhanc.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.967,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 12,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[4].unit='observations' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[4].unit='observations' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[7].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[8].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[9].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[2].unit='observations' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[5].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[6].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[7].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.967,
+      "completeness": 0.967,
+      "num_experiments": 3,
+      "experiment_scores": [
+        0.95,
+        1.0,
+        0.95
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "A Hybrid Quantum-Classical Model for Stock Price Prediction Using Quantum-Enhanced Long Short-Term Memory",
+    "authors": [
+      "Kimleang Kea",
+      "Dongmin Kim",
+      "Chansreynich Huot",
+      "Tae-Kyung Kim",
+      "Youngsun Han"
+    ],
+    "year": 2024,
+    "doi": "10.3390/e26110954",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a hybrid QLSTM model where six variational quantum circuits replace LSTM gates. On an Apple stock dataset (251 samples), the noiseless simulator achieved RMSE 0.0602 and accuracy 0.9736 compared to classical LSTM RMSE 0.0693 and accuracy 0.8815, but on real IBM Nazca hardware performance dropped to RMSE 0.1401 and accuracy 0.7619, worse than the classical baseline.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Hybrid QLSTM stock price prediction for Apple Inc. using a variational quantum circuit embedded in an LSTM-like architecture, evaluated on noiseless IBM simulator, noisy IBM simulator, and IBM Nazca hardware.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Quantum-enhanced Long Short-Term Memory (QLSTM) with 6 variational quantum circuits replacing LSTM gates",
+        "ansatz": "hardware-efficient variational quantum circuit with Hadamard initialization, Ry/Rz data encoding, and CNOT entangling layers",
+        "optimizer": "Adam",
+        "num_layers": 2,
+        "convergence_criteria": "trained for 50 epochs",
+        "hyperparameters": {
+          "learning_rate": 0.01,
+          "epochs": 50,
+          "hidden_size": 7,
+          "num_vqcs": 6,
+          "qubits_per_vqc": 7,
+          "variational_depth": 2,
+          "rotations_per_variational_layer": 3,
+          "final_scaling_parameters": 2,
+          "loss_function": "MSE"
+        },
+        "parameter_initialization": "not_specified",
+        "optimizer_settings": {
+          "learning_rate": 0.01,
+          "max_iterations": 50,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "classical stock features are normalized to [-1,1] and encoded with Hadamard followed by Ry/Rz rotations; each qubit encodes one input feature",
+        "objective_function": "minimize prediction error for stock closing price forecasting using MSE during training; evaluate RMSE and prediction accuracy",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Single-company stock closing price prediction for Apple Inc.",
+        "num_assets": 1,
+        "time_steps": 251,
+        "num_features": 5,
+        "dataset_size": 251,
+        "data_type": "real_market",
+        "dataset_name": "Apple Inc. stock prices",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "AAPL"
+          ],
+          "date_range": "2022-01-01 to 2023-01-01",
+          "benchmark_name": null,
+          "preprocessing": "normalized to [-1,1]; 70/30 train-test split",
+          "train_test_split": "70% training, 30% testing"
+        },
+        "data_preprocessing_details": "stock data columns Date, Open, High, Low, Close; normalized to [-1,1] for numerical stability and faster convergence",
+        "evaluation_methodology": "single train/test split; comparison against classical baselines; prediction comparison shown on 20 data points; qubit-count sensitivity study from 4 to 15 qubits"
+      },
+      "quantum_resources": {
+        "num_qubits": 7,
+        "qubit_type": "not_specified",
+        "circuit_depth": 2,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 254,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": "IBM simulator (noiseless)",
+        "framework": "PennyLane",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Adam"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": "noiseless simulator",
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/QCL-PKNU/SPP-QLSTM",
+        "transpilation_settings": null,
+        "classical_preprocessing": "normalization to [-1,1]; train/test split",
+        "classical_postprocessing": "Pauli-Z expectation values measured and postprocessed; RMSE and accuracy computed",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 50,
+          "final_loss_value": null,
+          "loss_curve_shape": "loss decreases toward near zero over epochs",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "results": {
+          "training_accuracy": 1.0,
+          "training_rmse": 0.0371,
+          "prediction_accuracy": 0.9736,
+          "prediction_rmse": 0.0602
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "training_accuracy",
+          "value": 1.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "training_rmse",
+          "value": 0.0371,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "prediction_accuracy",
+          "value": 0.9736,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "prediction_rmse",
+          "value": 0.0602,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 251,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "observations",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "train_test_split",
+          "value": 0.7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_variational_params",
+          "value": 254,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "epochs",
+          "value": 50,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "epochs",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "learning_rate",
+          "value": 0.01,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "LSTM",
+          "metric_name": "training_accuracy",
+          "value": 0.92,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "LSTM",
+          "metric_name": "training_rmse",
+          "value": 0.0567,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "LSTM",
+          "metric_name": "prediction_accuracy",
+          "value": 0.8815,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "LSTM",
+          "metric_name": "prediction_rmse",
+          "value": 0.0693,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "QSVM",
+          "metric_name": "prediction_accuracy",
+          "value": 0.5894,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "USAD",
+          "metric_name": "training_accuracy",
+          "value": 0.9342,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "USAD",
+          "metric_name": "training_rmse",
+          "value": 0.0708,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "USAD",
+          "metric_name": "prediction_accuracy",
+          "value": 0.8874,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "USAD",
+          "metric_name": "prediction_rmse",
+          "value": 0.0672,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "DAGMM",
+          "metric_name": "training_accuracy",
+          "value": 0.8947,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "DAGMM",
+          "metric_name": "training_rmse",
+          "value": 0.0768,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "DAGMM",
+          "metric_name": "prediction_accuracy",
+          "value": 0.841,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "DAGMM",
+          "metric_name": "prediction_rmse",
+          "value": 0.0721,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "MSCRED",
+          "metric_name": "training_accuracy",
+          "value": 0.9342,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "MSCRED",
+          "metric_name": "training_rmse",
+          "value": 0.072,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "MSCRED",
+          "metric_name": "prediction_accuracy",
+          "value": 0.8828,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "MSCRED",
+          "metric_name": "prediction_rmse",
+          "value": 0.068,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "MTAD_GAT",
+          "metric_name": "training_accuracy",
+          "value": 0.9473,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "MTAD_GAT",
+          "metric_name": "training_rmse",
+          "value": 0.0668,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "MTAD_GAT",
+          "metric_name": "prediction_accuracy",
+          "value": 0.8857,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "MTAD_GAT",
+          "metric_name": "prediction_rmse",
+          "value": 0.0624,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The paper reports empirical performance improvements over classical baselines, but no asymptotic or wall-clock speedup is demonstrated."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 4,
+          "num_qubits": 4,
+          "metric_name": "training_accuracy",
+          "metric_value": null
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": 4,
+          "metric_name": "training_rmse",
+          "metric_value": null
+        },
+        {
+          "problem_size": 15,
+          "num_qubits": 15,
+          "metric_name": "training_accuracy",
+          "metric_value": null
+        },
+        {
+          "problem_size": 15,
+          "num_qubits": 15,
+          "metric_name": "training_rmse",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not_estimated",
+        "resources_for_advantage": "unknown; paper provides no asymptotic complexity or scaling analysis for QLSTM vs classical LSTM",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Results obtained on noiseless simulator rather than hardware",
+          "Very small dataset (251 time steps, single stock)",
+          "No complexity or scaling analysis versus classical LSTM",
+          "Quantum feature encoding requires repeated classical-to-quantum data loading",
+          "Performance comparison limited to empirical RMSE/accuracy rather than runtime"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware type and device family are explicitly reported as IBM noiseless simulator; framework is PennyLane.",
+          "7 qubits and depth 2 are explicitly stated for each VQC; the experiment uses 6 VQCs.",
+          "No asymptotic complexity or speedup order is derived in the paper; 'none_proven' used because only empirical comparison is provided.",
+          "Authors report better RMSE and accuracy than classical LSTM (0.0602 RMSE vs 0.0693) but only on a simulator and small dataset.",
+          "No runtime speedup or complexity advantage is demonstrated."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Hybrid QLSTM stock price prediction for Apple Inc. using a noisy IBM simulator that injects noise from actual IBM hardware.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Quantum-enhanced Long Short-Term Memory (QLSTM) with noisy IBM simulator evaluation",
+        "ansatz": "hardware-efficient variational quantum circuit with Hadamard initialization, Ry/Rz data encoding, and CNOT entangling layers",
+        "optimizer": "Adam",
+        "num_layers": 2,
+        "convergence_criteria": "trained for 50 epochs",
+        "hyperparameters": {
+          "learning_rate": 0.01,
+          "epochs": 50,
+          "hidden_size": 7,
+          "num_vqcs": 6,
+          "qubits_per_vqc": 7,
+          "variational_depth": 2,
+          "rotations_per_variational_layer": 3,
+          "final_scaling_parameters": 2,
+          "loss_function": "MSE"
+        },
+        "parameter_initialization": "not_specified",
+        "optimizer_settings": {
+          "learning_rate": 0.01,
+          "max_iterations": 50,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "classical stock features are normalized to [-1,1] and encoded with Hadamard followed by Ry/Rz rotations; each qubit encodes one input feature",
+        "objective_function": "minimize prediction error for stock closing price forecasting using MSE during training; evaluate RMSE and prediction accuracy",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Single-company stock closing price prediction for Apple Inc.",
+        "num_assets": 1,
+        "time_steps": 251,
+        "num_features": 5,
+        "dataset_size": 251,
+        "data_type": "real_market",
+        "dataset_name": "Apple Inc. stock prices",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "AAPL"
+          ],
+          "date_range": "2022-01-01 to 2023-01-01",
+          "benchmark_name": null,
+          "preprocessing": "normalized to [-1,1]; 70/30 train-test split",
+          "train_test_split": "70% training, 30% testing"
+        },
+        "data_preprocessing_details": "stock data columns Date, Open, High, Low, Close; normalized to [-1,1] for numerical stability and faster convergence",
+        "evaluation_methodology": "single train/test split; comparison against classical baselines; prediction comparison shown on 20 data points; qubit-count sensitivity study from 4 to 15 qubits"
+      },
+      "quantum_resources": {
+        "num_qubits": 7,
+        "qubit_type": "not_specified",
+        "circuit_depth": 2,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 254,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_noisy",
+        "provider": "IBM",
+        "device_name": "IBM noisy simulator",
+        "framework": "PennyLane",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Adam"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "noise-injected simulator based on actual IBM device noise",
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/QCL-PKNU/SPP-QLSTM",
+        "transpilation_settings": null,
+        "classical_preprocessing": "normalization to [-1,1]; train/test split",
+        "classical_postprocessing": "Pauli-Z expectation values measured and postprocessed; RMSE and accuracy computed",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 50,
+          "final_loss_value": null,
+          "loss_curve_shape": "loss decreases over epochs, slightly higher than noiseless case",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "results": {
+          "training_accuracy": 0.9714,
+          "training_rmse": 0.0511,
+          "prediction_accuracy": 0.921,
+          "prediction_rmse": 0.0648
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "training_accuracy",
+          "value": 0.9714,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "training_rmse",
+          "value": 0.0511,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "prediction_accuracy",
+          "value": 0.921,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "prediction_rmse",
+          "value": 0.0648,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 251,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "observations",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "train_test_split",
+          "value": 0.7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_variational_params",
+          "value": 254,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "epochs",
+          "value": 50,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "epochs",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "learning_rate",
+          "value": 0.01,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "LSTM",
+          "metric_name": "training_accuracy",
+          "value": 0.92,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "LSTM",
+          "metric_name": "training_rmse",
+          "value": 0.0567,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "LSTM",
+          "metric_name": "prediction_accuracy",
+          "value": 0.8815,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "LSTM",
+          "metric_name": "prediction_rmse",
+          "value": 0.0693,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "QSVM",
+          "metric_name": "prediction_accuracy",
+          "value": 0.5894,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "USAD",
+          "metric_name": "training_accuracy",
+          "value": 0.9342,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "USAD",
+          "metric_name": "training_rmse",
+          "value": 0.0708,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "USAD",
+          "metric_name": "prediction_accuracy",
+          "value": 0.8874,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "USAD",
+          "metric_name": "prediction_rmse",
+          "value": 0.0672,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "DAGMM",
+          "metric_name": "training_accuracy",
+          "value": 0.8947,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "DAGMM",
+          "metric_name": "training_rmse",
+          "value": 0.0768,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "DAGMM",
+          "metric_name": "prediction_accuracy",
+          "value": 0.841,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "DAGMM",
+          "metric_name": "prediction_rmse",
+          "value": 0.0721,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "MSCRED",
+          "metric_name": "training_accuracy",
+          "value": 0.9342,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "MSCRED",
+          "metric_name": "training_rmse",
+          "value": 0.072,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "MSCRED",
+          "metric_name": "prediction_accuracy",
+          "value": 0.8828,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "MSCRED",
+          "metric_name": "prediction_rmse",
+          "value": 0.068,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "MTAD_GAT",
+          "metric_name": "training_accuracy",
+          "value": 0.9473,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "MTAD_GAT",
+          "metric_name": "training_rmse",
+          "value": 0.0668,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "MTAD_GAT",
+          "metric_name": "prediction_accuracy",
+          "value": 0.8857,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "MTAD_GAT",
+          "metric_name": "prediction_rmse",
+          "value": 0.0624,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The paper reports empirical performance improvements over classical baselines, but no asymptotic or wall-clock speedup is demonstrated."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 4,
+          "num_qubits": 4,
+          "metric_name": "training_accuracy",
+          "metric_value": null
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": 4,
+          "metric_name": "training_rmse",
+          "metric_value": null
+        },
+        {
+          "problem_size": 15,
+          "num_qubits": 15,
+          "metric_name": "training_accuracy",
+          "metric_value": null
+        },
+        {
+          "problem_size": 15,
+          "num_qubits": 15,
+          "metric_name": "training_rmse",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": null,
+        "maturity_level": "L2_noisy_sim",
+        "crossover_size": "not_estimated",
+        "resources_for_advantage": "not specified; no scaling analysis provided",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Evaluation only on noisy simulator rather than full training on real hardware",
+          "Small dataset size",
+          "No asymptotic complexity comparison with classical LSTM",
+          "Quantum encoding overhead likely dominates runtime",
+          "Performance measured only in prediction accuracy rather than computational cost"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Noisy IBM simulator is explicitly reported.",
+          "7 qubits and depth 2 are explicitly stated for each VQC; the experiment uses 6 VQCs.",
+          "No asymptotic complexity or speedup order is derived in the paper; 'none_proven' used because only empirical comparison is provided.",
+          "QLSTM shows slightly better RMSE than classical models in simulation but no computational advantage is demonstrated.",
+          "Results rely on simulator noise models rather than real hardware performance."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "Hybrid QLSTM stock price prediction for Apple Inc. on actual IBM quantum hardware (IBM Nazca) for prediction tasks.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Quantum-enhanced Long Short-Term Memory (QLSTM) executed on actual IBM quantum hardware",
+        "ansatz": "hardware-efficient variational quantum circuit with Hadamard initialization, Ry/Rz data encoding, and CNOT entangling layers",
+        "optimizer": "Adam",
+        "num_layers": 2,
+        "convergence_criteria": "trained for 50 epochs on simulators; actual hardware used for prediction only",
+        "hyperparameters": {
+          "learning_rate": 0.01,
+          "epochs": 50,
+          "hidden_size": 7,
+          "num_vqcs": 6,
+          "qubits_per_vqc": 7,
+          "variational_depth": 2,
+          "rotations_per_variational_layer": 3,
+          "final_scaling_parameters": 2,
+          "loss_function": "MSE"
+        },
+        "parameter_initialization": "not_specified",
+        "optimizer_settings": {
+          "learning_rate": 0.01,
+          "max_iterations": 50,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "classical stock features are normalized to [-1,1] and encoded with Hadamard followed by Ry/Rz rotations; each qubit encodes one input feature",
+        "objective_function": "predict stock closing price; evaluate RMSE and prediction accuracy",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Single-company stock closing price prediction for Apple Inc. on actual IBM quantum hardware",
+        "num_assets": 1,
+        "time_steps": 251,
+        "num_features": 5,
+        "dataset_size": 251,
+        "data_type": "real_market",
+        "dataset_name": "Apple Inc. stock prices",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "AAPL"
+          ],
+          "date_range": "2022-01-01 to 2023-01-01",
+          "benchmark_name": null,
+          "preprocessing": "normalized to [-1,1]; 70/30 train-test split",
+          "train_test_split": "70% training, 30% testing"
+        },
+        "data_preprocessing_details": "stock data columns Date, Open, High, Low, Close; normalized to [-1,1] for numerical stability and faster convergence",
+        "evaluation_methodology": "prediction-only evaluation on actual IBM quantum machine; comparison against classical baselines; prediction comparison shown on 20 data points"
+      },
+      "quantum_resources": {
+        "num_qubits": 7,
+        "qubit_type": "physical",
+        "circuit_depth": 2,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 254,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": "IBM",
+        "device_name": "IBM Nazca",
+        "framework": "PennyLane",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Adam"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "real hardware noise",
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/QCL-PKNU/SPP-QLSTM",
+        "transpilation_settings": null,
+        "classical_preprocessing": "normalization to [-1,1]; train/test split",
+        "classical_postprocessing": "Pauli-Z expectation values measured and postprocessed; RMSE and accuracy computed",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "results": {
+          "training_accuracy": null,
+          "training_rmse": null,
+          "prediction_accuracy": 0.7619,
+          "prediction_rmse": 0.1401
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "prediction_accuracy",
+          "value": 0.7619,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "prediction_rmse",
+          "value": 0.1401,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 251,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "observations",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "train_test_split",
+          "value": 0.7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_variational_params",
+          "value": 254,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "epochs",
+          "value": 50,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "epochs",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "learning_rate",
+          "value": 0.01,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "LSTM",
+          "metric_name": "prediction_accuracy",
+          "value": 0.8815,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "LSTM",
+          "metric_name": "prediction_rmse",
+          "value": 0.0693,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "QSVM",
+          "metric_name": "prediction_accuracy",
+          "value": 0.5894,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "USAD",
+          "metric_name": "prediction_accuracy",
+          "value": 0.8874,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "USAD",
+          "metric_name": "prediction_rmse",
+          "value": 0.0672,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "DAGMM",
+          "metric_name": "prediction_accuracy",
+          "value": 0.841,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "DAGMM",
+          "metric_name": "prediction_rmse",
+          "value": 0.0721,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "MSCRED",
+          "metric_name": "prediction_accuracy",
+          "value": 0.8828,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "MSCRED",
+          "metric_name": "prediction_rmse",
+          "value": 0.068,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "MTAD_GAT",
+          "metric_name": "prediction_accuracy",
+          "value": 0.8857,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "MTAD_GAT",
+          "metric_name": "prediction_rmse",
+          "value": 0.0624,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "Actual IBM hardware was used only for prediction; the paper reports degraded performance due to noise, not a speedup."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 20,
+          "num_qubits": 7,
+          "metric_name": "prediction_accuracy",
+          "metric_value": null
+        },
+        {
+          "problem_size": 20,
+          "num_qubits": 7,
+          "metric_name": "prediction_rmse",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": null,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "not_estimated",
+        "resources_for_advantage": "unknown",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "near_term_2_5_years",
+        "limiting_factors": [
+          "Prediction accuracy on real hardware (0.7619) is worse than classical LSTM (0.8815)",
+          "Hardware noise and decoherence degrade results",
+          "Training performed on simulator rather than hardware",
+          "Very small qubit count and shallow circuits",
+          "No error mitigation used"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "IBM Nazca is explicitly named as the actual quantum device.",
+          "7 qubits and depth 2 are explicitly stated for each VQC; the experiment uses 6 VQCs.",
+          "The paper states actual hardware was used for prediction only, so training convergence data are not available for this experiment.",
+          "Table 1 shows actual hardware prediction accuracy 0.7619 vs classical LSTM 0.8815.",
+          "Paper explicitly notes degraded performance on real quantum hardware due to noise."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

@@ -1,0 +1,343 @@
+{
+  "paper_id": "a9e4b00c1fae",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:30:24+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "a9e4b00c1fae_qlstm4fm_quantum_assisted_long_short_term_memory_framework_for_financial_market_.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.85,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 6,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='trading days' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='days' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.85,
+      "completeness": 0.85,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.85
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "QLSTM4FM: Quantum Assisted Long Short-Term Memory Framework for Financial Market Trend Forecasting",
+    "authors": [
+      "Sourodeep Kundu",
+      "Nachiketa Tarasia",
+      "Rabindra Kumar Barik"
+    ],
+    "year": 2024,
+    "doi": "10.1109/IC-SIT63503.2024.10862667",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a hybrid QLSTM model with a 4‑qubit variational quantum layer (one layer with three rotation gates) for MRK stock forecasting using 2,738 trading days of Yahoo Finance data. The model reportedly uses 293 parameters versus 3,217 for a classical LSTM and shows qualitatively faster loss convergence over 20 training epochs on a PennyLane lightning.qubit simulator, but no quantitative accuracy metrics or hardware experiments are provided.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Hybrid quantum-classical QLSTM for daily closing-price forecasting of Merck & Co. (MRK), compared against a classical LSTM baseline using the same stock dataset and features.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Quantum Long Short-Term Memory (QLSTM) with variational quantum layers",
+        "ansatz": "one quantum layer with 3 rotational gates",
+        "optimizer": null,
+        "num_layers": 1,
+        "convergence_criteria": "trained for 20 epochs",
+        "hyperparameters": {
+          "sequence_length_days": 3,
+          "epochs": 20,
+          "learning_rate": 0.0001,
+          "qubits": 4,
+          "rotational_gates": 3,
+          "loss_metric": "MSE"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "max_iterations": 20,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_and_phase_encoding",
+        "encoding_details": "classical data converted to quantum format via amplitude encoding; 4-qubit register used for the quantum layer",
+        "objective_function": "binary classification / next-day stock trend forecasting and closing-price prediction for MRK",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Forecasting MRK stock trend/closing price using historical prices, technical indicators, correlated assets, and sentiment features",
+        "num_assets": null,
+        "time_steps": 2738,
+        "num_features": null,
+        "dataset_size": 2738,
+        "data_type": "real_market",
+        "dataset_name": "Yahoo Finance MRK dataset plus correlated assets and FinBERT sentiment features",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "MRK",
+            "PFE",
+            "JNJ",
+            "BMY",
+            "S&P 500",
+            "NASDAQ Composite"
+          ],
+          "date_range": "2010-2020 (MRK visualized over this period); 2,738 trading days total",
+          "benchmark_name": null,
+          "preprocessing": "historical prices, technical indicators, Fourier trend approximation, correlated assets, sentiment analysis",
+          "train_test_split": null
+        },
+        "data_preprocessing_details": "Loaded historical stock data with yfinance/manual download; used open/close/high/low prices; computed 7-day and 21-day moving averages, 12-day and 26-day EMAs, MACD, Bollinger Bands, and momentum; applied FFT trend approximation retaining 3, 6, and 9 frequency components; added correlated assets; applied FinBERT sentiment analysis on MRK news headlines; normalized variables; used PyTorch DataLoader",
+        "evaluation_methodology": "comparison of training and test loss, prediction accuracy, convergence speed, and parameter count against classical LSTM; trained for 20 epochs"
+      },
+      "quantum_resources": {
+        "num_qubits": 4,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 3,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "not_specified",
+        "device_name": "lightning.qubit",
+        "framework": "PennyLane"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "PyTorch LSTM baseline; QLSTM implemented with PyTorch and PennyLane",
+        "transpilation_settings": null,
+        "classical_preprocessing": "data cleaning, train/test split, standardization, normalization, feature engineering",
+        "classical_postprocessing": "loss/accuracy comparison and predicted-vs-true plotting",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "QLSTM loss decreases faster than classical LSTM in both training and testing",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "dataset_size",
+          "value": 2738,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "trading days",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_variational_params",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "epochs",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "learning_rate",
+          "value": 0.0001,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sequence_length_days",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "days",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "classical_parameter_count",
+          "value": 3217,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "quantum_parameter_count",
+          "value": 293,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical_lstm",
+          "metric_name": "parameter_count",
+          "value": 3217,
+          "unit": "parameters"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "faster convergence",
+          "baseline_method": "classical LSTM",
+          "conditions": "training and testing on MRK stock forecasting with 4-qubit QLSTM over 20 epochs",
+          "is_demonstrated": true,
+          "caveats": "The paper reports faster convergence qualitatively and via loss curves, but does not provide exact convergence times or statistical significance."
+        },
+        {
+          "type": "empirical",
+          "factor": "293 vs 3217 parameters (~10.98x fewer parameters)",
+          "baseline_method": "classical LSTM",
+          "conditions": "same MRK forecasting setup",
+          "is_demonstrated": true,
+          "caveats": "This is a parameter-efficiency comparison, not a runtime speedup."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 2738,
+          "num_qubits": 4,
+          "metric_name": "dataset_size",
+          "metric_value": 2738
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not analyzed; no asymptotic complexity or scaling study provided.",
+        "resources_for_advantage": "Unknown. Current experiment uses 4 qubits and a single variational layer on a simulator; no resource estimate for larger datasets or hardware execution.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Evaluation performed only on a noiseless simulator (PennyLane lightning.qubit).",
+          "Very small quantum model (4 qubits, single variational layer).",
+          "No quantitative accuracy numbers or statistical tests reported.",
+          "Comparison limited to a single classical baseline (LSTM).",
+          "No complexity or runtime analysis demonstrating scaling advantage.",
+          "Dataset size modest (2,738 trading days) and effectively classical preprocessing dominates."
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_other because the paper explicitly states initial testing was performed on simulators such as lightning.qubit and no real QPU device is named.",
+          "Circuit depth not explicitly quantified; only one quantum layer with 3 rotational gates and 4 qubits is reported.",
+          "Speedup order is not asymptotically characterized; the paper reports empirical performance improvements only.",
+          "The paper claims improved accuracy, faster convergence, and fewer parameters for QLSTM compared to classical LSTM, but provides only qualitative plots and no statistically rigorous or large‑scale demonstration.",
+          "Results are obtained on a noiseless simulator rather than quantum hardware."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

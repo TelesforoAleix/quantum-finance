@@ -1,0 +1,464 @@
+{
+  "paper_id": "0df7a9f2fffd",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:02:27+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "0df7a9f2fffd_q_a3c2_quantum_reinforcement_learning_with_time_series_dynamic_clustering_for_ad.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.7,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 13,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[2].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='months' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='years' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='stocks' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='stocks' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='stocks' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='stocks' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='stocks' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='stocks' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='stocks' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='stocks' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[15].unit='stocks' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.7,
+      "completeness": 0.7,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.7
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Q-A3C2: QUANTUM REINFORCEMENT LEARNING WITH TIME-SERIES DYNAMIC CLUSTERING FOR ADAPTIVE ETF STOCK SELECTION",
+    "authors": [
+      "Yen-Ku Liu",
+      "Yun-Cheng Tsai",
+      "Samuel Yen-Chi Chen"
+    ],
+    "year": 2025,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "portfolio-optimization",
+    "secondary_silos": [
+      "quantum-ml-finance"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes Q‑A3C2, a hybrid reinforcement learning model that inserts a variational quantum circuit into the policy network for ETF stock selection. Trained on S&P 500 data from Aug 2021–Aug 2024 and validated from Dec 2024–Aug 2025, the strategy reports a cumulative return of 17.09% versus a 7.09% S&P 500 benchmark. However, no quantum resource details or quantitative comparisons with the classical ablation models are reported.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum-enhanced A3C ETF stock selection with time-series dynamic clustering, using a variational quantum circuit as a bottleneck in the policy network and compared against a classical MLP bottleneck and static/rolling clustering baselines.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "Q-A3C2 with VQC bottleneck in A3C policy network",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": "trained for 4,500 epochs; reward stabilized after approximately 2,000 epochs under relative-optimality reward",
+        "hyperparameters": {
+          "temperature_tau": 1.3,
+          "training_epochs": 4500,
+          "training_period": "2021-08-27 to 2024-08-31",
+          "validation_period": "2024-12 to 2025-08",
+          "lookback_window_L": "L-day window",
+          "cluster_count_K": null,
+          "reward_type": "relative-optimality",
+          "baseline_reward_type": "z-score"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Classical state vector St is processed by dense layers and then mapped into a variational quantum circuit VQC(xt; θ); the paper does not describe the feature map, qubit count, or specific encoding circuit.",
+        "objective_function": "Maximize monthly cluster-selection reward in an A3C reinforcement learning setup, where the selected cluster receives +1 if it has the highest next-month return and otherwise a bounded quadratic penalty based on relative return gap.",
+        "constraints_handling": "No explicit hard constraints; cluster selection is handled through softmax policy over K clusters and reward shaping via relative-optimality reward.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Adaptive ETF stock selection over S&P 500 constituents using monthly rebalancing and time-series dynamic clustering.",
+        "num_assets": 500,
+        "time_steps": 2021,
+        "num_features": 3,
+        "dataset_size": null,
+        "data_type": "real_market",
+        "dataset_name": "S&P 500 constituents",
+        "dataset_specification": {
+          "description": "Daily closing prices of all S&P 500 constituent stocks; training from August 2021 to August 2024; validation from December 2024 to August 2025; benchmark is the S&P 500 index"
+        },
+        "data_preprocessing_details": "For each stock and time t, compute 5-day cumulative return, 20-day cumulative return, and 20-day return volatility from the preceding L-day window; K-Means clustering applied to the feature matrix at each decision window; monthly portfolio rebalancing",
+        "evaluation_methodology": "Single training run described over 4,500 epochs; out-of-sample validation over 2024-12 to 2025-08; compared cumulative return against S&P 500 benchmark and against classical ablations/baselines"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "noise_model": null,
+        "noise_parameters": null,
+        "mitigation_details": null,
+        "is_noisy": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "A3C with classical MLP bottleneck baseline; K-Means clustering; softmax policy sampling",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Feature construction from rolling return windows; K-Means clustering of stock features; monthly rebalancing environment",
+        "classical_postprocessing": "Cumulative return comparison versus benchmark; monthly cluster-return analysis; selected-stock summaries",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 2,
+          "final_loss_value": null,
+          "loss_curve_shape": "z-score reward unstable/oscillatory; relative-optimality reward stabilizes after ~2,000 epochs",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "cumulative_return",
+          "value": 17.09,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "benchmark_cumulative_return",
+          "value": 7.09,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_epochs",
+          "value": 4500,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_epoch",
+          "value": 2000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "validation_period_months",
+          "value": 9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "months",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_period_years",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "years",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "temperature_tau",
+          "value": 1.3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "selected_stocks",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "stocks",
+          "higher_is_better": null,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "selected_stocks",
+          "value": 64,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "stocks",
+          "higher_is_better": null,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "selected_stocks",
+          "value": 135,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "stocks",
+          "higher_is_better": null,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "selected_stocks",
+          "value": 60,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "stocks",
+          "higher_is_better": null,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "selected_stocks",
+          "value": 16,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "stocks",
+          "higher_is_better": null,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "selected_stocks",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "stocks",
+          "higher_is_better": null,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "selected_stocks",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "stocks",
+          "higher_is_better": null,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "selected_stocks",
+          "value": 107,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "stocks",
+          "higher_is_better": null,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "selected_stocks",
+          "value": 96,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "stocks",
+          "higher_is_better": null,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical_mlp_bottleneck",
+          "metric_name": "cumulative_return",
+          "value": null,
+          "unit": "%"
+        },
+        {
+          "method_name": "static_clustering",
+          "metric_name": "cumulative_return",
+          "value": null,
+          "unit": "%"
+        },
+        {
+          "method_name": "rolling_clustering_without_rl",
+          "metric_name": "cumulative_return",
+          "value": null,
+          "unit": "%"
+        },
+        {
+          "method_name": "s_and_p_500_benchmark",
+          "metric_name": "cumulative_return",
+          "value": 7.09,
+          "unit": "%"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The paper reports improved cumulative return versus the S&P 500 benchmark, but does not claim or demonstrate computational speedup."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 10,
+          "num_qubits": null,
+          "metric_name": "selected_stocks",
+          "metric_value": 10
+        },
+        {
+          "problem_size": 64,
+          "num_qubits": null,
+          "metric_name": "selected_stocks",
+          "metric_value": 64
+        },
+        {
+          "problem_size": 135,
+          "num_qubits": null,
+          "metric_name": "selected_stocks",
+          "metric_value": 135
+        },
+        {
+          "problem_size": 60,
+          "num_qubits": null,
+          "metric_name": "selected_stocks",
+          "metric_value": 60
+        },
+        {
+          "problem_size": 16,
+          "num_qubits": null,
+          "metric_name": "selected_stocks",
+          "metric_value": 16
+        },
+        {
+          "problem_size": 1,
+          "num_qubits": null,
+          "metric_name": "selected_stocks",
+          "metric_value": 1
+        },
+        {
+          "problem_size": 20,
+          "num_qubits": null,
+          "metric_name": "selected_stocks",
+          "metric_value": 20
+        },
+        {
+          "problem_size": 107,
+          "num_qubits": null,
+          "metric_name": "selected_stocks",
+          "metric_value": 107
+        },
+        {
+          "problem_size": 96,
+          "num_qubits": null,
+          "metric_name": "selected_stocks",
+          "metric_value": 96
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Not specified. The paper does not report qubit counts, circuit depth, gate counts, or scaling behavior needed to estimate resources for advantage.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "No quantum hardware execution; experiment appears to rely on classical simulation of a VQC.",
+          "No reported qubit count, circuit depth, or variational parameter count.",
+          "No quantitative comparison with the classical MLP bottleneck baseline despite describing it.",
+          "Performance improvement is measured only against a financial benchmark (S&P 500), not against classical algorithms solving the same RL problem.",
+          "No computational complexity analysis or scaling study."
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper explicitly states that a variational quantum circuit (VQC) is embedded in the policy network, but it does not report qubit count, circuit depth, gate counts, optimizer, or hardware/device details.",
+          "Classical baselines include a parameter-matched MLP bottleneck, static clustering, and rolling clustering without RL; these are not separate quantum experiments.",
+          "Authors report improved trading returns (17.09% vs 7.09% benchmark) but do not claim computational quantum advantage.",
+          "Because classical baselines are described but their results are not numerically reported, quantum vs classical performance cannot be assessed."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

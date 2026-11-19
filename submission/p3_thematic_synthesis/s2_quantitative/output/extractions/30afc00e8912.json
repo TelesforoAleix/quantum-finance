@@ -1,0 +1,443 @@
+{
+  "paper_id": "30afc00e8912",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:27:25+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "30afc00e8912_integration_of_parameterized_quantum_circuits_within_classical_neural_network_fo.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.95,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 8,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[4].unit='records' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='customers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='examples' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='examples' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='examples' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='features' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='cross_entropy_loss' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.95,
+      "completeness": 0.95,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.95
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Integration of parameterized quantum circuits within classical neural network for financial time-series prediction",
+    "authors": [
+      "Sachin Khurana",
+      "Manisha J Nene"
+    ],
+    "year": 2025,
+    "doi": "10.1007/s42484-025-00265-5",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "credit-lending",
+    "secondary_silos": [
+      "quantum-ml-finance"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a hybrid classical–quantum neural network with a parameterized quantum circuit (up to 8 qubits and 3 layers) for credit‑default prediction on the Kaggle American Express dataset (5,531,451 records, 458,913 customers). The model achieves about 0.88 accuracy with final cross‑entropy loss ≈0.2157 and reports training time of 453.3 s, compared with 4991.3 s (XGBoost), 3985.4 s (LightGBM), and 3884.2 s (CatBoost). All experiments are executed via classical simulation on a CPU rather than quantum hardware.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Hybrid classical-quantum neural network for credit card default prediction using a parameterized quantum circuit, evaluated across varying qubit counts (5-8), optimizer choices, and circuit depths (1-3 layers) on a large time-series financial dataset.",
+      "algorithm": {
+        "family": "hybrid",
+        "variant": "dressed quantum circuit / hybrid neural network with parameterized quantum circuit",
+        "ansatz": "RY rotations followed by CNOT entangling layer",
+        "optimizer": "Adam; RMSprop; RMSprop with momentum; Adamax",
+        "num_layers": 3,
+        "convergence_criteria": "trained for 20 epochs until loss stabilized",
+        "hyperparameters": {
+          "qubit_counts": [
+            5,
+            6,
+            7,
+            8
+          ],
+          "circuit_layers": [
+            1,
+            2,
+            3
+          ],
+          "learning_rate": 0.005,
+          "adam_beta1": 0.9,
+          "adam_beta2": 0.999,
+          "adam_epsilon": 1e-10,
+          "rmsprop_gamma": 0.9,
+          "rmsprop_epsilon": 1e-08,
+          "rmsprop_momentum": 0.6,
+          "batch_size": 1000,
+          "train_test_split": "60:40",
+          "epochs": 20,
+          "selected_features": 64
+        },
+        "parameter_initialization": "rotation angles initialized with random angles",
+        "optimizer_settings": {
+          "max_iterations": 20,
+          "step_size": 0.005,
+          "learning_rate": 0.005,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null,
+          "tolerance": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "classical features are preprocessed by a classical layer and encoded into quantum states via RY rotations; one rotation parameter per qubit per layer",
+        "objective_function": "binary cross-entropy loss for credit default prediction",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Credit card default prediction on a time-series financial dataset from the American Express Kaggle competition",
+        "num_assets": null,
+        "time_steps": 13,
+        "num_features": 64,
+        "dataset_size": 5531451,
+        "data_type": "public_benchmark",
+        "dataset_name": "American Express Default Prediction",
+        "dataset_specification": {
+          "ticker_symbols": null,
+          "date_range": null,
+          "benchmark_name": "Kaggle Amex default prediction",
+          "preprocessing": "EDA, normalization, missing-value handling by imputation or feature omission, one-hot encoding, chi-square feature selection to top 64 features, random 60:40 train-test split",
+          "train_test_split": "60:40"
+        },
+        "data_preprocessing_details": "Exploratory data analysis; normalization; missing values imputed or omitted depending on feature importance; categorical variables one-hot encoded; top 64 features selected using Chi score method; dataset partitioned into 276 mini-batches of 1000 examples",
+        "evaluation_methodology": "single random 60:40 train-test split; performance reported on training and test sets using accuracy, precision, recall, F1-score; loss curves over 20 epochs",
+        "train_size": "275,347 customers (training subset from 458,913 customers)"
+      },
+      "quantum_resources": {
+        "num_qubits": 8,
+        "qubit_type": "not_specified",
+        "circuit_depth": 3,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 5,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": "Google Colab",
+        "device_name": null,
+        "framework": "JAX",
+        "framework_version": "0.4.1",
+        "transpilation_target": null
+      },
+      "noise_model": {
+        "is_noisy": null,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "classical_solver": "gradient-based optimizers; classical baselines XGBoost, LightGBM, CatBoost",
+        "classical_preprocessing": "normalization, missing-value handling, one-hot encoding, chi-square feature selection",
+        "classical_postprocessing": "sigmoid output layer for binary classification",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 20,
+          "final_loss_value": 0.21568,
+          "loss_curve_shape": "monotonic decrease then plateau",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "default_prediction_accuracy",
+          "value": 0.88,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.88,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.88,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.88,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 5531451,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "records",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_customers",
+          "value": 458913,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "customers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "train_size",
+          "value": 275347,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "examples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "test_size",
+          "value": 183566,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "examples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "batch_size",
+          "value": 1000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "examples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "epochs",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "selected_features",
+          "value": 64,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "features",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "final_loss_value",
+          "value": 0.21568,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "cross_entropy_loss",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 453.3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "xgboost",
+          "metric_name": "training_time",
+          "value": 4991.3,
+          "unit": "seconds"
+        },
+        {
+          "method_name": "lightgbm",
+          "metric_name": "training_time",
+          "value": 3985.4,
+          "unit": "seconds"
+        },
+        {
+          "method_name": "catboost",
+          "metric_name": "training_time",
+          "value": 3884.2,
+          "unit": "seconds"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "about 8.6x faster than XGBoost; about 8.8x faster than LightGBM; about 8.6x faster than CatBoost",
+          "baseline_method": "XGBoost, LightGBM, CatBoost",
+          "conditions": "training on the same time-series financial dataset",
+          "is_demonstrated": true,
+          "caveats": "This is a wall-clock training-time comparison only; no asymptotic complexity proof or hardware-normalized benchmark is provided."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 5.0,
+          "num_qubits": 5,
+          "metric_name": "final_loss_value",
+          "metric_value": 0.23296
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 6,
+          "metric_name": "final_loss_value",
+          "metric_value": 0.23295
+        },
+        {
+          "problem_size": 7.0,
+          "num_qubits": 7,
+          "metric_name": "final_loss_value",
+          "metric_value": 0.2253
+        },
+        {
+          "problem_size": 8.0,
+          "num_qubits": 8,
+          "metric_name": "final_loss_value",
+          "metric_value": 0.21719
+        },
+        {
+          "problem_size": 1.0,
+          "num_qubits": 6,
+          "metric_name": "final_loss_value",
+          "metric_value": 0.23295
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": 6,
+          "metric_name": "final_loss_value",
+          "metric_value": 0.21627
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 6,
+          "metric_name": "final_loss_value",
+          "metric_value": 0.21568
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": 453.3,
+        "wall_clock_classical": 3884.2
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Not specified; experiments executed on classical CPU with simulated PQC up to 8 qubits and 3 layers.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "current_nisq",
+        "limiting_factors": [
+          "No execution on actual quantum hardware; all results obtained via classical simulation",
+          "Very small quantum system size (≤8 qubits)",
+          "No complexity-theoretic speedup demonstrated",
+          "Reported speedup is only wall‑clock training time compared to classical boosting implementations",
+          "Quantum circuit is embedded inside a classical neural network so overall computation remains classical",
+          "Large classical preprocessing and feature selection pipeline dominates computation"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware is not tied to a named QPU or simulator; only Google Colab Pro / CPU environment is reported, so hardware.type remains not_specified.",
+          "The paper reports qubit counts 5, 6, 7, and 8; the maximum configuration (8 qubits) is recorded in quantum_resources.num_qubits, with scalability data captured in hyperparameters.",
+          "Circuit depth is reported as 1, 2, and 3 layers; the maximum configuration (3 layers) is recorded in quantum_resources.circuit_depth.",
+          "Training-time comparison is reported against classical gradient-boosting baselines; no asymptotic complexity proof is given, so speedup_order is none_proven.",
+          "The authors suggest improved efficiency and faster training compared with gradient boosting methods, but this is only an empirical wall‑clock comparison on a classical CPU.",
+          "No theoretical quantum speedup or complexity improvement is demonstrated.",
+          "Because the PQC is simulated classically and the system size is ≤8 qubits, this does not constitute quantum advantage under Hoefler et al. criteria."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

@@ -1,0 +1,906 @@
+{
+  "paper_id": "1b554a506320",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:11:00+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "1b554a506320_a_study_on_quantum_and_classical_simulations_for_molecular_systems_materials_sci.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.733,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 10,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='Hartree' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='Hartree' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='Hartree' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='qualitative convergence shown in figure' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[0].unit='t' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[1].unit='t' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[2].unit='t' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[3].unit='t' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[4].unit='not numerically reported; stated as O(1/epsilon)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[5].unit='not numerically reported' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.733,
+      "completeness": 0.733,
+      "num_experiments": 3,
+      "experiment_scores": [
+        0.75,
+        0.75,
+        0.7
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "A Study on Quantum and Classical Simulations for Molecular Systems, Materials Science and Financial Modeling",
+    "authors": [
+      "Ansh Jaiswal",
+      "Alli. A",
+      "Sheetal",
+      "Veena S Badiger",
+      "Shyam R",
+      "Peer Mohammed Jeelan"
+    ],
+    "year": 2025,
+    "doi": "10.1109/PUNECON67554.2025.11379349",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": [
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper implements Cirq-based simulations of three applications: VQE for molecular energies (e.g., H2 energy −1.132 Hartree vs exact −1.137), VQE for small Fermi‑Hubbard systems (e.g., N=2, U/t=1 exact −2.236 vs VQE −2.231), and quantum amplitude‑estimation-based option pricing with relative errors decreasing from 3.2% (5 qubits) to 0.3% (11 qubits). All experiments are performed on classical simulators, and the quantum advantage claims remain theoretical.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "VQE simulation of small molecular systems (H2, LiH, H2O) using Cirq classical simulator with OpenFermion-generated qubit Hamiltonians.",
+      "algorithm": {
+        "family": "vqe",
+        "variant": "hardware-efficient VQE for molecular ground states",
+        "ansatz": "hardware-efficient ansatz; chemically inspired UCCSD also mentioned as possible",
+        "optimizer": "SciPy optimizer (specific method not reported)",
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "molecules": [
+            "H2",
+            "LiH",
+            "H2O"
+          ],
+          "basis_set": "STO-3G (assumed standard for comparison consistency)",
+          "mapping": "Jordan-Wigner",
+          "framework": "Cirq + OpenFermion"
+        },
+        "parameter_initialization": "initial parameters initialized, but method not reported",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "fermionic molecular Hamiltonian mapped to qubit Hamiltonian via Jordan-Wigner transformation; qubit register size not explicitly stated",
+        "objective_function": "minimize E(θ)=⟨ψ(θ)|H_qubit|ψ(θ)⟩ to estimate ground-state energy",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": "H_qubit = Σ_j c_j P_j, with P_j ∈ {I,X,Y,Z}^n",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Ground-state energy estimation for small molecules",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 3,
+        "data_type": "public_benchmark",
+        "dataset_name": "H2, LiH, H2O molecular test cases",
+        "dataset_specification": {
+          "description": "standard bond lengths and basis sets; STO-3G assumed"
+        },
+        "data_preprocessing_details": "molecular Hamiltonians generated from molecular structure and mapped to qubits",
+        "evaluation_methodology": "comparison against exact FCI and classical Hartree-Fock benchmarks"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "Google",
+        "device_name": null,
+        "framework": "Cirq"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "SciPy classical optimizer",
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": null,
+          "routing_method": null
+        },
+        "classical_preprocessing": "OpenFermion used to generate molecular Hamiltonians and Jordan-Wigner mapping",
+        "classical_postprocessing": "energy expectation values compared to FCI and Hartree-Fock",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "convergence shown for H2, but numeric iteration count not reported",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "ground_state_energy",
+          "value": -1.132,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "Hartree",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "ground_state_energy",
+          "value": -7.865,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "Hartree",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "ground_state_energy",
+          "value": -74.953,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "Hartree",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qualitative convergence shown in figure",
+          "higher_is_better": false,
+          "data_source": "figure"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "full_configuration_interaction",
+          "metric_name": "ground_state_energy",
+          "value": -1.137,
+          "unit": "Hartree"
+        },
+        {
+          "method_name": "hartree_fock",
+          "metric_name": "ground_state_energy",
+          "value": -1.117,
+          "unit": "Hartree"
+        },
+        {
+          "method_name": "full_configuration_interaction",
+          "metric_name": "ground_state_energy",
+          "value": -7.882,
+          "unit": "Hartree"
+        },
+        {
+          "method_name": "hartree_fock",
+          "metric_name": "ground_state_energy",
+          "value": -7.862,
+          "unit": "Hartree"
+        },
+        {
+          "method_name": "full_configuration_interaction",
+          "metric_name": "ground_state_energy",
+          "value": -75.012,
+          "unit": "Hartree"
+        },
+        {
+          "method_name": "hartree_fock",
+          "metric_name": "ground_state_energy",
+          "value": -74.962,
+          "unit": "Hartree"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "better agreement with exact FCI than Hartree-Fock for H2",
+          "baseline_method": "hartree_fock",
+          "conditions": "small molecular systems simulated on Cirq classical simulator",
+          "is_demonstrated": true,
+          "caveats": "This is an accuracy comparison, not a computational speedup; no runtime or asymptotic speedup is reported."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 2.0,
+          "num_qubits": null,
+          "metric_name": "ground_state_energy",
+          "metric_value": -1.132
+        },
+        {
+          "problem_size": null,
+          "num_qubits": null,
+          "metric_name": "ground_state_energy",
+          "metric_value": -7.865
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": null,
+          "metric_name": "ground_state_energy",
+          "metric_value": -74.953
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "not reported",
+        "classical_complexity": "FCI exponential scaling with system size; Hartree-Fock classical benchmark",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not_estimated",
+        "resources_for_advantage": "Fault‑tolerant quantum computers with substantially larger qubit counts and deeper circuits than current NISQ devices would be required to outperform classical quantum chemistry methods such as coupled cluster or FCI approximations.",
+        "data_loading_bottleneck": false,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "experiments performed only on classical simulators",
+          "very small molecules (H2, LiH, H2O)",
+          "no comparison against state‑of‑the‑art classical quantum chemistry beyond Hartree‑Fock",
+          "unknown circuit depth and qubit counts",
+          "variational optimization overhead"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Paper explicitly states Cirq classical simulator and VQE for molecular systems.",
+          "Number of qubits is not explicitly given for the molecular circuits, so it is inferred as not specified rather than estimated.",
+          "The paper discusses theoretical/qualitative scaling but does not provide a formal quantum complexity for this experiment.",
+          "The paper reports VQE energies approaching FCI for small molecules but does not demonstrate computational advantage.",
+          "All experiments run on Cirq classical simulators."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "VQE simulation of the 1D Fermi-Hubbard model for small lattice sizes and interaction strengths using Cirq classical simulator.",
+      "algorithm": {
+        "family": "vqe",
+        "variant": "VQE for Fermi-Hubbard ground-state estimation",
+        "ansatz": "not specified",
+        "optimizer": "not specified",
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "system_sizes": [
+            2,
+            4
+          ],
+          "interaction_ratios": [
+            "U/t=1.0",
+            "U/t=4.0"
+          ],
+          "framework": "Cirq"
+        },
+        "parameter_initialization": "not reported",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Fermi-Hubbard Hamiltonian mapped to qubits; exact mapping details not fully specified",
+        "objective_function": "minimize ground-state energy of the qubit Hamiltonian for the Fermi-Hubbard model",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": "Fermi-Hubbard Hamiltonian mapped to H_FH,qubit",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "1D Fermi-Hubbard model ground-state energy estimation",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 4,
+        "data_type": "public_benchmark",
+        "dataset_name": "1D Fermi-Hubbard test cases",
+        "dataset_specification": {
+          "description": "N=2 and N=4 sites; U/t in {1.0, 4.0}"
+        },
+        "data_preprocessing_details": "Hamiltonian construction from model parameters; no additional preprocessing reported",
+        "evaluation_methodology": "comparison against exact diagonalization benchmark"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "Google",
+        "device_name": null,
+        "framework": "Cirq"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "exact diagonalization benchmark",
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": null,
+          "routing_method": null
+        },
+        "classical_preprocessing": "Hamiltonian construction for Fermi-Hubbard model",
+        "classical_postprocessing": "results compared to exact diagonalization energies",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "ground_state_energy",
+          "value": -2.231,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "t",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "ground_state_energy",
+          "value": -1.512,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "t",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "ground_state_energy",
+          "value": -4.683,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "t",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "ground_state_energy",
+          "value": -3.187,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "t",
+          "higher_is_better": false,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "exact_diagonalization",
+          "metric_name": "ground_state_energy",
+          "value": -2.236,
+          "unit": "t"
+        },
+        {
+          "method_name": "exact_diagonalization",
+          "metric_name": "ground_state_energy",
+          "value": -1.528,
+          "unit": "t"
+        },
+        {
+          "method_name": "exact_diagonalization",
+          "metric_name": "ground_state_energy",
+          "value": -4.728,
+          "unit": "t"
+        },
+        {
+          "method_name": "exact_diagonalization",
+          "metric_name": "ground_state_energy",
+          "value": -3.256,
+          "unit": "t"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "none reported",
+          "baseline_method": "exact_diagonalization",
+          "conditions": "small 1D Fermi-Hubbard test cases on Cirq simulator",
+          "is_demonstrated": false,
+          "caveats": "Paper reports only accuracy comparison; no runtime or asymptotic speedup claim for this experiment."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 2.0,
+          "num_qubits": null,
+          "metric_name": "ground_state_energy",
+          "metric_value": -2.231
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": null,
+          "metric_name": "ground_state_energy",
+          "metric_value": -1.512
+        },
+        {
+          "problem_size": 4.0,
+          "num_qubits": null,
+          "metric_name": "ground_state_energy",
+          "metric_value": -4.683
+        },
+        {
+          "problem_size": 4.0,
+          "num_qubits": null,
+          "metric_name": "ground_state_energy",
+          "metric_value": -3.187
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "not reported",
+        "classical_complexity": "exact diagonalization benchmark; exponential scaling implied for larger systems",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not_estimated",
+        "resources_for_advantage": "Large‑scale fault‑tolerant quantum processors capable of simulating larger Hubbard lattices beyond classical exact diagonalization limits.",
+        "data_loading_bottleneck": false,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "simulation only on classical Cirq backend",
+          "very small lattice sizes (N=2 and N=4)",
+          "classical exact diagonalization easily solves these instances",
+          "ansatz and circuit resources not specified"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Paper explicitly states Cirq simulator and VQE for the Fermi-Hubbard model.",
+          "No qubit count is reported for the Hubbard circuits; only system sizes N are given, so num_qubits is left null.",
+          "The paper provides qualitative scaling discussion but no formal asymptotic quantum complexity for this specific experiment.",
+          "The paper reports VQE energies close to exact diagonalization but for extremely small systems where classical methods are trivial."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "Quantum amplitude estimation-based European option pricing simulation using Cirq, compared against Black-Scholes and classical Monte Carlo.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "quantum Monte Carlo / QAE for European option pricing",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "target_precisions": [
+            0.04,
+            0.06,
+            0.08,
+            0.1
+          ],
+          "discretization_bits": [
+            5,
+            7,
+            9,
+            11
+          ],
+          "qubits": [
+            5,
+            7,
+            9,
+            11
+          ],
+          "relative_errors": [
+            "3.2%",
+            "1.5%",
+            "0.7%",
+            "0.3%"
+          ],
+          "framework": "Cirq"
+        },
+        "parameter_initialization": "not reported",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "asset-price distribution loaded into a quantum state register; payoff encoded onto an ancilla qubit",
+        "objective_function": "estimate expected payoff E[f(S_T)] for European call option pricing",
+        "constraints_handling": "post-processing rescaling and discounting of estimated amplitude",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": "not_specified"
+      },
+      "problem_instance": {
+        "description": "European option pricing under varying discretization/precision settings",
+        "num_assets": 1,
+        "time_steps": 1,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": "Black-Scholes option-pricing benchmark",
+        "dataset_specification": {
+          "description": "option price vs strike price; volatility scenarios analyzed"
+        },
+        "data_preprocessing_details": "probability distribution over asset prices encoded into quantum state; payoff function coherently applied",
+        "evaluation_methodology": "comparison against analytical Black-Scholes formula and classical Monte Carlo; pricing error reported for multiple precision settings"
+      },
+      "quantum_resources": {
+        "num_qubits": 11,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "Google",
+        "device_name": null,
+        "framework": "Cirq"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Black-Scholes analytical benchmark and classical Monte Carlo",
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": null,
+          "routing_method": null
+        },
+        "classical_preprocessing": "state preparation for price distribution and payoff encoding",
+        "classical_postprocessing": "rescaling and discounting to obtain option price",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "price_error",
+          "value": 3.2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 1.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 0.7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 0.3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "not numerically reported; stated as O(1/epsilon)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "not numerically reported",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "black_scholes",
+          "metric_name": "price_error",
+          "value": null,
+          "unit": "analytical benchmark; error not numerically reported"
+        },
+        {
+          "method_name": "classical_monte_carlo",
+          "metric_name": "price_error",
+          "value": null,
+          "unit": "error not numerically reported"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical Monte Carlo",
+          "conditions": "for precision epsilon in quantum amplitude estimation; assuming sufficient quantum resources",
+          "is_demonstrated": false,
+          "caveats": "Paper states O(1/epsilon) query complexity versus O(1/epsilon^2) samples for classical Monte Carlo, but this is a theoretical claim; practical advantage limited by circuit depth and state preparation overhead."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 5.0,
+          "num_qubits": 5,
+          "metric_name": "price_error",
+          "metric_value": 3.2
+        },
+        {
+          "problem_size": 7.0,
+          "num_qubits": 7,
+          "metric_name": "price_error",
+          "metric_value": 1.5
+        },
+        {
+          "problem_size": 9.0,
+          "num_qubits": 9,
+          "metric_name": "price_error",
+          "metric_value": 0.7
+        },
+        {
+          "problem_size": 11.0,
+          "num_qubits": 11,
+          "metric_name": "price_error",
+          "metric_value": 0.3
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(1/ε) query complexity for precision ε",
+        "classical_complexity": "O(1/ε^2) samples for classical Monte Carlo",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not_estimated",
+        "resources_for_advantage": "Fault‑tolerant implementations of quantum amplitude estimation with deep controlled Grover iterations and accurate state preparation of asset price distributions.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "experiments simulated only",
+          "state preparation of probability distributions",
+          "deep circuits required for QAE",
+          "quadratic speedup only (O(1/epsilon) vs O(1/epsilon^2))",
+          "NISQ noise and circuit depth constraints"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Paper explicitly states Cirq simulation of QAE principles for option pricing.",
+          "Table III reports discretization bits and corresponding qubit counts (5, 7, 9, 11), which are used as the circuit register sizes.",
+          "Circuit depth is discussed qualitatively as depending on QAE queries/depth, but no numeric depth is reported.",
+          "The paper explicitly describes the QAE benefit as a theoretical quadratic speedup over classical Monte Carlo.",
+          "No hardware experiment or runtime comparison is provided."
+        ],
+        "advantage_status": "paper_reported"
+      }
+    }
+  ]
+}

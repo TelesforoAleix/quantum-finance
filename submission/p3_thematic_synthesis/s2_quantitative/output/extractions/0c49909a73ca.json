@@ -1,0 +1,727 @@
+{
+  "paper_id": "0c49909a73ca",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:01:28+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "0c49909a73ca_hybrid_quantum_classical_neural_networks_for_few_shot_credit_risk_assessment.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.525,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 10,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[3].unit='AUC' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='AUC' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='AUC' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='epoch' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[15].unit='partitions' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[16].unit='train:test ratio' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[17].unit='features' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[18].unit='features' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[23].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.525,
+      "completeness": 0.525,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.9,
+        0.15
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Hybrid Quantum-Classical Neural Networks for Few-Shot Credit Risk Assessment",
+    "authors": [
+      "Zheng-an Wang",
+      "Yanbo J. Wang",
+      "Jiachi Zhang",
+      "Qi Xu",
+      "Yilun Zhao",
+      "Jintao Li",
+      "Yipeng Zhang",
+      "Bo Yang",
+      "Xinkai Gao",
+      "Xiaofeng Cao",
+      "Kai Xu",
+      "Pengpeng Hao",
+      "Xuan Yang",
+      "Heng Fan"
+    ],
+    "year": 2025,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "credit-lending",
+    "secondary_silos": [
+      "quantum-ml-finance",
+      "risk-management"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a hybrid quantum‑classical neural network for few‑shot credit risk assessment using classical feature engineering followed by a variational QNN classifier. On a real loan dataset of 279 samples, the model achieves AUC ≈0.853±0.025 in simulation and AUC ≈0.88 on the Quafu ScQ‑P21 superconducting processor, slightly outperforming classical baselines such as logistic regression (AUC ≈0.844).",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Hybrid quantum-classical neural network for few-shot credit risk assessment, evaluated in numerical simulation and on a superconducting quantum processor using a simplified hardware-adapted QNN.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Quantum Neural Network (QNN) with classical feature engineering and parameter-shift training",
+        "ansatz": "Three-stage PQC with angle encoding via RX gates, alternating parameterized RX/RY layers, and CNOT entangling layers; hardware experiment uses a simplified circuit with only RY parameterized layers",
+        "optimizer": "AdamW",
+        "num_layers": null,
+        "convergence_criteria": "trained for 50 epochs in simulation; final model selected at epoch 6 based on training AUC peak",
+        "hyperparameters": {
+          "loss_function": "binary cross-entropy",
+          "training_epochs_simulation": 50,
+          "selected_epoch_for_final_model": 6,
+          "cross_validation_partitions": 10,
+          "train_test_split": "7:3",
+          "batch_sizes": [
+            64,
+            64,
+            32,
+            32,
+            32,
+            64,
+            128,
+            128,
+            32,
+            32
+          ],
+          "input_feature_dimension_original": 8,
+          "compressed_feature_dimension": 3,
+          "training_samples_per_partition": 195,
+          "testing_samples_per_partition": 84,
+          "default_samples_in_train": 29,
+          "default_samples_in_test": 12
+        },
+        "parameter_initialization": "random initialization implied; one hypothesis in discussion notes favorable random parameter initialization on hardware",
+        "optimizer_settings": {
+          "optimizer": "AdamW",
+          "learning_rate": null,
+          "max_iterations": 50,
+          "tolerance": null,
+          "step_size": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Three preprocessed classical features are encoded into quantum states using a layer of single-qubit RX gates; original 8 features are first reduced to 3 features by classical ensemble models",
+        "objective_function": "Binary credit default classification minimizing binary cross-entropy loss",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Few-shot credit risk assessment on a retail/wholesale borrower subset",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 8,
+        "dataset_size": 279,
+        "data_type": "real_market",
+        "dataset_name": "anonymized personal internet loans dataset",
+        "dataset_specification": {
+          "description": "Originally 10,000 samples across 14 industries; subset of 279 borrowers from retail and wholesale industries; 41 defaults (14.6% default rate)"
+        },
+        "data_preprocessing_details": "Classical feature engineering and dimensionality reduction using logistic regression, random forest, and XGBoost predictions aggregated into a 3D feature vector; repeated random sub-sampling cross-validation with stratified 7:3 train-test splits",
+        "evaluation_methodology": "10 repeated stratified random splits; metrics averaged across trials; simulation and hardware evaluation reported"
+      },
+      "quantum_resources": {
+        "num_qubits": 3,
+        "qubit_type": "physical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 14,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_superconducting",
+        "provider": "Quafu",
+        "device_name": "ScQ-P21",
+        "framework": "PyQuafu"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "hardware noise on superconducting device",
+        "error_mitigation_method": null,
+        "noise_parameters": {
+          "t1": null,
+          "t2": null,
+          "gate_error_rates": {
+            "cz_gate_fidelity": [
+              0.9929,
+              0.9959,
+              0.9954,
+              0.9953,
+              0.9951,
+              0.9947,
+              0.9443,
+              0.9954
+            ],
+            "single_qubit_fidelity": [
+              0.939,
+              0.979,
+              0.987,
+              0.951,
+              0.963,
+              0.986,
+              0.993,
+              0.942
+            ],
+            "readout_fidelity": [
+              0.932,
+              0.82,
+              0.891,
+              0.93,
+              0.909,
+              0.873,
+              0.932,
+              0.929,
+              0.883
+            ]
+          }
+        },
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": "hardware-adapted simplified circuit for ScQ-P21",
+        "classical_solver": "AdamW optimizer in PyTorch; classical preprocessing with logistic regression, random forest, XGBoost",
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": null,
+          "routing_method": null
+        },
+        "classical_preprocessing": "Feature engineering via ensemble of logistic regression, random forest, and XGBoost; dimensionality reduction to 3 features",
+        "classical_postprocessing": "AUC, KS, recall, and precision computed from predicted probabilities",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 50,
+          "final_loss_value": null,
+          "loss_curve_shape": "loss decreased and stabilized around epoch 20 in simulation; hardware training loss showed clear convergence",
+          "variance_across_runs": 10.0,
+          "num_independent_runs": 10
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "dataset_size",
+          "value": 279,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "default_rate",
+          "value": 14.6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "default_samples",
+          "value": 41,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 0.853,
+          "uncertainty": "±0.025",
+          "num_runs": 10,
+          "unit": "AUC",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 0.88,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "AUC",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 0.852,
+          "uncertainty": "±0.027",
+          "num_runs": null,
+          "unit": "AUC",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.85,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.88,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.425,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.44,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "ks_statistic",
+          "value": 0.692,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "ks_statistic",
+          "value": 0.73,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "log_loss",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_epochs",
+          "value": 50,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "selected_epoch_for_final_model",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "epoch",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "cross_validation_partitions",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "partitions",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "train_test_split",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "train:test ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "input_feature_dimension_original",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "features",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "compressed_feature_dimension",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "features",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_samples_per_partition",
+          "value": 195,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "testing_samples_per_partition",
+          "value": 84,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "default_samples_in_train",
+          "value": 29,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "default_samples_in_test",
+          "value": 12,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_variational_params",
+          "value": 14,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "Logistic Regression",
+          "metric_name": "auc_roc",
+          "value": 0.844,
+          "unit": "AUC"
+        },
+        {
+          "method_name": "Logistic Regression",
+          "metric_name": "ks_statistic",
+          "value": 0.686,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Logistic Regression",
+          "metric_name": "recall",
+          "value": 0.85,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Logistic Regression",
+          "metric_name": "precision",
+          "value": 0.408,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Decision Tree",
+          "metric_name": "auc_roc",
+          "value": 0.706,
+          "unit": "AUC"
+        },
+        {
+          "method_name": "Decision Tree",
+          "metric_name": "ks_statistic",
+          "value": 0.447,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Decision Tree",
+          "metric_name": "recall",
+          "value": 0.567,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Decision Tree",
+          "metric_name": "precision",
+          "value": 0.377,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Random Forest",
+          "metric_name": "auc_roc",
+          "value": 0.817,
+          "unit": "AUC"
+        },
+        {
+          "method_name": "Random Forest",
+          "metric_name": "ks_statistic",
+          "value": 0.64,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Random Forest",
+          "metric_name": "recall",
+          "value": 0.75,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Random Forest",
+          "metric_name": "precision",
+          "value": 0.36,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "SVM",
+          "metric_name": "auc_roc",
+          "value": 0.702,
+          "unit": "AUC"
+        },
+        {
+          "method_name": "SVM",
+          "metric_name": "ks_statistic",
+          "value": 0.501,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "SVM",
+          "metric_name": "recall",
+          "value": 0.658,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "SVM",
+          "metric_name": "precision",
+          "value": 0.316,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "XGBoost",
+          "metric_name": "auc_roc",
+          "value": 0.806,
+          "unit": "AUC"
+        },
+        {
+          "method_name": "XGBoost",
+          "metric_name": "ks_statistic",
+          "value": 0.603,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "XGBoost",
+          "metric_name": "recall",
+          "value": 0.717,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "XGBoost",
+          "metric_name": "precision",
+          "value": 0.349,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Neural Networks",
+          "metric_name": "auc_roc",
+          "value": 0.82,
+          "unit": "AUC"
+        },
+        {
+          "method_name": "Neural Networks",
+          "metric_name": "ks_statistic",
+          "value": 0.62,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Neural Networks",
+          "metric_name": "recall",
+          "value": 0.74,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Neural Networks",
+          "metric_name": "precision",
+          "value": 0.37,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The paper discusses potential quantum advantage qualitatively, but no asymptotic or empirical speedup is established."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 279,
+          "num_qubits": 3,
+          "metric_name": "auc_roc",
+          "metric_value": 0.853
+        },
+        {
+          "problem_size": 279,
+          "num_qubits": 3,
+          "metric_name": "auc_roc",
+          "metric_value": 0.88
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": null,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "unknown",
+        "resources_for_advantage": "Not specified; experiment uses a very small PQC on a NISQ superconducting processor (ScQ‑P21) with a few qubits and shallow circuit depth.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "current_nisq",
+        "limiting_factors": [
+          "Extremely small dataset (279 samples)",
+          "No asymptotic complexity or speedup analysis",
+          "Quantum model size extremely small relative to classical baselines",
+          "Hybrid pipeline relies heavily on classical feature engineering",
+          "No scaling study demonstrating advantage with larger datasets"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "num_qubits inferred as 3 because the compressed feature vector is 3-dimensional and the QNN encodes one feature per qubit using RX gates.",
+          "circuit_depth not explicitly reported; only relative structure is given (simulation: three parameterized layers and two entangling layers; hardware: two parameterized and two entangling layers).",
+          "speedup_order set to none_proven because the paper discusses potential quantum advantage qualitatively but does not establish asymptotic speedup.",
+          "Authors report slightly higher AUC (0.88 hardware vs ~0.84 classical logistic regression) but do not demonstrate scaling advantage or complexity improvement.",
+          "Results are on a tiny dataset with heavy classical preprocessing; improvements are empirical and not evidence of quantum computational advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Numerical simulation of the QNN credit‑risk classifier using the PyQuafu simulator before deployment on hardware.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Variational Quantum Neural Network (QNN)",
+        "optimizer": "AdamW",
+        "ansatz": "Angle encoding with RX gates, three parameterized layers with RX/RY rotations and two CNOT entangling layers",
+        "num_layers": null
+      },
+      "key_results": [
+        {
+          "metric": "AUC",
+          "value": 0.853,
+          "uncertainty": "±0.025",
+          "details": "Average across 10 stratified random train/test splits"
+        },
+        {
+          "metric": "KS statistic",
+          "value": 0.692
+        },
+        {
+          "metric": "Recall",
+          "value": 0.85
+        },
+        {
+          "metric": "Precision",
+          "value": 0.425
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,439 @@
+{
+  "paper_id": "081132e62980",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:00:15+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "081132e62980_quantum_algorithm_for_local_volatility_option_pricing_via_the_kolmogorov_equatio.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.5,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 1,
+    "validation_warnings": 14,
+    "validation_passed": false,
+    "validation_error_details": [
+      "Schema error at experiments.0.quantum_resources.two_qubit_gate_count: '6n^2 - 4n + 6 for payoff-state construction; 12n - 4 for auxiliary state construction' is not of type 'integer', 'null'"
+    ],
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='query complexity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='relative error' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='absolute error' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='grid-spacing order' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='asset' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='assets (multi-asset extension)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='CNOT gates' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='CNOT gates' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='asymptotic gate complexity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='dimension scaling' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='FLOPs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='gates/queries' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='norm' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.5,
+      "completeness": 0.5,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.5
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.0,
+          "results": 0.5,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum Algorithm for Local-Volatility Option Pricing via the Kolmogorov Equation",
+    "authors": [
+      "Nikita Guseynov",
+      "Mikel Sanz",
+      "Ángel Rodríguez-Rozas",
+      "Nana Liu",
+      "Javier Gonzalez-Conde"
+    ],
+    "year": 2025,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": [
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a gate-based quantum algorithm that solves the Kolmogorov forward PDE for option pricing via Schrödingerisation and Hamiltonian simulation. Theoretical analysis claims quantum gate complexity O(N^2 polylog N) compared to classical O(N^3) finite-difference or exponential-integration methods for N=2^n grid points, with multidimensional scaling O(d^5). No hardware or simulator experiments are performed.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Gate-based quantum algorithm for pricing European vanilla options under a local-volatility model by solving the Kolmogorov forward PDE via Schrödingerisation, time-dependent Hamiltonian simulation, and swap-test-based payoff recovery; includes single-asset and multi-asset scaling analysis.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Schrödingerisation-based Hamiltonian simulation for the Kolmogorov forward equation with clock-dimension embedding",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "volatility_model": "local-volatility",
+          "volatility_parameterization": "polynomial in space and time, sigma(s,t)=sum_{k=0..D_s} sum_{q=0..D_t} C_kq s^k t^q",
+          "finite_difference_scheme": "second-order central difference",
+          "boundary_conditions": "periodic",
+          "auxiliary_registers": "Schrödingerisation qumode + clock dimension",
+          "payoff_retrieval": "swap test",
+          "postselection": "positive momentum subspace"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Price distribution p(s,t) encoded into amplitudes of an n-qubit register; initial condition approximated by computational basis state |S0> or sharply peaked Gaussian; auxiliary Schrödingerisation and clock registers discretize additional qumodes",
+        "objective_function": "Compute option price V(0)=e^{-rT} E[C0(S_T)] by evolving the forward Kolmogorov PDE and recovering the expected payoff via overlap estimation",
+        "constraints_handling": "Post-selection on positive momentum eigenvectors; swap test for overlap estimation",
+        "num_binary_variables": null,
+        "problem_hamiltonian": "Time-dependent pseudo-Hamiltonian H_LV embedded into time-independent H = I⊗I_w⊗p_y + H_LVS(t=x_y)",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "European vanilla call/put option pricing under a local-volatility model; includes single-asset pricing and a d-asset extension for basket-style scaling analysis",
+        "num_assets": 1,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Model-based local-volatility surface; no market dataset specified"
+        },
+        "data_preprocessing_details": "No empirical dataset preprocessing; volatility surface assumed polynomially approximable and discretized on a uniform grid",
+        "evaluation_methodology": "Theoretical complexity analysis; illustrative Black-Scholes overlap plots; no numerical benchmark protocol or repeated-run statistics reported"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": 0,
+        "cnot_count": 6,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": "not_specified"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Classical discretization of the PDE on a uniform grid; polynomial approximation of volatility; construction of payoff state and normalization factors",
+        "classical_postprocessing": "Swap-test estimation of overlaps to recover option price; post-selection on positive momentum; normalization via a second swap test with |+>^n",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": null,
+        "classical_baselines": [
+          "Classical finite-difference time stepping with O(s T N^3) complexity",
+          "Classical exponential-integration / matrix-exponential action with O(s T N^3) complexity"
+        ],
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "oracle_queries",
+          "value": "O(log(1/eps_schr) * ||p(0)||^2 / ||p(T)||^2)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "query complexity",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": "L_+(psi) * ||p(T)||^2 / ||p(0)||^2",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "price_error",
+          "value": "O(2^-n) + O(Nshots^-1/2)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "relative error",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "price_error",
+          "value": "O(1/eps_v0)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute error",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": "O(Delta x)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "grid-spacing order",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_underlyings",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "asset",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_underlyings",
+          "value": "d",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets (multi-asset extension)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "cnot_count",
+          "value": "6n^2 - 4n + 6",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "CNOT gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "cnot_count",
+          "value": "12n - 4",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "CNOT gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "quantum_complexity",
+          "value": "O(N^2 polylog N)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "asymptotic gate complexity",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "quantum_complexity",
+          "value": "O(d^5)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimension scaling",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "classical_complexity",
+          "value": "O(s T N^3)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "FLOPs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gate_complexity",
+          "value": "O((s||H||_max T + log(1/eps_evol)/log(e + log(1/eps_evol)/(s||H||_max T))) * [D_s n log n + s n + n_w log n_w + D_t n_y log n_y])",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gate_complexity",
+          "value": "O((gamma + log(gamma/eps_evol)/log log(gamma/eps_evol)) * (n + n_w + n_y + m polylog(m)))",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates/queries",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "operator_norm",
+          "value": "sigma_max^2 * max(|a|,|b|)^2 * 2^(2n)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "norm",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical finite-difference time stepping",
+          "metric_name": "classical_complexity",
+          "value": "O(s T N^3)",
+          "unit": "FLOPs"
+        },
+        {
+          "method_name": "classical exponential-integration / matrix-exponential action",
+          "metric_name": "classical_complexity",
+          "value": "O(s T N^3)",
+          "unit": "FLOPs"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "polynomial speedup in grid size; summarized as O(N^2 polylog N) vs O(N^3)",
+          "baseline_method": "classical finite-difference time stepping and exponential-integration methods",
+          "conditions": "single-asset discretization; gate-based Hamiltonian simulation with block-encoding and Schrödingerisation; asymptotic scaling",
+          "is_demonstrated": true,
+          "caveats": "The paper states the speedup is polynomial, not exponential, for a single asset; the dominant restriction is the discretized momentum operator norm scaling as 2^(2n)."
+        },
+        {
+          "type": "theoretical",
+          "factor": "exponential speedup in dimension / mitigation of curse of dimensionality",
+          "baseline_method": "classical multi-asset PDE solvers",
+          "conditions": "high-dimensional basket-style pricing; multi-asset extension",
+          "is_demonstrated": true,
+          "caveats": "The paper presents scaling analysis rather than a numerical benchmark; the claimed advantage is in dimension d, with evolution cost O(d^5) and initial-state preparation O(dn)."
+        },
+        {
+          "type": "theoretical",
+          "factor": "quadratic improvement in retrieval via forward formulation versus backward amplitude-encoding retrieval",
+          "baseline_method": "backward PDE formulation",
+          "conditions": "when recovering option price from expected value using swap test",
+          "is_demonstrated": true,
+          "caveats": "This is a qualitative advantage of the forward formulation; no direct benchmark numbers are reported."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": null,
+          "num_qubits": null,
+          "metric_name": "quantum_complexity",
+          "metric_value": 2.0
+        },
+        {
+          "problem_size": null,
+          "num_qubits": null,
+          "metric_name": "quantum_complexity",
+          "metric_value": 5.0
+        },
+        {
+          "problem_size": null,
+          "num_qubits": null,
+          "metric_name": "initial_state_preparation_complexity",
+          "metric_value": null
+        },
+        {
+          "problem_size": null,
+          "num_qubits": null,
+          "metric_name": "cnot_count",
+          "metric_value": 6.0
+        },
+        {
+          "problem_size": null,
+          "num_qubits": null,
+          "metric_name": "cnot_count",
+          "metric_value": 12.0
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "Hamiltonian simulation gate complexity O((s||H||_max T + log(1/eps_evol)/log(e + log(1/eps_evol)/(s||H||_max T))) * [D_s n log n + s n + n_w log n_w + D_t n_y log n_y]); overall option-pricing scaling summarized as O(N^2 polylog N) for N=2^n grid points; multi-asset evolution cost O(d^5) in dimension d",
+        "classical_complexity": "O(s T N^3) for both finite-difference time stepping and exponential-integration methods",
+        "speedup_order": "polynomial_other",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L0_theory",
+        "crossover_size": "Not reported; asymptotic comparison only (O(N^2 polylog N) vs O(N^3))",
+        "resources_for_advantage": "Requires large logical registers (n + n_w + n_y qubits), block-encoded Hamiltonian simulation, and accurate swap-test overlap estimation; no concrete qubit counts or fault-tolerant resource estimates provided.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Hamiltonian norm dominated by discretized momentum operator scaling as 2^(2n)",
+          "Requires fault-tolerant Hamiltonian simulation and block encoding",
+          "Amplitude encoding and state preparation overhead",
+          "No hardware demonstration or realistic resource estimates",
+          "Speedup is only polynomial in grid size for single-asset problems"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "No specific hardware platform or simulator is named; the paper is a theoretical gate-based algorithm paper.",
+          "The paper reports gate-complexity expressions and CNOT counts for subroutines, but not a single end-to-end transpiled depth or execution on hardware.",
+          "The paper explicitly states a polynomial advantage in grid size (O(N^2 polylog N) vs classical O(N^3)) and potential exponential improvement with dimension for basket options.",
+          "However, no numerical experiments, hardware runs, or crossover estimates are provided."
+        ],
+        "advantage_status": "paper_reported"
+      }
+    }
+  ]
+}

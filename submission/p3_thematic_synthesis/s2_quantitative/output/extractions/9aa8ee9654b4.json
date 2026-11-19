@@ -1,0 +1,992 @@
+{
+  "paper_id": "9aa8ee9654b4",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:21:11+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "9aa8ee9654b4_quantum_differential_machine_learning.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.85,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 8,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[13].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[16].unit='norm' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[18].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[12].unit='pixels per image' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[13].unit='features after padding' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[14].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[17].unit='norm' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[19].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.85,
+      "completeness": 0.85,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.85,
+        0.85
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum machine learning with differential privacy",
+    "authors": [
+      "William M. Watkins",
+      "Samuel Yen‑Chi Chen",
+      "Shinjae Yoo"
+    ],
+    "year": 2023,
+    "doi": "10.1038/s41598-022-24082-z",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a differentially private variational quantum classifier trained with gradient clipping and Gaussian noise. On simulated circuits, the model classifies MNIST digits 0 vs 1 with up to 96.5% accuracy using 288 parameters (vs 92.9% for a classical NN with 1029 parameters at ε≈0.406) and achieves up to ~100% accuracy on small 2D benchmark datasets. All experiments are performed on noiseless simulators using at most 10 qubits.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Differentially private variational quantum classifier for binary classification of 2D benchmark datasets (blobs, moons, circles) compared against classical neural networks.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "differentially private variational quantum classifier (DP-VQC) with hybrid quantum-classical training",
+        "ansatz": "two successive variational quantum subcircuits; each subcircuit uses single-qubit rotations and CNOT entanglement",
+        "optimizer": "RMSProp",
+        "num_layers": null,
+        "convergence_criteria": "trained for 30 epochs",
+        "hyperparameters": {
+          "learning_rate": 0.05,
+          "momentum": 0.5,
+          "batch_size": 32,
+          "train_test_split": "60%/40%",
+          "l2_clip": 1.0,
+          "noise_multiplier": "varies",
+          "num_iterations": 5,
+          "delta": 1e-05,
+          "epochs": 30,
+          "optimizer": "RMSProp"
+        },
+        "parameter_initialization": "angles initialized from normal distribution with mean 0 and standard deviation 1.0, then scaled by 0.01",
+        "optimizer_settings": {
+          "learning_rate": 0.05,
+          "momentum": 0.5,
+          "batch_size": 32,
+          "max_iterations": 30,
+          "step_size": null,
+          "tolerance": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "2D inputs encoded via variational encoding using Ry(arctan(x_i)) and Rz(arctan(x_i^2)) on two qubits per subcircuit; two successive subcircuits used for classification",
+        "objective_function": "binary cross-entropy loss for classifying 2D points into two classes",
+        "constraints_handling": "differential privacy via gradient clipping and Gaussian noise added to gradients",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Binary classification of synthetic 2D benchmark datasets",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 2,
+        "dataset_size": 200,
+        "data_type": "public_benchmark",
+        "dataset_name": "scikit-learn blobs, moons, circles",
+        "dataset_specification": {
+          "description": "three 2D datasets from scikit-learn; 60% training and 40% testing"
+        },
+        "data_preprocessing_details": "inputs normalized/encoded through arctan-based variational encoding; circles dataset generated with 1000 points based on preliminary experimentation",
+        "evaluation_methodology": "accuracy after 30 epochs; compared across non-private, DP, and classical baselines"
+      },
+      "quantum_resources": {
+        "num_qubits": 2,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 24,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "PennyLane + Qulacs simulator backend",
+        "device_name": null,
+        "framework": "PennyLane",
+        "framework_version": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "PennyLane quantum algorithms with PyTorch interface; PyVacy used for differentially private optimization",
+        "classical_postprocessing": "cross-entropy evaluation and accuracy computation",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 30,
+          "final_loss_value": null,
+          "loss_curve_shape": "reported as smoother for private NN than DP-VQC; accuracy reported after 30 epochs",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "accuracy",
+          "value": 1.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.998,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.98,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.97,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.96,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.92,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.91,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.88,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.87,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.86,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.85,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 200,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 1000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "epochs",
+          "value": 30,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "epochs",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "learning_rate",
+          "value": 0.05,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "batch_size",
+          "value": 32,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "l2_clip",
+          "value": 1.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "norm",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "delta",
+          "value": 1e-05,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_variational_params",
+          "value": 24,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical neural network",
+          "metric_name": "accuracy",
+          "value": 0.98,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical neural network",
+          "metric_name": "accuracy",
+          "value": 0.92,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical neural network",
+          "metric_name": "accuracy",
+          "value": 0.87,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical neural network",
+          "metric_name": "accuracy",
+          "value": 0.98,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical neural network",
+          "metric_name": "accuracy",
+          "value": 0.87,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical neural network",
+          "metric_name": "accuracy",
+          "value": 0.86,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No asymptotic or wall-clock speedup is reported; the paper focuses on accuracy under differential privacy."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 200,
+          "num_qubits": 2,
+          "metric_name": "accuracy",
+          "metric_value": 1.0
+        },
+        {
+          "problem_size": 200,
+          "num_qubits": 2,
+          "metric_name": "accuracy",
+          "metric_value": 0.998
+        },
+        {
+          "problem_size": 200,
+          "num_qubits": 2,
+          "metric_name": "accuracy",
+          "metric_value": 0.92
+        },
+        {
+          "problem_size": 200,
+          "num_qubits": 2,
+          "metric_name": "accuracy",
+          "metric_value": 0.91
+        },
+        {
+          "problem_size": 1000,
+          "num_qubits": 2,
+          "metric_name": "accuracy",
+          "metric_value": 1.0
+        },
+        {
+          "problem_size": 1000,
+          "num_qubits": 2,
+          "metric_name": "accuracy",
+          "metric_value": 0.97
+        },
+        {
+          "problem_size": 1000,
+          "num_qubits": 2,
+          "metric_name": "accuracy",
+          "metric_value": 0.88
+        },
+        {
+          "problem_size": 1000,
+          "num_qubits": 2,
+          "metric_name": "accuracy",
+          "metric_value": 0.86
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "parity_with_classical",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "unknown; experiments use only 2-qubit simulated circuits and small classical datasets (200–1000 samples)",
+        "data_loading_bottleneck": false,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Only noiseless classical simulation; no QPU execution",
+          "Very small problem sizes (2D toy datasets)",
+          "No complexity analysis or scaling study",
+          "Classical neural network baseline achieves similar accuracy"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Paper states the quantum circuits were simulated on a classical computer using PennyLane with Qulacs backend; no real QPU used.",
+          "Two qubits are explicit for the 2D classifier subcircuits; total circuit depth is not explicitly reported.",
+          "24 trainable parameters are inferred from the text: two subcircuits with 12 Euler angles each.",
+          "Table 2 shows similar accuracies between classical NN and VQC for blobs and moons; slight advantage for VQC on circles but on a small toy dataset.",
+          "No runtime or complexity comparison; therefore no demonstrated computational advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Differentially private variational quantum classifier for binary MNIST classification of handwritten digits 0 vs 1, compared against a classical neural network.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "differentially private variational quantum classifier (DP-VQC) with hybrid quantum-classical training",
+        "ansatz": "two-stage variational quantum classifier; first block uses amplitude encoding and repeated unitary layers, second block uses variational encoding",
+        "optimizer": "RMSProp",
+        "num_layers": null,
+        "convergence_criteria": "trained for 30 epochs",
+        "hyperparameters": {
+          "learning_rate": 0.05,
+          "momentum": 0.5,
+          "batch_size": 32,
+          "train_test_split": "60%/40%",
+          "l2_clip": 1.0,
+          "noise_multiplier": "varies from 1.0 to 5.0",
+          "num_iterations": 5,
+          "delta": 1e-05,
+          "epochs": 30,
+          "optimizer": "RMSProp"
+        },
+        "parameter_initialization": "angles initialized from normal distribution with mean 0 and standard deviation 1.0, then scaled by 0.01",
+        "optimizer_settings": {
+          "learning_rate": 0.05,
+          "momentum": 0.5,
+          "batch_size": 32,
+          "max_iterations": 30,
+          "step_size": null,
+          "tolerance": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "784-pixel MNIST images padded to 1024 dimensions and amplitude-encoded into a 10-qubit state; second block uses variational encoding of the first block output",
+        "objective_function": "binary cross-entropy loss for classifying digits 0 and 1",
+        "constraints_handling": "differential privacy via gradient clipping and Gaussian noise added to gradients",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Binary classification of MNIST handwritten digits 0 and 1",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 1024,
+        "dataset_size": 0,
+        "data_type": "public_benchmark",
+        "dataset_name": "MNIST",
+        "dataset_specification": {
+          "description": "binary MNIST classification of digits 0 and 1; 60% training and 40% testing"
+        },
+        "data_preprocessing_details": "grayscale images padded from 784 to 1024 dimensions; amplitude loading into 10-qubit state",
+        "evaluation_methodology": "accuracy after 30 epochs across multiple privacy budgets (epsilon values derived from noise multipliers)"
+      },
+      "quantum_resources": {
+        "num_qubits": 10,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 288,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "PennyLane + Qulacs simulator backend",
+        "device_name": null,
+        "framework": "PennyLane",
+        "framework_version": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "PennyLane quantum algorithms with PyTorch interface; PyVacy used for differentially private optimization; MNIST images padded to 1024 dimensions",
+        "classical_postprocessing": "cross-entropy evaluation and accuracy computation",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 30,
+          "final_loss_value": null,
+          "loss_curve_shape": "accuracy decreases as epsilon decreases; DP-VQC remains competitive and often superior to classical NN",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "accuracy",
+          "value": 0.984,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.97666667,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.974,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.97666667,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.97,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.98266667,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.92466667,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.94466667,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.92933333,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.96466667,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.86,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.965,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 784,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "pixels per image",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 1024,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "features after padding",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "epochs",
+          "value": 30,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "epochs",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "learning_rate",
+          "value": 0.05,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "batch_size",
+          "value": 32,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "l2_clip",
+          "value": 1.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "norm",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "delta",
+          "value": 1e-05,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_variational_params",
+          "value": 288,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical neural network",
+          "metric_name": "accuracy",
+          "value": 0.984,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical neural network",
+          "metric_name": "accuracy",
+          "value": 0.974,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical neural network",
+          "metric_name": "accuracy",
+          "value": 0.97,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical neural network",
+          "metric_name": "accuracy",
+          "value": 0.92466667,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical neural network",
+          "metric_name": "accuracy",
+          "value": 0.92933333,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical neural network",
+          "metric_name": "accuracy",
+          "value": 0.946,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical neural network",
+          "metric_name": "accuracy",
+          "value": 0.86,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical neural network",
+          "metric_name": "accuracy",
+          "value": 0.94733333,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical neural network",
+          "metric_name": "accuracy",
+          "value": 0.916,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical neural network",
+          "metric_name": "accuracy",
+          "value": 0.83266667,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No runtime or asymptotic speedup is reported; the paper reports accuracy comparisons and parameter counts only."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 784,
+          "num_qubits": 10,
+          "metric_name": "accuracy",
+          "metric_value": 0.984
+        },
+        {
+          "problem_size": 1024,
+          "num_qubits": 10,
+          "metric_name": "accuracy",
+          "metric_value": 0.97666667
+        },
+        {
+          "problem_size": 1024,
+          "num_qubits": 10,
+          "metric_name": "accuracy",
+          "metric_value": 0.974
+        },
+        {
+          "problem_size": 1024,
+          "num_qubits": 10,
+          "metric_name": "accuracy",
+          "metric_value": 0.98266667
+        },
+        {
+          "problem_size": 1024,
+          "num_qubits": 10,
+          "metric_name": "accuracy",
+          "metric_value": 0.94466667
+        },
+        {
+          "problem_size": 1024,
+          "num_qubits": 10,
+          "metric_name": "accuracy",
+          "metric_value": 0.96466667
+        },
+        {
+          "problem_size": 1024,
+          "num_qubits": 10,
+          "metric_name": "accuracy",
+          "metric_value": 0.86
+        },
+        {
+          "problem_size": 1024,
+          "num_qubits": 10,
+          "metric_name": "accuracy",
+          "metric_value": 0.83266667
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "parity_with_classical",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "unknown; 10-qubit simulated VQC with 288 parameters compared to classical NN with 1029 parameters",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Only simulation with ideal noise-free circuits",
+          "No runtime comparison between quantum and classical models",
+          "Small binary MNIST task (0 vs 1)",
+          "Amplitude encoding assumed efficient but not implementable efficiently on real hardware"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Paper states the VQCs were simulated on a classical computer; no real quantum hardware was used.",
+          "10 qubits are explicitly stated for amplitude encoding of the 1024-dimensional input.",
+          "288 trainable parameters are explicitly stated in the text (240 in first block + 48 in second block).",
+          "Authors claim the quantum model is 'more efficient' due to fewer parameters (288 vs 1029) and sometimes higher accuracy (e.g., 0.965 vs 0.929 at ε≈0.406).",
+          "However this is not computational quantum advantage under Hoefler criteria; it is only model-size/accuracy comparison on simulated circuits."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

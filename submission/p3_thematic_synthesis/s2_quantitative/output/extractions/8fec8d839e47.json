@@ -1,0 +1,561 @@
+{
+  "paper_id": "8fec8d839e47",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:15:20+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "8fec8d839e47_q_dtn_a_quantum_enhanced_framework_for_secure_financial_risk_management.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.95,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 9,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[8].unit='features' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='features' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='records' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='transactions' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='records' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='epsilon' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[15].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[17].unit='folds' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[18].unit='p_value_threshold' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.95,
+      "completeness": 0.95,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.95
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Q-DTN: A Quantum-Enhanced Framework for Secure Financial Risk Management",
+    "authors": [
+      "Akshay Mittal",
+      "Krishna Kandi",
+      "Anusha Nagineni",
+      "Vamsi Alla"
+    ],
+    "year": 2025,
+    "doi": "10.1109/CARS67163.2025.11337656",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "fraud-detection",
+    "secondary_silos": [
+      "risk-management",
+      "quantum-ml-finance",
+      "cryptography-security"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a hybrid variational quantum classifier (QERC) combining QSVM-style feature mapping with a VQC, simulated with a 5‑qubit circuit in Qiskit Aer on financial datasets including the FICO HELOC dataset (10,459 samples). The reported performance is 97.0% ± 1.2 accuracy and F1 = 0.95, compared to 92% accuracy for XGBoost and 90% for a neural network, with a claimed 10 s training time versus 500–600 s for classical baselines. All results are obtained via noiseless simulation.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum-Enhanced Risk Classifier (QERC) for financial fraud/risk classification using a hybrid quantum-classical variational circuit with amplitude encoding, evaluated on FICO HELOC, Ethereum transaction logs, and IoT climate finance data.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Quantum-Enhanced Risk Classifier (QERC) combining QSVM and VQC elements",
+        "ansatz": null,
+        "optimizer": "COBYLA",
+        "num_layers": 4,
+        "convergence_criteria": "until convergence or maximum iterations Tmax = 100; paper also states convergence typically within 50 iterations",
+        "hyperparameters": {
+          "circuit_depth_layers": 4,
+          "learning_rate": 0.05,
+          "optimization_iterations": 100,
+          "maximum_iterations": 100,
+          "convergence_iterations_typical": 50,
+          "qubits_used_for_23_dimensional_data": 5,
+          "dataset_feature_dimensions": [
+            23,
+            12
+          ],
+          "cross_validation_folds": 5
+        },
+        "parameter_initialization": "initial parameters θ0 (specific distribution not reported)",
+        "optimizer_settings": {
+          "max_iterations": 100,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Classical financial data are amplitude-encoded into a quantum state; paper states 5 qubits are sufficient for 23-dimensional FICO data and n = ceil(log2(d)) for d-dimensional input.",
+        "objective_function": "min_θ L(θ) = (1/N) Σ_i ℓ(y_i, <ψ(x_i,θ)| O |ψ(x_i,θ)>) with hinge loss ℓ(y,f)=max(0,1-y·f) and Pauli-Z observable O",
+        "constraints_handling": "none reported beyond variational optimization; no explicit penalty terms or feasibility filters",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Financial fraud/risk classification on public benchmark and transaction datasets",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 23,
+        "dataset_size": null,
+        "data_type": "public_benchmark",
+        "dataset_name": "FICO HELOC, Ethereum transaction logs, IoT climate finance data",
+        "dataset_specification": {
+          "description": "FICO HELOC: 10,459 credit profiles, 23 features; Ethereum transaction logs: 100,000 DeFi transactions; IoT climate finance: 9,356 records, 12 features"
+        },
+        "data_preprocessing_details": "Data normalized to [0,1]; differential privacy with ε = 0.1 for anonymization; preprocessing and anonymization performed off-chain",
+        "evaluation_methodology": "5-fold cross-validation; mean ± standard deviation reported across folds; paired t-test with Bonferroni correction (p < 0.01)",
+        "classical_baselines": [
+          "XGBoost",
+          "Neural Network",
+          "Standalone QSVM"
+        ]
+      },
+      "quantum_resources": {
+        "num_qubits": 5,
+        "qubit_type": "logical",
+        "circuit_depth": 4,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 4,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": "IBM Qiskit Aer",
+        "framework": "Qiskit",
+        "transpilation_target": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/akshaymittal143/Q-DTN",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "COBYLA",
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": null,
+          "routing_method": null
+        },
+        "classical_preprocessing": "Normalization to [0,1]; differential privacy anonymization; off-chain preprocessing",
+        "classical_postprocessing": "Risk score/classification output aggregated with DTN and XQAI outputs; no separate quantum postprocessing reported",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 50,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": 5.0,
+          "num_independent_runs": 5
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "accuracy",
+          "value": 97.0,
+          "uncertainty": "±1.2",
+          "num_runs": 5,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.96,
+          "uncertainty": "±0.02",
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.94,
+          "uncertainty": "±0.03",
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.95,
+          "uncertainty": "±0.02",
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "data_exposure",
+          "value": 0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "iterations_to_converge",
+          "value": 50,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "qubits_used",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "feature_dimension",
+          "value": 23,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "features",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "feature_dimension",
+          "value": 12,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "features",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 10459,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "records",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 100000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "transactions",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 9356,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "records",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "differential_privacy_epsilon",
+          "value": 0.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "epsilon",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "optimization_iterations",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth_layers",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "learning_rate",
+          "value": 0.05,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "cross_validation_folds",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "folds",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "statistical_significance_p_value",
+          "value": 0.01,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "p_value_threshold",
+          "higher_is_better": false,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "XGBoost",
+          "metric_name": "accuracy",
+          "value": 92.0,
+          "unit": "%"
+        },
+        {
+          "method_name": "XGBoost",
+          "metric_name": "precision",
+          "value": 0.91,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "XGBoost",
+          "metric_name": "recall",
+          "value": 0.89,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "XGBoost",
+          "metric_name": "f1_score",
+          "value": 0.9,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Neural Network",
+          "metric_name": "accuracy",
+          "value": 90.0,
+          "unit": "%"
+        },
+        {
+          "method_name": "Neural Network",
+          "metric_name": "precision",
+          "value": 0.89,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Neural Network",
+          "metric_name": "recall",
+          "value": 0.87,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Neural Network",
+          "metric_name": "f1_score",
+          "value": 0.88,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Standalone QSVM",
+          "metric_name": "accuracy",
+          "value": 94.0,
+          "unit": "%"
+        },
+        {
+          "method_name": "Standalone QSVM",
+          "metric_name": "precision",
+          "value": 0.93,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Standalone QSVM",
+          "metric_name": "recall",
+          "value": 0.91,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Standalone QSVM",
+          "metric_name": "f1_score",
+          "value": 0.92,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "XGBoost",
+          "metric_name": "training_time",
+          "value": 500,
+          "unit": "seconds"
+        },
+        {
+          "method_name": "Neural Network",
+          "metric_name": "training_time",
+          "value": 600,
+          "unit": "seconds"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "50x",
+          "baseline_method": "XGBoost and Neural Network",
+          "conditions": "training time comparison on the reported simulation setup",
+          "is_demonstrated": true,
+          "caveats": "Paper reports 10 s training time for Q-DTN versus 500 s for XGBoost and 600 s for neural networks; speedup is based on simulation, not hardware deployment."
+        },
+        {
+          "type": "theoretical",
+          "factor": "O(log N) vs O(N)",
+          "baseline_method": "classical kernel methods",
+          "conditions": "feature space dimensionality / amplitude encoding argument",
+          "is_demonstrated": false,
+          "caveats": "Asymptotic claim in the paper; not directly benchmarked as a formal complexity experiment."
+        },
+        {
+          "type": "theoretical",
+          "factor": "O(log2 d) qubits for d-dimensional input",
+          "baseline_method": "classical representation requiring O(d) dimensions",
+          "conditions": "amplitude encoding of classical financial data",
+          "is_demonstrated": false,
+          "caveats": "Stated as a scaling property; for 23-dimensional FICO data the paper says 5 qubits are sufficient."
+        },
+        {
+          "type": "empirical",
+          "factor": "50x faster training",
+          "baseline_method": "classical methods",
+          "conditions": "reported across financial datasets in simulation",
+          "is_demonstrated": true,
+          "caveats": "The paper attributes this to QERC efficiency; exact per-dataset timing breakdown is not provided."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 10459,
+          "num_qubits": 5,
+          "metric_name": "accuracy",
+          "metric_value": 97.0
+        },
+        {
+          "problem_size": 100000,
+          "num_qubits": 5,
+          "metric_name": "accuracy",
+          "metric_value": 97.0
+        },
+        {
+          "problem_size": 9356,
+          "num_qubits": 5,
+          "metric_name": "accuracy",
+          "metric_value": 97.0
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(log N) feature space dimensionality; amplitude encoding uses n = ceil(log2(d)) qubits for d-dimensional input",
+        "classical_complexity": "O(N) for classical kernel methods",
+        "speedup_order": "logarithmic",
+        "constant_factor_quantum": "50x faster training time claimed in experiments",
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": "10 s training time reported",
+        "wall_clock_classical": "500 s for XGBoost; 600 s for neural networks"
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Only 5 qubits simulated on IBM Qiskit Aer; no hardware execution, no noise model, and no scaling experiments demonstrating advantage at realistic sizes.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Results obtained only on noiseless Qiskit Aer simulation",
+          "Very small circuit (5 qubits) with classical datasets",
+          "No realistic cost model for amplitude encoding",
+          "Training time comparison performed on different algorithm classes rather than equivalent kernel methods",
+          "Claimed O(log N) scaling not validated experimentally",
+          "No hardware experiment or noise robustness analysis"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "hardware.type reported as IBM Qiskit Aer simulator",
+          "num_qubits reported explicitly as 5 qubits for 23-dimensional FICO data",
+          "circuit_depth inferred from the figure/text describing a four-stage variational circuit and Appendix B optimal configuration of 4 layers",
+          "speedup_order inferred from the stated O(log N) vs O(N) complexity comparison; the paper does not explicitly label the asymptotic speedup order",
+          "The paper claims '50x speedup' and improved accuracy (97% vs 92% for XGBoost) but only demonstrates this in simulation with a tiny 5‑qubit circuit and no fair classical kernel baseline with comparable feature maps.",
+          "Speedup claim is based on theoretical scaling arguments rather than measured quantum runtime advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

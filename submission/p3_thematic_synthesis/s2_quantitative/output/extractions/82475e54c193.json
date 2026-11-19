@@ -1,0 +1,619 @@
+{
+  "paper_id": "82475e54c193",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:07:48+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "82475e54c193_quantum_encoding_and_analysis_on_continuous_time_stochastic_process_with_financi.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.683,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 10,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[1].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[16].unit='parameter set' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[17].unit='parameter set' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[19].unit='parameter set' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[20].unit='shots per simulation point' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.683,
+      "completeness": 0.683,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.683
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum Encoding and Analysis on Continuous Time Stochastic Process with Financial Applications",
+    "authors": [
+      "Xi-Ning Zhuang",
+      "Zhao-Yun Chen",
+      "Cheng Xue",
+      "Yu-Chun Wu",
+      "Guo-Ping Guo"
+    ],
+    "year": 2023,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": [
+      "insurance-actuarial",
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a gate‑based framework for encoding continuous‑time stochastic processes (QCTSP) using holding‑time or increment representations, reducing qubit requirements from O(T log S) to O(n log(τ_avg S)). Information extraction uses amplitude‑estimation‑based quantum Monte Carlo with theoretical quadratic speedup. Simulations of Merton jump‑diffusion option pricing (1024 shots) and ruin probability estimation (1000 shots) match classical formulas but are executed only as simulations.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum continuous-time stochastic process preparation and extraction framework, including state preparation for Lévy/Poisson/Markov/Cox processes and information extraction via weighted integrals and first-hitting-time detection; demonstrated on Merton jump-diffusion option pricing and collective-risk ruin probability.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "QCTSP framework with controlled-rotation state preparation, quantum multiplication, and standard amplitude estimation",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "error_bound": "ϵ",
+          "Fourier_order": "L",
+          "period": "P",
+          "time_slices": "n",
+          "state_space_size": "S",
+          "holding_time_truncation": "T or 2^m depending on construction",
+          "memory_length": "ML(X)",
+          "jump_intensity": "λ",
+          "minimum_intensity": "λmin"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "custom_register_encoding",
+        "encoding_details": "CTSP encoded into three registers: index register |k⟩, data register |x⟩, and time register |t⟩; holding-time representation stores (Xj, τj), increment representation stores (Yj, Tj).",
+        "objective_function": "Prepare |ψ⟩=Σ_{k,t} p(k,t)|k,x(k),t⟩ and evaluate expectations of f(∫_0^T X(t)dt) or f(∫_0^T g(t)X(t)dt), plus first-hitting time K(X,T,B).",
+        "constraints_handling": "Truncation of continuous distributions to finite support; controlled subtraction and flag-qubit logic for first-hitting-time detection; amplitude estimation for expectation extraction.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Synthetic and analytical stochastic-process instances: Poisson point process, compound Poisson process, Lévy process, continuous Markov process, Cox process; applications to Merton jump-diffusion European call pricing and collective-risk ruin probability.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Parameters shown in figures include Merton model with S0=100, K=100, r=0.1, σ=0.02, T=1, Δt=1/30, jump parameters m and v varied; ruin model with λt=0.6, λξ=1, c=1, ϵ=0.001."
+        },
+        "data_preprocessing_details": "Continuous-time processes discretized into n pieces; exponential and normal distributions truncated for finite qubit preparation; Fourier approximation used for integrable functions.",
+        "evaluation_methodology": "Simulation results compared against closed-form Merton formula, Black-Scholes baseline, and theoretical ruin-probability benchmark; option-pricing figures use 1024 shots per configuration; ruin-probability figure uses 1000 shots per simulation point."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "logical",
+        "circuit_depth": 2,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 1024,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": null,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "classical random generator for jump sizes due to qubit limits; classical Monte Carlo simulation and analytic Merton jump-diffusion formula (Eq.10) used as baselines",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Classical generation of some random jump sizes in the Merton simulation due to qubit limits; truncation and discretization of distributions; Fourier approximation of target functions",
+        "classical_postprocessing": "Measurement or amplitude estimation used to estimate expectation values; comparison to Merton formula, Black-Scholes, and ruin-theory benchmark",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "qubit_count_poisson_point_process",
+          "value": "n⌈log(−n ln ϵ / λ)⌉",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth_poisson_point_process",
+          "value": "⌈log n⌉",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gate_count_poisson_point_process",
+          "value": "O(n⌈log(−n ln ϵ / λ)⌉)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "qubit_count_compound_poisson_process",
+          "value": "n⌈log(−nS ln ϵ / λ)⌉",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth_compound_poisson_process",
+          "value": "S + n⌈log(nS)⌉",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gate_count_compound_poisson_process",
+          "value": "O(n⌈log(−nS ln ϵ / λ)⌉)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "qubit_count_general_levy_process",
+          "value": "n log(nS)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth_general_levy_process",
+          "value": "O(S + n log(nS))",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gate_count_general_levy_process",
+          "value": "O(n(S + log(nS)))",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "qubit_count_continuous_markov_process",
+          "value": "n⌈log(−S ln ϵ / λmin)⌉",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth_continuous_markov_process",
+          "value": "nS2",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gate_count_continuous_markov_process",
+          "value": "O(nS⌈S + log(−ln ϵ / λmin)⌉)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "qubit_count_cox_process",
+          "value": "O(n(qF + qG − ln ϵ / |λmin|))",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth_cox_process_holding_time_representation",
+          "value": "O(max{qG, qF + 2dF} + nqG)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth_cox_process_increment_representation",
+          "value": "O(max{qG, qF + 2dF} − n ln ϵ / λmin)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gate_count_cox_process",
+          "value": "not explicitly stated",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "option_pricing_parameters",
+          "value": "S0=100, K=100, r=0.1, σ=0.02, T=1, Δt=1/30",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameter set",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "option_pricing_jump_parameters",
+          "value": "m ∈ {0, 0.1, 0.2, 0.3, 0.4}, v ∈ {0, 0.05, 0.15, 0.2, 0.25}",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameter set",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "option_pricing_shots",
+          "value": 1024,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "ruin_model_parameters",
+          "value": "λt=0.6, λξ=1, c=1, ϵ=0.001",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameter set",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "ruin_probability_shots",
+          "value": 1000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots per simulation point",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "speedup_claim_qubit_reduction",
+          "value": "exponential reduction in τavg",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "speedup_claim_depth_reduction",
+          "value": "exponential reduction in τavg",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "speedup_claim_monte_carlo_extraction",
+          "value": "quadratic",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "uniform sampling",
+          "metric_name": "qubit_count_poisson_point_process",
+          "value": "−n ln ϵ / λ",
+          "unit": "qubits"
+        },
+        {
+          "method_name": "uniform sampling",
+          "metric_name": "circuit_depth_poisson_point_process",
+          "value": "⌈log(−n ln ϵ / λ)⌉",
+          "unit": "layers"
+        },
+        {
+          "method_name": "uniform sampling",
+          "metric_name": "qubit_count_compound_poisson_process",
+          "value": "−nS ln ϵ / λ",
+          "unit": "qubits"
+        },
+        {
+          "method_name": "uniform sampling",
+          "metric_name": "circuit_depth_compound_poisson_process",
+          "value": "S + −n ln ϵ / λ ⌈log(−nS ln ϵ / λ)⌉",
+          "unit": "layers"
+        },
+        {
+          "method_name": "uniform sampling",
+          "metric_name": "qubit_count_general_levy_process",
+          "value": "T log S",
+          "unit": "qubits"
+        },
+        {
+          "method_name": "uniform sampling",
+          "metric_name": "circuit_depth_general_levy_process",
+          "value": "S + T log(TS)",
+          "unit": "layers"
+        },
+        {
+          "method_name": "uniform sampling",
+          "metric_name": "qubit_count_continuous_markov_process",
+          "value": "−n ln ϵ / λmin",
+          "unit": "qubits"
+        },
+        {
+          "method_name": "uniform sampling",
+          "metric_name": "circuit_depth_continuous_markov_process",
+          "value": "nS2",
+          "unit": "layers"
+        },
+        {
+          "method_name": "uniform sampling",
+          "metric_name": "qubit_count_cox_process",
+          "value": "max{qG, qF + 2dF} − nqG ln ϵ / |λmin|",
+          "unit": "qubits"
+        },
+        {
+          "method_name": "uniform sampling",
+          "metric_name": "circuit_depth_cox_process_holding_time_representation",
+          "value": "max{qG, qF + 2dF} − nqG ln ϵ / |λmin|",
+          "unit": "layers"
+        },
+        {
+          "method_name": "classical_monte_carlo",
+          "metric_name": "option_pricing",
+          "value": "used as comparison baseline; no explicit numerical value reported",
+          "unit": null
+        },
+        {
+          "method_name": "black_scholes_formula",
+          "metric_name": "option_pricing",
+          "value": "used as baseline; no explicit numerical value reported",
+          "unit": null
+        },
+        {
+          "method_name": "merton_formula_truncated_40_terms",
+          "metric_name": "option_pricing",
+          "value": "used as benchmark; no explicit numerical value reported",
+          "unit": null
+        },
+        {
+          "method_name": "theoretical_ruin_probability_benchmark",
+          "metric_name": "ruin_probability",
+          "value": "used as benchmark; no explicit numerical value reported",
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical Monte Carlo",
+          "conditions": "for the QCTSP information-extraction / amplitude-estimation step",
+          "is_demonstrated": true,
+          "caveats": "Claimed for the continuous-time Monte Carlo-style extraction; no hardware benchmark provided."
+        },
+        {
+          "type": "theoretical",
+          "factor": "exponential reduction in τavg",
+          "baseline_method": "uniform sampling",
+          "conditions": "state preparation resource scaling for QCTSP encoding",
+          "is_demonstrated": true,
+          "caveats": "Resource reduction is asymptotic and depends on the holding-time parameter τavg."
+        },
+        {
+          "type": "theoretical",
+          "factor": "exponential reduction in τavg",
+          "baseline_method": "uniform sampling",
+          "conditions": "circuit depth scaling for QCTSP encoding",
+          "is_demonstrated": true,
+          "caveats": "Asymptotic claim; no empirical runtime comparison."
+        },
+        {
+          "type": "theoretical",
+          "factor": "quadratic speedup",
+          "baseline_method": "classical Monte Carlo",
+          "conditions": "continuous-time regime with amplitude estimation",
+          "is_demonstrated": true,
+          "caveats": "The paper states the speedup in the framework description; no end-to-end wall-clock benchmark."
+        },
+        {
+          "type": "theoretical",
+          "factor": "not quantified",
+          "baseline_method": "Black-Scholes / classical Monte Carlo / Merton formula",
+          "conditions": "Merton jump-diffusion option pricing simulation",
+          "is_demonstrated": true,
+          "caveats": "The paper reports consistency with the Merton formula and deviation from Black-Scholes as jump size increases, but does not provide explicit numerical error values in the text provided."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": null,
+          "num_qubits": null,
+          "metric_name": "qubit_count_poisson_point_process",
+          "metric_value": null
+        },
+        {
+          "problem_size": null,
+          "num_qubits": null,
+          "metric_name": "qubit_count_compound_poisson_process",
+          "metric_value": null
+        },
+        {
+          "problem_size": null,
+          "num_qubits": null,
+          "metric_name": "qubit_count_general_levy_process",
+          "metric_value": null
+        },
+        {
+          "problem_size": null,
+          "num_qubits": null,
+          "metric_name": "qubit_count_continuous_markov_process",
+          "metric_value": null
+        },
+        {
+          "problem_size": null,
+          "num_qubits": null,
+          "metric_name": "qubit_count_cox_process",
+          "metric_value": null
+        },
+        {
+          "problem_size": null,
+          "num_qubits": null,
+          "metric_name": "option_pricing_price_behavior",
+          "metric_value": null
+        },
+        {
+          "problem_size": null,
+          "num_qubits": null,
+          "metric_name": "ruin_probability_accuracy",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "State preparation: O(n log(nS)) for general Lévy, O(nS⌈S+log(-ln ϵ/λmin)⌉) for continuous Markov, O(n(qF+qG−ln ϵ/|λmin|)) for Cox; extraction: O(LP/ϵ(P+nlxlτ)) or O(LP/ϵ(P+F+nlxlτ+n max(lx,lτ)))",
+        "classical_complexity": "Classical Monte Carlo complexity implicitly O(1/epsilon^2) sampling for expectation estimation (standard Monte Carlo scaling)",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not specified; advantage derived from theoretical quadratic speedup of amplitude estimation over classical Monte Carlo",
+        "resources_for_advantage": "Would require large-scale fault‑tolerant quantum computers capable of implementing deep amplitude-estimation circuits and large stochastic-path registers (O(n log(nS)) qubits depending on process)",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Only quadratic speedup from amplitude estimation",
+          "Large circuit depth for realistic stochastic processes",
+          "Extensive state preparation overhead",
+          "Dependence on Fourier approximation and controlled multipliers",
+          "No real QPU demonstration; simulations rely partly on classical random generation"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper is a theoretical gate-based algorithm paper with no named QPU or simulator; hardware.type is therefore not specified rather than inferred.",
+          "The Merton option-pricing and ruin-probability sections report simulation shot counts and compare against classical formulas, but no explicit hardware platform or transpilation details are given.",
+          "The paper claims quadratic speedup for the Monte Carlo-style extraction step and exponential/quadratic resource reductions in preparation/extraction, but these are theoretical claims rather than hardware benchmarks.",
+          "Paper explicitly claims quadratic quantum speedup via quantum-enhanced Monte Carlo (Section 4).",
+          "All demonstrations are simulations compared to analytic formulas or classical Monte Carlo rather than hardware benchmarks."
+        ],
+        "advantage_status": "paper_reported"
+      }
+    }
+  ]
+}

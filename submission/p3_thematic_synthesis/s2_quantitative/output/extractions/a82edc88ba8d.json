@@ -1,0 +1,1065 @@
+{
+  "paper_id": "a82edc88ba8d",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:30:07+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "a82edc88ba8d_a_practical_quantum_solver_for_multidimensional_partial_differential_equations.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.667,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 1,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[1].quantum_resources.num_shots=0 must be positive"
+    ],
+    "quality_details": {
+      "score": 0.667,
+      "completeness": 0.667,
+      "num_experiments": 3,
+      "experiment_scores": [
+        0.733,
+        0.733,
+        0.533
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 1.0,
+          "results": 0.5,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "A Practical Quantum Solver for Multidimensional Partial Differential Equations",
+    "authors": [
+      "Manu Chaudhary",
+      "Kareem El-Araby",
+      "Alvir Nobel",
+      "Ishraq Islam",
+      "Manish Singh",
+      "Sunday Ogundele",
+      "Kieran Egan",
+      "Sneha Thomas",
+      "Vincent Vordtriede",
+      "Devon Bontrager",
+      "Serom Kim",
+      "Esam El-Araby"
+    ],
+    "year": 2025,
+    "doi": "10.1145/3731599.3767550",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes two gate-based quantum PDE solvers combining finite-difference discretization with classical-to-quantum amplitude encoding and either numerical instantiation or column-by-column decomposition. Experiments solving Poisson, heat, Black–Scholes, and Navier–Stokes equations were run on IBM simulators and the ibm_torino device using up to 14 qubits and up to 256M shots, showing lower RMSE and runtime than a VQE baseline but no demonstrated advantage over classical PDE solvers.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Variant 1 of the PDE solver using finite-difference method, classical-to-quantum encoding, and numerical instantiation to solve multidimensional PDEs (Poisson, heat, Black-Scholes, Navier-Stokes) on simulators and real IBM hardware.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Variant 1: FDM + C2Q encoding + numerical instantiation",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "problem_types": [
+            "multidimensional Poisson equation",
+            "multidimensional heat equation",
+            "Black-Scholes equation",
+            "Navier-Stokes equation"
+          ],
+          "encoding": "classical-to-quantum (C2Q)",
+          "preprocessing": [
+            "finite-difference method (FDM)",
+            "singular value decomposition (SVD)",
+            "polar decomposition"
+          ],
+          "circuit_synthesis_tool": "BQSKit"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Classical data are normalized and encoded into quantum states via C2Q; PDEs are discretized with FDM into linear systems Au=b, then transformed via polar decomposition to obtain a unitary matrix for circuit implementation.",
+        "objective_function": "Solve discretized linear systems arising from multidimensional PDEs and recover the unknown solution vector from the measured quantum state.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Benchmark PDEs: multidimensional Poisson, multidimensional heat, Black-Scholes (call option), and 2D Navier-Stokes.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Synthetic PDE test cases with specified boundary/initial conditions and grid sizes."
+        },
+        "data_preprocessing_details": "FDM discretization; SVD/polar decomposition to obtain unitary matrix; C2Q encoding of normalized vectors.",
+        "evaluation_methodology": "Compared against classical solver and VQE-based solver using solution profiles, RMSE error, and total execution time on noise-free simulator, noisy simulator, and real hardware."
+      },
+      "quantum_resources": {
+        "num_qubits": 4,
+        "qubit_type": "not_specified",
+        "circuit_depth": 1,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 1,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": "IBM",
+        "device_name": "ibm_torino (used only for some experiments; majority executed on simulators)",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "AerSimulator noisy simulation; real-device noise on ibm_torino",
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Classical benchmark solver (unspecified)",
+        "transpilation_settings": null,
+        "classical_preprocessing": "FDM discretization; SVD; polar decomposition; C2Q encoding; BQSKit circuit synthesis for unitary implementation.",
+        "classical_postprocessing": "Measure output quantum state and reconstruct solution vector from measured amplitudes.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": null,
+        "classical_baselines": [
+          "classical finite-difference solver",
+          "analytical solution (for some Poisson benchmarks)",
+          "VQE-based quantum PDE solver"
+        ],
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "solution_profile",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "rmse",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "total_execution_time",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots",
+          "value": 100000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots",
+          "value": 1000000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 14,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots",
+          "value": 1000000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots",
+          "value": 100000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 14,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots",
+          "value": 1000000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 12,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots",
+          "value": 1000000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical technique",
+          "metric_name": "solution_profile",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "classical technique",
+          "metric_name": "rmse",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "classical technique",
+          "metric_name": "total_execution_time",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "VQE-based technique",
+          "metric_name": "solution_profile",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "VQE-based technique",
+          "metric_name": "rmse",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "VQE-based technique",
+          "metric_name": "total_execution_time",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "O(N)",
+          "baseline_method": "FFT-based classical PDE solvers",
+          "conditions": "Variant 1 depth complexity stated in discussion; N = 2^n computational states",
+          "is_demonstrated": false,
+          "caveats": "This is a circuit-depth complexity claim, not a proven wall-clock speedup."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 1.0,
+          "num_qubits": 4,
+          "metric_name": "solution_profile",
+          "metric_value": null
+        },
+        {
+          "problem_size": 1.0,
+          "num_qubits": 8,
+          "metric_name": "solution_profile",
+          "metric_value": null
+        },
+        {
+          "problem_size": 1.0,
+          "num_qubits": 14,
+          "metric_name": "solution_profile",
+          "metric_value": null
+        },
+        {
+          "problem_size": 1.0,
+          "num_qubits": 4,
+          "metric_name": "solution_profile",
+          "metric_value": null
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": 14,
+          "metric_name": "solution_profile",
+          "metric_value": null
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": 14,
+          "metric_name": "solution_profile",
+          "metric_value": null
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 12,
+          "metric_name": "solution_profile",
+          "metric_value": null
+        },
+        {
+          "problem_size": 4.0,
+          "num_qubits": 4,
+          "metric_name": "solution_profile",
+          "metric_value": null
+        },
+        {
+          "problem_size": 14.0,
+          "num_qubits": 14,
+          "metric_name": "solution_profile",
+          "metric_value": null
+        },
+        {
+          "problem_size": 14.0,
+          "num_qubits": 14,
+          "metric_name": "solution_profile",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(N) circuit depth complexity where N = 2^n",
+        "classical_complexity": "O(N log N)",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": false,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "unknown; experiments limited to ≤14 qubits and small discretization grids",
+        "resources_for_advantage": "Would require large logical qubit counts capable of representing large PDE grids with deep unitary synthesis and fault-tolerant gates.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "heavy classical preprocessing (FDM, SVD, polar decomposition)",
+          "state preparation via amplitude encoding",
+          "unitary synthesis cost with BQSKit",
+          "small problem sizes (≤14 qubits)",
+          "large shot counts (up to 256M in some experiments)",
+          "no runtime comparison against optimized classical PDE solvers"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware type is inferred from explicit mention of noise-free statevector simulator, noisy AerSimulator, and real quantum hardware ibm_torino.",
+          "Num qubits is not given as a single global value for Variant 1; the paper reports case-specific qubit counts (e.g., 4, 8, 12, 14) across experiments.",
+          "Authors claim higher accuracy, scalability, and lower execution time than VQE-based solvers (Section 6), but comparisons are only against another quantum method and small toy problems.",
+          "No demonstration that the approach outperforms classical PDE solvers in runtime or scaling."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Variant 2 of the PDE solver using finite-difference method, classical-to-quantum encoding, and column-by-column decomposition to solve multidimensional PDEs on simulators and real IBM hardware.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Variant 2: FDM + C2Q encoding + column-by-column decomposition (CCD)",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "problem_types": [
+            "multidimensional Poisson equation",
+            "multidimensional heat equation",
+            "Black-Scholes equation",
+            "Navier-Stokes equation"
+          ],
+          "encoding": "classical-to-quantum (C2Q)",
+          "preprocessing": [
+            "finite-difference method (FDM)",
+            "singular value decomposition (SVD)",
+            "polar decomposition"
+          ],
+          "circuit_synthesis_tool": "CCD"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Classical data are normalized and encoded via C2Q; PDEs are discretized with FDM into linear systems Au=b; CCD is used to construct the unitary circuit column by column.",
+        "objective_function": "Solve discretized linear systems arising from multidimensional PDEs and recover the unknown solution vector from the measured quantum state.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Benchmark PDEs: multidimensional Poisson, multidimensional heat, Black-Scholes (call option), and 2D Navier-Stokes.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Synthetic PDE test cases with specified boundary/initial conditions and grid sizes."
+        },
+        "data_preprocessing_details": "FDM discretization; SVD/polar decomposition to obtain unitary matrix; C2Q encoding of normalized vectors.",
+        "evaluation_methodology": "Compared against classical solver and VQE-based solver using solution profiles, RMSE error, and total execution time on noise-free simulator, noisy simulator, and real hardware."
+      },
+      "quantum_resources": {
+        "num_qubits": 4,
+        "qubit_type": "not_specified",
+        "circuit_depth": 2,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 0,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": "IBM",
+        "device_name": "ibm_torino",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "AerSimulator noisy simulation; real-device noise on ibm_torino",
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Classical benchmark solver (unspecified)",
+        "transpilation_settings": null,
+        "classical_preprocessing": "FDM discretization; SVD; polar decomposition; C2Q encoding; CCD circuit synthesis.",
+        "classical_postprocessing": "Measure output quantum state and reconstruct solution vector from measured amplitudes.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": null,
+        "classical_baselines": [
+          "classical technique",
+          "VQE-based technique"
+        ],
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "solution_profile",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "rmse",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "total_execution_time",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 14,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots",
+          "value": 1000000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 14,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots",
+          "value": 256000000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 12,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots",
+          "value": 1000000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots",
+          "value": 1000000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 14,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots",
+          "value": 1000000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical technique",
+          "metric_name": "solution_profile",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "classical technique",
+          "metric_name": "rmse",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "classical technique",
+          "metric_name": "total_execution_time",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "VQE-based technique",
+          "metric_name": "solution_profile",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "VQE-based technique",
+          "metric_name": "rmse",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "VQE-based technique",
+          "metric_name": "total_execution_time",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "O(N^2)",
+          "baseline_method": "FFT-based classical PDE solvers",
+          "conditions": "Variant 2 depth complexity stated in discussion; N = 2^n computational states",
+          "is_demonstrated": false,
+          "caveats": "This is a circuit-depth complexity claim, not a proven wall-clock speedup."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 2.0,
+          "num_qubits": 14,
+          "metric_name": "solution_profile",
+          "metric_value": null
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": 14,
+          "metric_name": "solution_profile",
+          "metric_value": null
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 12,
+          "metric_name": "solution_profile",
+          "metric_value": null
+        },
+        {
+          "problem_size": 4.0,
+          "num_qubits": 4,
+          "metric_name": "solution_profile",
+          "metric_value": null
+        },
+        {
+          "problem_size": 14.0,
+          "num_qubits": 14,
+          "metric_name": "solution_profile",
+          "metric_value": null
+        },
+        {
+          "problem_size": 14.0,
+          "num_qubits": 14,
+          "metric_name": "solution_profile",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(N^2) circuit depth complexity where N = 2^n",
+        "classical_complexity": "O(N log N)",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": false,
+        "maturity_level": "L2_noisy_sim",
+        "crossover_size": "unknown; experiments limited to ≤14 qubits",
+        "resources_for_advantage": "Large-scale fault-tolerant hardware capable of implementing deep CCD-generated circuits with thousands or millions of logical qubits.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "CCD circuits have O(N^2) depth",
+          "large shot requirements",
+          "limited qubit counts (≤14)",
+          "dominant classical preprocessing",
+          "no comparison against state-of-the-art classical PDE solvers"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware type is inferred from explicit mention of noise-free statevector simulator, noisy AerSimulator, and real quantum hardware ibm_torino.",
+          "Num qubits is not given as a single global value for Variant 2; the paper reports case-specific qubit counts (e.g., 4, 12, 14) across experiments.",
+          "Paper reports improved accuracy versus VQE baselines but not versus classical algorithms.",
+          "Circuit depth scaling O(N^2) makes practical advantage unlikely on near-term devices."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "VQE-based baseline used to solve discretized PDEs by mapping the Hamiltonian to Pauli operators and optimizing an EfficientSU2 ansatz with ADAM on IBM simulators/hardware.",
+      "algorithm": {
+        "family": "vqe",
+        "variant": "VQE-based PDE solver",
+        "ansatz": "EfficientSU2",
+        "optimizer": "ADAM",
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "hamiltonian_mapping": "MatrixOp to Pauli operators",
+          "ansatz": "EfficientSU2"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "learning_rate_schedule": null,
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "hamiltonian_encoding_variational",
+        "encoding_details": "Discretized PDE is encoded as a Hamiltonian and mapped to Pauli operators.",
+        "objective_function": "Find minimum eigenvalue/eigenstate of the PDE Hamiltonian.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": "PDE Hamiltonian mapped to Pauli operators via MatrixOp.",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Baseline VQE runs for the same PDE case studies: Poisson, heat, Black-Scholes, and Navier-Stokes.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Same synthetic PDE test cases as the proposed method."
+        },
+        "data_preprocessing_details": "Discretized PDE mapped to Hamiltonian and Pauli operators.",
+        "evaluation_methodology": "Compared to proposed method on solution profiles, RMSE, and execution time."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 1,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_noisy",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "AerSimulator noisy simulation",
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "ADAM optimizer",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Hamiltonian construction from discretized PDE; Pauli mapping via MatrixOp.",
+        "classical_postprocessing": "Extract minimum eigenvalue and eigenstate from VQE output.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": null,
+        "classical_baselines": [
+          "classical finite-difference solver"
+        ],
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "solution_profile",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "rmse",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "total_execution_time",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots",
+          "value": 1000000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical technique",
+          "metric_name": "solution_profile",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "classical technique",
+          "metric_name": "rmse",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "classical technique",
+          "metric_name": "total_execution_time",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [],
+      "scalability_data": [],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": false,
+        "maturity_level": "L2_noisy_sim",
+        "crossover_size": "not applicable",
+        "resources_for_advantage": "Large fault-tolerant quantum systems with many qubits and deep circuits would be required for VQE PDE solvers to compete with classical PDE solvers.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "variational optimization overhead",
+          "barren plateau risks",
+          "limited qubit counts",
+          "poor accuracy on real hardware noted in paper",
+          "classical PDE solvers already highly optimized"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper explicitly states VQE experiments were run on noisy simulator using Qiskit VQE and EfficientSU2 with ADAM.",
+          "Num qubits is case-dependent and not given as a single global value in the extracted text.",
+          "Paper explicitly reports that VQE-based methods suffer from low accuracy, scalability limits, and high execution time compared with their proposed method."
+        ],
+        "advantage_status": "paper_reported"
+      }
+    }
+  ]
+}

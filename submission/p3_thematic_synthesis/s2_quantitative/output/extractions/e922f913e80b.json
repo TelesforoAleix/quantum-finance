@@ -1,0 +1,439 @@
+{
+  "paper_id": "e922f913e80b",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T10:15:59+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "e922f913e80b_quantum_algorithm_for_solving_mckean_vlasov_stochastic_differential_equations.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.483,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 15,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='queries to UF_h^{a,b,t}' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='queries to U_phi_k and U_phi' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='particle method complexity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='classical high-order particle method complexity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='probability per QMCI call' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='root mean square deviation scaling in the emulation' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='error scaling' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='particles' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='independent runs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='time step size' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='time step size' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='maximum Grover iterations parameter' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[15].unit='time step size' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.483,
+      "completeness": 0.483,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.483
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum algorithm for solving McKean-Vlasov stochastic differential equations",
+    "authors": [
+      "Koichi Miyamoto"
+    ],
+    "year": 2025,
+    "doi": "10.1140/epjqt/s40507-025-00453-z",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "simulation-monte-carlo",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a gate‑based quantum algorithm using Quantum Monte Carlo Integration (QMCI) and higher‑order SDE discretization to estimate expectations of McKean–Vlasov SDEs with query complexity O(1/ε^(1+2/p)), improving over the classical particle method complexity O(1/ε^3). Numerical demonstrations (via classical emulation with N=10^6 particles and 10 runs) confirm empirical error scaling O(ε) and query‑count scaling consistent with the theory. No quantum hardware implementation is performed.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum Monte Carlo integration-based algorithm for solving McKean-Vlasov stochastic differential equations, demonstrated on the Shimizu-Yamada model and a Kuramoto-Shinomoto-Sakaguchi model with stochastic volatility using classical emulation of the quantum procedure.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Quantum Monte Carlo integration (QMCI) with higher-order SDE discretization and linear extrapolation of mean-field terms",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "p": "weak order of SDE discretization, p in (1,2]",
+          "epsilon": "target accuracy ϵ",
+          "eta": "target failure probability η",
+          "epsilon_QMCI": "ϵ/12",
+          "h_I": "hII / ceil(hII / hI,max)",
+          "h_I_max": "3ϵ / (4U)",
+          "h_II": "T / max(ceil(T / hII,max), 2)",
+          "h_II_max": "(ϵ / max{4U,24κ′T})^(1/p)",
+          "K": "number of mean-field terms in the SDE",
+          "U": "uniform bound constant in assumptions",
+          "eta_prime": "η / (K(nt - 1) + 1)"
+        },
+        "parameter_initialization": "Initial mean-field values set from deterministic initial condition X0; first-stage extrapolation uses constant extrapolation, then linear extrapolation after sufficient time steps",
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Quantum circuits prepare states encoding the distribution of the discretized SDE solution at each time step; QMCI estimates expectations of functions of the state",
+        "objective_function": "Estimate E[ϕ(X_T)] for an MVSDE with coefficients a(t,X_t)=Σ_k γ_k(t)α_k(X_t), b(t,X_t)=Σ_k γ_k(t)β_k(X_t), where γ_k(t)=E[φ_k(X_t)]",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Two numerical demonstrations: (1) Shimizu-Yamada model with analytic solution; (2) 2D Kuramoto-Shinomoto-Sakaguchi model with stochastic volatility and non-commutative noise",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Synthetic SDE instances defined by equations in the paper; no market dataset"
+        },
+        "data_preprocessing_details": "No external data preprocessing; numerical emulation uses Monte Carlo particles, clipping of integrands to bounded intervals for the emulated QMCI step, and benchmark comparison against analytic solution or high-resolution particle method",
+        "evaluation_methodology": "Classical emulation of the quantum algorithm with N=10^6 particles, repeated 10 runs for error statistics; complexity measured by total number of queries to the time-evolution oracle under the emulated QMCI procedure"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/Koichi-Miyamoto/MVQMCI",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Classical emulation using Monte Carlo particles and MLE-based QMCI sampling proxy",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Set up synthetic SDE parameters; for emulation, use large-N particle simulation and clip observables to bounded intervals",
+        "classical_postprocessing": "Compare estimated expectations against analytic solution (Shimizu-Yamada) or particle-method benchmark (KSS); compute RMS error and query-count scaling",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "Not applicable; no variational optimization",
+          "variance_across_runs": 10.0,
+          "num_independent_runs": 10
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "oracle_queries",
+          "value": "O(1/ϵ^(1+2/p))",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "queries to UF_h^{a,b,t}",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": "O(1/ϵ^(1+1/p))",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "queries to U_phi_k and U_phi",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sample_complexity",
+          "value": "O(1/ϵ^3)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "particle method complexity",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sample_complexity",
+          "value": "O(1/ϵ^(2+1/p))",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "classical high-order particle method complexity",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": "1-η",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": "1-η'",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability per QMCI call",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": "4/5",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": "O(ϵ)",
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "root mean square deviation scaling in the emulation",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "rmse",
+          "value": "O(ϵ)",
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "error scaling",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "num_paths",
+          "value": 1000000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "particles",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_runs",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "independent runs",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "h_I",
+          "value": "T/9 · ε",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "time step size",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "h_ii",
+          "value": "T/(3√ε)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "time step size",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "ng",
+          "value": "ceil(log2(32/ε) + 1/2)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "maximum Grover iterations parameter",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "nshot",
+          "value": 30,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "benchmark_time_step",
+          "value": "T/256",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "time step size",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical particle method",
+          "metric_name": "sample_complexity",
+          "value": "O(1/ϵ^3)",
+          "unit": "complexity"
+        },
+        {
+          "method_name": "classical particle method with high-order discretization and extrapolation",
+          "metric_name": "sample_complexity",
+          "value": "O(1/ϵ^(2+1/p))",
+          "unit": "complexity"
+        },
+        {
+          "method_name": "Euler discretization-based particle method",
+          "metric_name": "benchmark expectation",
+          "value": "sample average over N=1000000 particles with h=T/256",
+          "unit": "benchmark estimate"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic improvement over classical particle method in the Monte Carlo component; overall complexity O(1/ϵ^(1+2/p)) vs O(1/ϵ^3)",
+          "baseline_method": "classical particle method",
+          "conditions": "fault-tolerant gate-based quantum computer; assuming access to time-evolution oracle UF_h^{a,b,t} and QMCI; p in (1,2]",
+          "is_demonstrated": true,
+          "caveats": "The paper’s numerical section is classical emulation, not a physical quantum run. The claimed advantage depends on the weak order p and on the oracle model."
+        },
+        {
+          "type": "theoretical",
+          "factor": "O(1/ϵ^(1+2/p))",
+          "baseline_method": "classical high-order particle method O(1/ϵ^(2+1/p))",
+          "conditions": "for p>1",
+          "is_demonstrated": false,
+          "caveats": "This is a comparison stated in the discussion; not separately benchmarked numerically."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": null,
+          "num_qubits": null,
+          "metric_name": "rmse",
+          "metric_value": null
+        },
+        {
+          "problem_size": null,
+          "num_qubits": null,
+          "metric_name": "oracle_queries",
+          "metric_value": null
+        },
+        {
+          "problem_size": null,
+          "num_qubits": null,
+          "metric_name": "rmse",
+          "metric_value": null
+        },
+        {
+          "problem_size": null,
+          "num_qubits": null,
+          "metric_name": "oracle_queries",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(1/ϵ^(1+2/p)) queries to the time-evolution oracle UF_h^{a,b,t}, with additional polylog factors from QMCI",
+        "classical_complexity": "O(1/ϵ^3) for the particle method; the paper also notes a classical high-order variant with O(1/ϵ^(2+1/p))",
+        "speedup_order": "polynomial_other",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not provided. Advantage expressed only asymptotically in ε (query complexity O(1/ε^(1+2/p)) vs classical O(1/ε^3)).",
+        "resources_for_advantage": "Requires a fault‑tolerant gate‑based quantum computer capable of repeatedly preparing distribution-encoded quantum states and executing QMCI/amplitude‑estimation routines with O(1/ε) oracle calls, plus efficient implementation of the SDE time‑evolution oracle UF_h^{a,b,t}. No qubit or gate counts are provided.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Algorithm evaluated only via classical emulation, not on quantum hardware",
+          "Resource estimates given only as oracle query complexity (no qubit or gate counts)",
+          "Requires efficient state preparation of probability distributions at every time step",
+          "Amplitude estimation circuits require deep fault‑tolerant circuits",
+          "Advantage depends on asymptotic ε-scaling rather than demonstrated runtime"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "This is a gate-based quantum algorithm paper with no annealer content.",
+          "The paper provides theoretical quantum resource counts in terms of oracle queries, not explicit qubit counts, circuit depths, or gate counts; those fields are null.",
+          "The numerical section is a classical emulation of the quantum algorithm, so hardware is not specified and no real QPU/simulator setup is reported.",
+          "The paper explicitly presents the result as a theoretical complexity improvement (O(1/ε^(1+2/p)) vs O(1/ε^3)).",
+          "Numerical section is a classical emulation validating scaling behaviour; no quantum hardware or simulator experiment is executed."
+        ],
+        "advantage_status": "paper_reported"
+      }
+    }
+  ]
+}

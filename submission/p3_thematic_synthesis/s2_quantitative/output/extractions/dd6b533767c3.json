@@ -1,0 +1,823 @@
+{
+  "paper_id": "dd6b533767c3",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T10:07:49+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "dd6b533767c3_factoring_decision_support_system_based_on_optimized_quantum_algorithms_qmc.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.594,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 7,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[5].unit='steps' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='runs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='depth units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='depth units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[3].unit='steps' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[5].unit='degrees' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[6].unit='runs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.594,
+      "completeness": 0.594,
+      "num_experiments": 3,
+      "experiment_scores": [
+        0.8,
+        0.8,
+        0.183
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Factoring Decision Support System Based on Optimized Quantum Algorithms QMC",
+    "authors": [
+      "A. Chuvakov",
+      "R. Boryaev"
+    ],
+    "year": 2024,
+    "doi": "10.15622/ia.24.2.11",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "risk-management",
+    "secondary_silos": [
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes gate‑based QMC+QAE circuits for financial risk modeling (interest‑rate evolution, credit survival, and rating migration) and validates them on a quantum computer emulator with ~19 qubits for the interest‑rate example and ~7 qubits for the credit‑risk example using 10,000 simulated runs. The authors analytically claim quadratic error scaling improvement (O(1/N) vs O(1/√N)) for amplitude estimation and estimate that realistic financial scenarios would require ≲1200 logical qubits and circuit depths up to ~10^8.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "End-to-end gate-based quantum Monte Carlo / amplitude-estimation circuit for interest-rate risk factor evolution using a trinomial tree and QAE measurement of the probability that the rate returns to its long-term mean after 3 time steps.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Quantum Monte Carlo (QMC) + Quantum Amplitude Estimation (QAE) with Grover-style Q operator and inverse QFT",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "time_steps": 3,
+          "output_qubits_range": "1-9",
+          "risk_factor_qubits": 6,
+          "state_qubits": 3,
+          "risk_measure_qubits": 1,
+          "ancilla_qubits": 9,
+          "delta_r": "3Var",
+          "delta_t": "3a/12"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Trinomial-tree discretization of a Vasicek interest-rate process; 2 qubits per time step encode 3 possible transitions, with additional state qubits storing the current rate level and one risk-measure qubit encoding whether the rate equals the long-term mean at the final time.",
+        "objective_function": "Estimate P(r_{3\\delta t}=b) after 3 time steps, where b is the long-term mean rate, using QAE.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 9
+      },
+      "problem_instance": {
+        "description": "Synthetic interest-rate risk-factor evolution modeled by a discretized Vasicek process on a trinomial tree.",
+        "num_assets": null,
+        "time_steps": 3,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "No external dataset; parameters chosen for the trinomial-tree model."
+        },
+        "data_preprocessing_details": null,
+        "evaluation_methodology": "Direct simulation on a quantum computer emulator; probability distributions shown for 10000 runs, and convergence of the measured probability is reported as output-qubit count increases."
+      },
+      "quantum_resources": {
+        "num_qubits": 19,
+        "qubit_type": "logical",
+        "circuit_depth": 500,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 10000,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "AWS Braket (IQM emulator)",
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Classical derivation of trinomial transition probabilities from the Vasicek model parameters.",
+        "classical_postprocessing": "Measurement of output qubits to estimate the encoded probability; comparison to expected value and convergence analysis.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "Probability converges toward expected value as number of output qubits increases",
+          "variance_across_runs": null,
+          "num_independent_runs": 10000
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_risk_factors",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_state_qubits",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_risk_measure_qubits",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_ancilla_qubits",
+          "value": 9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 19,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "time_steps",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "steps",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_shots",
+          "value": 10000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "runs",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 500,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "depth units",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 100000000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "depth units",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "tail_risk_estimate",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 10000,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 10000,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "figure"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "convergence_rate",
+          "value": "O(1/sqrt(N))",
+          "unit": "estimation error scaling",
+          "data_source": "text"
+        },
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "tail_risk_estimate",
+          "value": null,
+          "unit": null,
+          "data_source": "none"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical monte carlo",
+          "conditions": "for quantum amplitude estimation with Grover-style Q operator and inverse QFT; assuming the probability distribution is encoded in the quantum state",
+          "is_demonstrated": true,
+          "caveats": "The paper notes that if the probability distribution must be generated classically, the quadratic advantage is negated."
+        },
+        {
+          "type": "asymptotic",
+          "factor": "O(1/N) vs O(1/sqrt(N))",
+          "baseline_method": "classical monte carlo",
+          "conditions": "estimation error scaling in QAE versus classical Monte Carlo",
+          "is_demonstrated": true,
+          "caveats": "N denotes the number of possible outcomes / output states in the QAE construction, not the number of classical samples."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 3.0,
+          "num_qubits": 19,
+          "metric_name": "circuit_depth",
+          "metric_value": 500
+        },
+        {
+          "problem_size": 14.0,
+          "num_qubits": null,
+          "metric_name": "circuit_depth",
+          "metric_value": 100000000
+        },
+        {
+          "problem_size": 10.0,
+          "num_qubits": null,
+          "metric_name": "circuit_depth",
+          "metric_value": 500
+        },
+        {
+          "problem_size": 1000.0,
+          "num_qubits": null,
+          "metric_name": "circuit_depth",
+          "metric_value": 50000
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(1/N) estimation error for QAE; circuit depth scales linearly with input qubits and exponentially with output qubits n in the presented construction",
+        "classical_complexity": "O(1/sqrt(N)) Monte Carlo estimation error",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not quantified; authors only state asymptotic quadratic improvement of QAE over classical Monte Carlo.",
+        "resources_for_advantage": "Authors estimate ≲1200 logical qubits for realistic financial risk scenarios and circuit depth up to ≲10^8 operations.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Very large circuit depth (~10^8 operations for realistic precision)",
+          "Requirement of ~10^3 logical qubits",
+          "Only emulator validation",
+          "Quadratic speedup only (QAE vs classical Monte Carlo)"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "hardware.type inferred as simulator_other because the paper states the circuits were verified using a quantum computer emulator and no physical QPU is named.",
+          "num_qubits inferred from 6 risk-factor qubits + 3 state qubits + 1 risk-measure qubit + 9 ancilla qubits = 19 total qubits.",
+          "circuit_depth is reported only as scaling estimates in the paper, not as a single exact depth for the demonstrated instance.",
+          "Paper analytically states QAE provides quadratic speedup over classical Monte Carlo but does not experimentally compare runtime with classical methods.",
+          "All results are obtained via emulator simulations showing convergence behavior, not performance advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "End-to-end gate-based quantum Monte Carlo / amplitude-estimation circuit for short-form credit-risk survival probability over 6 time steps.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Quantum Monte Carlo (QMC) + Quantum Amplitude Estimation (QAE) for short-form credit risk",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "time_steps": 6,
+          "output_qubits_range": "1-9",
+          "default_probability_per_step": 0.02,
+          "risk_factor_qubits": 6,
+          "risk_measure_qubits": 1,
+          "ancilla_qubits": null,
+          "T": 1,
+          "theta_def": "16.3 degrees"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "One qubit per time step encodes survival/default; |0> means survival and |1> means default. A controlled rotation encodes the default probability and a controlled flip propagates default forward in time.",
+        "objective_function": "Estimate survival probability P(T) over m time steps, with default probability q_def = 2% per step.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Synthetic short-form credit-risk model with constant per-step default probability.",
+        "num_assets": null,
+        "time_steps": 6,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "No external dataset; model parameter q_def = 2% and horizon T = 1."
+        },
+        "data_preprocessing_details": null,
+        "evaluation_methodology": "Direct simulation on a quantum computer emulator; output distributions shown for m=4 and 10000 runs, and convergence of the estimated probability is reported as output-qubit count increases."
+      },
+      "quantum_resources": {
+        "num_qubits": 7,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 10000,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "AWS Braket (IQM emulator)",
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Classical setting of the per-step default probability and survival probability from the short-form model.",
+        "classical_postprocessing": "Measurement of the risk-measure qubit to estimate survival/default probability; convergence analysis with increasing output-qubit count.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "Estimated probability converges as output-qubit count increases",
+          "variance_across_runs": null,
+          "num_independent_runs": 10000
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_risk_factors",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_risk_measure_qubits",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "time_steps",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "steps",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "default_probability_per_step",
+          "value": 0.02,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "theta_def",
+          "value": 16.3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "degrees",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_shots",
+          "value": 10000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "runs",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "tail_risk_estimate",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 10000,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 10000,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "figure"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "convergence_rate",
+          "value": "O(1/sqrt(N))",
+          "unit": "estimation error scaling",
+          "data_source": "text"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical monte carlo",
+          "conditions": "for QAE-based survival probability estimation with encoded default process",
+          "is_demonstrated": true,
+          "caveats": "The paper emphasizes that the advantage depends on quantum state preparation and encoding of the survival process."
+        },
+        {
+          "type": "asymptotic",
+          "factor": "O(1/N) vs O(1/sqrt(N))",
+          "baseline_method": "classical monte carlo",
+          "conditions": "estimation error scaling in QAE versus classical Monte Carlo",
+          "is_demonstrated": true,
+          "caveats": "N denotes the number of possible output states in the QAE construction."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 6.0,
+          "num_qubits": 7,
+          "metric_name": "num_qubits",
+          "metric_value": 7
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(1/N) estimation error for QAE; linear in time steps for the survival register",
+        "classical_complexity": "O(1/sqrt(N)) Monte Carlo estimation error",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not provided",
+        "resources_for_advantage": "Similar order as other circuits in the paper: hundreds to ~1200 logical qubits and circuit depth approaching ~10^8 for high‑precision estimation.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Quadratic speedup only",
+          "Very deep circuits required for QAE precision",
+          "Validation only on emulator",
+          "No classical runtime comparison"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "hardware.type inferred as simulator_other because the paper states the circuits were verified using a quantum computer emulator and no physical QPU is named.",
+          "num_qubits inferred from 6 risk-factor qubits + 1 risk-measure qubit = 7 total qubits. The paper does not separately count ancillas for this example.",
+          "The paper demonstrates convergence of amplitude estimation in simulation but does not benchmark against classical survival‑probability estimation."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "End-to-end gate-based quantum Monte Carlo / amplitude-estimation circuit for credit-rating migration modeled with a multinomial tree and mapped to the interest-rate migration construction.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Quantum Monte Carlo (QMC) + Quantum Amplitude Estimation (QAE) for credit-rating migration",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "ratings": [
+            "A",
+            "B",
+            "D"
+          ],
+          "initial_rating": "A0",
+          "output_qubits_range": "1-9"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Multinomial-tree / migration-matrix encoding reusing the interest-rate tree construction; default probability is encoded by measuring the low-level state.",
+        "objective_function": "Estimate default probability under a credit-rating migration model.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Synthetic credit-rating migration model with three ratings: A, B, and D, starting from A0.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "No external dataset; illustrative migration matrix over three ratings."
+        },
+        "data_preprocessing_details": null,
+        "evaluation_methodology": "Described as a mapping to the same QMC/QAE framework; no separate numerical experiment details beyond the construction."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Classical construction of the migration matrix and mapping to the QMC/QAE circuit.",
+        "classical_postprocessing": null,
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": null,
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_risk_factors",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical monte carlo",
+          "conditions": "credit-rating migration mapped into the same QMC/QAE framework",
+          "is_demonstrated": false,
+          "caveats": "The paper presents the construction but does not report a separate numerical experiment for this example."
+        },
+        {
+          "type": "asymptotic",
+          "factor": "O(1/N) vs O(1/sqrt(N))",
+          "baseline_method": "classical monte carlo",
+          "conditions": "general QAE scaling",
+          "is_demonstrated": false,
+          "caveats": "No separate measured results are provided for the migration example."
+        }
+      ],
+      "scalability_data": [],
+      "complexity_analysis": {
+        "quantum_complexity": "O(1/N) estimation error for QAE",
+        "classical_complexity": "O(1/sqrt(N)) Monte Carlo estimation error",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "data_loading_bottleneck": null
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "No separate hardware or run details are given for the credit-rating migration example; it is presented as a construction mapped onto the same QMC/QAE framework.",
+          "num_qubits and circuit depth are not explicitly specified for this example."
+        ]
+      }
+    }
+  ]
+}

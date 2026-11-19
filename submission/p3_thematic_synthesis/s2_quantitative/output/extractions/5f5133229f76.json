@@ -1,0 +1,1060 @@
+{
+  "paper_id": "5f5133229f76",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:48:00+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "5f5133229f76_spectral_graph_compression_in_deploying_recommender_algorithms_on_quantum_simula.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.75,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 10,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[6].unit='nodes' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='per_node' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[10].unit='graphs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[11].unit='nodes' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[6].unit='graphs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[7].unit='nodes' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[8].unit='communities' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[9].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[10].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.75,
+      "completeness": 0.75,
+      "num_experiments": 3,
+      "experiment_scores": [
+        0.85,
+        0.7,
+        0.7
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Spectral Graph Compression in Deploying Recommender Algorithms on Quantum Simulators",
+    "authors": [
+      "Chenxi Liu",
+      "W. Bernard Lee",
+      "Anthony G. Constantinides"
+    ],
+    "year": 2025,
+    "doi": "10.3390/computers14080310",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": [
+      "insurance-actuarial"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper evaluates QAOA for a 20-node Max-Cut investor-clustering problem using simulators (cuQuantum, Cirq-GPU, Cirq-IonQ). Relative errors of 23.1%, 24.2%, and 50.9% are reported compared to an exact brute-force solution, with runtimes of 6930.8 s, 15.7 s, and 252.6 s respectively, while brute force solves the instance exactly in 112.6 s. Additional experiments validate a classical spectral graph compression method achieving ~89.4% Max-Cut approximation at 50% compression.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "QAOA-based Max-Cut investor clustering on a 20-node financial recommendation graph, evaluated on quantum simulators and compared against brute-force enumeration.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "QAOA for Max-Cut investor clustering with spectral graph compression",
+        "ansatz": null,
+        "optimizer": "classical parameter optimization (optimizer not specified)",
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "graph_size_nodes": 20,
+          "simulators": [
+            "cuQuantum",
+            "Cirq-GPU",
+            "Cirq-IonQ"
+          ],
+          "baseline": "brute-force enumeration",
+          "reported_relative_errors": {
+            "cuQuantum": 0.2307,
+            "Cirq-GPU": 0.2418,
+            "Cirq-IonQ": 0.509,
+            "brute-force": 0.0
+          },
+          "reported_processing_times_s": {
+            "cuQuantum": 6930.77,
+            "Cirq-GPU": 15.67,
+            "Cirq-IonQ": 252.57,
+            "brute-force": 112.62
+          }
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "QUBO",
+        "encoding_details": "Investor similarity graph is mapped to a Max-Cut objective; each investor is represented as a node, and QAOA is applied to the graph-cut formulation. The paper does not state the exact qubit-to-variable mapping beyond the graph node representation.",
+        "objective_function": "Max-Cut: maximize sum of weighted edges between two disjoint sets S,T, i.e., max_{S,T} sum_{i in S, j in T, (i,j) in E} w_ij",
+        "constraints_handling": null,
+        "num_binary_variables": 20,
+        "problem_hamiltonian": "H_C = sum_{(i,j) in E} w_ij (I - Z_i Z_j)",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Financial investor clustering / asset recommendation on a graph of 20 nodes.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 20,
+        "data_type": "synthetic",
+        "dataset_name": "financial investor profiles (from prior work / case study context)",
+        "dataset_specification": {
+          "description": "20-node graph; the paper does not provide a full raw dataset specification for this experiment."
+        },
+        "data_preprocessing_details": "Graph construction from investor similarity metrics; spectral graph compression is discussed as a deployment aid, but the exact preprocessing for this 20-node experiment is not fully specified.",
+        "evaluation_methodology": "Comparison of QAOA simulator runs against brute-force enumeration; metrics reported are relative error and processing time."
+      },
+      "quantum_resources": {
+        "num_qubits": 20,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "multiple (NVIDIA cuQuantum, Cirq-GPU, Cirq-IonQ simulator)",
+        "device_name": null,
+        "framework": "Cirq"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": "depolarizing noise model in Cirq (ConstantQubitNoiseModel with depolarize(p=0.001))",
+        "error_mitigation_method": null,
+        "noise_parameters": {
+          "per_qubit_error_probability": 0.001
+        },
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "brute-force enumeration",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Graph construction from investor similarity metrics; spectral compression discussed as a preprocessing/deployment strategy.",
+        "classical_postprocessing": "Relative error and runtime comparison; label mapping / recommendation interpretation in the broader framework.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "relative_error",
+          "value": 23.07,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "processing_time",
+          "value": 6930.77,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "relative_error",
+          "value": 24.18,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "processing_time",
+          "value": 15.67,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "relative_error",
+          "value": 50.9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "processing_time",
+          "value": 252.57,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "nodes",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "processing_time",
+          "value": 112.62,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "exponential_time_fit_exponent",
+          "value": 0.806,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "per_node",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "noise_probability",
+          "value": 0.001,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "brute_force_enumeration",
+          "metric_name": "relative_error",
+          "value": 0.0,
+          "unit": "%"
+        },
+        {
+          "method_name": "brute_force_enumeration",
+          "metric_name": "processing_time",
+          "value": 112.62,
+          "unit": "seconds"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": "brute_force_enumeration",
+          "conditions": "20-node investor clustering on quantum simulators",
+          "is_demonstrated": false,
+          "caveats": "No proven speedup; Cirq-GPU was fastest among simulators, but still slower than brute-force in this reported run."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 20,
+          "num_qubits": 20,
+          "metric_name": "relative_error",
+          "metric_value": 23.07
+        },
+        {
+          "problem_size": 20,
+          "num_qubits": 20,
+          "metric_name": "processing_time",
+          "metric_value": 6930.77
+        },
+        {
+          "problem_size": 20,
+          "num_qubits": 20,
+          "metric_name": "relative_error",
+          "metric_value": 24.18
+        },
+        {
+          "problem_size": 20,
+          "num_qubits": 20,
+          "metric_name": "processing_time",
+          "metric_value": 15.67
+        },
+        {
+          "problem_size": 20,
+          "num_qubits": 20,
+          "metric_name": "relative_error",
+          "metric_value": 50.9
+        },
+        {
+          "problem_size": 20,
+          "num_qubits": 20,
+          "metric_name": "processing_time",
+          "metric_value": 252.57
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": "brute-force exponential scaling is discussed qualitatively; the paper reports an empirical fit y ∝ e^0.806x",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": 112.62
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not_established",
+        "resources_for_advantage": "Would require large-scale fault-tolerant QAOA implementations on graphs far larger than 20 nodes, with substantially deeper circuits and optimized classical baselines.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Problem size extremely small (20 nodes)",
+          "Evaluation performed only on simulators",
+          "Brute-force baseline achieves exact solution",
+          "QAOA results have large relative error (23–51%)",
+          "No demonstrated scaling advantage",
+          "Significant classical preprocessing and graph compression"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "num_qubits inferred as 20 from the stated 20-node graph used for the QAOA graph cut; the paper does not explicitly say '20 qubits'.",
+          "hardware.type inferred as simulator_other because the paper names cuQuantum and Cirq-GPU/Cirq-IonQ simulators rather than a real QPU.",
+          "Table 1 shows QAOA simulator results with 23–51% relative error while brute-force obtains the exact solution.",
+          "Although Cirq-GPU runtime (15.67 s) is faster than brute force (112.62 s), the solution quality is significantly worse, so this is not a meaningful quantum advantage under Hoefler criteria."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Spectral graph compression validation on 100 Erdős–Rényi graphs, where compressed graphs of varying size are solved exactly and projected back to the original graph to measure Max-Cut approximation quality.",
+      "algorithm": {
+        "family": "classical-simulation",
+        "variant": "Spectral graph compression validation with exact Max-Cut on compressed graphs",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "graph_corpus": "100 Erdős–Rényi graphs",
+          "graph_model": "G(n,p)",
+          "n": 30,
+          "p": 0.5,
+          "compression_sizes": [
+            5,
+            10,
+            15,
+            20,
+            25
+          ],
+          "compression_ratios": [
+            0.17,
+            0.33,
+            0.5,
+            0.67,
+            0.83
+          ],
+          "metric": "approximation ratio alpha = Cut_projected / MaxCut_exact"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "QUBO",
+        "encoding_details": "Max-Cut on compressed graphs; the paper uses exact methods on the compressed graph and then projects the solution back to the original graph.",
+        "objective_function": "Approximation ratio alpha = Cut_projected / MaxCut_exact",
+        "constraints_handling": null,
+        "num_binary_variables": 30,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Synthetic graph validation benchmark for spectral compression correctness.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 100,
+        "data_type": "synthetic",
+        "dataset_name": "Erdős–Rényi graph corpus",
+        "dataset_specification": {
+          "description": "100 graphs from G(n,p) with n=30, p=0.5, no self-loops."
+        },
+        "data_preprocessing_details": "Compute exact Max-Cut by brute force; apply spectral coarsening via Laplacian eigendecomposition; solve compressed graph exactly; project solution to original space via cluster assignments.",
+        "evaluation_methodology": "Mean, min, max, and standard deviation of approximation ratio across the 100 graphs for each compression size."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "brute-force exact Max-Cut on small graphs; exact solution on compressed graphs",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Spectral Laplacian embedding / graph compression.",
+        "classical_postprocessing": "Projection of compressed-graph solution back to original graph; approximation ratio computation.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": 100
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.7346,
+          "uncertainty": "range [0.6892, 0.8014]; std 0.0300",
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.8369,
+          "uncertainty": "range [0.7872, 0.8828]; std 0.0290",
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.8937,
+          "uncertainty": "range [0.8667, 0.9328]; std 0.0157",
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.9293,
+          "uncertainty": "range [0.8915, 0.9781]; std 0.0215",
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.9617,
+          "uncertainty": "range [0.9366, 0.9924]; std 0.0142",
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "error",
+          "value": 0.2654,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "error",
+          "value": 0.1631,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "error",
+          "value": 0.1063,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "error",
+          "value": 0.0707,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "error",
+          "value": 0.0383,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "graphs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "graph_size_n",
+          "value": 30,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "nodes",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "compression_ratio",
+          "value": 0.17,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "compression_ratio",
+          "value": 0.33,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "compression_ratio",
+          "value": 0.5,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "compression_ratio",
+          "value": 0.67,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "compression_ratio",
+          "value": 0.83,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "r_squared",
+          "value": 0.98,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "brute_force_exact_maxcut",
+          "metric_name": "approximation_ratio",
+          "value": 1.0,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": "brute_force_exact_maxcut",
+          "conditions": "Validation of spectral compression on 30-node Erdős–Rényi graphs",
+          "is_demonstrated": false,
+          "caveats": "This is a classical validation experiment; no quantum speedup is reported."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 5,
+          "num_qubits": null,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.7346
+        },
+        {
+          "problem_size": 10,
+          "num_qubits": null,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.8369
+        },
+        {
+          "problem_size": 15,
+          "num_qubits": null,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.8937
+        },
+        {
+          "problem_size": 20,
+          "num_qubits": null,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.9293
+        },
+        {
+          "problem_size": 25,
+          "num_qubits": null,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.9617
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L0_theory",
+        "crossover_size": null,
+        "resources_for_advantage": null,
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Purely classical validation experiment",
+          "No quantum circuit or hardware involved"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "This is a validation experiment for the compression pipeline, not a gate-based quantum run; the paper reports exact classical solving on compressed graphs and does not specify quantum hardware resources. The 'k' values are compression dimensions, not qubit counts.",
+          "Section 3.6 explicitly describes classical exact solving of compressed graphs to validate the compression pipeline."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "Large-scale consistency testing of the Louvain-based graph compression pipeline on 1000 synthetic stochastic block model graphs, measuring agreement with full-graph partitioning.",
+      "algorithm": {
+        "family": "classical-simulation",
+        "variant": "Louvain-based hierarchical coarsening and edge-weight aggregation",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "testbed": "1000 synthetic graphs",
+          "graph_model": "SBM",
+          "n": 100,
+          "k": 4,
+          "pin": 0.7,
+          "pout": 0.1,
+          "metrics": [
+            "ARI",
+            "Jaccard"
+          ]
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": null,
+        "encoding_details": "Community detection / graph coarsening; no quantum encoding is used in this experiment.",
+        "objective_function": "Maximize modularity Q(C) during Louvain-based community detection; evaluate agreement with full-graph partitioning using ARI and Jaccard.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Synthetic graph consistency benchmark for the compression pipeline.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 1000,
+        "data_type": "synthetic",
+        "dataset_name": "SBM synthetic graphs",
+        "dataset_specification": {
+          "description": "G ~ SBM(n=100, k=4, pin=0.7, pout=0.1)."
+        },
+        "data_preprocessing_details": "Distributed compression and comparison against full-graph Louvain partitioning.",
+        "evaluation_methodology": "Mean ARI, median ARI, standard deviation, min/max ARI, and Jaccard similarity over 1000 graphs."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Louvain partitioning / modularity maximization",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Graph coarsening and community merging.",
+        "classical_postprocessing": "ARI and Jaccard comparison to full-graph partitioning.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": 1000
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "mean_ari",
+          "value": 0.72,
+          "uncertainty": "±0.004",
+          "num_runs": 1000,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "median_ari",
+          "value": 0.685,
+          "uncertainty": "95% CI [0.675, 0.695]",
+          "num_runs": 1000,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "standard_deviation",
+          "value": 0.167,
+          "uncertainty": null,
+          "num_runs": 1000,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "minimum_ari",
+          "value": 0.26,
+          "uncertainty": null,
+          "num_runs": 1000,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "maximum_ari",
+          "value": 1.0,
+          "uncertainty": null,
+          "num_runs": 1000,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "jaccard_similarity",
+          "value": 1.0,
+          "uncertainty": null,
+          "num_runs": 1000,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 1000,
+          "uncertainty": null,
+          "num_runs": 1000,
+          "unit": "graphs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "graph_size_n",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": 1000,
+          "unit": "nodes",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_communities_k",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": 1000,
+          "unit": "communities",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "pin",
+          "value": 0.7,
+          "uncertainty": null,
+          "num_runs": 1000,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "pout",
+          "value": 0.1,
+          "uncertainty": null,
+          "num_runs": 1000,
+          "unit": "probability",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "full_graph_louvain_partitioning",
+          "metric_name": "ari",
+          "value": 1.0,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": "full_graph_louvain_partitioning",
+          "conditions": "Large-scale consistency testing of classical graph compression pipeline",
+          "is_demonstrated": false,
+          "caveats": "No quantum algorithm is used; this is a classical validation benchmark."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 1000,
+          "num_qubits": null,
+          "metric_name": "mean_ari",
+          "metric_value": 0.72
+        },
+        {
+          "problem_size": 1000,
+          "num_qubits": null,
+          "metric_name": "jaccard_similarity",
+          "metric_value": 1.0
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L0_theory",
+        "crossover_size": null,
+        "resources_for_advantage": null,
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Purely classical graph compression benchmark",
+          "No gate-based quantum algorithm evaluated"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "No gate-based quantum experiment is associated with this benchmark; it is included because it is a distinct experimental validation in the paper, but it is purely classical.",
+          "Section 3.8–3.9 describes Louvain-based classical compression evaluation using ARI and Jaccard metrics."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

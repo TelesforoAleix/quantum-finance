@@ -1,0 +1,511 @@
+{
+  "paper_id": "1a0d37057236",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:09:56+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "1a0d37057236_iqnn_cs_interpretable_quantum_neural_network_for_credit_scoring.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.633,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 9,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[11].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='percent_train / 15 percent_validation / 15 percent_test' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[17].unit='std' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[18].unit='std' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[19].unit='std' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[20].unit='std' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[21].unit='std' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[22].unit='std' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.633,
+      "completeness": 0.633,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.633
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "IQNN-CS: Interpretable Quantum Neural Network for Credit Scoring",
+    "authors": [
+      "Abdul Samad Khan",
+      "Nouhaila Innan",
+      "Aeysha Khalique",
+      "Muhammad Shafique"
+    ],
+    "year": 2025,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "credit-lending",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes IQNN‑CS, a hybrid classical–quantum variational neural network using 6 qubits and 4 StronglyEntanglingLayers simulated with PennyLane. On two credit‑scoring datasets it achieves 100% accuracy/F1 on Dataset‑1 and 77.3% accuracy with ~0.78 macro‑F1 on Dataset‑2 while introducing the ICAA interpretability metric for class‑wise attribution analysis.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Hybrid variational quantum neural network for multiclass credit scoring on two benchmark datasets, with interpretability analysis on the trained model.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "hybrid variational QNN / VQC for multiclass credit scoring",
+        "ansatz": "StronglyEntanglingLayers",
+        "optimizer": "AdamW",
+        "num_layers": 4,
+        "convergence_criteria": "early stopping based on validation loss; trained for up to 50 epochs",
+        "hyperparameters": {
+          "qubits": 6,
+          "quantum_layers": 4,
+          "embedding_strategy": "AngleEmbedding",
+          "classical_layers": "Linear → ReLU → Linear + Dropout",
+          "preprocessing": "StandardScaler, OneHotEncoder, SMOTE",
+          "pca_components": 6,
+          "batch_size": 16,
+          "learning_rate": 0.01,
+          "scheduler": "StepLR",
+          "loss_function": "class-weighted CrossEntropy",
+          "epochs": 50,
+          "validation_split": "70-15-15 train-val-test",
+          "random_seed": 42
+        },
+        "parameter_initialization": "not reported",
+        "optimizer_settings": {
+          "max_iterations": 50,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": "StepLR",
+          "parameter_bounds": null
+        },
+        "hyperparameters.loss_function": "Negative Log-Likelihood (cross-entropy equivalent, class-weighted)"
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "PCA-compressed tabular credit features are mapped to 6 qubits using angle encoding after a classical preprocessing block",
+        "objective_function": "multiclass credit risk classification minimizing class-weighted cross-entropy / NLL loss",
+        "constraints_handling": "class balancing via undersampling or SMOTE; no quantum constraint encoding",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Multiclass credit scoring on two real-world benchmark datasets",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "public_benchmark",
+        "dataset_name": "Credit score classification dataset (Kaggle) — Dataset 1 and Dataset 2",
+        "dataset_specification": {
+          "description": "Dataset 1 from https://www.kaggle.com/datasets/sujithmandala/credit-score-classification-dataset; Dataset 2 from https://www.kaggle.com/datasets/parisrohan/credit-score-classification; stratified 70/15/15 train/validation/test split"
+        },
+        "data_preprocessing_details": "numerical features standardized; categorical features one-hot encoded; class imbalance handled with undersampling for Dataset 1 and SMOTE for Dataset 2; PCA reduced features to 6 components; then classical dense preprocessing before quantum layer",
+        "evaluation_methodology": "single train/validation/test split with stratified sampling; performance reported on test set; interpretability evaluated on selected test instances"
+      },
+      "quantum_resources": {
+        "num_qubits": 6,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": null,
+        "device_name": "default.qubit",
+        "framework": "PennyLane",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_preprocessing": "StandardScaler, OneHotEncoder, SMOTE, PCA, train/validation/test split, classical dense preprocessing block",
+        "classical_postprocessing": "dropout and linear projection to logits; softmax/class-weighted cross-entropy for classification",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "Dataset 1 converges rapidly and stably; Dataset 2 is noisier and less stable",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "default_prediction_accuracy",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "default_prediction_accuracy",
+          "value": 77.3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 78,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.64,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.97,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.77,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.95,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.67,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.79,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_epochs",
+          "value": 50,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "quantum_layers",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "train_validation_test_split",
+          "value": 70,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "percent_train / 15 percent_validation / 15 percent_test",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "learning_rate",
+          "value": 0.01,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "batch_size",
+          "value": 16,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": null,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "saliency_map_std",
+          "value": 0.0493,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "std",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "saliency_map_std",
+          "value": 0.157,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "std",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "saliency_map_std",
+          "value": 0.1426,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "std",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "saliency_map_std",
+          "value": 0.0651,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "std",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "saliency_map_std",
+          "value": 0.0395,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "std",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "saliency_map_std",
+          "value": 0.2797,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "std",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "cosine_similarity",
+          "value": 0.9989,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "cosine_similarity",
+          "value": 0.9976,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "cosine_similarity",
+          "value": 0.9976,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "cosine_similarity",
+          "value": 0.993,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "cosine_similarity",
+          "value": 0.9416,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "cosine_similarity",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The paper explicitly states it does not aim to demonstrate quantum supremacy or outperform classical machine learning models, and no speedup analysis is provided."
+        }
+      ],
+      "scalability_data": [],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Not analyzed in the paper; experiment uses a 6‑qubit variational circuit simulated on PennyLane default.qubit with 4 StronglyEntanglingLayers and classical preprocessing (PCA to 6 features).",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Only 6 qubits and simulated execution",
+          "No classical baseline comparison for performance or runtime",
+          "No complexity or asymptotic speedup analysis",
+          "Application framed as interpretability study rather than computational advantage",
+          "Entire pipeline dominated by classical preprocessing and training loop"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "hardware.type inferred as simulator_statevector because the paper explicitly states circuits were simulated via default.qubit and no real QPU was used.",
+          "circuit_depth not explicitly quantified; only the number of quantum layers (4 StronglyEntanglingLayers) is reported, so depth is left null.",
+          "speedup_order set to none_proven because the paper explicitly says it does not aim to demonstrate quantum supremacy or outperform classical ML, and no asymptotic speedup analysis is provided.",
+          "Authors explicitly state their goal is not to demonstrate quantum supremacy or outperform classical ML (Section 1).",
+          "Paper evaluates interpretability and predictive behavior of a hybrid QNN rather than benchmarking quantum vs classical computational advantage."
+        ],
+        "advantage_status": "paper_reported"
+      }
+    }
+  ]
+}

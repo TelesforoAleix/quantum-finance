@@ -1,0 +1,644 @@
+{
+  "paper_id": "1d16f793a68b",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:13:53+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "1d16f793a68b_quantum_neural_network_for_continuous_variable_prediction.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.75,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 10,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[1].unit='features' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='mse' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[1].unit='features' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[2].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[6].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[8].unit='features' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[9].unit='features' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[10].unit='mse' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.75,
+      "completeness": 0.75,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.8,
+        0.7
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum classical hybrid neural networks for continuous variable prediction",
+    "authors": [
+      "Prateek Jain",
+      "Alberto Garcia Garcia"
+    ],
+    "year": 2023,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper trains hybrid quantum–classical neural networks for regression on the Boston Housing dataset (506 samples, 13 features reduced to 9 via PCA). A PennyLane-based gate-model hybrid QNN using AngleEmbedding and StronglyEntanglingLayers (9 qubits, 1024 shots, 25 epochs) shows slightly lower training loss than a comparable classical NN, while a photonic CVQNN implemented with Strawberry Fields using only 3 features fails to learn due to simulator memory limits.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Hybrid gate-based quantum neural network for Boston Housing continuous-variable prediction using PennyLane on a qubit simulator, with angle encoding and a strongly entangling variational layer sandwiched between classical dense layers.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Quantum-classical hybrid QNN with AngleEmbedding + StronglyEntanglingLayers",
+        "ansatz": "StronglyEntanglingLayers",
+        "optimizer": "SGD",
+        "num_layers": 1,
+        "convergence_criteria": "25 epochs",
+        "hyperparameters": {
+          "epochs": 25,
+          "learning_rate": 0.08,
+          "batch_size": 5,
+          "shots": 1024,
+          "features_used": 9,
+          "nn_layers": 3
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "max_iterations": 25,
+          "tolerance": null,
+          "step_size": 0.08,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "9 standardized PCA features encoded into rotation angles on qubits using AngleEmbedding; the paper states N features are encoded into n qubits and uses 9 features for this model.",
+        "objective_function": "Mean squared error for continuous value prediction (house price regression).",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Boston Housing regression: predict median house value from neighborhood features.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 9,
+        "dataset_size": 506,
+        "data_type": "public_benchmark",
+        "dataset_name": "Boston Housing",
+        "dataset_specification": {
+          "description": "Boston Housing data from keras.datasets / StatLib; 506 samples, 13 original features, reduced to 9 principal components for the hybrid QNN."
+        },
+        "data_preprocessing_details": "Standardized features by removing mean and variance; performed PCA and retained 9 principal components to explain at least 95% of variance.",
+        "evaluation_methodology": "Trained for 25 epochs and compared loss decay and predicted-vs-actual plots against a classical neural network baseline."
+      },
+      "quantum_resources": {
+        "num_qubits": 9,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 1024,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "PennyLane",
+        "device_name": "default.qubit.tf",
+        "framework": "PennyLane + TensorFlow/Keras",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "TensorFlow / Keras with SGD"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Feature standardization and PCA dimensionality reduction to 9 components.",
+        "classical_postprocessing": "Predicted house prices compared against actual values; loss curves plotted.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 25,
+          "final_loss_value": null,
+          "loss_curve_shape": "loss decays over epochs; QNN slightly better than classical NN",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "dataset_size",
+          "value": 506,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_features",
+          "value": 9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "features",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "epochs",
+          "value": 25,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "learning_rate",
+          "value": 0.08,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "batch_size",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots",
+          "value": 1024,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "nn_layers",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_time",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "hours",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "loss",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "mse",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical neural network",
+          "metric_name": "loss",
+          "value": null,
+          "unit": "mse"
+        },
+        {
+          "method_name": "classical neural network",
+          "metric_name": "training_time",
+          "value": null,
+          "unit": "hours"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The paper reports only an empirical comparison and states the QNN performed slightly better than the classical NN, but provides no quantitative speedup or asymptotic advantage."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 506,
+          "num_qubits": 9,
+          "metric_name": "dataset_size",
+          "metric_value": 506
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "parity_with_classical",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not analyzed in the paper",
+        "resources_for_advantage": "Unknown; would require substantially larger PQCs and real QPUs, but no scaling or resource estimates are provided.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Experiments run only on simulators (PennyLane default.qubit.tf).",
+          "Very small dataset (506 samples) and only 9 encoded features.",
+          "No rigorous metric table (only qualitative loss curves and plots).",
+          "No runtime comparison or asymptotic complexity analysis.",
+          "Hybrid optimization dominated by classical training."
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_other because the paper states use of PennyLane default.qubit.tf device and does not name a physical QPU.",
+          "num_qubits inferred from the stated 9-feature input to the hybrid QNN and the use of AngleEmbedding on 9 features.",
+          "No explicit circuit depth or gate counts are reported; only the presence of a single quantum layer (StronglyEntanglingLayers) is described.",
+          "No asymptotic speedup analysis is provided; the paper only reports empirical comparison to a classical NN.",
+          "Paper reports the hybrid QNN performs 'slightly better' than the classical NN in loss plots but without quantitative metrics.",
+          "Because the comparison uses nearly identical architectures and small-scale simulation, this is treated as approximate parity rather than demonstrated advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Photonic continuous-variable hybrid quantum neural network for Boston Housing prediction using Strawberry Fields with displacement encoding and CVNeuralNetLayers, evaluated on a photonic simulator/back-end due to lack of hardware access.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Photonic quantum-classical hybrid QNN with DisplacementEmbedding + CVNeuralNetLayers",
+        "ansatz": "CVNeuralNetLayers",
+        "optimizer": "SGD",
+        "num_layers": 1,
+        "convergence_criteria": "25 epochs",
+        "hyperparameters": {
+          "epochs": 25,
+          "learning_rate": 0.08,
+          "batch_size": 5,
+          "shots": 1024,
+          "features_used": 3,
+          "nn_layers": 3
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "max_iterations": 25,
+          "tolerance": null,
+          "step_size": 0.08,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "displacement_encoding",
+        "encoding_details": "Continuous-variable features encoded into displacement amplitudes/phases of modes using DisplacementEmbedding; the paper uses 3 features for the photonic experiment.",
+        "objective_function": "Mean squared error for continuous value prediction (house price regression).",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Boston Housing regression with a reduced feature set for the photonic CVQNN due to simulation memory limits.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 3,
+        "dataset_size": 506,
+        "data_type": "public_benchmark",
+        "dataset_name": "Boston Housing",
+        "dataset_specification": {
+          "description": "Boston Housing data from keras.datasets / StatLib; photonic model trained on only 3 features because larger feature counts caused memory/time failures."
+        },
+        "data_preprocessing_details": "Standardized data; feature reduction via PCA was discussed, but the photonic model ultimately used only 3 features because Strawberry Fields Fock backend simulation was too expensive.",
+        "evaluation_methodology": "Trained for 25 epochs; compared loss decay and predicted-vs-actual plots, with the paper noting the model did not learn well."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 1024,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "Xanadu",
+        "device_name": "Strawberry Fields Fock backend",
+        "framework": "Strawberry Fields + PennyLane + TensorFlow/Keras",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "TensorFlow / Keras with SGD"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Feature standardization; reduced to 3 features because simulation with 5-6 features timed out or ran out of memory.",
+        "classical_postprocessing": "Predicted house prices compared against actual values; loss curves plotted.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 25,
+          "final_loss_value": null,
+          "loss_curve_shape": "loss decays weakly; model largely failed to learn",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "dataset_size",
+          "value": 506,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_features",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "features",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "epochs",
+          "value": 25,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "learning_rate",
+          "value": 0.08,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "batch_size",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots",
+          "value": 1024,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "nn_layers",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "hours",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "memory_limit_failure_threshold",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "features",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "timeout_failure_threshold",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "features",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "loss",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "mse",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical neural network",
+          "metric_name": "loss",
+          "value": null,
+          "unit": "mse"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No quantitative speedup is reported. The paper states the photonic model was computationally intensive and largely failed to learn, with simulation limited by memory/time."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 506,
+          "num_qubits": null,
+          "metric_name": "dataset_size",
+          "metric_value": 506
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": null,
+          "metric_name": "feature_count_failure_threshold",
+          "metric_value": 5
+        },
+        {
+          "problem_size": 6,
+          "num_qubits": null,
+          "metric_name": "feature_count_failure_threshold",
+          "metric_value": 6
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not analyzed in the paper",
+        "resources_for_advantage": "Photonic CV quantum hardware with significantly larger mode counts and efficient state preparation would be required; none estimated.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Photonic model restricted to only 3 input features due to exponential simulation memory scaling.",
+          "Training required ~2 hours even at this small scale.",
+          "Paper explicitly reports the model 'did not learn anything'.",
+          "No hardware experiment; only Strawberry Fields Fock simulator."
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware type inferred as simulator_other because the paper describes use of Strawberry Fields Fock backend and discusses simulation memory limits, not a physical photonic QPU.",
+          "The paper does not state a qubit count for the photonic CV model; continuous-variable modes are used instead, so num_qubits is null.",
+          "No explicit circuit depth or gate counts are reported; only the use of CVNeuralNetLayers is described.",
+          "No asymptotic speedup analysis is provided; only empirical comparison to a classical NN baseline.",
+          "Section 5.2.3 states the photonic QNN 'has not learnt anything at all' due to feature limitations and simulator constraints."
+        ],
+        "advantage_status": "paper_reported"
+      }
+    }
+  ]
+}

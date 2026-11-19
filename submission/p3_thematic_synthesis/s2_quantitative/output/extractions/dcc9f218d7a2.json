@@ -1,0 +1,1063 @@
+{
+  "paper_id": "dcc9f218d7a2",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T10:07:06+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "dcc9f218d7a2_quantum_computing_for_multidimensional_option_pricing_end_to_end_pipeline.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.53,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 11,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='basis points (normalized by spot), maximum pricing error' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='basis points (around ATM strike, typical error)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='asset' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[0].unit='asset' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[2].unit='samples/queries (approximate)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[0].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[2].unit='asymptotic rate' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[3].unit='asymptotic rate' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[3].results[0].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[3].results[2].unit='asymptotic rate' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[3].results[3].unit='asymptotic rate' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.53,
+      "completeness": 0.53,
+      "num_experiments": 5,
+      "experiment_scores": [
+        0.7,
+        0.7,
+        0.55,
+        0.55,
+        0.15
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 0.5,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 0.5,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum computing for multidimensional option pricing: End-to-end pipeline",
+    "authors": [
+      "Julien Hok",
+      "Álvaro Leitao"
+    ],
+    "year": 2026,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": [
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes an end‑to‑end pipeline combining NIG‑based risk‑neutral density calibration with Quantum Amplitude Estimation for multidimensional option pricing. In simulator experiments (≈6 qubits), the quantum accelerated Monte Carlo estimator shows the expected scaling improvement from O(1/ε²) (classical Monte Carlo) to O(1/ε), with simulations suggesting roughly 10–100× fewer oracle queries for accuracies below about 10⁻³. All results are obtained on an ideal simulator using discretized toy instances.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum accelerated Monte Carlo (QAMC) estimation of cosine-series coefficients for calibrated NIG marginal densities, compared against classical Monte Carlo, using the AXA 1-year expiry density as the main reported example.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Quantum Accelerated Monte Carlo using modified Real Quantum Amplitude Estimation",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "density_model": "NIG",
+          "cosine_basis_terms_K": 24,
+          "discrete_points_J": 25,
+          "qubits_per_dimension_n": 5,
+          "repetitions_per_experiment": 25,
+          "confidence_interval": "90%",
+          "target_asset": "AXA",
+          "target_maturity": "1-year expiry",
+          "QAE_variant": "modified Real Quantum Amplitude Estimation"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null,
+        "hyperparameters.discrete_points_J": "2^5 (32)",
+        "hyperparameters.cosine_basis_terms_K": "2^4 (16)"
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Square-root encoding of the discretized marginal density fi(xj) into amplitudes; one ancilla qubit used to encode the basis-function expectation via controlled rotation.",
+        "objective_function": "Estimate cosine coefficients a_k = E[gamma_k(X_i)] for the marginal density expansion f_i(x) ≈ sum_k a_k gamma_k(x).",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "Recovery of the AXA marginal risk-neutral density from market option quotes, then estimation of cosine-series coefficients for the density approximation.",
+        "num_assets": 1,
+        "time_steps": 1,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "real_market",
+        "dataset_name": "Euronext options data",
+        "dataset_specification": {
+          "description": "AXA options; 1-year expiry; market data as of 24/12/2024; closing spot price 33.8 EUR"
+        },
+        "data_preprocessing_details": "Calibrated NIG marginal from market quotes; cosine-series truncation on a finite interval; reference values computed by classical Riemann quadrature; 25 repeated trials.",
+        "evaluation_methodology": "Error convergence versus number of samples/queries; average over 25 repetitions; 90% confidence intervals reported."
+      },
+      "quantum_resources": {
+        "num_qubits": 6,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "myQLM/NEASQC",
+        "device_name": null,
+        "framework": "myQLM",
+        "framework_version": "1.12.2"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "transpilation_target": null,
+        "classical_solver": "classical Monte Carlo / classical Riemann quadrature baseline",
+        "transpilation_settings": null,
+        "classical_preprocessing": "NIG calibration from market quotes; cosine-basis setup; discretization with J=25 points and n=5 qubits per dimension.",
+        "classical_postprocessing": "Coefficient error computation against classical Riemann reference; averaging over 25 runs; confidence intervals.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "error decreases approximately as O(1/sqrt(L)) classically and O(1/epsilon) quantumly; QAMC shows quadratic advantage",
+          "variance_across_runs": 90.0,
+          "num_independent_runs": 25
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "price_error",
+          "value": 21,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "basis points (normalized by spot), maximum pricing error",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "basis points (around ATM strike, typical error)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_underlyings",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "asset",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "convergence_rate",
+          "value": "O(1/epsilon^2)",
+          "unit": "asymptotic rate"
+        },
+        {
+          "method_name": "classical riemann quadrature",
+          "metric_name": "price_error",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical monte carlo",
+          "conditions": "amplitude-estimation query model; coefficient recovery and pricing via QAE/QAMC",
+          "is_demonstrated": true,
+          "caveats": "Paper reports asymptotic O(1/epsilon) vs O(1/epsilon^2); no wall-clock timing or hardware execution on real QPU."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 1.0,
+          "num_qubits": 6,
+          "metric_name": "price_error",
+          "metric_value": 21.0
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(1/epsilon) per amplitude-estimation query model; coefficient recovery uses O(sqrt(b_i-a_i) K_i^2 / epsilon_i log(K_i/rho_i)) queries",
+        "classical_complexity": "O(1/epsilon^2) for Monte Carlo estimation",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not estimated; paper reports asymptotic O(1/epsilon) vs O(1/epsilon^2) scaling only.",
+        "resources_for_advantage": "Requires scalable fault‑tolerant implementation of amplitude estimation plus efficient state‑preparation oracle AX_i for probability distributions.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Experiment executed on ideal simulator only",
+          "State preparation oracle assumed efficient",
+          "Quadratic speedup only",
+          "No hardware resource estimates for large‑scale implementation"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware is the paper's quantum simulator environment (myQLM/NEASQC); no real QPU is named.",
+          "Num qubits inferred from J=25 discrete points => n=5 qubits per dimension and one ancilla, giving 6 total qubits.",
+          "Circuit depth not explicitly reported.",
+          "Paper demonstrates asymptotic convergence behavior via simulation but no real hardware experiment or practical runtime comparison."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Quantum accelerated Monte Carlo estimation of the AXA marginal density and distribution functions for increasing cosine truncation orders K, compared with classical Monte Carlo.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Quantum Accelerated Monte Carlo using modified Real Quantum Amplitude Estimation",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "target_asset": "AXA",
+          "cosine_truncation_orders": "K = 23, 24, 25",
+          "samples_or_queries": "~5000",
+          "repetitions_per_experiment": 25,
+          "confidence_interval": "90%",
+          "QAE_variant": "modified Real Quantum Amplitude Estimation"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null,
+        "hyperparameters.cosine_truncation_orders": "K = 2^3, 2^4, 2^5"
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Density coefficients loaded via amplitude estimation; distribution obtained by integrating cosine-series density approximation on a finite interval.",
+        "objective_function": "Estimate the marginal density f_i and CDF F_i from cosine-series coefficients.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "AXA marginal NIG density and CDF reconstruction for multiple cosine truncation levels.",
+        "num_assets": 1,
+        "time_steps": 1,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "real_market",
+        "dataset_name": "Euronext options data",
+        "dataset_specification": {
+          "description": "AXA; 1-year expiry; market data as of 24/12/2024"
+        },
+        "data_preprocessing_details": "Calibrated NIG density; cosine-series approximation on a finite interval; comparison of CMC and QAMC estimates at K=23,24,25.",
+        "evaluation_methodology": "Visual comparison of reconstructed density and distribution functions; repeated trials with confidence intervals."
+      },
+      "quantum_resources": {
+        "num_qubits": 6,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "myQLM/NEASQC",
+        "device_name": null,
+        "framework": "myQLM",
+        "framework_version": "1.12.2"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "transpilation_target": null,
+        "classical_solver": "classical Monte Carlo baseline",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Calibrated NIG density; cosine-series truncation; ~5000 samples/queries for the comparison plots.",
+        "classical_postprocessing": "Plotting of density and CDF reconstructions for K=23,24,25.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "QAMC and CMC both improve with K; QAMC outperforms CMC for larger K",
+          "variance_across_runs": null,
+          "num_independent_runs": 25
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_underlyings",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": 25,
+          "unit": "asset",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 25,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": 5000,
+          "uncertainty": null,
+          "num_runs": 25,
+          "unit": "samples/queries (approximate)",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "convergence_rate",
+          "value": "O(1/epsilon^2)",
+          "unit": "asymptotic rate"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical monte carlo",
+          "conditions": "cosine-series density and CDF reconstruction using modified Real Quantum Amplitude Estimation",
+          "is_demonstrated": true,
+          "caveats": "The paper states QAMC outperforms CMC for larger K; no numeric error values are given in text for K=23,24,25."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 23.0,
+          "num_qubits": 6,
+          "metric_name": "oracle_queries",
+          "metric_value": 5000
+        },
+        {
+          "problem_size": 24.0,
+          "num_qubits": 6,
+          "metric_name": "oracle_queries",
+          "metric_value": 5000
+        },
+        {
+          "problem_size": 25.0,
+          "num_qubits": 6,
+          "metric_name": "oracle_queries",
+          "metric_value": 5000
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(1/epsilon) per amplitude-estimation query model",
+        "classical_complexity": "O(1/epsilon^2) for Monte Carlo estimation",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not reported",
+        "resources_for_advantage": "Same QAE‑based Monte Carlo framework; requires efficient density‑loading oracle and fault‑tolerant circuits.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Visualization experiment on ideal simulator",
+          "No physical hardware execution",
+          "Quadratic speedup limited by state‑preparation cost"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Same simulator stack as the first experiment; no real hardware used.",
+          "Num qubits inferred from the text's J=25 and n=5 qubits per dimension plus one ancilla.",
+          "Authors show improved stability of coefficient estimation but do not demonstrate practical runtime advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "Quantum accelerated Monte Carlo pricing of a 2-asset spread call option under a Gaussian copula, comparing joint and independent formulations against classical Monte Carlo.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Quantum Accelerated Monte Carlo with joint and independent copula formulations; iterative quantum amplitude estimation for positive payoff",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "payoff": "spread 1-year expiry call",
+          "underlyings": "AXA, Michelin",
+          "strike": "K = 0",
+          "copula": "Gaussian copula",
+          "correlation_matrix": [
+            [
+              1,
+              -0.25
+            ],
+            [
+              -0.25,
+              1
+            ]
+          ],
+          "discrete_points_per_dimension": "J = 23",
+          "qubits_per_dimension_n": 6,
+          "total_qubits_for_pricing": 6,
+          "marginal_cosine_terms_K": 27,
+          "repetitions_per_experiment": 25,
+          "confidence_interval": "90%",
+          "QAE_variant": "Iterative Quantum Amplitude Estimation"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null,
+        "hyperparameters.discrete_points_per_dimension": "J = 2^3 (8)",
+        "hyperparameters.qubits_per_dimension_n": 3,
+        "hyperparameters.marginal_cosine_terms_K": "2^7 (128)"
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Joint density loaded into amplitudes for the joint formulation; independent marginals plus copula-weighted payoff for the independent formulation.",
+        "objective_function": "Estimate V(T,K)=e^{-rT}E[h(S,K)] for a spread option under a Gaussian-copula joint distribution.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "2-asset spread option pricing with AXA and Michelin as underlyings.",
+        "num_assets": 2,
+        "time_steps": 1,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "real_market",
+        "dataset_name": "Euronext options data",
+        "dataset_specification": {
+          "description": "AXA and Michelin; 1-year expiry; market data as of 24/12/2024"
+        },
+        "data_preprocessing_details": "Marginals calibrated with NIG; joint dependence modeled by Gaussian copula; marginal densities recovered classically with K=27 to isolate final pricing error; 25 repeated trials.",
+        "evaluation_methodology": "Error convergence versus samples/queries; average over repetitions with 90% confidence intervals; comparison of CMC, QAMC-joint, and QAMC-independent."
+      },
+      "quantum_resources": {
+        "num_qubits": 6,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "myQLM/NEASQC",
+        "device_name": null,
+        "framework": "myQLM",
+        "framework_version": "1.12.2"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "transpilation_target": null,
+        "classical_solver": "classical Monte Carlo baseline",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Gaussian-copula construction; NIG marginal calibration; classical Riemann-sum reference price; K=27 marginal recovery done classically.",
+        "classical_postprocessing": "Comparison of convergence curves for CMC and QAMC (joint and independent).",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "QAMC converges as O(1/epsilon) and CMC as O(1/epsilon^2); joint formulation has lower intercept than independent formulation",
+          "variance_across_runs": 90.0,
+          "num_independent_runs": 25
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_underlyings",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": 25,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 25,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": "O(1/epsilon)",
+          "uncertainty": null,
+          "num_runs": 25,
+          "unit": "asymptotic rate",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": "O(1/epsilon^2)",
+          "uncertainty": null,
+          "num_runs": 25,
+          "unit": "asymptotic rate",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "convergence_rate",
+          "value": "O(1/epsilon^2)",
+          "unit": "asymptotic rate"
+        },
+        {
+          "method_name": "classical riemann-sum reference price",
+          "metric_name": "price_error",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical monte carlo",
+          "conditions": "2-asset spread option pricing under Gaussian copula; QAMC with joint and independent formulations; iterative QAE for positive payoff",
+          "is_demonstrated": true,
+          "caveats": "Paper reports joint formulation has lower intercept than independent formulation; no explicit numeric price error values are stated in text."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 2.0,
+          "num_qubits": 6,
+          "metric_name": "convergence_rate",
+          "metric_value": 1.0
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(1/epsilon) for option-price estimation via QAE; paper also gives query bounds for joint/independent formulations",
+        "classical_complexity": "O(1/epsilon^2) for Monte Carlo estimation",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not computed; authors only show asymptotic scaling plots.",
+        "resources_for_advantage": "Fault‑tolerant QAE circuits with state‑preparation for joint or independent distributions; significantly larger qubit counts than the 6‑qubit toy setup.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Small toy discretization (6 qubits)",
+          "Ideal simulator without noise",
+          "Quadratic speedup only",
+          "State preparation complexity not analyzed",
+          "No full runtime comparison including classical preprocessing"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper explicitly states J=23 and n=6 qubits per dimension for the spread option, and total Nn=6 qubits for QAMC in the pricing experiments.",
+          "No transpiled depth or gate counts are reported.",
+          "Paper claims QAMC achieves quadratic improvement and empirically shows query scaling advantage versus CMC in simulation."
+        ],
+        "advantage_status": "paper_reported"
+      }
+    },
+    {
+      "experiment_id": "exp_4",
+      "description": "Quantum accelerated Monte Carlo pricing of a 3-asset arithmetic basket call option under a Gaussian copula, comparing joint and independent formulations against classical Monte Carlo.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Quantum Accelerated Monte Carlo with joint and independent copula formulations; iterative quantum amplitude estimation for positive payoff",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "payoff": "arithmetic basket 1-year expiry call",
+          "underlyings": "AXA, Credit Agricole, Michelin",
+          "strike": "K = 25",
+          "copula": "Gaussian copula",
+          "correlation_matrix": [
+            [
+              1,
+              -0.2,
+              -0.25
+            ],
+            [
+              -0.2,
+              1,
+              -0.15
+            ],
+            [
+              -0.25,
+              -0.15,
+              1
+            ]
+          ],
+          "discrete_points_per_dimension": "J = 22",
+          "qubits_per_dimension_n": 6,
+          "total_qubits_for_pricing": 6,
+          "marginal_cosine_terms_K": 27,
+          "repetitions_per_experiment": 25,
+          "confidence_interval": "90%",
+          "QAE_variant": "Iterative Quantum Amplitude Estimation"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Joint density loaded into amplitudes for the joint formulation; independent marginals plus copula-weighted payoff for the independent formulation.",
+        "objective_function": "Estimate V(T,K)=e^{-rT}E[h(S,K)] for a 3-asset basket option under a Gaussian-copula joint distribution.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "3-asset arithmetic basket call option pricing with AXA, Credit Agricole, and Michelin as underlyings.",
+        "num_assets": 3,
+        "time_steps": 1,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "real_market",
+        "dataset_name": "Euronext options data",
+        "dataset_specification": {
+          "description": "AXA, Credit Agricole, Michelin; 1-year expiry; market data as of 24/12/2024"
+        },
+        "data_preprocessing_details": "Marginals calibrated with NIG; joint dependence modeled by Gaussian copula; marginal densities recovered classically with K=27 to isolate final pricing error; 25 repeated trials.",
+        "evaluation_methodology": "Error convergence versus samples/queries; average over repetitions with 90% confidence intervals; comparison of CMC, QAMC-joint, and QAMC-independent."
+      },
+      "quantum_resources": {
+        "num_qubits": 6,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "myQLM/NEASQC",
+        "device_name": null,
+        "framework": "myQLM",
+        "framework_version": "1.12.2"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "transpilation_target": null,
+        "classical_solver": "classical Monte Carlo baseline",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Gaussian-copula construction; NIG marginal calibration; classical Riemann-sum reference price; K=27 marginal recovery done classically.",
+        "classical_postprocessing": "Comparison of convergence curves for CMC and QAMC (joint and independent).",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "QAMC converges as O(1/epsilon) and CMC as O(1/epsilon^2); joint formulation has lower intercept than independent formulation",
+          "variance_across_runs": 90.0,
+          "num_independent_runs": 25
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_underlyings",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": 25,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 25,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": "O(1/epsilon)",
+          "uncertainty": null,
+          "num_runs": 25,
+          "unit": "asymptotic rate",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": "O(1/epsilon^2)",
+          "uncertainty": null,
+          "num_runs": 25,
+          "unit": "asymptotic rate",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "convergence_rate",
+          "value": "O(1/epsilon^2)",
+          "unit": "asymptotic rate"
+        },
+        {
+          "method_name": "classical riemann-sum reference price",
+          "metric_name": "price_error",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical monte carlo",
+          "conditions": "3-asset arithmetic basket call under Gaussian copula; QAMC with joint and independent formulations; iterative QAE for positive payoff",
+          "is_demonstrated": true,
+          "caveats": "Paper states QAMC needs 10–100 fewer samples/queries than CMC for precision below 1e-3; joint formulation has lower intercept than independent formulation."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 3.0,
+          "num_qubits": 6,
+          "metric_name": "convergence_rate",
+          "metric_value": 1.0
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(1/epsilon) for option-price estimation via QAE; paper also gives query bounds for joint/independent formulations",
+        "classical_complexity": "O(1/epsilon^2) for Monte Carlo estimation",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not provided",
+        "resources_for_advantage": "Large‑scale fault‑tolerant amplitude estimation circuits for multidimensional payoff evaluation.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Only 6‑qubit discretized simulator experiment",
+          "Ideal noise‑free simulation",
+          "Quadratic speedup insufficient under Hoefler constant‑factor analysis",
+          "Efficient state preparation assumed"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper explicitly states J=22 and n=6 qubits per dimension for the basket option, and total Nn=6 qubits for QAMC in the pricing experiments.",
+          "No transpiled depth or gate counts are reported.",
+          "Paper reports that QAMC requires roughly 10–100× fewer queries than classical Monte Carlo in simulation for high precision."
+        ],
+        "advantage_status": "paper_reported"
+      }
+    },
+    {
+      "experiment_id": "exp_4",
+      "description": "Quantum Accelerated Monte Carlo pricing of a 3‑asset arithmetic basket call option under a Gaussian copula, compared against classical Monte Carlo.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Quantum Accelerated Monte Carlo with Iterative Quantum Amplitude Estimation",
+        "hyperparameters": {
+          "payoff": "Arithmetic basket call",
+          "underlyings": [
+            "AXA",
+            "Credit Agricole",
+            "Michelin"
+          ],
+          "strike": 25,
+          "copula": "Gaussian copula",
+          "discrete_points_per_dimension": "J = 2^2",
+          "total_qubits": 6,
+          "cosine_terms_for_marginals": "K = 2^7"
+        },
+        "num_layers": null
+      },
+      "key_results": [
+        "Error convergence follows classical O(1/epsilon^2) vs quantum O(1/epsilon).",
+        "QAMC requires roughly 10–100× fewer queries than classical Monte Carlo for accuracy below about 10^-3.",
+        "Both joint and independent formulations tested; joint formulation shows lower constant factor."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,747 @@
+{
+  "paper_id": "cb8d976cb90c",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:57:22+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "cb8d976cb90c_explicit_block_encoding_for_partial_differential_equation_constrained_optimizati.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.683,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 18,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[2].unit='qubits per parameter' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='1/sqrt(F̄)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='1/sqrt(F̄)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='nodes' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='discrete values' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='fraction of interval [0,1]' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='basis index' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[2].unit='qubits per parameter' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[4].unit='1/sqrt(F̄)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[5].unit='1/sqrt(F̄)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[7].unit='length units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[8].unit='time units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[9].unit='c1' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[10].unit='c2' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[11].unit='xi1' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[12].unit='xi2' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[13].unit='xi2 basis index' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[14].unit='xi1 basis index' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.683,
+      "completeness": 0.683,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.683,
+        0.683
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Explicit block-encoding for partial differential equation-constrained optimization",
+    "authors": [
+      "Yuki Sato",
+      "Jumpei Kato",
+      "Hiroshi Yano",
+      "Kosuke Ito",
+      "Naoki Yamamoto"
+    ],
+    "year": 2025,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": [
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a fully coherent gate‑based algorithm for PDE‑constrained optimization combining a quantum PDE solver with quantum Hamiltonian descent via explicit block‑encoding of the objective function. Complexity analysis shows ~O(α_PDE d N^(η/d) M^3 T /(h_ξ^2 ε)) quantum gate complexity and predicts polynomial speedup in PDE system size N and evolution time T plus exponential speedup in spatial dimension d. Two proof‑of‑concept simulations (19‑qubit Black–Scholes calibration and 12‑qubit wave‑equation material design) validate the block‑encoding and optimization dynamics using Qiskit statevector simulation.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Numerical validation of the block-encoding and product-formula QHD optimization for parameter calibration in the Black-Scholes equation.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "fully coherent PDE-constrained optimization using quantum Hamiltonian descent (QHD) with block-encoded objective and product-formula time evolution",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "friction_parameter_nu": "set to sqrt(F̄)",
+          "time_increment_delta_s": "0.01/sqrt(F̄)",
+          "total_time_S": "10/sqrt(F̄)",
+          "Nstep": 1000,
+          "design_variable_qubits_per_parameter": 4,
+          "k_space_qubits": 8,
+          "state_space_qubits": 6,
+          "ancilla_qubits_for_block_encoding": 19
+        },
+        "parameter_initialization": "uniform superposition over discretized design variables via Hadamard gates",
+        "optimizer_settings": null,
+        "hyperparameters.ancilla_qubits_for_block_encoding": 9
+      },
+      "problem_formulation": {
+        "encoding_method": "block_encoding",
+        "encoding_details": "volatility parameter σ encoded with 4 qubits as ξ in [0,1], with σ²=(σ²_max−σ²_min)ξ+σ²_min; objective is encoded via block-encoding of Ferr using forward-simulated PDE solution",
+        "objective_function": "minimize Ferr(ξ)=||u(x,T;ξ)−u_ref||² subject to Black-Scholes PDE constraints",
+        "constraints_handling": "PDE constraint enforced by quantum forward simulation (LCHS/Trotterized Hamiltonian simulation); optimization via QHD on the encoded objective",
+        "num_binary_variables": null,
+        "problem_hamiltonian": "H(s)= (1/(2λ(s)))Λ(M)+λ(s)F̂ with λ(s)=e^{νs}; objective operator F̂ derived from Ferr",
+        "num_ancilla_qubits": 19
+      },
+      "problem_instance": {
+        "description": "Call-option volatility calibration in the Black-Scholes equation",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": "European call option market data (reference price at selected x_ref)",
+        "dataset_specification": {
+          "description": "T=1, r=0.02, K=30, domain x∈[ln(10^-4), ln(10K)] discretized into 64 nodes; reference state built from analytical Black-Scholes formula at σ=0.3"
+        },
+        "data_preprocessing_details": "domain truncation, finite-difference discretization, reference point chosen as x_ref closest to ln(Ke^{-r})",
+        "evaluation_methodology": "statevector simulation to validate block-encoding; optimization trajectory evaluated over 1000 product-formula iterations"
+      },
+      "quantum_resources": {
+        "num_qubits": 19,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": "Qiskit 1.3",
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "finite-difference discretization; analytical Black-Scholes formula used to prepare reference state; mean objective value F̄ estimated for friction setting",
+        "classical_postprocessing": "objective expectation and standard deviation computed from simulated quantum states",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 1000,
+          "final_loss_value": null,
+          "loss_curve_shape": "expected objective decreases toward optimum with decreasing variance",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "evaluation_methodology": "statevector simulation used to validate block-encoding circuits; time‑dependent Hamiltonian evolution implemented via direct classical matrix‑vector multiplication rather than quantum circuit simulation",
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_qubits",
+          "value": 19,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "state_space_qubits",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "design_variable_qubits_per_parameter",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits per parameter",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "k_space_qubits",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "ancilla_qubits_for_block_encoding",
+          "value": 19,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "time_increment_delta_s",
+          "value": 0.01,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "1/sqrt(F̄)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "total_time_s",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "1/sqrt(F̄)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "nstep",
+          "value": 1000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "domain_nodes",
+          "value": 64,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "nodes",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "design_variable_resolution",
+          "value": 16,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "discrete values",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "optimal_design_variable",
+          "value": 0.4666666667,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "fraction of interval [0,1]",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "optimal_basis_state",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "basis index",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "objective_function_value",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "forward simulation with direct objective evaluation",
+          "metric_name": "objective_function_value",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "polynomial speedup in system size N, exponential speedup in spatial dimension d, polynomial speedup in evolution time T",
+          "baseline_method": "conventional classical PDE-constrained optimization with adjoint-based gradients",
+          "conditions": "under strong convexity and in the regime N >> M; speedup inherited from the underlying quantum PDE solver",
+          "is_demonstrated": false,
+          "caveats": "The paper states the end-to-end speedup is theoretical and depends on strong convexity; practical advantage is not established experimentally."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 4.0,
+          "num_qubits": 19,
+          "metric_name": "optimal_design_variable",
+          "metric_value": 0.4666666667
+        },
+        {
+          "problem_size": 64.0,
+          "num_qubits": 19,
+          "metric_name": "objective_function_validation",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "˜O(α_PDE d N^(η/d) M^3 T /(h_ξ^2 ε)) for the full algorithm under strong convexity; block-encoding objective evaluation ˜O(α_PDE d N^(η/d) M^2 m T log(1/ε)^(1/β))",
+        "classical_complexity": "˜O(MNT log(1/ε) + α_PDE^(1+1/p) d^(1+1/p) N^(η/d)(1+1/p+d/η) T^(1+1/p) / ε^(1/p))",
+        "speedup_order": "exponential",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not provided; only asymptotic complexity comparison",
+        "resources_for_advantage": "Fault‑tolerant quantum computer capable of implementing block‑encoded PDE solvers (QLSA/LCHS) and QHD with large N (discretized PDE size) and coherent time‑dependent Hamiltonian simulation",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "No execution on real hardware",
+          "Optimization dynamics simulated classically rather than as quantum circuits",
+          "Speedup depends on large PDE system size N and high spatial dimension d",
+          "Requires block‑encoded sparse‑matrix oracles and long coherent Hamiltonian simulation",
+          "Strong convexity assumption required for the convergence guarantee"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_statevector because the paper states Qiskit statevector simulation was used and no physical QPU is named.",
+          "Circuit depth not explicitly reported; only iteration count and gate-complexity expressions are given.",
+          "Paper explicitly frames advantages as asymptotic complexity improvements inherited from quantum PDE solvers rather than demonstrated empirical speedups.",
+          "All experiments are small‑scale numerical simulations validating algorithmic components."
+        ],
+        "advantage_status": "paper_reported"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Numerical validation of the block-encoding and product-formula QHD optimization for material parameter design in the one-dimensional wave equation.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "fully coherent PDE-constrained optimization using quantum Hamiltonian descent (QHD) with block-encoded objective and product-formula time evolution",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "friction_parameter_nu": "set to sqrt(F̄)",
+          "time_increment_delta_s": "0.1/sqrt(F̄)",
+          "total_time_S": "10/sqrt(F̄)",
+          "Nstep": 100,
+          "design_variable_qubits_per_parameter": 3,
+          "state_space_qubits": 6,
+          "ancilla_qubits_for_block_encoding": 12
+        },
+        "parameter_initialization": "uniform superposition over discretized design variables via Hadamard gates",
+        "optimizer_settings": null,
+        "hyperparameters.ancilla_qubits_for_block_encoding": 0
+      },
+      "problem_formulation": {
+        "encoding_method": "block_encoding",
+        "encoding_details": "two design variables ξ1, ξ2 each encoded with 3 qubits; objective is encoded via block-encoding of the wave-energy functional (maximization converted to minimization by sign flip)",
+        "objective_function": "maximize ∫_{3W/4}^{W} (c(x)^2 w(x,T)^2 + (∂w(x,T)/∂t)^2) dx, equivalently minimize its negative",
+        "constraints_handling": "PDE constraint enforced by quantum forward simulation of the discretized wave equation; maximization handled by replacing RP with −RP in the block-encoding",
+        "num_binary_variables": null,
+        "problem_hamiltonian": "H(s)= (1/(2λ(s)))Λ(M)+λ(s)F̂ with λ(s)=e^{νs}; F̂=(Uobj+I)/2 for the maximization formulation",
+        "num_ancilla_qubits": 12
+      },
+      "problem_instance": {
+        "description": "Material parameter design / antireflection design in a 1D wave equation",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "domain length W=2^5−1, simulation time T=48, wave speeds c1=1 and c2=1/4, initial velocity v0 sparse Gaussian pulse, 5-qubit spatial grid plus one ancilla to encode the ODE"
+        },
+        "data_preprocessing_details": "space discretization of the wave equation; sparse initial condition prepared by amplitude encoding",
+        "evaluation_methodology": "statevector simulation to validate block-encoding; optimization trajectory evaluated over 100 product-formula iterations"
+      },
+      "quantum_resources": {
+        "num_qubits": 12,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": "Qiskit 1.3",
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "finite-difference discretization; sparse initial condition prepared by amplitude encoding; mean objective value F̄ estimated for friction setting",
+        "classical_postprocessing": "objective expectation and standard deviation computed from simulated quantum states",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 100,
+          "final_loss_value": null,
+          "loss_curve_shape": "expected objective approaches optimum with decreasing variance",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "evaluation_methodology": "statevector simulation used to validate block-encoding circuits; optimization dynamics evaluated using classical matrix‑vector multiplication for the time‑dependent Hamiltonian evolution",
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_qubits",
+          "value": 12,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "state_space_qubits",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "design_variable_qubits_per_parameter",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits per parameter",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "ancilla_qubits_for_block_encoding",
+          "value": 12,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "time_increment_delta_s",
+          "value": 0.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "1/sqrt(F̄)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "total_time_s",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "1/sqrt(F̄)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "nstep",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "domain_length_w",
+          "value": 31,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "length units",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "simulation_time_t",
+          "value": 48,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "time units",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "wave_speeds",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "c1",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "wave_speeds",
+          "value": 0.25,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "c2",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "optimal_design_variables",
+          "value": 0.5714285714,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "xi1",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "optimal_design_variables",
+          "value": 0.2857142857,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "xi2",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "optimal_basis_state",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "xi2 basis index",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "optimal_basis_state",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "xi1 basis index",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "objective_function_value",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "forward simulation with direct objective evaluation",
+          "metric_name": "objective_function_value",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "polynomial speedup in system size N, exponential speedup in spatial dimension d, polynomial speedup in evolution time T",
+          "baseline_method": "conventional classical PDE-constrained optimization with adjoint-based gradients",
+          "conditions": "under strong convexity and in the regime N >> M; speedup inherited from the underlying quantum PDE solver",
+          "is_demonstrated": false,
+          "caveats": "The paper states the end-to-end speedup is theoretical and depends on strong convexity; practical advantage is not established experimentally."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 3.0,
+          "num_qubits": 12,
+          "metric_name": "optimal_design_variables",
+          "metric_value": 0.5714285714
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 12,
+          "metric_name": "optimal_design_variables",
+          "metric_value": 0.2857142857
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 12,
+          "metric_name": "nstep",
+          "metric_value": 100
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "˜O(α_PDE d N^(η/d) M^3 T /(h_ξ^2 ε)) for the full algorithm under strong convexity; block-encoding objective evaluation ˜O(α_PDE d N^(η/d) M^2 m T log(1/ε)^(1/β))",
+        "classical_complexity": "˜O(MNT log(1/ε) + α_PDE^(1+1/p) d^(1+1/p) N^(η/d)(1+1/p+d/η) T^(1+1/p) / ε^(1/p))",
+        "speedup_order": "exponential",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not provided; advantage discussed only via asymptotic complexity analysis",
+        "resources_for_advantage": "Large fault‑tolerant quantum computer supporting block‑encoded Hamiltonians and large‑scale PDE discretizations",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Small toy instance (5‑qubit spatial grid)",
+          "Statevector validation only; no noisy simulation or hardware run",
+          "Optimization evolution computed classically",
+          "Advantage depends on large N and high‑dimensional PDEs"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_statevector because the paper states Qiskit statevector simulation was used and no physical QPU is named.",
+          "Circuit depth not explicitly reported; only iteration count and gate-complexity expressions are given.",
+          "The experiment is presented as a proof‑of‑concept application of the algorithm rather than a performance benchmark against classical solvers."
+        ],
+        "advantage_status": "paper_reported"
+      }
+    }
+  ]
+}

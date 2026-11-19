@@ -1,0 +1,365 @@
+{
+  "paper_id": "dd4a45af4eb4",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T10:06:43+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "dd4a45af4eb4_wavelet_based_financial_forecast_ensemble_featuring_hybrid_quantum_classical_lst.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.7,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 12,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='rmse' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='stock_price_usd' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='stock_price_usd' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='stock_price_usd' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='stock_price_usd' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='stock_price_usd' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='stock_price_usd' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='stock_price_usd' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='stock_price_usd' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='stock_price_usd' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='stock_price_usd' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='days' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.7,
+      "completeness": 0.7,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.7
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Wavelet Based Financial Forecast Ensemble Featuring Hybrid Quantum-Classical LSTM Model",
+    "authors": [
+      "Peter Bigica",
+      "Xiaodi Wang"
+    ],
+    "year": 2024,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a hybrid quantum–classical LSTM with a simulated 4‑qubit PennyLane layer for forecasting AMZN prices using 256 days of data. The hybrid model achieves RMSE = 12.82 on a 10‑day forecast, which is worse than classical baselines including SVR (RMSE 2.54 with denoised data), ARIMA (4.02), and LSTM (5.94). All quantum results are obtained via simulation with no demonstrated computational or predictive advantage.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Hybrid quantum-classical LSTM stock-forecasting model for AMZN using wavelet-denoised data, implemented with PennyLane and a 4-qubit quantum layer feeding a classical LSTM network.",
+      "algorithm": {
+        "family": "hybrid",
+        "variant": "Quantum-classical LSTM with angle embedding and entangling layer",
+        "ansatz": null,
+        "optimizer": "Adam",
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "num_qubits": 4,
+          "embedding": "angle_embedding",
+          "entanglement": "entangle layer",
+          "classical_network": "Conv1D + 2 LSTM + dropout + 3 dense layers",
+          "training_data": "wavelet-denoised stock price data"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "learning_rate": null,
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Classical closing stock prices mapped to a 4-qubit quantum state via angle embedding; quantum circuit output fed back into classical LSTM.",
+        "objective_function": "Minimize prediction error for 10-day AMZN stock forecast (RMSE reported).",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "10-day forecast of AMZN stock prices using prior closing prices and wavelet-denoised data.",
+        "num_assets": 1,
+        "time_steps": 10,
+        "num_features": null,
+        "dataset_size": 256,
+        "data_type": "real_market",
+        "dataset_name": "AMZN stock closing prices",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "AMZN"
+          ],
+          "date_range": null,
+          "benchmark_name": null,
+          "preprocessing": "4-band wavelet denoising; 256 days of prior data used; model trained on denoised stock price data",
+          "train_test_split": "80% training, 10% validation, 10% testing (stated for LSTM model generally)"
+        },
+        "data_preprocessing_details": "4-band wavelet transform with hard thresholding; denoised data reconstructed via inverse transform; angle embedding used for quantum layer input.",
+        "evaluation_methodology": "Single reported 10-day prediction with RMSE = 12.82; no independent-run count reported."
+      },
+      "quantum_resources": {
+        "num_qubits": 4,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "PennyLane",
+        "device_name": null,
+        "framework": "PennyLane"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Wavelet denoising of AMZN closing-price series.",
+        "classical_postprocessing": "Quantum circuit output fed into classical LSTM; 10-day forecast produced and RMSE computed.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "rmse",
+          "value": 12.82,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "rmse",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "predicted_value",
+          "value": 126.15,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "stock_price_usd",
+          "higher_is_better": null,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "predicted_value",
+          "value": 125.83,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "stock_price_usd",
+          "higher_is_better": null,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "predicted_value",
+          "value": 125.76,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "stock_price_usd",
+          "higher_is_better": null,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "predicted_value",
+          "value": 125.84,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "stock_price_usd",
+          "higher_is_better": null,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "predicted_value",
+          "value": 125.98,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "stock_price_usd",
+          "higher_is_better": null,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "predicted_value",
+          "value": 126.19,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "stock_price_usd",
+          "higher_is_better": null,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "predicted_value",
+          "value": 126.4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "stock_price_usd",
+          "higher_is_better": null,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "predicted_value",
+          "value": 126.61,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "stock_price_usd",
+          "higher_is_better": null,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "predicted_value",
+          "value": 126.8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "stock_price_usd",
+          "higher_is_better": null,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "predicted_value",
+          "value": 126.9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "stock_price_usd",
+          "higher_is_better": null,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 256,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "days",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": null,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The paper discusses potential benefits of quantum computing but does not provide any empirical or asymptotic speedup analysis for the hybrid model."
+        }
+      ],
+      "scalability_data": [],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "unknown",
+        "resources_for_advantage": "Not specified; paper uses only a 4‑qubit simulated circuit and provides no scaling or resource estimates.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Quantum model evaluated only on a 4‑qubit simulator",
+          "No complexity or scaling analysis provided",
+          "Quantum RMSE (12.82) is substantially worse than all classical baselines",
+          "Very small dataset (256 days) and single asset",
+          "Hybrid architecture largely classical with minimal quantum component"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Paper states the model was deployed using the PennyLane package and simulated 4 qubits; no specific QPU/device is named, so hardware.type is inferred as simulator_other.",
+          "No circuit depth, gate counts, shots, or optimizer iteration details are reported for the quantum layer.",
+          "The paper discusses potential benefits of quantum computing but provides no asymptotic speedup analysis.",
+          "Authors suggest potential benefits of quantum computing but do not claim demonstrated advantage.",
+          "Reported RMSE for the hybrid quantum-classical model (12.82) is worse than classical models such as SVR (2.54) and LSTM (5.94)."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

@@ -1,0 +1,416 @@
+{
+  "paper_id": "8248c1859e99",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:08:18+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "8248c1859e99_data_is_often_loadable_in_short_depth_quantum_circuits_from_tensor_networks_for_.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.883,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 7,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='O(M) for bounded depth; exact state preparation exponential in n without ancillas' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='currency unit' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='angstrom' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.883,
+      "completeness": 0.883,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.883
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Data is often loadable in short depth: Quantum circuits from tensor networks for finance, images, fluids, and proteins",
+    "authors": [
+      "Raghav Jumadel",
+      "Nicolas PD Sawaya"
+    ],
+    "year": null,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper introduces the AMLET tensor‑network compilation algorithm for amplitude‑encoding classical data into quantum states and numerically studies four real datasets (images, finance, turbulent fluids, proteins). Simulations up to 16 qubits show that AMLET can load data with circuit depths below ~90 layers and achieves 8–25% depth reduction compared to a layer‑by‑layer tensor‑network method, far smaller than the exponential-depth general state‑preparation circuits.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Tensor-network-based quantum circuit compilation for amplitude encoding of real-world classical data (finance, images, turbulent fluids, proteins) using the AMLET algorithm, compared against a layer-by-layer tensor-network loading method.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "AMLET (Automatic Multi-layer Loader Exploiting TNs) for amplitude-encoding state preparation",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "encoding": "amplitude encoding",
+          "depth_tunable": true,
+          "ancilla_qubits": 0,
+          "optimization_free": true,
+          "gate_set": "CNOTs and arbitrary one-qubit rotations",
+          "layers_tested": "up to 4 in figure examples; scalability studied across multiple depths D"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Load a length-M classical vector into log2(M) qubits via tensor-network-compiled state-preparation circuits; compared AMLET vs layer-by-layer loading.",
+        "objective_function": "Approximate state preparation / data loading fidelity subject to a depth-accuracy tradeoff.",
+        "constraints_handling": "No optimization; deterministic tensor-network construction; truncation/splitting used to control depth and accuracy.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 0
+      },
+      "problem_instance": {
+        "description": "Four classical data-loading tasks: finance time series, images, turbulent fluid velocity data, and protein atomic positions.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "public_benchmark",
+        "dataset_name": "Intel Image Classification; Huge stock price data (intraday minute bar); curated turbulence dataset; Protein Data Bank entries",
+        "dataset_specification": {
+          "description": "Images from Intel Image Classification dataset; finance from minute-by-minute S&P 500, Nikkei 225, DAX 30, EUROSTOXX; fluids from turbulent velocity dataset; proteins from PDB entries 1VVJ, 3J30, 3JA1."
+        },
+        "data_preprocessing_details": "Images encoded in row-major format with RGB grouped together; fluid data encodes only bulk-flow velocity component; protein data uses non-overlapping sequences of atoms; all vectors normalized for amplitude encoding and evaluated with application-specific error metrics.",
+        "evaluation_methodology": "Numerical experiments over multiple qubit counts and depths; figures report error/depth trends and worst-case/best-case behavior across datasets."
+      },
+      "quantum_resources": {
+        "num_qubits": 16,
+        "qubit_type": "logical",
+        "circuit_depth": 90,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "in-house classical simulation",
+        "device_name": null,
+        "framework": "SciPy, Quimb",
+        "transpilation_target": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Tensor-network decomposition, SVD truncation/splitting, index reordering, and tensor expansion to construct circuits.",
+        "classical_postprocessing": "Compute approximation/error metrics for loaded data; compare depths and fidelities across datasets and methods.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "depth/error tradeoff curves; no iterative optimization",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "circuit_depth",
+          "value": 90,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 215,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 2715,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "qubit_count",
+          "value": 16,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "qubit_count",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "depth_reduction",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "depth_reduction",
+          "value": 25,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "classical_complexity",
+          "value": 0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "O(M) for bounded depth; exact state preparation exponential in n without ancillas",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "approximation_threshold",
+          "value": 0.001,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "error_threshold",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "currency unit",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "error_threshold",
+          "value": 14,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "angstrom",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "relative_error",
+          "value": 0.0001,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "general amplitude encoding loading algorithm",
+          "metric_name": "circuit_depth",
+          "value": 215,
+          "unit": "layers for 12 qubits"
+        },
+        {
+          "method_name": "general amplitude encoding loading algorithm",
+          "metric_name": "circuit_depth",
+          "value": 2715,
+          "unit": "layers for 16 qubits"
+        },
+        {
+          "method_name": "layer-by-layer tensor-network loading method",
+          "metric_name": "circuit_depth",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "shorter depth; 8% to 25% reduction at 16 qubits",
+          "baseline_method": "layer-by-layer tensor-network loading method",
+          "conditions": "for 16-qubit experiments across the tested datasets",
+          "is_demonstrated": true,
+          "caveats": "Reduction varies by dataset; AMLET is compared against a modified layer-by-layer method, not against all possible state-preparation methods."
+        },
+        {
+          "type": "empirical",
+          "factor": "orders of magnitude lower depth",
+          "baseline_method": "general amplitude encoding loading algorithm",
+          "conditions": "for the tested real-world datasets and qubit counts up to 16",
+          "is_demonstrated": true,
+          "caveats": "The paper states the circuits are far shallower than the general loading algorithm, but does not provide a single universal speedup factor for all datasets."
+        },
+        {
+          "type": "theoretical",
+          "factor": "O(M) classical construction time for bounded depth",
+          "baseline_method": "naive exact state preparation / general loading",
+          "conditions": "when circuit depth is bounded by a constant and naive matrix routines are used",
+          "is_demonstrated": false,
+          "caveats": "This is a complexity statement about classical compilation cost, not a quantum speedup claim."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 12.0,
+          "num_qubits": 12,
+          "metric_name": "circuit_depth",
+          "metric_value": 215
+        },
+        {
+          "problem_size": 16.0,
+          "num_qubits": 16,
+          "metric_name": "circuit_depth",
+          "metric_value": 2715
+        },
+        {
+          "problem_size": 16.0,
+          "num_qubits": 16,
+          "metric_name": "circuit_depth",
+          "metric_value": 90
+        },
+        {
+          "problem_size": 20.0,
+          "num_qubits": 16,
+          "metric_name": "circuit_depth",
+          "metric_value": 40
+        },
+        {
+          "problem_size": 345.0,
+          "num_qubits": 20,
+          "metric_name": "num_qubits",
+          "metric_value": 20
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "State preparation depth can be made much shorter than general amplitude encoding; AMLET and layer-by-layer are depth-tunable. The paper does not give a single asymptotic quantum speedup order for the experiments.",
+        "classical_complexity": "O(M) for circuit construction when depth is bounded by a constant (using naive matrix routines); general exact state preparation requires exponential depth in n without ancillas.",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not established",
+        "resources_for_advantage": "would require large fault-tolerant quantum computers capable of preparing amplitude-encoded states for large classical datasets with circuits of depth <~100 and tens of qubits; current work only simulates up to 16 qubits",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "results demonstrated only via classical tensor-network simulation",
+          "experiments limited to ≤16 qubits",
+          "no comparison against best classical algorithms for the downstream tasks",
+          "state-preparation cost remains substantial and problem-dependent",
+          "no empirical runtime advantage demonstrated on hardware"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "hardware.type inferred as simulator_other because the paper reports numerical experiments and in-house code using SciPy/Quimb, with no physical QPU or noisy simulator specified.",
+          "num_qubits reported from the text stating vectors of size 2^n and results up to 16 qubits.",
+          "circuit_depth reported from the text stating AMLET achieves D < 90 for 16 qubits and figure captions discussing D=1 through 4 examples.",
+          "speedup_order set to none_proven because the paper emphasizes improved data-loading depth but does not claim a proven asymptotic quantum advantage over classical methods.",
+          "The paper focuses on reducing circuit depth for amplitude-encoding state preparation and explicitly frames results as addressing the data-loading bottleneck rather than demonstrating computational advantage.",
+          "All experiments are numerical simulations; no quantum hardware experiments or runtime comparisons against classical solvers are provided."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

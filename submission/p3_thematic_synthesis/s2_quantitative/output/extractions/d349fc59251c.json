@@ -1,0 +1,444 @@
+{
+  "paper_id": "d349fc59251c",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T10:01:23+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "d349fc59251c_preparing_arbitrary_continuous_functions_in_quantum_registers_with_logarithmic_c.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.533,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 13,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='queries' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='scaling exponent' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='scaling' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='scaling' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='qubits (exact 1-sparse simulation in numerical experiments)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='time' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='error' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='error' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='infidelity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[15].unit='scaling exponent' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[16].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.533,
+      "completeness": 0.533,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.533
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.0,
+          "results": 0.5,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Preparing Arbitrary Continuous Functions in Quantum Registers With Logarithmic Complexity",
+    "authors": [
+      "Arthur G. Rattew",
+      "Bálint Koczor"
+    ],
+    "year": 2022,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "simulation-monte-carlo",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a gate‑based algorithm for preparing quantum states encoding arbitrary continuous functions using adiabatic evolution under a rank‑1 Hamiltonian. The authors prove query complexity O(F^p / ε^2) (p = −4 for pointwise encoding) independent of qubit count n, and numerically simulate state preparation for up to n = 12 qubits (2n‑qubit simulation) showing infidelity decreasing roughly as O(r^-1.2) with iteration count r and reaching ~10^-6–10^-3.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Direct state preparation of discretized continuous functions via adiabatic evolution under a rank-1 Hamiltonian, demonstrated numerically on a log-normal distribution and a Slater-type function.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "adiabatic state preparation using rank-1 Hamiltonian simulation",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "time_steps_r": "varied in simulations",
+          "evolution_time_T": "constant-bounded; selected to satisfy adiabatic condition",
+          "precision_epsilon": "varied",
+          "function_discretization_bits_d": "used in oracle encoding; 32 bits in numerical simulations",
+          "qubit_count_n": "varied from 1 to 12 in simulations"
+        },
+        "parameter_initialization": "initial state |+>^n; interpolated from trivial function f0 to target function f1",
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "n-qubit register encodes samples f(x_j) on a uniform grid; amplitudes proportional to function values",
+        "objective_function": "prepare |psi> = (1/N) sum_j f(x_j)|j> for a discretized continuous function f",
+        "constraints_handling": "adiabatic interpolation between easy-to-prepare f0 and target f1; no explicit penalty terms",
+        "num_binary_variables": null,
+        "problem_hamiltonian": "H(s) = -A(s)/N, where A(s) is rank-1 with entries [A(s)]_kl = f_s(x_k) f_s^*(x_l)",
+        "num_ancilla_qubits": "n + d + 2 ancillary qubits in the low-rank simulation subroutine"
+      },
+      "problem_instance": {
+        "description": "Preparation of continuous functions on [a,b], with numerical examples for a log-normal distribution and a Slater-type orbital",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "log-normal distribution and Slater-type function defined analytically; no external dataset"
+        },
+        "data_preprocessing_details": "uniform discretization of the interval into N=2^n grid points; function values encoded with d-bit precision; in simulations d=32",
+        "evaluation_methodology": "theoretical analysis plus numerical simulations of state-preparation infidelity versus qubit count n and iteration count r"
+      },
+      "quantum_resources": {
+        "num_qubits": 2,
+        "qubit_type": "logical",
+        "circuit_depth": 1,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "custom classical numerical simulation of the algorithm (exact simulation of the 1‑sparse dynamics)"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "function evaluation via arithmetic/oracle; numerical digitization of function values to d bits",
+        "classical_postprocessing": "measure ancilla and discard/reset; compute state-preparation infidelity from simulated overlaps",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "infidelity decreases approximately polynomially with r; empirical scaling around O(r^-1.19) to O(r^-1.3) in simulations",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "oracle_queries",
+          "value": "O(F^p/epsilon^2)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "queries",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": "1 - O(epsilon^2)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": "approximately O(r^-1.19) to O(r^-1.3)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "scaling exponent",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": "O(1/r)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "scaling",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": "O(1/sqrt(r))",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "scaling",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": "2n + d + 2",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": "2n",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits (exact 1-sparse simulation in numerical experiments)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "function_discretization_bits",
+          "value": 32,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "bits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "qubit_count_n",
+          "value": "1-12",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "time_steps_r",
+          "value": "varied",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "evolution_time_T",
+          "value": "constant-bounded",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "time",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "failure_probability",
+          "value": "O(epsilon^2)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "simulation_error",
+          "value": "O(F^p/r^2)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "error",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "total_error",
+          "value": "O(sqrt(F^p/r))",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "error",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "state_preparation_infidelity",
+          "value": "below 1e-3",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "infidelity",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "state_preparation_infidelity",
+          "value": "approximately O(r^-1.19) to O(r^-1.3)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "scaling exponent",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "probability_of_all_plus_measurements",
+          "value": "> 0.95",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical direct search",
+          "metric_name": "oracle_queries",
+          "value": "O(2^(2n))",
+          "unit": "queries"
+        },
+        {
+          "method_name": "inverse transform sampling",
+          "metric_name": "sample_complexity",
+          "value": "scales with grid resolution",
+          "unit": "complexity"
+        },
+        {
+          "method_name": "classical Monte Carlo integration",
+          "metric_name": "sample_complexity",
+          "value": "scales with grid resolution",
+          "unit": "complexity"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "logarithmic complexity in resolution / exponential quantum advantage",
+          "baseline_method": "classical state preparation / direct evaluation over all grid points",
+          "conditions": "fault-tolerant gate-based quantum computer; efficiently computable function; favorable filling ratio; asymptotic regime",
+          "is_demonstrated": true,
+          "caveats": "Complexity depends on filling ratio F; pathological narrow-peak functions can remove the advantage; paper’s numerical results are simulations, not hardware demonstrations."
+        },
+        {
+          "type": "theoretical",
+          "factor": "constant query complexity in number of qubits",
+          "baseline_method": "classical evaluation over N=2^n points",
+          "conditions": "asymptotically in n for continuous functions",
+          "is_demonstrated": true,
+          "caveats": "Constant refers to oracle-query complexity; total cost still depends on function evaluation and filling ratio."
+        },
+        {
+          "type": "theoretical",
+          "factor": "exponential speedup for sampling from probability densities",
+          "baseline_method": "classical inverse transform sampling",
+          "conditions": "when using the prepared state and measuring it; assuming efficient state preparation",
+          "is_demonstrated": false,
+          "caveats": "Claimed in discussion; not benchmarked against a classical sampler in the paper."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 1.0,
+          "num_qubits": 1,
+          "metric_name": "state_preparation_infidelity",
+          "metric_value": null
+        },
+        {
+          "problem_size": null,
+          "num_qubits": null,
+          "metric_name": "state_preparation_infidelity",
+          "metric_value": -1.19
+        },
+        {
+          "problem_size": 32.0,
+          "num_qubits": null,
+          "metric_name": "function_discretization_bits",
+          "metric_value": 32
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(F^p / epsilon^2) query complexity for state preparation, with p = -4 for pointwise encoding and p = -2 for integral encoding; overall O(r) in the number of adiabatic/simulation steps",
+        "classical_complexity": "Classical direct search for pathological narrow-peak instances is O(2^(2n)) in the paper's counterexample; for generic function loading no classical benchmark is characterized",
+        "speedup_order": "logarithmic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not determined; complexity expressed asymptotically in filling ratio F and precision ε but no concrete classical runtime comparison or crossover N* given.",
+        "resources_for_advantage": "Requires fault‑tolerant quantum computer capable of implementing repeated Hamiltonian simulation steps and oracle evaluation for f(x) with poly(n,d) arithmetic; algorithm assumes efficient oracle/QRAM access to function values.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "No hardware experiments; only noiseless classical simulation",
+          "Algorithm relies on fault‑tolerant Hamiltonian simulation and arithmetic oracles",
+          "Performance depends strongly on filling ratio F, which can be exponentially small for pathological cases",
+          "Efficient oracle or QRAM for function evaluation is assumed but not demonstrated",
+          "No empirical comparison against classical implementations"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "hardware.type inferred as simulator_other because the paper reports explicit numerical simulations of the algorithm and does not name a physical QPU.",
+          "num_qubits reported from the text: the implementation uses two n-qubit registers plus d and 2 ancillas; simulations explicitly mention 2n-qubit exact 1-sparse simulation and d=32.",
+          "circuit_depth reported only asymptotically as O(r) / O(d) per step; no transpiled depth or gate counts are given.",
+          "speedup_order mapped from the paper's claim of logarithmic complexity in resolution / exponential quantum advantage for state preparation and sampling applications.",
+          "The paper claims logarithmic complexity in resolution and potential exponential advantage for sampling/integration tasks, but provides only theoretical analysis and noiseless simulations.",
+          "No classical runtime benchmarks or real hardware demonstrations are presented."
+        ],
+        "advantage_status": "paper_reported"
+      }
+    }
+  ]
+}

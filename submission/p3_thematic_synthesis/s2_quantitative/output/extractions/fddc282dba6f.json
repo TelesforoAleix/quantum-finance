@@ -1,0 +1,692 @@
+{
+  "paper_id": "fddc282dba6f",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T10:22:08+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "fddc282dba6f_portfolio_construction_using_a_sampling_based_variational_quantum_scheme.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.925,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 9,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[0].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[2].unit='shots/iteration' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[9].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[10].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[13].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[14].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[17].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[18].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.925,
+      "completeness": 0.925,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.85,
+        1.0
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Portfolio construction using a sampling-based variational quantum scheme",
+    "authors": [
+      "Gabriele Agliardi",
+      "Dimitris Alevras",
+      "Vaibhaw Kumar",
+      "Roberto Lo Nardo",
+      "Gabriele Compostella",
+      "Sumit Kumar",
+      "Manuel Proissl",
+      "Bimal Mehta"
+    ],
+    "year": 2025,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "portfolio-optimization",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper evaluates a sampling-based CVaR‑VQA for bond ETF portfolio construction, including 31‑qubit simulator studies and 109‑qubit hardware experiments on IBM Heron processors with circuits up to ~4200 gates and 648 two‑qubit gates. After local-search post‑processing, the best hardware result achieves a 0.49% optimality gap (TwoLocal bilinear ansatz), compared with 0.39% on a simulator, while classical solvers such as CPLEX/Gurobi solve the same 109‑asset instance to optimality in seconds.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "31-qubit MPS simulation study to tune CVaR-VQA hyperparameters (CVaR alpha and ansatz repetitions) for the portfolio-construction problem using TwoLocal and BFCD bilinear ansatzes.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "sampling-based CVaR-VQA with local-search post-processing",
+        "ansatz": "TwoLocal bilinear; BFCD bilinear",
+        "optimizer": "NFT (Nakanishi-Fujii-Todo)",
+        "num_layers": 2,
+        "convergence_criteria": "not specified; iterative training over fixed experiment budget",
+        "hyperparameters": {
+          "CVaR_alpha": [
+            0.1,
+            0.15,
+            0.2
+          ],
+          "ansatz_repetitions": [
+            1,
+            2,
+            3
+          ],
+          "local_search": "enabled for comparison",
+          "shots_per_iteration": null,
+          "initial_parameter_value": "pi/3",
+          "parameter_cutoff": 0.06
+        },
+        "parameter_initialization": "all circuit parameters initialized to π/3",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": "[0, 2π) for variational parameters"
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "one qubit per bond/binary variable; simplified portfolio problem reduced to binary variables only",
+        "objective_function": "min_x x^T Q x + 1^T max{0, s ⊙ (Ax - b)}",
+        "constraints_handling": "inequality constraints handled by penalty-like max term without slack variables; local-search post-processing applied to sampled bitstrings",
+        "num_binary_variables": 31,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Simplified bond ETF portfolio-construction instance used to study CVaR-VQA behavior at 31 qubits",
+        "num_assets": 31,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "proprietary",
+        "dataset_name": null,
+        "dataset_specification": null,
+        "data_preprocessing_details": "problem simplified from original integer formulation to binary variables only; subset of classes/bonds selected and budget manually adjusted",
+        "evaluation_methodology": "10 independent repetitions for each configuration; 90 experiments total across alpha and repetition settings; relative gap to CPLEX optimum reported"
+      },
+      "quantum_resources": {
+        "num_qubits": 31,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit",
+        "transpilation_target": "MPS simulator",
+        "classical_solver": "CPLEX"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": null,
+          "routing_method": null
+        },
+        "classical_preprocessing": "problem reduction to 31-qubit binary instance; parameter tuning over alpha and repetitions",
+        "classical_postprocessing": "local search over sampled bitstrings; relative gap computed against CPLEX optimum",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "not specified",
+          "variance_across_runs": 10.0,
+          "num_independent_runs": 10
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_assets",
+          "value": 31,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "relative_gap",
+          "value": 0.39,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "relative_gap",
+          "value": 0.49,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "relative_gap",
+          "value": 0.55,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "relative_gap",
+          "value": 0.91,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "CPLEX",
+          "metric_name": "relative_gap",
+          "value": 0,
+          "unit": "%"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No asymptotic or empirical speedup claim is established for the 31-qubit tuning study; the paper reports heuristic performance only."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 31,
+          "num_qubits": 31,
+          "metric_name": "relative_gap",
+          "metric_value": 0.39
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not analyzed",
+        "resources_for_advantage": "not analyzed; experiment only studies hyperparameter tuning on a 31‑qubit simulated instance.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Small 31‑qubit simulated instance",
+          "No comparison of runtime or scaling vs classical methods",
+          "Study intended only for hyperparameter tuning"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "31-qubit MPS simulation explicitly reported; circuit depth for this specific 31-qubit tuning study is not explicitly given, so left null/inferred only at the experiment level.",
+          "No asymptotic speedup claim is characterized; paper discusses heuristic performance only.",
+          "The 31‑qubit experiment is purely a simulator study for tuning α and ansatz depth and does not claim or test quantum advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "109-qubit hardware and simulator comparison of CVaR-VQA on IBM Heron processors using Three ansatz/entanglement configurations: TwoLocal bilinear, TwoLocal color, and BFCD on hardware; simulator baseline for TwoLocal bilinear.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "sampling-based CVaR-VQA with local-search post-processing",
+        "ansatz": "TwoLocal bilinear; TwoLocal color; BFCD",
+        "optimizer": "NFT (Nakanishi-Fujii-Todo)",
+        "num_layers": 2,
+        "convergence_criteria": "not specified; iterative training on hardware and simulator",
+        "hyperparameters": {
+          "CVaR_alpha": 0.1,
+          "ansatz_repetitions": 2,
+          "shots_per_iteration": 8192,
+          "initial_parameter_value": "pi/3",
+          "parameter_cutoff": 0.06,
+          "dynamical_decoupling": "default XX sequence",
+          "optimization_level": 3
+        },
+        "parameter_initialization": "all circuit parameters initialized to π/3",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": "[0, 2π) for variational parameters"
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "one qubit per bond/binary variable; 109-qubit simplified portfolio instance",
+        "objective_function": "min_x x^T Q x + 1^T max{0, s ⊙ (Ax - b)}",
+        "constraints_handling": "inequality constraints handled by penalty-like max term without slack variables; local-search post-processing applied to sampled bitstrings",
+        "num_binary_variables": 109,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "109-bond simplified bond ETF portfolio-construction instance",
+        "num_assets": 109,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "proprietary",
+        "dataset_name": null,
+        "dataset_specification": null,
+        "data_preprocessing_details": "original problem reduced to binary variables only; subset of classes/bonds selected; constraints involving removed bonds dropped; budget adjusted to smaller portfolio size",
+        "evaluation_methodology": "hardware experiments on IBM Heron processors and simulator runs; objective distributions and best-found costs compared across ansatzes; final performance reported as optimization gap to CPLEX optimum"
+      },
+      "quantum_resources": {
+        "num_qubits": 109,
+        "qubit_type": "physical",
+        "circuit_depth": 17,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": 1525,
+        "cnot_count": null,
+        "two_qubit_gate_count": 216,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 8192,
+        "num_variational_params": 327,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_superconducting",
+        "provider": "IBM",
+        "device_name": "ibm_marrakesh; ibm_fez",
+        "framework": "Qiskit",
+        "transpilation_target": "IBM Heron processors",
+        "classical_solver": "CPLEX"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "hardware noise; dynamical decoupling used for error suppression",
+        "error_mitigation_method": "dynamical decoupling (default XX sequence)",
+        "noise_parameters": null,
+        "mitigation_details": "default XX dynamical decoupling sequence; no further calibration details reported"
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_settings": {
+          "optimization_level": 3,
+          "basis_gates": null,
+          "routing_method": null
+        },
+        "classical_preprocessing": "problem reduction to 109-qubit binary instance; alpha fixed to 0.1 and repetitions to 2 based on simulator tuning",
+        "classical_postprocessing": "local search over sampled bitstrings; CVaR computed on raw samples without post-processing",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "raw samples improve over iterations; hardware converges more slowly than simulator",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_assets",
+          "value": 109,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 109,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_shots",
+          "value": 8192,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots/iteration",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "optimization_gap",
+          "value": 0.49,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "optimization_gap",
+          "value": 0.55,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "optimization_gap",
+          "value": 0.91,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "optimization_gap",
+          "value": 0.39,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gate_count_total",
+          "value": 1525,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "two_qubit_gate_count",
+          "value": 216,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 17,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "num_variational_params",
+          "value": 327,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "gate_count_total",
+          "value": 1555,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "two_qubit_gate_count",
+          "value": 246,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 19,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "num_variational_params",
+          "value": 327,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "gate_count_total",
+          "value": 4220,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "two_qubit_gate_count",
+          "value": 648,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 57,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "num_variational_params",
+          "value": 434,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "CPLEX",
+          "metric_name": "optimization_gap",
+          "value": 0,
+          "unit": "%"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The paper does not claim a proven speedup; it states that hardware noise slows convergence, but that a combined quantum-classical workflow can outperform purely classical local search in solution quality."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 109,
+          "num_qubits": 109,
+          "metric_name": "optimization_gap",
+          "metric_value": 0.49
+        },
+        {
+          "problem_size": 109,
+          "num_qubits": 109,
+          "metric_name": "optimization_gap",
+          "metric_value": 0.55
+        },
+        {
+          "problem_size": 109,
+          "num_qubits": 109,
+          "metric_name": "optimization_gap",
+          "metric_value": 0.91
+        },
+        {
+          "problem_size": 109,
+          "num_qubits": 109,
+          "metric_name": "optimization_gap",
+          "metric_value": 0.39
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": null,
+        "maturity_level": "L4_qpu_scale",
+        "crossover_size": "not estimated; authors state classical solvers handle the 109‑bond instance in seconds",
+        "resources_for_advantage": "would require scaling to thousands of assets where classical solvers struggle, plus significantly lower-noise hardware to support deeper circuits and many optimization iterations",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Problem instance (109 variables) is classically solvable to optimality in seconds by CPLEX/Gurobi",
+          "VQA requires many circuit evaluations due to parameter optimization",
+          "Hardware noise slows convergence relative to simulator",
+          "No demonstrated runtime or solution-quality advantage over classical optimization"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "109-qubit hardware experiments explicitly reported on IBM Heron processors; the paper also reports circuit characteristics in Table I for the transpiled 109-qubit circuits, but the exact depth/gate counts are only given per ansatz/entanglement configuration, not as a single unified value.",
+          "No asymptotic speedup order is established; the paper reports empirical convergence and speculative advantage only.",
+          "Authors suggest that quantum-classical workflows could outperform classical local search for larger instances, but acknowledge that the tested 109‑bond problem is easily solved by classical solvers.",
+          "No empirical runtime or scaling advantage is demonstrated."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

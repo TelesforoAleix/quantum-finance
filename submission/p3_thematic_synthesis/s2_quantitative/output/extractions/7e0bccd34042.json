@@ -1,0 +1,925 @@
+{
+  "paper_id": "7e0bccd34042",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:05:02+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "7e0bccd34042_quantum_machine_learning_methods_for_fourier_based_distribution_estimation_with_.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.7,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 14,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[3].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='points' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='points' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='runs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='training points' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='underlyings' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[3].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[6].unit='points' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[7].unit='points' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[8].unit='runs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[11].unit='training samples' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[12].unit='underlyings' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[1].unit='shots per coefficient on average' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[2].unit='underlyings' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.7,
+      "completeness": 0.7,
+      "num_experiments": 3,
+      "experiment_scores": [
+        0.7,
+        0.7,
+        0.7
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum Machine Learning methods for Fourier-based distribution estimation with application in option pricing",
+    "authors": [
+      "Fernando Alonso",
+      "Álvaro Leitao",
+      "Carlos Vázquez"
+    ],
+    "year": 2025,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": [
+      "quantum-ml-finance",
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes two PQC-based quantum machine learning approaches for option pricing that approximate the PDF or CDF of Black–Scholes asset distributions using Fourier series learned from 4–8 qubit circuits (4–8 layers) trained on datasets of 250–10,000 samples. Experiments are performed entirely in classical simulation using PennyLane, and results show convergence of estimated option prices for strikes K={90,100,110}. A QAMC baseline using amplitude estimation requires roughly 2000–7000 shots per Fourier coefficient (~5000 average) but is used only as a benchmarking reference rather than demonstrating computational advantage.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Method I: supervised-learning PQC to approximate the PDF of the underlying asset distribution, extract Fourier coefficients via DFT, and price a European vanilla put option under Black-Scholes dynamics.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "supervised learning for PDF approximation with parametrized quantum circuits",
+        "ansatz": "2-qubit layered ansatz with Rx(x) data encoding and Ry(θ) trainable rotations",
+        "optimizer": "Adam",
+        "num_layers": 6,
+        "convergence_criteria": "300 epochs",
+        "hyperparameters": {
+          "optimizer": "Adam",
+          "learning_rate": 0.005,
+          "epochs": 300,
+          "supervised_weight": 0.9,
+          "differential_weight": 0.1,
+          "training_points": "250-2.5e3",
+          "test_points": 100,
+          "repetitions": 10,
+          "minimum_scheme": "6x6",
+          "alternative_schemes": [
+            "7x7",
+            "8x8"
+          ]
+        },
+        "parameter_initialization": "not_specified",
+        "optimizer_settings": {
+          "learning_rate": 0.005,
+          "max_iterations": 300,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Input x is encoded through Rx(x) gates; trainable parameters are implemented with Ry(θ) rotations in a layered PQC.",
+        "objective_function": "Minimize empirical H1 risk for PDF approximation: RS_h1(f*,f)= (1/I)Σ_i[(f*(xi)-f(xi))^2 + (df*/dx(xi)-df/dx(xi))^2]",
+        "constraints_handling": "No explicit constraints beyond H1 differential loss; Fourier coefficients of payoff computed analytically",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "European vanilla put option pricing at t0=0 under Black-Scholes dynamics; PDF of normalized log-price is approximated and used to compute option value.",
+        "num_assets": 1,
+        "time_steps": 1,
+        "num_features": 1,
+        "dataset_size": 250,
+        "data_type": "synthetic",
+        "dataset_name": "Black-Scholes simulated lognormal/normal distribution",
+        "dataset_specification": {
+          "description": "S0=100, r=0.1, T=1, σ=0.25, strikes K in {90,100,110}; normalized log-price Xt=log(St/K) ~ N(log(S0/K)+(r-σ^2/2)t, σ^2 t)"
+        },
+        "data_preprocessing_details": "Prices transformed to normalized log-prices; data rescaled to [-π,π] and model trained in [-2π,2π] to reduce Gibbs phenomena",
+        "evaluation_methodology": "10 repetitions; convergence assessed versus exact option price across increasing dataset sizes and circuit dimensions"
+      },
+      "quantum_resources": {
+        "num_qubits": 6,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": null,
+        "device_name": null,
+        "framework": "PennyLane",
+        "framework_version": "0.40.0"
+      },
+      "noise_model": {
+        "is_noisy": null,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": "0.40.0",
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "DFT applied to direct evaluations of the trained circuit; payoff Fourier coefficients computed analytically",
+        "classical_postprocessing": "Option price computed from product of learned PDF Fourier coefficients and analytically derived payoff coefficients",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 300,
+          "final_loss_value": null,
+          "loss_curve_shape": "not_specified",
+          "variance_across_runs": 10.0,
+          "num_independent_runs": 10
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_qubits",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "optimizer",
+          "value": "Adam",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "learning_rate",
+          "value": 0.005,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "epochs",
+          "value": 300,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "supervised_weight",
+          "value": 0.9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "differential_weight",
+          "value": 0.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_points",
+          "value": 1375,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "points",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "test_points",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "points",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "repetitions",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "runs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "minimum_scheme",
+          "value": "6x6",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "alternative_schemes",
+          "value": "7x7, 8x8",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 1375,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "training points",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_underlyings",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "underlyings",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "competitive alternative; no explicit speedup factor reported",
+          "baseline_method": "quantum accelerated Monte Carlo (QAMC)",
+          "conditions": "for Fourier-coefficient extraction and option pricing under Black-Scholes dynamics",
+          "is_demonstrated": true,
+          "caveats": "The paper reports qualitative competitiveness and cost/accuracy comparison, but no asymptotic or numerical speedup factor for Method I."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 250,
+          "num_qubits": 2,
+          "metric_name": "dataset_size",
+          "metric_value": 250
+        },
+        {
+          "problem_size": 500,
+          "num_qubits": 2,
+          "metric_name": "dataset_size",
+          "metric_value": 500
+        },
+        {
+          "problem_size": 1000,
+          "num_qubits": 2,
+          "metric_name": "dataset_size",
+          "metric_value": 1000
+        },
+        {
+          "problem_size": 2500,
+          "num_qubits": 2,
+          "metric_name": "dataset_size",
+          "metric_value": 2500
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not_reported",
+        "resources_for_advantage": "Not analyzed. Experiments use 6–8 qubits and 6–8 layers on a classical simulator with datasets up to 2.5×10^3 points.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "No asymptotic complexity comparison against classical Monte Carlo",
+          "All experiments performed on classical simulation",
+          "Training overhead of variational circuits not quantified",
+          "Problem sizes extremely small (≤8 qubits)"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "2 qubits inferred from Figure 4 caption and text describing the ansatz for 2 qubits.",
+          "Hardware not explicitly named; framework is PennyLane on CPU environment, so hardware.type left not_specified.",
+          "Circuit depth not explicitly quantified; only layer counts/schemes (e.g., 6x6, 7x7, 8x8) are reported, so depth is not directly reported.",
+          "No asymptotic speedup order is characterized for the PQC method; only empirical comparison to QAMC is given.",
+          "Authors present the method as a 'competitive quantum alternative' but do not demonstrate runtime advantage over classical methods.",
+          "Results only show convergence of PQC-based estimators on small simulated systems."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Method II: self-supervised-learning PQC to approximate the CDF from unlabeled samples, extract Fourier coefficients via DFT, and price a European vanilla put option under Black-Scholes dynamics.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "self-supervised learning for CDF approximation with differential machine learning loss",
+        "ansatz": "2-qubit layered ansatz with Rx(x) data encoding and Ry(θ) trainable rotations",
+        "optimizer": "Adam",
+        "num_layers": 4,
+        "convergence_criteria": "300 epochs",
+        "hyperparameters": {
+          "optimizer": "Adam",
+          "learning_rate": 0.1,
+          "epochs": 300,
+          "supervised_weight": 0.2,
+          "differential_weight": 0.8,
+          "training_points": "1e3-1e4",
+          "test_points": 1000,
+          "repetitions": 10,
+          "minimum_scheme": "4x4",
+          "alternative_schemes": [
+            "5x5",
+            "6x6"
+          ]
+        },
+        "parameter_initialization": "not_specified",
+        "optimizer_settings": {
+          "learning_rate": 0.1,
+          "max_iterations": 300,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Input x is encoded through Rx(x) gates; trainable parameters are implemented with Ry(θ) rotations in a layered PQC.",
+        "objective_function": "Minimize combined empirical risk for CDF and PDF terms: RX_T,l2,l2(F)= (1/I)Σ_i(F_emp*(xi)-F(xi))^2 - (2/I)Σ_i f(xi) + Q(f^2) plus endpoint constraints",
+        "constraints_handling": "Endpoint constraints added to enforce CDF behavior at domain extremes; differential term uses PDF derivative information; Fourier coefficients of payoff computed analytically",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "European vanilla put option pricing at t0=0 under Black-Scholes dynamics; CDF of normalized log-price is approximated from samples only.",
+        "num_assets": 1,
+        "time_steps": 1,
+        "num_features": 1,
+        "dataset_size": 1,
+        "data_type": "synthetic",
+        "dataset_name": "Black-Scholes simulated samples",
+        "dataset_specification": {
+          "description": "S0=100, r=0.1, T=1, σ=0.25, strikes K in {90,100,110}; normalized log-price Xt=log(St/K) ~ N(log(S0/K)+(r-σ^2/2)t, σ^2 t)"
+        },
+        "data_preprocessing_details": "Samples rescaled to [-π,π] and model trained in [-2π,2π] to reduce Gibbs phenomena; empirical CDF used as pseudo-labels",
+        "evaluation_methodology": "10 repetitions; convergence assessed versus exact option price across increasing dataset sizes and circuit dimensions"
+      },
+      "quantum_resources": {
+        "num_qubits": 4,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": null,
+        "device_name": null,
+        "framework": "PennyLane",
+        "framework_version": "0.40.0"
+      },
+      "noise_model": {
+        "is_noisy": null,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": "0.40.0",
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Empirical CDF construction from samples; DFT applied to direct evaluations of the trained circuit to recover exponential-series coefficients",
+        "classical_postprocessing": "Option price computed from learned CDF Fourier coefficients and analytically derived payoff coefficients",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 300,
+          "final_loss_value": null,
+          "loss_curve_shape": "not_specified",
+          "variance_across_runs": 10.0,
+          "num_independent_runs": 10
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_qubits",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "optimizer",
+          "value": "Adam",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "learning_rate",
+          "value": 0.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "epochs",
+          "value": 300,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "supervised_weight",
+          "value": 0.2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "differential_weight",
+          "value": 0.8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_points",
+          "value": 5500,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "points",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "test_points",
+          "value": 1000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "points",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "repetitions",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "runs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "minimum_scheme",
+          "value": "4x4",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "alternative_schemes",
+          "value": "5x5, 6x6",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 5500,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "training samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_underlyings",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "underlyings",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "comparable precision with ~10000 data samples versus hundreds of thousands of QAMC shots",
+          "baseline_method": "quantum accelerated Monte Carlo (QAMC) / Method III",
+          "conditions": "for option pricing under Black-Scholes dynamics; Method II uses only samples, not the exact PDF",
+          "is_demonstrated": true,
+          "caveats": "The comparison is empirical and based on reported sample/shot counts, not a formal complexity proof."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 1000,
+          "num_qubits": 2,
+          "metric_name": "dataset_size",
+          "metric_value": 1000
+        },
+        {
+          "problem_size": 10000,
+          "num_qubits": 2,
+          "metric_name": "dataset_size",
+          "metric_value": 10000
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not_reported",
+        "resources_for_advantage": "Experiments use 4–6 qubits and 4–6 layers with datasets up to 10^4 samples; no scaling analysis showing advantage.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Only classical simulator experiments",
+          "Training cost of PQCs not compared to classical density estimation",
+          "No asymptotic speedup analysis",
+          "Small problem size"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "2 qubits inferred from Figure 4 caption and text describing the ansatz for 2 qubits.",
+          "Hardware not explicitly named; framework is PennyLane on CPU environment, so hardware.type left not_specified.",
+          "Circuit depth not explicitly quantified; only layer counts/schemes (e.g., 4x4, 5x5, 6x6) are reported, so depth is not directly reported.",
+          "No asymptotic speedup order is characterized for the PQC method; only empirical comparison to QAMC is given.",
+          "Paper emphasizes practical usefulness (no need for explicit PDF) but does not claim computational speedup over classical algorithms."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "Method III: QAMC benchmark using modified Real Quantum Amplitude Estimation (mRQAE) to estimate Fourier coefficients of the PDF and price the same European vanilla put option.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "QAMC with modified Real Quantum Amplitude Estimation (mRQAE)",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": "precision/tolerance set by mRQAE; increasing tolerance corresponds to fewer shots",
+        "hyperparameters": {
+          "mRQAE": "modified RQAE",
+          "tolerance": "varied",
+          "shots_per_coefficient": "approximately 5000 on average for high accuracy",
+          "coefficients": "same as Method I",
+          "strike_prices": [
+            90,
+            100,
+            110
+          ]
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": "varied",
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Expectation value encoded into amplitudes of a quantum state for Monte Carlo-style integration; Fourier coefficients estimated from sampled paths",
+        "objective_function": "Estimate Fourier coefficients Af_k and Bf_k of the PDF via amplitude estimation on sampled path states",
+        "constraints_handling": "mRQAE used to recover sign of coefficients; exact simulation assumed for asset evolution",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Benchmark pricing of a European vanilla put option under Black-Scholes dynamics using Fourier coefficients of the PDF estimated by QAMC.",
+        "num_assets": 1,
+        "time_steps": 1,
+        "num_features": 1,
+        "dataset_size": 5000,
+        "data_type": "synthetic",
+        "dataset_name": "Black-Scholes exact simulation",
+        "dataset_specification": {
+          "description": "S0=100, r=0.1, T=1, σ=0.25, strikes K in {90,100,110}; exact simulation of asset evolution assumed"
+        },
+        "data_preprocessing_details": "Direct sampling of simulated asset paths; coefficients estimated from sampled values of f(S_i) times sine/cosine basis functions",
+        "evaluation_methodology": "Convergence evaluated by varying number of shots/tolerance; compared against Methods I and II in terms of cost and accuracy"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 2000,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": null,
+        "device_name": null,
+        "framework": null,
+        "framework_version": null
+      },
+      "noise_model": {
+        "is_noisy": null,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Classical estimation of Fourier coefficients from sampled paths; exact payoff coefficients computed analytically",
+        "classical_postprocessing": "Option price computed from Fourier coefficient products",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "not_specified",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "shots_per_coefficient",
+          "value": 5000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots",
+          "value": 5000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots per coefficient on average",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_underlyings",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "underlyings",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "requires hundreds of thousands of shots for high accuracy",
+          "baseline_method": "Methods I and II / PQC-based approaches",
+          "conditions": "for high-accuracy option pricing with mRQAE and Fourier-coefficient estimation",
+          "is_demonstrated": true,
+          "caveats": "This is a cost comparison in terms of shots, not a proven asymptotic speedup."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 5000,
+          "num_qubits": null,
+          "metric_name": "shots_per_coefficient",
+          "metric_value": 5000
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not_reported",
+        "resources_for_advantage": "Amplitude estimation requires thousands of circuit executions (~2000–7000 shots per coefficient). For realistic problems this would scale to hundreds of thousands of shots.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Quadratic speedup of amplitude estimation vulnerable to constant-factor overhead",
+          "Distribution state preparation cost ignored",
+          "Simulation only, no QPU",
+          "Large shot requirements"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper states that around 5000 shots per coefficient are needed on average for high accuracy.",
+          "The text says a single register of n×n qubits is needed, but no concrete n is specified for the benchmark; therefore num_qubits is left null.",
+          "No specific hardware/provider/device is named for the QAMC benchmark.",
+          "The paper explicitly compares cost empirically but does not provide asymptotic speedup order.",
+          "QAMC is used only as a benchmark for comparison with the PQC methods.",
+          "Authors acknowledge that accurate estimation requires ~5000 shots per coefficient, leading to hundreds of thousands of circuit runs."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

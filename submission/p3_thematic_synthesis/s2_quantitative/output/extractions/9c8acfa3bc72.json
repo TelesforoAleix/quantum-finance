@@ -1,0 +1,849 @@
+{
+  "paper_id": "9c8acfa3bc72",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:23:28+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "9c8acfa3bc72_hybrid_quantum_classical_support_vector_machines_for_financial_regime_detection_.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 1.0,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 2,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[4].unit='overlaps' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[13].unit='second' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 1.0,
+      "completeness": 1.0,
+      "num_experiments": 2,
+      "experiment_scores": [
+        1.0,
+        1.0
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Hybrid Quantum–Classical Support Vector Machines for Financial Regime Detection: Performance and Efficiency Evaluation",
+    "authors": [
+      "Tom Girard"
+    ],
+    "year": 2025,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper evaluates a 6‑qubit ZZFeatureMap QSVC for financial regime classification on macro‑financial data (2006–2025). The quantum SVM achieves about 66% test accuracy versus ~65–72% for classical ML baselines and ~80% for a classical SVM, while hybrid quantum‑classical ensembles reach ~75–76% accuracy but remain below the classical benchmark. All experiments are performed on noiseless Qiskit statevector simulation.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum Support Vector Classifier (QSVC) for financial regime classification using a 6-qubit ZZFeatureMap and fidelity-based quantum kernel on macro-financial data.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "QSVC with Fidelity Statevector Kernel",
+        "ansatz": "ZZFeatureMap",
+        "optimizer": null,
+        "num_layers": 3,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "qubits": 6,
+          "feature_map_repetitions": 3,
+          "entanglement": "full",
+          "kernel": "Fidelity Statevector Kernel",
+          "training_samples_approx": 3500,
+          "test_split": 0.2,
+          "pca_components": 6,
+          "smote_ratio": 0.6,
+          "random_seed": "fixed"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Six standardized PCA components were mapped to six qubits; the ZZFeatureMap encodes pairwise feature interactions via phase terms x_i x_j with full entanglement.",
+        "objective_function": "Binary market-regime classification maximizing SVM margin in the quantum-induced feature space using kernel K(x_i,x_j)=|<phi(x_i)|phi(x_j)>|^2.",
+        "constraints_handling": "SMOTE oversampling used to balance classes; no explicit penalty formulation reported.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Binary financial regime detection (Bearish -1 vs Bullish +1) from multi-asset macro-financial indicators.",
+        "num_assets": 6,
+        "time_steps": null,
+        "num_features": 6,
+        "dataset_size": 3,
+        "data_type": "real_market",
+        "dataset_name": "SPY, VIX, 10Y Treasury yield, 2Y Treasury yield, high-yield credit spread, DXY",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "SPY",
+            "VIX",
+            "DGS10",
+            "DGS2",
+            "BAMLH0A0HYM2",
+            "DXY"
+          ],
+          "date_range": "2006-02 to 2025-10",
+          "benchmark_name": null,
+          "preprocessing": "returns, rolling volatility, z-scores, momentum, moving-average ratios, volatility-of-volatility, skewness, kurtosis; winsorization at 1st/99th percentiles; z-score standardization; PCA to 6 components; SMOTE 0.6; chronological 80/20 split",
+          "train_test_split": "chronological 80/20"
+        },
+        "data_preprocessing_details": "StandardScaler, PCA to 6 orthogonal components, SMOTE oversampling ratio 0.6, chronological 80/20 split, winsorization at 1st/99th percentiles, z-score standardization before kernel computation.",
+        "evaluation_methodology": "Single held-out chronological test set; accuracy, precision, recall, F1; confusion matrices; training vs test comparison; scalability comparison across sample sizes (2,000 and 3,500)."
+      },
+      "quantum_resources": {
+        "num_qubits": 6,
+        "qubit_type": "not_specified",
+        "circuit_depth": 3,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "classical SVM optimization on kernel matrix",
+        "transpilation_settings": null,
+        "classical_preprocessing": "StandardScaler, PCA, SMOTE, chronological split",
+        "classical_postprocessing": "Inverse mapping of encoded labels; confusion matrices; metric computation",
+        "total_execution_time": "kernel matrix evaluation ≈3 minutes; full QSVC training reported ≈1 hour (Methodology 3.3.5) and ≈120 minutes in Results 4.4.5",
+        "quantum_execution_time": "approximately 3 minutes for kernel evaluation",
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "accuracy",
+          "value": 66.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_accuracy",
+          "value": 85.3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 74.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "pairwise_state_overlaps",
+          "value": 12250000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "overlaps",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "minutes",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 60,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "minutes",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 120,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "minutes",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 3500,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 2000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": null,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "Classical SVM",
+          "metric_name": "accuracy",
+          "value": 80.0,
+          "unit": "%"
+        },
+        {
+          "method_name": "Classical SVM",
+          "metric_name": "accuracy",
+          "value": 80.43,
+          "unit": "%"
+        },
+        {
+          "method_name": "Classical SVM",
+          "metric_name": "training_time",
+          "value": 1,
+          "unit": "second"
+        },
+        {
+          "method_name": "XGBoost",
+          "metric_name": "accuracy",
+          "value": 71.8,
+          "unit": "%"
+        },
+        {
+          "method_name": "XGBoost",
+          "metric_name": "f1_score",
+          "value": 0.7,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "XGBoost",
+          "metric_name": "recall",
+          "value": 0.69,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Random Forest",
+          "metric_name": "accuracy",
+          "value": 65.7,
+          "unit": "%"
+        },
+        {
+          "method_name": "Random Forest",
+          "metric_name": "precision",
+          "value": 0.72,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Random Forest",
+          "metric_name": "recall",
+          "value": 0.55,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "SVM-RBF",
+          "metric_name": "accuracy",
+          "value": 65.0,
+          "unit": "%"
+        },
+        {
+          "method_name": "SVM-RBF",
+          "metric_name": "f1_score",
+          "value": 0.6,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "poly(log N, log d) vs polynomial scaling",
+          "baseline_method": "classical SVM / linear algebra-based learning",
+          "conditions": "assuming efficient QRAM, sparse and well-conditioned matrices, and accurate amplitude encoding",
+          "is_demonstrated": false,
+          "caveats": "The paper does not demonstrate an asymptotic speedup; it explicitly notes that the assumptions are highly restrictive and that practical quantum advantage is not yet realized."
+        },
+        {
+          "type": "empirical",
+          "factor": "approximately 3 minutes vs about 1 hour to 120 minutes for full quantum training",
+          "baseline_method": "full quantum kernel training on CPU-based statevector simulator",
+          "conditions": "for the reported 6-qubit, 3-repetition QSVC on approximately 3,500 samples",
+          "is_demonstrated": true,
+          "caveats": "This is a runtime comparison, not a quantum speedup over classical methods; it reflects optimized simulation and kernel evaluation timing."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 2000,
+          "num_qubits": 6,
+          "metric_name": "accuracy",
+          "metric_value": 66.0
+        },
+        {
+          "problem_size": 3500,
+          "num_qubits": 6,
+          "metric_name": "accuracy",
+          "metric_value": 66.0
+        },
+        {
+          "problem_size": 3500,
+          "num_qubits": 6,
+          "metric_name": "training_accuracy",
+          "metric_value": 85.3
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(n^2) kernel matrix evaluation",
+        "classical_complexity": "not explicitly stated; classical SVM baseline reported as much faster and scalable on CPU",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": "approximately 12.25 million pairwise state overlaps",
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": "approximately 3 minutes for kernel evaluation; full training reported as about 1 hour to 120 minutes depending on section",
+        "wall_clock_classical": "approximately 1 second to under 1 minute for classical baselines"
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not identified; classical baselines outperform at current dataset size (~3k samples)",
+        "resources_for_advantage": "Would require larger qubit counts, deeper circuits beyond 6 qubits and 3 feature‑map repetitions, and real QPU implementations with efficient kernel evaluation.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "No demonstrated algorithmic speedup (kernel evaluation O(n^2))",
+          "Statevector simulator rather than real hardware",
+          "Small qubit count (6 qubits)",
+          "Quantum model accuracy (~66%) below classical baselines (~65–72% and SVM ~80%)",
+          "Potential overfitting due to limited sample size and circuit expressivity"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "hardware.type inferred as simulator_statevector because the paper explicitly says the QSVC was run on a noiseless statevector simulator and no physical QPU is named.",
+          "speedup_order set to none_proven because the paper discusses practical limitations and does not claim a demonstrated asymptotic quantum speedup.",
+          "circuit_depth taken from the feature-map repetitions (3 repetitions) since no separate circuit depth metric is reported.",
+          "Paper reports QSVC test accuracy ≈66%, while classical models reach up to ≈71.8% (XGBoost) and ≈80% for classical SVM baseline in later comparisons.",
+          "Authors explicitly frame quantum models as exploratory and not outperforming classical methods."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Hybrid quantum-classical SVM ensemble combining a classical RBF SVM with the QSVC via hard voting and weighted voting (50-50, 60-40, 70-30).",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Hybrid Quantum-Classical SVM ensemble with hard voting and weighted voting",
+        "ansatz": "ZZFeatureMap for the quantum component",
+        "optimizer": null,
+        "num_layers": 3,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "classical_model": "SVM-RBF",
+          "quantum_model": "QSVC",
+          "quantum_qubits": 6,
+          "quantum_feature_map_repetitions": 3,
+          "entanglement": "full",
+          "ensemble_methods": [
+            "hard voting",
+            "weighted voting"
+          ],
+          "weighting_schemes": [
+            "50-50",
+            "60-40",
+            "70-30"
+          ],
+          "quantum_training_subset_size": "approximately 2,000 samples",
+          "classical_training_set_size": "approximately 4,600 to 4,700 samples",
+          "test_split": 0.2,
+          "pca_components": 6,
+          "smote_ratio": 0.6,
+          "random_seed": "fixed"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Quantum branch uses six PCA components encoded on six qubits with ZZFeatureMap; classical branch uses RBF kernel on the same standardized PCA features.",
+        "objective_function": "Binary regime classification with ensemble aggregation of classical and quantum predictions.",
+        "constraints_handling": "SMOTE balancing; deterministic hard/weighted voting; no explicit penalty terms reported.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Binary financial regime detection on the same macro-financial dataset as the QSVC experiment, evaluated with hybrid ensemble aggregation.",
+        "num_assets": 6,
+        "time_steps": null,
+        "num_features": 6,
+        "dataset_size": 4,
+        "data_type": "real_market",
+        "dataset_name": "SPY, VIX, 10Y Treasury yield, 2Y Treasury yield, high-yield credit spread, DXY",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "SPY",
+            "VIX",
+            "DGS10",
+            "DGS2",
+            "BAMLH0A0HYM2",
+            "DXY"
+          ],
+          "date_range": "2006-02 to 2025-10",
+          "benchmark_name": null,
+          "preprocessing": "same engineered features as the quantum experiment; StandardScaler, PCA to 6 components, SMOTE 0.6, chronological 80/20 split",
+          "train_test_split": "chronological 80/20"
+        },
+        "data_preprocessing_details": "Same preprocessing as the quantum experiment: engineered returns/volatility/momentum features, winsorization, z-score standardization, PCA to 6 components, SMOTE 0.6, chronological split.",
+        "evaluation_methodology": "Held-out test set; accuracy, precision, recall, F1; confusion matrices; agreement analysis between classical and quantum predictions; runtime comparison; evaluation of 50-50, 60-40, and 70-30 ensembles."
+      },
+      "quantum_resources": {
+        "num_qubits": 6,
+        "qubit_type": "not_specified",
+        "circuit_depth": 3,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "classical SVM-RBF plus quantum kernel classifier combined by voting",
+        "transpilation_settings": null,
+        "classical_preprocessing": "StandardScaler, PCA, SMOTE, chronological split",
+        "classical_postprocessing": "Hard voting and deterministic weighted voting; agreement statistics; confusion matrices; metric aggregation",
+        "total_execution_time": "classical SVM about 1 second; hybrid runtime a few seconds to minutes depending on weighting; quantum component trained on subset only",
+        "quantum_execution_time": "subset-based quantum kernel evaluation; exact time not separately reported",
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "accuracy",
+          "value": 75.9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 75.4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 80.43,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 66.6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.83,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.86,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.53,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.56,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.19,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "agreement_rate",
+          "value": 62.3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "disagreement_rate",
+          "value": 37.7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "classical_correct_when_disagree",
+          "value": 68.3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "quantum_correct_when_disagree",
+          "value": 31.7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "second",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 120,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "minutes",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 4700,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 2000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": null,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "Classical SVM-RBF",
+          "metric_name": "accuracy",
+          "value": 80.43,
+          "unit": "%"
+        },
+        {
+          "method_name": "Classical SVM-RBF",
+          "metric_name": "training_time",
+          "value": 1,
+          "unit": "second"
+        },
+        {
+          "method_name": "Classical SVM-RBF",
+          "metric_name": "f1_score",
+          "value": 0.83,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Classical SVM-RBF",
+          "metric_name": "f1_score",
+          "value": 0.86,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Classical SVM-RBF",
+          "metric_name": "f1_score",
+          "value": 0.66,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Classical SVM-RBF",
+          "metric_name": "precision",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "Classical SVM-RBF",
+          "metric_name": "recall",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "Quantum SVM",
+          "metric_name": "accuracy",
+          "value": 66.6,
+          "unit": "%"
+        },
+        {
+          "method_name": "Quantum SVM",
+          "metric_name": "f1_score",
+          "value": 0.19,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "near-classical accuracy at lower quantum participation",
+          "baseline_method": "Classical SVM-RBF",
+          "conditions": "for hybrid 50-50 and 60-40 ensembles on the held-out test set",
+          "is_demonstrated": true,
+          "caveats": "The hybrid models do not exceed the classical SVM in accuracy; the paper frames the result as a trade-off between accuracy, fairness, and computational cost."
+        },
+        {
+          "type": "empirical",
+          "factor": "few seconds to minutes vs about 120 minutes for full quantum training",
+          "baseline_method": "full Quantum SVM",
+          "conditions": "hybrid training with the quantum component restricted to approximately 2,000 samples",
+          "is_demonstrated": true,
+          "caveats": "Runtime is reported qualitatively for the hybrid ensemble; exact per-configuration times are not given."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 2000,
+          "num_qubits": 6,
+          "metric_name": "accuracy",
+          "metric_value": 66.6
+        },
+        {
+          "problem_size": 4700,
+          "num_qubits": 6,
+          "metric_name": "accuracy",
+          "metric_value": 80.43
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "quantum component inherits O(n^2) kernel evaluation",
+        "classical_complexity": "classical SVM training reported as approximately 1 second on CPU",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": "few seconds to minutes for hybrid; full quantum component much slower than classical baseline",
+        "wall_clock_classical": "approximately 1 second"
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not identified; hybrid accuracy (~75–76%) still below classical SVM (~80.4%)",
+        "resources_for_advantage": "Potential advantage would require scalable quantum kernels, larger qubit systems, and faster kernel evaluation beyond classical simulation.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Hybrid accuracy (~75–76%) lower than classical SVM (~80%)",
+          "Quantum component trained on small subset (~2000 samples)",
+          "Quantum kernel still O(n^2) scaling",
+          "Statevector simulation rather than hardware execution",
+          "Limited circuit depth and qubit count"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "hardware.type inferred as simulator_statevector because the quantum component is the same QSVC statevector-simulator setup described in the methodology/results and no physical device is named.",
+          "circuit_depth taken from the 3 repetitions of the ZZFeatureMap; no separate compiled depth is reported.",
+          "speedup_order set to none_proven because the paper emphasizes a cost-performance tradeoff rather than a proven asymptotic advantage.",
+          "Hybrid models improve minority‑class F1 compared with pure QSVC but still underperform classical SVM in overall accuracy.",
+          "Authors describe hybrid models as a 'bridge to scalable quantum applications' rather than evidence of advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

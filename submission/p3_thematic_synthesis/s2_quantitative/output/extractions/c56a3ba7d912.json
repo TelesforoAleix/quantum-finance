@@ -1,0 +1,662 @@
+{
+  "paper_id": "c56a3ba7d912",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:50:18+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "c56a3ba7d912_quantum_reservoir_computing_for_credit_card_default_prediction_on_a_neutral_atom.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.667,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 2,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[8].unit='steps' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[3].unit='steps' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.667,
+      "completeness": 0.667,
+      "num_experiments": 3,
+      "experiment_scores": [
+        1.0,
+        0.85,
+        0.15
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "QUANTUM RESERVOIR COMPUTING FOR CREDIT CARD DEFAULT PREDICTION ON A NEUTRAL ATOM PLATFORM",
+    "authors": [
+      "Giacomo Vitali",
+      "Chiara Vercellino",
+      "Paolo Viviani",
+      "Olivier Terzo",
+      "Bartolomeo Montrucchio",
+      "Valeria Zaffaroni",
+      "Francesca Cibrario",
+      "Christian Mattia",
+      "Giacomo Ranieri",
+      "Alessandro Sabatino",
+      "Francesco Bonazzi",
+      "Davide Corbelletto"
+    ],
+    "year": 2025,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "credit-lending",
+    "secondary_silos": [
+      "quantum-ml-finance"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper implements a hybrid quantum–classical quantum reservoir computing pipeline on QuEra’s Aquila neutral‑atom device using ~72–78 atoms to classify credit card default data (up to 2500 samples). In noiseless emulation the method reaches F1 ≈ 0.57 on the full 30k dataset and up to ≈0.71 on a 1000‑sample subset, comparable to classical models, but hardware noise reduces Aquila performance to roughly ~0.4–0.5 F1.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum reservoir computing for credit card default prediction on QuEra Aquila, evaluated on the CARDS_1000 dataset with both detuning and position encodings and compared against classical reservoir computing, preprocessing-only baselines, and a DNN.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "Quantum Reservoir Computing (QRC) on neutral atoms; detuning encoding and position encoding",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "encodings": [
+            "position",
+            "detuning"
+          ],
+          "timesteps": 5,
+          "timestep_duration_us": 0.5,
+          "r0_um": 10,
+          "Omega_max": 6.283185307179586,
+          "global_detuning_detuning_encoding_rad_per_us": 3.141592653589793,
+          "global_detuning_position_encoding_rad_per_us": 2.0,
+          "lambda_position_encoding": 1.0,
+          "Nrepl": 6,
+          "nopt_measurements": 240,
+          "shots_per_timestep": 40
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "other",
+        "encoding_details": "Classical features are encoded into a neutral-atom Hamiltonian either by mapping features to inter-atomic distances (position encoding) or to local detuning amplitudes (detuning encoding).",
+        "objective_function": "Binary classification of whether a credit card client defaults in the following month.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": "Rydberg Hamiltonian with global Rabi drive, site-dependent detuning, and van der Waals interactions.",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Credit card default prediction on a public Taiwanese credit card dataset.",
+        "num_assets": null,
+        "time_steps": 5,
+        "num_features": 12,
+        "dataset_size": 1000,
+        "data_type": "public_benchmark",
+        "dataset_name": "Default of Credit Card Clients (UCI)",
+        "dataset_specification": {
+          "description": "CARDS_1000 nested subset of the cleaned CARDS_30000 dataset; stratified by class labels; 1000 samples used for hardware comparison."
+        },
+        "data_preprocessing_details": "Data cleaning removed samples with undocumented values; SEX and MARRIAGE one-hot encoded; EDUCATION kept ordinal; scaling to [-1,1]; PCA retained 11 principal components; agglomerative clustering aggregated 24 original features into 12 clusters by averaging within clusters.",
+        "evaluation_methodology": "Train/validation/test split with validation-set F1-score for model selection; results reported as F1-score across resampling methods and classifiers."
+      },
+      "quantum_resources": {
+        "num_qubits": 72,
+        "qubit_type": "physical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 240,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_neutral_atom",
+        "provider": "QuEra",
+        "device_name": "Aquila",
+        "framework": "Bloqade.jl"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "hardware noise, statistical shot noise, decoherence",
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "scikit-learn classifiers; Bloqade.jl for quantum simulation",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Cleaning, scaling, PCA, hierarchical clustering/feature aggregation, resampling (None/SMOTE/K-SMOTE/Cluster Centroids).",
+        "classical_postprocessing": "Classical classifiers (KNN, SGD, Naïve Bayes, Logistic Model, Perceptron, SVM) and DNN benchmark; F1-score evaluation.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "f1_score",
+          "value": 0.71,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.63,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.57,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 1515.93,
+          "uncertainty": "±397.65",
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 150.71,
+          "uncertainty": "±83.96",
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 26.52,
+          "uncertainty": "±0.26",
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 1000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_shots",
+          "value": 240,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "timesteps",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "steps",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "dnn",
+          "metric_name": "f1_score",
+          "value": null,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "crc",
+          "metric_name": "f1_score",
+          "value": null,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "preprocessing_only",
+          "metric_name": "f1_score",
+          "value": null,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "knn",
+          "metric_name": "training_time",
+          "value": 0.12,
+          "unit": "seconds"
+        },
+        {
+          "method_name": "sgd",
+          "metric_name": "training_time",
+          "value": 2.86,
+          "unit": "seconds"
+        },
+        {
+          "method_name": "naive_bayes",
+          "metric_name": "training_time",
+          "value": 0.11,
+          "unit": "seconds"
+        },
+        {
+          "method_name": "logistic_model",
+          "metric_name": "training_time",
+          "value": 0.14,
+          "unit": "seconds"
+        },
+        {
+          "method_name": "perceptron",
+          "metric_name": "training_time",
+          "value": 0.18,
+          "unit": "seconds"
+        },
+        {
+          "method_name": "svm",
+          "metric_name": "training_time",
+          "value": 1515.93,
+          "unit": "seconds"
+        },
+        {
+          "method_name": "dnn",
+          "metric_name": "training_time",
+          "value": 26.52,
+          "unit": "seconds"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The paper reports faster training than the DNN for most reservoir-enhanced classifiers, but does not claim or demonstrate an asymptotic quantum speedup."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 1000,
+          "num_qubits": 12,
+          "metric_name": "f1_score",
+          "metric_value": 0.71
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "parity_with_classical",
+        "hoefler_viable": null,
+        "maturity_level": "L4_qpu_scale",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Not specified; current experiments use ~72–78 atoms and small datasets (≤2500 samples).",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Hardware noise and decoherence degrade performance relative to noiseless emulation",
+          "Hybrid pipeline relies heavily on classical preprocessing and classifiers",
+          "No demonstrated scaling advantage over classical ML",
+          "Analog simulator dynamics difficult to map to provable algorithmic speedups"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "num_qubits not explicitly stated for the QPU experiment; inferred as 12 qubits for detuning encoding because the paper says the number of atoms equals the number of features after preprocessing (12 features).",
+          "circuit_depth not reported as a gate depth; the paper reports 5 timesteps and pulse durations, but this is analog evolution rather than a gate circuit.",
+          "speedup_order set to none_proven because the paper discusses performance and training time but does not provide an asymptotic quantum speedup analysis.",
+          "Authors explicitly state results are 'comparable to classical benchmarks' and that hardware noise significantly degrades performance.",
+          "Best reported performance (F1 ≈ 0.71) occurs in noiseless emulation, not on hardware."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Quantum reservoir computing for credit card default prediction on QuEra Aquila, evaluated on the CARDS_2500 dataset with detuning encoding and compared against classical reservoir computing, preprocessing-only baselines, and a DNN.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "Quantum Reservoir Computing (QRC) on neutral atoms; detuning encoding",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "encodings": [
+            "detuning"
+          ],
+          "timesteps": 5,
+          "timestep_duration_us": 0.5,
+          "r0_um": 10,
+          "Omega_max": 6.283185307179586,
+          "global_detuning_rad_per_us": 3.141592653589793,
+          "Nrepl": 6,
+          "nopt_measurements": 240,
+          "shots_per_timestep": 40
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "other",
+        "encoding_details": "Features are mapped to local detuning amplitudes on a neutral-atom array.",
+        "objective_function": "Binary classification of whether a credit card client defaults in the following month.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": "Rydberg Hamiltonian with global Rabi drive, site-dependent detuning, and van der Waals interactions.",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Credit card default prediction on a public Taiwanese credit card dataset.",
+        "num_assets": null,
+        "time_steps": 5,
+        "num_features": 12,
+        "dataset_size": 2500,
+        "data_type": "public_benchmark",
+        "dataset_name": "Default of Credit Card Clients (UCI)",
+        "dataset_specification": {
+          "description": "CARDS_2500 nested subset of the cleaned CARDS_30000 dataset; stratified by class labels; used for hardware comparison after emulation."
+        },
+        "data_preprocessing_details": "Data cleaning removed samples with undocumented values; SEX and MARRIAGE one-hot encoded; EDUCATION kept ordinal; scaling to [-1,1]; PCA retained 11 principal components; agglomerative clustering aggregated 24 original features into 12 clusters by averaging within clusters.",
+        "evaluation_methodology": "Train/validation/test split with validation-set F1-score for model selection; results reported as F1-score across resampling methods and classifiers."
+      },
+      "quantum_resources": {
+        "num_qubits": 72,
+        "qubit_type": "physical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 240,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_neutral_atom",
+        "provider": "QuEra",
+        "device_name": "Aquila",
+        "framework": "Bloqade.jl"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "hardware noise, statistical shot noise, decoherence",
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "scikit-learn classifiers; Bloqade.jl for quantum simulation",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Cleaning, scaling, PCA, hierarchical clustering/feature aggregation, resampling (None/SMOTE/K-SMOTE/Cluster Centroids).",
+        "classical_postprocessing": "Classical classifiers (KNN, SGD, Naïve Bayes, Logistic Model, Perceptron, SVM) and DNN benchmark; F1-score evaluation.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "f1_score",
+          "value": 0.63,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 2500,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_shots",
+          "value": 240,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "timesteps",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "steps",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "dnn",
+          "metric_name": "f1_score",
+          "value": null,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "crc",
+          "metric_name": "f1_score",
+          "value": null,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "preprocessing_only",
+          "metric_name": "f1_score",
+          "value": null,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The paper reports comparative classification performance and training-time advantages for some classical classifiers, but no formal speedup claim."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 2500,
+          "num_qubits": 12,
+          "metric_name": "f1_score",
+          "metric_value": 0.63
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "parity_with_classical",
+        "hoefler_viable": null,
+        "maturity_level": "L4_qpu_scale",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Would require significantly larger neutral‑atom arrays and lower-noise dynamics to outperform classical classifiers.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Noise accumulation across timesteps reduces correlation with noiseless simulation",
+          "Hybrid architecture depends on classical feature engineering and classifiers",
+          "No asymptotic complexity advantage demonstrated",
+          "Small dataset sizes limit demonstration of scaling benefits"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "num_qubits not explicitly stated for the QPU experiment; inferred as 12 qubits for detuning encoding because the paper says the number of atoms equals the number of features after preprocessing (12 features).",
+          "circuit_depth not reported as a gate depth; the paper reports 5 timesteps and pulse durations, but this is analog evolution rather than a gate circuit.",
+          "speedup_order set to none_proven because the paper discusses performance and training time but does not provide an asymptotic quantum speedup analysis.",
+          "Figure 12 shows Aquila results close to but generally worse than classical reservoir or emulation baselines.",
+          "Paper frames results as feasibility demonstration rather than advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_new_1",
+      "description": "Large-scale noiseless and shot-based emulation of the quantum reservoir computing pipeline on the CARDS_30000 dataset to benchmark QRC against classical reservoir computing, preprocessing-only baselines, and a deep neural network.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "Quantum Reservoir Computing (QRC) with detuning encoding simulated using Bloqade statevector and shot-based emulation",
+        "num_layers": null
+      },
+      "key_results": [
+        {
+          "metric": "F1-score",
+          "value": 0.57,
+          "details": "Best classifier (SGD) with QRC detuning statevector emulation on CARDS_30000 (Figure 6)"
+        },
+        {
+          "metric": "training_time",
+          "value": "KNN ~0.12 s, SGD ~2.86 s, SVM ~1515.9 s",
+          "details": "Training times reported in Table 2 for reservoir-generated features"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,380 @@
+{
+  "paper_id": "ed111831958f",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T10:18:07+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "ed111831958f_quantum_algorithm_for_calculating_risk_contributions_in_a_credit_portfolio.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.333,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 11,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='asymptotic query complexity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='asymptotic query complexity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='asymptotic sample complexity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='asymptotic sample complexity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='asymptotic oracle calls' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='asymptotic gate/circuit calls' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='parameter value' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='inequality' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='order of magnitude' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='assumptions' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='factor' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.333,
+      "completeness": 0.333,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.333
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.5,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum algorithm for calculating risk contributions in a credit portfolio",
+    "authors": [
+      "Koichi Miyamoto"
+    ],
+    "year": 2022,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "risk-management",
+    "secondary_silos": [
+      "credit-lending",
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a gate-based quantum algorithm for estimating CVaR risk contributions in a credit portfolio using multivariate mean estimation and fixed‑point amplitude amplification. The algorithm has query complexity Õ((σ_max√N_gr)/(ε√p)), achieving a quadratic improvement in accuracy ε compared with classical Monte Carlo complexity Õ((σ_max² log(N_gr/δ))/(ε² p)), although classical scaling in the number of groups N_gr can be better.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Gate-based quantum algorithm for estimating CVaR risk contributions of credit-portfolio subgroups using simultaneous multivariate mean estimation and fixed-point amplitude amplification.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Quantum simultaneous multiple expected-value estimation for CVaR contributions with fixed-point QAA",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "delta": "failure probability parameter",
+          "epsilon": "target approximation accuracy",
+          "n": "precision parameter for QEstimator",
+          "Ngr": "number of obligor groups",
+          "Nobl": "number of obligors",
+          "p": "Pr(L >= v)",
+          "v": "CVaR threshold",
+          "Cmax": "upper bound on max group CVaR contribution",
+          "sigma_max": "upper bound on max conditional standard deviation",
+          "Emax": "upper bound on max group exposure sum"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Standard normal distribution is encoded in amplitudes via an SN state preparation oracle; obligor default indicators are generated by controlled rotations conditioned on discretized normal samples; group losses are computed by arithmetic on binary-encoded fixed-point registers.",
+        "objective_function": "Estimate group CVaR contributions C_v^K = E[L_K | L >= v] for K in [Ngr] in a credit portfolio under the Merton model.",
+        "constraints_handling": "Post-selection / amplitude amplification on the event L >= v; fixed-point QAA used to amplify the marked subspace.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Credit portfolio under the single-factor Merton model, partitioned into Ngr obligor groups; the paper is theoretical and does not report a concrete numerical dataset or market instance.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Portfolio defined by exposures e_k, asset correlations a_k, thresholds z_k, and group partition sizes n_1,...,n_Ngr."
+        },
+        "data_preprocessing_details": "No empirical preprocessing; model-based construction from Merton credit-risk parameters and discretized standard normal sampling.",
+        "evaluation_methodology": "Theoretical query-complexity analysis; no numerical benchmark runs reported."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "noise_model": null,
+        "noise_parameters": null,
+        "mitigation_details": null,
+        "is_noisy": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Construct discretized standard-normal state, compute default probabilities via CDF oracle, and use arithmetic circuits for loss aggregation.",
+        "classical_postprocessing": "Measure outputs of multivariate mean estimator to obtain approximations of all group CVaR contributions.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": null,
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "quantum_query_complexity",
+          "value": "eO(sqrt(Ngr)/epsilon)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "asymptotic query complexity",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "quantum_query_complexity_with_p",
+          "value": "eO(sigma_max/(epsilon*sqrt(p*Ngr)))",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "asymptotic query complexity",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "classical_sample_complexity",
+          "value": "eO(log(Ngr)/epsilon^2)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "asymptotic sample complexity",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "classical_sample_complexity_detailed",
+          "value": "eTheta((sigma_max^2 * log(Ngr/delta)) / (epsilon^2 * p))",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "asymptotic sample complexity",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "quantum_oracle_calls",
+          "value": "eO((sigma_max/(p*sqrt(Ngr)*epsilon)) * log(max(Cmax/epsilon, Emax/sigma_max)) * log(Ngr/delta))",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "asymptotic oracle calls",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "arithmetic_and_rotation_calls",
+          "value": "eO((sigma_max*Nobl/(p*sqrt(Ngr)*epsilon)) * log(max(Cmax/epsilon, Emax/sigma_max)) * log(Ngr/delta))",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "asymptotic gate/circuit calls",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "required_precision_parameter_n",
+          "value": "ceil(2*sqrt(2)*sigma_max*log(Ngr/delta)/epsilon)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameter value",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "condition_for_quantum_advantage",
+          "value": "(sigma_max^2)/(epsilon^2*p) >> Ngr",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "inequality",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "plausible_advantage_example",
+          "value": "1e8",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "order of magnitude",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "example_assumptions_for_advantage",
+          "value": "p=0.01, pdef~0.01, Cmax/epsilon~0.01",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assumptions",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_risk_factors",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "factor",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "classical_sample_complexity",
+          "value": "eO(log(Ngr)/epsilon^2)",
+          "unit": "asymptotic sample complexity"
+        },
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "classical_sample_complexity_detailed",
+          "value": "eTheta((sigma_max^2 * log(Ngr/delta)) / (epsilon^2 * p))",
+          "unit": "asymptotic sample complexity"
+        },
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "standard_normal_random_variable_generations",
+          "value": "eTheta((sigma_max^2 * log(Ngr/delta)) / (epsilon^2 * p))",
+          "unit": "count"
+        },
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "arithmetic_operations_and_bernoulli_generations",
+          "value": "eTheta((sigma_max^2 * Nobl * log(Ngr/delta)) / (epsilon^2 * p))",
+          "unit": "count"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic in epsilon; eO(sqrt(Ngr)/epsilon) vs eO(log(Ngr)/epsilon^2)",
+          "baseline_method": "classical Monte Carlo",
+          "conditions": "for CVaR contribution estimation using simultaneous multivariate mean estimation and fixed-point QAA; logarithmic factors hidden",
+          "is_demonstrated": true,
+          "caveats": "No empirical benchmark; advantage weakens as Ngr increases; quantum method is not asymptotically better in Ngr."
+        },
+        {
+          "type": "theoretical",
+          "factor": "O(1/sqrt(p)) dependence in the quantum theorem",
+          "baseline_method": "classical Monte Carlo",
+          "conditions": "when estimating conditional expectations on the event L >= v",
+          "is_demonstrated": true,
+          "caveats": "The theorem statement includes p in the complexity through the fixed-point amplitude amplification step."
+        },
+        {
+          "type": "projected",
+          "factor": "advantage when (sigma_max^2)/(epsilon^2*p) >> Ngr",
+          "baseline_method": "classical Monte Carlo",
+          "conditions": "rough comparison after neglecting logarithmic factors",
+          "is_demonstrated": false,
+          "caveats": "This is a rough criterion, not a measured crossover."
+        },
+        {
+          "type": "projected",
+          "factor": "promising advantage for Nobl << 1e8",
+          "baseline_method": "classical Monte Carlo",
+          "conditions": "assuming p=0.01, pdef~0.01, and Cmax/epsilon~0.01",
+          "is_demonstrated": false,
+          "caveats": "This is a back-of-the-envelope estimate, not an experiment."
+        }
+      ],
+      "scalability_data": [],
+      "complexity_analysis": {
+        "quantum_complexity": "~O(sqrt(Ngr)/epsilon) up to logarithmic factors; more precisely query complexity scales as eO(sqrt(Ngr)/epsilon) and with additional 1/sqrt(p) dependence in the theorem statement.",
+        "classical_complexity": "eO(log(Ngr)/epsilon^2) for Monte Carlo estimation of all group CVaR contributions; more detailed sample complexity eTheta((sigma_max^2 log(Ngr/delta))/(epsilon^2 p)).",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L0_theory",
+        "crossover_size": "Quantum advantage expected only when (sigma_max^2)/(epsilon^2 p) >> Ngr (Sec. III.F).",
+        "resources_for_advantage": "Requires fault‑tolerant gate-based quantum computers capable of implementing amplitude-estimation style circuits with arithmetic oracles, controlled rotations, and large registers representing many obligors (Nobl) plus amplitude-preparation circuits for discretized normal distributions.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Algorithm relies on amplitude estimation and fixed-point amplitude amplification requiring deep fault-tolerant circuits",
+          "State preparation of a discretized normal distribution and arithmetic circuits scale with Nobl",
+          "Quantum advantage decreases as the number of groups Ngr increases",
+          "Only asymptotic query complexity analysis; no resource estimates for practical circuits"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "No concrete hardware platform, qubit count, circuit depth, or experimental benchmark is reported; the paper is a theoretical algorithm paper. num_qubits and circuit_depth are therefore not specified and remain null.",
+          "The algorithm family is amplitude-estimation because the paper explicitly builds on quantum multiple expected-value estimation and fixed-point quantum amplitude amplification.",
+          "The paper explicitly analyzes only asymptotic query complexity and does not run simulations or hardware experiments.",
+          "Authors state a quadratic speedup in accuracy ε but acknowledge classical scaling in Ngr can be better and provide only theoretical conditions for advantage."
+        ],
+        "advantage_status": "paper_reported"
+      }
+    }
+  ]
+}

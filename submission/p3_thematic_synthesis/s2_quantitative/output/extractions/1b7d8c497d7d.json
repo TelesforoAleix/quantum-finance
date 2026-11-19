@@ -1,0 +1,788 @@
+{
+  "paper_id": "1b7d8c497d7d",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:11:03+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "1b7d8c497d7d_a_generalized_quantum_inner_product_and_applications_to_financial_engineering.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.787,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 6,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='amplitude' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='amplitude' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[0].unit='amplitude' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[1].unit='amplitude' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[0].unit='amplitude' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[1].unit='amplitude' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.787,
+      "completeness": 0.787,
+      "num_experiments": 4,
+      "experiment_scores": [
+        1.0,
+        1.0,
+        1.0,
+        0.15
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "A Generalized Quantum Inner Product and Applications to Financial Engineering",
+    "authors": [
+      "Vanio Markov",
+      "Charlee Stefanski",
+      "Abhijit Rao",
+      "Constantin Gonciulea"
+    ],
+    "year": 2022,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": [
+      "risk-management",
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper introduces a generalized quantum inner‑product framework for computing weighted sums used in financial engineering and demonstrates small proof‑of‑concept circuits on IBM devices (3–7 qubits, 8192 shots). Hardware experiments measured amplitudes such as ≈0.17747 vs simulated 0.17835 for a discrete‑function expectation and ≈0.72996 vs simulated 0.77998 for a linear‑function expectation. Results validate circuit correctness but are limited to toy instances (N=8) without runtime advantage over classical methods.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Expected value computation of a discrete function using the weighted-sum / inner-product framework on IBM quantum hardware.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Weighted Sum pattern with generalized inner product; expected value of discrete functions",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "shots": 8192,
+          "qubits_for_key_register": 3,
+          "qubits_for_value_register": 4
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "3-qubit key register encodes k in binary; 4-qubit value register encodes f(k) via quantum dictionary / binary polynomial encoding; weights encoded in amplitudes via N2,3 state and value function via L4",
+        "objective_function": "Compute sum_k w_k f(k) for weights w_k = sin^2(k pi / N) and discrete function f(k) given by binary polynomial p(k0,k1,k2)=7+4k1-5k0k1-2k0k2",
+        "constraints_handling": null,
+        "num_binary_variables": 3,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Discrete function expected value example with n=3, m=4; function values listed in the paper for k=0..7.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 8,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Binary polynomial over 3-bit inputs; values f(k) shown explicitly in paper"
+        },
+        "data_preprocessing_details": null,
+        "evaluation_methodology": "Best result of at least 10 runs; 8192 shots per run; compared against simulator and direct classical calculation"
+      },
+      "quantum_resources": {
+        "num_qubits": 7,
+        "qubit_type": "physical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 8192,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": 0.9807,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_superconducting",
+        "provider": "IBM",
+        "device_name": "ibmq_casablanca",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "hardware_noise",
+        "error_mitigation_method": null,
+        "noise_parameters": {
+          "readout_assignment_error": 0.0193
+        },
+        "mitigation_details": null,
+        "noise_parameters.readout_assignment_error": 0.0193
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": null,
+        "classical_postprocessing": "Amplitude of |0> measured and rescaled to estimate weighted sum; compared with simulator and classical exact value",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": 10
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "amplitude_of_zero_state",
+          "value": 0.17747,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "amplitude",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "simulated_amplitude_of_zero_state",
+          "value": 0.17835,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "amplitude",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "readout_assignment_error",
+          "value": 0.0193,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots",
+          "value": 8192,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "shots",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "simulator",
+          "metric_name": "amplitude_of_zero_state",
+          "value": 0.17835,
+          "unit": "amplitude"
+        },
+        {
+          "method_name": "direct classical calculation",
+          "metric_name": "weighted_sum",
+          "value": 30.76777,
+          "unit": "value"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No asymptotic or empirical speedup claim is made for this experiment; only comparison to simulator and direct classical calculation."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 8,
+          "num_qubits": 7,
+          "metric_name": "amplitude_of_zero_state",
+          "metric_value": 0.17747
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "not analyzed",
+        "resources_for_advantage": "Not specified; would require scalable amplitude estimation and large registers encoding financial distributions",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Very small toy problem (3 input qubits, 4 value qubits)",
+          "No classical runtime comparison",
+          "State preparation for distributions and functions dominates cost",
+          "Amplitude estimation not actually implemented",
+          "NISQ noise significantly affects amplitude measurement"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware device ibmq_casablanca explicitly reported; 7-qubit device implies physical qubits used on hardware.",
+          "Circuit depth not reported in the paper.",
+          "No asymptotic speedup claim is quantified for this experiment; only empirical comparison to simulator/classical result.",
+          "Authors demonstrate correctness of the weighted‑sum method on IBM hardware but do not claim a practical quantum advantage.",
+          "Only small illustrative example with N=8 values is tested."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Expected value of a linear function with trigonometric distribution on IBM quantum hardware.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Weighted Sum pattern for expected value of linear functions; canonical linear function via exact encoding",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "shots": 8192,
+          "qubits_for_key_register": 3,
+          "qubits_for_value_register": 3
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "3-qubit key register encodes k; 3-qubit value register encodes linear function values using L3; distribution encoded by N2,3 on key register",
+        "objective_function": "Compute expected value of linear function f(k)=1+2k under weights w_k=sin^2(k pi / N)",
+        "constraints_handling": null,
+        "num_binary_variables": 3,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Expected value of linear function under trigonometric distribution, n=3, N=8.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 8,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Weights w_k = sin^2(k pi / N); function f(k)=1+2k"
+        },
+        "data_preprocessing_details": null,
+        "evaluation_methodology": "Best result of at least 10 runs; 8192 shots per run; compared against simulator and direct classical calculation"
+      },
+      "quantum_resources": {
+        "num_qubits": 6,
+        "qubit_type": "physical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 8192,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": 0.9593,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_superconducting",
+        "provider": "IBM",
+        "device_name": "ibmq_jakarta",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "hardware_noise",
+        "error_mitigation_method": null,
+        "noise_parameters": {
+          "readout_assignment_error": 0.0407
+        },
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": null,
+        "classical_postprocessing": "Amplitude of |0> measured and rescaled to estimate expected value; compared with simulator and classical exact value",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": 10
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "amplitude_of_zero_state",
+          "value": 0.72996,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "amplitude",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "simulated_amplitude_of_zero_state",
+          "value": 0.77998,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "amplitude",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "readout_assignment_error",
+          "value": 0.0407,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots",
+          "value": 8192,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "shots",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "simulator",
+          "metric_name": "amplitude_of_zero_state",
+          "value": 0.77998,
+          "unit": "amplitude"
+        },
+        {
+          "method_name": "direct classical calculation",
+          "metric_name": "weighted_sum",
+          "value": 36.0,
+          "unit": "value"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No asymptotic or empirical speedup claim is made for this experiment; only comparison to simulator and direct classical calculation."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 8,
+          "num_qubits": 6,
+          "metric_name": "amplitude_of_zero_state",
+          "metric_value": 0.72996
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "not analyzed",
+        "resources_for_advantage": "Large-scale amplitude estimation with efficient state preparation of financial distributions",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Experiment uses only 3 input qubits (N=8)",
+          "Measured amplitude deviates from simulation due to noise",
+          "No classical runtime baseline",
+          "Distribution encoding and linear-function encoding circuits scale poorly"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware device ibmq_jakarta explicitly reported; 7-qubit device used, but the experiment itself uses 3 key qubits + 3 value qubits.",
+          "Circuit depth not reported in the paper.",
+          "No asymptotic speedup claim is quantified for this experiment; only empirical comparison to simulator/classical result.",
+          "Experiment validates the circuit construction for expected value of a linear function but does not evaluate computational advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "Expected value of a linear function with a normal distribution on IBM quantum hardware.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Weighted Sum pattern for expected value of linear functions; approximate normal-distribution encoding",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "shots": 8192,
+          "qubits_for_key_register": 3,
+          "qubits_for_value_register": 3
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "3-qubit key register encodes a normal distribution state A; 3-qubit value register encodes identity function via L3",
+        "objective_function": "Compute expected value of the identity function under a normally distributed argument",
+        "constraints_handling": null,
+        "num_binary_variables": 3,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Expected value of identity function with normally distributed argument, n=3.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 8,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Normal-distribution state prepared using heuristic circuit from Appendix B.2; identity function encoded by L3"
+        },
+        "data_preprocessing_details": null,
+        "evaluation_methodology": "Best result of at least 10 runs; 8192 shots per run; compared against simulator"
+      },
+      "quantum_resources": {
+        "num_qubits": 6,
+        "qubit_type": "physical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 8192,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": 0.9721,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_superconducting",
+        "provider": "IBM",
+        "device_name": "ibmq_jakarta",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "hardware_noise",
+        "error_mitigation_method": null,
+        "noise_parameters": {
+          "readout_assignment_error": 0.0279
+        },
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": null,
+        "classical_postprocessing": "Amplitude of |0> measured and rescaled to estimate expected value; compared with simulator",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": 10
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "amplitude_of_zero_state",
+          "value": 0.57378,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "amplitude",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "simulated_amplitude_of_zero_state",
+          "value": 0.60131,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "amplitude",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "readout_assignment_error",
+          "value": 0.0279,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots",
+          "value": 8192,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "shots",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "simulator",
+          "metric_name": "amplitude_of_zero_state",
+          "value": 0.60131,
+          "unit": "amplitude"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No asymptotic or empirical speedup claim is made for this experiment; only comparison to simulator."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 8,
+          "num_qubits": 6,
+          "metric_name": "amplitude_of_zero_state",
+          "metric_value": 0.57378
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "not analyzed",
+        "resources_for_advantage": "Fault‑tolerant amplitude estimation with efficient preparation of normal‑distribution states",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Normal distribution encoded only for 3 qubits",
+          "Hardware noise causes amplitude deviation from simulation",
+          "No scaling study or runtime comparison",
+          "State preparation complexity grows rapidly with qubit count"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware device ibmq_jakarta explicitly reported; 7-qubit device used, with 3 qubits for the distribution register and 3 for the value register.",
+          "Circuit depth not reported in the paper.",
+          "No asymptotic speedup claim is quantified for this experiment; only empirical comparison to simulator.",
+          "Paper demonstrates feasibility of encoding a normal distribution and computing expectation values on small hardware but does not claim speedup."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_new_1",
+      "description": "Simulator experiment computing the expected value of a non‑linear rational function under a trigonometric distribution.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Inner‑product weighted sum pattern (Section 3.1) using amplitude overlap",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null
+      },
+      "key_results": [
+        "4‑qubit circuit simulation",
+        "Measured amplitude ⟨0|B†A|0⟩ ≈ 0.55050",
+        "Quantum estimated value ≈ 1.34845",
+        "Classical direct computation ≈ 1.33431"
+      ]
+    }
+  ]
+}

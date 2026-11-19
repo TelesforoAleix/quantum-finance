@@ -1,0 +1,481 @@
+{
+  "paper_id": "a4777ce71497",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:27:23+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "a4777ce71497_quantum_amplitude_loading_for_rainbow_options_pricing.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.55,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 12,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[1].unit='absolute' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='days' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='decimal_places' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='per_day' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='per_day' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='per_day_squared' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[15].unit='per_day_squared' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[16].unit='per_day_squared' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[17].unit='absolute' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[18].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.55,
+      "completeness": 0.55,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.95,
+        0.15
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum Amplitude Loading for Rainbow Options Pricing",
+    "authors": [
+      "Francesca Cibrario",
+      "Or Samimi Golan",
+      "Giacomo Ranieri",
+      "Emanuele Dri",
+      "Mattia Ippoliti",
+      "Ron Cohen",
+      "Christian Mattia",
+      "Bartolomeo Montrucchio",
+      "Amir Naveh",
+      "Davide Corbelletto"
+    ],
+    "year": 2024,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": [
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper implements a gate‑based quantum algorithm for rainbow option pricing using Iterative Quantum Amplitude Estimation and evaluates two amplitude‑loading strategies (integration and direct) on a 24‑qubit IBM QASM noiseless simulator with 1000 shots. For a two‑asset option (strike $190, maturity 250 days), the quantum estimates match the classically computed payoff of $23.0238 within the IQAE confidence interval (ε=0.01, α=0.05). The work demonstrates a full circuit construction but only at toy scale.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "End-to-end gate-based quantum rainbow option pricing using Iterative Quantum Amplitude Estimation (IQAE) with two alternative exponential amplitude-loading implementations (integration and direct) on a noiseless IBM QASM simulator for a two-asset, real-data example.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Iterative Quantum Amplitude Estimation (IQAE) for rainbow option pricing",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": "IQAE run with precision ϵ = 0.01 and confidence interval α = 0.05",
+        "hyperparameters": {
+          "precision_epsilon": 0.01,
+          "confidence_alpha": 0.05,
+          "shots": 1000,
+          "assets": 2,
+          "time_to_expiration_days": 250,
+          "arithmetic_rounding_decimal_places": 1,
+          "gaussian_qubits_per_asset": 2,
+          "total_qubits": 24
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Two Gaussian-distributed log-return registers (2 qubits each) are prepared, correlated via a Cholesky-based affine transformation, then a maximum module is applied in return space; payoff is encoded into the amplitude of a target qubit using a comparator plus either direct or integration-based exponential amplitude loading.",
+        "objective_function": "Estimate the expected discounted payoff of a rainbow call option, with payoff max(M_t - K, 0) where M_t is the maximum asset price at maturity; implemented via delayed transition to price space and amplitude estimation of the payoff expectation.",
+        "constraints_handling": "Comparator on z >= (log(K)-b')/b selects between constant branch and exponential-loading branch; no QUBO/penalty formulation.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Two-asset rainbow option pricing example with real-world market data, strike K = $190, maturity 250 days, and correlated log-returns.",
+        "num_assets": 2,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "real_market",
+        "dataset_name": null,
+        "dataset_specification": {
+          "initial_prices": {
+            "asset_1": 193.97,
+            "asset_2": 189.12
+          },
+          "mean_log_returns": {
+            "asset_1": 0.0005096,
+            "asset_2": 0.0006255
+          },
+          "covariance_matrix": {
+            "asset_1": [
+              0.000335,
+              0.000257
+            ],
+            "asset_2": [
+              0.000257,
+              0.000418
+            ]
+          },
+          "strike_price": 190,
+          "time_to_expiration_days": 250
+        },
+        "data_preprocessing_details": "Historical daily log-returns are used to estimate means and covariance; Gaussian discretization uses two qubits per asset; arithmetic rounded to one decimal place; Cholesky decomposition used to correlate standard Gaussian samples; transition to price space delayed until payoff calculation.",
+        "evaluation_methodology": "1000 shots on IBM QASM noiseless simulator; measured objective qubit after IQAE; compared estimated payoff against classically computed expected value including discretization and arithmetic precision."
+      },
+      "quantum_resources": {
+        "num_qubits": 24,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 1000,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": "IBM QASM simulator",
+        "framework": "Classiq Platform",
+        "framework_version": null,
+        "transpilation_target": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": "noiseless simulator",
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://dub.sh/code-repository",
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Load Gaussian distributions, apply affine transformation via Cholesky factor, compute maximum in return space, comparator against threshold, and prepare exponential amplitude-loading branch.",
+        "classical_postprocessing": "Post-process IQAE estimate using the derived scaling relations to recover expected payoff; discounting is performed classically.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "expected_payoff",
+          "value": 23.0238,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "USD",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "precision_epsilon",
+          "value": 0.01,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "confidence_alpha",
+          "value": 0.05,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots",
+          "value": 1000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_underlyings",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 24,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "time_to_expiration",
+          "value": 250,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "days",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "arithmetic_rounding_precision",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "decimal_places",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gaussian_qubits_per_asset",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "strike_price",
+          "value": 190,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "USD",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "initial_price_asset_1",
+          "value": 193.97,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "USD",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "initial_price_asset_2",
+          "value": 189.12,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "USD",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "mean_log_return_asset_1",
+          "value": 0.0005096,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "per_day",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "mean_log_return_asset_2",
+          "value": 0.0006255,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "per_day",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "covariance_asset_1_1",
+          "value": 0.000335,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "per_day_squared",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "covariance_asset_1_2",
+          "value": 0.000257,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "per_day_squared",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "covariance_asset_2_2",
+          "value": 0.000418,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "per_day_squared",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "iqae_precision",
+          "value": 0.01,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "confidence_interval_alpha",
+          "value": 0.05,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical expected value computation",
+          "metric_name": "expected_payoff",
+          "value": 23.0238,
+          "unit": "USD"
+        },
+        {
+          "method_name": "classical monte_carlo",
+          "metric_name": "convergence_rate",
+          "value": 0.5,
+          "unit": "order_in_samples"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical Monte Carlo",
+          "conditions": "Amplitude Estimation vs Monte Carlo sampling for expectation estimation",
+          "is_demonstrated": false,
+          "caveats": "Claim is asymptotic/theoretical; no empirical wall-clock speedup is reported."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 2.0,
+          "num_qubits": 24,
+          "metric_name": "expected_payoff",
+          "metric_value": 23.0238
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "Amplitude estimation gives quadratic improvement over classical Monte Carlo, i.e. O(1/M) sampling convergence versus O(1/sqrt(M)) classically for estimation accuracy.",
+        "classical_complexity": "O(1/sqrt(M)) sampling convergence for Monte Carlo estimation",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not reported; analysis only discusses asymptotic quadratic speedup from amplitude estimation.",
+        "resources_for_advantage": "Not quantified; experiments use only 24 qubits and two assets with extremely coarse discretization (2 qubits per Gaussian).",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Only quadratic speedup from amplitude estimation",
+          "Experiment performed on noiseless simulator",
+          "Very small problem instance (2 assets, 2 qubits per Gaussian)",
+          "State preparation and arithmetic overhead dominate circuit cost",
+          "No empirical runtime comparison with classical Monte Carlo"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": null,
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper reports the IBM QASM noiseless simulator, 1000 shots, and a total of 24 qubits.",
+          "No explicit circuit depth, gate counts, or transpiled depth are reported for the experiment; only analytical T-depth formulas are given in the complexity section, so those fields are left null.",
+          "The paper explicitly states the quadratic sampling advantage of amplitude estimation over classical Monte Carlo.",
+          "Authors discuss theoretical quadratic speedup from amplitude estimation but do not claim experimental quantum advantage.",
+          "Experiments are validation-only simulations of a small toy instance."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Rainbow option pricing using IQAE with the direct exponential amplitude loading method on the IBM QASM noiseless simulator (separate implementation path evaluated alongside the integration loading method).",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Iterative Quantum Amplitude Estimation with direct exponential amplitude loading",
+        "key_difference_from_exp_1": "Uses direct exponential amplitude loading circuit (controlled rotations + MCX) instead of integration-based loading.",
+        "num_layers": null
+      },
+      "key_results": [
+        "Estimated payoff shown in Figure 5 with confidence interval overlapping the classical reference value of $23.0238",
+        "Executed with 24 qubits and 1000 shots on the IBM QASM noiseless simulator"
+      ]
+    }
+  ]
+}

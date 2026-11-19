@@ -1,0 +1,689 @@
+{
+  "paper_id": "fecff5249e72",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T10:22:31+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "fecff5249e72_quantum_enhanced_analysis_of_discrete_stochastic_processes.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.75,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 11,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='underlying asset' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='scaling law' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='scaling law' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='gate/query complexity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='order' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='strike price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[0].unit='underlying assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[1].unit='scaling law' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[2].unit='gate/query complexity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[4].unit='steps' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[6].unit='order' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.75,
+      "completeness": 0.75,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.75,
+        0.75
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum-enhanced analysis of discrete stochastic processes",
+    "authors": [
+      "Carsten Blank",
+      "Daniel K. Park",
+      "Francesco Petruccione"
+    ],
+    "year": 2021,
+    "doi": "10.1038/s41534-021-00459-2",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": [
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a gate‑based quantum algorithm for evaluating characteristic functions of discrete stochastic processes using circuits whose size scales O(nk) with the number of time steps and outcomes. Two proof‑of‑principle experiments were run on the 5‑qubit IBM ibmqx2 device: (1) estimating the Delta of a European call option using a Fourier approximation with L=100 and 8129 shots per evaluation, and (2) estimating the characteristic function of a 4‑step correlated random walk using 32,786 shots. The claimed quadratic Monte‑Carlo speedup relies on quantum amplitude estimation, which was not implemented experimentally.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Proof-of-principle IBM Quantum Cloud experiment for estimating the Delta of a European call option via characteristic-function evaluation and Fourier approximation.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Characteristic-function estimation for discrete stochastic processes; Fourier-series-based Delta estimation; direct Pauli measurement scheme (with amplitude-estimation discussed as an alternative speedup)",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "Fourier_order_L": 100,
+          "period_P": 100,
+          "strike_prices_experimented": [
+            25,
+            55,
+            85,
+            105,
+            110,
+            115,
+            120,
+            125,
+            130,
+            160,
+            190,
+            220
+          ],
+          "shots_per_characteristic_function_evaluation": 8129,
+          "underlying_asset_parameters": {
+            "mu": 0,
+            "sigma": 0.02,
+            "r": 0.02,
+            "S0": 100,
+            "t": 1,
+            "T": 10
+          }
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Binary random-walk increments encoded on index qubits; data qubit phase rotations Rz(2x) used to encode characteristic function values for the underlying stochastic process.",
+        "objective_function": "Estimate the Delta of a European call option by approximating E[f(S_t)] using Fourier coefficients and characteristic function evaluations.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "European call option Delta under a geometric Brownian motion approximated by a discrete random walk.",
+        "num_assets": 1,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Synthetic stochastic-process parameters; no market dataset reported."
+        },
+        "data_preprocessing_details": "Geometric Brownian motion approximated by a random walk via Donsker’s invariance principle; Fourier approximation of the CDF-based Delta function on interval [-P/2, P/2].",
+        "evaluation_methodology": "Theoretical values compared with IBM quantum experiment and qiskit noise-model simulation for multiple strike prices; standard error mitigation applied."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "physical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 8129,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_superconducting",
+        "provider": "IBM",
+        "device_name": "ibmqx2",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "device_noise + qiskit standard noise model",
+        "error_mitigation_method": "standard error mitigation protocol available in qiskit"
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": "qiskit 0.20.0",
+        "transpilation_target": "ibmqx2 connectivity; level 0 pass followed by level 3 pass",
+        "classical_solver": null,
+        "transpilation_settings": {
+          "optimization_level": [
+            0,
+            3
+          ],
+          "basis_gates": null,
+          "routing_method": null
+        },
+        "classical_preprocessing": "Fourier-series approximation of the Delta function; characteristic function evaluated at v_l = 2πl/P for l = -L,...,L.",
+        "classical_postprocessing": "Assemble Fourier series from characteristic-function values; compare experiment, noisy simulation, and theory.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_underlyings",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "underlying asset",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": "O(1/sqrt(N_S))",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "scaling law",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "price_error",
+          "value": "O(1/2^m)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "scaling law",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": "O(poly(m))",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gate/query complexity",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots_per_characteristic_function_evaluation",
+          "value": 8129,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "fourier_order",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "order",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "period",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "unitless",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "strike_price",
+          "value": 110,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "strike price",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "convergence_rate",
+          "value": "O(1/sqrt(N))",
+          "unit": "scaling law"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical monte carlo",
+          "conditions": "when quantum amplitude estimation is used to estimate the characteristic function / expectation value",
+          "is_demonstrated": false,
+          "caveats": "The paper discusses amplitude estimation as an alternative speedup, but the proof-of-principle experiment itself uses direct Pauli measurement and Fourier approximation on IBM hardware."
+        },
+        {
+          "type": "theoretical",
+          "factor": "linear instead of quadratic resource scaling",
+          "baseline_method": "classical monte carlo",
+          "conditions": "for the amplitude-estimation-enhanced version of the algorithm",
+          "is_demonstrated": false,
+          "caveats": "This is a resource-scaling claim for the proposed quantum method, not an experimentally demonstrated wall-clock speedup."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 25.0,
+          "num_qubits": null,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 55.0,
+          "num_qubits": null,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 85.0,
+          "num_qubits": null,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 105.0,
+          "num_qubits": null,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 110.0,
+          "num_qubits": null,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 115.0,
+          "num_qubits": null,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 120.0,
+          "num_qubits": null,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 125.0,
+          "num_qubits": null,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 130.0,
+          "num_qubits": null,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 160.0,
+          "num_qubits": null,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 190.0,
+          "num_qubits": null,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 220.0,
+          "num_qubits": null,
+          "metric_name": "price_error",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(LN) experiments for Fourier approximation; direct Pauli measurement gives O(1/sqrt(N_S)) sampling convergence; amplitude estimation discussed as O(1/2^m) error scaling.",
+        "classical_complexity": "Monte Carlo convergence O(1/sqrt(N))",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": false,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "not reported; advantage relies on asymptotic quadratic speedup vs Monte Carlo using amplitude estimation",
+        "resources_for_advantage": "Would require fault‑tolerant amplitude estimation with many controlled Grover iterations and QFT plus large index registers encoding long stochastic trajectories.",
+        "data_loading_bottleneck": false,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Experiment uses only a 5‑qubit NISQ device (ibmqx2).",
+          "Demonstration problem is extremely small and synthetic.",
+          "Quadratic speedup only appears when amplitude estimation is used, which was not implemented experimentally.",
+          "Noise and limited qubit count restrict circuit size and depth.",
+          "No empirical runtime comparison against classical Monte Carlo."
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": null,
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware type reported as ibmqx2 superconducting IBM device.",
+          "Number of qubits not explicitly stated for the Delta circuit; inferred from the paper’s description of n index qubits plus one data qubit, but exact n for the experiment is not specified in the text provided, so num_qubits remains null and provenance reflects inference only where applicable.",
+          "Circuit depth not explicitly reported; only gate counts/structure are described qualitatively.",
+          "Authors argue that combining the method with quantum amplitude estimation yields quadratic Monte‑Carlo speedup, but the actual experiment only demonstrates proof‑of‑principle characteristic‑function estimation on a small IBM device.",
+          "No experimental evidence of runtime or accuracy advantage over classical Monte Carlo is provided."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Proof-of-principle IBM Quantum Cloud experiment for estimating the characteristic function of a correlated random walk with path-dependent increments.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Characteristic-function estimation for correlated random walk; direct Pauli measurement scheme (with amplitude-estimation discussed as an alternative speedup)",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "period_P": 100,
+          "L": 100,
+          "persistence_parameters_p": [
+            0.5,
+            0.6666666667,
+            0.8333333333,
+            1.0
+          ],
+          "persistence_parameters_q": [
+            0.5,
+            0.3333333333,
+            0.1666666667,
+            0.0
+          ],
+          "increments": [
+            1,
+            -1
+          ],
+          "initial_value_x0": 0,
+          "shots_per_characteristic_function_evaluation": 32786
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Path-dependent binary random walk encoded with controlled Ry rotations on successive index qubits; data qubit used for characteristic-function evaluation.",
+        "objective_function": "Estimate the characteristic function of a correlated random walk.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Correlated random walk with four time steps and binary increments, exhibiting persistence between successive steps.",
+        "num_assets": null,
+        "time_steps": 4,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Synthetic walk with increments x_l1 = 1 and x_l2 = -1, initial value x0 = 0, persistence parameters p_l and q_l for l = 1..4."
+        },
+        "data_preprocessing_details": "Prepare first index qubit in equal superposition; subsequent index qubits via controlled rotations conditioned on previous step to encode path dependence.",
+        "evaluation_methodology": "Characteristic function evaluated theoretically, by qiskit noisy simulation, and by IBM experiment with error mitigation."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "physical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 32786,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_superconducting",
+        "provider": "IBM",
+        "device_name": "ibmqx2",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "device_noise + qiskit standard noise model",
+        "error_mitigation_method": "standard error mitigation protocol available in qiskit"
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": "qiskit 0.20.0",
+        "transpilation_target": "ibmqx2 connectivity; level 0 pass followed by level 3 pass",
+        "classical_solver": null,
+        "transpilation_settings": {
+          "optimization_level": [
+            0,
+            3
+          ],
+          "basis_gates": null,
+          "routing_method": null
+        },
+        "classical_preprocessing": "Characteristic function sampled at v_l = 2πl/P for l = -L,...,L.",
+        "classical_postprocessing": "Compare theoretical, noisy-simulation, and experimental characteristic functions; manually aggregate multiple executions to reach total shot count due to IBM shot limits.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_underlyings",
+          "value": 0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "underlying assets",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": "O(1/sqrt(N_S))",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "scaling law",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": "O(poly(m))",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gate/query complexity",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots_per_characteristic_function_evaluation",
+          "value": 32786,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "time_steps",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "steps",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "period",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "unitless",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "fourier_order",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "order",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "convergence_rate",
+          "value": "O(1/sqrt(N))",
+          "unit": "scaling law"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical monte carlo",
+          "conditions": "when quantum amplitude estimation is used to estimate the characteristic function / expectation value",
+          "is_demonstrated": false,
+          "caveats": "The reported correlated random walk experiment uses direct characteristic-function evaluation with error mitigation; no empirical quantum speedup over classical Monte Carlo is shown."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 4.0,
+          "num_qubits": null,
+          "metric_name": "convergence_rate",
+          "metric_value": 1.0
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(kD_q) circuit depth for path-dependent increments; for the reported binary correlated random walk, controlled rotations are applied stepwise.",
+        "classical_complexity": "Not explicitly quantified; classical Monte Carlo baseline implied.",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Large circuits representing long path‑dependent stochastic processes together with amplitude estimation to obtain quadratic sampling speedup.",
+        "data_loading_bottleneck": false,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Proof‑of‑principle run on a 5‑qubit IBM device.",
+          "Very small correlated random walk instance (4 time steps).",
+          "No classical baseline runtime comparison.",
+          "Quadratic speedup depends on amplitude estimation not implemented in the experiment."
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": null,
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware type reported as ibmqx2 superconducting IBM device.",
+          "Exact qubit count for the correlated random walk circuit is not explicitly stated in the text excerpt; inferred from the described binary index register plus data qubit, but not enough information to give a precise total, so num_qubits remains null.",
+          "Circuit depth is not numerically reported; only asymptotic depth O(kD_q) is given.",
+          "The experiment demonstrates feasibility of encoding path‑dependent stochastic processes on a quantum circuit but does not test scaling or runtime advantage.",
+          "Any advantage relies on theoretical combination with amplitude estimation."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

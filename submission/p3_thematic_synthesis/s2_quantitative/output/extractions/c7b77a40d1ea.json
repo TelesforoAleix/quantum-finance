@@ -1,0 +1,504 @@
+{
+  "paper_id": "c7b77a40d1ea",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:51:56+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "c7b77a40d1ea_quantum_generative_models_of_mid_price_movement_in_limit_order_books.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.85,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 18,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='events' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='events' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='dimension' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='dimension' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='hypotheses' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='generations' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='fitness' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='symbols' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='absolute distance' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='absolute distance' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='depth' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='depth' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='depth' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='depth' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[16].unit='symbols' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[17].unit='symbols' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[18].unit='symbols' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[19].unit='symbols' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.85,
+      "completeness": 0.85,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.85
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum Generative Models of Mid-Price Movement in Limit Order Books",
+    "authors": [
+      "Vanio Slavov Markov",
+      "Vladimir Rastunkov",
+      "Juan I Adame"
+    ],
+    "year": 2024,
+    "doi": "10.1145/3677052.3698679",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": [
+      "trading-execution"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper trains a 3‑qubit quantum hidden Markov model (implemented as a 4‑qubit circuit including the emission qubit) to model directional mid‑price movements in AMZN (102,418 events) and GOOGL (235,928 events) limit order books. Using evolutionary optimization, the model fits sequence distributions up to length 10 with variational distance below 1e‑4 and is executed on IBM Eagle hardware for 3‑symbol sequences with transpiled two‑qubit depths of 53 and 86.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Training and evaluation of a unitary quantum hidden Markov model (QHMM) for directional mid-price movement in LOBs on event-time and 1-second aggregated AMZN/GOOGL data, using 3-qubit circuits and Qiskit.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "unitary quantum hidden Markov model (QHMM) with mid-circuit measurement",
+        "ansatz": "custom parameterized quantum circuit with single-qubit gates and controlled two-qubit gates",
+        "optimizer": "memetic algorithm with evolutionary global search + Metropolis local search + non-linear parametric optimization",
+        "num_layers": null,
+        "convergence_criteria": "maximum 300 evolutionary generations or until best fitness exceeds -1e-4",
+        "hyperparameters": {
+          "parent_population_size": 200,
+          "offspring_population_size": "gamma * 200",
+          "max_evolution_generations": 300,
+          "fitness_threshold": -0.0001,
+          "sequence_length_for_training": "up to 10 symbols",
+          "hidden_state_dimension": 8,
+          "emission_system_dimension": 2,
+          "gate_set": [
+            "p",
+            "x",
+            "y",
+            "z",
+            "h",
+            "rx",
+            "ry",
+            "rz",
+            "controlled counterparts"
+          ]
+        },
+        "parameter_initialization": "initial population drawn uniformly from hypothesis space; initial state prepared as maximally mixed state; steady-state preparation unitary used to map to target steady state",
+        "optimizer_settings": {
+          "temperature_schedule": "Temperature(t)",
+          "adaptive_offspring_parents_ratio": "gamma adapted during search",
+          "parametric_optimization": "non-linear solvers",
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "binary mid-price movement y_t in {0,1} encoded as emission symbols; one emission qubit with presence/absence of x gate as last operation on measurement qubit",
+        "objective_function": "maximize negative empirical variational distance between target and model sequence distributions, F(Q) = -Delta_{<=n}(D^L || D^Q)",
+        "constraints_handling": "implicit via unitary circuit structure and measurement map M; no explicit penalty terms reported",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "Modeling directional mid-price movement in limit order books for AMZN and GOOGL at event time and at 1-second aggregation",
+        "num_assets": 2,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "real_market",
+        "dataset_name": "AMZN, GOOGL",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "AMZN",
+            "GOOGL"
+          ],
+          "date_range": "2022-06-03, 2022-07-19",
+          "sampling_modes": [
+            "event time",
+            "1-second aggregated"
+          ],
+          "target": "directional mid-price movement"
+        },
+        "data_preprocessing_details": "compute mid-price returns r_t = p^m_t - p^m_{t-1}; binarize directional movement y_t = 1 if r_t > 0 else 0; for 1-second aggregation use last mid-price in each interval",
+        "evaluation_methodology": "compare empirical and model sequence distributions; optimize variational distance; hardware results shown for 3-symbol sequences"
+      },
+      "quantum_resources": {
+        "num_qubits": 4,
+        "qubit_type": "logical",
+        "circuit_depth": 53,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_superconducting",
+        "provider": "IBM",
+        "device_name": "IBM Eagle r3",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "hardware noise",
+        "error_mitigation_method": "dynamical decoupling, Pauli twirling"
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://doi.org/10.5281/zenodo.13160884",
+        "framework_version": null,
+        "transpilation_target": "native gate sets for IBM QPU",
+        "classical_solver": "non-linear solvers for parametric optimization; evolutionary search control",
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": null,
+          "routing_method": null
+        },
+        "classical_preprocessing": "construct empirical sequence distributions from historical LOB data; estimate Hankel rank and low-rank approximations",
+        "classical_postprocessing": "compare target vs hardware histograms for 3-symbol sequences",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": 0.0001,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "dataset_size",
+          "value": 102418,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "events",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 235928,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "events",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "hidden_state_dimension",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimension",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "emission_system_dimension",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimension",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "parent_population_size",
+          "value": 200,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "hypotheses",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "max_evolution_generations",
+          "value": 300,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "generations",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "fitness_threshold",
+          "value": -0.0001,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "fitness",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sequence_length_for_training",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "symbols",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "variational_distance",
+          "value": 0.0001,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute distance",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "variational_distance",
+          "value": 0.0001,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute distance",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "transpiled_two_qubit_depth",
+          "value": 53,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "depth",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "transpiled_two_qubit_depth",
+          "value": 86,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "depth",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth_without_optimization",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "depth",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth_without_optimization",
+          "value": 110,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "depth",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "approximation_error",
+          "value": 0.01,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sequence_length_approximated",
+          "value": 14,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "symbols",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sequence_length_approximated",
+          "value": 16,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "symbols",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sequence_length_approximated",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "symbols",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sequence_length_approximated",
+          "value": 22,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "symbols",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical hidden Markov model (HMM)",
+          "conditions": "for representing the same stochastic process language; QHMM can represent a language with sqrt(n) states when a classical HMM needs n states",
+          "is_demonstrated": false,
+          "caveats": "This is a theoretical parsimony claim cited from prior work, not an empirical benchmark in this paper."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": null,
+          "num_qubits": 3,
+          "metric_name": "sequence_length_approximated",
+          "metric_value": 16
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 3,
+          "metric_name": "sequence_length_approximated",
+          "metric_value": 12
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 3,
+          "metric_name": "sequence_length_approximated",
+          "metric_value": 14
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 3,
+          "metric_name": "sequence_length_approximated",
+          "metric_value": 10
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 5,
+          "metric_name": "sequence_length_approximated",
+          "metric_value": 22
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 5,
+          "metric_name": "sequence_length_approximated",
+          "metric_value": 20
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 5,
+          "metric_name": "sequence_length_approximated",
+          "metric_value": 20
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 5,
+          "metric_name": "sequence_length_approximated",
+          "metric_value": 18
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "quadratically better parsimony than classical HMMs; QHMM can represent a language with sqrt(n) states when classical HMM needs n states",
+        "classical_complexity": "n-state HMM representation for comparable stochastic process language",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "unknown; no empirical scaling study",
+        "resources_for_advantage": "Would require larger QHMM circuits representing stochastic languages whose classical HMM equivalent has n states while quantum model uses ~sqrt(n) states, plus fault‑tolerant hardware to simulate long sequences.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "No classical baseline comparison for predictive accuracy or runtime",
+          "Demonstrations limited to 3-symbol sequences on hardware",
+          "Very small circuits (4 qubits) and shallow time horizon",
+          "Speedup claim concerns representational parsimony rather than runtime complexity",
+          "NISQ noise requires mitigation and limits circuit depth"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper reports 3-qubit models for training and hardware execution on IBM Eagle r3 QPU.",
+          "Transpiled 2-qubit depths are explicitly given for 3 time steps: 53 (AMZN) and 86 (GOOGL).",
+          "No explicit shot count, variational parameter count, or gate counts are reported in the provided text.",
+          "The paper uses Qiskit and runs on real IBM hardware, so hardware.type is reported rather than inferred.",
+          "The paper cites a theoretical result that QHMMs may represent a stochastic process with sqrt(n) states compared to n for classical HMMs.",
+          "No empirical runtime comparison or scaling benchmark against classical HMMs is provided.",
+          "Hardware demonstration only reproduces small sequence distributions (length 3) on a 4‑qubit IBM Eagle device."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

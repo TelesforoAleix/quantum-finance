@@ -1,0 +1,796 @@
+{
+  "paper_id": "479092dfcc1c",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:37:39+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "479092dfcc1c_minimizing_estimation_runtime_on_noisy_quantum_computers.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.583,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 25,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='root-mean-squared error' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='measurements' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='inverse MSE per unit time' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='asymptotic scaling' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='low-noise asymptotic scaling' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='high-noise asymptotic scaling' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='queries to ansatz circuit A / A†' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='ansatz invocations per round' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='grid points' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='sample points' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='independent runs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[15].unit='range' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[0].unit='root-mean-squared error' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[1].unit='asymptotic scaling' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[2].unit='inverse MSE per unit time' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[3].unit='queries to ansatz circuit A / A†' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[4].unit='ansatz invocations per round' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[5].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[6].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[7].unit='grid points' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[8].unit='sample points' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[9].unit='independent runs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[11].unit='range' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.583,
+      "completeness": 0.583,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.583,
+        0.583
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Minimizing estimation runtime on noisy quantum computers",
+    "authors": [
+      "Guoming Wang",
+      "Dax Enshan Koh",
+      "Peter D. Johnson",
+      "Yudong Cao"
+    ],
+    "year": 2021,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "simulation-monte-carlo",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper introduces engineered likelihood functions (ELFs) to accelerate expectation-value estimation in hybrid quantum algorithms. Simulations with circuit depth L=6 and layer fidelity p=0.9 show significantly faster RMSE decay than standard sampling and Chebyshev likelihood functions, while the theoretical model predicts runtime scaling improving from O(1/ε²) (classical sampling) toward O(1/ε) as device coherence improves.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Ancilla-free engineered likelihood function (ELF) amplitude-estimation / expectation-value estimation with Bayesian inference, compared against standard sampling and Chebyshev likelihood functions (CLF), using fixed circuit depth and varying fidelity/true expectation value in simulation.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "ancilla-free engineered likelihood function (AF ELF) with Bayesian inference",
+        "ansatz": "state-preparation circuit A and its inverse A†; generalized reflections U(x)=exp(-ixP) and V(y)=AR0(y)A†",
+        "optimizer": "gradient ascent; coordinate ascent",
+        "num_layers": null,
+        "convergence_criteria": "Bayesian inference iterated until convergence criterion satisfied; simulation uses fixed L per run",
+        "hyperparameters": {
+          "L": 6,
+          "layer_fidelity_p": 0.9,
+          "SPAM_error": false,
+          "prior_distribution_examples": [
+            "N(-0.43, 0.0009)",
+            "N(0.64, 0.0009)",
+            "N(0.49, 0.0009)",
+            "N(-0.14, 0.0009)",
+            "N(0.92, 0.0009)"
+          ],
+          "lookup_table_grid_size": 4001,
+          "theta_grid_for_sinusoidal_fit": 11,
+          "simulation_runs_M": 300
+        },
+        "parameter_initialization": "random initial point for parameter-tuning algorithms; prior over Π from standard sampling or domain knowledge",
+        "optimizer_settings": {
+          "step_size_schedule": "δ(t) for gradient ascent (not numerically specified)",
+          "error_tolerance": "ϵ (not numerically specified)",
+          "parameter_bounds": "(-π, π] for each x_j"
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Expectation value Π=⟨A|P|A⟩ of a Hermitian ±1 observable P on state |A⟩; no explicit QUBO/Ising encoding",
+        "objective_function": "Estimate Π=⟨A|P|A⟩ (equivalently θ=arccos(Π)) with reduced measurement/runtime cost",
+        "constraints_handling": "none reported",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 0
+      },
+      "problem_instance": {
+        "description": "Generic expectation-value estimation / amplitude-estimation benchmark; no specific application instance in the reported simulations",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Simulation studies over chosen true Π values and Gaussian priors"
+        },
+        "data_preprocessing_details": null,
+        "evaluation_methodology": "300 independent simulation runs per configuration; RMSE over time; fixed L and p in main comparisons"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": 2,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 12,
+        "gate_fidelity": "two-qubit gate fidelity 99.92% mentioned as near-term example; layer fidelity p=0.9 in main simulations",
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "exponential decay likelihood-function noise model; depolarizing layer noise; SPAM error model",
+        "error_mitigation_method": "likelihood-function calibration / noise-tailoring discussed conceptually; no explicit mitigation protocol in experiments",
+        "noise_parameters": {
+          "layer_fidelity_p": 0.9,
+          "SPAM_error": false,
+          "fidelity_f": "f= p^L (with no SPAM error in experiments)"
+        },
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "lookup table of optimal circuit parameters over a discrete Π grid; sinusoidal fitting of likelihood near current prior mean",
+        "classical_postprocessing": "Bayesian update with Gaussian approximation; convert θ posterior to Π posterior via cos(θ)",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "RMSE decreases over time; inverse MSE approximately linear in time for fixed depth",
+          "variance_across_runs": 300.0,
+          "num_independent_runs": 300
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "rmse",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 300,
+          "unit": "root-mean-squared error",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sample_complexity",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "measurements",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": "approximately linear inverse-MSE growth in time",
+          "uncertainty": null,
+          "num_runs": 300,
+          "unit": "inverse MSE per unit time",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sample_complexity",
+          "value": "O(1/epsilon^2)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "asymptotic scaling",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sample_complexity",
+          "value": "O(e^alpha/epsilon)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "low-noise asymptotic scaling",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sample_complexity",
+          "value": "O(e^(alpha*lambda)/epsilon^2)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "high-noise asymptotic scaling",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": "2L+1 per inference round",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "queries to ansatz circuit A / A†",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_paths",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "runtime",
+          "value": "2L+1 per inference round; with L=6 this is 13 ansatz invocations per round",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ansatz invocations per round",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "layer_fidelity",
+          "value": 0.9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "fidelity_f",
+          "value": 0.531441,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "lookup_table_grid_size",
+          "value": 4001,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "grid points",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "theta_grid_for_sinusoidal_fit",
+          "value": 11,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "sample points",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "simulation_runs",
+          "value": 300,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "independent runs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "two_qubit_gate_fidelity",
+          "value": 99.92,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_fidelity_optimal_range",
+          "value": "0.5-0.7",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "range",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "standard sampling (VQE-style)",
+          "metric_name": "sample_complexity",
+          "value": "O(1/epsilon^2)",
+          "unit": "asymptotic scaling"
+        },
+        {
+          "method_name": "standard sampling (VQE-style)",
+          "metric_name": "runtime",
+          "value": "T(1-Pi^2)/epsilon^2",
+          "unit": "time units"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic / Heisenberg-limit interpolation",
+          "baseline_method": "standard sampling (VQE-style)",
+          "conditions": "in the low-noise regime and with engineered likelihood functions / enhanced sampling",
+          "is_demonstrated": true,
+          "caveats": "The paper emphasizes interpolation between O(1/epsilon^2) and O(1/epsilon) depending on noise; not all settings achieve the Heisenberg limit."
+        },
+        {
+          "type": "empirical",
+          "factor": "AF ELF and AB ELF outperform CLF; AF ELF best in all reported cases",
+          "baseline_method": "Chebyshev likelihood function (CLF) and standard sampling",
+          "conditions": "fixed L=6, p=0.9, no SPAM error, synthetic expectation-value estimation tasks",
+          "is_demonstrated": true,
+          "caveats": "Performance depends on true Pi for CLF; ELF is more stable across Pi."
+        },
+        {
+          "type": "projected",
+          "factor": "runtime scaling O(e^alpha/epsilon) to O(e^(alpha*lambda)/epsilon^2)",
+          "baseline_method": "standard sampling / phase-estimation-like regimes",
+          "conditions": "as a function of noise parameter lambda",
+          "is_demonstrated": false,
+          "caveats": "This is a model-derived asymptotic interpolation, not a direct hardware benchmark."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 6.0,
+          "num_qubits": null,
+          "metric_name": "rmse",
+          "metric_value": 8.0
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": null,
+          "metric_name": "growth_rate_of_inverse_mse",
+          "metric_value": 0.75
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": null,
+          "metric_name": "dead_spot_behavior",
+          "metric_value": 0.0
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "sample/runtime scaling interpolates between O(1/ε) (Heisenberg limit, phase-estimation–like regime) and O(1/ε^2) (standard sampling/VQE regime)",
+        "classical_complexity": "standard sampling O(1/ε^2) for expectation estimation",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L2_noisy_sim",
+        "crossover_size": "Not specified; runtime model predicts crossover depending on noise parameter λ and target precision ε",
+        "resources_for_advantage": "Model example assumes ~100 logical qubits, circuit layer depth ~200 two‑qubit gates, two‑qubit gate fidelity approaching ≥99.9999 with error correction to reach useful runtimes",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "All results produced via classical simulation rather than QPU execution",
+          "Speedup is only quadratic in precision (O(1/ε) vs O(1/ε^2))",
+          "Large measurement counts and circuit depths required",
+          "Requires high gate fidelity or error correction to realize theoretical gains",
+          "No concrete application instance benchmarked against classical state‑of‑the‑art algorithms"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "No specific QPU or vendor is named; experiments are simulation-based, so hardware.type inferred as simulator_other.",
+          "Ancilla-free scheme uses no ancilla qubits; num_qubits not explicitly stated because the paper focuses on logical subspace and circuit structure rather than a concrete register size.",
+          "Authors discuss potential quantum speedups but provide only simulated estimation experiments and theoretical runtime models; no empirical quantum advantage demonstration."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Ancilla-based engineered likelihood function (ELF) amplitude-estimation / expectation-value estimation with Bayesian inference, compared against standard sampling and Chebyshev likelihood functions (CLF), using fixed circuit depth and varying fidelity/true expectation value in simulation.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "ancilla-based engineered likelihood function (AB ELF) with Bayesian inference",
+        "ansatz": "state-preparation circuit A and its inverse A†; generalized reflections U(x)=exp(-ixP) and V(y)=AR0(y)A†; one ancilla qubit Hadamard test-style circuit",
+        "optimizer": "gradient ascent; coordinate ascent",
+        "num_layers": null,
+        "convergence_criteria": "Bayesian inference iterated until convergence criterion satisfied; simulation uses fixed L per run",
+        "hyperparameters": {
+          "L": 6,
+          "layer_fidelity_p": 0.9,
+          "SPAM_error": false,
+          "prior_distribution_examples": [
+            "N(-0.43, 0.0009)",
+            "N(0.64, 0.0009)",
+            "N(0.49, 0.0009)",
+            "N(-0.14, 0.0009)",
+            "N(0.92, 0.0009)"
+          ],
+          "lookup_table_grid_size": 4001,
+          "theta_grid_for_sinusoidal_fit": 11,
+          "simulation_runs_M": 300
+        },
+        "parameter_initialization": "random initial point for parameter-tuning algorithms; prior over Π from standard sampling or domain knowledge",
+        "optimizer_settings": {
+          "step_size_schedule": "δ(t) for gradient ascent (not numerically specified)",
+          "error_tolerance": "ϵ (not numerically specified)",
+          "parameter_bounds": "(-π, π] for each x_j"
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Expectation value Π=⟨A|P|A⟩ of a Hermitian ±1 observable P on state |A⟩; ancilla-based likelihood generation via controlled circuit",
+        "objective_function": "Estimate Π=⟨A|P|A⟩ (equivalently θ=arccos(Π)) with reduced measurement/runtime cost",
+        "constraints_handling": "none reported",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "Generic expectation-value estimation / amplitude-estimation benchmark; no specific application instance in the reported simulations",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Simulation studies over chosen true Π values and Gaussian priors"
+        },
+        "data_preprocessing_details": null,
+        "evaluation_methodology": "300 independent simulation runs per configuration; RMSE over time; fixed L and p in main comparisons"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": 2,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 12,
+        "gate_fidelity": "two-qubit gate fidelity 99.92% mentioned as near-term example; layer fidelity p=0.9 in main simulations",
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "exponential decay likelihood-function noise model; depolarizing layer noise; SPAM error model",
+        "error_mitigation_method": "likelihood-function calibration / noise-tailoring discussed conceptually; no explicit mitigation protocol in experiments",
+        "noise_parameters": {
+          "layer_fidelity_p": 0.9,
+          "SPAM_error": false,
+          "fidelity_f": "f= p^L (with no SPAM error in experiments)"
+        },
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "lookup table of optimal circuit parameters over a discrete Π grid; sinusoidal fitting of likelihood near current prior mean",
+        "classical_postprocessing": "Bayesian update with Gaussian approximation; convert θ posterior to Π posterior via cos(θ)",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "RMSE decreases over time; inverse MSE approximately linear in time for fixed depth",
+          "variance_across_runs": 300.0,
+          "num_independent_runs": 300
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "rmse",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 300,
+          "unit": "root-mean-squared error",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sample_complexity",
+          "value": "O(1/epsilon^2)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "asymptotic scaling",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": "approximately linear inverse-MSE growth in time",
+          "uncertainty": null,
+          "num_runs": 300,
+          "unit": "inverse MSE per unit time",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": "2L+1 per inference round",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "queries to ansatz circuit A / A†",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "runtime",
+          "value": "2L+1 per inference round; with L=6 this is 13 ansatz invocations per round",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ansatz invocations per round",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "layer_fidelity",
+          "value": 0.9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "fidelity_f",
+          "value": 0.531441,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "lookup_table_grid_size",
+          "value": 4001,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "grid points",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "theta_grid_for_sinusoidal_fit",
+          "value": 11,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "sample points",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "simulation_runs",
+          "value": 300,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "independent runs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "two_qubit_gate_fidelity",
+          "value": 99.92,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_fidelity_optimal_range",
+          "value": "0.5-0.7",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "range",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "standard sampling (VQE-style)",
+          "metric_name": "sample_complexity",
+          "value": "O(1/epsilon^2)",
+          "unit": "asymptotic scaling"
+        },
+        {
+          "method_name": "standard sampling (VQE-style)",
+          "metric_name": "runtime",
+          "value": "T(1-Pi^2)/epsilon^2",
+          "unit": "time units"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic / Heisenberg-limit interpolation",
+          "baseline_method": "standard sampling (VQE-style)",
+          "conditions": "in the low-noise regime and with engineered likelihood functions / enhanced sampling",
+          "is_demonstrated": true,
+          "caveats": "The paper emphasizes interpolation between O(1/epsilon^2) and O(1/epsilon) depending on noise; not all settings achieve the Heisenberg limit."
+        },
+        {
+          "type": "empirical",
+          "factor": "AB ELF outperforms AB CLF; AF ELF outperforms AF CLF; AF ELF best overall",
+          "baseline_method": "Chebyshev likelihood function (CLF) and standard sampling",
+          "conditions": "fixed L=6, p=0.9, no SPAM error, synthetic expectation-value estimation tasks",
+          "is_demonstrated": true,
+          "caveats": "AB CLF and AF CLF exhibit dead spots where Fisher information is zero; ELF mitigates this."
+        },
+        {
+          "type": "projected",
+          "factor": "runtime scaling O(e^alpha/epsilon) to O(e^(alpha*lambda)/epsilon^2)",
+          "baseline_method": "standard sampling / phase-estimation-like regimes",
+          "conditions": "as a function of noise parameter lambda",
+          "is_demonstrated": false,
+          "caveats": "This is a model-derived asymptotic interpolation, not a direct hardware benchmark."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 6.0,
+          "num_qubits": 1,
+          "metric_name": "ancilla_qubits",
+          "metric_value": 1
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 1,
+          "metric_name": "dead_spot_behavior",
+          "metric_value": 0.0
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 1,
+          "metric_name": "growth_rate_of_inverse_mse",
+          "metric_value": 0.75
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "sample/runtime scaling interpolates between O(1/ε) (Heisenberg limit regime) and O(1/ε^2) (standard sampling regime)",
+        "classical_complexity": "standard sampling O(1/ε^2) for expectation estimation",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L2_noisy_sim",
+        "crossover_size": "Not specified analytically; runtime model depends on noise λ and precision ε",
+        "resources_for_advantage": "Example model assumes ~100 qubits and high two‑qubit fidelity approaching multiple 'nines' to achieve useful runtimes",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Evaluation performed entirely in classical simulation",
+          "Quadratic precision speedup insufficient to overcome realistic fault‑tolerance overhead per Hoefler analysis",
+          "Performance sensitive to circuit fidelity and optimal layer depth selection",
+          "No demonstrated runtime improvement over classical methods on real hardware"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "No specific QPU or vendor is named; experiments are simulation-based, so hardware.type inferred as simulator_other.",
+          "Ancilla-based scheme uses one ancilla qubit; num_qubits not explicitly stated because the paper focuses on logical subspace and circuit structure rather than a concrete register size.",
+          "The ancilla‑based ELF scheme is evaluated only via simulations and theoretical scaling arguments."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

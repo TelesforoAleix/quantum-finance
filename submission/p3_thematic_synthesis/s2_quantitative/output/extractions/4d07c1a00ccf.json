@@ -1,0 +1,783 @@
+{
+  "paper_id": "4d07c1a00ccf",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:40:43+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "4d07c1a00ccf_a_quantum_algorithm_for_linear_pdes_arising_in_finance.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.75,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 14,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[1].unit='points' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='steps' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='year' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='rate' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[1].unit='points' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[2].unit='steps' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[4].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[7].unit='price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[8].unit='price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[9].unit='year' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[10].unit='rate' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.75,
+      "completeness": 0.75,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.75,
+        0.75
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "A QUANTUM ALGORITHM FOR LINEAR PDES ARISING IN FINANCE",
+    "authors": [
+      "Filipe Fontanela",
+      "Antoine Jacquier",
+      "Mugad Oumgari"
+    ],
+    "year": 2021,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a hybrid variational quantum imaginary‑time evolution algorithm to solve PDEs arising in option pricing by mapping the Black–Scholes equation to a Schrödinger equation. Numerical simulations use a 4‑qubit ansatz with 25 variational parameters (16 spatial grid points) and ~500 time steps to reconstruct European and Asian option prices with small errors compared to classical PDE solutions. All results are produced via classical simulation of the quantum circuit.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Hybrid quantum-classical imaginary-time-evolution experiment for pricing a European call option in the Black-Scholes model using a 4-qubit shallow ansatz circuit.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Variational quantum imaginary time evolution (McLachlan principle) with a shallow Ry/H/X ansatz",
+        "ansatz": "4-qubit layered ansatz with X, H, single-qubit Ry rotations, and controlled-Ry gates",
+        "optimizer": "numpy.linalg.lstsq for solving the linear system; Differential Evolution for initial ansatz fitting",
+        "num_layers": 6,
+        "convergence_criteria": "Iterate in time until maturity; ansatz depth increased until initial-state approximation error <= epsilon_max",
+        "hyperparameters": {
+          "sigma": 0.2,
+          "S0": 100,
+          "K": 100,
+          "T": 1,
+          "r": 0,
+          "grid_points": 16,
+          "time_steps": 500,
+          "cutoff_ratio": 1e-08,
+          "epsilon_max": "not specified",
+          "Ncells_max": "not specified"
+        },
+        "parameter_initialization": "Initial parameters theta_0 obtained by minimizing |||phi(theta)> - |psi(0)>||; optimization may use Differential Evolution",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": "Euler time step Delta tau",
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Option price discretized on a 1D spatial grid with 4 qubits representing 16 points; quantum state amplitudes encode the discretized payoff/solution",
+        "objective_function": "Solve the imaginary-time Schrödinger equation equivalent to the Black-Scholes PDE for a European call option",
+        "constraints_handling": "Normalization via gamma(tau); boundary values imposed through discretization at xmin and xmax",
+        "num_binary_variables": null,
+        "problem_hamiltonian": "H = (1/2) d^2/dx^2 discretized by second-order finite differences",
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "European call option pricing under Black-Scholes",
+        "num_assets": 1,
+        "time_steps": 500,
+        "num_features": null,
+        "dataset_size": 16,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "S0=K=100, T=1, sigma=20%, r=0, spatial grid [xmin,xmax] approx [3.9,5] corresponding to [50,150] in S"
+        },
+        "data_preprocessing_details": "Change of variables s=exp(x), tau=sigma^2(T-t); finite-difference discretization on equidistant grid; normalization of payoff state",
+        "evaluation_methodology": "Compare quantum ansatz evolution against classical simulation; report state-vector error and price curves"
+      },
+      "quantum_resources": {
+        "num_qubits": 4,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": 25,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 25,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "not_specified"
+      },
+      "noise_model": {
+        "noise_model": "not_specified",
+        "noise_parameters": null,
+        "mitigation_details": null,
+        "is_noisy": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "numpy.linalg.lstsq; Differential Evolution",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Finite-difference discretization of the PDE; ansatz fitting to initial payoff state",
+        "classical_postprocessing": "Recover option price in original coordinates using known scaling parameter gamma(tau)",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 500,
+          "final_loss_value": null,
+          "loss_curve_shape": "not specified",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_qubits",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "grid_points",
+          "value": 16,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "points",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "time_steps",
+          "value": 500,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "steps",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gate_count_total",
+          "value": 25,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_variational_params",
+          "value": 25,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "cutoff_ratio",
+          "value": 1e-08,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sigma",
+          "value": 0.2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "fraction",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "s0",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "price",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "k",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "price",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "t",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "year",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "r",
+          "value": 0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "rate",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "price_error",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "greeks_accuracy",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "state_vector_error",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical simulation",
+          "metric_name": "price_error",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "classical simulation",
+          "metric_name": "state_vector_error",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The paper presents a near-term hybrid algorithm and numerical accuracy results only; no asymptotic or empirical speedup is claimed."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 16,
+          "num_qubits": 4,
+          "metric_name": "grid_points",
+          "metric_value": 16
+        },
+        {
+          "problem_size": 500,
+          "num_qubits": 4,
+          "metric_name": "time_steps",
+          "metric_value": 500
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Not analyzed in the paper; current demonstration uses a 4‑qubit discretization (16 grid points) and 25 variational parameters.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Only 4 qubits (16 spatial grid points) used for PDE discretization",
+          "Results produced via classical numerical simulation of the algorithm rather than execution on quantum hardware",
+          "No asymptotic complexity comparison with classical PDE solvers",
+          "Classical preprocessing and parameter updates dominate the hybrid workflow"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_other because the paper describes a proposed hybrid algorithm and numerical simulations, but no specific QPU/device is named.",
+          "Circuit depth not explicitly reported; 25 Ry gates are reported, so gate count is used as a proxy for circuit size, not depth.",
+          "No asymptotic speedup is claimed; the paper presents a near-term hybrid method and numerical accuracy results only.",
+          "The authors present a proof-of-concept hybrid algorithm and show numerical agreement with classical pricing; they do not demonstrate or empirically claim a practical quantum advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Hybrid quantum-classical imaginary-time-evolution experiment for pricing an arithmetic Asian call option in the Black-Scholes model using a 4-qubit shallow ansatz circuit with time-dependent Hamiltonian updates.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Variational quantum imaginary time evolution (McLachlan principle) for time-dependent Hamiltonian",
+        "ansatz": "4-qubit layered ansatz with X, H, single-qubit Ry rotations, and controlled-Ry gates",
+        "optimizer": "numpy.linalg.lstsq for solving the linear system; Differential Evolution for initial ansatz fitting",
+        "num_layers": 6,
+        "convergence_criteria": "Iterate in time until maturity; ansatz depth increased until initial-state approximation error <= epsilon_max",
+        "hyperparameters": {
+          "sigma": 0.2,
+          "S0": 100,
+          "K": 100,
+          "T": 1,
+          "r": 0,
+          "grid_points": 16,
+          "time_steps": 500,
+          "cutoff_ratio": 1e-08,
+          "epsilon_max": "not specified",
+          "Ncells_max": "not specified"
+        },
+        "parameter_initialization": "Initial parameters theta_0 obtained by minimizing |||phi(theta)> - |psi(0)>||; optimization may use Differential Evolution",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": "Euler time step Delta tau",
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Option price discretized on a 1D spatial grid with 4 qubits representing 16 points; quantum state amplitudes encode the discretized payoff/solution",
+        "objective_function": "Solve the imaginary-time Schrödinger equation equivalent to the Asian-option PDE with time-dependent coefficient",
+        "constraints_handling": "Normalization via gamma(tau); boundary values imposed through discretization at ymin and ymax",
+        "num_binary_variables": null,
+        "problem_hamiltonian": "H(tau) = ((q(tau)-y)^2 / 2) d^2/dy^2 discretized by finite differences",
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "Arithmetic Asian call option pricing under Black-Scholes",
+        "num_assets": 1,
+        "time_steps": 500,
+        "num_features": null,
+        "dataset_size": 16,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "S0=K=100, T=1, sigma=20%, r=0, spatial grid [ymin,ymax]=[-0.5,0.4]"
+        },
+        "data_preprocessing_details": "Change of variables to Asian-option PDE; finite-difference discretization on equidistant grid; time-dependent Hamiltonian frozen on each time step",
+        "evaluation_methodology": "Compare quantum ansatz evolution against classical simulation; report state-vector error and price curves"
+      },
+      "quantum_resources": {
+        "num_qubits": 4,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": 25,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 25,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "not_specified"
+      },
+      "noise_model": {
+        "noise_model": "not_specified",
+        "noise_parameters": null,
+        "mitigation_details": null,
+        "is_noisy": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "numpy.linalg.lstsq; Differential Evolution",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Finite-difference discretization of the PDE; ansatz fitting to initial payoff state; time-dependent Hamiltonian updated at each step",
+        "classical_postprocessing": "Recover option price in original coordinates using known scaling parameter gamma(tau)",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 500,
+          "final_loss_value": null,
+          "loss_curve_shape": "not specified",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_qubits",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "grid_points",
+          "value": 16,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "points",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "time_steps",
+          "value": 500,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "steps",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gate_count_total",
+          "value": 25,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_variational_params",
+          "value": 25,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "cutoff_ratio",
+          "value": 1e-08,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sigma",
+          "value": 0.2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "fraction",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "s0",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "price",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "k",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "price",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "t",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "year",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "r",
+          "value": 0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "rate",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "price_error",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "greeks_accuracy",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "state_vector_error",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical simulation",
+          "metric_name": "price_error",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "classical simulation",
+          "metric_name": "state_vector_error",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The paper presents a near-term hybrid algorithm and numerical accuracy results only; no asymptotic or empirical speedup is claimed."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 16,
+          "num_qubits": 4,
+          "metric_name": "grid_points",
+          "metric_value": 16
+        },
+        {
+          "problem_size": 500,
+          "num_qubits": 4,
+          "metric_name": "time_steps",
+          "metric_value": 500
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Not analyzed; experiment uses the same 4‑qubit ansatz (16 grid points) and 25 parameters with a time‑dependent Hamiltonian.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Toy discretization with 4 qubits",
+          "Entire study conducted via classical simulation of the quantum algorithm",
+          "No complexity comparison against classical Asian option PDE solvers",
+          "Hybrid algorithm requires classical linear-system solves at each time step"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_other because the paper reports numerical simulations only and no specific quantum device is named.",
+          "Circuit depth not explicitly reported; 25 Ry gates are reported, so gate count is used as a proxy for circuit size, not depth.",
+          "No asymptotic speedup is claimed; the paper presents a near-term hybrid method and numerical accuracy results only.",
+          "The Asian option case is another numerical validation of the algorithm rather than a benchmark showing quantum speedup."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

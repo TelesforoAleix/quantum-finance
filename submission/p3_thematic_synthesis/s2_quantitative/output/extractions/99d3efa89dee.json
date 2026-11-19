@@ -1,0 +1,1513 @@
+{
+  "paper_id": "99d3efa89dee",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:21:58+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "99d3efa89dee_a_performance_characterization_of_quantum_generative_models.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.95,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 4,
+    "validation_warnings": 0,
+    "validation_passed": false,
+    "validation_error_details": [
+      "Schema error at experiments.0.problem_instance.dataset_specification.preprocessing: ['min-max normalization', 'probability integral transform (PIT)'] is not of type 'string', 'null'",
+      "Schema error at experiments.0.quantum_resources.two_qubit_gate_count: 'Continuous: 2 CNOTs per block; discrete copula includes CNOTs in initialization plus RXX entanglers; exact total not fully enumerated' is not of type 'integer', 'null'",
+      "Schema error at experiments.1.problem_instance.dataset_specification.preprocessing: ['min-max normalization', 'probability integral transform (PIT)'] is not of type 'string', 'null'",
+      "Schema error at experiments.1.quantum_resources.two_qubit_gate_count: 'Continuous: 2 CNOTs per block; discrete copula includes CNOTs in initialization plus RXX entanglers; exact total not fully enumerated' is not of type 'integer', 'null'"
+    ],
+    "quality_details": {
+      "score": 0.95,
+      "completeness": 0.95,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.95,
+        0.95
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "A performance characterization of quantum generative models",
+    "authors": [
+      "Carlos A. Riofrío",
+      "Oliver Mitevski",
+      "Caitlin Jones",
+      "Florian Krellner",
+      "Aleksandar Vučković",
+      "Joseph Doetsch",
+      "Johannes Klepsch",
+      "Thomas Ehmer",
+      "Andre Luckow"
+    ],
+    "year": 2024,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper benchmarks quantum generative models (QCBM and QGAN) on 2D and 3D datasets using up to 12 qubits and circuits with up to ~174 gates on statevector simulators. Across >1200 experiments, discrete copula architectures with PIT preprocessing achieved the best performance, e.g., KL ≈ 0.029 for a 3D X dataset with 54 parameters, compared with a classical GAN achieving KL ≈ 0.089 with 9475 parameters. The work shows parameter-efficiency advantages for some datasets but no demonstrated computational quantum advantage.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Benchmark of quantum circuit Born machines (QCBM) for generative modeling on low-dimensional synthetic and real financial datasets using continuous, discrete standard, and discrete copula circuit architectures.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "QCBM generative modeling with continuous, discrete standard, and discrete copula ansatzes",
+        "ansatz": "continuous data-reuploading circuit; discrete standard circuit; discrete copula circuit",
+        "optimizer": "CMA-ES",
+        "num_layers": null,
+        "convergence_criteria": "maximum number of epochs/iterations reached or KL divergence change below threshold (threshold not specified)",
+        "hyperparameters": {
+          "data_dimensions": [
+            "2D",
+            "3D"
+          ],
+          "normalization": [
+            "min-max",
+            "PIT"
+          ],
+          "discrete_precision_bits_per_dimension": 4,
+          "qubits_for_discrete_2d": 8,
+          "qubits_for_discrete_3d": 12,
+          "qubits_for_continuous": 1,
+          "training_runs_per_setting": 5,
+          "metric": "Kullback-Leibler divergence"
+        },
+        "parameter_initialization": "subsequent circuit blocks initialized from previously fitted blocks; new block parameters initialized to zero / identity",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        },
+        "hyperparameters.qubits_for_continuous": "1 qubit per data dimension (2 qubits for 2D datasets, 3 qubits for 3D datasets)"
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "discrete architectures discretize each data dimension with 4 qubits (16 grid points per dimension); continuous architecture uses one qubit per data dimension and outputs expectation values of Pauli-Z",
+        "objective_function": "minimize KL divergence between training-data histogram Q and model distribution P(θ)",
+        "constraints_handling": "copula architecture enforced via initial maximally entangled state and no inter-register entangling gates after initialization; PIT preprocessing used for copula learning",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Generative modeling of synthetic and real low-dimensional distributions",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 2,
+        "dataset_size": 2,
+        "data_type": "synthetic",
+        "dataset_name": "Mixture of Gaussian distributions, X-shaped distribution, O-shaped distribution, Stocks",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "Yahoo Finance stock pricing data (tickers not specified)"
+          ],
+          "date_range": null,
+          "benchmark_name": null,
+          "preprocessing": [
+            "min-max normalization",
+            "probability integral transform (PIT)"
+          ],
+          "train_test_split": null
+        },
+        "data_preprocessing_details": "For each dataset, data were transformed using either min-max normalization to [0,1] or PIT to learn the copula; stocks used daily returns from Yahoo Finance close prices",
+        "evaluation_methodology": "Each experiment repeated 5 times; performance reported as KL divergence and minimum KL over runs"
+      },
+      "quantum_resources": {
+        "num_qubits": 2,
+        "qubit_type": "not_specified",
+        "circuit_depth": 4,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": 174,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 100,
+        "num_variational_params": 18,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": null,
+        "device_name": null,
+        "framework": "Qiskit and PennyLane",
+        "framework_version": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "open-sourced simulation library qugen (URL not provided)",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "CMA-ES for QCBM optimization; classical neural network baseline also used",
+        "transpilation_settings": null,
+        "classical_preprocessing": "min-max normalization or PIT; histogramming of data distributions",
+        "classical_postprocessing": "KL divergence evaluation; synthetic sample generation from trained model",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": 2.0,
+          "loss_curve_shape": "KL generally decreases with more parameters and training epochs; discrete copula/PIT often most stable",
+          "variance_across_runs": 5.0,
+          "num_independent_runs": 5
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.04,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.022,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.145,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.02,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.054,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.027,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.101,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.023,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.083,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.339,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.117,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.889,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.109,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.328,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.179,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.941,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.198,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 1.031,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.271,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.897,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.294,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.499,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.235,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.047,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.142,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.048,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.019,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.053,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.147,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.056,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.032,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.212,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.731,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.192,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 1.399,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.325,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.513,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.131,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 1.337,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 50000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 100000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 1877,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 12,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": null,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical_gan",
+          "metric_name": "kl_divergence",
+          "value": 0.04,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "kl_divergence",
+          "value": 0.022,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "kl_divergence",
+          "value": 0.145,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "kl_divergence",
+          "value": 0.02,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "kl_divergence",
+          "value": 0.054,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "kl_divergence",
+          "value": 0.027,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "kl_divergence",
+          "value": 0.101,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "kl_divergence",
+          "value": 0.023,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "kl_divergence",
+          "value": 0.193,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "kl_divergence",
+          "value": 0.075,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "kl_divergence",
+          "value": 0.417,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "kl_divergence",
+          "value": 0.089,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "kl_divergence",
+          "value": 0.167,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "kl_divergence",
+          "value": 0.069,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "kl_divergence",
+          "value": 0.339,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "kl_divergence",
+          "value": 0.091,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "up to two orders of magnitude fewer parameters",
+          "baseline_method": "classical GAN",
+          "conditions": "for some datasets, especially O and X in 2D/3D; based on parameter count rather than runtime",
+          "is_demonstrated": true,
+          "caveats": "This is a parameter-efficiency claim, not a proven runtime or asymptotic speedup. The paper explicitly states no quantum advantage is demonstrated."
+        },
+        {
+          "type": "empirical",
+          "factor": "similar or fewer parameters than classical counterparts",
+          "baseline_method": "classical GAN",
+          "conditions": "across all datasets; best case reported for 3D X where QGAN with 54 parameters achieved KL 0.029 vs classical GAN with 9475 parameters and KL 0.089",
+          "is_demonstrated": true,
+          "caveats": "Comparison is on simulator and uses KL divergence; not a hardware speedup."
+        },
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": "paper states experiments do not demonstrate that simulated quantum circuits go beyond current classical GAN capabilities",
+          "is_demonstrated": false,
+          "caveats": "No proven quantum advantage."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 2.0,
+          "num_qubits": 8,
+          "metric_name": "kl_divergence",
+          "metric_value": 0.032
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 12,
+          "metric_name": "kl_divergence",
+          "metric_value": 0.029
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": 2,
+          "metric_name": "kl_divergence",
+          "metric_value": 0.328
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 3,
+          "metric_name": "kl_divergence",
+          "metric_value": 1.006
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "Runtime/sample scales linearly with data dimension d; continuous: O(Ns·Nb·(d+4)); discrete standard: O(Nb·(rd+2)); discrete copula: O(r(d−1)+1 + Nb(r(r−1)/2 + 3))",
+        "classical_complexity": "Not explicitly characterized asymptotically; classical GAN baseline scales with hidden-layer size and depth",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "parity_with_classical",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not established; experiments limited to 2D–3D datasets with ≤12 qubits",
+        "resources_for_advantage": "Authors estimate real applications with ~100‑dimensional data would require ~100 qubits for continuous circuits or ~1600 qubits for discrete copula architectures (r=16 discretization)",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Experiments performed only on noiseless statevector simulators",
+          "Problem sizes extremely small (2–3 dimensional distributions)",
+          "No asymptotic quantum speedup claimed or demonstrated",
+          "Training and optimization entirely classical",
+          "Sampling overhead for continuous architecture due to shot requirements"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware is a state-vector simulator because the paper explicitly states all experiments were run on Qiskit and PennyLane state-vector simulators.",
+          "Exact total gate counts are only partially reported; appendix provides per-block formulas and discussion mentions up to 174 gates overall.",
+          "Authors explicitly state current quantum devices do not surpass classical counterparts.",
+          "Quantum models sometimes require fewer parameters than classical GANs but do not demonstrate computational advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Benchmark of quantum generative adversarial networks (QGAN) with a quantum generator and classical discriminator on the same datasets, comparing continuous, discrete standard, and discrete copula architectures.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "QGAN with quantum generator and classical discriminator",
+        "ansatz": "continuous data-reuploading circuit; discrete standard circuit; discrete copula circuit",
+        "optimizer": "gradient descent; Optax/JAX for continuous, parameter-shift-based gradient descent for discrete",
+        "num_layers": null,
+        "convergence_criteria": "training for a fixed number of epochs; convergence judged by KL divergence and training stability",
+        "hyperparameters": {
+          "data_dimensions": [
+            "2D",
+            "3D"
+          ],
+          "normalization": [
+            "min-max",
+            "PIT"
+          ],
+          "discrete_precision_bits_per_dimension": 4,
+          "qubits_for_discrete_2d": 8,
+          "qubits_for_discrete_3d": 12,
+          "qubits_for_continuous": 1,
+          "discriminator_continuous_hidden_layers": 2,
+          "discriminator_continuous_hidden_nodes_per_layer": 32,
+          "discriminator_discrete_hidden_layers": 1,
+          "discriminator_discrete_hidden_nodes_2d": 16,
+          "discriminator_discrete_hidden_nodes_3d": 24,
+          "activation_functions": [
+            "ReLU",
+            "leaky ReLU",
+            "sigmoid"
+          ],
+          "training_runs_per_setting": 5,
+          "metric": "Kullback-Leibler divergence"
+        },
+        "parameter_initialization": "QGANs were cold-started; no lower-depth initialization used",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        },
+        "hyperparameters.qubits_for_continuous": "1 qubit per data dimension (2 qubits for 2D datasets, 3 qubits for 3D datasets)"
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "discrete architectures use 4 qubits per dimension; continuous architecture uses one qubit per dimension and outputs expectation values; generator samples are fed to a classical discriminator",
+        "objective_function": "minimize GAN cross-entropy losses for generator and discriminator; performance evaluated by KL divergence to training distribution",
+        "constraints_handling": "copula architecture via entangled initialization and no inter-register entangling gates after initialization; PIT preprocessing for copula learning",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Generative modeling of synthetic and real low-dimensional distributions",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 2,
+        "dataset_size": 2,
+        "data_type": "synthetic",
+        "dataset_name": "Mixture of Gaussian distributions, X-shaped distribution, O-shaped distribution, Stocks",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "Yahoo Finance stock pricing data (tickers not specified)"
+          ],
+          "date_range": null,
+          "benchmark_name": null,
+          "preprocessing": [
+            "min-max normalization",
+            "probability integral transform (PIT)"
+          ],
+          "train_test_split": null
+        },
+        "data_preprocessing_details": "Daily returns computed from Yahoo Finance close prices for stocks; PIT or min-max normalization applied before training",
+        "evaluation_methodology": "Each experiment repeated 5 times; performance reported by KL divergence and training curves over epochs"
+      },
+      "quantum_resources": {
+        "num_qubits": 2,
+        "qubit_type": "not_specified",
+        "circuit_depth": 4,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": 174,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 1,
+        "num_variational_params": 6,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": null,
+        "device_name": null,
+        "framework": "Qiskit, PennyLane, JAX, Optax",
+        "framework_version": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "open-sourced simulation library qugen (URL not provided)",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "gradient descent; parameter-shift rule for discrete circuits; Optax/JAX for continuous circuits",
+        "transpilation_settings": null,
+        "classical_preprocessing": "min-max normalization or PIT; classical discriminator neural network preprocessing of bitstrings or continuous outputs",
+        "classical_postprocessing": "KL divergence evaluation; synthetic sample generation from trained QGAN",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": 2.0,
+          "loss_curve_shape": "QGAN training more stable for discrete copula/PIT; continuous architecture shows less distinction between normalizations",
+          "variance_across_runs": 5.0,
+          "num_independent_runs": 5
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.04,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.022,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.145,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.02,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.054,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.027,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.101,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.023,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.543,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 1.518,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.66,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 2.949,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.808,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 2.045,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.575,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 2.978,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.726,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 1.315,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.168,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.029,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.543,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 1.518,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.66,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 2.949,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.808,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 2.045,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.575,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 2.978,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.726,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 1.315,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.168,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.029,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 50000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 100000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 1877,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 12,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": null,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical_gan",
+          "metric_name": "kl_divergence",
+          "value": 0.04,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "kl_divergence",
+          "value": 0.022,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "kl_divergence",
+          "value": 0.145,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "kl_divergence",
+          "value": 0.02,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "kl_divergence",
+          "value": 0.054,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "kl_divergence",
+          "value": 0.027,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "kl_divergence",
+          "value": 0.101,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "kl_divergence",
+          "value": 0.023,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "kl_divergence",
+          "value": 0.193,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "kl_divergence",
+          "value": 0.075,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "kl_divergence",
+          "value": 0.417,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "kl_divergence",
+          "value": 0.089,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "kl_divergence",
+          "value": 0.167,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "kl_divergence",
+          "value": 0.069,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "kl_divergence",
+          "value": 0.339,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "kl_divergence",
+          "value": 0.091,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "up to two orders of magnitude fewer parameters",
+          "baseline_method": "classical GAN",
+          "conditions": "for some datasets, especially O and X in 2D/3D; based on parameter count rather than runtime",
+          "is_demonstrated": true,
+          "caveats": "This is a parameter-efficiency claim, not a proven runtime or asymptotic speedup. The paper explicitly states no quantum advantage is demonstrated."
+        },
+        {
+          "type": "empirical",
+          "factor": "similar or fewer parameters than classical counterparts",
+          "baseline_method": "classical GAN",
+          "conditions": "across all datasets; best case reported for 3D X where QGAN with 54 parameters achieved KL 0.029 vs classical GAN with 9475 parameters and KL 0.089",
+          "is_demonstrated": true,
+          "caveats": "Comparison is on simulator and uses KL divergence; not a hardware speedup."
+        },
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": "paper states experiments do not demonstrate that simulated quantum circuits go beyond current classical GAN capabilities",
+          "is_demonstrated": false,
+          "caveats": "No proven quantum advantage."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 2.0,
+          "num_qubits": 8,
+          "metric_name": "kl_divergence",
+          "metric_value": 0.019
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 12,
+          "metric_name": "kl_divergence",
+          "metric_value": 0.029
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": 2,
+          "metric_name": "kl_divergence",
+          "metric_value": 0.328
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 3,
+          "metric_name": "kl_divergence",
+          "metric_value": 1.315
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "Runtime/sample scales linearly with data dimension d; continuous: O(Ns·Nb·(d+4)); discrete standard: O(Nb·(rd+2)); discrete copula: O(r(d−1)+1 + Nb(r(r−1)/2 + 3))",
+        "classical_complexity": "Not explicitly characterized asymptotically; discriminator is a classical neural network",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "parity_with_classical",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Unknown; experiments limited to ≤12 qubits and low-dimensional distributions",
+        "resources_for_advantage": "Projected industrial-scale datasets (~100 dimensions) would require ~100 qubits for continuous models or ~1600 qubits for discrete models with modest precision",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Only simulator experiments",
+          "GAN training instability and classical optimization overhead",
+          "Very small dataset dimensionality",
+          "No theoretical speedup beyond parameter efficiency"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware is a state-vector simulator because the paper explicitly states all experiments were run on Qiskit and PennyLane state-vector simulators.",
+          "QGAN uses a classical discriminator; this is included as part of the hybrid experiment, not as a separate baseline.",
+          "Paper reports that quantum models may need fewer parameters but does not claim computational speedup or runtime advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

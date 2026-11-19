@@ -1,0 +1,419 @@
+{
+  "paper_id": "c47a454352d5",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:49:14+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "c47a454352d5_preparing_random_state_for_quantum_financing_with_quantum_walks.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.75,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 7,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[3].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='steps' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='upper bound of truncation interval (0, 15)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='payoff value' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='payoff value' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='payoff value' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.75,
+      "completeness": 0.75,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.75
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Preparing random state for quantum ﬁnancing with quantum walks",
+    "authors": [
+      "Yen-Jui Chang",
+      "Wei-Ting Wang",
+      "Hao-Yuan Chen",
+      "Shih-Wei Liao",
+      "Ching-Ray Chang"
+    ],
+    "year": 2023,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": [
+      "quantum-ml-finance"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a variational split‑step quantum walk (SSQW) circuit to load probability distributions into quantum amplitudes using a 5‑qubit circuit (1 coin + 4 position qubits) with 7 walk steps and COBYLA optimization over ~800 iterations. Simulations fit normal, log‑normal, and real stock‑return distributions sampled with 100,000 points, taking ~20 seconds, and demonstrate a toy European call option payoff estimate (target distribution payoff 5.5342 vs trained distribution 6.9951).",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Split-step quantum walk (SSQW) variationally trained to load target probability distributions (normal, log-normal, and real stock daily return distributions) on a 5-qubit gate-based circuit, with a European call option pricing demonstration using the trained distribution.",
+      "algorithm": {
+        "family": "quantum-walk",
+        "variant": "split-step quantum walk (SSQW) with variational parameter optimization",
+        "ansatz": "parameterized quantum circuit implementing SSQW evolution",
+        "optimizer": "COBYLA",
+        "num_layers": 7,
+        "convergence_criteria": "iterate until convergence to targeted distribution; paper reports 800 optimization iterations for the main distribution-loading runs",
+        "hyperparameters": {
+          "coin_parameters": "6 parameters for general implementation; reduced to 2 for symmetric normal distribution",
+          "evolution_steps": 7,
+          "optimization_iterations": 800,
+          "loss_function": "mean-square error (MSE)",
+          "target_samples": 100000,
+          "distribution_truncation": "(0, 15)",
+          "initial_state": "|0>^⊗5",
+          "circuit_qubits": "5 total qubits (1 coin + 4 position)"
+        },
+        "parameter_initialization": "initial coin parameters not specified; paper notes initial coin parameters significantly impact performance",
+        "optimizer_settings": {
+          "max_iterations": 800,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "1 ancilla/coin qubit controls motion on 4 position qubits representing 2^4=16 discrete positions; probability distribution loaded into position-space amplitudes",
+        "objective_function": "minimize MSE = (1/2^N) * sum_i (p_target_i - p_trained_i)^2 between target and trained probability distributions",
+        "constraints_handling": "none reported beyond variational optimization of coin parameters",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "Load target probability distributions and demonstrate option-pricing use case",
+        "num_assets": null,
+        "time_steps": 7,
+        "num_features": null,
+        "dataset_size": 100000,
+        "data_type": "synthetic",
+        "dataset_name": "normal distribution, log-normal distribution, Apple, Microsoft, JP Morgan daily returns",
+        "dataset_specification": {
+          "description": "synthetic normal and log-normal targets sampled with NumPy; real stock daily returns from Yahoo Finance over Jan 2, 2022 to Mar 2, 2022 and Mar 2, 2022 to Jun 2, 2022"
+        },
+        "data_preprocessing_details": "target distributions constructed by drawing 100000 samples truncated to (0,15); stock returns collected from Yahoo Finance and truncated to (0,15)",
+        "evaluation_methodology": "compare trained vs target distributions visually and via MSE; report runtime around 20 s for distribution loading and around 10 s for stock-return cases; option-pricing example compares expected payoff under target vs trained distribution"
+      },
+      "quantum_resources": {
+        "num_qubits": 5,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 6,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "COBYLA",
+        "transpilation_settings": null,
+        "classical_preprocessing": "sample target distributions; collect historical stock prices/returns; truncate data to (0,15)",
+        "classical_postprocessing": "measure position-space amplitudes, compute trained distribution, compare to target, and evaluate European call option payoff",
+        "total_execution_time": "~20 s for main distribution-loading runs; ~10 s for stock-return cases",
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 800,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_qubits",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_ancilla_qubits",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_position_qubits",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_variational_params",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_variational_params",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "evolution_steps",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "steps",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "optimization_iterations",
+          "value": 800,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "target_samples",
+          "value": 100000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "distribution_truncation",
+          "value": 15,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "upper bound of truncation interval (0, 15)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "runtime_distribution_loading",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "runtime_stock_return_cases",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "option_pricing_expected_payoff_target",
+          "value": 5.5342,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "payoff value",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "option_pricing_expected_payoff_trained",
+          "value": 6.9951,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "payoff value",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "option_pricing_payoff_difference",
+          "value": 1.4609,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "payoff value",
+          "higher_is_better": false,
+          "data_source": "computed"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The paper reports practical runtimes and discusses potential quantum advantage, but provides no asymptotic or empirical speedup comparison against a classical baseline."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": null,
+          "num_qubits": 5,
+          "metric_name": "runtime_distribution_loading",
+          "metric_value": 20
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 5,
+          "metric_name": "runtime_distribution_loading",
+          "metric_value": 20
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": 5,
+          "metric_name": "runtime_stock_return_cases",
+          "metric_value": 10
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 5,
+          "metric_name": "runtime_stock_return_cases",
+          "metric_value": 10
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": 5,
+          "metric_name": "runtime_stock_return_cases",
+          "metric_value": 10
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 5,
+          "metric_name": "runtime_stock_return_cases",
+          "metric_value": 10
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": 5,
+          "metric_name": "runtime_stock_return_cases",
+          "metric_value": 10
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 5,
+          "metric_name": "runtime_stock_return_cases",
+          "metric_value": 10
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": "~20 s (distribution loading); ~10 s (stock-return cases)",
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Not specified; the paper uses a 5‑qubit simulated circuit (1 coin + 4 position qubits) with 7 SSQW steps and 800 COBYLA iterations. No scaling analysis or logical-resource estimates are provided.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Only demonstrated on a 5‑qubit simulator",
+          "No comparison with classical distribution-fitting or Monte Carlo methods",
+          "No asymptotic complexity or speedup analysis",
+          "Amplitude loading scales with distribution size (2^N states)",
+          "Option pricing demonstration uses the trained distribution but not a full quantum advantage pipeline (e.g., amplitude estimation)"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_other because the paper states the method is implemented with a quantum simulator accessible via IBM Q Experience and does not name a specific QPU for the reported experiments.",
+          "The paper reports 5 qubits and 7 SSQW steps; no explicit circuit depth or transpiled depth is given, so circuit_depth is left null.",
+          "No asymptotic speedup analysis is provided; the paper only reports practical runtimes and speculative quantum advantage language.",
+          "The authors state the approach could help exploit potential quantum advantage in finance, but they provide no classical baseline or complexity analysis.",
+          "Experiments are limited to small simulated circuits and qualitative distribution fitting."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

@@ -1,0 +1,509 @@
+{
+  "paper_id": "c0da85ef2954",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:46:12+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "c0da85ef2954_train_and_scaling_the_quantum_alternating_operator_ansatz_to_solve_portfolio_div.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.75,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 18,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[2].unit='expected number of samples / iterations' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='exponent' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='exponent' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='learning rate' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='learning rate' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='parameter shift' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='updates' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='graphs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='threshold' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[15].unit='threshold' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[16].unit='threshold' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[17].unit='threshold' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[18].unit='threshold' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[19].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.75,
+      "completeness": 0.75,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.75
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Train-and-Scaling the Quantum Alternating Operator Ansatz to Solve Portfolio Diversification",
+    "authors": [
+      "Hannes Leipold",
+      "Sarvagya Upadhyay"
+    ],
+    "year": 2024,
+    "doi": "10.1109/QCE60285.2024.10266",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "portfolio-optimization",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a Train‑and‑Scale training protocol for QAOA applied to portfolio diversification mapped to Maximum Independent Set. Using SP500 correlation graphs, QAOA circuits were trained from n=6 to n=30 with depth increasing to p=54, achieving average approximation gaps below ~0.4 and maintaining gaps under ~0.5 across correlation thresholds. A QAOA‑54 parameter set was then evaluated on simulated instances up to n=100 and showed a slightly smaller empirical sampling‑complexity exponent (0.044) than simulated annealing (0.057).",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Train-and-Scale QAOA for portfolio diversification mapped to Maximum Independent Set on SP500-derived correlation graphs, evaluated across graph sizes n=6 to n=30 and multiple correlation thresholds.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "Train-and-Scale QAOA for MIS/portfolio diversification",
+        "ansatz": "Quantum Alternating Operator Ansatz with constrained mixer for MIS",
+        "optimizer": "parameter-shift gradient-based hybrid optimization",
+        "num_layers": 54,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "nmin": 6,
+          "nmax": 30,
+          "pmin": 6,
+          "ptarget_increment": 2,
+          "lambda_values": [
+            0.1,
+            0.2,
+            0.3,
+            0.4,
+            0.5
+          ],
+          "dataset_graphs_per_size": 500,
+          "learning_rate_initial": 0.02,
+          "learning_rate_final": 0.002,
+          "learning_rate_decay": "exponential over 64 epochs",
+          "shift_size": 0.01,
+          "finite_difference_gradient_updates": "2^17 (~130,000)",
+          "temperature_beta": 1,
+          "instance_sizes": [
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30
+          ]
+        },
+        "parameter_initialization": "Started from smaller-instance trained parameters; new layers inserted with zero initialization at the middle of the circuit",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": "exponential decay from 0.02 to 0.002 over 64 epochs",
+          "parameter_bounds": "[0, 2π] for α and β"
+        },
+        "classical_baselines": [
+          "simulated annealing (for sampling-complexity comparison)"
+        ]
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "One binary variable / qubit per graph vertex (asset); independent-set feasibility enforced by constrained mixer rather than penalty QUBO",
+        "objective_function": "Minimize sum_i (1 - x_i) subject to x_i x_j = 0 for all edges (v_i,v_j) in E",
+        "constraints_handling": "Constrained QAOA mixer that preserves the independent-set subspace; no penalty term reported",
+        "num_binary_variables": 30,
+        "problem_hamiltonian": "C_mis = sum_(v_i,v_j in E) σ1_i σ1_j; cost Hamiltonian H_c = sum_i σ0_i",
+        "num_ancilla_qubits": 0
+      },
+      "problem_instance": {
+        "description": "Portfolio diversification on SP500 assets via correlation-threshold graphs; graphs generated by breadth-first search around a randomly selected starting node from monthly SP500 correlation graphs",
+        "num_assets": null,
+        "time_steps": 2010,
+        "num_features": null,
+        "dataset_size": 500,
+        "data_type": "public_benchmark",
+        "dataset_name": "SP500 historical stock prices (Kaggle)",
+        "dataset_specification": {
+          "description": "Public Kaggle stock-market dataset; after cleaning, between 350 and 500 stocks per month; survivorship bias noted"
+        },
+        "data_preprocessing_details": "Daily returns computed from prices; monthly average returns and Pearson correlations estimated; correlation threshold λ used to build unweighted graph with edge if |C_ij| > λ; subgraphs generated by BFS around a random starting node",
+        "evaluation_methodology": "Approximation gap and success probability/sampling complexity reported over 500 graphs per size; training used 64 epochs and repeated retraining while scaling depth and instance size"
+      },
+      "quantum_resources": {
+        "num_qubits": 100,
+        "qubit_type": "logical",
+        "circuit_depth": 54,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 108,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "noise_model": null,
+        "noise_parameters": null,
+        "mitigation_details": null,
+        "is_noisy": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "parameter-shift gradient descent; simulated annealing used only as classical baseline",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Graph construction from correlation thresholding; BFS subgraph extraction; random partitioning of mixer generators into commuting groups",
+        "classical_postprocessing": "Approximation gap and success probability computed from sampled bitstrings",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sampling_complexity",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "expected number of samples / iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "p_depth",
+          "value": 54,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 30,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "empirical_scaling_exponent",
+          "value": 0.044,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "exponent",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "empirical_scaling_exponent",
+          "value": 0.057,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "exponent",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "learning_rate_initial",
+          "value": 0.02,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "learning rate",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "learning_rate_final",
+          "value": 0.002,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "learning rate",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shift_size",
+          "value": 0.01,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameter shift",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "finite_difference_gradient_updates",
+          "value": 130000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "updates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "epochs",
+          "value": 64,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_graphs_per_size",
+          "value": 500,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "graphs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "lambda_threshold",
+          "value": 0.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "threshold",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "lambda_threshold",
+          "value": 0.2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "threshold",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "lambda_threshold",
+          "value": 0.3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "threshold",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "lambda_threshold",
+          "value": 0.4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "threshold",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "lambda_threshold",
+          "value": 0.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "threshold",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sampling_probability",
+          "value": 1.9073486328125e-06,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "simulated_annealing",
+          "metric_name": "sampling_complexity",
+          "value": null,
+          "unit": "expected number of iterations"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "lower empirical scaling exponent (0.044 vs 0.057)",
+          "baseline_method": "simulated annealing",
+          "conditions": "sampling-complexity comparison for portfolio diversification instances with λ = 0.1, n = 6 to 100, using QAOA trained up to p = 54",
+          "is_demonstrated": true,
+          "caveats": "Paper reports a smaller fitted scaling exponent for QAOA than simulated annealing, but does not claim a formal asymptotic speedup."
+        },
+        {
+          "type": "projected",
+          "factor": "polynomial scaling in depth and sampling complexity",
+          "baseline_method": "classical methods in general",
+          "conditions": "if the observed trend continues to hundreds of variables",
+          "is_demonstrated": false,
+          "caveats": "Described as a possibility, not proven."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 6,
+          "num_qubits": 6,
+          "metric_name": "p_depth",
+          "metric_value": 6
+        },
+        {
+          "problem_size": 30,
+          "num_qubits": 30,
+          "metric_name": "p_depth",
+          "metric_value": 54
+        },
+        {
+          "problem_size": 30,
+          "num_qubits": 30,
+          "metric_name": "approximation_gap",
+          "metric_value": null
+        },
+        {
+          "problem_size": 100,
+          "num_qubits": 100,
+          "metric_name": "sampling_complexity",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "Not explicitly characterized; paper discusses p-depth scaling empirically as O(n) for tested instances",
+        "classical_complexity": "Not explicitly characterized",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": "~2^17 gradient updates reported for training",
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not established",
+        "resources_for_advantage": "Not quantified; current experiments simulate up to ~100 qubits with depth p=54 and require ~2^17 gradient updates for training.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Experiments performed entirely in classical simulation",
+          "No asymptotic quantum speedup proven",
+          "Classical simulated annealing baseline used only for empirical scaling comparison",
+          "Training cost of variational circuits scales heavily with gradient evaluations",
+          "Circuit depth grows roughly linearly with problem size (p≈2n during training)"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "No specific quantum hardware or simulator is named; hardware.type left not_specified.",
+          "num_qubits inferred from n=30 maximum instance size and one qubit per binary variable in MIS encoding.",
+          "num_variational_params inferred as 2p for QAOA with p=54, giving 108 parameters.",
+          "Authors report slightly lower empirical sampling‑complexity scaling exponent (0.044 vs 0.057) compared to simulated annealing but do not claim a formal quantum advantage.",
+          "All results obtained via classical simulation, so no demonstrated hardware or runtime advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

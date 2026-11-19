@@ -1,0 +1,523 @@
+{
+  "paper_id": "223ed1df56d0",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:18:32+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "223ed1df56d0_electric_power_demand_portfolio_optimization_by_fermionic_qaoa_with_self_consist.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.95,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 10,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='ratio of ΔE_T / W_T' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='ratio of ΔE_T / W_T' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='ratio of ΔE_T / W_T' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='ratio of ΔE_T / W_T' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='ratio of ΔE_T / W_T' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='ratio of ΔE_T / W_T' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='ratio of ΔE_T / W_T' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='ratio of ΔE_T / W_T' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='kWh' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.95,
+      "completeness": 0.95,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.95
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Electric Power Demand Portfolio Optimization by Fermionic QAOA with Self-Consistent Local Field Modulation",
+    "authors": [
+      "Takuya Yoshioka",
+      "Keita Sasada",
+      "Yuichiro Nakano",
+      "Keisuke Fujii"
+    ],
+    "year": 2025,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "portfolio-optimization",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes FQAOA‑SCLFM, a fermionic QAOA variant with a Hartree–Fock driver incorporating self‑consistent local field modulation for a 20‑participant electricity demand portfolio problem. In noiseless simulations (p=10), the method achieves expected cost ratios ΔE_T/W_T as low as 0.007 for difficult periods (T=18,21), outperforming XY‑QAOA (~0.052–0.056) and prior FQAOA (~0.030) on the same instances. Experiments were conducted using a 20‑qubit statevector simulation in Qulacs.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Noiseless simulation study of FQAOA-SCLFM for electric power demand portfolio optimization across multiple time periods and QAOA depths, compared against XY-QAOA and prior FQAOA.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "Fermionic QAOA with self-consistent local field modulation (FQAOA-SCLFM)",
+        "ansatz": null,
+        "optimizer": "BFGS",
+        "num_layers": 10,
+        "convergence_criteria": "classical parameter optimization to minimize expected cost; HF self-consistency iterated until convergence",
+        "hyperparameters": {
+          "time_periods_T": [
+            3,
+            6,
+            9,
+            12,
+            15,
+            18,
+            21
+          ],
+          "P_prime_t_proc_kWh": 1.5,
+          "M_T": 5,
+          "thop": "set so first term of driver Hamiltonian cost range matches first term of cost Hamiltonian under constraints",
+          "mixing_parameter_alpha": [
+            0.6,
+            0.8
+          ],
+          "NT": "number of reference points in time period T",
+          "initial_HF_distribution": "uniform 1/MT",
+          "boundary_condition": "periodic for odd number of fermions, anti-periodic for even number of fermions"
+        },
+        "parameter_initialization": "QAOA parameters optimized classically; HF iteration initialized with uniform fermion distribution n_l,0^HF = 1/MT",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        },
+        "hyperparameters.time_periods_T": [
+          0,
+          3,
+          6,
+          9,
+          12,
+          15,
+          18,
+          21
+        ]
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "one binary variable x_l per DR participant; computational basis state corresponds to bit string x in {0,1}^L",
+        "objective_function": "minimize E_{T,x} = (1/NT) sum_{t in T} [ sum_{l,l'} sigma_{t,l,l'} x_l x_l' + (sum_l E[p_{t,l}] x_l - P'_{t,proc})^2 ] subject to sum_l x_l = M_T",
+        "constraints_handling": "hard constraint sum_l x_l = M_T enforced by constant-particle-number subspace; inequality procurement constraint absorbed into quadratic penalty term with P'_{t,proc}=P_{t,proc}+delta/2",
+        "num_binary_variables": 20,
+        "problem_hamiltonian": "H_p,T = sum_{l,l'} sigma_{T,l,l'} n_l n_l' + (1/NT) sum_{t in T} (P_t - P'_{t,proc})^2",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Electric power demand portfolio optimization / negawatt trading using residential electricity usage data",
+        "num_assets": 20,
+        "time_steps": 8,
+        "num_features": null,
+        "dataset_size": 20,
+        "data_type": "public_benchmark",
+        "dataset_name": "Residential electricity usage database from Niigata University / Ref. [23]",
+        "dataset_specification": {
+          "description": "20 residences, September 1-15, 2003; time periods T = 3i for i=0..7 with three reference times each"
+        },
+        "data_preprocessing_details": "electricity usage of 20 residences used as negawatt supply; water-heater usage ignored; expected negawatt E[p_{t,l}] and covariance sigma_{t,l,l'} estimated from historical data following Ref. [8]",
+        "evaluation_methodology": "noiseless simulation; compare FQAOA-SCLFM against XY-QAOA and prior FQAOA at p=0,1,10; evaluate total negawatt, variance, and expected cost across all time periods"
+      },
+      "quantum_resources": {
+        "num_qubits": 20,
+        "qubit_type": "logical",
+        "circuit_depth": 0,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": null,
+        "device_name": null,
+        "framework": "qulacs",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "BFGS"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": "noiseless simulation",
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "BFGS",
+        "transpilation_settings": null,
+        "classical_preprocessing": "estimate sigma_{t,l,l'} and E[p_{t,l}] from historical residential electricity data; set P'_{t,proc}=1.5 kWh and M_T=5 for initial tests",
+        "classical_postprocessing": "compute total negawatt Pt,tot, variance sigma^2_{t,tot}, and expected cost Delta E_T from optimized probability distribution",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "HF energy decreases with iterations; QAOA cost improves with p",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "expected_cost",
+          "value": 0.018,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio of ΔE_T / W_T",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "expected_cost",
+          "value": 0.027,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio of ΔE_T / W_T",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "expected_cost",
+          "value": 0.017,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio of ΔE_T / W_T",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "expected_cost",
+          "value": 0.036,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio of ΔE_T / W_T",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "expected_cost",
+          "value": 0.019,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio of ΔE_T / W_T",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "expected_cost",
+          "value": 0.012,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio of ΔE_T / W_T",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "expected_cost",
+          "value": 0.007,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio of ΔE_T / W_T",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "expected_cost",
+          "value": 0.007,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio of ΔE_T / W_T",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "total_negawatt",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "kWh",
+          "higher_is_better": null,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "ground_state_probability",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "feasibility_percentage",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "XY-QAOA",
+          "metric_name": "expected_cost",
+          "value": 0.033,
+          "unit": "ratio of ΔE_T / W_T"
+        },
+        {
+          "method_name": "XY-QAOA",
+          "metric_name": "expected_cost",
+          "value": 0.037,
+          "unit": "ratio of ΔE_T / W_T"
+        },
+        {
+          "method_name": "XY-QAOA",
+          "metric_name": "expected_cost",
+          "value": 0.024,
+          "unit": "ratio of ΔE_T / W_T"
+        },
+        {
+          "method_name": "XY-QAOA",
+          "metric_name": "expected_cost",
+          "value": 0.053,
+          "unit": "ratio of ΔE_T / W_T"
+        },
+        {
+          "method_name": "XY-QAOA",
+          "metric_name": "expected_cost",
+          "value": 0.033,
+          "unit": "ratio of ΔE_T / W_T"
+        },
+        {
+          "method_name": "XY-QAOA",
+          "metric_name": "expected_cost",
+          "value": 0.021,
+          "unit": "ratio of ΔE_T / W_T"
+        },
+        {
+          "method_name": "XY-QAOA",
+          "metric_name": "expected_cost",
+          "value": 0.052,
+          "unit": "ratio of ΔE_T / W_T"
+        },
+        {
+          "method_name": "XY-QAOA",
+          "metric_name": "expected_cost",
+          "value": 0.056,
+          "unit": "ratio of ΔE_T / W_T"
+        },
+        {
+          "method_name": "FQAOA",
+          "metric_name": "expected_cost",
+          "value": 0.026,
+          "unit": "ratio of ΔE_T / W_T"
+        },
+        {
+          "method_name": "FQAOA",
+          "metric_name": "expected_cost",
+          "value": 0.029,
+          "unit": "ratio of ΔE_T / W_T"
+        },
+        {
+          "method_name": "FQAOA",
+          "metric_name": "expected_cost",
+          "value": 0.018,
+          "unit": "ratio of ΔE_T / W_T"
+        },
+        {
+          "method_name": "FQAOA",
+          "metric_name": "expected_cost",
+          "value": 0.037,
+          "unit": "ratio of ΔE_T / W_T"
+        },
+        {
+          "method_name": "FQAOA",
+          "metric_name": "expected_cost",
+          "value": 0.023,
+          "unit": "ratio of ΔE_T / W_T"
+        },
+        {
+          "method_name": "FQAOA",
+          "metric_name": "expected_cost",
+          "value": 0.015,
+          "unit": "ratio of ΔE_T / W_T"
+        },
+        {
+          "method_name": "FQAOA",
+          "metric_name": "expected_cost",
+          "value": 0.03,
+          "unit": "ratio of ΔE_T / W_T"
+        },
+        {
+          "method_name": "FQAOA",
+          "metric_name": "expected_cost",
+          "value": 0.03,
+          "unit": "ratio of ΔE_T / W_T"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No asymptotic or wall-clock speedup analysis is provided. The paper reports only empirical performance comparisons in expected cost and total negawatt stability."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 20,
+          "num_qubits": 20,
+          "metric_name": "expected_cost",
+          "metric_value": 0.018
+        },
+        {
+          "problem_size": 20,
+          "num_qubits": 20,
+          "metric_name": "expected_cost",
+          "metric_value": 0.027
+        },
+        {
+          "problem_size": 20,
+          "num_qubits": 20,
+          "metric_name": "expected_cost",
+          "metric_value": 0.017
+        },
+        {
+          "problem_size": 20,
+          "num_qubits": 20,
+          "metric_name": "expected_cost",
+          "metric_value": 0.036
+        },
+        {
+          "problem_size": 20,
+          "num_qubits": 20,
+          "metric_name": "expected_cost",
+          "metric_value": 0.019
+        },
+        {
+          "problem_size": 20,
+          "num_qubits": 20,
+          "metric_name": "expected_cost",
+          "metric_value": 0.012
+        },
+        {
+          "problem_size": 20,
+          "num_qubits": 20,
+          "metric_name": "expected_cost",
+          "metric_value": 0.007
+        },
+        {
+          "problem_size": 20,
+          "num_qubits": 20,
+          "metric_name": "expected_cost",
+          "metric_value": 0.007
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not analyzed",
+        "resources_for_advantage": "not analyzed; study limited to 20‑variable simulated QAOA circuits",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "evaluation performed only in noiseless statevector simulation",
+          "problem size limited to 20 binary variables (20 qubits)",
+          "comparison only between quantum heuristic variants (XY‑QAOA, FQAOA, FQAOA‑SCLFM)",
+          "no comparison with classical optimization solvers for the portfolio problem",
+          "no asymptotic complexity or runtime scaling analysis"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_statevector because the paper states numerical simulations were performed using the fast quantum simulator qulacs and reports no real QPU.",
+          "20 qubits inferred from 20 DR participants / binary variables x_l, one qubit per participant in basis encoding.",
+          "Circuit depth reported only as QAOA level p with experiments at p=0,1,10; no transpiled depth given.",
+          "No asymptotic speedup analysis is provided; only empirical performance comparisons versus XY-QAOA and prior FQAOA.",
+          "The paper claims improved performance of FQAOA‑SCLFM relative to XY‑QAOA and earlier FQAOA but does not compare against classical optimization methods or claim quantum advantage.",
+          "All results are noiseless simulations on 20‑variable instances."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

@@ -1,0 +1,645 @@
+{
+  "paper_id": "7f8c8060e256",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:06:18+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "7f8c8060e256_quantifying_the_advantages_of_applying_quantum_approximate_algorithms_to_portfol.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.8,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 13,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[4].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[21].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[22].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[23].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[24].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.8,
+      "completeness": 0.8,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.8
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantifying the advantages of applying quantum approximate algorithms to portfolio optimisation",
+    "authors": [
+      "Haomu Yuan",
+      "Christopher K. Long",
+      "Hugo V. Lepage",
+      "Crispin H. W. Barnes"
+    ],
+    "year": 2024,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "portfolio-optimization",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a QAOA‑based solver for the discrete global minimum variance portfolio (DGMVP) using a binary block encoding with n·l qubits and a custom hard mixer. Simulations on small instances (up to n=6 assets and l=5 bits) show that the probability of sampling the optimal portfolio scales more favorably than classical random sampling, but noisy simulations using Qiskit thermal‑relaxation models show current hardware noise prevents any practical quantum advantage.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "End-to-end QAOA for discrete global minimum variance portfolio (DGMVP) with binary block encoding, hard mixing operators, and multiple optimizer/initial-state/scaling/noise evaluations on simulated circuits.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "General QAOA / QAOA with hard mixer for DGMVP",
+        "ansatz": "Alternating cost operator U(C,γ) and hard mixing operator M_L(β), primarily M_1(β)",
+        "optimizer": "COBYLA; Dual Annealing (DA)",
+        "num_layers": 10,
+        "convergence_criteria": "max expectation-value evaluations I; DA soft cap I=2000 in main studies, I varied in appendix; fixed-layer optimization with finite shots",
+        "hyperparameters": {
+          "initial_states": [
+            "max-biased",
+            "ranked warm-started",
+            "approximated equal-weighted",
+            "random-weighted"
+          ],
+          "mixing_operator": [
+            "M1(beta)",
+            "M2(beta)",
+            "general ML(beta)"
+          ],
+          "measurement_shots_optimization": [
+            "Nm=16",
+            "Nm=24",
+            "Nm=256",
+            "Nm=1024",
+            "Nm=2048",
+            "Nm=4096",
+            "Nm=32768"
+          ],
+          "post_optimization_shots": "NM=65536",
+          "DA_max_expectation_evaluations": "I=2000 (main); I=5000 and I=100 in appendix comparisons",
+          "layerwise_methods": [
+            "frozen-layerwise",
+            "unfrozen-layerwise"
+          ],
+          "binary_block_length": "l varied from 2 to 5 in scaling studies",
+          "asset_number": "n varied from 3 to 6 in scaling studies"
+        },
+        "parameter_initialization": "Random initial ansatz parameters for most optimization/scaling runs; warm-started initial state derived from rounded continuous GMVP solution; max-biased initial state all-in-one investment",
+        "optimizer_settings": {
+          "max_iterations": 2000,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": "γ in [0,2π], β in [0,2π]"
+        },
+        "classical_baselines": [
+          "classical warm-started portfolio",
+          "max-biased portfolio",
+          "uniform random sampling over constrained/unconstrained feasible region"
+        ]
+      },
+      "problem_formulation": {
+        "encoding_method": "block_encoding",
+        "encoding_details": "Each asset weight w_i is encoded with l binary variables z_i^k using weights b_k=2^{k-1}a, with a=1/(2^l-1); total qubits scale as n·l",
+        "objective_function": "minimize f(w)=w^T Σ w subject to sum_i w_i=1, w_i in [0,1], and w_i/a ∈ Z",
+        "constraints_handling": "Hard mixing operator preserves budget constraint; post-selection used to filter out unconstrained measurement outcomes in noisy simulations",
+        "num_binary_variables": null,
+        "problem_hamiltonian": "C = a^2/2 Σ_{i<j} Σ_{k1,k2} σ_ij b_k1 b_k2 Z_i^{k1} Z_j^{k2} + a^2/4 Σ_i Σ_{k1≠k2} σ_ii b_k1 b_k2 Z_i^{k1} Z_i^{k2} - a/2 Σ_i Σ_k \\tilde{σ}_i b_k Z_i^k + c",
+        "num_ancilla_qubits": 0
+      },
+      "problem_instance": {
+        "description": "Discrete global minimum variance portfolio over US equities using covariance matrices from market data; random instances sampled from a basket of 32 stocks",
+        "num_assets": 3,
+        "time_steps": 100,
+        "num_features": null,
+        "dataset_size": 32,
+        "data_type": "real_market",
+        "dataset_name": "NASDAQ and NYSE stock basket",
+        "dataset_specification": {
+          "description": "32 stocks from NASDAQ and NYSE; example 8-stock basket includes MSFT, AMZN, ABBV, JPM, PG, AAPL, V, TMO; date range 2023-03-01 to 2023-06-30; daily adjusted close prices over 100 days"
+        },
+        "data_preprocessing_details": "Covariance matrix computed from daily adjusted-close prices; portfolio instances randomly selected from market data; warm-started state derived from rounded continuous GMVP solution",
+        "evaluation_methodology": "100 random simulations for many figures; stochastic optimization repeated over random initial parameters; scaling plots averaged over 100 randomly generated DGMVP instances"
+      },
+      "quantum_resources": {
+        "num_qubits": 4,
+        "qubit_type": "logical",
+        "circuit_depth": 1,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 16,
+        "num_variational_params": 2,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "Qiskit",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "stochastic measurement noise; thermal-relaxation noise",
+        "error_mitigation_method": "post-selection on budget constraint"
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": "Qiskit 2024 (paper cites Qiskit 2024)",
+        "transpilation_target": null,
+        "classical_solver": "COBYLA; Dual Annealing",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Compute covariance matrices from market prices; construct binary block encoding; derive warm-started initial state from continuous GMVP solution",
+        "classical_postprocessing": "Post-selection to discard infeasible bitstrings; compute approximation ratios α_mean, α_min, P_min, P_gm",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "DA more stable than COBYLA under shot noise; unfrozen-layerwise generally best; α_mean and α_min reported across p",
+          "variance_across_runs": 100.0,
+          "num_independent_runs": 100
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.08,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.2,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.05,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.0,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "ground_state_probability",
+          "value": 0.013,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "ground_state_probability",
+          "value": 0.045,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "ground_state_probability",
+          "value": 0.16,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "ground_state_probability",
+          "value": 0.564,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "feasibility_percentage",
+          "value": 0.0,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 12,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 16,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 24,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.000335,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.000633,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.001197,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.002263,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "ground_state_probability",
+          "value": 0.04,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "ground_state_probability",
+          "value": 0.095,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "ground_state_probability",
+          "value": 0.223,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "ground_state_probability",
+          "value": 0.523,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "figure"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "maxbias portfolio",
+          "metric_name": "approximation_ratio",
+          "value": null,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "warm-started portfolio",
+          "metric_name": "approximation_ratio",
+          "value": null,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "uniform random sampling over constrained feasible region",
+          "metric_name": "ground_state_probability",
+          "value": null,
+          "unit": "probability"
+        },
+        {
+          "method_name": "uniform random sampling over unconstrained feasible region",
+          "metric_name": "ground_state_probability",
+          "value": null,
+          "unit": "probability"
+        },
+        {
+          "method_name": "COBYLA",
+          "metric_name": "approximation_ratio",
+          "value": null,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Dual Annealing",
+          "metric_name": "approximation_ratio",
+          "value": null,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "favorable power-law scaling in 1/P_gm with fitted exponents b=0.76±0.30 (warm-started) and b=0.51±0.09 (maxbias) versus constrained classical sampling scaling B(n,l)^1",
+          "baseline_method": "uniform random sampling over constrained feasible region",
+          "conditions": "statevector-reconstructed optimized QAOA, DA optimizer, unfrozen-layerwise optimization, M1 mixer, fixed Nm=16 and I=2000, evaluated on random DGMVP instances",
+          "is_demonstrated": true,
+          "caveats": "Paper states this is an indication of quantum advantage and not a proven asymptotic speedup; thermal relaxation noise is not included in this scaling claim."
+        },
+        {
+          "type": "empirical",
+          "factor": "lower 1/P_gm than constrained feasible region size",
+          "baseline_method": "classical constrained random sampling",
+          "conditions": "optimized quantum circuit with warm-started or maxbias initial states",
+          "is_demonstrated": true,
+          "caveats": "Claim is based on numerical simulations; no hardware demonstration."
+        },
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No proven asymptotic quantum speedup is established."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 3,
+          "num_qubits": 12,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.08
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": 16,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.2
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": 20,
+          "metric_value": 0.05,
+          "metric_name": "approximation_ratio"
+        },
+        {
+          "problem_size": 6,
+          "num_qubits": 24,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.0
+        },
+        {
+          "problem_size": 3,
+          "num_qubits": 12,
+          "metric_name": "ground_state_probability",
+          "metric_value": 0.013
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": 16,
+          "metric_name": "ground_state_probability",
+          "metric_value": 0.045
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": 20,
+          "metric_name": "ground_state_probability",
+          "metric_value": 0.16
+        },
+        {
+          "problem_size": 6,
+          "num_qubits": 24,
+          "metric_name": "ground_state_probability",
+          "metric_value": 0.564
+        },
+        {
+          "problem_size": 3,
+          "num_qubits": 12,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.000335
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": 16,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.000633
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": 20,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.001197
+        },
+        {
+          "problem_size": 6,
+          "num_qubits": 24,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.002263
+        },
+        {
+          "problem_size": 3,
+          "num_qubits": 12,
+          "metric_name": "ground_state_probability",
+          "metric_value": 0.04
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": 16,
+          "metric_name": "ground_state_probability",
+          "metric_value": 0.095
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": 20,
+          "metric_name": "ground_state_probability",
+          "metric_value": 0.223
+        },
+        {
+          "problem_size": 6,
+          "num_qubits": 24,
+          "metric_name": "ground_state_probability",
+          "metric_value": 0.523
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "Cost operator depth O(N); hard mixer depth O(L); repeated QAOA layers p",
+        "classical_complexity": "Not explicitly characterized; constrained feasible region size grows as binomial coefficient B(n,l)=(2^l+n-2 choose n-1)",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": false,
+        "maturity_level": "L2_noisy_sim",
+        "crossover_size": "Not determined; scaling analysis suggests favorable power‑law scaling of sampling probability P_gm relative to classical random sampling but only for small instances (n≤6, l≤5).",
+        "resources_for_advantage": "Authors state realistic thermal‑relaxation noise prevents quantum advantage; advantage might appear only when hardware noise is drastically reduced and shot counts dominate runtime.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "thermal relaxation noise strongly degrades performance",
+          "optimization shot noise and stochastic measurement noise",
+          "small problem sizes (n ≤ 6 assets, l ≤ 5 bits)",
+          "no demonstrated asymptotic runtime advantage over classical portfolio optimization algorithms",
+          "scaling advantage shown only relative to random sampling rather than state‑of‑the‑art classical solvers"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_statevector because the paper reports numerical simulations, statevector reconstruction, and no real QPU/device name.",
+          "num_qubits inferred from binary block encoding: one block of l qubits per asset, so total qubits = n·l.",
+          "Speedup order set to none_proven because the paper reports favorable scaling in shot count but does not establish a proven asymptotic quantum speedup.",
+          "Section V explicitly states realistic thermal relaxation noise levels preclude quantum advantage.",
+          "Section IV shows only favorable scaling in required shots to observe the global minimum relative to classical random sampling, not a full algorithmic speedup."
+        ],
+        "advantage_status": "paper_reported"
+      }
+    }
+  ]
+}

@@ -1,0 +1,774 @@
+{
+  "paper_id": "4ceae3900931",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:40:26+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "4ceae3900931_variational_quantum_algorithms_for_derivative_pricing.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.825,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 16,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='time units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='rate' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='rate' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='years' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[0].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[2].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[3].unit='price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[4].unit='price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[5].unit='price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[6].unit='absolute error' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.825,
+      "completeness": 0.825,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.7,
+        0.95
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Pricing Multiasset Derivatives by Variational Quantum Algorithms",
+    "authors": [
+      "Kenji Kubo",
+      "Koichi Miyamoto",
+      "Kosuke Mitarai",
+      "Keisuke Fujii"
+    ],
+    "year": 2023,
+    "doi": "10.1109/TQE.2023.3269525",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a variational quantum algorithm for multi‑asset derivative pricing by solving the discretized Black–Scholes PDE with variational quantum simulation and estimating prices via a SWAP‑test inner product. Numerical demonstrations are performed on noiseless simulations for a single‑asset double barrier option using 4–6 qubits, with Euler time step 2.5×10⁻⁵ and parameters r=0.001, σ=0.3, T=1, showing agreement with classical finite‑difference and analytical solutions. The authors claim an asymptotic complexity improvement from O((1/ε)^{O(d)}) for classical FDM to O(1/ε² · (log(1/ε))^d) measurement scaling under certain assumptions.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Variational quantum simulation of the Black–Scholes PDE for pricing a single-asset double knock-out barrier option, with the derivative price recovered via a SWAP-test inner product between the evolved payoff state and the asset-price probability state.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "variational quantum simulation (VQS) for linear ODEs applied to discretized BSPDE",
+        "ansatz": "hardware-efficient layered ansatz with repeated RY gates and CZ entanglement layers",
+        "optimizer": "L-BFGS-B (for initial-state fidelity maximization in a separate feasibility test); Euler method used for time stepping of variational parameters",
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "time_step": "2.5e-5",
+          "risk_free_rate": 0.001,
+          "volatility": 0.3,
+          "maturity_T": 1,
+          "spot_price_S0": 1,
+          "lower_bound_l": 0.5,
+          "upper_bound_u": 2.0,
+          "strike_K": 1,
+          "number_of_layers_tested": [
+            4,
+            6
+          ],
+          "qubits_tested": [
+            4,
+            6
+          ],
+          "ansatz_parameters": "n(m+1) parameters for n qubits and m layers"
+        },
+        "parameter_initialization": "VQS starts from parameters corresponding to the identity at tau=0; initial-state feasibility test uses optimization over theta0",
+        "optimizer_settings": {
+          "step_size": 2.5e-05,
+          "learning_rate_schedule": null,
+          "max_iterations": null,
+          "tolerance": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Grid values of the discretized asset-price PDE are encoded in amplitudes over an n-qubit register with Ngr = 2^n grid points; probability distribution state and payoff state are prepared as amplitude-encoded vectors",
+        "objective_function": "Price the derivative by solving the Black–Scholes PDE backward in time and computing V0 ≃ e^{-r t_ter} <p(t_ter)|V(t_ter)>",
+        "constraints_handling": "Barrier conditions handled through boundary terms in the discretized PDE; SWAP test used to estimate overlap instead of extracting a single amplitude",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Single-asset double knock-out barrier option under the Black–Scholes model",
+        "num_assets": 1,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "ticker_symbols": null,
+          "date_range": null,
+          "benchmark_name": "analytical double-barrier option formula used as reference",
+          "preprocessing": "finite-difference discretization of the Black–Scholes PDE; no log transform",
+          "train_test_split": null
+        },
+        "data_preprocessing_details": "Discretize asset price interval [l,u] into ngr grids; compare VQS output against classical FDM and analytical solution",
+        "evaluation_methodology": "Numerical simulation on a simulator; compare estimated prices against analytical solution and classical FDM; initial-state approximation validated by fidelity maximization"
+      },
+      "quantum_resources": {
+        "num_qubits": 4,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 30,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": null,
+        "device_name": null,
+        "framework": "NumPy-based simulation",
+        "framework_version": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": "NumPy [52], SciPy [53]",
+        "transpilation_target": null,
+        "classical_solver": "classical finite-difference method; analytical barrier-option formula; L-BFGS-B for initial-state fitting",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Analytical probability density for geometric Brownian motion; discretization of BSPDE; Euler integration for variational parameter dynamics",
+        "classical_postprocessing": "SWAP-test overlap converted to price by square root and discounting",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_underlyings",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "time_step",
+          "value": 2.5e-05,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "time units",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "risk_free_rate",
+          "value": 0.001,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "rate",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "volatility",
+          "value": 0.3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "rate",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "maturity",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "years",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "spot_price",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "price",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "lower_bound",
+          "value": 0.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "price",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "upper_bound",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "price",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "strike_price",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "price",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_variational_params",
+          "value": 30,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "price_error",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "greeks_accuracy",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical finite-difference method",
+          "metric_name": "time_and_space_complexity",
+          "value": "O((1/ϵ)^{O(d)})",
+          "unit": "asymptotic complexity",
+          "data_source": "text"
+        },
+        {
+          "method_name": "classical finite-difference method",
+          "metric_name": "grid_points",
+          "value": "n_gr^d",
+          "unit": "grid points",
+          "data_source": "text"
+        },
+        {
+          "method_name": "classical finite-difference method",
+          "metric_name": "grid_scaling_for_error_ϵ",
+          "value": "n_gr ∝ ϵ^(-1/2)",
+          "unit": "scaling relation",
+          "data_source": "text"
+        },
+        {
+          "method_name": "classical finite-difference method",
+          "metric_name": "space_complexity",
+          "value": "O((1/ϵ)^{O(d)})",
+          "unit": "asymptotic complexity",
+          "data_source": "text"
+        },
+        {
+          "method_name": "classical finite-difference method",
+          "metric_name": "time_complexity",
+          "value": "O((1/ϵ)^{O(d)})",
+          "unit": "asymptotic complexity",
+          "data_source": "text"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "polynomial in d and 1/ϵ for the quantum part; avoids (1/ϵ)^{O(d)} bottleneck in price extraction",
+          "baseline_method": "classical finite-difference method and prior amplitude-extraction-based quantum PDE solvers",
+          "conditions": "assuming efficient state preparation and the stated VQS/SWAP-test framework; under the paper's assumptions for boundary-state generation and bounded norms",
+          "is_demonstrated": true,
+          "caveats": "Overall complexity is heuristic because VQS is heuristic; SWAP-test measurements still scale as O(1/ϵ^2 (log(1/ϵ))^d) under stated assumptions; no end-to-end runtime advantage is experimentally benchmarked on hardware."
+        },
+        {
+          "type": "theoretical",
+          "factor": "exponential reduction in space complexity",
+          "baseline_method": "classical finite-difference method",
+          "conditions": "when function values on (1/ϵ)^{O(d)} grid points are encoded into O(d log(1/ϵ)) qubits",
+          "is_demonstrated": true,
+          "caveats": "This is a resource-scaling claim, not a hardware benchmark."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 4.0,
+          "num_qubits": 4,
+          "metric_name": "price_estimate_agreement_with_classical_fdm",
+          "metric_value": 16.0
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 6,
+          "metric_name": "price_estimate_agreement_with_classical_fdm",
+          "metric_value": 64.0
+        },
+        {
+          "problem_size": 4.0,
+          "num_qubits": 6,
+          "metric_name": "num_variational_params",
+          "metric_value": 30
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(poly(d log(1/ϵ))) gates for VQS; SWAP-test measurements O(1/ϵ^2 (log(1/ϵ))^d) under stated assumptions",
+        "classical_complexity": "Classical FDM: O((1/ϵ)^{O(d)}) time and space",
+        "speedup_order": "polynomial_other",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not provided; complexity improvement only asymptotic vs classical FDM",
+        "resources_for_advantage": "Would require circuits with O(d log(1/ε)) qubits and poly(d log(1/ε)) gates plus many SWAP-test measurements; practical advantage would require large logical quantum computers and efficient state preparation.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Results only demonstrated on noiseless classical simulation",
+          "Problem size limited to 1 asset with 4–6 qubits",
+          "State preparation of payoff and probability distributions assumed but not implemented",
+          "Variational convergence and measurement overhead not characterized at scale",
+          "Complexity advantage relies on asymptotic analysis and assumptions"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_statevector because the paper states numerical calculations/simulations and does not name a real QPU.",
+          "num_qubits not explicitly given for the main experiment; inferred only that the register size is n qubits with Ngr = 2^n grid points, but exact n for the main numerical run is not stated in the text excerpt.",
+          "Circuit depth is not explicitly quantified; the paper reports an ansatz with m layers and n(m+1) parameters, but no total depth number is given.",
+          "The authors claim potential speedup vs classical FDM in asymptotic complexity (removing (1/ε)^{O(d)} dependence), but only numerical simulations on small systems are performed."
+        ],
+        "advantage_status": "paper_reported"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Feasibility test for preparing the initial payoff state of a single-asset call option by optimizing a one-parameter ansatz to match the discretized payoff vector.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "initial-state fidelity maximization with a one-parameter hardware-efficient ansatz",
+        "ansatz": "ansatz shown in Fig. 1 with six qubits and six layers",
+        "optimizer": "L-BFGS-B",
+        "num_layers": 6,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "qubits": 6,
+          "layers": 6,
+          "payoff_function": "max(x-K,0)",
+          "strike_K": 1,
+          "lower_bound_l": 0.5,
+          "upper_bound_u": 2.0,
+          "objective": "maximize |<Vbar(0)|nu(theta0)>|^2"
+        },
+        "parameter_initialization": "not_specified",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Discretized payoff values encoded as amplitudes over a 6-qubit register",
+        "objective_function": "Approximate |Vbar(0)> = sum_k f_pay(x(k))|k> by an ansatz state",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Single-asset call option payoff-state preparation test",
+        "num_assets": 1,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "ticker_symbols": null,
+          "date_range": null,
+          "benchmark_name": null,
+          "preprocessing": "discretized asset-price grid with l=0.5, u=2",
+          "train_test_split": null
+        },
+        "data_preprocessing_details": "Construct target amplitude vector from payoff function on discretized grid",
+        "evaluation_methodology": "Fidelity maximization; reported fidelity error |1 - alpha0^-2 |<Vbar(0)|nu(theta0)>|^2| <= 1.2e-5"
+      },
+      "quantum_resources": {
+        "num_qubits": 6,
+        "qubit_type": "logical",
+        "circuit_depth": 6,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 42,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": null,
+        "device_name": null,
+        "framework": "NumPy-based simulation",
+        "framework_version": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": "NumPy [52], SciPy [53]",
+        "transpilation_target": null,
+        "classical_solver": "L-BFGS-B with parameter-shift gradients",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Construct target payoff vector from analytical payoff function",
+        "classical_postprocessing": "Compute fidelity and compare to target state",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_underlyings",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_layers",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "strike_price",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "price",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "lower_bound",
+          "value": 0.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "price",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "upper_bound",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "price",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "fidelity_error",
+          "value": 1.2e-05,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute error",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "fidelity",
+          "value": 0.999988,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "price_error",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "greeks_accuracy",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "target payoff vector",
+          "metric_name": "fidelity",
+          "value": 1,
+          "unit": "ratio",
+          "data_source": "text"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "This is only a feasibility test for state preparation; no speedup analysis is provided."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 6.0,
+          "num_qubits": 6,
+          "metric_name": "fidelity_error",
+          "metric_value": 1.2e-05
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not applicable",
+        "resources_for_advantage": "Demonstration only shows feasibility of preparing payoff state with a 6‑qubit ansatz; no comparison to classical algorithms.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Only a small 6‑qubit noiseless simulation",
+          "No runtime or scaling analysis",
+          "No comparison to classical state-preparation methods",
+          "Optimization performed offline with classical optimizer"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_statevector because the paper reports a numerical optimization/simulation study and no physical device.",
+          "Speedup order is not analyzed for this feasibility sub-experiment; only state-preparation fidelity is reported.",
+          "This experiment only evaluates fidelity of state preparation (≤1.2×10⁻⁵ error) and does not make any advantage claims."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

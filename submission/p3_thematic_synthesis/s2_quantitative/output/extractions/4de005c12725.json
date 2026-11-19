@@ -1,0 +1,968 @@
+{
+  "paper_id": "4de005c12725",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:41:10+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "4de005c12725_automated_function_implementation_via_conditional_parameterized_quantum_circuits.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.683,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 16,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='generations' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='circuits' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[0].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[1].unit='generations' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[2].unit='circuits' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[4].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[7].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[9].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[0].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[1].unit='generations' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[2].unit='circuits' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[4].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[7].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.683,
+      "completeness": 0.683,
+      "num_experiments": 3,
+      "experiment_scores": [
+        0.65,
+        0.75,
+        0.65
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum Architecture Search for Quantum Monte Carlo Integration via Conditional Parameterized Circuits with Application to Finance",
+    "authors": [
+      "Mark-Oliver Wolf",
+      "Tom Ewen",
+      "Ivica Turkalj"
+    ],
+    "year": 2023,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": [
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes conditional parameterized quantum circuits (CPQCs) for implementing payoff functions in amplitude-estimation-based option pricing. Using a genetic architecture search (20 generations, population 48, ~5.5 hours classical training), the authors produce PQCs whose CPQC form reduces function-evaluation circuit complexity from O(n log n) to O(n) for basket options; for example, a CPQC instance at n=14 requires 92 CNOT gates and depth 151. Results are demonstrated via noiseless simulation and circuit resource comparisons rather than full amplitude estimation experiments.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Genetically trained parameterized quantum circuit (PQC) for European vanilla call option payoff approximation, and its conditional parameterized quantum circuit (CPQC) version used for quantum Monte Carlo integration / amplitude estimation subroutine comparison against bitwise quantum arithmetic.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "PQC/CPQC function-approximation subroutine for amplitude estimation; genetic structure learning with variable ansatzes",
+        "ansatz": "custom hardware-native parameterized circuit with rotational encoding blocks and parameterized blocks",
+        "optimizer": "PennyLane RMSProp optimizer; classical genetic selection/mutation loop",
+        "num_layers": null,
+        "convergence_criteria": "new structure accepted if cost decreased; if cost increased, accepted with probability exp(-5(c_new-c_old)/c_old); gate removed if cost increase below 1%",
+        "hyperparameters": {
+          "genetic_generations": 20,
+          "population_size": 48,
+          "structure_optimization_iterations_per_generation": 20,
+          "acceptance_probability_for_cost_increase": "exp(-5(c_new-c_old)/c_old)",
+          "gate_removal_threshold": 0.01,
+          "optimizer": "RMSProp"
+        },
+        "parameter_initialization": "not_specified",
+        "optimizer_settings": {
+          "max_iterations": 20,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "asset price discretized on n control qubits; payoff function encoded via rotational gates and controlled rotations in CPQC",
+        "objective_function": "approximate European call payoff f_+(X)=max(X-K,0) as a quantum model for use in amplitude estimation",
+        "constraints_handling": "none reported",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "European vanilla call option payoff approximation",
+        "num_assets": 1,
+        "time_steps": null,
+        "num_features": 1,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "discretized asset prices shown in figure/caption; strike K=100"
+        },
+        "data_preprocessing_details": "asset price discretization; scaled discretization x_k in [0,2π) mentioned generally",
+        "evaluation_methodology": "function approximation shown against truth; comparison of CNOT count and depth versus IBM quantum arithmetic approach across control-qubit sizes"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 8,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "PennyLane",
+        "device_name": null,
+        "framework": "PennyLane",
+        "transpilation_target": "CNOT and U(θ,φ,λ) decomposition for resource counting",
+        "classical_solver": "RMSProp optimizer; genetic algorithm"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": "CNOT and U(θ,φ,λ) gate decomposition",
+        "classical_preprocessing": "classical pretraining / genetic structure search",
+        "classical_postprocessing": "discounting of expected payoff on classical device",
+        "total_execution_time": "about 5.5 hours for the full genetic search on a dual Intel Xeon Gold 6240R system with 48 cores",
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_variational_params",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "genetic_generations",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "generations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "population_size",
+          "value": 48,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "circuits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "structure_optimization_iterations_per_generation",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "acceptance_probability_for_cost_increase",
+          "value": "exp(-5(c_new-c_old)/c_old)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gate_removal_threshold",
+          "value": 0.01,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "fraction",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "total_execution_time",
+          "value": 5.5,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "hours",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "cnot_count",
+          "value": 92,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 151,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_control_qubits",
+          "value": 14,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "convergence_rate",
+          "value": "O(1/sqrt(N))",
+          "unit": "rate",
+          "data_source": "text"
+        },
+        {
+          "method_name": "ibm qiskit quantum arithmetic",
+          "metric_name": "cnot_count",
+          "value": null,
+          "unit": "gates"
+        },
+        {
+          "method_name": "ibm qiskit quantum arithmetic",
+          "metric_name": "circuit_depth",
+          "value": null,
+          "unit": "layers"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical monte carlo",
+          "conditions": "assuming amplitude estimation subroutine and efficient state/function preparation",
+          "is_demonstrated": false,
+          "caveats": "The paper states the quadratic speed-up in convergence rate of AE over classical Monte Carlo; the CPQC is a function-implementation subroutine enabling this setting."
+        },
+        {
+          "type": "empirical",
+          "factor": "lower cnot count and depth than bitwise quantum arithmetic",
+          "baseline_method": "ibm qiskit quantum arithmetic",
+          "conditions": "for the compared control-qubit sizes shown in Fig. 5",
+          "is_demonstrated": true,
+          "caveats": "Exact baseline counts are only shown graphically; the paper reports the CPQC comparison qualitatively and via scaling plots."
+        },
+        {
+          "type": "asymptotic",
+          "factor": "O(n) CPQC function implementation",
+          "baseline_method": "bitwise quantum arithmetic for option pricing",
+          "conditions": "for the CPQC construction with rotational encodings",
+          "is_demonstrated": true,
+          "caveats": "This is the paper's stated scaling for the CPQC; the baseline arithmetic method is also O(n) in the vanilla case."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 14.0,
+          "num_qubits": 14,
+          "metric_name": "cnot_count",
+          "metric_value": 92
+        },
+        {
+          "problem_size": 14.0,
+          "num_qubits": 14,
+          "metric_name": "circuit_depth",
+          "metric_value": 151
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(n) for CPQC function implementation; compared against O(n) bitwise arithmetic for vanilla option in the cited baseline",
+        "classical_complexity": "O(1/sqrt(N)) Monte Carlo convergence for classical estimation; baseline quantum arithmetic for option pricing O(n) in qubit register size n",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Not estimated; paper only compares circuit depth and CNOT scaling of CPQC vs quantum arithmetic implementation",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Only noiseless simulation used",
+          "Amplitude estimation speedup remains theoretical",
+          "No full AE algorithm execution or runtime benchmarking",
+          "State preparation and distribution loading assumed given",
+          "Pretraining cost (5.5 hours classical search) not included in advantage analysis"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware is not tied to a named QPU; experiments are presented as circuit constructions and resource comparisons, so simulator/noisy hardware is not explicitly specified.",
+          "num_qubits and circuit depth are not given as a single fixed value for this experiment; they vary with the control-qubit count n and are shown only in scaling plots.",
+          "Speedup order is inferred from the paper's stated quadratic convergence improvement of amplitude estimation over classical Monte Carlo.",
+          "Authors discuss theoretical quadratic speedup of amplitude estimation but do not experimentally demonstrate runtime advantage",
+          "Experiments only show circuit resource reductions for payoff implementation"
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Genetically trained PQC and CPQC for European basket option with fixed weights, compared against IBM-style bitwise quantum arithmetic implementation.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "PQC/CPQC function-approximation subroutine for amplitude estimation; genetic structure learning with variable ansatzes",
+        "ansatz": "custom hardware-native parameterized circuit with rotational encoding blocks and parameterized blocks",
+        "optimizer": "PennyLane RMSProp optimizer; classical genetic selection/mutation loop",
+        "num_layers": null,
+        "convergence_criteria": "new structure accepted if cost decreased; if cost increased, accepted with probability exp(-5(c_new-c_old)/c_old); gate removed if cost increase below 1%",
+        "hyperparameters": {
+          "genetic_generations": 20,
+          "population_size": 48,
+          "structure_optimization_iterations_per_generation": 20,
+          "acceptance_probability_for_cost_increase": "exp(-5(c_new-c_old)/c_old)",
+          "gate_removal_threshold": 0.01,
+          "optimizer": "RMSProp"
+        },
+        "parameter_initialization": "not_specified",
+        "optimizer_settings": {
+          "max_iterations": 20,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "two underlying securities X=(X(1),X(2)) with separate registers; fixed weights w=(2/3,1/3) encoded in the circuit; CPQC adds control-register loading operators P1,P2",
+        "objective_function": "approximate basket payoff f_Basket(X)=max(wX-K,0)",
+        "constraints_handling": "none reported",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "European basket call option with fixed weight",
+        "num_assets": 2,
+        "time_steps": null,
+        "num_features": 2,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "two underlyings; weights w=(2/3,1/3); scaled integer weights w1=2, w2=1 used in quantum arithmetic baseline"
+        },
+        "data_preprocessing_details": "each underlying represented by its own discretized register; same discretization required for quantum arithmetic baseline",
+        "evaluation_methodology": "function approximation and resource comparison across control-qubit sizes; figure shows payoff approximation versus truth"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": 151,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": 92,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 9,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "PennyLane",
+        "device_name": null,
+        "framework": "PennyLane",
+        "transpilation_target": "CNOT and U(θ,φ,λ) decomposition for resource counting",
+        "classical_solver": "RMSProp optimizer; genetic algorithm"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": "CNOT and U(θ,φ,λ) gate decomposition",
+        "classical_preprocessing": "classical pretraining / genetic structure search",
+        "classical_postprocessing": "discounting of expected payoff on classical device",
+        "total_execution_time": "about 5.5 hours for the full genetic search on a dual Intel Xeon Gold 6240R system with 48 cores",
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_variational_params",
+          "value": 9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "genetic_generations",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "generations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "population_size",
+          "value": 48,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "circuits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "structure_optimization_iterations_per_generation",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "acceptance_probability_for_cost_increase",
+          "value": "exp(-5(c_new-c_old)/c_old)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gate_removal_threshold",
+          "value": 0.01,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "fraction",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "total_execution_time",
+          "value": 5.5,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "hours",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_underlyings",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "cnot_count",
+          "value": 92,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 151,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "convergence_rate",
+          "value": "O(1/sqrt(N))",
+          "unit": "rate"
+        },
+        {
+          "method_name": "ibm qiskit quantum arithmetic",
+          "metric_name": "cnot_count",
+          "value": null,
+          "unit": "gates"
+        },
+        {
+          "method_name": "ibm qiskit quantum arithmetic",
+          "metric_name": "circuit_depth",
+          "value": null,
+          "unit": "layers"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical monte carlo",
+          "conditions": "assuming amplitude estimation subroutine and efficient state/function preparation",
+          "is_demonstrated": false,
+          "caveats": "The quadratic convergence improvement is inherited from amplitude estimation; the paper's main contribution is a more efficient function-implementation subroutine."
+        },
+        {
+          "type": "asymptotic",
+          "factor": "O(n) CPQC function implementation",
+          "baseline_method": "quantum arithmetic baseline for fixed-weight basket option",
+          "conditions": "for the CPQC construction with rotational encodings and separate control-register loading operators",
+          "is_demonstrated": true,
+          "caveats": "The paper states the CPQC adds only a linear amount of gates, while the quantum arithmetic baseline needs O(n log2 n) gates."
+        },
+        {
+          "type": "asymptotic",
+          "factor": "O(n log2 n) baseline",
+          "baseline_method": "ibm qiskit quantum arithmetic",
+          "conditions": "fixed-weight basket option with same discretization across underlyings",
+          "is_demonstrated": true,
+          "caveats": "This is the paper's stated complexity for the baseline method."
+        },
+        {
+          "type": "empirical",
+          "factor": "lower cnot count and depth than bitwise quantum arithmetic",
+          "baseline_method": "ibm qiskit quantum arithmetic",
+          "conditions": "for the compared control-qubit sizes shown in Fig. 6",
+          "is_demonstrated": true,
+          "caveats": "The paper reports the CPQC has 92 CNOTs and depth 151 at n=14, but does not provide the exact baseline counts in text."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 14.0,
+          "num_qubits": 14,
+          "metric_name": "cnot_count",
+          "metric_value": 92
+        },
+        {
+          "problem_size": 14.0,
+          "num_qubits": 14,
+          "metric_name": "circuit_depth",
+          "metric_value": 151
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(n) for CPQC function implementation; compared against O(n log2 n) for the quantum arithmetic baseline in the fixed-weight basket case",
+        "classical_complexity": "O(1/sqrt(N)) Monte Carlo convergence for classical estimation; quantum arithmetic baseline O(n log2 n)",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "CPQC scales O(n) vs O(n log n) for the compared quantum arithmetic basket-option circuit; however AE advantage not experimentally demonstrated",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Only resource-count comparison, not runtime experiments",
+          "Quadratic AE speedup vulnerable to large constant factors",
+          "Distribution state preparation assumed available",
+          "Training overhead performed classically",
+          "No noise or hardware execution evaluation"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper reports a CNOT count of 92 and depth of 151 for n=14 in the CPQC baseline comparison, but not a single fixed resource count for the trained PQC/CPQC experiment itself.",
+          "num_variational_params is inferred from Fig. A.3, which lists 9 parameters (θ0 through θ8).",
+          "Hardware is not tied to a named QPU; experiments are presented as circuit constructions and resource comparisons, so simulator/noisy hardware is not explicitly specified.",
+          "Paper claims reduced gate counts compared to IBM quantum arithmetic approach but does not demonstrate practical quantum advantage over classical Monte Carlo"
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "Genetically trained PQC and CPQC for European basket option with variable weight as an input feature, demonstrating reuse across different weights.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "PQC/CPQC function-approximation subroutine for amplitude estimation; genetic structure learning with variable ansatzes",
+        "ansatz": "custom hardware-native parameterized circuit with rotational encoding blocks and parameterized blocks",
+        "optimizer": "PennyLane RMSProp optimizer; classical genetic selection/mutation loop",
+        "num_layers": null,
+        "convergence_criteria": "new structure accepted if cost decreased; if cost increased, accepted with probability exp(-5(c_new-c_old)/c_old); gate removed if cost increase below 1%",
+        "hyperparameters": {
+          "genetic_generations": 20,
+          "population_size": 48,
+          "structure_optimization_iterations_per_generation": 20,
+          "acceptance_probability_for_cost_increase": "exp(-5(c_new-c_old)/c_old)",
+          "gate_removal_threshold": 0.01,
+          "optimizer": "RMSProp"
+        },
+        "parameter_initialization": "not_specified",
+        "optimizer_settings": {
+          "max_iterations": 20,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "two asset values plus variable weight w1 encoded as an additional input feature; CPQC built from rotational encoding blocks",
+        "objective_function": "approximate basket payoff with variable weight, i.e. f_Basket(X,w)=max(wX-K,0)",
+        "constraints_handling": "none reported",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "European basket call option with variable weight",
+        "num_assets": 2,
+        "time_steps": null,
+        "num_features": 3,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "inputs are the two asset prices and the first asset weight w1; figure shows three example weights w1=0, w1≈0.37, w1≈0.74"
+        },
+        "data_preprocessing_details": "weight encoded once in the PQC; asset values discretized as in the fixed-weight basket case",
+        "evaluation_methodology": "function approximation shown for multiple weights; qualitative comparison to true payoff surface"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 16,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "PennyLane",
+        "device_name": null,
+        "framework": "PennyLane",
+        "transpilation_target": "CNOT and U(θ,φ,λ) decomposition for resource counting",
+        "classical_solver": "RMSProp optimizer; genetic algorithm"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": "CNOT and U(θ,φ,λ) gate decomposition",
+        "classical_preprocessing": "classical pretraining / genetic structure search",
+        "classical_postprocessing": "discounting of expected payoff on classical device",
+        "total_execution_time": "about 5.5 hours for the full genetic search on a dual Intel Xeon Gold 6240R system with 48 cores",
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_variational_params",
+          "value": 16,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "genetic_generations",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "generations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "population_size",
+          "value": 48,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "circuits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "structure_optimization_iterations_per_generation",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "acceptance_probability_for_cost_increase",
+          "value": "exp(-5(c_new-c_old)/c_old)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gate_removal_threshold",
+          "value": 0.01,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "fraction",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "total_execution_time",
+          "value": 5.5,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "hours",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_underlyings",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "convergence_rate",
+          "value": "O(1/sqrt(N))",
+          "unit": "rate"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical monte carlo",
+          "conditions": "assuming amplitude estimation subroutine and efficient state/function preparation",
+          "is_demonstrated": false,
+          "caveats": "The paper does not provide a separate empirical runtime or accuracy benchmark for the variable-weight case; the main claim is that the CPQC remains linearly scalable in the number of state qubits."
+        },
+        {
+          "type": "asymptotic",
+          "factor": "O(n) CPQC function implementation",
+          "baseline_method": "quantum arithmetic baseline for variable-weight basket option",
+          "conditions": "when the weight is treated as an additional input feature and the encoding blocks are rotational gates",
+          "is_demonstrated": true,
+          "caveats": "The paper states the variable weight is encoded once and the CPQC gate scaling is linear in the number of state qubits."
+        }
+      ],
+      "scalability_data": [],
+      "complexity_analysis": {
+        "quantum_complexity": "O(n) for CPQC function implementation",
+        "classical_complexity": "O(1/sqrt(N)) Monte Carlo convergence for classical estimation",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Not analyzed; experiment demonstrates functional approximation capability with variable weights only",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "No quantitative resource comparison for AE runtime",
+          "Only visualization of payoff approximation accuracy",
+          "No execution on quantum hardware",
+          "Quadratic AE speedup insufficient under Hoefler constant-factor analysis"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper states that the variable weight w1 is encoded once and that the CPQC gate scaling is linear in the number of state qubits, but does not give a single fixed qubit count or depth for the trained circuit.",
+          "num_variational_params is inferred from Fig. A.5, which lists 16 parameters (θ0 through θ15).",
+          "Hardware is not tied to a named QPU; experiments are presented as circuit constructions and resource comparisons, so simulator/noisy hardware is not explicitly specified.",
+          "Section IV-C presents qualitative PQC approximation results only and does not claim empirical quantum advantage"
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

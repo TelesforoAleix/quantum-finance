@@ -1,0 +1,488 @@
+{
+  "paper_id": "2a9cd8a96604",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:22:33+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "2a9cd8a96604_quantum_support_vector_data_description_for_anomaly_detection.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.8,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 8,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[10].unit='samples per task (training normal samples, approx.)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='normal test samples per task' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='abnormal test samples per task' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='dimension' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[15].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[16].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[17].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[18].unit='pixels per side (16x16 from 28x28)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.8,
+      "completeness": 0.8,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.8
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum support vector data description for anomaly detection",
+    "authors": [
+      "Hyeondo Oh",
+      "Daniel K. Park"
+    ],
+    "year": 2023,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": [
+      "fraud-detection"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes Quantum Support Vector Data Description (QSVDD), a QCNN-based variational quantum anomaly detection model using 8 qubits and 75 trainable parameters. On MNIST it achieves mean AUC 83.13±2.15 compared to 70.54 (QAE) and 70.32 (DSVDD), and on Fashion‑MNIST 80.59±2.28 compared to 76.69 and 76.05 respectively, evaluated across 10 anomaly-detection tasks with ~6000 training samples each using PennyLane simulation.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum support vector data description (QSVDD) anomaly detection on MNIST and Fashion-MNIST using a shallow variational quantum circuit with QCNN ansatz, compared against quantum autoencoder and classical deep SVDD baselines.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "Quantum Support Vector Data Description (QSVDD) with QCNN ansatz",
+        "ansatz": "Quantum convolutional neural network (QCNN)",
+        "optimizer": "Adam",
+        "num_layers": null,
+        "convergence_criteria": "minimize QSVDD loss; no explicit stopping criterion reported",
+        "hyperparameters": {
+          "latent_space_dimension": 9,
+          "input_qubits": 8,
+          "parameter_counts": {
+            "qsvdd": 75,
+            "qae": 78,
+            "dsvdd": 92
+          },
+          "random_repetitions": 5,
+          "ad_tasks_per_dataset": 10,
+          "training_samples_per_task_approx": 6000,
+          "evaluation_samples": {
+            "normal": 1000,
+            "abnormal": 900
+          },
+          "image_resize": "28x28 to 16x16",
+          "encoding": "amplitude encoding"
+        },
+        "parameter_initialization": "parameters initialized randomly from a standard normal distribution",
+        "optimizer_settings": {
+          "learning_rate": null,
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Classical images resized to 16x16 and amplitude-encoded into an 8-qubit state; each class treated as the normal class in one-class anomaly detection",
+        "objective_function": "Minimize the squared distance between encoded data representations and hypersphere center in latent space: L_Q(θ)=Σ_i ||d(x_i,θ)-c||^2",
+        "constraints_handling": "One-class hypersphere objective; anomalies are points outside the learned hypersphere",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "One-class anomaly detection on MNIST and Fashion-MNIST, with each class in turn treated as the normal class",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 6000,
+        "data_type": "public_benchmark",
+        "dataset_name": "MNIST; Fashion-MNIST",
+        "dataset_specification": {
+          "description": "10 classes; 10 independent anomaly-detection tasks per dataset; each task uses one class as normal"
+        },
+        "data_preprocessing_details": "Images resized from 28x28 to 16x16 using bilinear interpolation for amplitude encoding",
+        "evaluation_methodology": "Five random initializations per task; AUC computed for each task; results averaged over 10 tasks and 5 repetitions"
+      },
+      "quantum_resources": {
+        "num_qubits": 8,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 75,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "PennyLane"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Adam optimizer",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Amplitude encoding after bilinear image resizing; latent-space dimension selected by validation over measured Pauli observables",
+        "classical_postprocessing": "AUC evaluation; hypersphere center and radius used for anomaly scoring",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": 5.0,
+          "num_independent_runs": 5
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "auc_roc",
+          "value": 83.13,
+          "uncertainty": "±2.16",
+          "num_runs": 5,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 80.59,
+          "uncertainty": "±2.28",
+          "num_runs": 5,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 71.68,
+          "uncertainty": "±3.86",
+          "num_runs": 5,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 80.59,
+          "uncertainty": "±2.28",
+          "num_runs": 5,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 94.47,
+          "uncertainty": "±0.98",
+          "num_runs": 5,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 55.77,
+          "uncertainty": "±6.38",
+          "num_runs": 5,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 97.97,
+          "uncertainty": "±0.43",
+          "num_runs": 5,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 72.88,
+          "uncertainty": "±3.22",
+          "num_runs": 5,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 80.59,
+          "uncertainty": "±2.28",
+          "num_runs": 5,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 83.13,
+          "uncertainty": "±2.16",
+          "num_runs": 5,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 6000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples per task (training normal samples, approx.)",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 1000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "normal test samples per task",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 900,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "abnormal test samples per task",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "latent_space_dimension",
+          "value": 9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimension",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_variational_params",
+          "value": 75,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_variational_params",
+          "value": 78,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_variational_params",
+          "value": 92,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "image_resize",
+          "value": 16,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "pixels per side (16x16 from 28x28)",
+          "higher_is_better": null,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "quantum_autoencoder",
+          "metric_name": "auc_roc",
+          "value": 70.54,
+          "unit": "%"
+        },
+        {
+          "method_name": "deep_svdd",
+          "metric_name": "auc_roc",
+          "value": 70.32,
+          "unit": "%"
+        },
+        {
+          "method_name": "quantum_autoencoder",
+          "metric_name": "auc_roc",
+          "value": 76.69,
+          "unit": "%"
+        },
+        {
+          "method_name": "deep_svdd",
+          "metric_name": "auc_roc",
+          "value": 76.05,
+          "unit": "%"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "asymptotic",
+          "factor": "O(log n) circuit depth and O(log n) parameters for QCNN; compared with QAE scaling as O(n) parameters and O(n^2) depth",
+          "baseline_method": "quantum autoencoder",
+          "conditions": "as number of input qubits increases; QCNN ansatz used in QSVDD",
+          "is_demonstrated": false,
+          "caveats": "This is a scaling claim from the paper, not an empirical runtime benchmark."
+        },
+        {
+          "type": "projected",
+          "factor": "doubly exponential reduction in number of parameters and circuit depth relative to input feature dimension when amplitude encoding is fully utilized",
+          "baseline_method": "classical representation / input feature dimension",
+          "conditions": "if the exponentially large quantum state space is fully utilized",
+          "is_demonstrated": false,
+          "caveats": "The paper frames this as a potential advantage, not a measured speedup."
+        },
+        {
+          "type": "empirical",
+          "factor": "higher AUC than QAE and DSVDD on MNIST; higher AUC on 7/10 Fashion-MNIST tasks",
+          "baseline_method": "quantum autoencoder and deep SVDD",
+          "conditions": "same training conditions, 8 input qubits, latent dimension 9, 5 random initializations, 10 AD tasks per dataset",
+          "is_demonstrated": true,
+          "caveats": "This is performance superiority, not computational speedup."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 6.0,
+          "num_qubits": 8,
+          "metric_name": "auc_roc",
+          "metric_value": 71.68
+        },
+        {
+          "problem_size": 9.0,
+          "num_qubits": 8,
+          "metric_name": "auc_roc",
+          "metric_value": 83.13
+        },
+        {
+          "problem_size": 12.0,
+          "num_qubits": 8,
+          "metric_name": "auc_roc",
+          "metric_value": 82.6
+        },
+        {
+          "problem_size": 15.0,
+          "num_qubits": 8,
+          "metric_name": "auc_roc",
+          "metric_value": 82.71
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "Circuit depth and parameter count grow logarithmically with number of input qubits for QCNN; with amplitude encoding this implies doubly exponential reduction in parameters relative to input dimension",
+        "classical_complexity": "DSVDD and QAE baselines discussed qualitatively; no explicit asymptotic classical complexity for the full anomaly-detection task reported",
+        "speedup_order": "logarithmic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not provided",
+        "resources_for_advantage": "Unknown; experiments only simulate 8 qubits with amplitude encoding and QCNN ansatz",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Experiments only performed on noiseless simulator (PennyLane)",
+          "Very small system size (8 qubits)",
+          "Amplitude encoding requires expensive state preparation that scales poorly with classical data size",
+          "No runtime comparison with classical algorithms",
+          "Improvement measured only in classification AUC on small benchmarks"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware is not tied to a named QPU; PennyLane simulation is explicitly stated.",
+          "QCNN depth is described as O(log n) rather than a fixed numeric depth.",
+          "Classical baselines (QAE, DSVDD) are not separate experiments per instructions.",
+          "Authors emphasize improved anomaly-detection accuracy compared with QAE and DSVDD, but do not demonstrate computational speedup.",
+          "Scaling discussion (logarithmic circuit depth/parameters) refers to QCNN architecture properties rather than a proven quantum advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

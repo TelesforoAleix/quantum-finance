@@ -1,0 +1,530 @@
+{
+  "paper_id": "80db1bf3c910",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:06:19+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "80db1bf3c910_quantum_machine_learning_for_credit_scoring.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.75,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 7,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[7].unit='features' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[17].unit='blocks' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[18].unit='blocks' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[19].unit='executions' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.75,
+      "completeness": 0.75,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.75
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum Machine Learning for Credit Scoring",
+    "authors": [
+      "Nikolaos Schetakis",
+      "Davit Aghamalyan",
+      "Michael Boguslavsky",
+      "Agnieszka Rees",
+      "Marc Raktomalala",
+      "Paul Griffin"
+    ],
+    "year": 2022,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "credit-lending",
+    "secondary_silos": [
+      "quantum-ml-finance"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper evaluates a hybrid classical–quantum neural network (FH:NN/VC‑DRC) for SME credit scoring on a Singapore dataset of ~2,246 firms using a PennyLane simulator with up to 18 qubits. The hybrid model achieves ROC‑AUC ≈0.75 after 350 epochs, compared with ≈0.73 for a classical neural network trained for 350 epochs and ≈0.75 when the classical model is trained longer (≈3500–5000 epochs). Thus the quantum model reaches comparable accuracy with fewer epochs but does not outperform classical methods.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Hybrid classical-quantum neural network (FH:NN/VC-DRC) for SME credit scoring on Singapore data, evaluated against classical baselines and scaled over qubit/block counts on a PennyLane simulator.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "FULL HYBRID (FH) NN/VC-DRC classifier",
+        "ansatz": "variational quantum circuit with angle embedding, rotation gates, and CNOT entangling layers; data re-uploading via repeated VC blocks",
+        "optimizer": "SGD",
+        "num_layers": null,
+        "convergence_criteria": "training run fixed to 350 epochs; classical baseline also reported at up to 3500/5000 epochs",
+        "hyperparameters": {
+          "epochs": 350,
+          "dropout_rate": 0.1,
+          "learning_rate": 0.001,
+          "batch_size": 16,
+          "optimizer": "SGD",
+          "loss_function": "binary cross-entropy",
+          "activation_functions": [
+            "ReLU",
+            "Leaky ReLU",
+            "sigmoid"
+          ],
+          "qubits_range": [
+            6,
+            18
+          ],
+          "blocks_range": [
+            1,
+            10
+          ],
+          "max_qubits_for_execution_time_test": 20,
+          "simulations_per_configuration": 5
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "max_iterations": 350,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "classical features encoded with Rx angle embedding; higher-dimensional inputs padded and split across qubits/blocks",
+        "objective_function": "binary classification of SME credit default vs non-default, optimized via binary cross-entropy and evaluated by ROC/AUC",
+        "constraints_handling": "dropout layers used to reduce overfitting; no explicit quantum constraint handling",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Singapore SME credit scoring dataset with 24 primary features; experiments used up to 21 features due to hardware limits",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 21,
+        "dataset_size": 2246,
+        "data_type": "proprietary",
+        "dataset_name": "Singapore SME credit scoring dataset",
+        "dataset_specification": {
+          "description": "~2,300 firms; 246 class-1 defaults and 2000 class-0 healthy firms sampled; train/validation/test split 1798/180/270; status observed from Oct 1, 2016 to Oct 1, 2018"
+        },
+        "data_preprocessing_details": "standard pipeline plus proprietary processing; same preprocessing as best XGBoost model; angle embedding with Rx gates; dropout added after each classical layer",
+        "evaluation_methodology": "average ROC/AUC over 5 simulations for each configuration; compared against classical counterpart and scaled over qubits/blocks"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "PennyLane",
+        "device_name": null,
+        "framework": "PennyLane"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": "no noise introduced",
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "SGD optimizer used for training both FH model and the classical neural network (CC model); other ML models (linear regression, logistic regression, SVM, random forest) discussed only as background, not executed as reported baselines",
+        "transpilation_settings": null,
+        "classical_preprocessing": "standard pipeline plus proprietary processing",
+        "classical_postprocessing": "ROC/AUC evaluation; final prediction via classical decision layer",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 350,
+          "final_loss_value": null,
+          "loss_curve_shape": "overfitting observed on average after 350 epochs",
+          "variance_across_runs": 5.0,
+          "num_independent_runs": 5
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "auc_roc",
+          "value": 0.75,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 0.73,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 0.75,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 2246,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_set_size",
+          "value": 1798,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "validation_set_size",
+          "value": 180,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "test_set_size",
+          "value": 270,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_features",
+          "value": 21,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "features",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "epochs",
+          "value": 350,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "epochs",
+          "value": 3500,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "epochs",
+          "value": 5000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dropout_rate",
+          "value": 0.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "learning_rate",
+          "value": 0.001,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "batch_size",
+          "value": 16,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 18,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_blocks",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "blocks",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_blocks",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "blocks",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_executions",
+          "value": 629300,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "executions",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "best classical model",
+          "metric_name": "auc_roc",
+          "value": 0.73,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "best classical model trained longer",
+          "metric_name": "auc_roc",
+          "value": 0.75,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "linear regression",
+          "metric_name": "auc_roc",
+          "value": null,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "logistic regression",
+          "metric_name": "auc_roc",
+          "value": null,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "vector machines",
+          "metric_name": "auc_roc",
+          "value": null,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "random forest",
+          "metric_name": "auc_roc",
+          "value": null,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "about 10x fewer epochs",
+          "baseline_method": "best classical model",
+          "conditions": "FH model trained for 350 epochs versus classical model trained for 3500 epochs to reach comparable AUC",
+          "is_demonstrated": true,
+          "caveats": "The paper reports comparable prediction performance, not a guaranteed runtime speedup; actual wall-clock time is not reported."
+        },
+        {
+          "type": "empirical",
+          "factor": "about 14.3x fewer epochs",
+          "baseline_method": "best classical model",
+          "conditions": "FH model trained for 350 epochs versus classical model trained for 5000 epochs to reach AUC 0.75",
+          "is_demonstrated": true,
+          "caveats": "This is an epoch-count comparison, not a proven computational advantage."
+        },
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No asymptotic quantum speedup is claimed or demonstrated."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 6.0,
+          "num_qubits": 6,
+          "metric_name": "auc_roc",
+          "metric_value": null
+        },
+        {
+          "problem_size": 12.0,
+          "num_qubits": 12,
+          "metric_name": "auc_roc",
+          "metric_value": null
+        },
+        {
+          "problem_size": 18.0,
+          "num_qubits": 18,
+          "metric_name": "auc_roc",
+          "metric_value": null
+        },
+        {
+          "problem_size": 1.0,
+          "num_qubits": null,
+          "metric_name": "auc_roc",
+          "metric_value": null
+        },
+        {
+          "problem_size": 10.0,
+          "num_qubits": null,
+          "metric_name": "auc_roc",
+          "metric_value": null
+        },
+        {
+          "problem_size": 20.0,
+          "num_qubits": 20,
+          "metric_name": "execution_time_scaling",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "execution time scales quadratically with number of qubits and linearly with number of blocks on simulator; data embedding time doubles with each additional qubit",
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": "629,300 circuit executions for 350 epochs and 1798 training samples",
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "parity_with_classical",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "not specified; experiments performed only on a PennyLane simulator with up to 18 qubits (20 qubits for scaling tests)",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Experiments performed only on a noiseless classical simulator",
+          "Small dataset (~2246 samples)",
+          "No demonstrated runtime or computational speedup; only fewer training epochs",
+          "Accuracy parity with classical neural network (AUC 0.75 vs 0.75)",
+          "Quantum circuit executions required ~629,300 evaluations for training",
+          "No resource estimates for fault-tolerant implementation"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_other because the paper states PennyLane emulator/simulator was used throughout and no real QPU device is named.",
+          "num_qubits not explicitly fixed for the main experiment; paper reports scaling studies from 6 to 18 qubits and execution-time test up to 20 qubits, so no single value is assigned.",
+          "circuit_depth not explicitly given as a numeric depth; paper reports number of blocks (1 to 10) and that execution time scales linearly with blocks.",
+          "The FH model achieved AUC ≈0.75 while the classical neural network achieved AUC ≈0.73 at 350 epochs and ≈0.75 with longer training (Section 3 Results).",
+          "Authors emphasize reduced training epochs but do not demonstrate a computational speedup or superior accuracy.",
+          "Therefore the outcome is parity with classical methods rather than a demonstrated quantum advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

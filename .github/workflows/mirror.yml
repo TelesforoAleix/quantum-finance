@@ -1,0 +1,26 @@
+name: Mirror check
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check SHA-256 of every archive file
+        run: cd submission && sha256sum -c --quiet ../SHA256SUMS
+
+      - name: Check the file count
+        run: |
+          tracked=$(git ls-files submission | wc -l)
+          listed=$(wc -l < SHA256SUMS)
+          echo "tracked=$tracked listed=$listed"
+          test "$tracked" -eq 15408
+          test "$listed" -eq 15408

@@ -1,0 +1,1155 @@
+{
+  "paper_id": "954608913b5d",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:18:59+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "954608913b5d_constrained_optimization_via_quantum_zeno_dynamics.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.612,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 1,
+    "validation_warnings": 4,
+    "validation_passed": false,
+    "validation_error_details": [
+      "Schema error at experiments.1.quantum_resources.two_qubit_gate_count: '123 (QCL implementation) or 165 (non‑QCL implementation)' is not of type 'integer', 'null'"
+    ],
+    "validation_warning_details": [
+      "experiments[1].results[7].unit='measurements' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[8].unit='measurements' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[5].unit='measurements' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[6].unit='measurements' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.612,
+      "completeness": 0.612,
+      "num_experiments": 4,
+      "experiment_scores": [
+        0.6,
+        0.85,
+        0.85,
+        0.15
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Constrained Optimization via Quantum Zeno Dynamics",
+    "authors": [
+      "Dylan Herman",
+      "Ruslan Shaydulin",
+      "Yue Sun",
+      "Shouvanik Chakrabarti",
+      "Shaohan Hu",
+      "Pierre Minssen",
+      "Arthur Rattew",
+      "Romina Yalovetzky",
+      "Marco Pistoia"
+    ],
+    "year": 2023,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "portfolio-optimization",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper introduces a quantum Zeno dynamics technique for enforcing arbitrary constraints in variational quantum optimization and evaluates it on portfolio optimization instances with 4–10 assets. Numerical simulations show improved approximation ratios and higher feasibility probability compared to penalty‑based QAOA, while hardware demonstrations on the Quantinuum H1‑2 trapped‑ion processor solve a 4‑asset instance using up to ~148 two‑qubit gate depth and 2000 shots.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Numerical benchmark of QAOA with quantum Zeno dynamics versus penalty-based constraint handling on portfolio optimization instances with one or two constraints, using two mixers and varying QAOA depth.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "QAOA with Zeno dynamics",
+        "ansatz": null,
+        "optimizer": "COBYLA",
+        "num_layers": null,
+        "convergence_criteria": "parameters optimized exhaustively / via COBYLA; no explicit stopping criterion reported",
+        "hyperparameters": {
+          "mixers": [
+            "B = sum_j x_j",
+            "B = |+><+|"
+          ],
+          "eta": "heuristic hyperparameter controlling number of measurements in Eq. (11)",
+          "delta": "minimum out-of-constraint probability target",
+          "p": "varied from 1 to 5 in figures",
+          "lambda": "penalty factor for baseline comparison",
+          "number_of_assets": "4 to 10",
+          "constraints": [
+            "budget constraint",
+            "expected return constraint"
+          ]
+        },
+        "parameter_initialization": "initialized with a large number of random initial points",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "one binary variable per asset; portfolio selection encoded in computational basis",
+        "objective_function": "min_x in F q x^T Sigma x - mu^T x",
+        "constraints_handling": "Zeno projective measurements to enforce constraints; penalty terms used only as baseline",
+        "num_binary_variables": 4,
+        "problem_hamiltonian": "C = sum_x f(x)|x><x|; constrained objective CF = sum_{x in F} f(x)|x><x|",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Discrete mean-variance Markowitz portfolio optimization with budget constraint, and in some cases an additional minimum-return constraint",
+        "num_assets": 4,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 14,
+        "data_type": "proprietary",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "14 instances total: 7 with 4-10 assets and a single budget constraint; 7 with 4-10 assets and both budget and return constraints"
+        },
+        "data_preprocessing_details": null,
+        "evaluation_methodology": "numerical optimization over 14 instances; approximation ratio and in-constraint probability reported across QAOA layers and hyperparameters"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "Quantinuum",
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://doi.org/10.5281/zenodo.7125969",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "COBYLA",
+        "transpilation_settings": null,
+        "classical_preprocessing": null,
+        "classical_postprocessing": null,
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.995,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "feasibility_percentage",
+          "value": 96.4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.9996,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "feasibility_percentage",
+          "value": 98.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.914,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "feasibility_percentage",
+          "value": 81.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.91,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "feasibility_percentage",
+          "value": 96.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.995,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "feasibility_percentage",
+          "value": 91.3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.977,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "feasibility_percentage",
+          "value": 90.9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.972,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "feasibility_percentage",
+          "value": 89.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.964,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "feasibility_percentage",
+          "value": 96.3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.979,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "feasibility_percentage",
+          "value": 87.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.956,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "feasibility_percentage",
+          "value": 88.7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.967,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "feasibility_percentage",
+          "value": 84.4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.914,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "feasibility_percentage",
+          "value": 81.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "penalty-based qaoa",
+          "metric_name": "approximation_ratio",
+          "value": null,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "penalty-based qaoa",
+          "metric_name": "feasibility_percentage",
+          "value": null,
+          "unit": "%"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": "penalty-based constraint handling",
+          "conditions": "numerical benchmark on 14 portfolio instances with 4-10 assets, using QAOA mixers B = sum_j x_j and B = |+><+|",
+          "is_demonstrated": true,
+          "caveats": "The paper reports improved approximation ratio and in-constraint probability, but no formal computational speedup is claimed."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 4,
+          "num_qubits": 4,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.995
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": 4,
+          "metric_name": "feasibility_percentage",
+          "metric_value": 96.4
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": 5,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.995
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": 5,
+          "metric_name": "feasibility_percentage",
+          "metric_value": 91.3
+        },
+        {
+          "problem_size": 6,
+          "num_qubits": 6,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.972
+        },
+        {
+          "problem_size": 6,
+          "num_qubits": 6,
+          "metric_name": "feasibility_percentage",
+          "metric_value": 89.5
+        },
+        {
+          "problem_size": 7,
+          "num_qubits": 7,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.979
+        },
+        {
+          "problem_size": 7,
+          "num_qubits": 7,
+          "metric_name": "feasibility_percentage",
+          "metric_value": 87.0
+        },
+        {
+          "problem_size": 8,
+          "num_qubits": 8,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.956
+        },
+        {
+          "problem_size": 8,
+          "num_qubits": 8,
+          "metric_name": "feasibility_percentage",
+          "metric_value": 88.7
+        },
+        {
+          "problem_size": 9,
+          "num_qubits": 9,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.967
+        },
+        {
+          "problem_size": 9,
+          "num_qubits": 9,
+          "metric_name": "feasibility_percentage",
+          "metric_value": 84.4
+        },
+        {
+          "problem_size": 10,
+          "num_qubits": 10,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.914
+        },
+        {
+          "problem_size": 10,
+          "num_qubits": 10,
+          "metric_name": "feasibility_percentage",
+          "metric_value": 81.1
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "number of measurements scales at most quadratically with circuit depth and width for common mixers; O(polylog(dim H)) overhead claimed for enforcing constraints",
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not analyzed",
+        "resources_for_advantage": "Fault‑tolerant quantum computer with large QAOA depth and repeated projective measurements for constraint enforcement",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Problem sizes only 4–10 assets",
+          "Results based on classical simulation",
+          "No comparison against state‑of‑the‑art classical portfolio solvers",
+          "Penalty baseline is another quantum formulation rather than a classical optimizer"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware type inferred as not_specified because the numerical benchmark is simulator-based and no specific device is named for this experiment.",
+          "num_qubits not explicitly stated for the numerical benchmark; problem size varies from 4 to 10 assets, so qubit count is inferred to match asset count in basis encoding.",
+          "Paper claims improved performance over penalty‑based QAOA but does not claim quantum advantage over classical algorithms."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Hardware proof-of-concept QAOA with Zeno dynamics on Quantinuum H1-2 for a four-asset portfolio optimization problem with an equality constraint, comparing semiclassical QFT oracle with QCL versus coherent QFT oracle without QCL.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "QAOA with Zeno dynamics",
+        "ansatz": null,
+        "optimizer": "COBYLA",
+        "num_layers": 1,
+        "convergence_criteria": "single-layer proof-of-concept; QAOA parameters optimized on noiseless simulator before hardware execution",
+        "hyperparameters": {
+          "p": 1,
+          "mixer": "B = sum_j x_j",
+          "constraint": "2x1 - x2 - x3 = 0",
+          "number_of_measurements": "varied; figure shows N values up to about 20",
+          "shots": 2000,
+          "QCL": [
+            "enabled",
+            "disabled"
+          ],
+          "auxiliary_qubits": [
+            "1 with QCL",
+            "3 without QCL"
+          ]
+        },
+        "parameter_initialization": "optimized on a noiseless simulator; initial parameters not otherwise specified",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "4 binary variables for 4 assets; equality constraint checked via Fourier-domain arithmetic oracle",
+        "objective_function": "portfolio optimization cost from the four-asset instance used in numerics",
+        "constraints_handling": "Zeno projective measurements with equality-constraint oracle; QCL used to reduce ancilla count",
+        "num_binary_variables": 4,
+        "problem_hamiltonian": "QAOA cost Hamiltonian for the four-asset portfolio instance",
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "Four-asset portfolio optimization with equality constraint 2x1 - x2 - x3 = 0",
+        "num_assets": 4,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 1,
+        "data_type": "proprietary",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "single four-asset proof-of-concept instance"
+        },
+        "data_preprocessing_details": null,
+        "evaluation_methodology": "2000-shot hardware runs; in-constraint probability and final measurement distributions compared against noiseless simulation for varying N"
+      },
+      "quantum_resources": {
+        "num_qubits": 5,
+        "qubit_type": "physical",
+        "circuit_depth": 122,
+        "circuit_depth_transpiled": 148,
+        "gate_count_total": 165,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 2000,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_trapped_ion",
+        "provider": "Quantinuum",
+        "device_name": "H1-2",
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "hardware noise; no explicit model reported",
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://doi.org/10.5281/zenodo.7125969",
+        "framework_version": null,
+        "transpilation_target": "Quantinuum H1-2",
+        "classical_solver": "COBYLA",
+        "transpilation_settings": null,
+        "classical_preprocessing": "QAOA parameters optimized using a noiseless simulator before hardware execution",
+        "classical_postprocessing": null,
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "in-constraint probability increases with N up to about N=15, then saturates/degrades due to hardware noise",
+          "variance_across_runs": 2000.0,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "feasibility_percentage",
+          "value": 85.0,
+          "uncertainty": null,
+          "num_runs": 2000,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "feasibility_percentage",
+          "value": 89.0,
+          "uncertainty": null,
+          "num_runs": 2000,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "feasibility_percentage",
+          "value": 96.0,
+          "uncertainty": null,
+          "num_runs": 2000,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "two_qubit_gate_depth",
+          "value": 122,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "two_qubit_gate_count",
+          "value": 123,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "two_qubit_gate_depth",
+          "value": 148,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "two_qubit_gate_count",
+          "value": 165,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_measurements",
+          "value": 15,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "measurements",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_measurements",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "measurements",
+          "higher_is_better": null,
+          "data_source": "figure"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "noiseless simulator",
+          "metric_name": "feasibility_percentage",
+          "value": null,
+          "unit": "%"
+        },
+        {
+          "method_name": "coherent qft oracle without qcl",
+          "metric_name": "feasibility_percentage",
+          "value": null,
+          "unit": "%"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": "coherent QFT oracle without QCL",
+          "conditions": "hardware proof-of-concept on Quantinuum H1-2, four-asset equality constraint, p = 1, 2000 shots",
+          "is_demonstrated": true,
+          "caveats": "QCL reduced ancilla count and gate depth, but the paper does not claim algorithmic speedup."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 4,
+          "num_qubits": 5,
+          "metric_name": "feasibility_percentage",
+          "metric_value": 85.0
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": 5,
+          "metric_name": "feasibility_percentage",
+          "metric_value": 89.0
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": 5,
+          "metric_name": "feasibility_percentage",
+          "metric_value": 96.0
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "for equality-constraint oracle, semiclassical QFT-based arithmetic uses O(Kmn + m log m) t gates in fault-tolerant setting; Zeno measurements increase with depth",
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "not analyzed",
+        "resources_for_advantage": "Large fault‑tolerant device capable of deep QAOA circuits and many Zeno measurements",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Only 4‑qubit optimization instance",
+          "Proof‑of‑concept demonstration",
+          "Hardware noise limits measurement scaling beyond N≈15",
+          "No classical runtime comparison"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "num_qubits = 5 from 4 data qubits plus 1 auxiliary qubit with QCL, as stated in the hardware section.",
+          "circuit_depth = 148 and gate count = 165 are reported for the QCL-free implementation at N = 15; the paper states the QCL version had depth 122 and count 123, but the maximum reported depth in the text is 148.",
+          "Hardware is a real trapped-ion QPU (Quantinuum H1-2).",
+          "Hardware experiment intended as validation of the Zeno constraint‑enforcement technique, not as a performance comparison with classical methods."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "Hardware proof-of-concept QAOA with Zeno dynamics on Quantinuum H1-2 for a four-asset portfolio optimization problem with an inequality constraint, using a coherent QFT adder oracle.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "QAOA with Zeno dynamics",
+        "ansatz": null,
+        "optimizer": "COBYLA",
+        "num_layers": 1,
+        "convergence_criteria": "single-layer proof-of-concept; QAOA parameters optimized on noiseless simulator before hardware execution",
+        "hyperparameters": {
+          "p": 1,
+          "mixers": "B = sum_j x_j",
+          "constraint": "sum_j x_j <= 2",
+          "number_of_measurements": "varied; figure shows N values up to about 5",
+          "shots": 2000,
+          "auxiliary_qubits": 4
+        },
+        "parameter_initialization": "optimized on a noiseless simulator; initial parameters not otherwise specified",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "4 binary variables for 4 assets; inequality constraint checked by QFT adder computing sum_j x_j - 3",
+        "objective_function": "portfolio optimization cost from the four-asset instance used in numerics",
+        "constraints_handling": "Zeno projective measurements with coherent QFT oracle; sign bit measured to test feasibility",
+        "num_binary_variables": 4,
+        "problem_hamiltonian": "QAOA cost Hamiltonian for the four-asset portfolio instance",
+        "num_ancilla_qubits": 4
+      },
+      "problem_instance": {
+        "description": "Four-asset portfolio optimization with cardinality inequality constraint sum_j x_j <= 2",
+        "num_assets": 4,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 1,
+        "data_type": "proprietary",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "single four-asset proof-of-concept instance"
+        },
+        "data_preprocessing_details": null,
+        "evaluation_methodology": "2000-shot hardware runs; in-constraint probability and final measurement distributions compared against noiseless simulation for varying N"
+      },
+      "quantum_resources": {
+        "num_qubits": 8,
+        "qubit_type": "physical",
+        "circuit_depth": 112,
+        "circuit_depth_transpiled": 112,
+        "gate_count_total": 186,
+        "cnot_count": null,
+        "two_qubit_gate_count": 186,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 2000,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_trapped_ion",
+        "provider": "Quantinuum",
+        "device_name": "H1-2",
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "hardware noise; no explicit model reported",
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://doi.org/10.5281/zenodo.7125969",
+        "framework_version": null,
+        "transpilation_target": "Quantinuum H1-2",
+        "classical_solver": "COBYLA",
+        "transpilation_settings": null,
+        "classical_preprocessing": "QAOA parameters optimized using a noiseless simulator before hardware execution",
+        "classical_postprocessing": null,
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "in-constraint probability increases with N up to about N=3, then saturates/degrades due to hardware noise",
+          "variance_across_runs": 2000.0,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "feasibility_percentage",
+          "value": 85.0,
+          "uncertainty": null,
+          "num_runs": 2000,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "feasibility_percentage",
+          "value": 89.0,
+          "uncertainty": null,
+          "num_runs": 2000,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "feasibility_percentage",
+          "value": 96.0,
+          "uncertainty": null,
+          "num_runs": 2000,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "two_qubit_gate_depth",
+          "value": 112,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "two_qubit_gate_count",
+          "value": 186,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_measurements",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "measurements",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_measurements",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "measurements",
+          "higher_is_better": null,
+          "data_source": "figure"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "noiseless simulator",
+          "metric_name": "feasibility_percentage",
+          "value": null,
+          "unit": "%"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": "noiseless simulator",
+          "conditions": "hardware proof-of-concept on Quantinuum H1-2, four-asset inequality constraint, p = 1, 2000 shots",
+          "is_demonstrated": true,
+          "caveats": "No algorithmic speedup is claimed; the result is a hardware feasibility demonstration with improved in-constraint probability as measurements increase."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 4,
+          "num_qubits": 8,
+          "metric_name": "feasibility_percentage",
+          "metric_value": 85.0
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": 8,
+          "metric_name": "feasibility_percentage",
+          "metric_value": 89.0
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": 8,
+          "metric_name": "feasibility_percentage",
+          "metric_value": 96.0
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "for inequality-constraint oracle, QFT-based arithmetic uses O(Kmn + m log m) t gates in fault-tolerant setting; Zeno measurements increase with depth",
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "not analyzed",
+        "resources_for_advantage": "Fault‑tolerant implementation of QAOA with arithmetic‑based constraint oracles",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Only four decision variables",
+          "Hardware noise prevents scaling of Zeno measurements beyond N≈3",
+          "No classical baseline or complexity crossover analysis"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "num_qubits = 8 from 4 data qubits plus 4 auxiliary qubits, as stated in the inequality-constraint hardware section.",
+          "circuit_depth = 112 and gate count = 186 are reported for N = 3 in the inequality experiment.",
+          "Hardware is a real trapped-ion QPU (Quantinuum H1-2).",
+          "Experiment demonstrates feasibility of inequality‑constraint oracle on trapped‑ion hardware rather than any computational advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_new_1",
+      "description": "Numerical experiments evaluating Layer Variational Quantum Eigensolver (L‑VQE) enhanced with Zeno dynamics on the same portfolio optimization benchmark (4–10 assets, single and multiple constraints).",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Layer VQE (L‑VQE) with Zeno dynamics",
+        "optimizer": "COBYLA",
+        "num_layers": 1,
+        "hyperparameters": {
+          "num_measurements": 100,
+          "constraints": [
+            "budget constraint",
+            "budget + return constraint"
+          ],
+          "problem_sizes": "4–10 assets"
+        }
+      },
+      "key_results": [
+        "Approximation ratios between 0.914 and 0.9996 across problem sizes",
+        "In‑constraint probabilities between 0.811 and 0.980",
+        "100 Zeno measurements used for all instances"
+      ],
+      "source": "Table 1 and Section 2.3.2"
+    }
+  ]
+}

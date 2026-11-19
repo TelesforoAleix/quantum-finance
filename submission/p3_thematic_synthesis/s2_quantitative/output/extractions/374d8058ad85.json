@@ -1,0 +1,480 @@
+{
+  "paper_id": "374d8058ad85",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:30:29+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "374d8058ad85_quantum_subgradient_estimation_for_conditional_value_at_risk_optimization.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.633,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 9,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='CVaR value' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='CVaR value' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='CVaR value' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='CVaR value' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='l2 error' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='l2 error' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='l2 error' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='l2 error' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='l2 error' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.633,
+      "completeness": 0.633,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.633
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "QUANTUM SUBGRADIENT ESTIMATION FOR CONDITIONAL VALUE-AT-RISK OPTIMIZATION",
+    "authors": [
+      "Vasilis Skarlatos",
+      "Nikos Konofaos"
+    ],
+    "year": 2025,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "portfolio-optimization",
+    "secondary_silos": [
+      "risk-management",
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a quantum CVaR subgradient oracle using amplitude estimation with query complexity O(d/ε log(1/η)), improving over classical Monte Carlo O(d/ε^2). In simulated experiments with synthetic Gaussian returns, gradient estimation errors averaged 0.09262 for the QAE-style estimator versus 0.12081 for Monte Carlo, and projected CVaR optimization achieved similar average CVaR values (0.17076 vs 0.16947) while theoretically requiring fewer queries.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Simulation study of a QAE-based CVaR gradient oracle versus classical Monte Carlo for gradient estimation accuracy and projected CVaR minimization on synthetic correlated Gaussian portfolio returns.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Quantum amplitude estimation (iterative or maximum-likelihood QAE) for CVaR subgradient estimation",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "confidence_level_alpha": 0.95,
+          "target_accuracy_epsilon": "varied",
+          "failure_probability_eta": "varied",
+          "VaR_threshold_precision_delta": "set to Theta(epsilon)",
+          "step_size_schedule": "eta_t = O(1/sqrt(t))",
+          "portfolio_dimension_d": "varied in theory; experiments use fixed synthetic portfolio",
+          "return_model": "correlated Gaussian returns with equicorrelation covariance",
+          "ground_truth_samples": "5e5 for gradient reference"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": "O(1/sqrt(t))",
+          "learning_rate_schedule": "eta_t = O(1/sqrt(t))",
+          "parameter_bounds": "weights projected onto probability simplex"
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Scenario distribution prepared in computational basis; loss computed reversibly from portfolio weights and return scenarios; tail event marked by comparator; payload encoded via single-qubit rotations for each return coordinate",
+        "objective_function": "min_w CVaR_alpha(w) with CVaR_alpha(w) = min_z { z + (1/(1-alpha)) E[(L(w)-z)+] } and L(w) = -w^T r",
+        "constraints_handling": "Projected stochastic subgradient descent with projection onto the probability simplex (long-only constraint)",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Synthetic portfolio optimization with linear losses under correlated Gaussian returns",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "d-dimensional correlated Gaussian returns with heterogeneous variances and equicorrelation structure"
+        },
+        "data_preprocessing_details": "No real-data preprocessing; synthetic returns generated from a correlated Gaussian model",
+        "evaluation_methodology": "Two experiments: (1) gradient ℓ2 error versus budget, comparing MC and QAE-style estimators against a 5e5-sample ground truth; (2) projected stochastic subgradient descent over 40 iterations, tracking CVaR trajectories and cumulative queries"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_type": null,
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "Python (numpy/matplotlib); quantum circuits simulated noiselessly",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Monte Carlo baseline; projected stochastic subgradient descent"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": "noiseless simulation",
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/BillSkarlatos/Quantum-CVaR",
+        "classical_preprocessing": null,
+        "classical_postprocessing": "Compute ℓ2 gradient error against ground truth; compare CVaR trajectories and averages",
+        "transpilation_settings": null,
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "QAE-style gradient error decays approximately as O(1/M); MC as O(1/sqrt(N)); optimization trajectories show comparable CVaR improvement with fewer queries for QAE-style",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "cvar",
+          "value": 0.16947,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "CVaR value",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "cvar",
+          "value": 0.17076,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "CVaR value",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "cvar",
+          "value": 0.18163,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "CVaR value",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "cvar",
+          "value": 0.1488,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "CVaR value",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "gradient_l2_error",
+          "value": 0.12081,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "l2 error",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "gradient_l2_error",
+          "value": 0.09262,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "l2 error",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "gradient_l2_error",
+          "value": 0.0632,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "l2 error",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "gradient_l2_error",
+          "value": 0.31862,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "l2 error",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "gradient_l2_error",
+          "value": 0.36073,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "l2 error",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": null,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "gradient_l2_error",
+          "value": 0.12081,
+          "unit": "l2 error"
+        },
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "cvar",
+          "value": 0.16947,
+          "unit": "CVaR value"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical monte carlo",
+          "conditions": "for CVaR subgradient estimation using iterative or maximum-likelihood QAE; accuracy epsilon and failure probability eta; per-gradient query complexity O(d/epsilon log(1/eta)) versus O(d/epsilon^2) classically",
+          "is_demonstrated": true,
+          "caveats": "Experiments are noiseless simulations of a QAE-style estimator, not actual quantum hardware runs."
+        },
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical monte carlo",
+          "conditions": "projected stochastic subgradient descent to epsilon-optimality; total query complexity O(d/epsilon^3) versus O(d/epsilon^4) classically",
+          "is_demonstrated": true,
+          "caveats": "This is an asymptotic complexity claim derived from the analysis, not a hardware benchmark."
+        },
+        {
+          "type": "empirical",
+          "factor": "O(1/M) error decay versus O(1/sqrt(N))",
+          "baseline_method": "classical monte carlo",
+          "conditions": "gradient estimation accuracy versus budget in simulation; QAE-style uses query budget M, MC uses sample size N",
+          "is_demonstrated": true,
+          "caveats": "Shown in simulated numerical results and described in Figure 1/Table 1; no real quantum device used."
+        },
+        {
+          "type": "empirical",
+          "factor": "up to one order of magnitude fewer queries",
+          "baseline_method": "classical monte carlo",
+          "conditions": "projected CVaR minimization under matched query budgets",
+          "is_demonstrated": false,
+          "caveats": "Stated as an expectation/interpretation; the table shows similar CVaR values under equal per-iteration budgets rather than a direct 10x query reduction."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 100.0,
+          "num_qubits": null,
+          "metric_name": "gradient_l2_error",
+          "metric_value": 0.31862
+        },
+        {
+          "problem_size": 215.0,
+          "num_qubits": null,
+          "metric_name": "gradient_l2_error",
+          "metric_value": 0.14953
+        },
+        {
+          "problem_size": 464.0,
+          "num_qubits": null,
+          "metric_name": "gradient_l2_error",
+          "metric_value": 0.0962
+        },
+        {
+          "problem_size": 1000.0,
+          "num_qubits": null,
+          "metric_name": "gradient_l2_error",
+          "metric_value": 0.09827
+        },
+        {
+          "problem_size": 2154.0,
+          "num_qubits": null,
+          "metric_name": "gradient_l2_error",
+          "metric_value": 0.05187
+        },
+        {
+          "problem_size": 4641.0,
+          "num_qubits": null,
+          "metric_name": "gradient_l2_error",
+          "metric_value": 0.0303
+        },
+        {
+          "problem_size": 10000.0,
+          "num_qubits": null,
+          "metric_name": "gradient_l2_error",
+          "metric_value": 0.01753
+        },
+        {
+          "problem_size": 10.0,
+          "num_qubits": null,
+          "metric_name": "gradient_l2_error",
+          "metric_value": 0.36073
+        },
+        {
+          "problem_size": 21.0,
+          "num_qubits": null,
+          "metric_name": "gradient_l2_error",
+          "metric_value": 0.19755
+        },
+        {
+          "problem_size": 46.0,
+          "num_qubits": null,
+          "metric_name": "gradient_l2_error",
+          "metric_value": 0.07822
+        },
+        {
+          "problem_size": 100.0,
+          "num_qubits": null,
+          "metric_name": "gradient_l2_error",
+          "metric_value": 0.01017
+        },
+        {
+          "problem_size": 215.0,
+          "num_qubits": null,
+          "metric_name": "gradient_l2_error",
+          "metric_value": 0.01352
+        },
+        {
+          "problem_size": 464.0,
+          "num_qubits": null,
+          "metric_name": "gradient_l2_error",
+          "metric_value": 0.00552
+        },
+        {
+          "problem_size": 1000.0,
+          "num_qubits": null,
+          "metric_name": "gradient_l2_error",
+          "metric_value": 0.00446
+        },
+        {
+          "problem_size": 1.0,
+          "num_qubits": null,
+          "metric_name": "cvar",
+          "metric_value": 0.18163
+        },
+        {
+          "problem_size": 1.0,
+          "num_qubits": null,
+          "metric_name": "cvar",
+          "metric_value": 0.18479
+        },
+        {
+          "problem_size": 40.0,
+          "num_qubits": null,
+          "metric_name": "cvar",
+          "metric_value": 0.174
+        },
+        {
+          "problem_size": 40.0,
+          "num_qubits": null,
+          "metric_name": "cvar",
+          "metric_value": 0.17252
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(d/epsilon log(1/eta)) per gradient estimate; Õ(d/epsilon^3) total for epsilon-optimal projected subgradient descent",
+        "classical_complexity": "O(d/epsilon^2) per gradient estimate; O(d/epsilon^4) total for epsilon-optimal projected subgradient descent",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Appendix C estimates ~20–30 logical qubits and ~2–3×10^4 physical qubits (surface code distance ≈30) for a small instance (d≈10, ε≈10^-2) to run QAE-based CVaR estimation fault-tolerantly.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "All experiments use classical simulation of a QAE-style estimator rather than executing quantum circuits.",
+          "Quadratic speedup (O(1/ε) vs O(1/ε^2)) is unlikely to overcome fault‑tolerant overheads under Hoefler constant-factor analysis.",
+          "State preparation oracle U_D for the return distribution may require expensive data loading or QRAM-like access.",
+          "Amplitude estimation circuits require deep coherent queries that exceed NISQ capabilities.",
+          "Empirical results only emulate scaling behavior and do not measure real quantum runtime or gate counts."
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper reports only simulated/noiseless QAE-style experiments and does not specify an actual qubit count, circuit depth, or transpiled resources for the experiments.",
+          "Resource estimates in Appendix C are analytical physical/logical qubit estimates for future fault-tolerant deployment, not experimental hardware usage, so they are not treated as experiment resources.",
+          "The authors claim a near-quadratic query complexity improvement using amplitude estimation (O(d/ε) vs O(d/ε^2)), but all experiments are classical simulations emulating QAE scaling.",
+          "No quantum hardware experiments or realistic circuit resource measurements are reported."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

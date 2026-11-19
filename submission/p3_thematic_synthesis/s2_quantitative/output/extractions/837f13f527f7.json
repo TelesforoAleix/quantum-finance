@@ -1,0 +1,720 @@
+{
+  "paper_id": "837f13f527f7",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:09:01+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "837f13f527f7_enhancing_quantum_federated_learning_with_fisher_information_based_optimization.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.9,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 6,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[5].unit='rounds' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='clients' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='components' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[3].unit='rounds' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[4].unit='clients' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.9,
+      "completeness": 0.9,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.9,
+        0.9
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Enhancing Quantum Federated Learning with Fisher Information-Based Optimization",
+    "authors": [
+      "Amandeep Singh Bhatia",
+      "Sabre Kais"
+    ],
+    "year": 2025,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "other",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes QFedFisher, a Fisher‑information‑based aggregation method for quantum federated learning using variational quantum classifiers. On ADNI MRI classification (11 qubits, 60‑layer VQC), QFedFisher achieves 89.9% accuracy vs 88.2% (QFedAdam) and 87.0% (QFedAvg). On MNIST (10 qubits), it reaches 91.2% accuracy compared to 86.3% and 84.8% for the baselines, with ~12–16% additional runtime.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum federated learning with Fisher-information-based aggregation (QFedFisher) using a variational quantum classifier on the ADNI binary classification task.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "QFedFisher quantum federated learning with variational quantum classifier",
+        "ansatz": "variational quantum circuit with amplitude encoding, single-qubit RX/RY rotations, and linear CNOT entanglement",
+        "optimizer": "Adam",
+        "num_layers": 60,
+        "convergence_criteria": "fixed 100 communication rounds",
+        "hyperparameters": {
+          "dataset": "ADNI",
+          "clients": 10,
+          "client_participation": "all clients per round",
+          "local_epochs": 1,
+          "batch_size": 32,
+          "learning_rate": 0.001,
+          "fisher_threshold": 0.01,
+          "communication_rounds": 100,
+          "qubits": 11,
+          "pca_components": 2048,
+          "optimizer": "ADAM"
+        },
+        "parameter_initialization": "Kaiming initialization",
+        "optimizer_settings": {
+          "max_iterations": 100,
+          "learning_rate": 0.001,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "2048 PCA components from MRI slices are amplitude-encoded into 11 qubits (2^11 = 2048)",
+        "objective_function": "binary classification of AD vs NC using cross-entropy loss",
+        "constraints_handling": "Fisher-threshold-based parameter substitution during aggregation; parameters with Fisher information below threshold are replaced by global parameters",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Federated binary classification of Alzheimer’s disease vs normal cognition from MRI scans",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 2048,
+        "dataset_size": 10231,
+        "data_type": "public_benchmark",
+        "dataset_name": "ADNI",
+        "dataset_specification": {
+          "description": "10,231 MRI scans; 3,676 AD and 6,555 NC"
+        },
+        "data_preprocessing_details": "Axial 2D slices extracted from 3D T1-weighted MRI brain images; original 160x192 images reduced to 2048 components using PCA preserving 99% variability; non-IID partitioning across 10 clients using Dirichlet distribution with alpha=0.1",
+        "evaluation_methodology": "testing accuracy and loss on a held-out test set over 100 communication rounds"
+      },
+      "quantum_resources": {
+        "num_qubits": 11,
+        "qubit_type": "logical",
+        "circuit_depth": 60,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "ADAM optimizer",
+        "transpilation_settings": null,
+        "classical_preprocessing": "PCA dimensionality reduction; Dirichlet non-IID client partitioning; amplitude encoding preparation",
+        "classical_postprocessing": "global model aggregation; accuracy/loss evaluation; confusion matrix computation",
+        "total_execution_time": 2481.4,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 100,
+          "final_loss_value": 0.278,
+          "loss_curve_shape": "monotonic improvement with smoother convergence than baselines",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "testing_accuracy",
+          "value": 89.9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "loss",
+          "value": 0.278,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "total_execution_time",
+          "value": 2481.4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "positive_predictive_value",
+          "value": 89.9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "negative_predictive_value",
+          "value": 90.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "communication_rounds",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "rounds",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_clients",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "clients",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "qubits",
+          "value": 11,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "pca_components",
+          "value": 2048,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "components",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "local_epochs",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "batch_size",
+          "value": 32,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "learning_rate",
+          "value": 0.001,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "fisher_threshold",
+          "value": 0.01,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 10231,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "QFedAvg",
+          "metric_name": "testing_accuracy",
+          "value": 87.0,
+          "unit": "%"
+        },
+        {
+          "method_name": "QFedAvg",
+          "metric_name": "loss",
+          "value": 0.302,
+          "unit": ""
+        },
+        {
+          "method_name": "QFedAvg",
+          "metric_name": "total_execution_time",
+          "value": 2213.2,
+          "unit": "seconds"
+        },
+        {
+          "method_name": "QFedAdam",
+          "metric_name": "testing_accuracy",
+          "value": 88.2,
+          "unit": "%"
+        },
+        {
+          "method_name": "QFedAdam",
+          "metric_name": "loss",
+          "value": 0.297,
+          "unit": ""
+        },
+        {
+          "method_name": "QFedAdam",
+          "metric_name": "total_execution_time",
+          "value": 2396.1,
+          "unit": "seconds"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No asymptotic or algorithmic speedup claim is made; only empirical performance and runtime comparisons are reported."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 10231,
+          "num_qubits": 11,
+          "metric_name": "testing_accuracy",
+          "metric_value": 89.9
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Not discussed; experiment uses simulated 11‑qubit VQC with 60 layers in a federated learning loop.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "No comparison against classical machine learning baselines",
+          "Simulation-only evaluation (no QPU execution)",
+          "Small qubit counts (11 qubits)",
+          "Amplitude encoding state-preparation overhead",
+          "No complexity-theoretic speedup analysis"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "hardware.type inferred as simulator_other because the paper describes simulation/implementation details but names no physical QPU or vendor device.",
+          "speedup_order set to none_proven because the paper reports empirical performance improvements only, not asymptotic quantum speedup.",
+          "The paper compares only quantum federated learning aggregation methods (QFedAvg, QFedAdam, QFedFisher) and does not benchmark against classical ML models for the ADNI classification task."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Quantum federated learning with Fisher-information-based aggregation (QFedFisher) using a variational quantum classifier on the MNIST multi-class classification task.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "QFedFisher quantum federated learning with variational quantum classifier",
+        "ansatz": "variational quantum circuit with amplitude encoding, single-qubit RX/RY rotations, and linear CNOT entanglement",
+        "optimizer": "Adam",
+        "num_layers": 60,
+        "convergence_criteria": "fixed 300 communication rounds",
+        "hyperparameters": {
+          "dataset": "MNIST",
+          "clients": 100,
+          "client_participation": "5% of clients per round",
+          "local_epochs": 1,
+          "batch_size": 32,
+          "learning_rate": 0.001,
+          "fisher_threshold": 0.01,
+          "communication_rounds": 300,
+          "qubits": 10,
+          "optimizer": "ADAM",
+          "dirichlet_alpha": 0.5
+        },
+        "parameter_initialization": "Kaiming initialization",
+        "optimizer_settings": {
+          "max_iterations": 300,
+          "learning_rate": 0.001,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "28x28 grayscale images are padded with zeros and encoded into 10 qubits",
+        "objective_function": "10-class image classification using cross-entropy loss",
+        "constraints_handling": "Fisher-threshold-based parameter substitution during aggregation; parameters with Fisher information below threshold are replaced by global parameters",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Federated multi-class digit classification on MNIST",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 784,
+        "dataset_size": null,
+        "data_type": "public_benchmark",
+        "dataset_name": "MNIST",
+        "dataset_specification": {
+          "description": "28x28 grayscale handwritten digit images; 100 clients; non-IID partitioning with Dirichlet alpha=0.5; 5% of clients sampled per round"
+        },
+        "data_preprocessing_details": "Images padded with zeros before amplitude encoding",
+        "evaluation_methodology": "testing accuracy and loss on a held-out test set over 300 communication rounds"
+      },
+      "quantum_resources": {
+        "num_qubits": 10,
+        "qubit_type": "logical",
+        "circuit_depth": 60,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "ADAM optimizer",
+        "transpilation_settings": null,
+        "classical_preprocessing": "zero-padding; amplitude encoding; Dirichlet non-IID client partitioning",
+        "classical_postprocessing": "global model aggregation; accuracy/loss evaluation; confusion matrix computation",
+        "total_execution_time": 1128.1,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 300,
+          "final_loss_value": 0.418,
+          "loss_curve_shape": "smooth convergence with improved accuracy over baselines",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "testing_accuracy",
+          "value": 91.2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "loss",
+          "value": 0.418,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "total_execution_time",
+          "value": 1128.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "communication_rounds",
+          "value": 300,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "rounds",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_clients",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "clients",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "client_participation_rate",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "qubits",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "learning_rate",
+          "value": 0.001,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "fisher_threshold",
+          "value": 0.01,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "QFedAvg",
+          "metric_name": "testing_accuracy",
+          "value": 84.8,
+          "unit": "%"
+        },
+        {
+          "method_name": "QFedAvg",
+          "metric_name": "loss",
+          "value": 0.632,
+          "unit": ""
+        },
+        {
+          "method_name": "QFedAvg",
+          "metric_name": "total_execution_time",
+          "value": 974.7,
+          "unit": "seconds"
+        },
+        {
+          "method_name": "QFedAdam",
+          "metric_name": "testing_accuracy",
+          "value": 86.3,
+          "unit": "%"
+        },
+        {
+          "method_name": "QFedAdam",
+          "metric_name": "loss",
+          "value": 0.525,
+          "unit": ""
+        },
+        {
+          "method_name": "QFedAdam",
+          "metric_name": "total_execution_time",
+          "value": 1098.5,
+          "unit": "seconds"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No asymptotic or algorithmic speedup claim is made; only empirical performance and runtime comparisons are reported."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": null,
+          "num_qubits": 10,
+          "metric_name": "testing_accuracy",
+          "metric_value": 91.2
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Not discussed; experiment uses a 10‑qubit variational quantum classifier with 60 layers trained in a federated learning setting.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "No classical ML baselines for MNIST classification",
+          "Simulation-only experiments",
+          "Small circuit sizes (10 qubits)",
+          "No theoretical runtime or asymptotic advantage analysis",
+          "Federated optimization dominates runtime rather than quantum computation"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "hardware.type inferred as simulator_other because the paper describes simulation/implementation details but names no physical QPU or vendor device.",
+          "speedup_order set to none_proven because the paper reports empirical performance improvements only, not asymptotic quantum speedup.",
+          "The reported improvements (e.g., 91.2% accuracy vs 86.3% for QFedAdam) are only relative to other quantum federated aggregation rules, not classical classifiers."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

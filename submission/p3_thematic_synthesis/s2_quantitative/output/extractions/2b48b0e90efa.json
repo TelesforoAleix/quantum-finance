@@ -1,0 +1,891 @@
+{
+  "paper_id": "2b48b0e90efa",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:24:36+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "2b48b0e90efa_multiobjective_variational_quantum_optimization_for_constrained_problems_an_appl.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.51,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 7,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[1].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='generations' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[2].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[3].unit='dimensionless' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[2].unit='difference in feasibility percentage' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[3].unit='difference in transaction cost' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[5].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.51,
+      "completeness": 0.51,
+      "num_experiments": 5,
+      "experiment_scores": [
+        0.75,
+        0.75,
+        0.75,
+        0.15,
+        0.15
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Multiobjective variational quantum optimization for constrained problems: an application to Cash Management",
+    "authors": [
+      "Pablo Diez-Valle",
+      "Jorge Luis Hita",
+      "Senaida Hernandez-Santana",
+      "Fernando Martinez-Garcia",
+      "Alvaro Diaz-Fernandez",
+      "Eva Andres",
+      "Juan Jose Garcia-Ripoll",
+      "Escolastico Sanchez-Martinez",
+      "Diego Porras"
+    ],
+    "year": 2022,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "portfolio-optimization",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper introduces MOVCO, a multi‑objective genetic‑algorithm optimizer for variational quantum algorithms, and evaluates it on Cash Management optimization instances with up to 16 qubits (2 ATMs over 4 days) and up to 308 binary variables using a product‑state ansatz. Across 120 simulated instances with 8192 measurement shots per circuit, MOVCO‑VQE achieves higher constraint‑satisfaction rates and better approximation ratios than penalty‑based VQE, often reaching feasible solutions within ~200 generations. All results are obtained via noiseless classical simulation rather than quantum hardware.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "MOVCO-VQE on randomly generated Cash Management Problem instances using a one-layer hardware-efficient VQE ansatz and NSGA-II multiobjective classical optimization.",
+      "algorithm": {
+        "family": "vqe",
+        "variant": "MOVCO-VQE (Multi-Objective Variational Constrained Optimizer with VQE)",
+        "ansatz": "hardware-efficient ansatz with parameterized single-qubit Ry rotations and nearest-neighbor CZ entangling gates",
+        "optimizer": "NSGA-II (binary tournament selection, simulated binary crossover, polynomial mutation)",
+        "num_layers": 1,
+        "convergence_criteria": "fixed number of generations / evaluations; results reported up to 400 generations and 8192 shots per evaluation",
+        "hyperparameters": {
+          "population_size": 10,
+          "offspring_population_size": 10,
+          "shots_per_evaluation": 8192,
+          "ansatz_layers": 1,
+          "optimizer": "NSGA-II",
+          "selection": "binary tournament",
+          "crossover": "simulated binary crossover",
+          "mutation": "polynomial mutation"
+        },
+        "parameter_initialization": "parameters initialized around pi/4 with small random perturbations",
+        "optimizer_settings": {
+          "max_iterations": 400,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "binary/spin encoding of discretized cash levels; V = 2CD binary variables for C cash points and D days",
+        "objective_function": "minimize transaction cost C(z) while maximizing constraint satisfaction P(theta) via a two-objective Pareto optimization; restricted energy E(theta) computed only over feasible samples",
+        "constraints_handling": "feasibility filter via multiobjective optimization (maximize percentage of satisfied constraints and minimize restricted energy); no penalty terms in MOVCO",
+        "num_binary_variables": null,
+        "problem_hamiltonian": "Cash Management Hamiltonian expressed in Pauli-Z operators (Eq. 16)",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Cash Management Problem instances with 2 cash points over 2, 3, and 4 days",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 120,
+        "data_type": "synthetic",
+        "dataset_name": "randomly generated CMP instances",
+        "dataset_specification": {
+          "description": "cash-point delivery costs drawn from discrete uniform [1,4], first-day cost doubled; initial predictions drawn from discrete uniform [-2,5]; last-day total cash limit v = C; max daily transactions l = 1 if C=2 else floor(C/2)"
+        },
+        "data_preprocessing_details": null,
+        "evaluation_methodology": "120 random instances; classical simulation; 8192 sampled bitstrings per circuit evaluation; performance tracked over generations"
+      },
+      "quantum_resources": {
+        "num_qubits": 8,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 8192,
+        "num_variational_params": 2,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "pymoo 0.5.0 for NSGA-II optimization; quantum circuits simulated classically (noise‑free) using HPC resources",
+        "framework_version": "pymoo 0.5.0",
+        "transpilation_target": null,
+        "classical_solver": "NSGA-II"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": "noise-free classical simulation of quantum circuit",
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "random CMP instance generation; discretization of cash levels; mapping to spin variables",
+        "classical_postprocessing": "Pareto-front selection; approximation ratio and constraint-satisfaction metrics computed from sampled bitstrings",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 200,
+          "final_loss_value": null,
+          "loss_curve_shape": "two-stage behavior: first increase constraint satisfaction, then minimize restricted energy",
+          "variance_across_runs": 120.0,
+          "num_independent_runs": 120
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "feasibility_percentage",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": 120,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "ground_state_probability",
+          "value": 0.1,
+          "uncertainty": null,
+          "num_runs": 120,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 120,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_generations_to_feasible",
+          "value": 200,
+          "uncertainty": null,
+          "num_runs": 120,
+          "unit": "generations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots_per_evaluation",
+          "value": 8192,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No quantum advantage or speedup claim is made; the paper reports empirical performance only."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 2.0,
+          "num_qubits": 8,
+          "metric_name": "feasibility_percentage",
+          "metric_value": 100
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": 12,
+          "metric_name": "feasibility_percentage",
+          "metric_value": 100
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": 16,
+          "metric_name": "feasibility_percentage",
+          "metric_value": 100
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": 16,
+          "metric_name": "ground_state_probability",
+          "metric_value": 0.1
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "not analyzed; experiments limited to ≤16 qubits in classical simulation",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "No comparison with best classical optimization algorithms for CMP",
+          "Experiments performed only in noiseless classical simulation",
+          "Problem sizes extremely small (≤16 qubits)",
+          "No asymptotic complexity or speedup analysis"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware type inferred as simulator_other because the paper states the quantum circuits were classically simulated under noise-free conditions.",
+          "num_qubits not explicitly stated for the 2-, 3-, and 4-day experiments, but the paper gives V = 2CD binary variables/qubits for the CMP encoding.",
+          "Circuit depth is inferred from the one-layer ansatz description and the hardware-efficient circuit figure, but no explicit numeric depth beyond one layer is given.",
+          "No asymptotic speedup claim is made; the paper focuses on empirical performance.",
+          "Authors present MOVCO as a better constraint‑handling strategy for VQAs but do not claim quantum advantage over classical algorithms."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Comparison of MOVCO-VQE against VQE with penalty terms on 2-cash-point, 4-day Cash Management instances using the same one-layer ansatz and SPSA optimizer for the penalty baseline.",
+      "algorithm": {
+        "family": "vqe",
+        "variant": "MOVCO-VQE versus penalized VQE baseline",
+        "ansatz": "hardware-efficient ansatz with parameterized single-qubit Ry rotations and nearest-neighbor CZ entangling gates",
+        "optimizer": "MOVCO-VQE: NSGA-II; VQE baseline: SPSA",
+        "num_layers": 1,
+        "convergence_criteria": "fixed evaluation budget; results shown versus number of evaluations up to 4000",
+        "hyperparameters": {
+          "population_size": 10,
+          "offspring_population_size": 10,
+          "shots_per_evaluation": 8192,
+          "ansatz_layers": 1,
+          "penalty_hyperparameters_Af": 25,
+          "penalty_hyperparameters_Al": 25,
+          "optimizer_baseline": "SPSA"
+        },
+        "parameter_initialization": "parameters initialized around pi/4 with small random perturbations",
+        "optimizer_settings": {
+          "max_iterations": 4000,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        },
+        "optimizer_settings.max_iterations": "reported in terms of circuit evaluations up to ~4000 rather than optimizer iterations"
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "16-qubit CMP instance for 2 cash points over 4 days; binary/spin encoding of discretized cash levels",
+        "objective_function": "penalized Hamiltonian C_pen(z) = C(z) + Af * sum_t L(G_D - v_f) + Al * L(N_t - l) for the baseline; MOVCO optimizes constraint satisfaction and restricted energy separately",
+        "constraints_handling": "MOVCO uses multiobjective feasibility optimization; baseline uses penalty terms with Af = Al = 25",
+        "num_binary_variables": 16,
+        "problem_hamiltonian": "Cash Management Hamiltonian C(z) and penalized Hamiltonian C_pen(z)",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "120 random CMP instances with 2 cash points over a 4-day period",
+        "num_assets": 2,
+        "time_steps": 4,
+        "num_features": null,
+        "dataset_size": 120,
+        "data_type": "synthetic",
+        "dataset_name": "randomly generated CMP instances",
+        "dataset_specification": {
+          "description": "same random generation procedure as Appendix B"
+        },
+        "data_preprocessing_details": null,
+        "evaluation_methodology": "120 instances; compare percentage of feasible samples, overlap with global minimum, approximation ratio, and dispersion across evaluations"
+      },
+      "quantum_resources": {
+        "num_qubits": 16,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 8192,
+        "num_variational_params": 32,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "classical simulation of quantum circuit",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "SPSA for penalized VQE; NSGA-II for MOVCO"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": "noise-free classical simulation",
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "random CMP instance generation; penalty hyperparameter tuning on 120 instances",
+        "classical_postprocessing": "compute feasibility overlap, approximation ratio, and boxplot statistics over evaluations",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 4000,
+          "final_loss_value": null,
+          "loss_curve_shape": "MOVCO improves feasibility first, then energy; penalized VQE can get trapped in infeasible local minima",
+          "variance_across_runs": 120.0,
+          "num_independent_runs": 120
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "feasibility_percentage",
+          "value": 99,
+          "uncertainty": null,
+          "num_runs": 120,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 120,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "ground_state_probability",
+          "value": 0.1,
+          "uncertainty": null,
+          "num_runs": 120,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "penalty_hyperparameters",
+          "value": 25,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimensionless",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots_per_evaluation",
+          "value": 8192,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "VQE with penalties",
+          "metric_name": "feasibility_percentage",
+          "value": null,
+          "unit": "%"
+        },
+        {
+          "method_name": "VQE with penalties",
+          "metric_name": "approximation_ratio",
+          "value": null,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "VQE with penalties",
+          "metric_name": "ground_state_probability",
+          "value": null,
+          "unit": "probability"
+        },
+        {
+          "method_name": "SPSA",
+          "metric_name": "feasibility_percentage",
+          "value": null,
+          "unit": "%"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": "VQE with penalties",
+          "conditions": "2 cash points, 4 days, 16-qubit CMP instances; 8192 shots; 4000 evaluations",
+          "is_demonstrated": true,
+          "caveats": "The paper reports MOVCO-VQE outperforms penalized VQE empirically, but no asymptotic speedup is claimed."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 2.0,
+          "num_qubits": 16,
+          "metric_name": "feasibility_percentage",
+          "metric_value": 99
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "parity_with_classical",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "not analyzed",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Baseline comparison only between two quantum‑inspired approaches (MOVCO‑VQE vs penalized VQE)",
+          "No classical solver baseline such as MILP, tabu search, or simulated annealing",
+          "Experiments limited to 16 qubits and noiseless simulation"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper explicitly states the comparison uses 16-qubit problems for 2 cash points over 4 days.",
+          "Circuit depth is not numerically reported; only a one-layer ansatz is described.",
+          "No asymptotic speedup analysis is provided.",
+          "MOVCO outperforms penalized VQE but this does not demonstrate quantum advantage because both approaches rely on classical simulation and no classical optimization benchmark is provided."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "Scalability study of MOVCO-VQE and penalized VQE using a fully separable product-state ansatz on larger Cash Management instances with 10 to 22 cash points over a week.",
+      "algorithm": {
+        "family": "vqe",
+        "variant": "MOVCO-VQE versus penalized VQE using fully separable product-state ansatz",
+        "ansatz": "fully separable product state ansatz |v(theta)> = product_n (cos(theta_n)|0> + sin(theta_n)|1>)",
+        "optimizer": "MOVCO-VQE: NSGA-II; penalized VQE: genetic algorithm and also SPSA in appendix comparison",
+        "num_layers": 0,
+        "convergence_criteria": "fixed evaluation budget; results shown up to 4000 evaluations",
+        "hyperparameters": {
+          "population_size": 100,
+          "shots_per_evaluation": 8192,
+          "ansatz_layers": 0,
+          "penalty_hyperparameters_Af": 50,
+          "penalty_hyperparameters_Al": 50,
+          "optimizer_baseline": "genetic algorithm or SPSA"
+        },
+        "parameter_initialization": "not specified for product-state ansatz",
+        "optimizer_settings": {
+          "max_iterations": 4000,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "product-state encoding of binary variables for CMP; problem sizes up to V = 308 variables",
+        "objective_function": "same CMP objective and penalized objective as above; compare constraint satisfaction gap and cost gap between MOVCO and penalized VQE",
+        "constraints_handling": "MOVCO multiobjective feasibility optimization; baseline penalty terms with Af = Al = 50",
+        "num_binary_variables": 308,
+        "problem_hamiltonian": "Cash Management Hamiltonian and penalized Hamiltonian",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "80 CMP instances with 10 to 22 cash points over a 7-day period",
+        "num_assets": 10,
+        "time_steps": 7,
+        "num_features": null,
+        "dataset_size": 80,
+        "data_type": "synthetic",
+        "dataset_name": "randomly generated CMP instances",
+        "dataset_specification": {
+          "description": "problem sizes reported as (10,7;140), (14,7;196), (18,7;252), (22,7;308) variables"
+        },
+        "data_preprocessing_details": null,
+        "evaluation_methodology": "80 instances solved by both methods; compare constraint satisfaction gap and cost gap after increasing number of evaluations"
+      },
+      "quantum_resources": {
+        "num_qubits": 308,
+        "qubit_type": "not_specified",
+        "circuit_depth": 0,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": 0,
+        "two_qubit_gate_count": 0,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 8192,
+        "num_variational_params": 308,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "classical simulation of quantum circuit",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "genetic algorithm / SPSA baseline"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": "noise-free classical simulation",
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "random CMP instance generation",
+        "classical_postprocessing": "compute constraint satisfaction gap and cost gap between methods",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 4000,
+          "final_loss_value": null,
+          "loss_curve_shape": "MOVCO outperforms penalty baseline as evaluations increase",
+          "variance_across_runs": 80.0,
+          "num_independent_runs": 80
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "feasibility_percentage",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 80,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 80,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "constraint_satisfaction_gap",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 80,
+          "unit": "difference in feasibility percentage",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "cost_gap",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 80,
+          "unit": "difference in transaction cost",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots_per_evaluation",
+          "value": 8192,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_variational_params",
+          "value": 308,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": null,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "VQE with penalties",
+          "metric_name": "constraint_satisfaction_gap",
+          "value": null,
+          "unit": "difference in feasibility percentage"
+        },
+        {
+          "method_name": "VQE with penalties",
+          "metric_name": "cost_gap",
+          "value": null,
+          "unit": "difference in transaction cost"
+        },
+        {
+          "method_name": "SPSA",
+          "metric_name": "constraint_satisfaction_gap",
+          "value": null,
+          "unit": "difference in feasibility percentage"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": "VQE with penalties / SPSA",
+          "conditions": "Larger CMP instances with 10 to 22 cash points over 7 days; product-state ansatz; up to 4000 evaluations",
+          "is_demonstrated": true,
+          "caveats": "The paper reports better solution quality for MOVCO, not a computational speedup."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 10.0,
+          "num_qubits": 140,
+          "metric_name": "num_qubits",
+          "metric_value": 140
+        },
+        {
+          "problem_size": 14.0,
+          "num_qubits": 196,
+          "metric_name": "num_qubits",
+          "metric_value": 196
+        },
+        {
+          "problem_size": 18.0,
+          "num_qubits": 252,
+          "metric_name": "num_qubits",
+          "metric_value": 252
+        },
+        {
+          "problem_size": 22.0,
+          "num_qubits": 308,
+          "metric_name": "num_qubits",
+          "metric_value": 308
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "not analyzed; scaling experiments rely on classical sampling of product states",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Product‑state ansatz removes entanglement and is efficiently simulable classically",
+          "Experiments executed entirely with classical sampling rather than quantum hardware",
+          "No classical optimization baseline for CMP"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper explicitly states the product-state ansatz has 0 layers and can be sampled with an array of N elements, one per qubit.",
+          "The number of qubits is explicitly given by the largest problem size V = 308 variables.",
+          "No asymptotic speedup claim is made.",
+          "Large‑scale experiments use a product‑state ansatz that is efficiently classically simulable, so they do not represent a quantum computational advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "Large‑scale benchmark using a fully separable product‑state ansatz to compare MOVCO‑VQE and VQE with penalties on larger Cash Management instances.",
+      "algorithm": {
+        "family": "vqe",
+        "variant": "MOVCO‑VQE vs penalized VQE with product‑state ansatz",
+        "ansatz": "fully separable product state |ψ(θ)⟩ = ∏n (cos θn |0⟩ + sin θn |1⟩)",
+        "optimizer": "MOVCO: NSGA‑II; baseline: VQE with penalties using SPSA or genetic algorithm",
+        "num_layers": 0
+      },
+      "key_results": [
+        "Problem sizes scaled to 10–22 cash points over 7 days corresponding to up to V = 308 binary variables/qubits.",
+        "MOVCO consistently achieved better constraint satisfaction and lower transaction cost than penalty‑based VQE across evaluation budgets up to ~10,000 circuit evaluations.",
+        "Improvement observed for 100% of tested instances at 10,000 evaluations (Fig.9)."
+      ]
+    },
+    {
+      "experiment_id": "exp_4",
+      "description": "Appendix C experiment comparing MOVCO‑VQE with a single‑objective genetic algorithm optimizer applied to penalized VQE.",
+      "algorithm": {
+        "family": "vqe",
+        "variant": "MOVCO‑VQE vs penalized VQE optimized with a genetic algorithm",
+        "ansatz": "same one‑layer hardware‑efficient ansatz with Ry rotations and CZ entangling gates",
+        "optimizer": "MOVCO: NSGA‑II multiobjective GA; baseline: single‑objective GA minimizing penalized Hamiltonian",
+        "num_layers": 1
+      },
+      "key_results": [
+        "MOVCO achieved higher feasibility rates and lower dispersion of approximation ratios across 120 CMP instances.",
+        "Results similar to SPSA baseline comparison, confirming advantage arises from the multiobjective formulation rather than the optimizer alone (Appendix C, Fig.11)."
+      ]
+    }
+  ]
+}

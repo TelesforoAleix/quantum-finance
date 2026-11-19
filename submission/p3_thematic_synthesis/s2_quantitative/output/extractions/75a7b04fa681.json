@@ -1,0 +1,882 @@
+{
+  "paper_id": "75a7b04fa681",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:59:52+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "75a7b04fa681_encoding_of_probability_distributions_for_quantum_monte_carlo_using_tensor_netwo.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.65,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 9,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[2].unit='points' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='dimension' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='level' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='level' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='dimension' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='dimensions' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='points' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[2].unit='dimensions' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[4].unit='points' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.65,
+      "completeness": 0.65,
+      "num_experiments": 3,
+      "experiment_scores": [
+        0.85,
+        0.4,
+        0.7
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Encoding of Probability Distributions for Quantum Monte Carlo Using Tensor Networks",
+    "authors": [
+      "António Pereira",
+      "Alba Villarino",
+      "Aser Cortines",
+      "Samuel Mugel",
+      "Román Orús",
+      "Victor Leme Beltran",
+      "J.V.S. Scursulim",
+      "Samuraí Brito"
+    ],
+    "year": 2024,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "simulation-monte-carlo",
+    "secondary_silos": [
+      "derivative-pricing"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes using TT‑cross tensor‑train decompositions to load probability distributions for quantum Monte Carlo. For a univariate log‑normal distribution the method achieves a Kolmogorov–Smirnov error of 7.2×10⁻⁵ at 16 qubits and shows linear circuit‑depth scaling versus the exponential scaling of Qiskit’s Grover–Rudolph implementation. A small 5‑qubit experiment on IBM Eagle R3 (10,000 shots) demonstrates the approach but shows strong degradation due to hardware noise.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Classical TT-cross training and quantum-circuit mapping for univariate log-normal probability distribution loading, evaluated by simulation and on IBM Eagle R3 hardware.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "TT-cross tensor-network state preparation mapped to quantum circuits via SVD-based TT-to-circuit decomposition",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "bond_dimension": [
+            2,
+            4,
+            8,
+            16
+          ],
+          "qubit_counts": "2 to 25 qubits",
+          "distribution": "univariate log-normal"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Probability distribution discretized into 2^d points and encoded on d qubits as amplitudes; TT/QTT representation used to construct the state-preparation circuit",
+        "objective_function": "Prepare a quantum state whose amplitudes match the target probability distribution p(x_i)",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Univariate log-normal distribution for financial modeling / probability loading",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 1,
+        "dataset_size": null,
+        "data_type": "real_market",
+        "dataset_name": "Itaú Unibanco log-normal distribution",
+        "dataset_specification": {
+          "description": "Parameters calibrated using real market data"
+        },
+        "data_preprocessing_details": "Distribution discretized to powers of two; TT-cross used to approximate the probability vector",
+        "evaluation_methodology": "KS distance and training time reported versus number of qubits; hardware run executed 10,000 shots on IBM Eagle R3; two transpilation optimization levels compared"
+      },
+      "quantum_resources": {
+        "num_qubits": 5,
+        "qubit_type": "physical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 10000,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_superconducting",
+        "provider": "IBM",
+        "device_name": "Eagle R3",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "hardware noise / compiler-dependent noise",
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": "Qiskit 0.45.0",
+        "transpilation_target": "IBM Eagle R3",
+        "classical_solver": null,
+        "transpilation_settings": {
+          "optimization_level": [
+            1,
+            3
+          ],
+          "basis_gates": null,
+          "routing_method": null
+        },
+        "classical_preprocessing": "TT-cross approximation used to construct TT cores before circuit synthesis",
+        "classical_postprocessing": "Measurement-based empirical distribution comparison",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "ks_distance",
+          "value": 7.2e-05,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 16,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "discretization_points",
+          "value": 65536,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "points",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "bond_dimension",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimension",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_shots",
+          "value": 10000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "optimization_level",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "level",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "optimization_level",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "level",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "max_dimensions",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimension",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "max_dimensions",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimensions",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "qubits_per_dimension",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "discretization_points",
+          "value": 250,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "points",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "Qiskit built-in Grover-Rudolph state preparation",
+          "metric_name": "circuit_depth",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "Qiskit built-in Grover-Rudolph state preparation",
+          "metric_name": "training_time",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "logarithmic scaling in number of discretization points",
+          "baseline_method": "Grover-Rudolph state preparation",
+          "conditions": "after TT-cross mapping to quantum circuits",
+          "is_demonstrated": true,
+          "caveats": "The paper contrasts logarithmic scaling in discretization points for the TT approach with linear scaling in discretization points for Grover-Rudolph; this is a complexity claim rather than a direct wall-clock speedup."
+        },
+        {
+          "type": "empirical",
+          "factor": "linear circuit-depth scaling with number of qubits versus exponential circuit-depth increase for Qiskit built-in implementation",
+          "baseline_method": "Qiskit built-in implementation of LogNormal distribution",
+          "conditions": "univariate log-normal distribution, bond dimension capped at 8",
+          "is_demonstrated": true,
+          "caveats": "The paper states the Qiskit method shows a clear exponential increase in circuit depth, while the TT method scales linearly; exact depth values are not provided in text."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 16.0,
+          "num_qubits": 16,
+          "metric_name": "ks_distance",
+          "metric_value": 7.2e-05
+        },
+        {
+          "problem_size": 5.0,
+          "num_qubits": 5,
+          "metric_name": "hardware_execution",
+          "metric_value": 10000
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": null,
+          "metric_name": "training_time_scaling_range",
+          "metric_value": null
+        },
+        {
+          "problem_size": 5.0,
+          "num_qubits": null,
+          "metric_name": "max_dimensions",
+          "metric_value": 5
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "Circuit depth scales linearly with number of qubits; state-preparation complexity discussed as logarithmic in number of discretization points after TT-cross mapping",
+        "classical_complexity": "Grover-Rudolph state preparation scales linearly with number of discretization points (exponential in qubits)",
+        "speedup_order": null,
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Would require large fault‑tolerant QAE circuits plus efficient probability loading for high‑precision Monte Carlo tasks",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Very small hardware demonstration (5 qubits)",
+          "No end‑to‑end quantum Monte Carlo execution",
+          "Noise significantly distorts the encoded distribution on hardware",
+          "Classical TT‑cross training performs most of the computational work",
+          "No quantitative runtime comparison against classical Monte Carlo"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Circuit depth for the IBM hardware run is not explicitly given; only qualitative statements and plots indicate scaling, so it is left null and the resource trend is captured in complexity_analysis.",
+          "The paper reports a 5-qubit system on IBM Eagle R3 and 10,000 circuit executions for the hardware experiment.",
+          "Qiskit 0.45.0 is explicitly reported.",
+          "The authors do not claim a demonstrated quantum advantage; they present improved circuit scaling for state preparation.",
+          "The only hardware test is a 5‑qubit demonstration whose output is strongly affected by noise (Fig. 7)."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Classical TT-cross training and quantum-circuit mapping for bivariate log-normal probability distribution loading, evaluated by simulation only.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "TT-cross tensor-network state preparation with mirroring quantization for 2D distributions",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "bond_dimension": null,
+          "qubit_counts": "qubits per dimension varied",
+          "distribution": "bivariate log-normal",
+          "quantization": "mirroring"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Two-dimensional distribution encoded with mirroring quantization so the most significant qubits of each variable are adjacent",
+        "objective_function": "Prepare a quantum state whose amplitudes match the target bivariate probability distribution",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Bivariate log-normal distribution for financial modeling",
+        "num_assets": 2,
+        "time_steps": null,
+        "num_features": 2,
+        "dataset_size": null,
+        "data_type": "real_market",
+        "dataset_name": "Itaú Unibanco log-normal distribution",
+        "dataset_specification": {
+          "description": "Parameters calibrated using real market data"
+        },
+        "data_preprocessing_details": "Discretization into qubits per dimension; mirroring quantization used to preserve correlations",
+        "evaluation_methodology": "KL divergence and average training time versus number of qubits per dimension"
+      },
+      "quantum_resources": {
+        "num_qubits": 2,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "not_specified",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": "Qiskit 0.45.0",
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": null,
+          "routing_method": null
+        },
+        "classical_preprocessing": "TT-cross approximation and mirroring quantization",
+        "classical_postprocessing": "KL divergence evaluation against target discrete distribution",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "kl_divergence",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "training_time",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "figure"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "Qiskit built-in Grover-Rudolph state preparation",
+          "metric_name": "kl_divergence",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "Qiskit built-in Grover-Rudolph state preparation",
+          "metric_name": "training_time",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "logarithmic scaling in number of discretization points",
+          "baseline_method": "Grover-Rudolph state preparation",
+          "conditions": "TT-cross with mirroring quantization for bivariate log-normal distributions",
+          "is_demonstrated": true,
+          "caveats": "The paper states the 2D representation with mirroring quantization led to better outcomes, but does not provide exact numerical KL values in the text."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": null,
+          "num_qubits": null,
+          "metric_name": "kl_divergence",
+          "metric_value": null
+        },
+        {
+          "problem_size": null,
+          "num_qubits": null,
+          "metric_name": "training_time",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "Circuit depth scales linearly with number of qubits",
+        "classical_complexity": "Grover-Rudolph state preparation scales linearly with number of discretization points",
+        "speedup_order": "logarithmic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Large-scale fault‑tolerant QAE workflows using tensor‑network state preparation for probability distributions",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Results are simulation-only",
+          "No execution on quantum hardware",
+          "Evaluation focuses on approximation accuracy and training time rather than algorithmic runtime advantage",
+          "Classical preprocessing dominates workflow"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": null,
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper states that higher-dimensional cases were handled in simulation and that the 2D case used mirroring quantization, but it does not specify an exact qubit count for this experiment.",
+          "Hardware type inferred as simulator_other because the paper says the higher-dimensional cases were evaluated in simulations and no QPU is named for the 2D case.",
+          "The experiment studies encoding quality (KL divergence) and training time, not computational advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "Classical TT-cross training and quantum-circuit mapping for multivariate log-normal probability distribution loading up to five dimensions, evaluated by simulation only.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "TT-cross tensor-network state preparation with interleaving quantization for multivariate distributions",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "bond_dimension": null,
+          "qubit_counts": "up to 10 qubits per dimension",
+          "distribution": "multivariate log-normal",
+          "quantization": "interleaving",
+          "max_dimensions": 5
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Multivariate distribution encoded by interleaving qubits of different variables to preserve correlations across dimensions",
+        "objective_function": "Prepare a quantum state whose amplitudes match the target multivariate probability distribution",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Multivariate log-normal distributions for financial modeling, up to five assets/dimensions",
+        "num_assets": 5,
+        "time_steps": null,
+        "num_features": 5,
+        "dataset_size": null,
+        "data_type": "real_market",
+        "dataset_name": "Itaú Unibanco log-normal distribution",
+        "dataset_specification": {
+          "description": "Parameters calibrated using real market data"
+        },
+        "data_preprocessing_details": "Discretization with interleaving quantization; up to 10 qubits per dimension and up to 250 discretization points",
+        "evaluation_methodology": "KL divergence and average training time versus number of qubits per dimension"
+      },
+      "quantum_resources": {
+        "num_qubits": 10,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "not_specified",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": "Qiskit 0.45.0",
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": null,
+          "routing_method": null
+        },
+        "classical_preprocessing": "TT-cross approximation and interleaving quantization",
+        "classical_postprocessing": "KL divergence evaluation against target discrete distribution",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.01,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_time",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "max_dimensions",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimensions",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "qubits_per_dimension",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "discretization_points",
+          "value": 250,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "points",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "Qiskit built-in Grover-Rudolph state preparation",
+          "metric_name": "kl_divergence",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "Qiskit built-in Grover-Rudolph state preparation",
+          "metric_name": "training_time",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "logarithmic scaling in number of discretization points",
+          "baseline_method": "Grover-Rudolph state preparation",
+          "conditions": "multivariate distributions using interleaving quantization",
+          "is_demonstrated": true,
+          "caveats": "The paper reports that interleaving yielded the best outcome for higher-dimensional cases, but exact per-dimension KL values are not given in text."
+        },
+        {
+          "type": "empirical",
+          "factor": "linear circuit-depth scaling with number of qubits",
+          "baseline_method": "Qiskit built-in implementation of log-normal distribution",
+          "conditions": "2D and 3D cases shown in Figure 10",
+          "is_demonstrated": true,
+          "caveats": "The paper states the TT method outperforms Qiskit for large systems; exact circuit-depth values are not provided in the text."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 5.0,
+          "num_qubits": null,
+          "metric_name": "kl_divergence",
+          "metric_value": 0.01
+        },
+        {
+          "problem_size": 5.0,
+          "num_qubits": null,
+          "metric_name": "max_dimensions",
+          "metric_value": 5
+        },
+        {
+          "problem_size": 5.0,
+          "num_qubits": 10,
+          "metric_name": "qubits_per_dimension",
+          "metric_value": 10
+        },
+        {
+          "problem_size": 5.0,
+          "num_qubits": null,
+          "metric_name": "discretization_points",
+          "metric_value": 250
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "Circuit depth scales linearly with number of qubits",
+        "classical_complexity": "Grover-Rudolph state preparation scales linearly with number of discretization points",
+        "speedup_order": "logarithmic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Fault‑tolerant circuits capable of preparing large multivariate distributions and running amplitude estimation at scale",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Entire study performed in classical simulation",
+          "Circuit scaling shown only analytically or through compiled circuits",
+          "No runtime comparison with classical Monte Carlo for pricing tasks",
+          "Potential noise sensitivity acknowledged by authors"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": null,
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper reports simulation results for higher-dimensional cases and does not specify a single exact qubit count for the multivariate experiment.",
+          "Hardware type inferred as simulator_other because the paper explicitly says it focused on simulations for multivariate cases and did not run meaningful hardware tests.",
+          "The experiments demonstrate scalability of tensor‑network state preparation but not a quantum advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

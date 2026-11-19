@@ -1,0 +1,638 @@
+{
+  "paper_id": "bb719c33a7f1",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:43:45+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "bb719c33a7f1_comparative_study_of_quantum_circuit_scalability_in_a_financial_problem.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.775,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 2,
+    "validation_warnings": 16,
+    "validation_passed": false,
+    "validation_error_details": [
+      "Schema error at experiments.0.quantum_resources.two_qubit_gate_count: {'IBM_ideal': 'n^2 + n', 'IBM_Yorktown': '15 for 3 evaluation qubits example; scaling not analytically fixed', 'IBM_Tokyo': '12 for 3 evaluation qubits example; 23 with one additional SWAP in a 4-evaluation-qubit case', 'IBM_Cairo': 'polynomial fit 3.5n^2 - 12.8n + 22.3', 'IonQ': 'n^2'} is not of type 'integer', 'null'",
+      "Schema error at experiments.1.quantum_resources.two_qubit_gate_count: {'IonQ': 'n^2; example 9 two-qubit gates for 3 evaluation qubits'} is not of type 'integer', 'null'"
+    ],
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='asymptotic' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='asymptotic' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='absolute error bound' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='absolute error' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='two-qubit-gate-equivalent count for IonQ' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='two-qubit-gate-equivalent count for ideal IBM' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='two-qubit gates' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='two-qubit gates' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='two-qubit gates' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='two-qubit gates' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='two-qubit gates' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[0].unit='asymptotic' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[1].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[2].unit='two-qubit gates' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[3].unit='two-qubit gates' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.775,
+      "completeness": 0.775,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.95,
+        0.6
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Comparative Study of Quantum-Circuit Scalability in a Financial Problem",
+    "authors": [
+      "Jaewoong Heo",
+      "Moonjoo Lee"
+    ],
+    "year": 2024,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": [
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper analyzes how the number of two‑qubit gates in a Quantum Amplitude Estimation circuit for a simplified Treasury‑bill pricing model scales with evaluation qubits when compiled to different architectures. For 1–19 evaluation qubits, the fitted scaling is n² for IonQ trapped‑ion hardware and n²+n for an ideal superconducting device, while realistic IBM devices show higher costs (≈2.1n²−4.7n+6.8 for Tokyo and ≈3.5n²−12.8n+22.3 for Cairo), implying roughly a 2–3× reduction in two‑qubit gates for ion‑trap systems due to all‑to‑all connectivity.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Scalability study of quantum amplitude estimation for Treasury Bill expectation-value estimation, comparing two-qubit gate requirements when the same QAE circuit is mapped to IBM superconducting devices versus IonQ trapped-ion devices across 1 to 19 evaluation qubits.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Quantum Amplitude Estimation (QAE) for simplified Treasury Bill expectation-value estimation",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "evaluation_qubits_range": "1-19",
+          "example_instance_p": 0.2,
+          "example_instance_evaluation_qubits": 3,
+          "shots_example": 10000
+        },
+        "parameter_initialization": "State preparation via A gate / RY(θ) with θ = 2 sin^-1(sqrt(p)); no variational optimization",
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Binary outcome values Vlow=$0 and Vhigh=$1 are encoded on a single objective qubit; probability p is loaded via an RY(θ) rotation. Evaluation qubits control repeated applications of Q in the QAE/QPE subroutine.",
+        "objective_function": "Estimate the expectation value V = (1-p)Vlow + pVhigh for a simplified Treasury Bill model; equivalently estimate p and compute V classically.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Simplified Treasury Bill (zero-coupon bond) expectation-value estimation problem used as a finance example for QAE scalability.",
+        "num_assets": null,
+        "time_steps": 1,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Toy single-period binomial model with Vlow and Vhigh; example probability p=0.2 in the illustrative circuit."
+        },
+        "data_preprocessing_details": "No dataset preprocessing; probability p is directly encoded into the circuit via rotation angle θ = 2 sin^-1(sqrt(p)).",
+        "evaluation_methodology": "Circuit transpilation and two-qubit gate counting across 1 to 19 evaluation qubits; repeated transpilation runs for IBM real devices due to routing variability; polynomial fits reported for gate-count scaling."
+      },
+      "quantum_resources": {
+        "num_qubits": 1,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 10000,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": "Qiskit transpiled backends (IBM Yorktown, Tokyo, Cairo topologies) and hypothetical 'IBM ideal' connectivity model",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": null,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": "IBM backends and IonQ-style trapped-ion gate decomposition; Qiskit transpile used for backend-specific circuit generation",
+        "classical_solver": null,
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": [
+            "CX",
+            "I",
+            "RZ",
+            "SX",
+            "X"
+          ],
+          "routing_method": "Qiskit transpile / SABRE mentioned as a possible mapper"
+        },
+        "classical_preprocessing": "None beyond analytical mapping of p to rotation angle and backend-specific transpilation.",
+        "classical_postprocessing": "Most probable measurement outcome is converted back to an estimated probability and then to bond value classically.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "convergence_rate",
+          "value": "O(M^-1)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "asymptotic",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": "O(M^-1/2)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "asymptotic",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 0.8105694691,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "price_error",
+          "value": "<= π/M + π^2/M^2",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute error bound",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "price_error",
+          "value": "0.054",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute error",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": "n^2",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "two-qubit-gate-equivalent count for IonQ",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": "n^2 + n",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "two-qubit-gate-equivalent count for ideal IBM",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": 12,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "two-qubit gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": 15,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "two-qubit gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": 23,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "two-qubit gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": "2.1n^2 - 4.7n + 6.8",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "two-qubit gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": "3.5n^2 - 12.8n + 22.3",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "two-qubit gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical_monte_carlo",
+          "metric_name": "convergence_rate",
+          "value": "O(M^-1/2)",
+          "unit": "asymptotic"
+        },
+        {
+          "method_name": "classical_analytic_calculation",
+          "metric_name": "price_error",
+          "value": 0,
+          "unit": "absolute error"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical Monte Carlo",
+          "conditions": "QAE amplitude estimation with M samples / queries",
+          "is_demonstrated": true,
+          "caveats": "The paper states the convergence rate improvement is O(M^-1) versus O(M^-1/2), and success probability is at least 8/pi^2."
+        },
+        {
+          "type": "theoretical",
+          "factor": "2x-3x reduction in two-qubit gates",
+          "baseline_method": "IBM superconducting devices",
+          "conditions": "Across 1 to 19 evaluation qubits; comparing IonQ trapped-ion to IBM superconducting mappings",
+          "is_demonstrated": true,
+          "caveats": "This is a circuit-complexity reduction, not a runtime benchmark."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 1,
+          "num_qubits": 2,
+          "metric_name": "oracle_queries",
+          "metric_value": 2
+        },
+        {
+          "problem_size": 3,
+          "num_qubits": 4,
+          "metric_name": "oracle_queries",
+          "metric_value": 12
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": 5,
+          "metric_name": "oracle_queries",
+          "metric_value": 23
+        },
+        {
+          "problem_size": 19,
+          "num_qubits": 20,
+          "metric_name": "oracle_queries",
+          "metric_value": 380
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "QAE convergence O(M^-1)",
+        "classical_complexity": "Classical Monte Carlo convergence O(M^-1/2)",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": "Success probability at least 8/pi^2; two to three factor reduction in two-qubit gates on IonQ vs superconducting devices reported",
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not estimated; paper analyzes gate-count scaling only",
+        "resources_for_advantage": "Requires large‑scale fault‑tolerant QAE circuits with many evaluation qubits; current analysis only examines up to 19 evaluation qubits and counts two‑qubit gates after transpilation.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Only circuit gate-count scaling studied; no runtime or hardware execution results",
+          "Quadratic quantum speedup (QAE vs Monte Carlo) insufficient under Hoefler constant‑factor analysis",
+          "State preparation (distribution loading) not costed",
+          "Two‑qubit gate overhead and routing complexity on superconducting hardware"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "num_qubits is not given as a single total register size for the main scalability study; the paper reports 1 to 19 evaluation qubits and a single objective qubit, so total qubits are inferred as evaluation_qubits + 1 when needed.",
+          "hardware.type is set to real_qpu_superconducting because the paper explicitly analyzes IBM superconducting devices; IonQ trapped-ion results are also discussed in the same experiment, but the primary hardware class is superconducting for the IBM side.",
+          "Authors discuss theoretical quadratic speedup of QAE over classical Monte Carlo but do not demonstrate runtime advantage.",
+          "The work evaluates two‑qubit gate scaling after transpilation rather than solving a practical pricing problem."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "IonQ trapped-ion implementation of the same QAE Treasury Bill circuit, emphasizing native-gate decomposition and all-to-all connectivity to reduce two-qubit gate overhead relative to IBM superconducting devices.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Quantum Amplitude Estimation (QAE) mapped to trapped-ion native gates",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "evaluation_qubits_range": "1-19",
+          "example_instance_p": 0.2,
+          "example_instance_evaluation_qubits": 3
+        },
+        "parameter_initialization": "State preparation via RY(θ) with θ = 2 sin^-1(sqrt(p)); no variational optimization",
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Same simplified Treasury Bill encoding as exp_1; objective qubit encodes Vlow/Vhigh and evaluation qubits control Q operations.",
+        "objective_function": "Estimate the expectation value V = (1-p)Vlow + pVhigh.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Same simplified Treasury Bill expectation-value estimation problem, compiled to IonQ trapped-ion native gates.",
+        "num_assets": null,
+        "time_steps": 1,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Toy single-period binomial model; example p=0.2."
+        },
+        "data_preprocessing_details": "None; direct angle encoding of p.",
+        "evaluation_methodology": "Two-qubit gate counts measured after mapping the QAE circuit to IonQ native gates for 1 to 19 evaluation qubits; polynomial fit reported."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IonQ",
+        "device_name": "IonQ trapped‑ion architecture model (MS/RXX native gate decomposition analyzed via transpilation)",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": null,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": "IonQ trapped-ion native decomposition using RX, RY, RZ, and RXX/MS-style entangling gates",
+        "classical_solver": null,
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": [
+            "RX",
+            "RY",
+            "RZ",
+            "RXX"
+          ],
+          "routing_method": null
+        },
+        "classical_preprocessing": "None beyond analytical mapping of p to θ.",
+        "classical_postprocessing": "Classical conversion of the most probable measured bitstring to the estimated probability/value.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "convergence_rate",
+          "value": "O(M^-1)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "asymptotic",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 0.8105694691,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": "n^2",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "two-qubit gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": 9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "two-qubit gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical_monte_carlo",
+          "metric_name": "convergence_rate",
+          "value": "O(M^-1/2)",
+          "unit": "asymptotic"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical Monte Carlo",
+          "conditions": "QAE on trapped-ion hardware with all-to-all connectivity",
+          "is_demonstrated": true,
+          "caveats": "The paper emphasizes reduced two-qubit-gate overhead relative to superconducting devices, not a direct runtime speedup measurement."
+        },
+        {
+          "type": "theoretical",
+          "factor": "2x-3x reduction in two-qubit gates relative to superconducting devices",
+          "baseline_method": "IBM superconducting devices",
+          "conditions": "Same QAE circuit mapped to IonQ native gates",
+          "is_demonstrated": true,
+          "caveats": "The reduction is reported from gate-count scaling and example circuits."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 3,
+          "num_qubits": 4,
+          "metric_name": "oracle_queries",
+          "metric_value": 9
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "QAE convergence O(M^-1)",
+        "classical_complexity": "Classical Monte Carlo convergence O(M^-1/2)",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": "Reported two to three factor reduction in two-qubit gates relative to superconducting devices",
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not analyzed",
+        "resources_for_advantage": "Large‑scale trapped‑ion QAE circuits with many logical qubits and error‑corrected MS‑type entangling gates.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Architecture comparison limited to theoretical gate counts",
+          "No hardware execution or performance benchmark",
+          "Quadratic algorithmic speedup only",
+          "Problem instance is a toy single‑period T‑Bill model"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "IonQ hardware is discussed as a separate device class within the same scalability experiment; total qubit count is inferred from the number of evaluation qubits plus one objective qubit when needed.",
+          "IonQ advantage discussed only in terms of lower two‑qubit gate counts due to all‑to‑all connectivity, not computational advantage over classical algorithms."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

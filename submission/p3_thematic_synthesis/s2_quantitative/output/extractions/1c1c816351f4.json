@@ -1,0 +1,505 @@
+{
+  "paper_id": "1c1c816351f4",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:13:02+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "1c1c816351f4_gravitational_wave_matched_filtering_by_quantum_monte_carlo_integration_and_quan.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.55,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 20,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='time samples / frequency bins; templates' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='frequency bins' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='SNR threshold' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='SNR threshold' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='SNR' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='SNR' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='dimensionless' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='dimensionless; minimum reported in studied parameter space' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='dimensionless; maximum reported in studied parameter space' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='dimensionless' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='dimensionless' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='SNR threshold example' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='approximate SNR threshold estimate' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[15].unit='Hz' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[16].unit='Hz' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[17].unit='Hz' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[18].unit='solar masses (range 1-300)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[19].unit='range midpoint of 0.2-1.0' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.55,
+      "completeness": 0.55,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.55
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Gravitational wave matched filtering by quantum Monte Carlo integration and quantum amplitude amplification",
+    "authors": [
+      "Koichi Miyamoto",
+      "Gonzalo Morrás",
+      "Takahiro S. Yamamoto",
+      "Sachiko Kuroyanagi",
+      "Savvas Nesseris"
+    ],
+    "year": 2022,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "other",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a gate‑based quantum algorithm for gravitational‑wave matched filtering that replaces FFT‑based SNR evaluation with quantum Monte Carlo integration combined with quantum amplitude amplification. The algorithm achieves query complexity ~O(M / √r(ρ_hard)) (or O(M√Ntemp) in the worst case) while reducing qubit requirements from O(M) in FFT‑based approaches to O(poly(log M)) qubits, at the cost of requiring QRAM for detector data loading.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Theoretical gate-based quantum algorithm for gravitational-wave matched filtering using quantum Monte Carlo integration for SNR estimation and quantum amplitude amplification to search over templates and coalescence times.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Quantum Monte Carlo integration (QMCI) subroutine combined with quantum amplitude amplification (QAA) for matched filtering",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "rho_soft": 8,
+          "rho_hard": 9,
+          "epsilon": "(rho_hard - rho_soft)/2",
+          "delta": "user-specified",
+          "delta_prime": "delta/(4*Ntemp*M)",
+          "sigma": "4*sqrt(5*M)*gamma",
+          "gamma": "max_{m,k} |Q_m(f_k)| / sqrt(S_n(f_k) * dt)"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "qRAM",
+        "encoding_details": "Template index m and coalescence-time index j are amplitude-encoded in uniform superposition; frequency-bin data are loaded via qRAM into registers for QMCI-based mean estimation.",
+        "objective_function": "Determine whether there exists (m,j) such that rho_{m,j} >= threshold, and find one such pair; rho_{m,j} is the matched-filter SNR defined as a mean over frequency bins.",
+        "constraints_handling": "Two-threshold scheme: templates with true SNR >= rho_hard should be detected with high probability; templates with true SNR < rho_soft should be rejected with certainty; intermediate region [rho_soft, rho_hard) may be either.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Gravitational-wave matched filtering over a template bank and discrete time-of-coalescence grid.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 2,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Detector output s(t) / Fourier data \\u007es(f_k) and noise PSD S_n(f); gravitational-wave templates \\u007eQ_m(f)."
+        },
+        "data_preprocessing_details": "Fourier transform of detector output; normalization of templates; use of one-sided PSD; qRAM loading of real and imaginary parts of \\u007es(f_k)/S_n(f_k).",
+        "evaluation_methodology": "Theoretical complexity analysis only; no numerical experiments or hardware runs reported."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Construct O_Re and O_Im from arithmetic oracles and qRAM-loaded detector data; build O_rho and O_mean oracles; use median-of-means style repetition inside QMCI.",
+        "classical_postprocessing": "After QAA, measure template/time registers and classically recompute rho_{m,j} to confirm rho_{m,j} >= rho_soft.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": null,
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "problem_size",
+          "value": "M, Ntemp",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "time samples / frequency bins; templates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "problem_size",
+          "value": "M/2 - 1",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "frequency bins",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "rho_soft",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "SNR threshold",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "rho_hard",
+          "value": 9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "SNR threshold",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "epsilon",
+          "value": 0.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "SNR",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "delta_prime",
+          "value": "delta/(4*Ntemp*M)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sigma",
+          "value": "4*sqrt(5*M)*gamma",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "SNR",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gamma",
+          "value": "max_{m,k} |Q_m(f_k)| / sqrt(S_n(f_k) * dt)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimensionless",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gamma",
+          "value": 2.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimensionless; minimum reported in studied parameter space",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gamma",
+          "value": 4.66,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimensionless; maximum reported in studied parameter space",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gamma_lower_bound",
+          "value": 0.7071067811865475,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimensionless",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "gamma_upper_bound",
+          "value": "sqrt(M)/2",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimensionless",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "false_alarm_probability_per_template",
+          "value": "exp(-rho_com^2/2)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "rho_com_example",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "SNR threshold example",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "rho_com_example",
+          "value": 8.6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "approximate SNR threshold estimate",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sampling_rate",
+          "value": 2048,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "Hz",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "low_frequency_cutoff",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "Hz",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "high_frequency_cutoff",
+          "value": 1024,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "Hz",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "total_mass_range",
+          "value": 150.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "solar masses (range 1-300)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "mass_ratio_range",
+          "value": 0.6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "range midpoint of 0.2-1.0",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical exhaustive matched filtering",
+          "metric_name": "query_complexity",
+          "value": "O(Ntemp*M*log M)",
+          "unit": "operations",
+          "data_source": "text"
+        },
+        {
+          "method_name": "classical matched filtering with FFT",
+          "metric_name": "query_complexity",
+          "value": "O(M*log M / r(rho_th))",
+          "unit": "operations",
+          "data_source": "text"
+        },
+        {
+          "method_name": "classical exhaustive search when r(rho_th)=0",
+          "metric_name": "query_complexity",
+          "value": "O(Ntemp*M*log M)",
+          "unit": "operations",
+          "data_source": "text"
+        },
+        {
+          "method_name": "classical FFT-based SNR calculation",
+          "metric_name": "qubit_requirement_equivalent",
+          "value": "O(M)",
+          "unit": "qubits",
+          "data_source": "text"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic speedup over classical exhaustive search in template number",
+          "baseline_method": "classical exhaustive matched filtering / exhaustive template search",
+          "conditions": "when r(rho_hard) > 0 and under the two-threshold scheme",
+          "is_demonstrated": true,
+          "caveats": "Speedup is asymptotic and assumes fault-tolerant gate-based quantum computing plus qRAM and arithmetic oracles."
+        },
+        {
+          "type": "theoretical",
+          "factor": "same asymptotic order in M as FFT-based method, but with exponential qubit reduction from O(M) to O(poly(log M))",
+          "baseline_method": "classical/FFT-based SNR calculation",
+          "conditions": "for the QMCI-based SNR estimation subroutine",
+          "is_demonstrated": true,
+          "caveats": "The paper emphasizes qubit savings rather than a better M-scaling in query complexity."
+        },
+        {
+          "type": "theoretical",
+          "factor": "O(M / sqrt(r(rho_hard))) up to logarithmic factors",
+          "baseline_method": "classical O(M log M / r(rho_th)) exhaustive matched filtering",
+          "conditions": "when r(rho_hard) > 0",
+          "is_demonstrated": true,
+          "caveats": "This is a query-complexity claim, not an empirical benchmark."
+        },
+        {
+          "type": "theoretical",
+          "factor": "O(M * sqrt(Ntemp)) up to logarithmic factors in the no-signal worst case",
+          "baseline_method": "classical O(Ntemp*M*log M) exhaustive search",
+          "conditions": "when r(rho_soft)=0",
+          "is_demonstrated": true,
+          "caveats": "Still quadratic in Ntemp relative to classical exhaustive search."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": null,
+          "num_qubits": null,
+          "metric_name": "num_qubits",
+          "metric_value": null
+        },
+        {
+          "problem_size": null,
+          "num_qubits": null,
+          "metric_name": "classical_fft_qubits",
+          "metric_value": null
+        },
+        {
+          "problem_size": null,
+          "num_qubits": null,
+          "metric_name": "qmci_qubits",
+          "metric_value": null
+        },
+        {
+          "problem_size": null,
+          "num_qubits": null,
+          "metric_name": "query_complexity",
+          "metric_value": null
+        },
+        {
+          "problem_size": 2048.0,
+          "num_qubits": null,
+          "metric_name": "practical_scale_example",
+          "metric_value": 10.0
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(M / sqrt(r(rho_hard))) up to logarithmic factors for the main search; O(M * sqrt(Ntemp)) in the no-signal worst case, up to logarithmic factors",
+        "classical_complexity": "O(Ntemp * M log M) in the exhaustive-search case; O(M log M / r(rho_th)) when a fraction r(rho_th) of templates exceed threshold",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L0_theory",
+        "crossover_size": "Not specified; depends on template count Ntemp and time samples M",
+        "resources_for_advantage": "Fault‑tolerant gate-based quantum computer with poly(log M) logical qubits, QRAM capable of loading O(M) detector data, and repeated QMCI/QAA oracle calls scaling as O(M / sqrt(r(ρ_hard))) up to logarithmic factors.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Quadratic speedup only (Grover/QAA-type scaling)",
+          "Large constant factors from QMCI and arithmetic oracle construction",
+          "Requirement of QRAM for frequency-bin data access",
+          "Need for many logical qubits with error correction",
+          "No empirical demonstration or resource estimate in physical qubits"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "This is a theoretical algorithm paper; no physical QPU, simulator, or experimental run is reported.",
+          "The paper explicitly states the qubit scaling in Eq. (39) and the query complexity in Eqs. (40)-(42).",
+          "Authors explicitly present only theoretical complexity results and do not run the algorithm on hardware or simulators.",
+          "The paper claims quadratic speedup in template search complexity relative to classical exhaustive matched filtering."
+        ],
+        "advantage_status": "paper_reported"
+      }
+    }
+  ]
+}

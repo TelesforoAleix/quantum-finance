@@ -1,0 +1,273 @@
+{
+  "paper_id": "6257d900d3ef",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:48:43+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "6257d900d3ef_hybrid_quantum_classical_model_for_enhanced_cross_border_financial_fraud_detecti.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.65,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 0,
+    "validation_passed": true,
+    "quality_details": {
+      "score": 0.65,
+      "completeness": 0.65,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.65
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Hybrid Quantum Classical Model for Enhanced Cross Border Financial Fraud Detection",
+    "authors": [
+      "Konijeti Saranya",
+      "Kunuku Gnapika",
+      "Namana Lakshmi Harshita",
+      "Tondamalli Keerthana",
+      "Polamuri Jayasri",
+      "Kollati Swathi",
+      "Dr. M. Prasad"
+    ],
+    "year": null,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "fraud-detection",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a hybrid quantum–classical fraud detection pipeline comparing a classical SVM with a QSVM using angle-encoded quantum feature maps simulated in PennyLane with PCA-reduced features (≤4 dimensions). Results are presented only qualitatively through ROC and confusion matrix visualizations, with no reported numerical accuracy, F1, or runtime values, so quantitative performance improvements cannot be verified.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Comparative experiment of a classical SVM baseline versus a quantum support vector machine for cross-border financial fraud detection on a preprocessed transaction dataset, using quantum feature encoding and a quantum kernel on a simulator.",
+      "algorithm": {
+        "family": "quantum-svm",
+        "variant": "QSVM with angle encoding and quantum kernel (Z and ZZ feature maps mentioned)",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "kernel": "quantum kernel",
+          "feature_maps": [
+            "Z map",
+            "ZZ map"
+          ],
+          "encoding": "angle encoding",
+          "preprocessing": "standardization + PCA to max 4 components",
+          "classical_baseline_kernel": "RBF"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null,
+        "hyperparameters.feature_maps": [
+          "angle encoding with Ry rotations",
+          "entangling CNOT layers"
+        ]
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Classical features are normalized to [0, π] and mapped to qubit rotation angles; entangling CNOT gates are used to capture feature correlations; quantum kernel computed from overlap of encoded states.",
+        "objective_function": "Binary classification of transactions into genuine (0) vs fraud (1) using a quantum kernel SVM.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Cross-border financial transaction fraud detection on a tabular dataset with transaction attributes including amount, country risk, time of day, sender blacklisted, and sender age days.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 5,
+        "dataset_size": null,
+        "data_type": "proprietary",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Columns: Transaction ID, Amount, Country Risk, Time of Day, Sender Blacklisted, Sender Age Days, Label. Time of Day encoded Day/Night to 0/1. PCA reduces features to at most 4 components."
+        },
+        "data_preprocessing_details": "Data validation for required columns; categorical Time of Day encoded to numerical 0/1; filtering by Time of Day, Country Risk, Amount, Sender Age Days, Sender Blacklisted; standardization to mean 0 and std 1; PCA to a maximum of four components; features normalized to [0, π] before quantum encoding.",
+        "evaluation_methodology": "Comparison of classical SVM and QSVM using accuracy, precision, recall, F1-score, false positive rate, ROC curves, and confusion matrices."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "PennyLane",
+        "device_name": null,
+        "framework": "PennyLane"
+      },
+      "noise_model": {
+        "noise_model": null,
+        "noise_parameters": null,
+        "mitigation_details": null,
+        "is_noisy": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "scikit-learn SVC with RBF kernel",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Standardization and PCA; categorical encoding of Time of Day; feature filtering; normalization to [0, π].",
+        "classical_postprocessing": "Performance metrics and visualizations including ROC curves and confusion matrices.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": null,
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "f1_score",
+          "value": 0.98,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 94.54,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical SVM",
+          "metric_name": "accuracy",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "Random Forest",
+          "metric_name": "accuracy",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "XGBoost",
+          "metric_name": "accuracy",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": "classical SVM with RBF kernel",
+          "conditions": "Comparative study on a preprocessed cross-border financial transaction dataset using simulator-based QSVM with angle encoding and quantum kernel.",
+          "is_demonstrated": false,
+          "caveats": "The paper reports qualitative claims of competitive performance and improved recall/false-positive trade-offs, but no explicit speedup factor, asymptotic advantage, or runtime comparison is provided."
+        }
+      ],
+      "scalability_data": [],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Not specified; the paper does not report qubit counts, circuit depth, kernel evaluation cost, or dataset scaling needed for advantage.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "No quantitative experimental metrics reported",
+          "Only simulator-based evaluation described",
+          "No runtime comparison with classical SVM",
+          "No complexity or scaling analysis for the quantum kernel",
+          "Dataset size not reported"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Paper explicitly states PennyLane quantum circuit simulation but does not name a specific QPU, so hardware.type inferred as simulator_other.",
+          "Number of qubits is not explicitly stated; inferred to depend on the reduced feature dimension (up to 4 PCA components) used for angle encoding, but exact qubit count is not reported.",
+          "Circuit depth is not reported; only that the circuit uses angle encoding and entangling CNOT gates.",
+          "No asymptotic complexity or speedup order is provided; set to none_proven.",
+          "The paper discusses QSVM benefits conceptually but does not present numerical experimental results comparing QSVM vs classical SVM.",
+          "Figures (ROC curve, confusion matrix, KPI dashboard) are referenced but no numerical values or dataset scale are provided, preventing advantage evaluation."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

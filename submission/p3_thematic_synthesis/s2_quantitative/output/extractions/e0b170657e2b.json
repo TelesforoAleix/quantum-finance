@@ -1,0 +1,756 @@
+{
+  "paper_id": "e0b170657e2b",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T10:11:33+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "e0b170657e2b_var_estimation_with_quantum_computing_noise_correction_using_neural_networks.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.967,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 5,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[2].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[1].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[2].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.967,
+      "completeness": 0.967,
+      "num_experiments": 3,
+      "experiment_scores": [
+        0.9,
+        1.0,
+        1.0
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "VaR Estimation with Quantum Computing Noise Correction Using Neural Networks",
+    "authors": [
+      "Luis de Pedro",
+      "Raúl París Murillo",
+      "Jorge E. López de Vergara",
+      "Sergio López-Buedo",
+      "Francisco J. Gómez-Arribas"
+    ],
+    "year": 2023,
+    "doi": "10.3390/math11204355",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "risk-management",
+    "secondary_silos": [
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a gate‑based quantum circuit that samples the tail of a Gaussian loss distribution to estimate portfolio VaR, demonstrated on a 138‑asset dataset. A 4‑qubit circuit was validated in simulation and executed on IBM Lagos, where noise distorted the distribution; a hybrid approach using a 3‑layer neural network to tune circuit rotations on a 5‑qubit device produced a VaR estimate of USD 1376 versus the classical parametric value of USD 1380 (<1% error). No computational speedup over classical Monte Carlo or parametric methods is demonstrated.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum circuit for VaR estimation using a windowed Gaussian distribution, executed on a statevector simulator to validate the gate-based circuit design.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Qiskit state preparation for Gaussian-tail sampling in VaR estimation",
+        "ansatz": "state preparation circuit with uniformly controlled rotations",
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "qubits": 4,
+          "distribution_window": "[-3σ, -2σ]",
+          "alpha": 0.01,
+          "beta": 0.4766,
+          "sigma": 4165.26,
+          "Qiskit_version": "0.17.0",
+          "StatevectorSimulator_version": "0.1.547"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null,
+        "hyperparameters.qubits": 4
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Prepare a quantum state whose amplitudes approximate a clipped Gaussian distribution over a window mapped to 2^n basis states; 4 qubits used in the example.",
+        "objective_function": "Estimate the 1% VaR by sampling the tail of a Gaussian loss distribution and mapping the measured basis state to the VaR interval.",
+        "constraints_handling": "Windowing/clipping of the Gaussian tail to [-3σ, -2σ] and rescaling of the confidence level from α to β within the window.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "VaR estimation for a portfolio of 138 assets from a Peruvian financial institution, using the linearized Gaussian-loss model to define the target distribution for the quantum circuit.",
+        "num_assets": 138,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "real_market",
+        "dataset_name": "proprietary Peru portfolio",
+        "dataset_specification": {
+          "description": "Six months of asset data; historical series used to compute covariance/Cholesky and the Gaussian loss width σ."
+        },
+        "data_preprocessing_details": "Covariance matrix computed from asset series increments; Cholesky factorization via modified Cheng/Higham approach; linear approximation used to reduce the loss distribution to a single Gaussian variable; tail window restricted to [-3σ, -2σ].",
+        "evaluation_methodology": "Statevector simulation of the circuit; VaR read from the measured basis-state probability and scaled back to the loss axis."
+      },
+      "quantum_resources": {
+        "num_qubits": 4,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "IBM",
+        "device_name": "StatevectorSimulator",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": "Qiskit 0.17.0; StatevectorSimulator 0.1.547",
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Compute covariance and Cholesky matrices; derive σ and the windowed probability parameter β.",
+        "classical_postprocessing": "Scale the measured basis state back to the VaR value on the loss axis.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": null,
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "tail_risk_estimate",
+          "value": -9111.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "USD",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "tail_risk_estimate",
+          "value": -9514.18,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "USD",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_risk_factors",
+          "value": 138,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "alpha",
+          "value": 0.01,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "beta",
+          "value": 0.4766,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sigma",
+          "value": 4165.26,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "USD",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "parametric estimation",
+          "metric_name": "tail_risk_estimate",
+          "value": -9514.18,
+          "unit": "USD"
+        },
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "tail_risk_estimate",
+          "value": -1219,
+          "unit": "USD"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "This is a proof-of-concept state-preparation circuit for VaR sampling; no quantum speedup is claimed or demonstrated."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 138,
+          "num_qubits": 4,
+          "metric_name": "tail_risk_estimate",
+          "metric_value": -9111.5
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Not specified; the experiment only demonstrates circuit construction and sampling from a clipped Gaussian distribution using a 4‑qubit simulator.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Only simulator validation",
+          "No runtime comparison with classical Monte Carlo",
+          "Quantum circuit used only for sampling a single Gaussian variable"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "4-qubit circuit is explicitly shown in Figure 5; statevector simulator is explicitly named.",
+          "Circuit depth not numerically reported; inferred as a multi-gate state-preparation circuit from the figure, but exact depth unavailable.",
+          "No asymptotic quantum speedup is claimed for this circuit; it is a proof-of-concept VaR sampler.",
+          "The simulator experiment validates circuit correctness but does not claim any computational advantage.",
+          "All heavy computations (covariance, Cholesky, σ calculation) remain classical."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Execution of the same VaR sampling circuit on a real IBM quantum device to observe hardware noise effects.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Qiskit state preparation for Gaussian-tail sampling in VaR estimation on hardware",
+        "ansatz": "state preparation circuit with uniformly controlled rotations",
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "qubits": 4,
+          "distribution_window": "[-3σ, -2σ]",
+          "alpha": 0.01,
+          "beta": 0.4766,
+          "sigma": 4165.26,
+          "backend": "IBM Lagos"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Same 4-qubit clipped-Gaussian state preparation circuit as the simulator experiment.",
+        "objective_function": "Estimate the 1% VaR from the tail of the loss distribution.",
+        "constraints_handling": "Windowing/clipping of the Gaussian tail and rescaling of the confidence level within the window.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "VaR estimation for the same 138-asset Peru portfolio, now executed on real hardware to test noise sensitivity.",
+        "num_assets": 138,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "real_market",
+        "dataset_name": "proprietary Peru portfolio",
+        "dataset_specification": {
+          "description": "Six months of asset data; same preprocessing as the simulator experiment."
+        },
+        "data_preprocessing_details": "Covariance/Cholesky computation, linear approximation, and tail-window restriction to [-3σ, -2σ].",
+        "evaluation_methodology": "Run on IBM Lagos; compare histogram shape and VaR displacement against the simulator output."
+      },
+      "quantum_resources": {
+        "num_qubits": 4,
+        "qubit_type": "physical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 1024,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_superconducting",
+        "provider": "IBM",
+        "device_name": "ibm_lagos",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "hardware noise / NISQ noise",
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": "Qiskit",
+        "transpilation_target": "IBM Lagos",
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Same as simulator experiment.",
+        "classical_postprocessing": "Same as simulator experiment; compare measured histogram and VaR shift to simulator result.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": null,
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "tail_risk_estimate",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "USD",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "num_risk_factors",
+          "value": 138,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "statevector simulator",
+          "metric_name": "tail_risk_estimate",
+          "value": -9111.5,
+          "unit": "USD"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The paper reports a noisy hardware run to illustrate deviation from the simulator; no speedup claim is made."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 138,
+          "num_qubits": 4,
+          "metric_name": "tail_risk_estimate",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": false,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Would require far more qubits and much lower noise to sample distributions accurately without classical correction.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "NISQ noise strongly distorts the histogram (Figure 7)",
+          "Only 4 qubits used",
+          "No runtime or accuracy improvement over classical Monte Carlo",
+          "Results are worse than simulator and require mitigation"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "IBM Lagos is explicitly named as the real quantum computer used.",
+          "4 qubits are explicitly stated in the simulator section and the same circuit is executed on hardware.",
+          "Exact circuit depth and gate counts are not reported.",
+          "Figure 7 explicitly shows the hardware output deviating from the expected Gaussian tail due to noise.",
+          "The paper presents this as a problem motivating the neural‑network correction."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "Hybrid neural-network-assisted calibration of qubit rotations to mitigate noise and improve VaR estimation on a real quantum computer.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "classical neural network optimizing rotation parameters of a Qiskit quantum circuit",
+        "ansatz": "Qiskit state-preparation circuit with rotation gates and CNOTs; 3 dense-layer classical NN used for parameter prediction",
+        "optimizer": "neural-network training using Keras loss minimization",
+        "num_layers": 3,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "qubits": 5,
+          "assets": 5,
+          "grouped_assets": null,
+          "dense_layers": 3,
+          "neurons_per_layer": 500,
+          "training_target_VaR_USD": 1380,
+          "estimated_VaR_USD": 1376,
+          "backend": "real quantum computer",
+          "epochs": null,
+          "cross_validation": "leave-one-out style (all values except one for training, one for validation)"
+        },
+        "parameter_initialization": "Random initial qubit rotations / random neural-network weights at the first epoch",
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Five-qubit circuit encodes a discretized VaR distribution over 32 basis states; neural network adjusts rotation angles to match the target VaR histogram.",
+        "objective_function": "Minimize the cost between quantum-estimated VaR and historical/parametric VaR by tuning qubit rotation angles.",
+        "constraints_handling": "Rotation angles constrained to the qubit rotation range [-π, π] via bounded activations (ReLU saturated at π or sigmoid mapped to [-π, π]).",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Training/validation on a 5-asset dataset derived from the Peru financial data; target VaR around USD 1380.",
+        "num_assets": 5,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "real_market",
+        "dataset_name": "proprietary Peru portfolio subset",
+        "dataset_specification": {
+          "description": "Five assets used for training due to hardware/time limits; cross-validation over grouped asset values."
+        },
+        "data_preprocessing_details": "Historical VaR computed for each grouped asset; training/validation split; minVaR and maxVaR define the distribution window; β computed from the windowed CDF.",
+        "evaluation_methodology": "Neural-network training over grouped inputs; validation against target VaR; final real-hardware histogram used to read VaR 1376 USD."
+      },
+      "quantum_resources": {
+        "num_qubits": 5,
+        "qubit_type": "physical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 1000,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_superconducting",
+        "provider": "IBM",
+        "device_name": "IBM Quantum device (exact device not specified in Section 5.4)",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "hardware noise / NISQ noise",
+        "error_mitigation_method": "neural-network-based rotation calibration",
+        "noise_parameters": null,
+        "mitigation_details": "Neural network learns qubit rotation parameters to compensate for noise; paper mentions executing circuits 1000 to 2000 times for valid statistics.",
+        "code_available": null,
+        "code_url": null,
+        "framework_version": "Qiskit; Keras",
+        "transpilation_target": "real quantum computer",
+        "classical_solver": "classical neural network"
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": "Qiskit; Keras",
+        "transpilation_target": "real quantum computer",
+        "classical_solver": "classical neural network",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Compute historical VaR, split grouped assets into training/validation, derive minVaR/maxVaR window and β.",
+        "classical_postprocessing": "Compare quantum-estimated VaR to target/historical VaR; use the cost to update neural-network weights.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null,
+          "iterations_to_converge": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "tail_risk_estimate",
+          "value": 1376,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "USD",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "tail_risk_estimate",
+          "value": 1380,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "USD",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_risk_factors",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_shots",
+          "value": 1000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "parametric estimation",
+          "metric_name": "tail_risk_estimate",
+          "value": 1380,
+          "unit": "USD"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The hybrid neural-network approach is presented as noise mitigation and calibration, not as a speedup method."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 5,
+          "num_qubits": 5,
+          "metric_name": "tail_risk_estimate",
+          "metric_value": 1376
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "parity_with_classical",
+        "hoefler_viable": false,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Substantially larger fault‑tolerant quantum processors plus elimination of classical preprocessing would be required to outperform parametric VaR models.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Very small system (5 qubits, 5 assets)",
+          "Hybrid classical neural network required for noise correction",
+          "No complexity or runtime advantage shown",
+          "Accuracy target derived from classical parametric VaR"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "5 qubits are explicitly stated for the real-hardware experiment.",
+          "The paper states that 1000 to 2000 executions are needed for valid statistics; num_shots recorded as 1000 as the lower bound explicitly mentioned, but the exact run count for the final experiment is not specified.",
+          "Exact circuit depth, gate counts, and optimizer details are not reported.",
+          "The corrected quantum estimate (USD 1376) is compared to the classical parametric VaR target (USD 1380), demonstrating similar accuracy but not superiority.",
+          "The authors explicitly state results are 'close enough' to classical methods."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

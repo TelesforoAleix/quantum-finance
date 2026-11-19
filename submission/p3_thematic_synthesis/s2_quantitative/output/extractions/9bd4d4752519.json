@@ -1,0 +1,764 @@
+{
+  "paper_id": "9bd4d4752519",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:22:42+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "9bd4d4752519_rasengan_a_transition_hamiltonian_based_approximation_algorithm_for_solving_cons.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.95,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 1,
+    "validation_warnings": 9,
+    "validation_passed": false,
+    "validation_error_details": [
+      "Schema error at experiments.0.quantum_resources.two_qubit_gate_count: 'reported indirectly as CX gate counts in decomposition; e.g., 34 CX gates for a 3-controlled phase gate decomposition, and depth reductions from ~7000 to ~50' is not of type 'integer', 'null'"
+    ],
+    "validation_warning_details": [
+      "experiments[0].quantum_resources.circuit_depth_transpiled=2 < circuit_depth=31 (transpiled depth should be >= logical depth)",
+      "experiments[0].results[0].unit='ratio gap' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='ratio gap' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='depth' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='depth' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='depth' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='depth' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='depth' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='segments' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.95,
+      "completeness": 0.95,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.95
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Rasengan: A Transition Hamiltonian-based Approximation Algorithm for Solving Constrained Binary Optimization Problems",
+    "authors": [
+      "Qifan Jiang",
+      "Liqiang Lu",
+      "Debin Xiang",
+      "Tianyao Chu",
+      "Tianze Zhu",
+      "Jingwen Leng",
+      "Yun Liang",
+      "Xiaoming Sun",
+      "Jianwei Yin"
+    ],
+    "year": 2025,
+    "doi": "10.1145/3725843.3756107",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "portfolio-optimization",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes Rasengan, a gate‑based variational algorithm that expands feasible solution space using transition Hamiltonians. Across 2000 benchmark instances from five constrained‑optimization domains, Rasengan reduces circuit depth from ~7000 to ~50 and improves approximation‑ratio gap by up to 4.12× compared to prior QAOA variants, with circuits of roughly 21–87 depth on problems up to ~24 qubits and small demonstrations on IBM Kyiv and Brisbane devices.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Rasengan gate-based variational quantum algorithm for constrained binary optimization, evaluated across five benchmark families on simulators and IBM superconducting devices, compared against HEA, penalty-based QAOA, and commute-Hamiltonian QAOA baselines.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Rasengan transition-Hamiltonian-based approximation algorithm",
+        "ansatz": null,
+        "optimizer": "Constrained Optimization by Linear Approximation (COBYLA-style constrained optimization) [Powell 1994]",
+        "num_layers": null,
+        "convergence_criteria": "max 300 iterations for algorithmic evaluation; max 100 iterations on real hardware",
+        "hyperparameters": {
+          "max_iterations": 300,
+          "max_iterations_real_hardware": 100,
+          "repeated_layers_baselines": 5,
+          "shots_per_segment": 1024,
+          "segments": null
+        },
+        "parameter_initialization": "initialized from one arbitrary feasible solution",
+        "optimizer_settings": {
+          "max_iterations": 300,
+          "parameter_bounds": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "tolerance": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "binary variables encoded in qubits; Rasengan starts from one feasible basis state and expands via transition Hamiltonians derived from homogeneous basis vectors",
+        "objective_function": "constrained binary optimization: optimize objective f(x) subject to Cx = b, x in {0,1}^n",
+        "constraints_handling": "feasibility-preserving transition Hamiltonians; purification after each segment; baselines use penalty terms or commute-Hamiltonian constraints",
+        "num_binary_variables": null,
+        "problem_hamiltonian": "transition Hamiltonian H^T(u) defined from homogeneous basis vectors; paper also discusses objective and mixer Hamiltonians for QAOA baselines",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Five benchmark families: facility location, k-partition, job scheduling, set cover, graph coloring; 20 benchmarks total in Table 2, with scalability study on FLP up to 105 variables",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 2000,
+        "data_type": "public_benchmark",
+        "dataset_name": "facility location (FLP), k-partition (KPP), job scheduling (JSP), set cover (SCP), graph coloring (GCP)",
+        "dataset_specification": {
+          "description": "20 benchmarks listed in Table 2; examples include F1-F4, K1-K4, J1-J4, S1-S4, G1-G4; scalability study on FLP with variables from 6 to 105"
+        },
+        "data_preprocessing_details": "benchmark instances compiled from relevant literature; feasible solutions constructed greedily for initialization; no further preprocessing details reported",
+        "evaluation_methodology": "noise-free algorithmic evaluation on 20 benchmarks; scalability analysis on larger FLP instances; real-device evaluation on IBM Kyiv and IBM Brisbane; noise-model sensitivity studies; ablation studies"
+      },
+      "quantum_resources": {
+        "num_qubits": 6,
+        "qubit_type": "logical",
+        "circuit_depth": 31,
+        "circuit_depth_transpiled": 2,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 1024,
+        "num_variational_params": 2,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": "IBM",
+        "device_name": "ibm_kyiv, ibm_brisbane (real hardware); IBM Quebec calibration model used for execution‑time estimation",
+        "framework": "Qiskit",
+        "framework_version": null
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "IBM device noise; depolarizing noise; phase damping noise; amplitude damping noise",
+        "error_mitigation_method": "purification after each segment",
+        "noise_parameters": {
+          "two_qubit_gate_error_rate": "0.875% (used in noise analysis)",
+          "single_qubit_gate_error_rate": "0.035% (used in noise analysis)",
+          "ibm_kyiv_two_qubit_error_rate": "1.2%",
+          "ibm_brisbane_two_qubit_error_rate": "0.82%",
+          "amplitude_damping_probability": "0% to 2%",
+          "pauli_error_rate": "10^-3 order"
+        },
+        "mitigation_details": "purification checks Cx = b after each segment; invalid states removed; dynamic shot reallocation based on purified probabilities"
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/JanusQ/rasengan",
+        "transpilation_target": "IBM Quebec model; IBM Kyiv and IBM Brisbane devices",
+        "classical_solver": "COBYLA-style constrained optimization used for parameter updates",
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": null,
+          "routing_method": null
+        },
+        "classical_preprocessing": "greedy construction of feasible initial solution; Hamiltonian simplification via basis transformation; pruning redundant transition Hamiltonians",
+        "classical_postprocessing": "purification of noisy outputs; constraint checking Cx = b; removal of infeasible states",
+        "total_execution_time": "training latency reported; exact totals vary by benchmark and device",
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": "Hamiltonian decomposition compilation time included in latency; exact separate value not reported",
+        "convergence_data": {
+          "iterations_to_converge": 300,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "approximation_ratio_gap",
+          "value": 0.01,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio gap",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "approximation_ratio_gap",
+          "value": 22.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio gap",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 21,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "depth",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 3848,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "depth",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "num_variational_params",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "num_variational_params",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "in_constraints_rate",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "in_constraints_rate",
+          "value": 6.3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "in_constraints_rate",
+          "value": 12.2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "latency",
+          "value": 144,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ms",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "latency",
+          "value": 702,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ms",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 50,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "depth",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 7000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "depth",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 1008,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "depth",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "segments",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots_per_segment",
+          "value": 1024,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "max_iterations",
+          "value": 300,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "max_iterations_real_hardware",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "two_qubit_gate_error_rate",
+          "value": 0.875,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "single_qubit_gate_error_rate",
+          "value": 0.035,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "ibm_kyiv_two_qubit_error_rate",
+          "value": 1.2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "ibm_brisbane_two_qubit_error_rate",
+          "value": 0.82,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "amplitude_damping_probability",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "pauli_error_rate",
+          "value": 0.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "percent",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "HEA",
+          "metric_name": "approximation_ratio_gap",
+          "value": 1954,
+          "unit": "x improvement vs baseline"
+        },
+        {
+          "method_name": "P-QAOA",
+          "metric_name": "approximation_ratio_gap",
+          "value": 1897,
+          "unit": "x improvement vs baseline"
+        },
+        {
+          "method_name": "Choco-Q",
+          "metric_name": "approximation_ratio_gap",
+          "value": 4.12,
+          "unit": "x improvement vs baseline"
+        },
+        {
+          "method_name": "HEA",
+          "metric_name": "circuit_depth",
+          "value": 1.96,
+          "unit": "x improvement vs baseline"
+        },
+        {
+          "method_name": "P-QAOA",
+          "metric_name": "circuit_depth",
+          "value": 6.58,
+          "unit": "x improvement vs baseline"
+        },
+        {
+          "method_name": "Choco-Q",
+          "metric_name": "circuit_depth",
+          "value": 49.0,
+          "unit": "x improvement vs baseline"
+        },
+        {
+          "method_name": "HEA",
+          "metric_name": "latency",
+          "value": 702,
+          "unit": "ms"
+        },
+        {
+          "method_name": "P-QAOA",
+          "metric_name": "latency",
+          "value": 300,
+          "unit": "ms"
+        },
+        {
+          "method_name": "Frozen-Q",
+          "metric_name": "latency",
+          "value": 445,
+          "unit": "ms"
+        },
+        {
+          "method_name": "Red-QAOA",
+          "metric_name": "latency",
+          "value": 144,
+          "unit": "ms"
+        },
+        {
+          "method_name": "Choco-Q",
+          "metric_name": "latency",
+          "value": 300,
+          "unit": "ms"
+        },
+        {
+          "method_name": "HEA",
+          "metric_name": "in_constraints_rate",
+          "value": 96.9,
+          "unit": "%"
+        },
+        {
+          "method_name": "P-QAOA",
+          "metric_name": "in_constraints_rate",
+          "value": 10,
+          "unit": "%"
+        },
+        {
+          "method_name": "Choco-Q",
+          "metric_name": "in_constraints_rate",
+          "value": 6.3,
+          "unit": "%"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "4.12x",
+          "baseline_method": "Choco-Q",
+          "conditions": "algorithmic evaluation across 20 benchmarks in Table 2",
+          "is_demonstrated": true,
+          "caveats": "Reported as improvement in approximation ratio gap; lower ARG is better."
+        },
+        {
+          "type": "empirical",
+          "factor": "1954x",
+          "baseline_method": "HEA",
+          "conditions": "algorithmic evaluation across 20 benchmarks in Table 2",
+          "is_demonstrated": true,
+          "caveats": "Reported as ARG improvement."
+        },
+        {
+          "type": "empirical",
+          "factor": "1897x",
+          "baseline_method": "P-QAOA",
+          "conditions": "algorithmic evaluation across 20 benchmarks in Table 2",
+          "is_demonstrated": true,
+          "caveats": "Reported as ARG improvement."
+        },
+        {
+          "type": "empirical",
+          "factor": "49x",
+          "baseline_method": "Choco-Q",
+          "conditions": "circuit depth comparison in Table 2",
+          "is_demonstrated": true,
+          "caveats": "Depth reduction; exact factor varies by benchmark."
+        },
+        {
+          "type": "empirical",
+          "factor": "1.96x",
+          "baseline_method": "HEA",
+          "conditions": "average circuit depth across benchmarks",
+          "is_demonstrated": true,
+          "caveats": "Reported as average reduction."
+        },
+        {
+          "type": "empirical",
+          "factor": "6.58x",
+          "baseline_method": "P-QAOA",
+          "conditions": "average circuit depth across benchmarks",
+          "is_demonstrated": true,
+          "caveats": "Reported as average reduction."
+        },
+        {
+          "type": "empirical",
+          "factor": "379x",
+          "baseline_method": "prior works",
+          "conditions": "real-world IBM Kyiv and IBM Brisbane devices",
+          "is_demonstrated": true,
+          "caveats": "Paper states Rasengan is the first quantum algorithm to beat the mean quality of feasible solution baseline in their test."
+        },
+        {
+          "type": "empirical",
+          "factor": "303x",
+          "baseline_method": "hardware baseline without purification",
+          "conditions": "ablation study on hardware",
+          "is_demonstrated": true,
+          "caveats": "Attributed to purification-based error mitigation."
+        },
+        {
+          "type": "empirical",
+          "factor": "1.73x",
+          "baseline_method": "Choco-Q",
+          "conditions": "real-world platform latency",
+          "is_demonstrated": true,
+          "caveats": "Total time reduction on IBM Kyiv/Brisbane devices."
+        },
+        {
+          "type": "empirical",
+          "factor": "1.8x",
+          "baseline_method": "unpruned transition chains",
+          "conditions": "Hamiltonian pruning evaluation on FLP/KPP/SCP/GCP",
+          "is_demonstrated": true,
+          "caveats": "Coverage of feasible solution space achieved with 40.7% of chain length vs 73.6% unpruned on the fourth scale."
+        },
+        {
+          "type": "theoretical",
+          "factor": "O(34nm^2) CX gates",
+          "baseline_method": "decomposed transition Hamiltonian simulation",
+          "conditions": "before optimization; n variables, m homogeneous basis vectors",
+          "is_demonstrated": false,
+          "caveats": "Upper bound stated in text."
+        },
+        {
+          "type": "theoretical",
+          "factor": "O(34n) per minimal segment",
+          "baseline_method": "optimized segmented execution",
+          "conditions": "after Hamiltonian simplification/pruning and segmentation",
+          "is_demonstrated": false,
+          "caveats": "Derived from the paper's circuit decomposition discussion."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 15,
+          "num_qubits": 15,
+          "metric_name": "approximation_ratio_gap",
+          "metric_value": 0.01
+        },
+        {
+          "problem_size": 21,
+          "num_qubits": 21,
+          "metric_name": "approximation_ratio_gap",
+          "metric_value": 0.12
+        },
+        {
+          "problem_size": 28,
+          "num_qubits": 28,
+          "metric_name": "approximation_ratio_gap",
+          "metric_value": 0.14
+        },
+        {
+          "problem_size": 8,
+          "num_qubits": 8,
+          "metric_name": "approximation_ratio_gap",
+          "metric_value": 0.53
+        },
+        {
+          "problem_size": 15,
+          "num_qubits": 15,
+          "metric_name": "approximation_ratio_gap",
+          "metric_value": 0.07
+        },
+        {
+          "problem_size": 18,
+          "num_qubits": 18,
+          "metric_name": "approximation_ratio_gap",
+          "metric_value": 0.89
+        },
+        {
+          "problem_size": 21,
+          "num_qubits": 21,
+          "metric_name": "approximation_ratio_gap",
+          "metric_value": 1.21
+        },
+        {
+          "problem_size": 10,
+          "num_qubits": 10,
+          "metric_name": "approximation_ratio_gap",
+          "metric_value": 0.01
+        },
+        {
+          "problem_size": 18,
+          "num_qubits": 18,
+          "metric_name": "approximation_ratio_gap",
+          "metric_value": 0.28
+        },
+        {
+          "problem_size": 12,
+          "num_qubits": 12,
+          "metric_name": "approximation_ratio_gap",
+          "metric_value": 0.55
+        },
+        {
+          "problem_size": 16,
+          "num_qubits": 16,
+          "metric_name": "approximation_ratio_gap",
+          "metric_value": 0.24
+        },
+        {
+          "problem_size": 20,
+          "num_qubits": 20,
+          "metric_name": "approximation_ratio_gap",
+          "metric_value": 0.7
+        },
+        {
+          "problem_size": 15,
+          "num_qubits": 15,
+          "metric_name": "approximation_ratio_gap",
+          "metric_value": 1.02
+        },
+        {
+          "problem_size": 20,
+          "num_qubits": 20,
+          "metric_name": "approximation_ratio_gap",
+          "metric_value": 16.5
+        },
+        {
+          "problem_size": 24,
+          "num_qubits": 24,
+          "metric_name": "approximation_ratio_gap",
+          "metric_value": 0.15
+        },
+        {
+          "problem_size": 6,
+          "num_qubits": 6,
+          "metric_name": "approximation_ratio_gap",
+          "metric_value": 0.23
+        },
+        {
+          "problem_size": 105,
+          "num_qubits": 105,
+          "metric_name": "approximation_ratio_gap",
+          "metric_value": null
+        },
+        {
+          "problem_size": 78,
+          "num_qubits": 78,
+          "metric_name": "approximation_ratio_gap",
+          "metric_value": 0.5
+        },
+        {
+          "problem_size": 28,
+          "num_qubits": 28,
+          "metric_name": "approximation_ratio_gap",
+          "metric_value": 0.5
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "transition-Hamiltonian simulation with linear complexity in number of nonzero basis-vector elements; upper bound O(34nm^2) CX gates for decomposed simulation, and O(34n) per minimal segment after optimization",
+        "classical_complexity": "feasible solution construction in O(d), O(e), O(j), O(s), or O(g) depending on benchmark; pruning algorithm O(m^2 n)",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": false,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Paper reports circuits of ~21–87 depth after optimization and ≤24 qubits on hardware benchmarks, with segmented execution reducing depth from ~7000 to ~50. No asymptotic resource estimates for outperforming classical optimization are provided.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "current_nisq",
+        "limiting_factors": [
+          "No demonstrated asymptotic quantum speedup",
+          "Benchmarks limited to small problem sizes (≤24 qubits on hardware)",
+          "Comparison only against other VQAs rather than strong classical optimizers",
+          "Heuristic variational algorithm with classical outer loop",
+          "Performance measured via approximation ratio rather than runtime scaling vs classical methods"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "num_qubits is not stated as a single global value; inferred to vary by benchmark from the reported variable/qubit counts in Table 2 and scalability section.",
+          "hardware.type set to simulator_other because the paper reports Qiskit-based circuit simulation plus real IBM devices; the experiment aggregates simulator and real-device evaluations.",
+          "circuit_depth is benchmark-dependent; values are explicitly reported in Table 2, Figure 9, and Figure 10 rather than as one fixed depth.",
+          "speedup_order marked none_proven because the paper reports empirical improvements, not an asymptotic quantum speedup over classical algorithms.",
+          "The paper claims improvements over other VQAs (e.g., 4.12× accuracy improvement over QAOA) but does not claim or demonstrate quantum advantage over classical optimization algorithms.",
+          "Reported improvements are constant‑factor improvements in circuit depth and solution quality relative to other quantum heuristics."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

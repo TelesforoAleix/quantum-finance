@@ -1,0 +1,1003 @@
+{
+  "paper_id": "df75588a0f00",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T10:10:25+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "df75588a0f00_qaoa_in_qaoa_solving_large_scale_maxcut_problems_on_small_quantum_machines.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.783,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 10,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[5].unit='vertices' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='learning_rate' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[2].unit='absolute ratio increase' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[3].unit='absolute ratio increase' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[4].unit='vertices' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[6].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[9].unit='learning_rate' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[0].unit='absolute ratio improvement' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[2].unit='vertices' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[6].unit='learning_rate' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.783,
+      "completeness": 0.783,
+      "num_experiments": 3,
+      "experiment_scores": [
+        0.833,
+        0.833,
+        0.683
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 0.3333333333333333
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 0.3333333333333333
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "QAOA-in-QAOA: solving large-scale MaxCut problems on small quantum machines",
+    "authors": [
+      "Zeqiao Zhou",
+      "Yuxuan Du",
+      "Xinmei Tian",
+      "Dacheng Tao"
+    ],
+    "year": 2022,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "other",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes QAOA‑in‑QAOA (QAOA2), a hierarchical divide‑and‑conquer approach that solves large MaxCut instances by running many small QAOA subproblems. Using a 10‑qubit simulator with p=1 QAOA and 20 training iterations, the authors approximate MaxCut on 2000‑vertex graphs and report approximation ratios roughly comparable to the classical Goemans–Williamson algorithm (differences typically ~10⁻⁴). No runtime speedup or hardware experiment is demonstrated.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "QAOA-in-QAOA (QAOA2) applied to 2000-vertex MaxCut instances on a 10-qubit quantum simulator, compared against Goemans-Williamson classical baseline.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "QAOA-in-QAOA (QAOA2) hierarchical divide-and-conquer MaxCut",
+        "ansatz": null,
+        "optimizer": "vanilla gradient descent",
+        "num_layers": 1,
+        "convergence_criteria": "max 20 training iterations",
+        "hyperparameters": {
+          "allowable_number_of_qubits": 10,
+          "training_iterations": 20,
+          "shots_per_circuit": 1000,
+          "sampling_runs": 1000,
+          "learning_rate": 0.01,
+          "random_partition_strategy": "used",
+          "graph_partition_strategy": "random partition"
+        },
+        "parameter_initialization": "5 different random seeds used to initialize parameters",
+        "optimizer_settings": {
+          "max_iterations": 20,
+          "learning_rate": 0.01,
+          "parameter_bounds": "gamma, beta in (0, 2π]",
+          "shots_per_gradient_estimate": 1000
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "QUBO",
+        "encoding_details": "MaxCut encoded as Ising/QUBO with one qubit per vertex for each local subproblem; hierarchical merging reformulated as a new MaxCut on subgraph-selection bits",
+        "objective_function": "MaxCut objective C(z)=1/2 sum_(i,j in E) W_ij(1-z_i z_j)",
+        "constraints_handling": "divide-and-conquer partitioning; merging step reformulated as MaxCut and solved by QAOA",
+        "num_binary_variables": 2000,
+        "problem_hamiltonian": "H_C = sum_(i,j in E) W_ij Z_i Z_j",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Four 2000-vertex graph families: unweighted regular, weighted regular, unweighted Erdős-Rényi, weighted Erdős-Rényi; five instances per family",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "u100r-2000, w100r-2000, u100e-2000, w100e-2000; 5 graph instances each; weighted edges sampled uniformly from [0,5]"
+        },
+        "data_preprocessing_details": "graph partitioned into subgraphs of size at most 10 vertices using random partition; local subgraphs solved independently; local solutions merged via a second MaxCut instance",
+        "evaluation_methodology": "5 graph instances per setting; 5 random seeds per instance; approximation ratio reported against C*_SDP and C*_asymp"
+      },
+      "quantum_resources": {
+        "num_qubits": 10,
+        "qubit_type": "not_specified",
+        "circuit_depth": 1,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 1000,
+        "num_variational_params": 2,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "PennyLane",
+        "framework_version": null,
+        "transpilation_target": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/ZeddTheGoat/QAOA_in_QAQA",
+        "classical_solver": "Goemans-Williamson SDP via CVXPY/SCS",
+        "classical_preprocessing": "random partition of graph into subgraphs; local and merged MaxCut instances constructed classically",
+        "classical_postprocessing": "1000 circuit samples collected; best bitstring selected by smallest eigenvalue; approximation ratio computed",
+        "framework_version": null,
+        "transpilation_target": null,
+        "transpilation_settings": null,
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 20,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": 5.0,
+          "num_independent_runs": 25
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.8629,
+          "uncertainty": null,
+          "num_runs": 25,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.8486,
+          "uncertainty": null,
+          "num_runs": 25,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.8605,
+          "uncertainty": null,
+          "num_runs": 25,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.8493,
+          "uncertainty": null,
+          "num_runs": 25,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.879,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "problem_size",
+          "value": 2000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "vertices",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_iterations",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots_per_circuit",
+          "value": 1000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sampling_runs",
+          "value": 1000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "learning_rate",
+          "value": 0.01,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "learning_rate",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "Goemans-Williamson (GW) SDP",
+          "metric_name": "approximation_ratio",
+          "value": 0.8621,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Goemans-Williamson (GW) SDP",
+          "metric_name": "approximation_ratio",
+          "value": 0.8483,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Goemans-Williamson (GW) SDP",
+          "metric_name": "approximation_ratio",
+          "value": 0.8604,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Goemans-Williamson (GW) SDP",
+          "metric_name": "approximation_ratio",
+          "value": 0.8482,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Goemans-Williamson (GW) SDP",
+          "metric_name": "approximation_ratio",
+          "value": 0.879,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "lower bound 1/2 approximation ratio",
+          "baseline_method": "random guess / arbitrary cut",
+          "conditions": "for QAOA2 on MaxCut after recursive partitioning and merging",
+          "is_demonstrated": true,
+          "caveats": "This is a guarantee on approximation ratio, not a runtime speedup."
+        },
+        {
+          "type": "empirical",
+          "factor": "competitive or better than GW on 2000-vertex instances",
+          "baseline_method": "Goemans-Williamson (GW) SDP",
+          "conditions": "2000-vertex synthetic MaxCut instances; 10-qubit simulator; 5 instances per graph family; 5 random seeds per instance",
+          "is_demonstrated": true,
+          "caveats": "Performance is reported via approximation ratio; not all instances outperform GW."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 2000,
+          "num_qubits": 10,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.8629
+        },
+        {
+          "problem_size": 2000,
+          "num_qubits": 10,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.8486
+        },
+        {
+          "problem_size": 2000,
+          "num_qubits": 10,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.8605
+        },
+        {
+          "problem_size": 2000,
+          "num_qubits": 10,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.8493
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "hierarchical QAOA on subproblems; no explicit asymptotic runtime given beyond using n-qubit machines for N-vertex MaxCut",
+        "classical_complexity": "GW/SDP classical MaxCut solver; no explicit asymptotic runtime given in paper",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "parity_with_classical",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Requires large-scale fault-tolerant QPUs capable of running many hierarchical QAOA instances with hundreds–thousands of logical qubits; paper only uses a 10‑qubit simulator.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "All experiments run on noiseless simulator rather than hardware",
+          "Only shallow p=1 QAOA used in most tests",
+          "Performance advantage over GW is extremely small (~10^-4 differences in approximation ratio)",
+          "No runtime comparison or asymptotic complexity advantage demonstrated",
+          "Divide‑and‑conquer framework dominated by classical preprocessing and graph partitioning"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_other because the paper states QAOA2 was executed on a 10-qubit quantum simulator and no physical QPU/device is named.",
+          "num_variational_params inferred as 2 because 1-layer QAOA uses one gamma and one beta parameter.",
+          "The paper reports comparison to GW as a classical baseline, not a separate quantum experiment.",
+          "Paper states QAOA2 achieves 'competitive or even better performance' than classical methods but differences are very small and measured only via approximation ratio, not runtime.",
+          "Figures 3–4 show approximation ratios nearly identical to the Goemans–Williamson baseline."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Scalability study of QAOA2 on 60-vertex MaxCut instances, varying graph density, qubit budget, and QAOA depth.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "QAOA-in-QAOA (QAOA2) hierarchical divide-and-conquer MaxCut",
+        "ansatz": null,
+        "optimizer": "vanilla gradient descent",
+        "num_layers": 1,
+        "convergence_criteria": "max 20 training iterations (same QAOA2 setup as main experiments)",
+        "hyperparameters": {
+          "graph_types": [
+            "unweighted regular",
+            "weighted regular",
+            "unweighted ER",
+            "weighted ER"
+          ],
+          "degrees": [
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "graph_sizes": [
+            20,
+            40,
+            60,
+            80,
+            100
+          ],
+          "qubit_sizes": [
+            8,
+            10,
+            12,
+            15
+          ],
+          "qaoa_depths": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "shots_per_circuit": 1000,
+          "learning_rate": 0.01,
+          "training_iterations": 20
+        },
+        "parameter_initialization": "not_specified",
+        "optimizer_settings": {
+          "max_iterations": 20,
+          "learning_rate": 0.01,
+          "shots_per_gradient_estimate": 1000
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "QUBO",
+        "encoding_details": "MaxCut on synthetic graphs; local subgraphs encoded on available qubits and merged recursively",
+        "objective_function": "MaxCut objective C(z)=1/2 sum_(i,j in E) W_ij(1-z_i z_j)",
+        "constraints_handling": "divide-and-conquer partitioning; recursive merging as reformulated MaxCut",
+        "num_binary_variables": 60,
+        "problem_hamiltonian": "H_C = sum_(i,j in E) W_ij Z_i Z_j",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Synthetic 60-vertex graphs used to study effect of qubit count and QAOA depth; graph families include regular and Erdős-Rényi, weighted and unweighted",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "u9r-60, u9e-60, w9r-60, w9e-60; degrees 3-9; 10 instances per setting"
+        },
+        "data_preprocessing_details": "graph partitioning and local solving as in QAOA2; random partition used unless otherwise stated",
+        "evaluation_methodology": "10 instances per setting; approximation ratio averaged across instances; qubit size varied over {8,10,12,15}; depth varied over p=1..5"
+      },
+      "quantum_resources": {
+        "num_qubits": 15,
+        "qubit_type": "not_specified",
+        "circuit_depth": 5,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 1000,
+        "num_variational_params": 10,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "PennyLane",
+        "framework_version": null,
+        "transpilation_target": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/ZeddTheGoat/QAOA_in_QAQA",
+        "classical_solver": "Goemans-Williamson SDP via CVXPY/SCS",
+        "classical_preprocessing": "graph partitioning; local subproblems solved and merged recursively",
+        "classical_postprocessing": "approximation ratio computed using GW as reference for some plots; averaged over 10 instances",
+        "framework_version": null,
+        "transpilation_target": null,
+        "transpilation_settings": null,
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 20,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": 10.0,
+          "num_independent_runs": 10
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.9488,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.5836,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.06,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute ratio increase",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute ratio increase",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "problem_size",
+          "value": 60,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "vertices",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 15,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "qaoa_depth",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_iterations",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots_per_circuit",
+          "value": 1000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "learning_rate",
+          "value": 0.01,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "learning_rate",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "Goemans-Williamson (GW) SDP",
+          "metric_name": "approximation_ratio",
+          "value": 0.8837,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "This section studies sensitivity to graph density, qubit count, and QAOA depth; no runtime speedup claim is made."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 20,
+          "num_qubits": 8,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.9488
+        },
+        {
+          "problem_size": 100,
+          "num_qubits": 8,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.5836
+        },
+        {
+          "problem_size": 60,
+          "num_qubits": 8,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.8594
+        },
+        {
+          "problem_size": 60,
+          "num_qubits": 15,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.9209
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "no explicit asymptotic runtime given; performance studied empirically as a function of qubit count and depth",
+        "classical_complexity": "no explicit asymptotic runtime given",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Unknown; experiment studies scaling behavior but does not compare against classical runtime advantages.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "No explicit classical runtime comparison",
+          "Small graph sizes (≤100 vertices)",
+          "Simulated quantum circuits only",
+          "Evaluation metric is approximation ratio relative to GW output rather than optimal value"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper reports qubit sizes up to 15 and QAOA depths p=1..5 in the scalability study; the maximum values are recorded here as resource requirements observed in the experiment family.",
+          "num_variational_params inferred as 2p for standard QAOA with p layers; at p=5 this gives 10 parameters.",
+          "This experiment studies sensitivity to graph density, qubit count, and QAOA depth rather than quantum vs classical advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "Partition-quality ablation for QAOA2 on weighted Erdős-Rényi graphs, comparing random partition versus greedy community-detection partition.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "QAOA-in-QAOA (QAOA2) with community-detection partitioning",
+        "ansatz": null,
+        "optimizer": "vanilla gradient descent",
+        "num_layers": 1,
+        "convergence_criteria": "max 20 training iterations (same QAOA2 setup)",
+        "hyperparameters": {
+          "graph_types": [
+            "weighted ER"
+          ],
+          "graph_sizes": [
+            60,
+            80
+          ],
+          "allowable_number_of_qubits": "n < 15",
+          "partition_methods": [
+            "random",
+            "greedy community detection"
+          ],
+          "shots_per_circuit": 1000,
+          "learning_rate": 0.01,
+          "training_iterations": 20
+        },
+        "parameter_initialization": "not_specified",
+        "optimizer_settings": {
+          "max_iterations": 20,
+          "learning_rate": 0.01,
+          "shots_per_gradient_estimate": 1000
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "QUBO",
+        "encoding_details": "Weighted MaxCut on synthetic ER graphs; partitioning aims to keep edges within subgraphs to improve QAOA2",
+        "objective_function": "MaxCut objective C(z)=1/2 sum_(i,j in E) W_ij(1-z_i z_j)",
+        "constraints_handling": "community-detection partitioning; recursive merging as reformulated MaxCut",
+        "num_binary_variables": 60,
+        "problem_hamiltonian": "H_C = sum_(i,j in E) W_ij Z_i Z_j",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Weighted ER graphs of 60 and 80 vertices used to compare random vs greedy partitioning",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "w3e-60 and w3e-80; 10 instances per setting"
+        },
+        "data_preprocessing_details": "greedy modularity maximization community detection using NetworkX; random partition baseline",
+        "evaluation_methodology": "10 instances per setting; approximation ratio and modularity reported"
+      },
+      "quantum_resources": {
+        "num_qubits": 14,
+        "qubit_type": "not_specified",
+        "circuit_depth": 1,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 1000,
+        "num_variational_params": 2,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "PennyLane",
+        "framework_version": null,
+        "transpilation_target": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/ZeddTheGoat/QAOA_in_QAQA",
+        "classical_solver": "Goemans-Williamson SDP via CVXPY/SCS",
+        "classical_preprocessing": "community detection via greedy modularity maximization (NetworkX) or random partition",
+        "classical_postprocessing": "approximation ratio and modularity computed over 10 instances",
+        "framework_version": null,
+        "transpilation_target": null,
+        "transpilation_settings": null,
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 20,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": 10.0,
+          "num_independent_runs": 10
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.3,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "absolute ratio improvement",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "modularity",
+          "value": 0.4,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "problem_size",
+          "value": 80,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "vertices",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 15,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_iterations",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots_per_circuit",
+          "value": 1000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "learning_rate",
+          "value": 0.01,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "learning_rate",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "random partition",
+          "metric_name": "approximation_ratio",
+          "value": null,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "more than 0.3 absolute approximation-ratio improvement in some instances",
+          "baseline_method": "random partition",
+          "conditions": "weighted ER graphs w3e-60 and w3e-80; greedy community-detection partition vs random partition; 10 instances per setting",
+          "is_demonstrated": true,
+          "caveats": "Improvement is instance-dependent; the paper does not provide a single averaged delta for all instances."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 60,
+          "num_qubits": 15,
+          "metric_name": "approximation_ratio_improvement",
+          "metric_value": 0.3
+        },
+        {
+          "problem_size": 80,
+          "num_qubits": 15,
+          "metric_name": "approximation_ratio_improvement",
+          "metric_value": 0.3
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "no explicit asymptotic runtime given",
+        "classical_complexity": "no explicit asymptotic runtime given",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Not evaluated; experiment compares graph partition strategies inside the QAOA2 workflow.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Experiment focuses on partition quality rather than algorithmic advantage",
+          "Small graphs (60–80 vertices)",
+          "Simulated quantum circuits only",
+          "Improvement primarily from classical graph partitioning rather than quantum component"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper explicitly states the community-detection experiment uses n < 15 qubits and graphs of size 60 and 80; 14 qubits is the largest qubit budget mentioned in the surrounding scalability study and is used here as the reported resource ceiling for this experiment family.",
+          "num_variational_params inferred as 2 for 1-layer QAOA.",
+          "Appendix E explicitly frames this as an ablation on partition strategies rather than a quantum advantage experiment."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

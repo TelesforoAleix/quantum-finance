@@ -1,0 +1,375 @@
+{
+  "paper_id": "cc3196e053ee",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:57:37+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "cc3196e053ee_towards_an_end_to_end_approach_for_quantum_principal_component_analysis.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.475,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 6,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='scenarios' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='matrix' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='vector' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='vector' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='quantum_volume' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.475,
+      "completeness": 0.475,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.8,
+        0.15
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Towards An End-To-End Approach For Quantum Principal Component Analysis",
+    "authors": [
+      "Emanuele Dri",
+      "Antonello Aita",
+      "Tommaso Fioravanti",
+      "Giulia Franco",
+      "Edoardo Giusto",
+      "Giacomo Ranieri",
+      "Davide Corbelletto",
+      "Bartolomeo Montrucchio"
+    ],
+    "year": 2023,
+    "doi": "10.1109/QCE57702.2023.10175",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": [
+      "risk-management"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper implements an end‑to‑end Quantum PCA workflow using phase estimation and a custom tomography method to reconstruct eigenvectors, demonstrated on a 2×2 synthetic covariance matrix using r_PE=2 qubits and Nc=50,000 shots. Circuits use 4 qubits for phase estimation and 5 qubits for the sign‑estimation tomography step, tested on the IBM qasm simulator and an IBM Perth (7‑qubit, quantum volume 32) device. Results correctly identify eigenvalues (~0.75 and ~0.25 due to 2‑bit resolution) but hardware runs suffer from decoherence in the deeper sign‑estimation circuit.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum PCA on a 2x2 synthetic covariance matrix for an interest-rate-risk use case, using phase estimation to estimate eigenvalues and a tomography-based sign estimation circuit to reconstruct principal components; evaluated on IBM ideal simulator and IBM Perth QPU.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Quantum PCA with phase estimation and extended quantum state tomography",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "r_PE": 2,
+          "Nc": 50000,
+          "matrix_size": "2x2"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Input covariance matrix A is amplitude-encoded into register M; phase estimation uses register E with r_PE qubits to encode eigenvalues; sign estimation adds one control qubit.",
+        "objective_function": "Extract principal components (eigenvalues and eigenvectors) of the input covariance matrix via quantum PCA.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": "e^{-iAt} used for phase estimation / Hamiltonian simulation",
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "Interest rate risk / financial covariance-matrix PCA on synthetic 2-asset data.",
+        "num_assets": 2,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 1000,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "2x2 synthetic covariance matrix validated by domain experts; matrix A = [[0.6507, 0.2122],[0.2122, 0.3493]] with eigenvalues 0.760 and 0.240 and eigenvectors [0.889, 0.459] and [-0.459, 0.889]."
+        },
+        "data_preprocessing_details": "Daily computed differences among tenors are modeled with ARMA, cleaned from outliers, and PCA is applied to residuals in the motivating finance workflow; for the experiment, a synthetic covariance matrix is generated from simulated returns.",
+        "evaluation_methodology": "Ideal simulation on ibmq qasm simulator with 50000 shots; additional runs on IBM Perth QPU; results compared qualitatively against expected eigenvalues/signs."
+      },
+      "quantum_resources": {
+        "num_qubits": 5,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 50000,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": "ibmq_qasm_simulator (ideal simulator) and IBM Perth QPU",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/Eagle-quantum/QuPCA",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Matrix normalization by trace if needed; synthetic covariance matrix generation from simulated returns.",
+        "classical_postprocessing": "Eigenvalues multiplied by trace if normalization was applied; principal components reconstructed from tomography output.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "dataset_size",
+          "value": "1000 simulated scenarios per asset over one year",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "scenarios",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "matrix_size",
+          "value": "2x2",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "matrix",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "r_pe",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "nc",
+          "value": 50000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "eigenvalue_1",
+          "value": 0.76,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "eigenvalue_2",
+          "value": 0.24,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "eigenvector_1",
+          "value": "[0.889, 0.459]",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "vector",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "eigenvector_2",
+          "value": "[-0.459, 0.889]",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "vector",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "quantum_volume",
+          "value": 32,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "quantum_volume",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "exponential advantage",
+          "baseline_method": "classical PCA / classical linear algebra methods",
+          "conditions": "for low-rank density matrices in the original quantum PCA proposal; this paper does not empirically demonstrate the advantage",
+          "is_demonstrated": false,
+          "caveats": "The paper discusses the theoretical quantum PCA advantage from prior work, but does not provide a direct classical runtime comparison for the reported experiment."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 2.0,
+          "num_qubits": 5,
+          "metric_name": "num_qubits",
+          "metric_value": 5
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": 5,
+          "metric_name": "nc",
+          "metric_value": 50000
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(t^2 ε^-1 log(N^2)) for Hamiltonian simulation / phase estimation; tomography adds O((36 d ln d / δ^2) t^2 ε^-1 log(N^2))",
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not provided; experiment only demonstrates a 2x2 covariance matrix.",
+        "resources_for_advantage": "Requires scalable qRAM-based data loading and large coherent phase estimation registers for meaningful matrices.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Toy problem size (2x2 matrix)",
+          "Eigenvalue estimation resolution limited to r_PE = 2 qubits",
+          "Heavy reliance on state preparation (placeholder instead of qRAM)",
+          "Large tomography shot count (Nc = 50,000)",
+          "No classical runtime comparison"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "IBM ideal simulator and IBM Perth QPU are explicitly reported; 5 qubits comes from 2 qubits for register M + 2 for register E + 1 control qubit in sign estimation.",
+          "Circuit depth is not numerically reported; left null.",
+          "The paper gives asymptotic quantum complexity but does not provide a classical baseline complexity for the same task, so speedup order is set to none_proven.",
+          "The paper references theoretical exponential advantage from Lloyd et al. (2014) quantum PCA but does not empirically demonstrate any runtime improvement.",
+          "Experiments are limited to a 2x2 matrix on an ideal simulator."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_new_1",
+      "description": "Execution of the same Quantum PCA circuits (phase estimation and sign estimation tomography circuits) on a real IBM Perth superconducting quantum processor to evaluate hardware behavior versus ideal simulation.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Quantum PCA with phase estimation and extended tomography",
+        "key_components": [
+          "Quantum Phase Estimation",
+          "Hamiltonian simulation e^{-iAt}",
+          "Probability estimation via measurement counts",
+          "Sign estimation circuit using Hadamard-test-like construction"
+        ],
+        "num_layers": null
+      },
+      "key_results": [
+        "Amplitude estimation results on hardware are reasonably close to ideal simulator results.",
+        "Sign estimation circuit degrades significantly on hardware due to increased circuit depth and decoherence."
+      ]
+    }
+  ]
+}

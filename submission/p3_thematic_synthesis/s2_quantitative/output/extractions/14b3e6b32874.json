@@ -1,0 +1,705 @@
+{
+  "paper_id": "14b3e6b32874",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:06:18+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "14b3e6b32874_quantum_circuits_for_the_black_scholes_equations_via_schr_dingerisation.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.75,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 2,
+    "validation_warnings": 16,
+    "validation_passed": false,
+    "validation_error_details": [
+      "Schema error at experiments.0.quantum_resources.two_qubit_gate_count: 'O(Np nx^2) per time step; total O(Np T^2 n_x^3 (Npγ1^2 + 2γ2^2 + 2Npγ1γ2)c^2/ε)' is not of type 'integer', 'null'",
+      "Schema error at experiments.1.quantum_resources.two_qubit_gate_count: 'O(d Np n_x^2) per time step; total O((1/ε) d Np T^2 n_x^3 (Npγ1^2 + 2γ2^2 + 2Npγ1γ2) Σ c_m^2)' is not of type 'integer', 'null'"
+    ],
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='L2 error' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='L2 error' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='L2 error' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='L2 error' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='L2 error' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='L2 error' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='order' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='order' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='order' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='order' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='GB' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[15].unit='GB' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[16].unit='GB' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[17].unit='GB' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[18].unit='asset' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[1].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.75,
+      "completeness": 0.75,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.85,
+        0.65
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 0.5,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum Circuits for the Black-Scholes equations via Schrödingerisation",
+    "authors": [
+      "Shi Jin",
+      "Zihao Tang",
+      "Xu Yin",
+      "Lei Zhang"
+    ],
+    "year": 2025,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": [
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper designs Schrödingerisation-based quantum circuits for solving the Black–Scholes PDE and analyzes their complexity, showing circuits requiring (nx+1+np) qubits for 1D and dnx+np qubits for d dimensions (e.g., 13 qubits for nx=np=6 and 23 qubits for the 2D example). Numerical validation is performed via Qiskit statevector simulation (1D) and Matlab numerical experiments (2D), demonstrating convergence as the auxiliary register size np increases but without execution on quantum hardware or runtime comparisons with optimized classical solvers.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Qiskit numerical simulation of a gate-based Schrödingerisation quantum circuit for the one-dimensional Black-Scholes equation with Dirichlet/mixed boundary conditions, evaluated for different ancilla register sizes and initial-state smoothness choices.",
+      "algorithm": {
+        "family": "quantum-simulation",
+        "variant": "Schrödingerisation-based quantum circuit for Black-Scholes PDE",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "T": 1,
+          "r": 0.02,
+          "sigma": 0.3,
+          "K": 30,
+          "smin": 0.0001,
+          "smax": 300,
+          "xmin": "ln(10^-4)",
+          "xmax": "ln(10K)",
+          "Lp": "[-4π,4π]",
+          "nx": [
+            5,
+            6
+          ],
+          "np": [
+            4,
+            5,
+            6
+          ],
+          "dt": 0.001,
+          "T_sim": 0.1
+        },
+        "parameter_initialization": "Initial state set from the discretized option payoff; two initial p-register choices were tested: a discontinuous/continuous but not C1 initial function and a smoother g(p) initial function.",
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "block_encoding",
+        "encoding_details": "Finite-difference discretization of the Black-Scholes PDE on an x-grid with an auxiliary p-register for Schrödingerisation; the solution is embedded into a larger unitary evolution and recovered by QFT/IQFT and projection.",
+        "objective_function": "Solve the one-dimensional Black-Scholes PDE for a European call option price evolution under the transformed PDE and recover the option value from the quantum state.",
+        "constraints_handling": "Dirichlet or mixed boundary conditions handled through finite-difference boundary terms and dilation; final-state recovery via projection onto a selected p-register basis state.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": "H_BS = C1 ⊗ D_eta + C2 ⊗ I^{⊗np}",
+        "num_ancilla_qubits": "np"
+      },
+      "problem_instance": {
+        "description": "European call option pricing under the one-dimensional Black-Scholes model.",
+        "num_assets": 1,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Analytic Black-Scholes benchmark with parameters T=1, r=0.02, sigma=0.3, K=30, smin=10^-4, smax=10K; numerical comparison against the closed-form Black-Scholes solution."
+        },
+        "data_preprocessing_details": "Log-price transform s = e^x; finite-difference discretization on [xmin,xmax]; auxiliary p-domain discretization on [-4π,4π]; comparison of two initial p-profiles including a smoother g(p).",
+        "evaluation_methodology": "Qiskit Statevector simulator and Estimator used; numerical error and convergence compared across nx and np values, with CPU runtime and RAM reported for selected runs."
+      },
+      "quantum_resources": {
+        "num_qubits": 1,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": 2,
+        "cnot_count": 2,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Classical finite-difference ODE/matrix-exponential baseline; exact Black-Scholes closed form for benchmark",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Finite-difference discretization in x and p; construction of initial state from payoff and auxiliary p-profile.",
+        "classical_postprocessing": "Inverse QFT and projection onto selected p-state to recover the option price; error computed against exact solution.",
+        "total_execution_time": "Reported CPU runtimes for selected simulations: 00:20:17, 01:11:15, 03:37:11, 00:18:08, and runtime for smoother initial condition figure; no separate quantum execution time.",
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "Error decreases as np increases; smoother initial p-profile improves convergence; reported L2 convergence rates near second order for smooth initial data.",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "price_error",
+          "value": 0.6698,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "L2 error",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 0.3271,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "L2 error",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 0.1776,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "L2 error",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 0.2925,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "L2 error",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 0.0754,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "L2 error",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 0.0206,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "L2 error",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": 1.03,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "order",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": 0.89,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "order",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": 1.96,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "order",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": 1.88,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "order",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "execution_time",
+          "value": 1217,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "execution_time",
+          "value": 4275,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "execution_time",
+          "value": 13031,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "execution_time",
+          "value": 1088,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "memory_usage",
+          "value": 5.47,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "GB",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "memory_usage",
+          "value": 6.09,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "GB",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "memory_usage",
+          "value": 7.12,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "GB",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "memory_usage",
+          "value": 5.36,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "GB",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "num_underlyings",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "asset",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical finite-difference method",
+          "metric_name": "price_error",
+          "value": null,
+          "unit": "L2 error"
+        },
+        {
+          "method_name": "classical finite-difference method",
+          "metric_name": "execution_time",
+          "value": null,
+          "unit": "seconds"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "polynomial speedup / exponential memory savings",
+          "baseline_method": "classical finite-difference methods",
+          "conditions": "high-dimensional settings; gate-based Schrödingerisation with Trotterization and assuming efficient implementation of the block-structured unitary",
+          "is_demonstrated": false,
+          "caveats": "The paper gives asymptotic gate complexity and claims polynomial advantage in d, but the 1D numerical section only validates convergence on a simulator."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 6.0,
+          "num_qubits": 11,
+          "metric_name": "execution_time",
+          "metric_value": 1217
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 12,
+          "metric_name": "execution_time",
+          "metric_value": 4275
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 13,
+          "metric_name": "execution_time",
+          "metric_value": 13031
+        },
+        {
+          "problem_size": 5.0,
+          "num_qubits": 12,
+          "metric_name": "execution_time",
+          "metric_value": 1088
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 11,
+          "metric_name": "memory_usage",
+          "metric_value": 5.47
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 12,
+          "metric_name": "memory_usage",
+          "metric_value": 6.09
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 13,
+          "metric_name": "memory_usage",
+          "metric_value": 7.12
+        },
+        {
+          "problem_size": 5.0,
+          "num_qubits": 12,
+          "metric_name": "memory_usage",
+          "metric_value": 5.36
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "˜O(T^2 ||u(0)||^3 / (h^4 ε^3 ||u(T)||^3)) single-qubit gates and CNOT gates for state preparation; per-step simulation cost also given as O(Np T^2 n_x^2 (Npγ1^2 + 2γ2^2 + 2Npγ1γ2)c^2/ε) single-qubit gates and O(Np T^2 n_x^3 (Npγ1^2 + 2γ2^2 + 2Npγ1γ2)c^2/ε) CNOT gates",
+        "classical_complexity": "Classical finite-difference methods suffer from curse of dimensionality; no precise asymptotic best-known classical complexity stated for the 1D case beyond direct ODE/matrix-exponential simulation and finite-difference scaling.",
+        "speedup_order": "polynomial_other",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not provided; complexity expressions only.",
+        "resources_for_advantage": "Algorithm requires O(nx + np + 1) logical qubits and gate complexity scaling ~O(Np T^2 n_x^3 (...) / ε). Practical advantage would require large nx (fine spatial grids) and large Np registers beyond current hardware capabilities.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Experiments performed only on a noiseless simulator",
+          "Problem sizes ≤13 logical qubits",
+          "No runtime comparison with optimized classical PDE solvers",
+          "Speedup claim based on asymptotic dimensional scaling rather than measured performance",
+          "Large Trotterization depth and controlled multi‑qubit operations"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "hardware.type inferred as simulator_statevector because the paper states Qiskit Statevector simulator was used and no QPU device is named.",
+          "num_qubits inferred from the register structure described as (nx + 1 + np)-qubit system; the paper reports example values nx and np but not a single fixed total qubit count.",
+          "circuit_depth not explicitly reported; only Trotterization/repetition structure is described.",
+          "The paper claims polynomial scaling benefits and exponential memory savings in high dimension (Remark 5.2) but provides only simulator demonstrations with ≤13 qubits and no runtime comparison showing quantum outperforming classical methods."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Qiskit numerical simulation of a gate-based Schrödingerisation quantum circuit for the two-dimensional Black-Scholes equation with mixed boundary conditions, evaluated for a cash-or-worthless option benchmark and different initial-state smoothness choices.",
+      "algorithm": {
+        "family": "quantum-simulation",
+        "variant": "Schrödingerisation-based quantum circuit for 2D Black-Scholes PDE",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "T": 1,
+          "dt": 0.001,
+          "nx": 8,
+          "np": 7,
+          "r": 0.03,
+          "sigma1": 0.3,
+          "sigma2": 0.3,
+          "rho12": 0.6,
+          "K1": 50,
+          "K2": 50,
+          "L": 15,
+          "xmin": "ln(10^-6)",
+          "xmax": "ln(4K1)",
+          "ymin": "ln(10^-6)",
+          "ymax": "ln(4K2)"
+        },
+        "parameter_initialization": "Initial state set from the 2D payoff; two initial p-profiles analogous to the 1D case were used.",
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "block_encoding",
+        "encoding_details": "Finite-difference discretization of the 2D Black-Scholes PDE on an x-y grid with an auxiliary p-register for Schrödingerisation; the solution is recovered by QFT/IQFT and projection.",
+        "objective_function": "Solve the two-dimensional Black-Scholes PDE for a cash-or-worthless option and recover the option price surface.",
+        "constraints_handling": "Mixed boundary conditions with zero-value and zero-derivative boundaries; final-state recovery via projection onto a selected p-register basis state.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": "H_BS = A1 ⊗ D_eta + A2 ⊗ I^{⊗np}",
+        "num_ancilla_qubits": "np"
+      },
+      "problem_instance": {
+        "description": "Two-asset cash-or-worthless option pricing under the 2D Black-Scholes model.",
+        "num_assets": 2,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Analytic 2D Black-Scholes benchmark with parameters T=1, r=0.03, sigma1=sigma2=0.3, rho12=0.6, K1=K2=50, and domain truncation on x and y."
+        },
+        "data_preprocessing_details": "Log-price transform for both assets; finite-difference discretization on a 2D grid; auxiliary p-domain discretization with L=15.",
+        "evaluation_methodology": "Numerical results generated in Matlab; compared against exact 2D Black-Scholes solution; two initial p-profiles tested."
+      },
+      "quantum_resources": {
+        "num_qubits": 2,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": 2,
+        "cnot_count": 2,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Classical finite-difference/analytic Black-Scholes benchmark",
+        "transpilation_settings": null,
+        "classical_preprocessing": "2D finite-difference discretization and auxiliary p-register construction.",
+        "classical_postprocessing": "Inverse QFT and projection onto selected p-state; comparison to exact 2D solution.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "Accuracy improves with the chosen smoother initial p-profile; numerical plots show good agreement with exact solution.",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "price_error",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_underlyings",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "exact 2D Black-Scholes solution",
+          "metric_name": "price_error",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "polynomial speedup / exponential memory savings",
+          "baseline_method": "classical finite-difference methods",
+          "conditions": "high-dimensional settings; gate-based Schrödingerisation with Trotterization and assuming efficient implementation of the block-structured unitary",
+          "is_demonstrated": false,
+          "caveats": "The 2D numerical section reports qualitative agreement with the exact solution but does not provide explicit error values in text."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 8.0,
+          "num_qubits": 23,
+          "metric_name": "price_error",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "˜O(d T^2 ||U(0)||^3 Σ c_m^2 / (h^4 ε^3 ||U(T)||^3)) single-qubit gates and CNOT gates",
+        "classical_complexity": "Classical methods scale as O(Nx^d) for d underlying assets; paper states curse of dimensionality for classical finite-difference methods.",
+        "speedup_order": "polynomial_other",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L0_theory",
+        "crossover_size": "Not analyzed in the paper.",
+        "resources_for_advantage": "Would require circuits with dnx + np qubits (23 logical qubits in the example) and gate counts scaling O(d Np n_x^3 ...) with high‑precision Trotter simulation.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Example 6.2 results produced using classical Matlab simulation",
+          "No quantum simulator or QPU execution reported",
+          "No empirical runtime comparison with classical PDE solvers",
+          "Advantage argument relies on asymptotic dimensional scaling"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "hardware.type inferred as simulator_statevector because the paper states numerical results were generated using Matlab/Qiskit-style simulation and no QPU device is named.",
+          "num_qubits inferred from the stated dnx + np register size; the paper gives nx=8 and np=7 but does not explicitly state the total qubit count for the 2D run.",
+          "circuit_depth not explicitly reported; only Trotterized circuit structure is described.",
+          "The 2D results are classical numerical simulations validating the Schrödingerisation formulation rather than executions of the quantum circuit."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

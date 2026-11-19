@@ -1,0 +1,420 @@
+{
+  "paper_id": "b10591681791",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:35:19+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "b10591681791_enhancing_knapsack_based_financial_portfolio_optimization_using_quantum_approxim.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.95,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 0,
+    "validation_passed": true,
+    "quality_details": {
+      "score": 0.95,
+      "completeness": 0.95,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.95
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Enhancing Knapsack-based Financial Portfolio Optimization Using Quantum Approximate Optimization Algorithm",
+    "authors": [
+      "Chansreynich Huot",
+      "Kimleang Kea",
+      "Tae-Kyung Kim",
+      "Youngsun Han"
+    ],
+    "year": 2024,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "portfolio-optimization",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a QAOA variant with a Quantum Walk Mixer (QWM‑QAOA) for knapsack‑based portfolio optimization and evaluates it on portfolios of 2–8 stocks. Using p=3 circuit layers and m=3 Trotter steps, the algorithm achieves approximation ratios of 1.00–0.96 on a simulator and 0.96–0.51 on real IBM Nazca hardware (up to 15 qubits). No computational speedup over classical optimization is demonstrated.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "QWM-QAOA gate-based quantum portfolio optimization for binary knapsack instances with 2 to 8 stocks, evaluated on simulator, noisy fake backend, and real IBM hardware.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "Quantum Walk Mixer QAOA (QWM-QAOA) with QFT-based feasibility oracle",
+        "ansatz": null,
+        "optimizer": "SHGO",
+        "num_layers": 3,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "circuit_layers_p": 3,
+          "trotter_steps_m": 3,
+          "optimizer": "SHGO",
+          "framework": "Qiskit",
+          "financial_data_provider": "yahoo finance",
+          "portfolio_valuation_module": "PyPortfolioOpt"
+        },
+        "parameter_initialization": "Initial parameters (gamma_k, beta_k) initialized by Initialize() for k=1; subsequent layers use optimized parameters from previous layer",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": {
+            "beta": [
+              0,
+              "m*pi"
+            ]
+          }
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "One binary variable per stock; stock included/excluded with bit 1/0. Weights are set uniformly to 1 for each stock; capacity is half the number of stocks.",
+        "objective_function": "maximize R(x) = sum_i x_i E(R_i) subject to sum_i x_i w_i <= C",
+        "constraints_handling": "Feasibility oracle using QFT-based weight accumulation and multi-controlled-NOT feasibility check; quantum walk mixer restricts mixing to feasible neighboring states",
+        "num_binary_variables": 2,
+        "problem_hamiltonian": "Hc encodes the value function v(x) / expected return objective; exact Hamiltonian form not fully specified",
+        "num_ancilla_qubits": ">=3 plus feasibility-oracle ancillas (QS + Qw + QF + 3 total qubits)"
+      },
+      "problem_instance": {
+        "description": "Knapsack-based portfolio selection over subsets of publicly traded stocks using historical returns from 2018-01-01 to 2023-01-01",
+        "num_assets": 2,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "real_market",
+        "dataset_name": "yahoo finance / PyPortfolioOpt",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "AAPL",
+            "MSFT",
+            "AMZN",
+            "GOOGL",
+            "NVDA",
+            "TSLA",
+            "NFLX",
+            "V"
+          ],
+          "date_range": "2018-01-01 to 2023-01-01",
+          "benchmark_name": "Best Known Solution (BKS)",
+          "preprocessing": "historical stock prices -> daily returns -> expected returns via Markowitz model; weights set to 1; capacity set to half the number of assets",
+          "train_test_split": null
+        },
+        "data_preprocessing_details": "HistoricalReturn(start,end,stocks) to obtain prices/returns; ExpectReturn(prices) to compute expected returns; convert portfolio to binary knapsack with unit weights and capacity Length(E(R))/2",
+        "evaluation_methodology": "Performance evaluated by approximation ratio against classical BKS across portfolio sizes 2 to 8; results reported for noise-free simulator, noisy fake backend, and real device"
+      },
+      "quantum_resources": {
+        "num_qubits": 7,
+        "qubit_type": "not_specified",
+        "circuit_depth": 3,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 6,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": "IBM",
+        "device_name": "QASM simulator; FakeWashington (simulated noisy backend); IBM Nazca (127‑qubit QPU)",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "fake backend noise and real-device noise",
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "GitHub repository, QWM-QAOA",
+        "framework_version": null,
+        "transpilation_target": "IBM FakeWashington (127 qubits) and IBM Nazca (127-qubit device)",
+        "classical_solver": "SHGO",
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": null,
+          "routing_method": null
+        },
+        "classical_preprocessing": "Historical stock data retrieval; expected return estimation via Markowitz/PyPortfolioOpt; knapsack formulation",
+        "classical_postprocessing": "Measure probabilities and select optimal solution via OptimalChoice; compare approximation ratio to BKS",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "approximation_ratio",
+          "value": 1.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.95,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.98,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.96,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.51,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.55,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.95,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.96,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 1.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.99,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.77,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "best_known_solution",
+          "metric_name": "approximation_ratio",
+          "value": 1.0,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": "best_known_solution",
+          "conditions": "No asymptotic or wall-clock speedup is reported; only approximation ratios are compared.",
+          "is_demonstrated": false,
+          "caveats": "The paper claims improved solution quality and feasibility-preserving search, but does not quantify computational speedup."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 2,
+          "num_qubits": 7,
+          "metric_name": "approximation_ratio",
+          "metric_value": 1.0
+        },
+        {
+          "problem_size": 3,
+          "num_qubits": 8,
+          "metric_name": "approximation_ratio",
+          "metric_value": 1.0
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": 10,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.99
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": 11,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.98
+        },
+        {
+          "problem_size": 6,
+          "num_qubits": 12,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.98
+        },
+        {
+          "problem_size": 7,
+          "num_qubits": 13,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.95
+        },
+        {
+          "problem_size": 8,
+          "num_qubits": 15,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.96
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": null,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "Not identified; experiments limited to 2–8 assets (≤15 qubits).",
+        "resources_for_advantage": "Would require fault‑tolerant QAOA circuits capable of scaling to large portfolio instances (hundreds–thousands of assets) with deep circuits and error mitigation or correction.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Very small problem size (2–8 assets)",
+          "Classical best‑known solution used as benchmark and already optimal",
+          "Performance degrades significantly on real hardware (≈51–55% approximation ratios)",
+          "No runtime or complexity comparison against classical solvers",
+          "NISQ noise and gate errors"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "num_qubits reported as 7 for the 2-stock case from Table 2; the paper also reports 8, 10, 11, 12, 13, 15, and 17 qubits for larger instances.",
+          "hardware.type set to simulator_other because the paper explicitly says QASM simulator; real-device and fake-backend runs are additional evaluations within the same experiment.",
+          "speedup_order is not asymptotically characterized in the paper; only approximation ratios are reported.",
+          "The paper does not claim computational speedup over classical algorithms; it only compares approximation ratios with the classical best‑known solution.",
+          "Problem sizes are extremely small and classical dynamic programming solves them exactly.",
+          "Real-device results are substantially worse than simulator performance due to noise."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

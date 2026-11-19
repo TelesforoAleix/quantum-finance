@@ -1,0 +1,650 @@
+{
+  "paper_id": "2dc8d62cecac",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:25:41+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "2dc8d62cecac_parameter_setting_in_quantum_approximate_optimization_of_weighted_problems.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.9,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 11,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[3].unit='percentage_points' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='percentage_points' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='percentage_points' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='percentage_points' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='percentage_points' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='percentage_points' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='x fewer iterations' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[0].unit='x fewer iterations' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[2].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[3].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.9,
+      "completeness": 0.9,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.9,
+        0.9
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Parameter Setting in Quantum Approximate Optimization of Weighted Problems",
+    "authors": [
+      "Shree Hari Sureshbabu",
+      "Dylan Herman",
+      "Ruslan Shaydulin",
+      "Joao Basso",
+      "Shouvanik Chakrabarti",
+      "Yue Sun",
+      "Marco Pistoia"
+    ],
+    "year": 2024,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "portfolio-optimization",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper derives analytical scaling rules for QAOA parameters for weighted optimization problems. On a dataset of 34,701 weighted MaxCut graphs (≤20 nodes), the proposed parameter rescaling achieves solutions on average only 1.1 percentage points worse than fully optimized parameters. For a portfolio optimization benchmark (7–20 qubits), rescaling the objective improves the convergence of the classical BOBYQA optimizer by reducing iterations by about 7.4×.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "QAOA parameter-setting and performance evaluation for weighted MaxCut on random weighted regular and non-regular graphs, comparing proposed rescaling rules against prior parameter-transfer heuristics and direct optimization.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "QAOA with transverse-field mixer for weighted MaxCut parameter setting",
+        "ansatz": null,
+        "optimizer": "local optimizer (not specified); direct optimization used as baseline",
+        "num_layers": 3,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "problem": "weighted MaxCut",
+          "graph_types": "weighted regular and non-regular graphs",
+          "edge_weight_distributions": [
+            "Uniform[0,1]",
+            "Uniform[-1,1]",
+            "Exponential (lambda=0.2)",
+            "Cauchy"
+          ],
+          "parameter_setting_methods": [
+            "proposed rescaling using sqrt(mean(w^2))",
+            "proposed rescaling using arctan(1/sqrt(D-1)) for p=1-inspired rule",
+            "prior work parameter transfer from Ref. [9]",
+            "directly optimized parameters"
+          ],
+          "p_values": [
+            1,
+            2,
+            3
+          ]
+        },
+        "parameter_initialization": "Parameters set by analytical rescaling rules from unweighted MaxCut parameters; direct optimization used for comparison",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "1 qubit per binary spin variable in MaxCut Ising/QAOA formulation",
+        "objective_function": "Maximize weighted cut value C(z)=1/2 sum_{(u,v) in E} w_uv (1 - z_u z_v)",
+        "constraints_handling": "No explicit constraints beyond MaxCut objective; handled via QAOA cost Hamiltonian",
+        "num_binary_variables": null,
+        "problem_hamiltonian": "C = 1/2 sum_{(u,v) in E} w_uv (i - z_u z_v)",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Weighted MaxCut on a dataset of 34,701 weighted graphs, including regular and non-regular graphs, up to 20 nodes",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 34701,
+        "data_type": "public_benchmark",
+        "dataset_name": "QAOAKit dataset from Ref. [9]",
+        "dataset_specification": {
+          "description": "Graphs with up to 20 nodes; edge weights i.i.d. from Uniform[0,1], Uniform[-1,1], Exponential(lambda=0.2), and Cauchy"
+        },
+        "data_preprocessing_details": "Weights rescaled by dividing by sqrt((1/|E|) sum_{(u,v) in E} w_uv^2) for proposed method; alternative arctan-based rescaling also tested",
+        "evaluation_methodology": "Median approximation ratios and optimality gaps evaluated across graphs, p values, and weight distributions; comparison to optimized parameters and prior parameter-transfer method"
+      },
+      "quantum_resources": {
+        "num_qubits": 20,
+        "qubit_type": "logical",
+        "circuit_depth": 1,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "QAOAKit / Qiskit (inferred from dataset and cited tooling)",
+        "framework_version": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "unspecified local optimizer used for parameter optimization baseline",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Graph weight rescaling according to proposed heuristic; alternative prior-work rescaling used for comparison",
+        "classical_postprocessing": "Approximation ratio and optimality gap computation",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.989,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.965,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.964,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "optimality_gap",
+          "value": 1.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "percentage_points",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "optimality_gap",
+          "value": 3.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "percentage_points",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "optimality_gap",
+          "value": 3.6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "percentage_points",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "optimality_gap",
+          "value": 1.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "percentage_points",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "optimality_gap",
+          "value": 20.7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "percentage_points",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "optimality_gap",
+          "value": 3.3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "percentage_points",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "optimality_gap",
+          "value": 7.4,
+          "uncertainty": null,
+          "num_runs": 280,
+          "unit": "x fewer iterations",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "direct optimization",
+          "metric_name": "approximation_ratio",
+          "value": 1.0,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "parameter transfer from Ref. [9]",
+          "metric_name": "optimality_gap",
+          "value": 3.5,
+          "unit": "percentage_points"
+        },
+        {
+          "method_name": "parameter transfer from Ref. [9]",
+          "metric_name": "optimality_gap",
+          "value": 3.6,
+          "unit": "percentage_points"
+        },
+        {
+          "method_name": "parameter transfer from Ref. [9]",
+          "metric_name": "optimality_gap",
+          "value": 20.7,
+          "unit": "percentage_points"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": "no proven quantum speedup",
+          "baseline_method": "classical direct optimization / prior parameter-transfer heuristics",
+          "conditions": "numerical validation of QAOA parameter-setting rules on weighted MaxCut instances",
+          "is_demonstrated": false,
+          "caveats": "The paper reports improved approximation ratios and reduced optimality gaps, but no asymptotic or runtime quantum advantage claim."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 20,
+          "num_qubits": 20,
+          "metric_name": "approximation_ratio",
+          "metric_value": null
+        },
+        {
+          "problem_size": 34701,
+          "num_qubits": null,
+          "metric_name": "dataset_size",
+          "metric_value": 34701
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "QAOA parameter scaling with gamma ~ O(D^-1/2) for large-girth regular graphs; no asymptotic speedup claim",
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not analyzed",
+        "resources_for_advantage": "not analyzed; experiments performed on simulated QAOA circuits with p ≤ 3 and problem sizes ≤ 20 qubits",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Problem sizes limited to ≤20 qubits",
+          "No comparison against state-of-the-art classical MaxCut solvers (e.g., SDP, branch-and-cut)",
+          "Focus is parameter initialization heuristics rather than algorithmic performance advantage",
+          "No hardware execution or noise analysis"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "No actual QPU or simulator backend is named; experiment is a numerical validation of QAOA parameter rules, so hardware.type is inferred as simulator_other.",
+          "Number of qubits is not explicitly stated for the MaxCut benchmark; it equals the graph size / number of vertices, but the paper only says graphs have up to 20 nodes, so num_qubits is left null.",
+          "Circuit depth is reported as p in {1,2,3}.",
+          "No asymptotic speedup claim is made; the paper focuses on parameter setting and empirical quality.",
+          "The paper does not claim quantum advantage; it studies parameter-setting heuristics for QAOA.",
+          "Results compare heuristic parameters to optimized parameters and prior heuristics rather than classical MaxCut algorithms."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "QAOA with xy mixer for constrained portfolio optimization, using objective rescaling to improve optimizer convergence on random portfolio instances.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "QAOA with xy Hamming-weight-preserving mixer (xy-QAOA)",
+        "ansatz": null,
+        "optimizer": "BOBYQA",
+        "num_layers": 1,
+        "convergence_criteria": "xtol = ftol = 1e-8",
+        "hyperparameters": {
+          "problem": "mean-variance portfolio optimization with budget constraint",
+          "q": 0.5,
+          "budget_constraint": "sum_j x_j = k",
+          "k": "floor(n/2)",
+          "mixer": "xy mixer B = 1/2 sum_j (x_j x_{j+1} + y_j y_{j+1})",
+          "initial_state": "uniform superposition over all Hamming-weight k states (Dicke state)",
+          "rescaling": "divide objective by sqrt(sum of squared coefficients) including linear and quadratic terms",
+          "instances_per_size": 20,
+          "qubit_range": [
+            7,
+            20
+          ]
+        },
+        "parameter_initialization": "Started from optimal QAOA parameters for the Sherrington-Kirkpatrick model: gamma_init = 1, beta_init = pi/4",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": "xtol = ftol = 1e-8",
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "1 qubit per asset/binary decision variable",
+        "objective_function": "min_x q x^T Sigma x - mu^T x subject to sum_j x_j = k",
+        "constraints_handling": "Equality constraint enforced by xy mixer and Dicke-state initial state",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Random portfolio optimization instances",
+        "num_assets": 7,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 280,
+        "data_type": "synthetic",
+        "dataset_name": "RandomDataProvider in qiskit finance",
+        "dataset_specification": {
+          "description": "20 instances for each qubit count from 7 to 20; q=0.5; k=floor(n/2)"
+        },
+        "data_preprocessing_details": "Objective reformulated in spin variables and rescaled using coefficient norm including linear terms mu_j and quadratic terms Sigma_ij",
+        "evaluation_methodology": "BOBYQA local optimization from fixed initial point; performance profiles over 280 instances; compare original vs rescaled objective and variant ignoring linear-term weights"
+      },
+      "quantum_resources": {
+        "num_qubits": 7,
+        "qubit_type": "logical",
+        "circuit_depth": 1,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 2,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "not_specified",
+        "framework_version": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "BOBYQA",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Rescale objective coefficients; convert portfolio problem to spin form; prepare Dicke initial state",
+        "classical_postprocessing": "Recover optimum and compare iteration counts; compute performance profiles",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 7,
+          "final_loss_value": null,
+          "loss_curve_shape": "rescaled landscape easier to optimize; original landscape flat",
+          "variance_across_runs": null,
+          "num_independent_runs": 280
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "iterations_to_converge",
+          "value": 7.4,
+          "uncertainty": null,
+          "num_runs": 280,
+          "unit": "x fewer iterations",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "feasibility_percentage",
+          "value": 91,
+          "uncertainty": null,
+          "num_runs": 280,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "BOBYQA on original objective",
+          "metric_name": "iterations_to_converge",
+          "value": 7.4,
+          "unit": "x more iterations than rescaled"
+        },
+        {
+          "method_name": "BOBYQA on original objective",
+          "metric_name": "feasibility_percentage",
+          "value": 91,
+          "unit": "%"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "7.4x fewer optimizer iterations",
+          "baseline_method": "BOBYQA on the original (unrescaled) portfolio objective",
+          "conditions": "xy-QAOA with p=1 on 280 random portfolio instances of size 7 to 20 qubits; fixed initial point gamma_init=1, beta_init=pi/4; xtol=ftol=1e-8",
+          "is_demonstrated": true,
+          "caveats": "This is a reduction in classical optimizer iterations, not a quantum runtime speedup. The optimizer recovered the same optimum in 91% of cases for both original and rescaled objectives."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 7,
+          "num_qubits": 7,
+          "metric_name": "iterations_to_converge",
+          "metric_value": null
+        },
+        {
+          "problem_size": 20,
+          "num_qubits": 20,
+          "metric_name": "iterations_to_converge",
+          "metric_value": null
+        },
+        {
+          "problem_size": 280,
+          "num_qubits": null,
+          "metric_name": "dataset_size",
+          "metric_value": 280
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "No asymptotic complexity claim; empirical improvement in optimizer convergence",
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not analyzed",
+        "resources_for_advantage": "not analyzed; experiments simulate xy-QAOA with p=1 on 7–20 qubits",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Very small problem sizes (≤20 qubits)",
+          "Improvement measured only in classical optimizer iterations (7.4× fewer)",
+          "No comparison with classical portfolio optimization solvers",
+          "No runtime or scaling advantage demonstrated"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper does not name a specific backend; this is a numerical QAOA study, so hardware.type is inferred as simulator_other.",
+          "Num_qubits is explicitly given as 7 to 20 assets/qubits.",
+          "Circuit depth is p=1 and the ansatz uses one QAOA layer.",
+          "No quantum speedup claim is made; the reported 7.4x improvement is in classical optimizer iterations, not runtime over a classical algorithm.",
+          "The reported 7.4× improvement refers to fewer iterations of a classical optimizer after rescaling the objective.",
+          "This is not a quantum speedup but a heuristic improvement in parameter optimization."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

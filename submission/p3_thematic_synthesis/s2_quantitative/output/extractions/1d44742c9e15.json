@@ -1,0 +1,475 @@
+{
+  "paper_id": "1d44742c9e15",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:14:15+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "1d44742c9e15_pricing_multi_asset_derivatives_by_variational_quantum_algorithms.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.5,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 11,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='time step' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='rate' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='rate' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='year' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='asset' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='absolute price error' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.5,
+      "completeness": 0.5,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.85,
+        0.15
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Pricing multi-asset derivatives by variational quantum algorithms",
+    "authors": [
+      "Kenji Kubo",
+      "Koichi Miyamoto",
+      "Kosuke Mitarai",
+      "Keisuke Fujii"
+    ],
+    "year": 2022,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a variational quantum algorithm for derivative pricing by solving the discretized Black–Scholes PDE with variational quantum simulation and estimating the option value via a SWAP‑test overlap. Numerical simulations on a statevector simulator use 4–6 qubits and hardware‑efficient ansätze (up to 30 parameters) to price a single‑asset double‑barrier option, showing qualitative agreement with classical finite‑difference solutions and the analytical formula. The authors analytically argue that their method avoids the classical O((1/ε)^{O(d)}) scaling of finite‑difference methods, but no empirical quantum advantage is demonstrated.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Variational quantum simulation of the discretized Black-Scholes PDE for pricing a single-asset double barrier option, with the derivative price recovered from the inner product between the evolved price state and the asset-price probability distribution state.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "variational quantum simulation (VQS) for linear ODE/PDE evolution with SWAP-test overlap estimation",
+        "ansatz": "hardware-efficient ansatz with layers of RY gates and CZ entangling layers",
+        "optimizer": "McLachlan variational principle with classical Euler integration of the parameter ODE",
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "time_step_for_parameter_evolution": 2.5e-05,
+          "number_of_qubits_cases": [
+            4,
+            5,
+            6
+          ],
+          "number_of_layers_cases": [
+            2,
+            4
+          ],
+          "interest_rate": 0.001,
+          "volatility": 0.3,
+          "maturity": 1,
+          "spot_price": 1,
+          "lower_bound": 0.5,
+          "upper_bound": 2.0,
+          "strike_price": 1
+        },
+        "parameter_initialization": "VQS starts from parameters set so the ansatz is identity at τ=0; for the separate initial-state fitting demo, L-BFGS-B is used to optimize parameters",
+        "optimizer_settings": {
+          "step_size": 2.5e-05,
+          "max_iterations": null,
+          "tolerance": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Uniform grid discretization of the asset-price domain; one computational basis state per grid point, with ngr=2^n grid points for n qubits",
+        "objective_function": "Solve the discretized Black-Scholes PDE backward in time and compute V(0,s0) via e^{-rt_ter}⟨p(t_ter)|V(t_ter)⟩",
+        "constraints_handling": "Boundary conditions encoded through the inhomogeneous term C(τ) in the ODE; double knock-out barrier conditions in the experiment",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Single-asset double knock-out barrier option",
+        "num_assets": 1,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "ticker_symbols": null,
+          "date_range": null,
+          "benchmark_name": "analytical Black-Scholes barrier-option solution used as reference",
+          "preprocessing": "Finite-difference discretization of the Black-Scholes PDE; probability distribution from analytical geometric Brownian motion",
+          "train_test_split": null
+        },
+        "data_preprocessing_details": "No market dataset; parameters fixed to a synthetic Black-Scholes setup. The paper compares VQS results against the analytical solution and classical FDM with 16, 32, and 64 grid points.",
+        "evaluation_methodology": "Numerical simulation on a statevector-style simulator; comparison of estimated prices against the analytical solution across time and across qubit/layer settings"
+      },
+      "quantum_resources": {
+        "num_qubits": 6,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 1,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": null,
+        "device_name": null,
+        "framework": "NumPy statevector simulation",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Euler method for ODE parameter updates; L-BFGS-B for initial-state fitting demo"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Analytical probability distribution of geometric Brownian motion; classical finite-difference discretization of the PDE; analytical barrier-option formula used for validation",
+        "classical_postprocessing": "Inner product between simulated states; discounting by e^{-rt_ter} to obtain present price",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "time_step_for_parameter_evolution",
+          "value": 2.5e-05,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "time step",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "interest_rate",
+          "value": 0.001,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "rate",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "volatility",
+          "value": 0.3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "rate",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "maturity",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "year",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "spot_price",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "price",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "lower_bound",
+          "value": 0.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "price",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "upper_bound",
+          "value": 2.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "price",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "strike_price",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "price",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_underlyings",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "asset",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_variational_params",
+          "value": 30,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 1.2e-05,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute price error",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical finite_difference_method",
+          "metric_name": "price_error",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "classical finite_difference_method",
+          "metric_name": "scalability",
+          "value": "O((1/epsilon)^{O(d)})",
+          "unit": "asymptotic complexity"
+        },
+        {
+          "method_name": "classical finite_difference_method",
+          "metric_name": "grid_points",
+          "value": 16,
+          "unit": "grid points"
+        },
+        {
+          "method_name": "classical finite_difference_method",
+          "metric_name": "grid_points",
+          "value": 32,
+          "unit": "grid points"
+        },
+        {
+          "method_name": "classical finite_difference_method",
+          "metric_name": "grid_points",
+          "value": 64,
+          "unit": "grid points"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "asymptotic",
+          "factor": "O(poly(d log(1/epsilon))) for VQS/state preparation; SWAP-test measurements O(1/epsilon^2 (log(1/epsilon))^d)",
+          "baseline_method": "classical finite difference method",
+          "conditions": "under the paper's assumptions for state preparation and bounded overlap factor; gate-based quantum computing only",
+          "is_demonstrated": false,
+          "caveats": "The paper states the overall complexity is heuristic for the variational part; the SWAP-test measurement count still has exponential dependence in d through (log(1/epsilon))^d, but avoids factors like (1/epsilon)^{O(d)}."
+        },
+        {
+          "type": "theoretical",
+          "factor": "no factor like (1/epsilon)^{O(d)}",
+          "baseline_method": "classical finite difference method",
+          "conditions": "for the proposed overlap-based pricing method with sufficiently efficient state preparation and VQS",
+          "is_demonstrated": false,
+          "caveats": "This is a claimed asymptotic advantage, not an end-to-end hardware demonstration."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 4.0,
+          "num_qubits": 4,
+          "metric_name": "price_estimate_comparison",
+          "metric_value": 16.0
+        },
+        {
+          "problem_size": 5.0,
+          "num_qubits": 5,
+          "metric_name": "price_estimate_comparison",
+          "metric_value": 4.0
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 6,
+          "metric_name": "price_estimate_comparison",
+          "metric_value": 4.0
+        },
+        {
+          "problem_size": 16.0,
+          "num_qubits": null,
+          "metric_name": "classical_fdm_reference",
+          "metric_value": null
+        },
+        {
+          "problem_size": 32.0,
+          "num_qubits": null,
+          "metric_name": "classical_fdm_reference",
+          "metric_value": null
+        },
+        {
+          "problem_size": 64.0,
+          "num_qubits": null,
+          "metric_name": "classical_fdm_reference",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(poly(d log(1/ϵ))) for the VQS and state-preparation parts; SWAP-test measurements scale as O(1/ϵ^2 (log(1/ϵ))^d) under the paper's assumptions",
+        "classical_complexity": "Classical finite-difference method scales as O((1/ϵ)^{O(d)})",
+        "speedup_order": "polynomial_other",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not provided; theoretical analysis suggests polynomial improvement in ε but still exponential dependence on dimension through measurement scaling",
+        "resources_for_advantage": "Requires efficient state preparation of probability distributions and payoff states, many SWAP‑test measurements O(1/ε² (log(1/ε))^d), and larger logical quantum circuits implementing VQS for high‑dimensional BSPDE grids",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "only tested on 1‑asset toy example",
+          "no hardware experiments",
+          "variational solver heuristic with unknown convergence scaling",
+          "state preparation assumed efficient but not demonstrated",
+          "measurement cost grows exponentially with number of assets",
+          "classical PDE solvers already efficient for low‑dimensional problems"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_statevector because the paper states numerical simulations using NumPy and does not name a physical QPU.",
+          "Num_qubits reported from the numerical experiments (4, 5, 6 qubits); the first listed case is used here as the representative resource entry.",
+          "Circuit depth not explicitly reported as a single number; the paper reports ansatz layers (2 and 4) and a depth-m circuit figure, but no total compiled depth.",
+          "The experiment includes a separate classical L-BFGS-B initial-state fitting demonstration, but the main quantum experiment is VQS + SWAP test.",
+          "The paper's claimed asymptotic improvement is polynomial in precision/dimension relative to classical FDM, not a proven end-to-end speedup.",
+          "Authors claim asymptotic improvement by removing factors like (1/ε)^{O(d)} compared to classical FDM.",
+          "However the paper demonstrates only small noiseless simulations (≤6 qubits) on a single‑asset example.",
+          "No empirical runtime comparison showing quantum outperforming classical methods."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Variational state‑preparation experiment demonstrating that a hardware‑efficient ansatz can approximate the payoff function state used as the BSPDE terminal condition.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "variational state preparation via fidelity maximization",
+        "ansatz": "RY + CZ hardware-efficient ansatz (6 qubits, 6 layers)",
+        "optimizer": "L-BFGS-B",
+        "objective": "maximize fidelity |⟨V(0)|ν(θ)⟩|^2",
+        "num_layers": null
+      },
+      "key_results": [
+        {
+          "metric": "state_preparation_fidelity_error",
+          "value": 1.2e-05,
+          "description": "The fitted state satisfies |1 − α₀⁻²|⟨V(0)|ν(θ₀)⟩|²| ≤ 1.2×10⁻⁵"
+        }
+      ]
+    }
+  ]
+}

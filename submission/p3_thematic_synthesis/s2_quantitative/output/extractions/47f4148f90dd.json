@@ -1,0 +1,569 @@
+{
+  "paper_id": "47f4148f90dd",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:38:01+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "47f4148f90dd_latentqgan_a_hybrid_qgan_with_classical_convolutional_autoencoder.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.783,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 20,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='dataset specification' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='latent dimensions' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='learning_rate' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='batch_size' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='learning_rate' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='learning_rate' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='batch_size' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[17].unit='iterations range [350, 700], midpoint used' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[18].unit='iterations lower bound' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[20].unit='run' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[21].unit='fd' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[22].unit='fd' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[23].unit='fd' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[24].unit='fd' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[25].unit='fd' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[26].unit='fd' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.783,
+      "completeness": 0.783,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.783
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "LatentQGAN: A Hybrid QGAN with Classical Convolutional Autoencoder",
+    "authors": [
+      "Alexis Vieloszynski",
+      "Soumaya Cherkaouis",
+      "Ola Ahmad",
+      "Jean-Frederic Laprade",
+      "Olivier Nahman-Levesquet",
+      "Abdallah Aarabat",
+      "Shengrui Wang"
+    ],
+    "year": 2024,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "other",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper introduces LatentQGAN, a hybrid quantum‑classical GAN where a classical convolutional autoencoder compresses MNIST images to a 5×8 latent space and a quantum generator composed of five 4‑qubit PQCs (7 variational layers, 140 parameters) generates latent vectors. Experiments with 2048 shots on IBM’s ibm_quebec processor report Frechet Distance scores of 33, 39, and 29 on a simulator and 38, 43, and 34 on hardware for MNIST classes 0, 5, and 9 respectively, outperforming prior QGAN variants in their comparisons.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Hybrid LatentQGAN for MNIST image generation: a classical convolutional autoencoder compresses images into a latent space, and a hybrid quantum-classical GAN trains a quantum generator on the latent representation; evaluated on simulator and IBM Eagle quantum hardware for classes 0, 5, and 9.",
+      "algorithm": {
+        "family": "hybrid",
+        "variant": "LatentQGAN (hybrid QGAN with classical convolutional autoencoder)",
+        "ansatz": "parameterized quantum circuits with rotation gates and CZ entangling layers; partial measurement with ancillary qubits",
+        "optimizer": "stochastic gradient descent",
+        "num_layers": 7,
+        "convergence_criteria": "optimal number of iterations determined empirically; training evaluated up to 1000 iterations, with best FD typically between 350 and 700 iterations",
+        "hyperparameters": {
+          "latent_space_dimension": "5 x 8",
+          "num_sub_generators": 5,
+          "qubits_per_sub_generator": 4,
+          "generator_qubits_NG": 3,
+          "ancillary_qubits_NA": 1,
+          "variational_layers": 7,
+          "total_parameters": 140,
+          "autoencoder_learning_rate": 0.05,
+          "autoencoder_batch_size": 20,
+          "autoencoder_epochs": 100,
+          "generator_learning_rate": 0.3,
+          "discriminator_learning_rate": 0.01,
+          "discriminator_batch_size": 1,
+          "discriminator_parameters": 3681,
+          "shots": 2048,
+          "error_mitigation": "M3"
+        },
+        "parameter_initialization": "identical noise vectors and initial parameters used for simulator and quantum computer comparison; otherwise not specified",
+        "optimizer_settings": {
+          "learning_rate": 0.3,
+          "max_iterations": 1000,
+          "batch_size": 1,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "MNIST images are compressed by a convolutional autoencoder into a normalized latent space of size 5 x 8; each row is generated by one quantum sub-generator and then normalized to satisfy generator constraints",
+        "objective_function": "GAN minimax objective with binary cross-entropy loss for generator/discriminator; autoencoder trained with mean squared error reconstruction loss",
+        "constraints_handling": "latent-space normalization per line; post-selection on ancillary qubits equal to |0> to emulate partial measurement",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "Handwritten digit image generation in latent space",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "public_benchmark",
+        "dataset_name": "MNIST",
+        "dataset_specification": {
+          "description": "28 x 28 grayscale handwritten digits; experiments reported for classes 0, 5, and 9"
+        },
+        "data_preprocessing_details": "images compressed by convolutional autoencoder into latent representation; latent vectors normalized line by line",
+        "evaluation_methodology": "Frechet Distance (FD) used to compare generated samples with ground truth; visual inspection of generated images; comparison against QPatchGAN, MosaiQ, LatentGAN, and RandomDecoder; quantum computer results reported for a single run using identical noise vectors and initial parameters as simulator trainings"
+      },
+      "quantum_resources": {
+        "num_qubits": 4,
+        "qubit_type": "physical",
+        "circuit_depth": 7,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 2048,
+        "num_variational_params": 140,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_type": null,
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_superconducting",
+        "provider": "IBM",
+        "device_name": "ibm_quebec",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "hardware noise on NISQ device",
+        "error_mitigation_method": "M3 measurement error mitigation"
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": "IBM Eagle quantum processor",
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "autoencoder training on MNIST before QGAN training",
+        "classical_postprocessing": "decoder reconstructs images from generated latent vectors",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 350,
+          "final_loss_value": null,
+          "loss_curve_shape": "FD improves up to mid-training then degrades after about 700 iterations",
+          "variance_across_runs": null,
+          "num_independent_runs": 1
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "problem_size",
+          "value": "MNIST 28 x 28 grayscale images; reported classes 0, 5, 9",
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "dataset specification",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "latent_space_dimension",
+          "value": "5 x 8",
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "latent dimensions",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_sub_generators",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "count",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "qubits_per_sub_generator",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "generator_qubits",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "ancillary_qubits",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "variational_layers",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "total_parameters",
+          "value": 140,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "discriminator_parameters",
+          "value": 3681,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "autoencoder_learning_rate",
+          "value": 0.05,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "learning_rate",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "autoencoder_batch_size",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "batch_size",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "autoencoder_epochs",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "epochs",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "generator_learning_rate",
+          "value": 0.3,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "learning_rate",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "discriminator_learning_rate",
+          "value": 0.01,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "learning_rate",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "discriminator_batch_size",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "batch_size",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots",
+          "value": 2048,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "iterations_to_converge",
+          "value": 490,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "best_fd_range",
+          "value": 525,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "iterations range [350, 700], midpoint used",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "fd_improvement_window",
+          "value": 350,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "iterations lower bound",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "fd_degradation_after",
+          "value": 700,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_independent_runs",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "run",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "fd_class_0_simulator",
+          "value": 33,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "fd",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "fd_class_5_simulator",
+          "value": 39,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "fd",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "fd_class_9_simulator",
+          "value": 29,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "fd",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "fd_class_0_quantum_computer",
+          "value": 38,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "fd",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "fd_class_5_quantum_computer",
+          "value": 43,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "fd",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "fd_class_9_quantum_computer",
+          "value": 34,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "fd",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "fd_training_iterations_visual_examples",
+          "value": 1000,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "figure"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "QPatchGAN",
+          "metric_name": "fd",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "MosaiQ",
+          "metric_name": "fd",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "LatentGAN",
+          "metric_name": "fd",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "RandomDecoder",
+          "metric_name": "fd",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "676x fewer iterations",
+          "baseline_method": "MosaiQ",
+          "conditions": "to achieve comparable results / minimal FD",
+          "is_demonstrated": true,
+          "caveats": "Claim is based on iteration count, not wall-clock time; comparison is against a simulator-based MosaiQ result and the paper does not provide a full matched protocol for all baselines."
+        },
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The paper reports empirical improvements and reduced quantum resources, but no asymptotic complexity or proven quantum speedup."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 0.0,
+          "num_qubits": 20,
+          "metric_name": "fd",
+          "metric_value": 38
+        },
+        {
+          "problem_size": 0.0,
+          "num_qubits": 20,
+          "metric_name": "fd",
+          "metric_value": 43
+        },
+        {
+          "problem_size": 0.0,
+          "num_qubits": 20,
+          "metric_name": "fd",
+          "metric_value": 34
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "parity_with_classical",
+        "hoefler_viable": null,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "not applicable; no asymptotic advantage analyzed",
+        "resources_for_advantage": "Not specified; paper provides no complexity analysis or scaling argument for quantum advantage.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "current_nisq",
+        "limiting_factors": [
+          "No complexity or scaling analysis versus classical generative models",
+          "Very small circuits (4 qubits per generator circuit)",
+          "Hybrid pipeline dominated by classical autoencoder and discriminator",
+          "Evaluation on small benchmark (MNIST latent space)",
+          "Single‑run hardware results with limited statistical validation"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "num_qubits inferred from 5 sub-generators × 4 qubits each = 20 total qubits; paper explicitly states five 4-qubit quantum circuits.",
+          "hardware.type reported as real quantum computer on IBM Eagle processor; mapped to real_qpu_superconducting.",
+          "circuit_depth reported as 7 layers in the variational circuits.",
+          "speedup_order set to none_proven because the paper reports empirical improvements but no asymptotic complexity analysis.",
+          "Authors claim improved image quality versus prior QGAN approaches and classical LatentGAN with equal parameter counts, but they do not claim computational quantum advantage.",
+          "Comparisons focus on Frechet Distance and visual quality rather than runtime or scaling.",
+          "Problem size (latent MNIST generation) is small and dominated by classical components."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

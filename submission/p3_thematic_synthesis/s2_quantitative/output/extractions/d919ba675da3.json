@@ -1,0 +1,686 @@
+{
+  "paper_id": "d919ba675da3",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T10:04:11+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "d919ba675da3_application_of_deep_quantum_neural_networks_to_finance.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.65,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 9,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[1].results[0].unit='absolute price units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[1].unit='absolute price units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[2].unit='absolute price units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[3].unit='absolute delta units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[4].unit='absolute delta units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[5].unit='absolute delta units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[6].unit='absolute gamma units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[7].unit='absolute gamma units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[8].unit='absolute gamma units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.65,
+      "completeness": 0.65,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.65,
+        0.65
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "APPLICATION OF DEEP QUANTUM NEURAL NETWORKS TO FINANCE",
+    "authors": [
+      "Takayuki Sakuma"
+    ],
+    "year": 2022,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": [
+      "quantum-ml-finance"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper simulates a deep quantum neural network (DQNN) with 4–5 qubits to learn financial quantities. In a 7‑sample implied volatility task it achieves fidelity up to C = 0.9999 with volatility errors of a few basis points, and in a Black–Scholes experiment it predicts option prices, deltas, and gammas from 7 training samples using a 5‑qubit simulated network. All results are obtained via MATLAB simulation with no hardware execution or classical baseline comparison.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Deep quantum neural network (DQNN) trained to learn implied volatilities from strike prices using one input qubit, one output qubit, and one hidden layer; evaluated in numerical simulation with different sigmoid parameters and hidden-layer sizes.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "deep quantum neural network (DQNN) for supervised learning of implied volatility",
+        "ansatz": null,
+        "optimizer": "gradient-based unitary update (Beer et al. style), implemented classically in simulation",
+        "num_layers": 1,
+        "convergence_criteria": "800 iterations",
+        "hyperparameters": {
+          "F": "0.56%",
+          "beta": [
+            1.0,
+            0.5,
+            0.25
+          ],
+          "gamma": [
+            1.0,
+            0.5,
+            0.25
+          ],
+          "learning_rate": 1,
+          "epsilon": 0.1,
+          "iterations": 800,
+          "hidden_layer_qubits": [
+            2,
+            3
+          ],
+          "input_qubits": 1,
+          "output_qubits": 1,
+          "random_seed": 0
+        },
+        "parameter_initialization": "random initial states of unitary matrices U_j^l with seed 0",
+        "optimizer_settings": {
+          "max_iterations": 800,
+          "step_size": 0.1,
+          "learning_rate": 1,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Market data are mapped to single-qubit Bloch-sphere states via cosine/sine of a sigmoid-transformed value P(F,K,β) for inputs and P(σ_K,K,γ) for outputs",
+        "objective_function": "maximize average fidelity C = (1/N) Σ_n <φ_out_n|ρ_D,out,n|φ_out_n>",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Learning implied volatilities from strike prices",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 1,
+        "dataset_size": 7,
+        "data_type": "public_benchmark",
+        "dataset_name": "Antonov et al. (2015) market data",
+        "dataset_specification": {
+          "description": "Seven strike/volatility training pairs; exact strikes listed in Tables 1-4"
+        },
+        "data_preprocessing_details": "Strike and implied volatility values are transformed to qubit amplitudes using sigmoid function P(s,t,u) and Bloch-sphere encoding",
+        "evaluation_methodology": "Numerical simulation; results reported for multiple β, γ settings and hidden-layer sizes; comparison against training data in tables"
+      },
+      "quantum_resources": {
+        "num_qubits": 4,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "MATLAB simulation code",
+        "transpilation_target": null,
+        "classical_solver": "MATLAB-based DQNN simulation"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/qigitphannover/DeepQuantumNeuralNetworks",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "MATLAB",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Sigmoid transform and Bloch-sphere encoding of market data",
+        "classical_postprocessing": "Recover implied volatility from the (1,1) element of the output density matrix",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 800,
+          "final_loss_value": 0.9984,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "price_error",
+          "value": 6.3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "bps",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 1.6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "bps",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 7.8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "bps",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 2.4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "bps",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": 800,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 0.9984,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 0.9998,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 0.9997,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 0.9999,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No asymptotic or empirical speedup is reported; the paper only states that the method is promising and discusses potential efficiency qualitatively."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 7,
+          "num_qubits": 4,
+          "metric_name": "price_error",
+          "metric_value": 6.3
+        },
+        {
+          "problem_size": 7,
+          "num_qubits": 4,
+          "metric_name": "price_error",
+          "metric_value": 1.6
+        },
+        {
+          "problem_size": 7,
+          "num_qubits": 4,
+          "metric_name": "price_error",
+          "metric_value": 7.8
+        },
+        {
+          "problem_size": 7,
+          "num_qubits": 5,
+          "metric_name": "price_error",
+          "metric_value": 2.4
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "not analyzed; paper only reports small-scale MATLAB simulations with 4–5 qubits",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "only classical MATLAB simulation of the DQNN",
+          "very small toy dataset (7 training samples)",
+          "no classical ML baseline comparison",
+          "no complexity or scaling analysis",
+          "no hardware execution"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware is a MATLAB numerical simulation; no physical QPU is used.",
+          "Num qubits inferred from the stated architecture: 1 input + 1 output + 2 or 3 hidden qubits; the main reported experiment uses 4 total qubits (L=1, m1=2) and Table 4 uses 5 total qubits (m1=3).",
+          "Circuit depth is not explicitly reported; only one hidden layer is described, so depth is inferred as not specified beyond the layer count.",
+          "No asymptotic speedup analysis is given; only qualitative promise is discussed.",
+          "The paper states DQNN is 'promising' but does not claim or demonstrate quantum advantage.",
+          "Experiments are purely numerical simulations without comparison to classical neural networks."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Deep quantum neural network (DQNN) trained to learn option prices and Greeks (delta and gamma) from spot price and strike, using one input qubit, one output qubit, and one hidden layer; evaluated in numerical simulation for different regularization weights.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "deep quantum neural network (DQNN) for option price, delta, and gamma learning",
+        "ansatz": null,
+        "optimizer": "gradient-based unitary update (Beer et al. style), implemented classically in simulation",
+        "num_layers": 1,
+        "convergence_criteria": "not_reported",
+        "hyperparameters": {
+          "mu_in": 2,
+          "mu_out": 2,
+          "beta": 5.0,
+          "gamma": 0.5,
+          "strike_K": 100,
+          "risk_free_rate": 0.0,
+          "maturity_T": 0.25,
+          "volatility": 0.15,
+          "hidden_layer_qubits": 3,
+          "input_qubits": 1,
+          "output_qubits": 1,
+          "nu_d": [
+            0.0,
+            0.01,
+            0.05
+          ],
+          "nu_g": [
+            0.0,
+            0.01,
+            0.02
+          ],
+          "training_sets": 7
+        },
+        "parameter_initialization": "not reported",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "step_size": null,
+          "learning_rate": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Spot price x and option value V are encoded into single-qubit states using cosine/sine of sigmoid-transformed values P(x,K,β) and P(V,K,γ); derivatives are encoded via modified density matrices",
+        "objective_function": "maximize Cd = average price fidelity + ν_d * average delta fidelity + ν_g * average gamma fidelity",
+        "constraints_handling": "Derivative density matrices are rescaled to valid quantum states using identity mixing (I/2) with scaling parameters μ_in and μ_out",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Learning Black-Scholes call prices and their first and second derivatives (delta and gamma) from spot prices",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 1,
+        "dataset_size": 7,
+        "data_type": "synthetic",
+        "dataset_name": "Black-Scholes model training set",
+        "dataset_specification": {
+          "description": "Seven training sets of spot price x, call price V, delta dV/dx, and gamma d2V/dx2 with K=100, r=0.0, T=0.25, volatility=0.15"
+        },
+        "data_preprocessing_details": "Spot price and option price are mapped to qubit amplitudes via sigmoid function; derivative matrices are normalized by mixing with identity to ensure valid density matrices",
+        "evaluation_methodology": "Numerical simulation; tables report predicted call price, delta, and gamma for several spot prices and regularization weights"
+      },
+      "quantum_resources": {
+        "num_qubits": 5,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "MATLAB simulation code",
+        "transpilation_target": null,
+        "classical_solver": "MATLAB-based DQNN simulation"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/qigitphannover/DeepQuantumNeuralNetworks",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "MATLAB",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Sigmoid transform of spot price and option price; normalization of derivative density matrices with identity mixing",
+        "classical_postprocessing": "Recover option price from output density matrix; recover delta and gamma from derivative output states and measured Bloch-vector components",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": 5.0,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "price_error",
+          "value": 0.104,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute price units",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 0.001,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute price units",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 0.038,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute price units",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "greeks_accuracy",
+          "value": 0.035,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute delta units",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "greeks_accuracy",
+          "value": 0.002,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute delta units",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "greeks_accuracy",
+          "value": 0.01,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute delta units",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "greeks_accuracy",
+          "value": 0.0072,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute gamma units",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "greeks_accuracy",
+          "value": 0.0003,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute gamma units",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "greeks_accuracy",
+          "value": 0.004,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute gamma units",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No speedup is quantified. The paper presents a numerical simulation and discusses efficiency qualitatively only."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 7,
+          "num_qubits": 5,
+          "metric_name": "price_error",
+          "metric_value": 0.104
+        },
+        {
+          "problem_size": 7,
+          "num_qubits": 5,
+          "metric_name": "price_error",
+          "metric_value": 0.001
+        },
+        {
+          "problem_size": 7,
+          "num_qubits": 5,
+          "metric_name": "price_error",
+          "metric_value": 0.038
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "not analyzed; experiment uses a simulated 5‑qubit DQNN trained on 7 Black–Scholes samples",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "simulation-only experiment",
+          "tiny synthetic training set (7 points)",
+          "no classical baseline such as standard neural networks or differential machine learning",
+          "no complexity or runtime comparison",
+          "no hardware execution"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware is a MATLAB numerical simulation; no physical QPU is used.",
+          "Num qubits inferred from the stated architecture: 1 input + 1 output + 3 hidden qubits = 5 total qubits.",
+          "Circuit depth is not explicitly reported; only one hidden layer is described, so depth is inferred as not specified beyond the layer count.",
+          "No asymptotic speedup analysis is given; the paper discusses efficiency qualitatively only.",
+          "The paper evaluates only predictive accuracy in simulation and does not claim demonstrated quantum advantage.",
+          "Results are qualitative proof-of-concept for applying DQNNs to financial regression problems."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

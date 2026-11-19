@@ -1,0 +1,473 @@
+{
+  "paper_id": "0d4d912721cf",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:02:16+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "0d4d912721cf_h_eft_va_an_effective_field_theory_variational_ansatz_with_provable_barren_plate.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.883,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 13,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='variance' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='variance (approximate HEA baseline)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='energy' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='fidelity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='purity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='energy' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='fidelity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='purity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='p-value' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='variance at N=14 (approximate, XXZ)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='haar_limit' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.883,
+      "completeness": 0.883,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.883
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "H-EFT-VA: An Effective-Field-Theory Variational Ansatz with Provable Barren Plateau Avoidance",
+    "authors": [
+      "Eyad I. B. Hamid"
+    ],
+    "year": 2026,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "other",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes the H‑EFT‑VA variational ansatz with small‑scale EFT‑inspired parameter initialization and proves an inverse‑polynomial gradient variance bound Var[∂θ] ∈ Ω(1/poly(N)). In simulations up to 14 qubits on TFIM and Heisenberg XXZ Hamiltonians, it achieves a final energy of −12.00 vs −0.11 for a hardware‑efficient ansatz (reported 109× improvement), ground‑state fidelity 0.2646 vs 0.0247 (10.7× higher), and maintains gradient variance ≈10⁻⁵ at N=14 while the baseline collapses to ~10⁻¹⁶.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Benchmarking the proposed H-EFT variational ansatz against a hardware-efficient ansatz on noiseless and depolarizing-noise simulations for TFIM and Heisenberg XXZ ground-state optimization, including gradient-variance scaling, convergence, noise robustness, entanglement, purity, fidelity, and parameter-efficiency tests.",
+      "algorithm": {
+        "family": "vqe",
+        "variant": "H-EFT-VA (effective-field-theory variational ansatz)",
+        "ansatz": "H-EFT-VA",
+        "optimizer": "Adam",
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "system_sizes_N": [
+            4,
+            6,
+            8,
+            12,
+            14
+          ],
+          "depths_L": [
+            2,
+            4,
+            6,
+            8,
+            10,
+            12,
+            14
+          ],
+          "initialization_scale_sigma": "kappa/(L·N)",
+          "noise_model": "depolarizing noise probabilities [0.0001, 0.001, 0.01]",
+          "shots": "1000 (Test 11)",
+          "optimizers_tested": [
+            "Adam",
+            "SGD",
+            "RMSProp"
+          ]
+        },
+        "parameter_initialization": "Gaussian prior with small-scale hierarchical initialization; parameters initialized as coupling constants with sigma = kappa/(L·N), and in appendix as theta = alpha * c with alpha ~ N(0, sigma_init^2), sigma_init << 1",
+        "optimizer_settings": {
+          "max_iterations": 100,
+          "learning_rate_schedule": null,
+          "tolerance": null,
+          "step_size": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": null,
+        "encoding_details": "Variational ground-state preparation for local Hamiltonians (TFIM and Heisenberg XXZ); no explicit binary-variable encoding",
+        "objective_function": "Minimize expectation value of the Hamiltonian C(θ)=⟨ψ(θ)|H|ψ(θ)⟩",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": "Transverse Field Ising Model and Heisenberg XXZ Hamiltonians",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Ground-state optimization benchmarks on TFIM and Heisenberg XXZ models across multiple qubit counts and circuit depths",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Hamiltonian benchmark instances; system sizes N=4,6,8,12,14 and depths L=2,4,6,8,10,12,14"
+        },
+        "data_preprocessing_details": null,
+        "evaluation_methodology": "Multiple benchmark tests (16 total) including gradient-variance scaling, energy landscape scans, convergence trajectories, noise robustness, finite-shot robustness, entanglement/purity, fidelity, and parameter-efficiency comparisons against HEA; statistical significance reported with p-values"
+      },
+      "quantum_resources": {
+        "num_qubits": 14,
+        "qubit_type": "not_specified",
+        "circuit_depth": 14,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 1000,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_noisy",
+        "provider": null,
+        "device_name": null,
+        "framework": "PennyLane",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Adam/SGD/RMSProp"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "depolarizing noise",
+        "error_mitigation_method": null,
+        "noise_parameters": {
+          "depolarizing_noise_probability": [
+            0.0001,
+            0.001,
+            0.01
+          ],
+          "shots": 1000
+        },
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/eyadiesa/H-EFT-VA",
+        "classical_preprocessing": null,
+        "classical_postprocessing": null,
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 100,
+          "final_loss_value": null,
+          "loss_curve_shape": "H-EFT-VA converges smoothly to lower energies than HEA; HEA stagnates for N≥8",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "gradient_variance",
+          "value": 0.5187,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "variance",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "gradient_variance",
+          "value": 1e-16,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "variance (approximate HEA baseline)",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "energy_convergence",
+          "value": -12.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "energy",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "ground_state_fidelity",
+          "value": 0.2646,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "fidelity",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "mean_purity",
+          "value": 0.0435,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "purity",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "heaa_baseline_energy_convergence",
+          "value": -0.11,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "energy",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "heaa_baseline_ground_state_fidelity",
+          "value": 0.0247,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "fidelity",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "heaa_baseline_mean_purity",
+          "value": 0.0455,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "purity",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "p_value",
+          "value": 1.3e-89,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "p-value",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "gradient_variance",
+          "value": 1e-05,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "variance at N=14 (approximate, XXZ)",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "depolarizing_noise_probability",
+          "value": 0.01,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots",
+          "value": 1000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "system_size",
+          "value": 14,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 14,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "mean_purity",
+          "value": 0.0308,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "haar_limit",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "hardware_efficient_ansatz",
+          "metric_name": "gradient_variance",
+          "value": 1e-16,
+          "unit": "variance (approximate)"
+        },
+        {
+          "method_name": "hardware_efficient_ansatz",
+          "metric_name": "energy_convergence",
+          "value": -0.11,
+          "unit": "energy"
+        },
+        {
+          "method_name": "hardware_efficient_ansatz",
+          "metric_name": "ground_state_fidelity",
+          "value": 0.0247,
+          "unit": "fidelity"
+        },
+        {
+          "method_name": "hardware_efficient_ansatz",
+          "metric_name": "mean_purity",
+          "value": 0.0455,
+          "unit": "purity"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "109x",
+          "baseline_method": "hardware_efficient_ansatz",
+          "conditions": "ground-state energy convergence benchmark at N=12",
+          "is_demonstrated": true,
+          "caveats": "Reported as final energy -12.00 vs -0.11; this is a performance ratio on a specific benchmark, not a proven asymptotic speedup."
+        },
+        {
+          "type": "empirical",
+          "factor": "10.7x",
+          "baseline_method": "hardware_efficient_ansatz",
+          "conditions": "ground-state fidelity benchmark",
+          "is_demonstrated": true,
+          "caveats": "Based on fidelity 0.2646 vs 0.0247; benchmark-specific and not a general complexity result."
+        },
+        {
+          "type": "theoretical",
+          "factor": "inverse-polynomial gradient variance lower bound",
+          "baseline_method": "barren-plateau scaling under 2-design-like circuits",
+          "conditions": "small-parameter initialization/localized circuit regime",
+          "is_demonstrated": true,
+          "caveats": "A proof claim for the ansatz initialization regime; does not imply overall optimization speedup."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 4,
+          "num_qubits": 4,
+          "metric_name": "convergence_energy",
+          "metric_value": null
+        },
+        {
+          "problem_size": 6,
+          "num_qubits": 6,
+          "metric_name": "convergence_energy",
+          "metric_value": null
+        },
+        {
+          "problem_size": 8,
+          "num_qubits": 8,
+          "metric_name": "convergence_energy",
+          "metric_value": null
+        },
+        {
+          "problem_size": 12,
+          "num_qubits": 12,
+          "metric_name": "convergence_energy",
+          "metric_value": -12.0
+        },
+        {
+          "problem_size": 14,
+          "num_qubits": 14,
+          "metric_name": "gradient_variance",
+          "metric_value": 1e-05
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "Not explicitly stated; variational circuit cost and gradient variance discussed, with inverse-polynomial gradient variance lower bound",
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L2_noisy_sim",
+        "crossover_size": "unknown",
+        "resources_for_advantage": "Unknown; experiments only simulate up to N=14 qubits and compare two quantum ansätze within VQE rather than quantum vs classical solvers.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "All results obtained via classical simulation (PennyLane) up to 14 qubits",
+          "No comparison against classical ground‑state solvers (e.g., exact diagonalization, tensor networks)",
+          "Performance improvement is relative to another quantum ansatz (HEA) rather than classical methods",
+          "No asymptotic runtime or complexity advantage demonstrated"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_noisy because the paper reports PennyLane simulations with depolarizing noise and finite shots, but no real QPU device is named.",
+          "num_qubits and circuit_depth taken as the maximum reported benchmark size (N=14, L=14) from the experiments and figures.",
+          "The paper does not report transpiled depth, gate counts, or specific gate fidelities.",
+          "The paper compares against a classical optimizer baseline (HEA) but does not provide a classical asymptotic complexity or a proven quantum speedup order.",
+          "The paper reports improvements (109× lower final energy error and 10.7× higher fidelity) relative to a hardware‑efficient ansatz baseline.",
+          "However, this is an ansatz comparison within VQE and not a quantum vs classical benchmark; therefore quantum advantage cannot be evaluated under the Hoefler framework."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

@@ -1,0 +1,351 @@
+{
+  "paper_id": "ebbdd376073e",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T10:17:05+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "ebbdd376073e_quantum_algorithm_for_copula_based_risk_aggregation_using_orthogonal_series_dens.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.483,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 6,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[2].unit='rate' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='queries' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='queries' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='queries' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.483,
+      "completeness": 0.483,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.483
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum algorithm for copula-based risk aggregation using orthogonal series density estimation",
+    "authors": [
+      "Hitomi Mori",
+      "Koichi Miyamoto"
+    ],
+    "year": 2025,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "risk-management",
+    "secondary_silos": [
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a gate-based quantum algorithm for copula-based financial risk aggregation that estimates marginal distributions using Hermite-series orthogonal series density estimation combined with Quantum Monte Carlo Integration. The algorithm achieves query complexity ~O((1/ε)^(1+8/(2r−1))) to the state-preparation oracle, approaching ~O(1/ε) for smooth distributions (large r), compared with classical Monte Carlo sample complexity O(1/ε^2). No numerical experiments or hardware implementations are provided.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Theoretical gate-based quantum algorithm for copula-based risk aggregation: estimate each marginal CDF via orthogonal series density estimation using quantum Monte Carlo integration, then estimate the joint risk measure with QMCI using the copula-composed distribution. No numerical hardware experiment is reported.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Quantum Monte Carlo integration (QMCI) with quantum amplitude estimation; hybrid OSDE + copula-based risk aggregation",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "confidence_level_alpha": "used for VaR/TVaR definitions; no fixed experimental value reported",
+          "accuracy_epsilon": "symbolic parameter in complexity bounds",
+          "failure_probability_delta": "symbolic parameter in complexity bounds",
+          "Hermite_truncation_Ki": "chosen as ceil((8Li*gamma_i/epsilon)^(4/(2ri-1))) in Theorem 5",
+          "copula_smoothness_bound_cmax_prime": "assumed bounded derivative constant in Theorem 6",
+          "copula_density_max_cmax": "max over [0,1]^d of copula density c(u)"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Real-valued random variables are discretized on qubit registers; state preparation oracle AXi prepares amplitudes proportional to sqrt(fi(x(j))). Controlled rotation encodes functions hk and Φ into an ancilla amplitude.",
+        "objective_function": "Estimate risk measures of S = X1 + ... + Xd under a copula-based joint distribution; specifically VaR and TVaR via repeated estimation of Pr(S >= l) and E[S 1_{S>=l}]",
+        "constraints_handling": "No optimization constraints; copula dependence handled analytically through estimated marginal CDFs and copula density composition",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "General copula-based financial risk aggregation for d real-valued risk variables with smooth marginal PDFs; no concrete dataset or numerical case study is provided.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": null,
+        "dataset_name": null,
+        "dataset_specification": null,
+        "data_preprocessing_details": "No empirical dataset preprocessing; assumes access to state-preparation oracles for each marginal random variable and a copula density oracle",
+        "evaluation_methodology": "The paper provides theoretical error and query-complexity analysis only; no empirical runs, seeds, or benchmark instances"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "noise_model": null,
+        "noise_parameters": null,
+        "mitigation_details": null,
+        "is_noisy": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Estimate marginal CDFs by Hermite-series orthogonal series density estimation; compute Hermite coefficients via QMCI; choose truncation Ki from smoothness bound; use binary search for VaR",
+        "classical_postprocessing": "Integrate estimated marginal PDFs to obtain CDFs; plug estimated CDFs into copula density; use root-finding/binary search for VaR and then TVaR formula",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": null,
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "var_accuracy",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "cvar_estimation_error",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": "O(N^-1/2)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "rate",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "tail_risk_estimate",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_risk_factors",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "query_complexity_to_state_preparation_oracle",
+          "value": "O~((1/epsilon)^(1+8/(2r-1)))",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "queries",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "classical_sample_complexity",
+          "value": "O~(1/epsilon^2)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "marginal_cdf_estimation_query_complexity",
+          "value": "O(L_i K_i^2/epsilon log(K_i/delta))",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "queries",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "final_risk_measure_estimation_query_complexity",
+          "value": "O(c_max/epsilon log(1/delta))",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "queries",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "hermite_truncation_k_i",
+          "value": "ceil((8L_i*gamma_i/epsilon)^(4/(2r_i-1)))",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 0.9999999999999999,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "qae_success_probability",
+          "value": 0.8105694691387022,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "computed"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "convergence_rate",
+          "value": "O(N^-1/2)",
+          "unit": "rate"
+        },
+        {
+          "method_name": "classical sample-based copula risk aggregation",
+          "metric_name": "tail_risk_estimate",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical Monte Carlo / sample-based risk aggregation",
+          "conditions": "for sufficiently smooth marginal PDFs; as smoothness r increases, query complexity approaches O~(1/epsilon)",
+          "is_demonstrated": true,
+          "caveats": "No hardware experiment or empirical benchmark is reported; the claim is based on asymptotic query-complexity analysis using QMCI and OSDE."
+        },
+        {
+          "type": "asymptotic",
+          "factor": "O~((1/epsilon)^(1+8/(2r-1)))",
+          "baseline_method": "classical sample complexity O~(1/epsilon^2)",
+          "conditions": "state-preparation oracle access for each marginal random variable; smoothness parameter r",
+          "is_demonstrated": true,
+          "caveats": "The exponent depends on the smoothness parameter r; nearly quadratic speed-up is only approached for high r."
+        }
+      ],
+      "scalability_data": [],
+      "complexity_analysis": {
+        "quantum_complexity": "Query complexity to each state-preparation oracle scales as ~O((1/epsilon)^(1+8/(2r-1))) for smoothness parameter r; marginal estimation uses O(L_i K_i^2/epsilon log(K_i/delta)) queries and final risk-measure estimation uses O(c_max/epsilon log(1/delta)) queries",
+        "classical_complexity": "Classical sample complexity for the corresponding Monte Carlo-based method is O(1/epsilon^2)",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L0_theory",
+        "crossover_size": "not provided; depends on smoothness parameter r and oracle costs",
+        "resources_for_advantage": "Requires fault-tolerant implementation of amplitude estimation, repeated QMCI calls, efficient state-preparation oracles for each marginal distribution, and arithmetic circuits for Hermite functions and copula evaluation.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Only quadratic asymptotic speedup over classical Monte Carlo",
+          "Heavy reliance on ideal state-preparation oracles for continuous distributions",
+          "Amplitude estimation requires deep coherent circuits incompatible with NISQ hardware",
+          "Complex arithmetic for Hermite series and copula evaluation",
+          "No resource estimates (qubits, depth, T-count) provided"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "This is a purely theoretical algorithm paper; no concrete experimental hardware, qubit count, circuit depth, shot count, or benchmark dataset is reported.",
+          "The paper uses amplitude estimation/QMCI as the gate-based quantum primitive and does not involve quantum annealing.",
+          "The paper claims a nearly quadratic quantum speedup via QMCI relative to classical Monte Carlo sample complexity.",
+          "However, the work is purely theoretical with no simulations or hardware demonstrations."
+        ],
+        "advantage_status": "paper_reported"
+      }
+    }
+  ]
+}

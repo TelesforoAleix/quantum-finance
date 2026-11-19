@@ -1,0 +1,531 @@
+{
+  "paper_id": "14ceb7e36df7",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:06:11+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "14ceb7e36df7_time_series_generation_for_option_pricing_on_quantum_computers_using_tensor_netw.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.7,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 20,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='option price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='absolute volatility' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='option price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='option price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='option price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='option price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='absolute volatility' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='option price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='option price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='option price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='option price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='absolute volatility' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='option price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='option price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='option price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[15].unit='option price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[16].unit='absolute volatility' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[17].unit='option price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[18].unit='option price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[19].unit='option price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.7,
+      "completeness": 0.7,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.7
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Time series generation for option pricing on quantum computers using tensor network",
+    "authors": [
+      "Nozomu Kobayashi",
+      "Yoshiyuki Suimon",
+      "Koichi Miyamoto"
+    ],
+    "year": 2024,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": [
+      "simulation-monte-carlo",
+      "quantum-ml-finance"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper trains a classical Matrix Product State generative model on 10,000 simulated Heston-model price paths (time series length M=5) and uses generated samples to price European and path‑dependent options via classical Monte Carlo. With discretization m=6 and bond dimension Dmax=150, the MPS model reproduces benchmark Heston prices closely (e.g., European call price 1.0805 vs 1.1098 and implied volatility 0.1915 vs 0.1967). The work proposes that such MPS models could later be compiled into quantum circuits for state preparation in amplitude‑estimation‑based option pricing, but no quantum experiment is performed.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Classical training of a Matrix Product State (MPS) generative model to reproduce Heston-model asset-price time series, followed by classical Monte Carlo pricing of European, Asian, lookback, and up-and-out barrier options using samples generated from the trained MPS.",
+      "algorithm": {
+        "family": "classical-simulation",
+        "variant": "MPS-based generative modeling for time series generation",
+        "ansatz": null,
+        "optimizer": "gradient descent with sweeping/DMRG-like updates",
+        "num_layers": null,
+        "convergence_criteria": "run for multiple epochs until training converges; no explicit stopping threshold reported",
+        "hyperparameters": {
+          "physical_dimension_bits": [
+            4,
+            5,
+            6
+          ],
+          "max_bond_dimension": [
+            64,
+            100,
+            150
+          ],
+          "time_series_length_M": 5,
+          "time_step_delta_t": "1/250",
+          "training_samples": 10000,
+          "generation_samples": 10000,
+          "learning_rate_eta": null,
+          "singular_value_truncation_criterion": null
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Each discretized asset price at each time point is mapped to an m-bit integer in the computational basis; the MPS is trained to model the joint distribution over the discretized time series.",
+        "objective_function": "Minimize negative log-likelihood L = -(1/|T|) sum_x log p_theta(x), equivalent to KL divergence to the target distribution up to a constant.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Heston stochastic-volatility model time-series generation for option pricing; evaluate European, Asian, lookback, and up-and-out barrier call options.",
+        "num_assets": 1,
+        "time_steps": 5,
+        "num_features": null,
+        "dataset_size": 10000,
+        "data_type": "synthetic",
+        "dataset_name": "Heston model simulated paths",
+        "dataset_specification": {
+          "ticker_symbols": null,
+          "date_range": null,
+          "benchmark_name": "Heston model",
+          "preprocessing": "Euler-Maruyama discretization; reflection positivity for negative variance; discretize prices to m-bit integers using min-max scaling over sample paths",
+          "train_test_split": null
+        },
+        "data_preprocessing_details": "Generate 10000 Heston paths with parameters kappa=1.0, theta=0.04, xi=2, rho=-0.7, S0=100, v0=0.04, daily time step 1/250, length M=5; discretize each price via floor((2^m-1)*(S_t-S_min)/(S_max-S_min)).",
+        "evaluation_methodology": "Compare MPS-generated distributions and option prices against Heston-generated benchmark paths; report averages and standard errors over 10 independent calculations for each option/model combination."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "noise_model": null,
+        "noise_parameters": null,
+        "mitigation_details": null,
+        "is_noisy": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "classical Monte Carlo simulation; classical MPS training and sampling",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Discretize continuous prices to m-bit integers; generate Heston training data with Euler-Maruyama.",
+        "classical_postprocessing": "Convert sampled integers back to real prices; compute option payoffs and implied volatility.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": 10.0,
+          "num_independent_runs": 10
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "price",
+          "value": 1.1098,
+          "uncertainty": "±0.0052",
+          "num_runs": 10,
+          "unit": "option price",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "implied_volatility",
+          "value": 0.1967,
+          "uncertainty": "±0.0009",
+          "num_runs": 10,
+          "unit": "absolute volatility",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price",
+          "value": 0.6195,
+          "uncertainty": "±0.0035",
+          "num_runs": 10,
+          "unit": "option price",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price",
+          "value": 1.4778,
+          "uncertainty": "±0.0056",
+          "num_runs": 10,
+          "unit": "option price",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price",
+          "value": 0.9894,
+          "uncertainty": "±0.0049",
+          "num_runs": 10,
+          "unit": "option price",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price",
+          "value": 0.6277,
+          "uncertainty": "±0.0031",
+          "num_runs": 10,
+          "unit": "option price",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "implied_volatility",
+          "value": 0.1113,
+          "uncertainty": "±0.0005",
+          "num_runs": 10,
+          "unit": "absolute volatility",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price",
+          "value": 0.2771,
+          "uncertainty": "±0.0020",
+          "num_runs": 10,
+          "unit": "option price",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price",
+          "value": 0.8216,
+          "uncertainty": "±0.0030",
+          "num_runs": 10,
+          "unit": "option price",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price",
+          "value": 0.5769,
+          "uncertainty": "±0.0028",
+          "num_runs": 10,
+          "unit": "option price",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price",
+          "value": 0.8626,
+          "uncertainty": "±0.0034",
+          "num_runs": 10,
+          "unit": "option price",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "implied_volatility",
+          "value": 0.1529,
+          "uncertainty": "±0.0009",
+          "num_runs": 10,
+          "unit": "absolute volatility",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price",
+          "value": 0.4351,
+          "uncertainty": "±0.0021",
+          "num_runs": 10,
+          "unit": "option price",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price",
+          "value": 1.1625,
+          "uncertainty": "±0.0039",
+          "num_runs": 10,
+          "unit": "option price",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price",
+          "value": 0.8304,
+          "uncertainty": "±0.0029",
+          "num_runs": 10,
+          "unit": "option price",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price",
+          "value": 1.0805,
+          "uncertainty": "±0.0041",
+          "num_runs": 10,
+          "unit": "option price",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "implied_volatility",
+          "value": 0.1915,
+          "uncertainty": "±0.0007",
+          "num_runs": 10,
+          "unit": "absolute volatility",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price",
+          "value": 0.6107,
+          "uncertainty": "±0.0026",
+          "num_runs": 10,
+          "unit": "option price",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price",
+          "value": 1.4612,
+          "uncertainty": "±0.0049",
+          "num_runs": 10,
+          "unit": "option price",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price",
+          "value": 0.916,
+          "uncertainty": "±0.0030",
+          "num_runs": 10,
+          "unit": "option price",
+          "higher_is_better": false,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "heston_model",
+          "metric_name": "price",
+          "value": 1.1098,
+          "unit": "option price"
+        },
+        {
+          "method_name": "heston_model",
+          "metric_name": "implied_volatility",
+          "value": 0.1967,
+          "unit": "absolute volatility"
+        },
+        {
+          "method_name": "heston_model",
+          "metric_name": "price",
+          "value": 0.6195,
+          "unit": "option price"
+        },
+        {
+          "method_name": "heston_model",
+          "metric_name": "price",
+          "value": 1.4778,
+          "unit": "option price"
+        },
+        {
+          "method_name": "heston_model",
+          "metric_name": "price",
+          "value": 0.9894,
+          "unit": "option price"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical monte carlo",
+          "conditions": "if quantum amplitude estimation is used after efficient state preparation",
+          "is_demonstrated": false,
+          "caveats": "The paper does not implement the quantum circuit or QAE; the reported experiment is classical MPS training and classical Monte Carlo pricing."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 4.0,
+          "num_qubits": null,
+          "metric_name": "price",
+          "metric_value": 0.6277
+        },
+        {
+          "problem_size": 5.0,
+          "num_qubits": null,
+          "metric_name": "price",
+          "metric_value": 0.8626
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": null,
+          "metric_name": "price",
+          "metric_value": 1.0805
+        },
+        {
+          "problem_size": 4.0,
+          "num_qubits": null,
+          "metric_name": "implied_volatility",
+          "metric_value": 0.1113
+        },
+        {
+          "problem_size": 5.0,
+          "num_qubits": null,
+          "metric_name": "implied_volatility",
+          "metric_value": 0.1529
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": null,
+          "metric_name": "implied_volatility",
+          "metric_value": 0.1915
+        },
+        {
+          "problem_size": 64.0,
+          "num_qubits": null,
+          "metric_name": "price",
+          "metric_value": 0.9767
+        },
+        {
+          "problem_size": 100.0,
+          "num_qubits": null,
+          "metric_name": "price",
+          "metric_value": 1.0321
+        },
+        {
+          "problem_size": 150.0,
+          "num_qubits": null,
+          "metric_name": "price",
+          "metric_value": 1.0805
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "MPS state preparation is described as efficient on quantum circuits, but no explicit asymptotic bound is given for the full experiment",
+        "classical_complexity": "Classical Monte Carlo option pricing scales as O(1/epsilon^2) for accuracy epsilon; MPS sampling/training complexity not explicitly characterized",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L0_theory",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Would require efficient gate-based state preparation of the MPS distribution and a full Quantum Monte Carlo Integration pipeline with Quantum Amplitude Estimation; no qubit counts or circuit resources are estimated in the paper.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "No implemented quantum circuit for the proposed MPS-based state preparation",
+          "State preparation of high-dimensional path distributions is likely very costly",
+          "Quadratic speedup from QAE only (O(1/epsilon) vs O(1/epsilon^2))",
+          "All empirical validation is purely classical",
+          "No resource estimates for qubits, circuit depth, or logical gates"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "This paper is gate-based scope but contains no actual gate-based quantum experiment; the reported work is a classical MPS generative model with discussion of future quantum-circuit implementation. No QPU, simulator, qubit count, or circuit resource data are reported for an executed quantum experiment.",
+          "The authors reference the theoretical quadratic speedup of Quantum Amplitude Estimation for Monte Carlo but do not implement a quantum algorithm.",
+          "All experiments are classical simulations using an MPS generative model and classical Monte Carlo pricing."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

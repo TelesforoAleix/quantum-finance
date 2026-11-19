@@ -1,0 +1,488 @@
+{
+  "paper_id": "dbe1e9d1911e",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T10:05:14+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "dbe1e9d1911e_quantumleap_hybrid_quantum_neural_network_for_financial_predictions.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.75,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 10,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='stocks' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='trading_days' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='strides' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='networks' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='p-value' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[15].unit='p-value' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[16].unit='p-value' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[17].unit='x32 matrix' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[18].unit='x128 matrix' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.75,
+      "completeness": 0.75,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.75
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "QuantumLeap: Hybrid quantum neural network for financial predictions",
+    "authors": [
+      "Eric Paquet",
+      "Farzan Soleymani"
+    ],
+    "year": 2022,
+    "doi": "10.1016/j.eswa.2022.116583",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes QuantumLeap, a hybrid deep quantum neural network for predicting stock prices using sliding windows of 4 trading days across 24 securities (407 training days, 20‑day forecast horizon). The model was trained as a classical simulation on an HP Apollo cluster (≈24 h total runtime) and reports lower RMSV than classical baselines—for example AAPL RMSV 2.83 vs 6.05 (classical NN) and 8.37 (ARIMA)—with most daily prediction errors below 1% and maxima around 8%.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Hybrid deep quantum neural network (QuantumLeap) for financial time-series prediction on 24 stocks, evaluated in regression and 20-day extrapolation regimes, compared against a classical neural network and ARIMA baseline.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "deep quantum neural network / hybrid quantum neural network (QuantumLeap)",
+        "ansatz": "layered unitary operators / quantum perceptron network",
+        "optimizer": "Adam for classical measurement network; quantum unitary updates via gradient-based update rule in Eq. (8)/(13)",
+        "num_layers": 5,
+        "convergence_criteria": "trained for 20 epochs",
+        "hyperparameters": {
+          "window_size": 4,
+          "stride_count": 20,
+          "number_of_networks": 20,
+          "quantum_hidden_layers": 5,
+          "classical_hidden_layers": 5,
+          "learning_rate": 0.1,
+          "Adam_beta1": 0.9,
+          "Adam_beta2": 0.999,
+          "Adam_epsilon": 1e-05,
+          "epochs": 20,
+          "unitary_dimensions": [
+            "32x32",
+            "128x128",
+            "128x128",
+            "32x32",
+            "32x32"
+          ]
+        },
+        "parameter_initialization": "initial unitary operator chosen randomly",
+        "optimizer_settings": {
+          "max_iterations": 20,
+          "learning_rate": 0.1,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "each sliding window of 4 trading days is mapped to a complex state vector and density matrix using low/high prices; one quantum network per stride predicts a later density matrix",
+        "objective_function": "maximize fidelity between predicted output density matrix and target output density matrix",
+        "constraints_handling": "state-vector normalization via Eq. (18); minimum prices treated as hidden parameters/constraints",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Predict stock high prices from low/high time-series windows for 24 securities over a 20-trading-day forecast horizon",
+        "num_assets": 24,
+        "time_steps": 427,
+        "num_features": 2,
+        "dataset_size": 24,
+        "data_type": "real_market",
+        "dataset_name": "NASDAQ/market stock data",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "AAPL",
+            "AMZN",
+            "BA",
+            "BAC",
+            "BP",
+            "CAT",
+            "CSCO",
+            "GE",
+            "GOOGL",
+            "HD",
+            "IBM",
+            "JNJ",
+            "JPM",
+            "JWN",
+            "KO",
+            "MFC",
+            "MMM",
+            "MRK",
+            "MSFT",
+            "ORCL",
+            "PFE",
+            "RDSB",
+            "TD",
+            "WMT"
+          ],
+          "date_range": "2019-01-01 to 2020-09-11",
+          "train_test_split": "first 407 trading days for training, last 20 trading days for testing"
+        },
+        "data_preprocessing_details": "financial time series partitioned with sliding window of size 4; low/high values encoded into complex state vectors; output is maximum price reached during the day",
+        "evaluation_methodology": "regression on training regime and extrapolation on last 20 days; relative error reported per day; RMSV comparison against classical NN and ARIMA; Mann-Whitney-Wilcoxon test on error distributions"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "HP Apollo System (HPC cluster)",
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Adam-trained classical neural network and ARIMA baseline",
+        "transpilation_settings": null,
+        "classical_preprocessing": "sliding-window partitioning; low/high price encoding; normalization of state vectors",
+        "classical_postprocessing": "classical dense network measures maximum price from predicted density matrix",
+        "total_execution_time": "approximately 24 h for all 24 stocks (training 24 × 20 = 480 hybrid networks in parallel batches)",
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 20,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "dataset_size",
+          "value": 24,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "stocks",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 24,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "hours",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "epochs",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "window_size",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "trading_days",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "stride_count",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "strides",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "number_of_networks",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "networks",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "learning_rate",
+          "value": 0.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "adam_beta1",
+          "value": 0.9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "adam_beta2",
+          "value": 0.999,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "adam_epsilon",
+          "value": 1e-05,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "relative_error",
+          "value": 0.01,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "relative_error",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "rmsv",
+          "value": 0.07,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "rmsv",
+          "value": 37.86,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "p_value",
+          "value": 6.6e-05,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "p-value",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "p_value",
+          "value": 9.3e-05,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "p-value",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "p_value",
+          "value": 0.94,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "p-value",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "unitary_dimension",
+          "value": 32,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "x32 matrix",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "unitary_dimension",
+          "value": 128,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "x128 matrix",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical neural network",
+          "metric_name": "rmsv",
+          "value": 6.05,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "arima",
+          "metric_name": "rmsv",
+          "value": 8.37,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical neural network",
+          "metric_name": "p_value",
+          "value": 6.6e-05,
+          "unit": "p-value"
+        },
+        {
+          "method_name": "arima",
+          "metric_name": "p_value",
+          "value": 9.3e-05,
+          "unit": "p-value"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The paper claims computational tractability and parallelisation across strides, but does not provide a quantified asymptotic or empirical speedup over classical methods."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 24.0,
+          "num_qubits": null,
+          "metric_name": "dataset_size",
+          "metric_value": 24
+        },
+        {
+          "problem_size": 20.0,
+          "num_qubits": null,
+          "metric_name": "number_of_networks",
+          "metric_value": 20
+        },
+        {
+          "problem_size": 20.0,
+          "num_qubits": null,
+          "metric_name": "forecast_horizon",
+          "metric_value": 20
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "computationally tractable in terms of number of hidden layers; layer-by-layer training reduces memory requirements",
+        "classical_complexity": "not reported",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "not specified; algorithm implemented only as classical simulation of a quantum neural network using matrix operators (32×32 and 128×128 unitaries)",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "No execution on quantum hardware",
+          "No qubit counts or circuit depths reported",
+          "Model implemented via classical matrix simulation on HPC",
+          "No complexity analysis or asymptotic speedup",
+          "Performance comparison is against classical ML baselines but using a simulated quantum model"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper describes a quantum neural network built from unitary operators and density matrices, but does not report an actual gate-based hardware platform, qubit count, circuit depth, or gate counts. The unitary dimensions (e.g., 32x32, 128x128) are matrix sizes, not explicit qubit counts, so num_qubits remains null. The paper compares against a classical neural network and ARIMA, which are baselines, not separate quantum experiments.",
+          "Authors claim their quantum approach outperforms a classical neural network and ARIMA in RMSV (Table 5), but the 'quantum' model is simulated on classical HPC and no gate‑level quantum implementation or complexity advantage is demonstrated."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

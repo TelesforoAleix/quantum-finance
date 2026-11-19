@@ -1,0 +1,419 @@
+{
+  "paper_id": "66f18ee7b813",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:52:18+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "66f18ee7b813_an_efficient_quantum_algorithm_for_independent_component_analysis.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.7,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 6,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='daily points' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='daily points used for preprocessing' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='daily points used for testing' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='features' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='×10^-4 (training)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='×10^-4 (test)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.7,
+      "completeness": 0.7,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.7
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "An efficient quantum algorithm for independent component analysis",
+    "authors": [
+      "Xiao-Fan Xu",
+      "Xi-Ning Zhuang",
+      "Cheng Xue",
+      "Zhao-Yun Chen",
+      "Yu-Chun Wu",
+      "Guo-Ping Guo"
+    ],
+    "year": 2024,
+    "doi": "10.1088/1367-2630/ad5e16",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a gate‑based quantum subroutine for computing the Kernel ICA contrast function with complexity ~O(1/ε₁² + 1/ε₂) and polylog(N) dependence on the sample size, compared with classical ICA methods that scale at least Ω(N). Numerical simulations demonstrate feasibility on synthetic mixtures, a transcriptomic dataset, and a Nikkei‑225 forecasting task where the QICA‑SVR model achieves 69.7% directional consistency versus 69.0% for ICA‑SVR and 57.3% for plain SVR.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Gate-based quantum algorithm for computing the adapted KICA contrast function and using it within a classical optimization loop for independent component analysis; numerically tested on synthetic mixtures, a transcriptomic dataset, and a Nikkei 225 forecasting task.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Quantum algorithm for adapted Kernel ICA (KICA) contrast-function estimation with qPCA-style matrix operations",
+        "ansatz": null,
+        "optimizer": "classical optimization on the Stiefel manifold (Cayley transform / gradient-based methods referenced)",
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "kernel_function": "Gaussian kernel",
+          "kappa": "positive constant κ",
+          "epsilon_1": "contrast-function estimation precision",
+          "epsilon_2": "near-independence / preprocessing precision",
+          "Mi": "O(log N) largest eigenvalues retained per Gram matrix",
+          "mu_M": "condition number of covariance matrix M",
+          "N": "sample size",
+          "m": "number of random variables / ICs"
+        },
+        "parameter_initialization": "Not specified; optimization starts from preprocessing-derived orthogonal transform and iterates classically",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "qRAM",
+        "encoding_details": "Oracle access to samples O_xi|j⟩|0⟩ = |j⟩|x_ij⟩; Gram matrices are block-encoded from sample oracles; principal components/eigenvalues estimated via phase estimation and amplitude estimation",
+        "objective_function": "Estimate det(R_kappa(WY)) where R_kappa is built from low-rank Gram-matrix eigendecompositions; used as ICA contrast function J(X) = -ln(det(R_kappa))",
+        "constraints_handling": "Classical optimization constrained to orthogonal W on the Stiefel manifold; whitening reduces the search to orthogonal matrices",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Independent component analysis on mixtures of m observable random variables with N samples each; evaluated on synthetic PDFs, a transcriptomic lung-cancer dataset, and financial time-series forecasting of Nikkei 225 opening index",
+        "num_assets": null,
+        "time_steps": 401,
+        "num_features": 4,
+        "dataset_size": 225,
+        "data_type": null,
+        "dataset_name": "Synthetic PDFs; transcriptomic lung-cancer dataset; Nikkei 225 opening cash index dataset",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "Nikkei 225 opening cash index and three futures contracts traded on Singapore Exchange-Derivative Trading Limited, Osaka Securities Exchange, and Chicago Mercantile Exchange"
+          ],
+          "date_range": "5 June 2015 to 9 September 2016",
+          "benchmark_name": "stabilized-ICA / Icasso comparison for transcriptomic data; SVR forecasting benchmark for finance",
+          "preprocessing": "centering, normalization, noise reduction by ICA, whitening; for finance, first 300 points used for preprocessing and last 100 for prediction",
+          "train_test_split": "Finance: train on samples 100 through 301 after preprocessing, predict last 100 points"
+        },
+        "data_preprocessing_details": "Centering and whitening; covariance estimation; Gaussian-kernel Gram matrices; for finance, ICA-based noise reduction discarding least important IC",
+        "evaluation_methodology": "Numerical simulation; Amari error for source separation; correlation matrix against stabilized-ICA for transcriptomic data; NMSE and consistency for forecasting; varying sample size, mixing coefficients, and quantum estimation error"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Classical optimization on Stiefel manifold; classical SVR baseline for forecasting; stabilized-ICA/Icasso baseline for transcriptomic comparison",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Centering, whitening, covariance estimation, classical computation of WM^{-1/2}",
+        "classical_postprocessing": "Classical reconstruction of R_kappa and determinant; Amari error, correlation matrices, NMSE, and consistency computed classically",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "dataset_size",
+          "value": 401,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "daily points",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 300,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "daily points used for preprocessing",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "daily points used for testing",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_features",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "features",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "consistency",
+          "value": 69.7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "nmse",
+          "value": 164,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "×10^-4 (training)",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "nmse",
+          "value": 197,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "×10^-4 (test)",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "amari_error",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "relative_error",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "query_complexity",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gate_complexity",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "ica_svr",
+          "metric_name": "consistency",
+          "value": 69.0,
+          "unit": "%"
+        },
+        {
+          "method_name": "svr",
+          "metric_name": "consistency",
+          "value": 57.3,
+          "unit": "%"
+        },
+        {
+          "method_name": "ica_svr",
+          "metric_name": "nmse",
+          "value": 163,
+          "unit": "×10^-4 (training)"
+        },
+        {
+          "method_name": "ica_svr",
+          "metric_name": "nmse",
+          "value": 200,
+          "unit": "×10^-4 (test)"
+        },
+        {
+          "method_name": "svr",
+          "metric_name": "nmse",
+          "value": 187,
+          "unit": "×10^-4 (training)"
+        },
+        {
+          "method_name": "svr",
+          "metric_name": "nmse",
+          "value": 223,
+          "unit": "×10^-4 (test)"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "polylog(N) dependence / exponential reduction in data-scale dependence",
+          "baseline_method": "classical ICA / KICA-style methods with at least linear sample dependence",
+          "conditions": "given qRAM access and faultless oracle-based quantum preprocessing and estimation subroutines",
+          "is_demonstrated": false,
+          "caveats": "The paper reports asymptotic query/gate complexity for contrast-function estimation, not end-to-end wall-clock speedup on hardware."
+        },
+        {
+          "type": "theoretical",
+          "factor": "~O(1/epsilon_1^2 + 1/epsilon_2) informal; formal ~O(1/(xi^2 epsilon_1^2) + mu_M/(epsilon_2 ||M||_2))",
+          "baseline_method": "classical computation of the adapted KICA contrast function",
+          "conditions": "for estimating det(R_kappa) with precision epsilon_1 and preprocessing precision epsilon_2",
+          "is_demonstrated": false,
+          "caveats": "Complexity is asymptotic and omits polylogarithmic factors in N and other parameters."
+        },
+        {
+          "type": "theoretical",
+          "factor": "O(polylog(N)) for the overall ICA optimization loop after quantum contrast estimation",
+          "baseline_method": "classical ICA optimization scaling no less than Omega(N)",
+          "conditions": "assuming the quantum subroutine is used inside a classical Stiefel-manifold optimization loop",
+          "is_demonstrated": false,
+          "caveats": "The optimization itself remains classical; only the contrast-function evaluation is quantum-accelerated."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 401,
+          "num_qubits": null,
+          "metric_name": "dataset_size",
+          "metric_value": 401
+        },
+        {
+          "problem_size": 300,
+          "num_qubits": null,
+          "metric_name": "preprocessing_points",
+          "metric_value": 300
+        },
+        {
+          "problem_size": 100,
+          "num_qubits": null,
+          "metric_name": "test_points",
+          "metric_value": 100
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "~O(1/epsilon_1^2 + 1/epsilon_2) in the informal theorem; formal theorem gives ~O(1/(xi^2 epsilon_1^2) + mu_M/(epsilon_2 ||M||_2))",
+        "classical_complexity": "Classical ICA scaling no less than Omega(N); KICA and related classical methods discussed as at least linear in sample size",
+        "speedup_order": "exponential",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not provided; advantage claimed asymptotically when N is large enough that polylog(N) < O(N) classical scaling.",
+        "resources_for_advantage": "Requires qRAM access to samples, block‑encoding of Gram matrices, Hamiltonian simulation, phase estimation, and amplitude estimation with ~O(1/epsilon_1^2 + 1/epsilon_2) query complexity.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Requires efficient qRAM oracle access to all samples",
+          "Only asymptotic complexity advantage; no concrete resource estimates",
+          "No qubit counts or circuit depths provided",
+          "Algorithm evaluated only via classical numerical simulation",
+          "Contrast-function estimation speedup does not include full end-to-end ICA pipeline cost"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "No physical QPU or simulator platform is named; the work is theoretical/numerical, so hardware.type is inferred as simulator_other/not specified rather than a real device.",
+          "The paper gives asymptotic query/gate complexity but does not report concrete qubit counts, circuit depths, or shot counts for the numerical experiments.",
+          "The claimed advantage is described as exponential reduction in dependence on data scale / polylog(N) scaling, but the formal comparison in the paper is against classical Omega(N) sample dependence; speedup_order is recorded conservatively as logarithmic due to the polylog(N) dependence stated in the abstract and theorem discussion.",
+          "The paper explicitly claims exponential improvement in dependence on data size (polylog(N) vs Ω(N)).",
+          "However, results are theoretical and validated only via classical numerical simulations rather than quantum execution."
+        ],
+        "advantage_status": "paper_reported"
+      }
+    }
+  ]
+}

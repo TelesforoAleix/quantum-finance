@@ -1,0 +1,576 @@
+{
+  "paper_id": "01326ce2213f",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T07:58:11+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "01326ce2213f_quantum_chebyshev_transform_mapping_embedding_learning_and_sampling_distribution.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.75,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 4,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[1].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='time_units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[1].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.75,
+      "completeness": 0.75,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.75,
+        0.75
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum Chebyshev Transform: Mapping, Embedding, Learning and Sampling Distributions",
+    "authors": [
+      "Chelsea A. Williams",
+      "Annie E. Paine",
+      "Hsin-Yu Wu",
+      "Vincent E. Elfving",
+      "Oleksandr Kyriienko"
+    ],
+    "year": 2023,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": [
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper introduces a quantum Chebyshev transform and orthonormal Chebyshev feature map for quantum machine learning. Demonstrations include learning a lognormal Black–Scholes asset-price distribution using a 5‑qubit embedding with a depth‑14 variational ansatz trained for 5,000 epochs and sampling with 10^6 shots, and a small 2‑qubit toy experiment learning a linear distribution and sampling it on an extended 8‑qubit register. All results are obtained via noiseless simulation in the Yao.jl framework.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Training a quantum Chebyshev generative model to learn a lognormal asset-price distribution in latent space, then sampling the learned distribution in the computational basis using the quantum Chebyshev transform.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "differentiable quantum generative model with orthonormal Chebyshev feature map and quantum Chebyshev transform",
+        "ansatz": "variational hardware-efficient ansatz",
+        "optimizer": "not_specified",
+        "num_layers": 14,
+        "convergence_criteria": "trained for five thousand epochs",
+        "hyperparameters": {
+          "num_qubits_embedding": 5,
+          "learning_rate": 0.005,
+          "epochs": 5000,
+          "distribution": "lognormal",
+          "mu": 0,
+          "sigma": 0.25,
+          "S0": 0.5,
+          "t0": 1,
+          "ansatz_depth": 14
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "max_iterations": 5000,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "continuous variable x embedded through phase feature maps using scaled single-qubit phase shifts; Chebyshev basis states prepared via an ancilla-assisted isometry and mapped to computational basis with QChT",
+        "objective_function": "minimize mean squared error between model distribution and target lognormal distribution",
+        "constraints_handling": "ancilla post-selection on 0 outcome in the Chebyshev feature map; clean ancilla run in QChT",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "Learning a lognormal asset-price distribution from the Black-Scholes model",
+        "num_assets": 1,
+        "time_steps": 1,
+        "num_features": 1,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": "Black-Scholes lognormal distribution",
+        "dataset_specification": {
+          "ticker_symbols": null,
+          "date_range": null,
+          "benchmark_name": null,
+          "preprocessing": "target distribution defined analytically from Black-Scholes parameters",
+          "train_test_split": null
+        },
+        "data_preprocessing_details": "training grid consists of positive Chebyshev nodes and additional midpoints between nodes",
+        "evaluation_methodology": "visual comparison of learned density and sampled histogram against target distribution"
+      },
+      "quantum_resources": {
+        "num_qubits": 6,
+        "qubit_type": "not_specified",
+        "circuit_depth": 14,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 1000000,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "Yao.jl",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "training grid includes Chebyshev nodes and midpoints; variational training in latent space",
+        "classical_postprocessing": "histogramming of 10^6 sampled shots",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 5000,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_qubits",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 14,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "learning_rate",
+          "value": 0.005,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "epochs",
+          "value": 5000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_shots",
+          "value": 1000000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "mu",
+          "value": 0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sigma",
+          "value": 0.25,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "s0",
+          "value": 0.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "t0",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "time_units",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No quantitative speedup claim is reported; the paper presents a methodological/simulation study and discusses potential advantages qualitatively."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 5.0,
+          "num_qubits": 5,
+          "metric_name": "circuit_depth",
+          "metric_value": 14
+        },
+        {
+          "problem_size": 5.0,
+          "num_qubits": 5,
+          "metric_name": "epochs",
+          "metric_value": 5000
+        },
+        {
+          "problem_size": 5.0,
+          "num_qubits": 5,
+          "metric_name": "num_shots",
+          "metric_value": 1000000
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not_reported",
+        "resources_for_advantage": "not_specified; paper provides no asymptotic runtime comparison or resource estimates versus classical generative modeling.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "All results obtained via noiseless classical simulation (Yao.jl).",
+          "No classical runtime baseline for distribution learning or sampling.",
+          "Small toy problem (5 embedding qubits).",
+          "No complexity analysis demonstrating asymptotic advantage."
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_other because the paper reports simulation in Julia's Yao package and does not name a physical QPU.",
+          "num_shots inferred from 'generated with 10^6 shots' in the sampling figure caption.",
+          "No explicit optimizer name, transpilation data, or gate counts are reported.",
+          "No asymptotic speedup claim is quantified; the paper is methodological and reports illustrative simulations only.",
+          "Authors present the method as a modeling framework and do not claim demonstrated quantum advantage.",
+          "Experiments only illustrate feasibility of Chebyshev-based embeddings and sampling."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Training a quantum Chebyshev model to learn a linear probability distribution and comparing it against a Fourier-based quantum model; also sampling the learned Chebyshev distribution on an extended register.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "comparison of orthonormal Chebyshev feature map versus Fourier phase-map model in differentiable quantum generative modeling",
+        "ansatz": "variational hardware-efficient ansatz",
+        "optimizer": "not_specified",
+        "num_layers": 6,
+        "convergence_criteria": "trained model shown after optimization; no explicit stopping rule reported",
+        "hyperparameters": {
+          "embedding_qubits": 2,
+          "ansatz_depth": 6,
+          "comparison_baseline": "Fourier model",
+          "target_distribution": "linear P(x)=x"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Chebyshev feature map on 2 qubits; Fourier phase map used as baseline; sampled distribution mapped to an extended 8-qubit register via QChT",
+        "objective_function": "fit the linear distribution P(x)=x",
+        "constraints_handling": "none reported",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "Synthetic linear distribution learning and sampling benchmark",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 1,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": "linear distribution",
+        "dataset_specification": {
+          "ticker_symbols": null,
+          "date_range": null,
+          "benchmark_name": null,
+          "preprocessing": "distribution defined analytically on Chebyshev grid",
+          "train_test_split": null
+        },
+        "data_preprocessing_details": "training and evaluation on Chebyshev grid; sampling shown on integer labels of Chebyshev nodes for an 8-qubit extended register",
+        "evaluation_methodology": "qualitative comparison of learned density and derivative against target; sampled histogram on extended register"
+      },
+      "quantum_resources": {
+        "num_qubits": 3,
+        "qubit_type": "not_specified",
+        "circuit_depth": 6,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "Yao.jl",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "none reported",
+        "classical_postprocessing": "histogramming of sampled distribution; derivative evaluation for comparison with target slope",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "notes": "Sampling demonstration uses an extended register of N = 8 qubits (plus ancilla) via the quantum Chebyshev transform after training a 2‑qubit model.",
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_qubits",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "Fourier model",
+          "metric_name": "distribution_fit_quality",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "Fourier model",
+          "metric_name": "derivative_accuracy",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": "Fourier model",
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The paper reports a qualitative comparison showing the Chebyshev model tracks the linear target better and has more accurate derivatives than the Fourier baseline, but no numerical speedup or benchmark metric is provided."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 2.0,
+          "num_qubits": 2,
+          "metric_name": "circuit_depth",
+          "metric_value": 6
+        },
+        {
+          "problem_size": 8.0,
+          "num_qubits": 8,
+          "metric_name": "num_qubits",
+          "metric_value": 8
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "parity_with_classical",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not_reported",
+        "resources_for_advantage": "not analyzed; experiment only compares Chebyshev vs Fourier quantum feature maps on a toy distribution.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Toy synthetic task (linear distribution).",
+          "Comparison baseline is another quantum model (Fourier feature map), not a classical algorithm.",
+          "Training and evaluation performed entirely in noiseless simulation.",
+          "Very small circuit (2 embedding qubits)."
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_other because the paper presents simulated training/sampling results and names no physical device.",
+          "The 8-qubit extended register is part of the sampling setup, but the trained model itself uses 2 qubits; reported num_qubits refers to the trained model.",
+          "No explicit optimizer, shot count, or gate counts are reported.",
+          "The experiment demonstrates better approximation behavior of Chebyshev features compared with Fourier features within quantum models.",
+          "No classical baseline or speedup claim is evaluated."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

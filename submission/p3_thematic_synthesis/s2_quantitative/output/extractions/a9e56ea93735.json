@@ -1,0 +1,337 @@
+{
+  "paper_id": "a9e56ea93735",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:30:54+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "a9e56ea93735_benchmarking_highly_precise_quantum_linear_systems_algorithms.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.294,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 5,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='variables' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='variables' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='absolute_error' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='absolute_error' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='x' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.294,
+      "completeness": 0.294,
+      "num_experiments": 3,
+      "experiment_scores": [
+        0.583,
+        0.15,
+        0.15
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Benchmarking Highly Precise Quantum Linear Systems Algorithms",
+    "authors": [
+      "Adrian Harkness",
+      "Kate Saltovets",
+      "Mohammadhossein Mohammadisiahroudi",
+      "Tamás Terlaky"
+    ],
+    "year": 2025,
+    "doi": "10.1109/QCE65121.2025.10491",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "other",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper benchmarks the HHL quantum linear systems algorithm combined with classical iterative refinement on Quantinuum platforms. Hardware experiments solve 4×4 systems on the Quantinuum H2‑2 QPU, while emulator experiments handle up to 8 variables; for an 8‑variable system on the H1‑1LE emulator, iterative refinement reduces solution error from about 0.8488 to about 0.0008 (>10^3 improvement). The work demonstrates accuracy gains from hybrid refinement but does not measure runtime advantage over classical solvers.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "HHL with iterative refinement (HHL-IR) benchmarked on Quantinuum hardware and emulators/simulators for solving small linear systems up to 8 variables.",
+      "algorithm": {
+        "family": "hhl",
+        "variant": "HHL with fixed-precision iterative refinement",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": "Iterative refinement loop continues until residual norm satisfies the target tolerance ζ",
+        "hyperparameters": {
+          "problem_sizes": [
+            "up to 8 variables"
+          ],
+          "iterative_refinement_tolerances": "ζ ≪ ξ < 1",
+          "fixed_precision_OLS": "ξ",
+          "starting_point": "x(0)=0",
+          "initial_residual": "r(0)=b̃",
+          "initial_eta": "η(0)=1"
+        },
+        "parameter_initialization": "Classical initialization with x(0)=0, r(0)=b̃, η(0)=1",
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "block_encoding",
+        "encoding_details": "HHL solves a Hermitian linear system Ax=b using QPE-based eigenvalue estimation; the paper does not specify a qubit-by-qubit variable encoding beyond the HHL circuit structure",
+        "objective_function": "Solve Ax=b and output a classical solution x satisfying ||Ax-b||/||b|| ≤ ζ",
+        "constraints_handling": "Iterative refinement uses residual correction Mu(k)=r(k) solved by the quantum linear solver at each step",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Linear systems up to 4 variables executed on Quantinuum H2-2 hardware; systems up to 8 variables executed on Quantinuum emulators (H1-1LE and H1-1E noisy emulator).",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Problem instances are linear systems; one explicitly mentioned as an unstructured 4-variable system"
+        },
+        "data_preprocessing_details": "Systems are normalized using α̃=max{||A||F,||b||}; b̃=b/α̃ and Ã=A/α̃",
+        "evaluation_methodology": "Benchmarking across backends; compares HHL with and without iterative refinement; reports residuals and solution errors across problem sizes and QPE qubit counts"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_trapped_ion",
+        "provider": "Quantinuum",
+        "device_name": "Quantinuum H2-2 (hardware); additional benchmarks on H1-1LE emulator and H1-1E noisy emulator",
+        "framework": "Qiskit with pytket via Quantinuum qnexus"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "hardware noise on real QPU and noisy emulator/simulator backends",
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/QCOL-LU/QLSAs",
+        "framework_version": null,
+        "transpilation_target": "Quantinuum backends via pytket/qnexus",
+        "classical_solver": "classical iterative refinement post-processing",
+        "transpilation_settings": null,
+        "classical_preprocessing": "System normalization and residual computation for iterative refinement",
+        "classical_postprocessing": "Classical update x(k+1)=x(k)+η(k)^{-1}ũ(k) and residual recomputation",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "Residual and error decrease across iterative refinement iterations",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "problem_size",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "variables",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "problem_size",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "variables",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "solution_error",
+          "value": 0.8488,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute_error",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "solution_error",
+          "value": 0.0008,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute_error",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "solution_error_reduction",
+          "value": 1061,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "x",
+          "higher_is_better": true,
+          "data_source": "computed"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "exponential",
+          "baseline_method": "direct high-precision HHL / QLSA without iterative refinement",
+          "conditions": "when iterative refinement is used to improve low-precision quantum solutions; claimed in the context of reducing quantum resources and improving solution accuracy",
+          "is_demonstrated": true,
+          "caveats": "This is a claim about accuracy improvement and resource reduction, not a full end-to-end runtime speedup proof."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 4,
+          "num_qubits": null,
+          "metric_name": "solution_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 8,
+          "num_qubits": null,
+          "metric_name": "solution_error",
+          "metric_value": 0.0008
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "HHL-based QLSA with QPE; paper states iterative refinement reduces quantum resources and can exponentially improve solution accuracy, but does not give a full asymptotic complexity expression",
+        "classical_complexity": null,
+        "speedup_order": "exponential",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "not provided",
+        "resources_for_advantage": "Not analyzed; experiments limited to ≤4-variable systems on hardware and ≤8 variables on emulators with unspecified qubit counts.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Very small problem sizes (≤4 variables on hardware).",
+          "No comparison with classical linear solvers in runtime or accuracy scaling.",
+          "Quantum phase estimation depth grows rapidly with precision.",
+          "Noise accumulation limits benefits of larger QPE registers on current hardware.",
+          "State preparation and matrix oracle costs not included in resource analysis."
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware type is reported as Quantinuum H2-2; the provider/device imply a real trapped-ion QPU.",
+          "The paper reports problem sizes and QPE qubit-count variation but does not state a total qubit count or circuit depth explicitly, so these are null/inferred not reported.",
+          "Speedup order is taken from the paper's claim that iterative refinement can exponentially improve solution accuracy; this is not an asymptotic end-to-end runtime proof.",
+          "The authors discuss theoretical exponential advantages of QLSAs and accuracy improvements from iterative refinement but do not demonstrate runtime advantage over classical solvers.",
+          "Experiments are benchmarking and accuracy-improvement demonstrations on very small systems rather than advantage tests."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_new_1",
+      "description": "Benchmark of HHL with iterative refinement on the Quantinuum H1-1LE emulator for linear systems up to 8 variables.",
+      "algorithm": {
+        "family": "hhl",
+        "variant": "HHL with iterative refinement",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null
+      },
+      "key_results": [
+        "For an 8-variable system, iterative refinement reduced solution error from approximately 0.8488 to approximately 0.0008 (>10^3 improvement)."
+      ]
+    },
+    {
+      "experiment_id": "exp_new_2",
+      "description": "Noisy emulator study (Quantinuum H1-1E) evaluating the effect of QPE register size and iterative refinement on residual error for 4-variable and 8-variable linear systems.",
+      "algorithm": {
+        "family": "hhl",
+        "variant": "HHL with iterative refinement",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null
+      },
+      "key_results": [
+        "Residual error compared across different QPE qubit counts; deeper circuits with more QPE qubits degrade performance on noisy emulators, while iterative refinement consistently improves accuracy."
+      ]
+    }
+  ]
+}

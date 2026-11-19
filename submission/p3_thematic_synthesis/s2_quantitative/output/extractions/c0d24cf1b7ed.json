@@ -1,0 +1,964 @@
+{
+  "paper_id": "c0d24cf1b7ed",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:46:20+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "c0d24cf1b7ed_practical_meta_reinforcement_learning_of_evolutionary_strategy_with_quantum_neur.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.95,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 17,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='qumodes/wires' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='days' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='2001-01-02 to 2001-06-29' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='2001-07-02 to 2001-09-21' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[0].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[1].unit='qumodes/wires' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[2].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[3].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[4].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[8].unit='days' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[10].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[11].unit='2001-01-02 to 2001-06-29' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[12].unit='2001-07-02 to 2001-09-21' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.95,
+      "completeness": 0.95,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.95,
+        0.95
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Practical Meta-Reinforcement Learning of Evolutionary Strategy with Quantum Neural Networks for Stock Trading",
+    "authors": [
+      "Erik Sorensen",
+      "Wei Hu"
+    ],
+    "year": 2020,
+    "doi": "10.4236/jqis.2020.103005",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "portfolio-optimization",
+    "secondary_silos": [
+      "quantum-ml-finance"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes quantum meta‑reinforcement learning variants (Q‑MAML and Q‑CAVIA) using continuous‑variable quantum neural networks simulated in PennyLane. Experiments used very small portfolios (2 stocks) with 3–5 qumodes and ~4 circuit layers; the best quantum model (Q‑MAML with beamsplitter) achieved −27.70% ROI on backtesting compared with a −14.38% buy‑and‑hold baseline, demonstrating learning behavior but no performance advantage.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Classical meta-reinforcement learning stock-trading experiment using MAML with a continuous-variable quantum neural network (Q-MAML) variant trained and evaluated on simulated quantum hardware; includes a beamsplitter and a no-beamsplitter circuit variant.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "Q-MAML (continuous-variable quantum neural network) with and without beamsplitter",
+        "ansatz": "continuous-variable quantum neural network with displacement encoding and layers of rotation, squeezing, Kerr, and optional beamsplitter gates",
+        "optimizer": "Natural Evolution Strategies (NES)",
+        "num_layers": 4,
+        "convergence_criteria": "trained for 25 epochs on training portfolios; meta-training on test portfolio for 5 epochs",
+        "hyperparameters": {
+          "learning_rate": 0.03,
+          "sigma": 0.1,
+          "population_size": 15,
+          "training_epochs": 25,
+          "meta_training_epochs": 5,
+          "num_training_portfolios": 2,
+          "portfolio_size": 2,
+          "window_size": 10,
+          "num_runs": 8,
+          "initial_capital": 10000
+        },
+        "parameter_initialization": "not_specified",
+        "optimizer_settings": {
+          "max_iterations": 25,
+          "learning_rate": 0.03,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "displacement_encoding",
+        "encoding_details": "each stock closing-price time series is encoded into its own qumode via a displacement gate; cash bias uses an additional wire",
+        "objective_function": "maximize final portfolio value / ROI from stock-trading policy over backtest period",
+        "constraints_handling": "softmax output enforces portfolio weights summing to 1",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Meta-learning to trade consumer cyclical stock portfolios; quantum model trained on 2-stock portfolios and tested on a 2-stock unseen portfolio",
+        "num_assets": 2,
+        "time_steps": 180,
+        "num_features": 1,
+        "dataset_size": null,
+        "data_type": "public_benchmark",
+        "dataset_name": "Yahoo Finance stock data",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "ABC",
+            "AKAM"
+          ],
+          "date_range_train": "2001-01-02 to 2001-06-29",
+          "date_range_test": "2001-07-02 to 2001-09-21",
+          "benchmark_name": "buy-and-hold market value",
+          "preprocessing": "closing prices only; 70/30 train-test split; window size 10; prices restricted to $0-$50; logarithmic rate of return normalization",
+          "train_test_split": "70/30"
+        },
+        "data_preprocessing_details": "use only closing prices; group past 10 days as input; normalize with logarithmic rate of return; restrict to stocks priced between $0 and $50; backtest on held-out period",
+        "evaluation_methodology": "8 independent runs; report mean ROI and standard deviation"
+      },
+      "quantum_resources": {
+        "num_qubits": 3,
+        "qubit_type": "logical",
+        "circuit_depth": 4,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 60,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "Xanadu",
+        "device_name": null,
+        "framework": "PennyLane"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "NES",
+        "transpilation_settings": null,
+        "classical_preprocessing": "portfolio construction from Yahoo Finance data; 70/30 split; windowing; normalization",
+        "classical_postprocessing": "softmax to portfolio weights; ROI calculation",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "increasing reward during training; meta-training faster than initial training",
+          "variance_across_runs": 8.0,
+          "num_independent_runs": 8
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_assets",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": 8,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qumodes/wires",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_variational_params",
+          "value": 60,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_epochs",
+          "value": 25,
+          "uncertainty": null,
+          "num_runs": 8,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "meta_training_epochs",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": 8,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "learning_rate",
+          "value": 0.03,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sigma",
+          "value": 0.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "population_size",
+          "value": 15,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "window_size",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "days",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "initial_capital",
+          "value": 10000,
+          "uncertainty": null,
+          "num_runs": 8,
+          "unit": "USD",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "date_range_train",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "2001-01-02 to 2001-06-29",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "date_range_test",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "2001-07-02 to 2001-09-21",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "market_value_end_amount",
+          "value": 8734.43,
+          "uncertainty": null,
+          "num_runs": 8,
+          "unit": "USD",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "market_value_roi",
+          "value": -14.38,
+          "uncertainty": null,
+          "num_runs": 8,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "q_maml_with_beamsplitter_end_amount",
+          "value": 7230.92,
+          "uncertainty": null,
+          "num_runs": 8,
+          "unit": "USD",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "q_maml_with_beamsplitter_roi",
+          "value": -27.7,
+          "uncertainty": null,
+          "num_runs": 8,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "q_cavia_with_beamsplitter_end_amount",
+          "value": 7106.09,
+          "uncertainty": null,
+          "num_runs": 8,
+          "unit": "USD",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "q_cavia_with_beamsplitter_roi",
+          "value": -28.93,
+          "uncertainty": null,
+          "num_runs": 8,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "q_maml_without_beamsplitter_end_amount",
+          "value": 6314.8,
+          "uncertainty": null,
+          "num_runs": 8,
+          "unit": "USD",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "q_maml_without_beamsplitter_roi",
+          "value": -36.85,
+          "uncertainty": null,
+          "num_runs": 8,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "q_cavia_without_beamsplitter_end_amount",
+          "value": 6958.06,
+          "uncertainty": null,
+          "num_runs": 8,
+          "unit": "USD",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "q_cavia_without_beamsplitter_roi",
+          "value": -30.41,
+          "uncertainty": null,
+          "num_runs": 8,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "best_quantum_roi",
+          "value": -27.7,
+          "uncertainty": null,
+          "num_runs": 8,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "worst_quantum_roi",
+          "value": -36.85,
+          "uncertainty": null,
+          "num_runs": 8,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "computed"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "buy_and_hold_market_value",
+          "metric_name": "roi",
+          "value": -14.38,
+          "unit": "%"
+        },
+        {
+          "method_name": "buy_and_hold_market_value",
+          "metric_name": "end_amount",
+          "value": 8734.43,
+          "unit": "USD"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": "classical meta-learning / buy-and-hold",
+          "conditions": "simulated continuous-variable quantum hardware; 2-stock portfolios; 25 training epochs and 5 meta-training epochs",
+          "is_demonstrated": false,
+          "caveats": "No asymptotic or wall-clock speedup is shown. The paper only claims that quantum models can learn with fewer parameters and fewer epochs than the classical models, but performance is worse than the buy-and-hold baseline."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 2,
+          "num_qubits": 5,
+          "metric_name": "roi",
+          "metric_value": -27.7
+        },
+        {
+          "problem_size": 2,
+          "num_qubits": 5,
+          "metric_name": "roi",
+          "metric_value": -28.93
+        },
+        {
+          "problem_size": 2,
+          "num_qubits": 5,
+          "metric_name": "roi",
+          "metric_value": -36.85
+        },
+        {
+          "problem_size": 2,
+          "num_qubits": 5,
+          "metric_name": "roi",
+          "metric_value": -30.41
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Not analyzed; authors suggest scaling to real quantum hardware but provide no resource estimates.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Only simulated continuous-variable quantum circuits (no QPU execution)",
+          "Very small problem size (2-stock portfolios)",
+          "Short training (25 epochs) due to simulation limits",
+          "Quantum model underperforms simple classical buy-and-hold baseline",
+          "No asymptotic complexity or speedup analysis"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware is a simulated continuous-variable quantum machine in PennyLane/Xanadu.",
+          "5 wires/qumodes are explicitly stated for the quantum experiments; 4 layers of gates are described.",
+          "The paper does not provide asymptotic complexity or a proven speedup order; any advantage claim is speculative.",
+          "Quantum models perform worse than the classical buy-and-hold benchmark in the reported results.",
+          "Market ROI = −14.38% while Q‑MAML with beamsplitter achieves −27.70% ROI."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Quantum meta-reinforcement learning stock-trading experiment using CAVIA with a continuous-variable quantum neural network, evaluated on simulated quantum hardware; includes a beamsplitter and a no-beamsplitter circuit variant.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "Q-CAVIA (continuous-variable quantum neural network) with and without beamsplitter",
+        "ansatz": "continuous-variable quantum neural network with layers of displacement, rotation, squeezing, Kerr, and optional beamsplitter gates",
+        "optimizer": "Natural Evolution Strategies (NES)",
+        "num_layers": 4,
+        "convergence_criteria": "trained for 25 epochs on training portfolios; meta-training on test portfolio for 5 epochs",
+        "hyperparameters": {
+          "learning_rate": 0.03,
+          "sigma": 0.1,
+          "population_size": 15,
+          "training_epochs": 25,
+          "meta_training_epochs": 5,
+          "num_training_portfolios": 2,
+          "portfolio_size": 2,
+          "window_size": 10,
+          "num_runs": 8,
+          "initial_capital": 10000,
+          "context_parameter_size": 5
+        },
+        "parameter_initialization": "context parameters initialized to 0 in inner loop; model parameters not otherwise specified",
+        "optimizer_settings": {
+          "max_iterations": 25,
+          "learning_rate": 0.03,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "displacement_encoding",
+        "encoding_details": "each stock closing-price time series is encoded into its own qumode via a displacement gate; cash bias uses an additional wire; context parameters are concatenated as additional inputs",
+        "objective_function": "maximize final portfolio value / ROI from stock-trading policy over backtest period",
+        "constraints_handling": "softmax output enforces portfolio weights summing to 1",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Meta-learning to trade consumer cyclical stock portfolios; quantum model trained on 2-stock portfolios and tested on a 2-stock unseen portfolio",
+        "num_assets": 2,
+        "time_steps": 180,
+        "num_features": 1,
+        "dataset_size": null,
+        "data_type": "public_benchmark",
+        "dataset_name": "Yahoo Finance stock data",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "ABC",
+            "AKAM"
+          ],
+          "date_range_train": "2001-01-02 to 2001-06-29",
+          "date_range_test": "2001-07-02 to 2001-09-21",
+          "benchmark_name": "buy-and-hold market value",
+          "preprocessing": "closing prices only; 70/30 train-test split; window size 10; prices restricted to $0-$50; logarithmic rate of return normalization",
+          "train_test_split": "70/30"
+        },
+        "data_preprocessing_details": "use only closing prices; group past 10 days as input; normalize with logarithmic rate of return; restrict to stocks priced between $0 and $50; backtest on held-out period",
+        "evaluation_methodology": "8 independent runs; report mean ROI and standard deviation"
+      },
+      "quantum_resources": {
+        "num_qubits": 5,
+        "qubit_type": "logical",
+        "circuit_depth": 4,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 65,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "Xanadu",
+        "device_name": null,
+        "framework": "PennyLane"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "NES",
+        "transpilation_settings": null,
+        "classical_preprocessing": "portfolio construction from Yahoo Finance data; 70/30 split; windowing; normalization",
+        "classical_postprocessing": "softmax to portfolio weights; ROI calculation",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "increasing reward during training; meta-training faster than initial training",
+          "variance_across_runs": 8.0,
+          "num_independent_runs": 8
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_assets",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": 8,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qumodes/wires",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_variational_params",
+          "value": 65,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_epochs",
+          "value": 25,
+          "uncertainty": null,
+          "num_runs": 8,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "meta_training_epochs",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": 8,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "learning_rate",
+          "value": 0.03,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sigma",
+          "value": 0.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "population_size",
+          "value": 15,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "window_size",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "days",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "initial_capital",
+          "value": 10000,
+          "uncertainty": null,
+          "num_runs": 8,
+          "unit": "USD",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "context_parameter_size",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "date_range_train",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "2001-01-02 to 2001-06-29",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "date_range_test",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "2001-07-02 to 2001-09-21",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "market_value_end_amount",
+          "value": 8734.43,
+          "uncertainty": null,
+          "num_runs": 8,
+          "unit": "USD",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "market_value_roi",
+          "value": -14.38,
+          "uncertainty": null,
+          "num_runs": 8,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "q_maml_with_beamsplitter_end_amount",
+          "value": 7230.92,
+          "uncertainty": null,
+          "num_runs": 8,
+          "unit": "USD",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "q_maml_with_beamsplitter_roi",
+          "value": -27.7,
+          "uncertainty": null,
+          "num_runs": 8,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "q_cavia_with_beamsplitter_end_amount",
+          "value": 7106.09,
+          "uncertainty": null,
+          "num_runs": 8,
+          "unit": "USD",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "q_cavia_with_beamsplitter_roi",
+          "value": -28.93,
+          "uncertainty": null,
+          "num_runs": 8,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "q_maml_without_beamsplitter_end_amount",
+          "value": 6314.8,
+          "uncertainty": null,
+          "num_runs": 8,
+          "unit": "USD",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "q_maml_without_beamsplitter_roi",
+          "value": -36.85,
+          "uncertainty": null,
+          "num_runs": 8,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "q_cavia_without_beamsplitter_end_amount",
+          "value": 6958.06,
+          "uncertainty": null,
+          "num_runs": 8,
+          "unit": "USD",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "q_cavia_without_beamsplitter_roi",
+          "value": -30.41,
+          "uncertainty": null,
+          "num_runs": 8,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "best_quantum_roi",
+          "value": -27.7,
+          "uncertainty": null,
+          "num_runs": 8,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "worst_quantum_roi",
+          "value": -36.85,
+          "uncertainty": null,
+          "num_runs": 8,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "computed"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "buy_and_hold_market_value",
+          "metric_name": "roi",
+          "value": -14.38,
+          "unit": "%"
+        },
+        {
+          "method_name": "buy_and_hold_market_value",
+          "metric_name": "end_amount",
+          "value": 8734.43,
+          "unit": "USD"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": "classical meta-learning / buy-and-hold",
+          "conditions": "simulated continuous-variable quantum hardware; 2-stock portfolios; 25 training epochs and 5 meta-training epochs",
+          "is_demonstrated": false,
+          "caveats": "No asymptotic or wall-clock speedup is shown. The paper only claims that quantum models can learn with fewer parameters and fewer epochs than the classical models, but performance is worse than the buy-and-hold baseline."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 2,
+          "num_qubits": 5,
+          "metric_name": "roi",
+          "metric_value": -27.7
+        },
+        {
+          "problem_size": 2,
+          "num_qubits": 5,
+          "metric_name": "roi",
+          "metric_value": -28.93
+        },
+        {
+          "problem_size": 2,
+          "num_qubits": 5,
+          "metric_name": "roi",
+          "metric_value": -36.85
+        },
+        {
+          "problem_size": 2,
+          "num_qubits": 5,
+          "metric_name": "roi",
+          "metric_value": -30.41
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Not analyzed; no estimates for qumode counts, circuit depth scaling, or runtime advantage.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Simulated CV quantum computer only",
+          "Very small training set (2 portfolios of 2 stocks)",
+          "Low training epochs (25)",
+          "Quantum performance worse than classical baseline",
+          "No demonstrated computational speedup"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware is a simulated continuous-variable quantum machine in PennyLane/Xanadu.",
+          "5 wires/qumodes are explicitly stated for the quantum experiments; 4 layers of gates are described.",
+          "The paper does not provide asymptotic complexity or a proven speedup order; any advantage claim is speculative.",
+          "Best quantum CAVIA variant (with beamsplitter) achieves −28.93% ROI, worse than the −14.38% market baseline."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

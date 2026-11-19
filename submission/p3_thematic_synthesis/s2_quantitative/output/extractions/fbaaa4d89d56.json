@@ -1,0 +1,1403 @@
+{
+  "paper_id": "fbaaa4d89d56",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T10:22:05+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "fbaaa4d89d56_quantum_implementation_of_risk_analysis_relevant_copulas.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.519,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 15,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[2].unit='qubits_per_variable' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='radians' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[2].unit='qubits_per_variable' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[5].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[6].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[1].unit='qubits_per_variable' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[7].unit='matrix' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[3].results[1].unit='qubits_per_variable' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[3].results[8].unit='matrix' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[4].results[1].unit='coefficient_on_x1' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[4].results[2].unit='coefficient_on_x2' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[4].results[4].unit='qubits_per_variable' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[4].results[5].unit='levels' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.519,
+      "completeness": 0.519,
+      "num_experiments": 8,
+      "experiment_scores": [
+        0.8,
+        0.8,
+        0.7,
+        0.7,
+        0.7,
+        0.15,
+        0.15,
+        0.15
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum Implementation of Risk Analysis-relevant Copulas",
+    "authors": [
+      "Janusz Milek"
+    ],
+    "year": 2020,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "risk-management",
+    "secondary_silos": [
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes quantum circuits for sampling financial copulas (notably B11 and MB11 copulas) and demonstrates small prototypes on IBM hardware (2–5 qubits) and symbolic simulations up to 12 qubits. A toy quantum risk‑analysis example estimates VaR for a 2‑factor loss model using 12 simulated qubits (4 copula + 1 comparator + 7 amplitude‑estimation), illustrating the theoretical quadratic speedup of amplitude estimation over Monte Carlo but without empirical advantage.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Pure-state gate-based implementation of a bivariate B11 copula with 1-qubit resolution per variable, validated on IBM QASM simulator and IBM Vigo quantum computer.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Pure-state B11 copula circuit",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "alpha": 0.3333333333333333,
+          "k": 1,
+          "phi": 1.23096
+        },
+        "parameter_initialization": "alpha selected manually; Ry angle set from alpha via Eq. (6)",
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Each copula variable is discretized into 1 qubit, represented as binary fraction .q0 and .q1 for the two variables",
+        "objective_function": "Generate samples from the discretized B11 copula distribution",
+        "constraints_handling": "Copula structure enforced by Hadamard, CNOT, X, and Ry gates; no penalty formulation",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Bivariate copula sampling problem for risk-factor dependence modeling",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 2,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Uniform marginals on [0,1] discretized to 1 qubit per variable"
+        },
+        "data_preprocessing_details": "Discretization of copula variables into binary fraction representation",
+        "evaluation_methodology": "Compared theoretical probabilities with IBM QASM simulator and IBM Vigo shot statistics"
+      },
+      "quantum_resources": {
+        "num_qubits": 2,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 8192,
+        "num_variational_params": 1,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": "IBM",
+        "device_name": "IBM Vigo (with additional validation on IBM QASM simulator)",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": "Mathematica 12 for symbolic model; IBM QASM simulator used for validation",
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Manual parameter selection and symbolic circuit design",
+        "classical_postprocessing": "Histogram/statistical comparison of measured copula variates",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": null,
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_risk_factors",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "alpha",
+          "value": 0.3333333333333333,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "k",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits_per_variable",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "phi",
+          "value": 1.23096,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "radians",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_shots",
+          "value": 8192,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "pdf_outside_diagonal_probability",
+          "value": 0.16666666666666666,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "pdf_on_diagonal_probability",
+          "value": 0.3333333333333333,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": null,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "Monte Carlo",
+          "conditions": "risk analysis context; general quantum amplitude estimation claim cited in the abstract",
+          "is_demonstrated": false,
+          "caveats": "Not demonstrated for this specific copula circuit; only cited as a general risk-analysis motivation."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 1.0,
+          "num_qubits": 2,
+          "metric_name": "num_qubits",
+          "metric_value": 2
+        },
+        {
+          "problem_size": 1.0,
+          "num_qubits": 2,
+          "metric_name": "num_shots",
+          "metric_value": 8192
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "Quadratic speedup claim for quantum amplitude estimation in risk analysis context; this specific copula circuit is not given an asymptotic complexity",
+        "classical_complexity": "Monte Carlo baseline referenced conceptually; no explicit asymptotic complexity for this experiment",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "Not analyzed",
+        "resources_for_advantage": "Not specified; experiment only demonstrates sampling of a discretized copula on 2 qubits",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Very small circuit (2 qubits)",
+          "No classical runtime comparison",
+          "Experiment validates circuit correctness rather than computational advantage"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "IBM Vigo hardware run is mentioned in the paper, but the experiment description here focuses on the simulator validation because the paper reports both simulator and QPU results for the same circuit.",
+          "Authors demonstrate correctness of the copula circuit but do not benchmark against classical sampling methods."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Mixed-state gate-based implementation of a bivariate B11 copula with 2-qubit resolution per variable, validated on IBM QASM simulator and IBM QX2 quantum computer.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Mixed-state B11 copula circuit",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "alpha": 0.5,
+          "k": 2
+        },
+        "parameter_initialization": "alpha selected manually; control qubit rotated by Ry to realize mixture weight",
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Two qubits per copula variable; copula variates formed as binary fractions .q0q3 and .q1q4",
+        "objective_function": "Generate samples from the discretized B11 copula distribution",
+        "constraints_handling": "Mixture of comonotonicity and independence subsystems controlled by one qubit",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "Bivariate copula sampling problem for risk-factor dependence modeling",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 2,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Uniform marginals on [0,1] discretized to 2 qubits per variable"
+        },
+        "data_preprocessing_details": "Discretization of copula variables into binary fraction representation",
+        "evaluation_methodology": "Compared theoretical probabilities with IBM QASM simulator and IBM QX2 shot statistics"
+      },
+      "quantum_resources": {
+        "num_qubits": 5,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 8192,
+        "num_variational_params": 1,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": "IBM",
+        "device_name": "IBM QX2 (with additional validation on IBM QASM simulator)",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": "Mathematica 12 for symbolic model; IBM QASM simulator used for validation",
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Manual parameter selection and symbolic circuit design",
+        "classical_postprocessing": "Histogram/statistical comparison of measured copula variates",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": null,
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_risk_factors",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "alpha",
+          "value": 0.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "k",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits_per_variable",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_shots",
+          "value": 8192,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "pdf_outside_diagonal_probability",
+          "value": 0.03125,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "pdf_on_diagonal_probability",
+          "value": 0.15625,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": null,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "This is a validation experiment for copula sampling; no classical baseline or speedup claim is reported."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 2.0,
+          "num_qubits": 5,
+          "metric_name": "num_qubits",
+          "metric_value": 5
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": 5,
+          "metric_name": "num_shots",
+          "metric_value": 8192
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "No explicit asymptotic complexity reported for this circuit",
+        "classical_complexity": "No explicit asymptotic complexity reported for this circuit",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "Not analyzed",
+        "resources_for_advantage": "Not specified; circuit demonstrated on 5‑qubit hardware only",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Small 5‑qubit demonstration",
+          "No classical baseline comparison",
+          "Hardware noise causes deviations in probability distribution"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper explicitly states 5 qubits for the IBM QX2 experiment and 8192 shots.",
+          "Hardware results show sampling statistics but no performance comparison with classical copula sampling."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "Pure-state trivariate MB11 copula implementation with 2-qubit resolution per variable, including a specific benchmark tail-dependence configuration and nested control-qubit synthesis.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Pure-state trivariate MB11 copula circuit",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "k": 2,
+          "lambda12": 0.5,
+          "lambda13": 0.25,
+          "lambda23": 0.125,
+          "lambda123": 0.0625
+        },
+        "parameter_initialization": "Tail-dependence coefficients set manually; lower-level conditional circuits derived analytically",
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Three copula variables, 2 qubits per variable; control qubits select among canonical copulas C111-C123",
+        "objective_function": "Generate samples from a trivariate MB11 copula with prescribed tail dependence coefficients",
+        "constraints_handling": "Nested controlled subcircuits with re-normalized conditional probabilities",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Trivariate copula sampling for risk aggregation and tail-dependence modeling",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 3,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Synthetic tail-dependence benchmark with coefficients given in Eq. (14) and Eq. (15)"
+        },
+        "data_preprocessing_details": "Discretization to 2 qubits per variable; conditional probabilities computed from copula partition weights",
+        "evaluation_methodology": "Symbolic simulation of the circuit and comparison of resulting tail dependence/correlation matrix"
+      },
+      "quantum_resources": {
+        "num_qubits": 6,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "Wolfram",
+        "device_name": "Mathematica 12 symbolic quantum modeler",
+        "framework": "Mathematica"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": "Mathematica 12",
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Analytical derivation of control-qubit probabilities and conditional weights",
+        "classical_postprocessing": "Extraction of tail dependence matrix and coefficient verification",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": null,
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_risk_factors",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "k",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits_per_variable",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "lambda12",
+          "value": 0.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "lambda13",
+          "value": 0.25,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "lambda23",
+          "value": 0.125,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "lambda123",
+          "value": 0.0625,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "tail_dependence_matrix",
+          "value": "[[1, 0.5, 0.25], [0.5, 1, 0.125], [0.25, 0.125, 1]]",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "matrix",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "trivariate_tail_dependence_coefficient",
+          "value": 0.0625,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "Symbolic simulation of a trivariate copula construction; no classical baseline or speedup claim is reported."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 3.0,
+          "num_qubits": 6,
+          "metric_name": "num_qubits",
+          "metric_value": 6
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "No explicit asymptotic complexity reported for this specific experiment",
+        "classical_complexity": "No explicit asymptotic complexity reported for this specific experiment",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not analyzed",
+        "resources_for_advantage": "Large circuits required as copula dimension grows (Bell-number growth in canonical copulas)",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Simulation only",
+          "Exponential growth in canonical copula components",
+          "No classical runtime comparison"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper gives the exact tail-dependence coefficients used in the example and states the implementation is a symbolic simulation.",
+          "Experiment verifies that tail‑dependence coefficients emerge correctly from the circuit but does not evaluate computational speedup."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_4",
+      "description": "Pure-state trivariate MB11 copula implementation with 4-qubit resolution per variable, using nested conditioning to realize a more detailed discretization.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Pure-state trivariate MB11 copula circuit",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "k": 4,
+          "lambda12": 0.5,
+          "lambda13": 0.25,
+          "lambda23": 0.125,
+          "lambda123": 0.0625
+        },
+        "parameter_initialization": "Analytical nesting of the 2-qubit construction",
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Three copula variables, 4 qubits per variable; nested pure-state construction with conditional subcircuits",
+        "objective_function": "Generate a higher-resolution discretized trivariate MB11 copula",
+        "constraints_handling": "Nested controlled subcircuits with re-normalized conditional probabilities",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Higher-resolution trivariate copula sampling for risk aggregation and tail-dependence modeling",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 3,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Synthetic trivariate MB11 copula with 4-qubit resolution per variable"
+        },
+        "data_preprocessing_details": "Discretization to 4 qubits per variable",
+        "evaluation_methodology": "Symbolic simulation and comparison of resulting correlation/tail-dependence matrix and density plot"
+      },
+      "quantum_resources": {
+        "num_qubits": 12,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "Wolfram",
+        "device_name": "Mathematica 12 symbolic quantum modeler",
+        "framework": "Mathematica"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": "Mathematica 12",
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Analytical derivation of nested conditional weights",
+        "classical_postprocessing": "Extraction of correlation matrix and trivariate tail dependence coefficient",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": null,
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_risk_factors",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "k",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits_per_variable",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "lambda12",
+          "value": 0.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "lambda13",
+          "value": 0.25,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "lambda23",
+          "value": 0.125,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "lambda123",
+          "value": 0.0625,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 12,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits_mixed_state_comparison",
+          "value": 15,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "tail_dependence_matrix",
+          "value": "[[1, 0.5, 0.25], [0.5, 1, 0.125], [0.25, 0.125, 1]]",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "matrix",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "trivariate_tail_dependence_coefficient",
+          "value": 0.0625,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No classical baseline; only a qubit-count comparison to a mixed-state implementation is reported."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 3.0,
+          "num_qubits": 12,
+          "metric_name": "num_qubits",
+          "metric_value": 12
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 15,
+          "metric_name": "num_qubits_mixed_state_comparison",
+          "metric_value": 15
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "No explicit asymptotic complexity reported for this specific experiment",
+        "classical_complexity": "No explicit asymptotic complexity reported for this specific experiment",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "data_loading_bottleneck": null
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper explicitly states that this implementation requires 12 qubits, compared to 15 for the mixed-state version."
+        ]
+      }
+    },
+    {
+      "experiment_id": "exp_5",
+      "description": "Gate-based risk-analysis experiment estimating Value at Risk and upper tail dependence for a B11 copula-based two-factor loss model using amplitude estimation / phase estimation.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Quantum risk analysis with amplitude/phase estimation and bisection",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": "Bisection over threshold values; probability estimation via amplitude/phase estimation",
+        "hyperparameters": {
+          "alpha": 0.5,
+          "k": 2,
+          "loss_function": "16x1 + 4x2",
+          "probability_levels": 64
+        },
+        "parameter_initialization": "Copula parameters and loss coefficients chosen manually",
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Two risk drivers discretized with 2 qubits per variable; loss encoded as q1q2q3q4 under special coefficients",
+        "objective_function": "Estimate VaR of Loss = 16x1 + 4x2 and estimate upper conditional quantile exceedance probability",
+        "constraints_handling": "Comparator circuit f(x)=δ(x≤v) implemented via f-controlled-NOT; probability estimation via amplitude estimation",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "Two-risk-driver portfolio loss model with B11 copula dependence",
+        "num_assets": 2,
+        "time_steps": null,
+        "num_features": 2,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Uniform marginals on [0,1] with B11 copula dependence, alpha=1/2"
+        },
+        "data_preprocessing_details": "Copula variates discretized to 2 qubits per variable; loss mapped directly to 4-bit integer support 0..15",
+        "evaluation_methodology": "Estimated cumulative distribution and VaR compared against true values; conditional quantile exceedance estimated via amplitude estimation"
+      },
+      "quantum_resources": {
+        "num_qubits": 12,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "not_specified",
+        "device_name": "symbolic quantum computing modeler",
+        "framework": "Mathematica"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": "Mathematica 12",
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Comparator synthesis and probability-estimation setup",
+        "classical_postprocessing": "Bisection search over thresholds; comparison of estimated and true VaR/CQEP curves",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null,
+          "iterations_to_converge": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_risk_factors",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "loss_function",
+          "value": 16,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "coefficient_on_x1",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "loss_function",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "coefficient_on_x2",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "alpha",
+          "value": 0.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "k",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits_per_variable",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "probability_levels",
+          "value": 64,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "levels",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 12,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "copula_qubits",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "comparator_qubits",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "probability_estimation_qubits",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "var_accuracy",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "tail_risk_estimate",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "Monte Carlo",
+          "metric_name": "var_accuracy",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "Monte Carlo",
+          "metric_name": "tail_risk_estimate",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "Monte Carlo",
+          "conditions": "risk analysis context; quantum amplitude/phase estimation used for probability estimation",
+          "is_demonstrated": false,
+          "caveats": "The paper claims quadratic speedup in the abstract and in the risk-analysis discussion, but does not provide a measured runtime comparison against Monte Carlo."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 2.0,
+          "num_qubits": 12,
+          "metric_name": "num_qubits",
+          "metric_value": 12
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 12,
+          "metric_name": "probability_levels",
+          "metric_value": 64
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "Quadratic speedup claim for quantum probability estimation in risk analysis context",
+        "classical_complexity": "Monte Carlo baseline referenced for risk analysis",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "data_loading_bottleneck": null
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper explicitly states the overall implementation utilizes 12 simulated qubits: 4 for the copula, 1 for the comparator, and 7 for the probability estimation algorithm."
+        ]
+      }
+    },
+    {
+      "experiment_id": "exp_new_1",
+      "description": "Symbolic simulation of a 3‑dimensional MB11 copula implemented as a convex mixture of C111 and C112 with 3‑qubit resolution per variable using a mixed‑state circuit.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Mixed‑state MB11 copula circuit",
+        "num_layers": null
+      },
+      "key_results": [
+        "Requires 9 qubits for copula variables plus 1 control qubit (10 qubits total)",
+        "Produces 8 discretization levels per variable (3 qubits)",
+        "Resulting correlation/tail‑dependence matrix Λ = [[1,1,1/2],[1,1,1/2],[1/2,1/2,1]]",
+        "Trivariate tail dependence coefficient equals 1/2"
+      ],
+      "source": "Section IV, 'A simple copula with 3 qubit resolution'"
+    },
+    {
+      "experiment_id": "exp_new_2",
+      "description": "Symbolic simulation of a trivariate MB11 copula with k=4 qubits per variable using nested pure‑state construction.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Nested pure‑state MB11 copula circuit",
+        "num_layers": null
+      },
+      "key_results": [
+        "12 qubits total (3 variables × 4 qubits)",
+        "Copula weights: α111=1/16, α112=7/16, α121=3/16, α122=1/16, α123=1/4",
+        "Spearman/tail‑dependence matrix Λ = [[1,1/2,1/4],[1/2,1,1/8],[1/4,1/8,1]]",
+        "Trivariate tail dependence coefficient α111 = 1/16"
+      ],
+      "source": "Section IV, 'A more complex copula with 4 qubit resolution'"
+    },
+    {
+      "experiment_id": "exp_new_3",
+      "description": "Quantum risk‑analysis demonstration estimating Value at Risk (VaR) and conditional exceedance probabilities using a B11 copula model and quantum amplitude estimation.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Quantum amplitude estimation with comparator circuit for VaR",
+        "num_layers": null
+      },
+      "key_results": [
+        "Loss model: Loss = 16x1 + 4x2 with B11 copula dependence (α = 1/2, k = 2 qubits per variable)",
+        "Total of 12 simulated qubits: 4 copula + 1 comparator + 7 amplitude‑estimation register",
+        "Probability estimates discretized to 2^(7−1)=64 levels",
+        "Estimated cumulative loss distribution closely matches true distribution but with discretization error"
+      ],
+      "source": "Section IV, 'VaR and tail dependence estimation in a B11 copula‑based risk model'"
+    }
+  ]
+}

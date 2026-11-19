@@ -1,0 +1,512 @@
+{
+  "paper_id": "21611a37dd85",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:17:41+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "21611a37dd85_synthetic_data_generation_with_hybrid_quantum_classical_models_for_the_financial.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.95,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 9,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[3].unit='features' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='features' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='dimensions' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[15].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[16].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[17].unit='dimensions' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.95,
+      "completeness": 0.95,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.95
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Synthetic data generation with hybrid quantum-classical models for the financial sector",
+    "authors": [
+      "Otto M. Pires",
+      "Mauro Q. Nooblath",
+      "Yan Alef C. Silva",
+      "Maria Heloísa F. da Silva",
+      "Lucas Q. Galvão",
+      "Anton S. Albino"
+    ],
+    "year": 2024,
+    "doi": "10.1140/epjb/s10051-024-00786-1",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper evaluates a hybrid quantum–classical GAN using a 5‑qubit quantum generator (4 data qubits + 1 ancilla) with 30 trainable parameters on a simulator to generate synthetic financial data from a dataset of over 13 million records (54,490 minority-class samples). Compared with a classical GAN (805,600‑parameter generator), the HQGAN shows unstable training and consistently higher MSE, failing to match the classical model’s performance.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Hybrid quantum-classical GAN for synthetic financial data generation, using a quantum circuit as the generator and a classical neural network discriminator, compared against a fully classical GAN baseline.",
+      "algorithm": {
+        "family": "hybrid",
+        "variant": "Hybrid Quantum-Classical Generative Adversarial Network (HQGAN) with quantum generator and classical discriminator",
+        "ansatz": "Angle embedding with Ry rotations plus parameterized ansatz layers with linear entanglement via controlled-Z gates",
+        "optimizer": "SGD",
+        "num_layers": 1,
+        "convergence_criteria": "trained for 5449 epochs; additional truncated run at approximately 2500 iterations to inspect divergence",
+        "hyperparameters": {
+          "generator_learning_rate": 0.3,
+          "discriminator_learning_rate": 0.01,
+          "latent_vector_size": 5,
+          "batch_size": 10,
+          "epochs": 5449,
+          "generator_parameters": 30,
+          "discriminator_parameters": 2145,
+          "loss_function": "BCE loss",
+          "ancilla_qubits": 1,
+          "data_qubits": 4,
+          "total_qubits": 5,
+          "circuit_depth_k": 1
+        },
+        "parameter_initialization": "not_specified",
+        "optimizer_settings": {
+          "learning_rate": 0.3,
+          "max_iterations": 5449,
+          "batch_size": 10
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Classical features are normalized to [0,1] and encoded into qubit rotation angles using Ry; one feature per data qubit, with two padded zero features to fit 2^NG output capacity",
+        "objective_function": "Generate synthetic samples matching the real financial-data distribution; evaluated via BCE training loss and MSE distance between synthetic and real data",
+        "constraints_handling": "partial measurement and ancilla qubit used to induce nonlinearity; dataset padded with two zero-valued features to match generator output dimensionality",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "Synthetic generation of approved-client financial records for Banco BV FGTS withdrawal approval data",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 16,
+        "dataset_size": 13,
+        "data_type": "proprietary",
+        "dataset_name": "Banco BV FGTS withdrawal approval dataset",
+        "dataset_specification": {
+          "description": "April 2022 to July 2022; 16 features originally, with 2 discarded (target and time); one categorical feature ordinal-encoded; features min-max normalized to [0,1]"
+        },
+        "data_preprocessing_details": "discard target and time features; ordinal encode the single categorical feature; min-max scale all features to [0,1]; pad with two additional zero features for the quantum generator",
+        "evaluation_methodology": "compare HQGAN and classical GAN using loss convergence and MSE distance; additional experiment truncates training at ~2500 iterations to inspect convergence behavior"
+      },
+      "quantum_resources": {
+        "num_qubits": 5,
+        "qubit_type": "not_specified",
+        "circuit_depth": 1,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 30,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "SENAI-CIMATEC",
+        "device_name": "Kuatomu",
+        "framework": "PennyLane",
+        "framework_version": null
+      },
+      "noise_model": {
+        "noise_type": "none_reported",
+        "is_noisy": false,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "PyTorch neural network training; quantum simulations executed on Kuatomu quantum simulator",
+        "transpilation_settings": null,
+        "classical_preprocessing": "ordinal encoding of one categorical feature; min-max normalization; feature padding",
+        "classical_postprocessing": "MSE comparison between generated and real data; loss-curve analysis",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "HQGAN loss initially stable then diverges mid-training; truncated run shows apparent loss convergence but MSE remains erratic",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "dataset_size",
+          "value": 13000000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "positive_class_count",
+          "value": 54490,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "positive_class_fraction",
+          "value": 0.4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_features",
+          "value": 16,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "features",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_discarded_features",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "features",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_data_qubits",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_ancilla_qubits",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "total_qubits",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "generator_parameters",
+          "value": 30,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "discriminator_parameters",
+          "value": 2145,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "latent_vector_size",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimensions",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "batch_size",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "epochs",
+          "value": 5449,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "generator_learning_rate",
+          "value": 0.3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "discriminator_learning_rate",
+          "value": 0.01,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "classical_generator_parameters",
+          "value": 805600,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "classical_discriminator_parameters",
+          "value": 183969,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "classical_latent_vector_size",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimensions",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "classical_generator_learning_rate",
+          "value": 0.0002,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "classical_discriminator_learning_rate",
+          "value": 0.0002,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "truncated_training_iterations",
+          "value": 2500,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "mse",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "bce_loss",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "figure"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical_gan",
+          "metric_name": "generator_parameters",
+          "value": 805600,
+          "unit": "parameters"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "discriminator_parameters",
+          "value": 183969,
+          "unit": "parameters"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "latent_vector_size",
+          "value": 100,
+          "unit": "dimensions"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "generator_learning_rate",
+          "value": 0.0002,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "discriminator_learning_rate",
+          "value": 0.0002,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "epochs",
+          "value": 5449,
+          "unit": "epochs"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "batch_size",
+          "value": 10,
+          "unit": "samples"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": "classical_gan",
+          "conditions": "The paper compares empirical training behavior and synthetic-data quality only; no speedup analysis is provided.",
+          "is_demonstrated": false,
+          "caveats": "No asymptotic, theoretical, or empirical speedup claim is made. The paper reports that the HQGAN underperforms the classical GAN on MSE and shows unstable training."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 16.0,
+          "num_qubits": 5,
+          "metric_name": "mse",
+          "metric_value": null
+        },
+        {
+          "problem_size": 16.0,
+          "num_qubits": 5,
+          "metric_name": "bce_loss",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not reported; no complexity analysis or scaling study provided.",
+        "resources_for_advantage": "Unknown; the paper does not provide asymptotic complexity, logical qubit requirements, or scaling estimates for a quantum advantage.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Quantum model evaluated only on simulator (no hardware execution)",
+          "Very small circuit (5 qubits total)",
+          "Erratic training behavior and divergence observed in loss curves",
+          "Higher MSE compared to classical GAN throughout training",
+          "No complexity or scaling analysis demonstrating advantage"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_other because the paper states simulations were executed on the quantum simulator Kuatomu and no real QPU device is named.",
+          "num_qubits reported from the quantum generator design: 4 data qubits + 1 ancilla qubit.",
+          "circuit_depth reported as k=1 in the circuit figure/caption; deeper circuits are described as repetitions of the ansatz.",
+          "No asymptotic speedup analysis is provided; the paper instead reports empirical performance and notes limitations.",
+          "Section 5 concludes that HQGAN 'did not achieve sufficient accuracy to learn the complex patterns present in financial data'.",
+          "Figures 4–6 show classical GAN achieving lower MSE and more stable convergence than the hybrid quantum model."
+        ],
+        "advantage_status": "paper_reported"
+      }
+    }
+  ]
+}

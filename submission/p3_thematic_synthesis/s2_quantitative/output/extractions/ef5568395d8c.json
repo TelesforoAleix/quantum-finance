@@ -1,0 +1,507 @@
+{
+  "paper_id": "ef5568395d8c",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T10:18:09+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "ef5568395d8c_financial_performance_analysis_in_european_football_clubs.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.7,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 1,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[19].unit='clubs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.7,
+      "completeness": 0.7,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.7
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Financial Performance Analysis in European Football Clubs",
+    "authors": [
+      "David Alaminos",
+      "Ignacio Esteban",
+      "Manuel A. Fernández-Gámez"
+    ],
+    "year": 2020,
+    "doi": "10.3390/e22091056",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper analyzes financial performance of 234 European football clubs using a classical multilayer perceptron and a quantum-inspired neural network. The QNN achieved up to 96.17% accuracy for ROCE prediction (vs ~93% for MLP) and ~93.53% testing accuracy for RONW, with forecasting accuracy around 91.85% at horizon t+1 and 89.41% at t+2. No gate-based quantum hardware or circuit implementation is reported.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum neural network (QNN) used to predict financial performance of European football clubs, evaluated against a classical multilayer perceptron (MLP) baseline on RONW and ROCE classification/regression-style prediction tasks.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "quantum neural network (hybrid quantum-inspired neural network with rotation-gate weight updates)",
+        "ansatz": null,
+        "optimizer": "feedforward backpropagation / delta rule",
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "learning_rate": 0.1,
+          "activation_function": "sigmoid or Gaussian (problem-dependent)",
+          "training_split": 0.7,
+          "validation_split": 0.1,
+          "testing_split": 0.2,
+          "forecast_horizons": [
+            "t+1",
+            "t+2"
+          ]
+        },
+        "parameter_initialization": "random probability initialization of quantum hidden neuron state |0> to sqrt(p)|0> + sqrt(1-p)|1>",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Qubit state represented by amplitudes alpha|0> + beta|1>; weights updated via rotation gates. No explicit qubit-to-feature mapping is given.",
+        "objective_function": "Minimize squared prediction error for RONW and ROCE outputs; E_k^2 = 1/2 |y_k - o_k|^2",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Financial performance prediction for 234 European professional football clubs using financial, corporate governance, reputation, and sporting variables.",
+        "num_assets": null,
+        "time_steps": 2018,
+        "num_features": 35,
+        "dataset_size": 234,
+        "data_type": "real_market",
+        "dataset_name": "European football clubs dataset",
+        "dataset_specification": {
+          "description": "234 clubs from first and second divisions across multiple European leagues; data from Amadeus (financial/corporate governance), Transfermarkt (sporting), and official social networks (reputation)."
+        },
+        "data_preprocessing_details": "Data split into 70% training, 10% validation, 20% testing; 2017 and 2018 reserved for later multi-step-ahead forecasts.",
+        "evaluation_methodology": "Accuracy, RMSE, and MAPE reported for training/validation/testing; additional t+1 and t+2 forecasting evaluation; sensitivity analysis via Sobol method."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": null,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "MLP baseline; QNN trained with backpropagation/delta rule",
+        "transpilation_settings": null,
+        "classical_preprocessing": null,
+        "classical_postprocessing": "Sensitivity analysis (Sobol) used to identify significant variables; forecast horizons t+1 and t+2 evaluated iteratively.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "accuracy",
+          "value": 96.17,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 90.57,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 94.53,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 91.46,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 93.53,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 88.32,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 91.85,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 86.16,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 89.41,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "rmse",
+          "value": 0.42,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "rmse",
+          "value": 0.58,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "rmse",
+          "value": 0.51,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "rmse",
+          "value": 1.14,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "rmse",
+          "value": 1.03,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "mape",
+          "value": 0.18,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "mape",
+          "value": 0.34,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "mape",
+          "value": 0.3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "mape",
+          "value": 0.56,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "mape",
+          "value": 0.67,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 234,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "clubs",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "multilayer_perceptron",
+          "metric_name": "accuracy",
+          "value": 92.11,
+          "unit": "%"
+        },
+        {
+          "method_name": "multilayer_perceptron",
+          "metric_name": "accuracy",
+          "value": 91.34,
+          "unit": "%"
+        },
+        {
+          "method_name": "multilayer_perceptron",
+          "metric_name": "accuracy",
+          "value": 90.57,
+          "unit": "%"
+        },
+        {
+          "method_name": "multilayer_perceptron",
+          "metric_name": "accuracy",
+          "value": 93.27,
+          "unit": "%"
+        },
+        {
+          "method_name": "multilayer_perceptron",
+          "metric_name": "accuracy",
+          "value": 92.58,
+          "unit": "%"
+        },
+        {
+          "method_name": "multilayer_perceptron",
+          "metric_name": "accuracy",
+          "value": 91.46,
+          "unit": "%"
+        },
+        {
+          "method_name": "multilayer_perceptron",
+          "metric_name": "accuracy",
+          "value": 88.32,
+          "unit": "%"
+        },
+        {
+          "method_name": "multilayer_perceptron",
+          "metric_name": "accuracy",
+          "value": 86.16,
+          "unit": "%"
+        },
+        {
+          "method_name": "multilayer_perceptron",
+          "metric_name": "accuracy",
+          "value": 89.67,
+          "unit": "%"
+        },
+        {
+          "method_name": "multilayer_perceptron",
+          "metric_name": "accuracy",
+          "value": 87.21,
+          "unit": "%"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": "multilayer_perceptron",
+          "conditions": "QNN compared empirically on prediction accuracy, RMSE, and MAPE for RONW/ROCE and multi-step forecasting horizons t+1 and t+2.",
+          "is_demonstrated": false,
+          "caveats": "The paper reports higher predictive accuracy for QNN than MLP, but no computational speedup, runtime, or asymptotic advantage is reported."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 234,
+          "num_qubits": null,
+          "metric_name": "accuracy",
+          "metric_value": 96.17
+        },
+        {
+          "problem_size": 234,
+          "num_qubits": null,
+          "metric_name": "accuracy",
+          "metric_value": 90.57
+        },
+        {
+          "problem_size": 234,
+          "num_qubits": null,
+          "metric_name": "accuracy",
+          "metric_value": 93.53
+        },
+        {
+          "problem_size": 234,
+          "num_qubits": null,
+          "metric_name": "accuracy",
+          "metric_value": 91.85
+        },
+        {
+          "problem_size": 234,
+          "num_qubits": null,
+          "metric_name": "accuracy",
+          "metric_value": 89.41
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L0_theory",
+        "crossover_size": "not_applicable",
+        "resources_for_advantage": "No gate-based circuit, qubit count, or hardware execution reported; therefore quantum resources required for advantage cannot be estimated.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "No gate-based quantum circuit implementation",
+          "No quantum hardware or simulator reported",
+          "No qubit count, circuit depth, or gate counts",
+          "Results are standard ML metrics on a classical dataset",
+          "Comparison only against classical MLP baseline"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper describes a quantum neural network mathematically but does not report an actual quantum hardware platform, qubit count, circuit depth, gate counts, or shot count.",
+          "The QNN is presented as a quantum-inspired/hybrid neural network using rotation gates; no gate-based device execution details are provided.",
+          "Classical MLP results are a baseline, not a separate quantum experiment.",
+          "The authors claim higher predictive accuracy for the QNN (e.g., 96.17% vs ~93% for MLP), but they do not claim computational quantum advantage.",
+          "The described QNN is quantum-inspired and appears to be trained classically with backpropagation rather than executed as a gate-based quantum circuit."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

@@ -1,0 +1,1944 @@
+{
+  "paper_id": "f94276561f48",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T10:57:14+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "f94276561f48_generative_learning_with_qopula_circuits.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.75,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 0,
+    "validation_passed": true,
+    "quality_details": {
+      "score": 0.75,
+      "completeness": 0.75,
+      "num_experiments": 8,
+      "experiment_scores": [
+        0.9,
+        0.9,
+        0.9,
+        0.9,
+        0.9,
+        0.6,
+        0.75,
+        0.15
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.0,
+          "results": 0.5,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Generative learning with Qopula circuits",
+    "authors": [
+      "Amey Bhatuse",
+      "Ankit Khandelwal",
+      "M Girish Chandra"
+    ],
+    "year": 2024,
+    "doi": "10.1109/COMSNETS59351.2024.10427073",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper evaluates quantum generative models (QGAN and QCBM variants) for learning copula distributions of Indian stock index returns using 6‑qubit circuits with 8 layers. Across five runs, QCBM‑regular achieved KS statistics of 0.0385–0.0460 compared to 0.0416–0.0443 for a classical Student‑t copula baseline, indicating roughly comparable performance on a 2‑variable dataset derived from NIFTY 50 and NIFTY BANK returns (2014–2019). All experiments were performed in simulation using PennyLane.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "QGAN for generating discrete copula distributions from NIFTY 50 and NIFTY BANK returns using a maximally entangled generator circuit and an MPS discriminator, evaluated with KS and energy statistics against a classical Student-t copula baseline.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "Quantum Generative Adversarial Network (QGAN) with fully quantum generator and discriminator",
+        "ansatz": "Generator circuit ansatz from Fig. 1a with maximally entangled initial state; discriminator uses MPS circuit from Fig. 1b/1c",
+        "optimizer": "maximum likelihood loss with adversarial training",
+        "num_layers": 8,
+        "convergence_criteria": "trained for 1000 epochs (for the QCBM training strategy; QGAN training described as adversarial training without a separate stopping rule)",
+        "hyperparameters": {
+          "circuit_layers": 8,
+          "qubits": 6,
+          "samples_per_evaluation": 1000,
+          "runs": 5,
+          "binning_strategy": "generic/equal/k-means (paper compares all three across models)"
+        },
+        "parameter_initialization": "random values from [-pi, pi]",
+        "optimizer_settings": {
+          "max_iterations": 1000,
+          "parameter_bounds": "[-pi, pi]",
+          "learning_rate_schedule": null,
+          "step_size": null,
+          "tolerance": null
+        },
+        "hyperparameters.binning_strategy": "generic, equal, k-means"
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Continuous copula samples are discretized into binary strings; for the main 2-variable case, 6 qubits are split as 3 qubits per variable, yielding 64 bins",
+        "objective_function": "Learn a target discrete distribution over binary strings corresponding to the copula-transformed market data; discriminator classifies generated vs real samples",
+        "constraints_handling": "Maximally entangled initial state to satisfy uniform marginal condition of copulas",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Bivariate copula modeling of Indian stock index returns",
+        "num_assets": 2,
+        "time_steps": null,
+        "num_features": 2,
+        "dataset_size": 1000,
+        "data_type": "real_market",
+        "dataset_name": "NIFTY 50 and NIFTY BANK",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "NIFTY 50",
+            "NIFTY BANK"
+          ],
+          "date_range": "29-04-2014 to 29-04-2019",
+          "benchmark_name": "Indian stock market indices",
+          "preprocessing": "closing prices converted to returns, then probability integral transform to copula space",
+          "train_test_split": null
+        },
+        "data_preprocessing_details": "Closing prices are converted to returns; returns are transformed to copula space using the probability integral transform; continuous values are discretized via binning before training",
+        "evaluation_methodology": "Each model is run five times with different random initializations; for every run, five sets of 1000 instances are sampled from the trained circuit and averaged; KS and E-statistic are computed with p-value threshold 0.05"
+      },
+      "quantum_resources": {
+        "num_qubits": 6,
+        "qubit_type": "not_specified",
+        "circuit_depth": 8,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 1000,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "PennyLane",
+        "framework_version": null,
+        "transpilation_target": null
+      },
+      "noise_model": {
+        "is_noisy": null,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "classical_solver": "Student-t copula parametric fit for comparison; ndtest for statistics",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Bootstrapping 1000 samples from the dataset; probability integral transform; binning into discrete strings",
+        "classical_postprocessing": "Inverse binning transform from binary strings back to continuous copula space",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": 5
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "ks_statistic",
+          "value": 0.0418,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "ks_statistic",
+          "value": 0.0458,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "e_statistic",
+          "value": 0.0033,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "e_statistic",
+          "value": 0.004,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 1000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "student_t_copula",
+          "metric_name": "ks_statistic",
+          "value": 0.0416,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "student_t_copula",
+          "metric_name": "ks_statistic",
+          "value": 0.0443,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "student_t_copula",
+          "metric_name": "e_statistic",
+          "value": 0.0013,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "student_t_copula",
+          "metric_name": "e_statistic",
+          "value": 0.0019,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "exponential",
+          "baseline_method": "classical computation",
+          "conditions": "qopula circuits as cited from prior work; no empirical speedup measured in this paper",
+          "is_demonstrated": false,
+          "caveats": "The paper reports only a theoretical complexity separation from cited work, not a measured runtime advantage."
+        }
+      ],
+      "scalability_data": [],
+      "complexity_analysis": {
+        "quantum_complexity": "Theoretical exponential complexity separation claimed for qopula circuits in cited work",
+        "classical_complexity": null,
+        "speedup_order": "exponential",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "parity_with_classical",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not_estimated",
+        "resources_for_advantage": "unknown; authors only reference theoretical exponential separation of qopula circuits without concrete resource estimates",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "experiments run only on classical simulator",
+          "very small circuit size (6 qubits)",
+          "dataset dependence captured easily by classical parametric copula",
+          "no runtime or scaling comparison with classical algorithms",
+          "training instability typical of variational circuits"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "PennyLane is explicitly reported; no specific QPU or simulator backend is named, so hardware.type remains not_specified.",
+          "6 qubits and 8 layers are explicitly stated for the main experiment.",
+          "The paper cites a theoretical exponential separation for qopula circuits from prior work, but does not provide an empirical speedup measurement.",
+          "Table I shows QGAN KS statistic range (0.0418–0.0458) comparable to classical parametric copula (0.0416–0.0443).",
+          "Authors explicitly state models perform 'similar to the classical parametric model'."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "QCBM with regular SPSA training for copula distribution modeling of NIFTY 50 and NIFTY BANK, evaluated against a classical Student-t copula baseline.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "Quantum Circuit Born Machine (QCBM) with regular training",
+        "ansatz": "Generator circuit ansatz from Fig. 1a with maximally entangled initial state",
+        "optimizer": "SPSA",
+        "num_layers": 8,
+        "convergence_criteria": "trained for 1000 epochs",
+        "hyperparameters": {
+          "circuit_layers": [
+            4,
+            8,
+            16
+          ],
+          "qubits": 6,
+          "epochs": 1000,
+          "spsa_c": 0.1,
+          "spsa_a": 0.1,
+          "initial_parameters": "random uniform in [-pi, pi]",
+          "binning_strategy": "generic/equal/k-means (paper compares all three across models)"
+        },
+        "parameter_initialization": "random values from [-pi, pi]",
+        "optimizer_settings": {
+          "max_iterations": 1000,
+          "step_size": 0.1,
+          "learning_rate_schedule": null,
+          "tolerance": null,
+          "parameter_bounds": "[-pi, pi]"
+        },
+        "hyperparameters.circuit_layers": "primary_experiment=8; scaling_experiment=[4, 8, 16]"
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Continuous copula samples are discretized into binary strings; 6-qubit circuit used for the main 2-variable case, i.e., 3 qubits per variable",
+        "objective_function": "Minimize KL divergence between generated discrete distribution and target discrete distribution derived from copula-space data",
+        "constraints_handling": "Maximally entangled initial state to satisfy uniform marginal condition",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Bivariate copula modeling of Indian stock index returns",
+        "num_assets": 2,
+        "time_steps": null,
+        "num_features": 2,
+        "dataset_size": 1000,
+        "data_type": "real_market",
+        "dataset_name": "NIFTY 50 and NIFTY BANK",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "NIFTY 50",
+            "NIFTY BANK"
+          ],
+          "date_range": "29-04-2014 to 29-04-2019",
+          "benchmark_name": "Indian stock market indices",
+          "preprocessing": "closing prices converted to returns, then probability integral transform to copula space",
+          "train_test_split": null
+        },
+        "data_preprocessing_details": "Closing prices are converted to returns; returns are transformed to copula space using the probability integral transform; continuous values are discretized via binning before training",
+        "evaluation_methodology": "Five independent runs with different random initializations; for each run, five sets of 1000 generated samples are evaluated using KS and E-statistic; p-value threshold 0.05"
+      },
+      "quantum_resources": {
+        "num_qubits": 6,
+        "qubit_type": "not_specified",
+        "circuit_depth": 8,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 1000,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "PennyLane",
+        "framework_version": null,
+        "transpilation_target": null
+      },
+      "noise_model": {
+        "is_noisy": null,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "classical_solver": "Student-t copula parametric fit for comparison; ndtest for statistics",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Bootstrapping 1000 samples from the dataset; probability integral transform; binning into discrete strings",
+        "classical_postprocessing": "Inverse binning transform from binary strings back to continuous copula space",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": 5
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "ks_statistic",
+          "value": 0.0385,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "ks_statistic",
+          "value": 0.046,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "e_statistic",
+          "value": 0.0014,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "e_statistic",
+          "value": 0.0023,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 1000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "student_t_copula",
+          "metric_name": "ks_statistic",
+          "value": 0.0416,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "student_t_copula",
+          "metric_name": "ks_statistic",
+          "value": 0.0443,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "student_t_copula",
+          "metric_name": "e_statistic",
+          "value": 0.0013,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "student_t_copula",
+          "metric_name": "e_statistic",
+          "value": 0.0019,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "exponential",
+          "baseline_method": "classical computation",
+          "conditions": "qopula circuits as cited from prior work; no empirical speedup measured in this paper",
+          "is_demonstrated": false,
+          "caveats": "The paper reports only a theoretical complexity separation from cited work, not a measured runtime advantage."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 4.0,
+          "num_qubits": 4,
+          "metric_name": "ks_statistic",
+          "metric_value": 0.046
+        },
+        {
+          "problem_size": 4.0,
+          "num_qubits": 4,
+          "metric_name": "ks_statistic",
+          "metric_value": 0.0432
+        },
+        {
+          "problem_size": 4.0,
+          "num_qubits": 4,
+          "metric_name": "ks_statistic",
+          "metric_value": 0.0419
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 6,
+          "metric_name": "ks_statistic",
+          "metric_value": 0.0427
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 6,
+          "metric_name": "ks_statistic",
+          "metric_value": 0.0413
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 6,
+          "metric_name": "ks_statistic",
+          "metric_value": 0.0409
+        },
+        {
+          "problem_size": 8.0,
+          "num_qubits": 8,
+          "metric_name": "ks_statistic",
+          "metric_value": 0.041
+        },
+        {
+          "problem_size": 8.0,
+          "num_qubits": 8,
+          "metric_name": "ks_statistic",
+          "metric_value": 0.0397
+        },
+        {
+          "problem_size": 8.0,
+          "num_qubits": 8,
+          "metric_name": "ks_statistic",
+          "metric_value": 0.0455
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "Theoretical exponential complexity separation claimed for qopula circuits in cited work",
+        "classical_complexity": null,
+        "speedup_order": "exponential",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "parity_with_classical",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not_estimated",
+        "resources_for_advantage": "unknown; only theoretical exponential complexity separation cited from prior qopula work",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "small-scale circuits (4–8 qubits in scaling tests)",
+          "training uses stochastic optimization (SPSA) with known barren plateau risks",
+          "no wall‑clock runtime comparison with classical models",
+          "benchmark dataset has simple correlation structure"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper explicitly states QCBM-Regular uses 6 qubits and 8 layers in the main evaluation, and also reports scalability over 4, 6, and 8 qubits with 4, 8, and 16 layers.",
+          "PennyLane is explicitly reported; no specific backend/QPU is named.",
+          "QCBM-regular KS statistic range (0.0385–0.0460) overlaps with classical baseline (0.0416–0.0443).",
+          "Paper states performance is similar to classical parametric model with only slight improvements in some runs."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "QCBM with annealing-style training for copula distribution modeling of NIFTY 50 and NIFTY BANK, evaluated against a classical Student-t copula baseline.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "Quantum Circuit Born Machine (QCBM) with annealing training",
+        "ansatz": "Generator circuit ansatz from Fig. 1a with maximally entangled initial state",
+        "optimizer": "SPSA with annealing-style adaptive cost",
+        "num_layers": 8,
+        "convergence_criteria": "trained for 1000 epochs",
+        "hyperparameters": {
+          "circuit_layers": [
+            4,
+            8,
+            16
+          ],
+          "qubits": 6,
+          "epochs": 1000,
+          "spsa_c": 0.1,
+          "spsa_a": 0.1,
+          "mu_initial": 0.8,
+          "annealing_schedule": "ramp-down steps similar to cited work",
+          "initial_parameters": "random uniform in [-pi, pi]",
+          "binning_strategy": "generic/equal/k-means (paper compares all three across models)"
+        },
+        "parameter_initialization": "random values from [-pi, pi]",
+        "optimizer_settings": {
+          "max_iterations": 1000,
+          "step_size": 0.1,
+          "learning_rate_schedule": null,
+          "tolerance": null,
+          "parameter_bounds": "[-pi, pi]"
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Continuous copula samples are discretized into binary strings; 6-qubit circuit used for the main 2-variable case, i.e., 3 qubits per variable",
+        "objective_function": "Minimize KL divergence between generated discrete distribution and target discrete distribution derived from copula-space data using an adaptive mixture cost pz(x)=mu pg(x)+(1-mu) pr(x)",
+        "constraints_handling": "Maximally entangled initial state to satisfy uniform marginal condition",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Bivariate copula modeling of Indian stock index returns",
+        "num_assets": 2,
+        "time_steps": null,
+        "num_features": 2,
+        "dataset_size": 1000,
+        "data_type": "real_market",
+        "dataset_name": "NIFTY 50 and NIFTY BANK",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "NIFTY 50",
+            "NIFTY BANK"
+          ],
+          "date_range": "29-04-2014 to 29-04-2019",
+          "benchmark_name": "Indian stock market indices",
+          "preprocessing": "closing prices converted to returns, then probability integral transform to copula space",
+          "train_test_split": null
+        },
+        "data_preprocessing_details": "Closing prices are converted to returns; returns are transformed to copula space using the probability integral transform; continuous values are discretized via binning before training",
+        "evaluation_methodology": "Five independent runs with different random initializations; for each run, five sets of 1000 generated samples are evaluated using KS and E-statistic; p-value threshold 0.05"
+      },
+      "quantum_resources": {
+        "num_qubits": 6,
+        "qubit_type": "not_specified",
+        "circuit_depth": 8,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 1000,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": "PennyLane",
+        "framework_version": null,
+        "transpilation_target": null
+      },
+      "noise_model": {
+        "is_noisy": null,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "classical_solver": "Student-t copula parametric fit for comparison; ndtest for statistics",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Bootstrapping 1000 samples from the dataset; probability integral transform; binning into discrete strings",
+        "classical_postprocessing": "Inverse binning transform from binary strings back to continuous copula space",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": 5
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "ks_statistic",
+          "value": 0.0398,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "ks_statistic",
+          "value": 0.0452,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "e_statistic",
+          "value": 0.0014,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "e_statistic",
+          "value": 0.0028,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 1000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "student_t_copula",
+          "metric_name": "ks_statistic",
+          "value": 0.0416,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "student_t_copula",
+          "metric_name": "ks_statistic",
+          "value": 0.0443,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "student_t_copula",
+          "metric_name": "e_statistic",
+          "value": 0.0013,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "student_t_copula",
+          "metric_name": "e_statistic",
+          "value": 0.0019,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "exponential",
+          "baseline_method": "classical computation",
+          "conditions": "qopula circuits as cited from prior work; no empirical speedup measured in this paper",
+          "is_demonstrated": false,
+          "caveats": "The annealing here is a training heuristic for a gate-based QCBM, not quantum annealing hardware."
+        }
+      ],
+      "scalability_data": [],
+      "complexity_analysis": {
+        "quantum_complexity": "Theoretical exponential complexity separation claimed for qopula circuits in cited work",
+        "classical_complexity": null,
+        "speedup_order": "exponential",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "parity_with_classical",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not_estimated",
+        "resources_for_advantage": "not specified; annealing-style cost interpolation only improves training stability",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "evaluation performed only on simulator",
+          "no scaling analysis beyond 8 qubits",
+          "annealing strategy improves optimization but not computational complexity",
+          "classical copula model already captures dataset correlations"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The annealing here is a training heuristic for a gate-based QCBM, not quantum annealing hardware; it remains in scope.",
+          "PennyLane is explicitly reported; no specific backend/QPU is named.",
+          "Table I shows QCBM‑annealing KS range 0.0398–0.0452, comparable to classical baseline.",
+          "Authors claim slight performance improvements but no computational advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_4",
+      "description": "QCBM trained with a genetic algorithm for copula distribution modeling of NIFTY 50 and NIFTY BANK, evaluated against a classical Student-t copula baseline.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "Quantum Circuit Born Machine (QCBM) with genetic algorithm training",
+        "ansatz": "Generator circuit ansatz from Fig. 1a with maximally entangled initial state",
+        "optimizer": "genetic algorithm",
+        "num_layers": 8,
+        "convergence_criteria": "200 iterations",
+        "hyperparameters": {
+          "I": 200,
+          "N": 100,
+          "M": 25,
+          "m": "total qubit count (depending on circuit)",
+          "nu": 1,
+          "alpha": 1,
+          "beta": 0.013863,
+          "search_space": "[-pi, pi] divided into 2^m equal subintervals",
+          "initial_parameters": "random sampling from valid parameter set K"
+        },
+        "parameter_initialization": "random sampling from discrete angle set K over [-pi, pi]",
+        "optimizer_settings": {
+          "max_iterations": 200,
+          "parameter_bounds": "K = {theta_i | theta_i in -pi + i*pi/2^m, i = 0,...,2^m}",
+          "learning_rate_schedule": null,
+          "step_size": null,
+          "tolerance": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Continuous copula samples are discretized into binary strings; 6-qubit circuit used for the main 2-variable case, i.e., 3 qubits per variable",
+        "objective_function": "Minimize Euclidean distance between generated samples and real samples from data as a fitness measure",
+        "constraints_handling": "Maximally entangled initial state to satisfy uniform marginal condition",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Bivariate copula modeling of Indian stock index returns",
+        "num_assets": 2,
+        "time_steps": null,
+        "num_features": 2,
+        "dataset_size": 1000,
+        "data_type": "real_market",
+        "dataset_name": "NIFTY 50 and NIFTY BANK",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "NIFTY 50",
+            "NIFTY BANK"
+          ],
+          "date_range": "29-04-2014 to 29-04-2019",
+          "benchmark_name": "Indian stock market indices",
+          "preprocessing": "closing prices converted to returns, then probability integral transform to copula space",
+          "train_test_split": null
+        },
+        "data_preprocessing_details": "Closing prices are converted to returns; returns are transformed to copula space using the probability integral transform; continuous values are discretized via binning before training",
+        "evaluation_methodology": "Five independent runs with different random initializations; for each run, five sets of 1000 generated samples are evaluated using KS and E-statistic; p-value threshold 0.05"
+      },
+      "quantum_resources": {
+        "num_qubits": 6,
+        "qubit_type": "not_specified",
+        "circuit_depth": 8,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 1000,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": "PennyLane",
+        "framework_version": null,
+        "transpilation_target": null
+      },
+      "noise_model": {
+        "is_noisy": null,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "classical_solver": "Student-t copula parametric fit for comparison; ndtest for statistics",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Bootstrapping 1000 samples from the dataset; probability integral transform; binning into discrete strings",
+        "classical_postprocessing": "Inverse binning transform from binary strings back to continuous copula space",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 200,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": 5
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "ks_statistic",
+          "value": 0.0414,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "ks_statistic",
+          "value": 0.059,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "e_statistic",
+          "value": 0.0034,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "e_statistic",
+          "value": 0.0038,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 1000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "student_t_copula",
+          "metric_name": "ks_statistic",
+          "value": 0.0416,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "student_t_copula",
+          "metric_name": "ks_statistic",
+          "value": 0.0443,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "student_t_copula",
+          "metric_name": "e_statistic",
+          "value": 0.0013,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "student_t_copula",
+          "metric_name": "e_statistic",
+          "value": 0.0019,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "exponential",
+          "baseline_method": "classical computation",
+          "conditions": "qopula circuits as cited from prior work; no empirical speedup measured in this paper",
+          "is_demonstrated": false,
+          "caveats": "The paper reports only a theoretical complexity separation from cited work, not a measured runtime advantage."
+        }
+      ],
+      "scalability_data": [],
+      "complexity_analysis": {
+        "quantum_complexity": "Theoretical exponential complexity separation claimed for qopula circuits in cited work",
+        "classical_complexity": null,
+        "speedup_order": "exponential",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "data_loading_bottleneck": null
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper explicitly reports the GA hyperparameters I=200, N=100, M=25, nu=1, alpha=1, beta=0.013863.",
+          "PennyLane is explicitly reported; no specific backend/QPU is named."
+        ]
+      }
+    },
+    {
+      "experiment_id": "exp_5",
+      "description": "Scalability study of QCBM-Regular over varying circuit sizes and depths for the same copula modeling task, reporting average KS statistic values.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "QCBM-Regular scalability study",
+        "ansatz": "Generator circuit ansatz from Fig. 1a with maximally entangled initial state",
+        "optimizer": "SPSA",
+        "num_layers": 16,
+        "convergence_criteria": "trained for 1000 epochs",
+        "hyperparameters": {
+          "qubits": [
+            4,
+            6,
+            8
+          ],
+          "layers": [
+            4,
+            8,
+            16
+          ],
+          "epochs": 1000,
+          "spsa_c": 0.1,
+          "spsa_a": 0.1,
+          "initial_parameters": "random uniform in [-pi, pi]"
+        },
+        "parameter_initialization": "random values from [-pi, pi]",
+        "optimizer_settings": {
+          "max_iterations": 1000,
+          "step_size": 0.1,
+          "learning_rate_schedule": null,
+          "tolerance": null,
+          "parameter_bounds": "[-pi, pi]"
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Continuous copula samples are discretized into binary strings; scalability tested for 4, 6, and 8 qubits",
+        "objective_function": "Minimize KL divergence between generated discrete distribution and target discrete distribution derived from copula-space data",
+        "constraints_handling": "Maximally entangled initial state to satisfy uniform marginal condition",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Scalability of copula modeling on the same NIFTY 50 / NIFTY BANK dataset",
+        "num_assets": 2,
+        "time_steps": null,
+        "num_features": 2,
+        "dataset_size": 1000,
+        "data_type": "real_market",
+        "dataset_name": "NIFTY 50 and NIFTY BANK",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "NIFTY 50",
+            "NIFTY BANK"
+          ],
+          "date_range": "29-04-2014 to 29-04-2019",
+          "benchmark_name": "Indian stock market indices",
+          "preprocessing": "closing prices converted to returns, then probability integral transform to copula space",
+          "train_test_split": null
+        },
+        "data_preprocessing_details": "Closing prices are converted to returns; returns are transformed to copula space using the probability integral transform; continuous values are discretized via binning before training",
+        "evaluation_methodology": "Average KS statistic over multiple runs is reported for each qubit/layer configuration"
+      },
+      "quantum_resources": {
+        "num_qubits": 8,
+        "qubit_type": "not_specified",
+        "circuit_depth": 16,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 1000,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": "PennyLane",
+        "framework_version": null,
+        "transpilation_target": null
+      },
+      "noise_model": {
+        "is_noisy": null,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "classical_solver": "Student-t copula parametric fit for comparison; ndtest for statistics",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Bootstrapping 1000 samples from the dataset; probability integral transform; binning into discrete strings",
+        "classical_postprocessing": "Inverse binning transform from binary strings back to continuous copula space",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "ks_statistic",
+          "value": 0.046,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "ks_statistic",
+          "value": 0.0432,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "ks_statistic",
+          "value": 0.0419,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "ks_statistic",
+          "value": 0.0427,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "ks_statistic",
+          "value": 0.0413,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "ks_statistic",
+          "value": 0.0409,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "ks_statistic",
+          "value": 0.041,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "ks_statistic",
+          "value": 0.0397,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "ks_statistic",
+          "value": 0.0455,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 1000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "student_t_copula",
+          "metric_name": "ks_statistic",
+          "value": 0.0416,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "student_t_copula",
+          "metric_name": "ks_statistic",
+          "value": 0.0443,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "student_t_copula",
+          "metric_name": "e_statistic",
+          "value": 0.0013,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "student_t_copula",
+          "metric_name": "e_statistic",
+          "value": 0.0019,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "exponential",
+          "baseline_method": "classical computation",
+          "conditions": "qopula circuits as cited from prior work; no empirical speedup measured in this paper",
+          "is_demonstrated": false,
+          "caveats": "This is a scalability sweep, not a runtime benchmark."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 4.0,
+          "num_qubits": 4,
+          "metric_name": "ks_statistic",
+          "metric_value": 0.046
+        },
+        {
+          "problem_size": 4.0,
+          "num_qubits": 4,
+          "metric_name": "ks_statistic",
+          "metric_value": 0.0432
+        },
+        {
+          "problem_size": 4.0,
+          "num_qubits": 4,
+          "metric_name": "ks_statistic",
+          "metric_value": 0.0419
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 6,
+          "metric_name": "ks_statistic",
+          "metric_value": 0.0427
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 6,
+          "metric_name": "ks_statistic",
+          "metric_value": 0.0413
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 6,
+          "metric_name": "ks_statistic",
+          "metric_value": 0.0409
+        },
+        {
+          "problem_size": 8.0,
+          "num_qubits": 8,
+          "metric_name": "ks_statistic",
+          "metric_value": 0.041
+        },
+        {
+          "problem_size": 8.0,
+          "num_qubits": 8,
+          "metric_name": "ks_statistic",
+          "metric_value": 0.0397
+        },
+        {
+          "problem_size": 8.0,
+          "num_qubits": 8,
+          "metric_name": "ks_statistic",
+          "metric_value": 0.0455
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "Theoretical exponential complexity separation claimed for qopula circuits in cited work",
+        "classical_complexity": null,
+        "speedup_order": "exponential",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "data_loading_bottleneck": null
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "This is a scalability sweep over qubits/layers, not a separate algorithm family.",
+          "PennyLane is explicitly reported; no specific backend/QPU is named."
+        ]
+      }
+    },
+    {
+      "experiment_id": "exp_6",
+      "description": "Initial-state comparison for QCBM-Regular using different maximally entangled states, comparing Bell/W for two variables and GHZ/W for three variables on the same copula modeling task.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "QCBM-Regular initial-state comparison",
+        "ansatz": "Generator circuit ansatz from Fig. 1a initialized with Bell, GHZ, or W states",
+        "optimizer": "SPSA",
+        "num_layers": 8,
+        "convergence_criteria": "trained until minimum KL divergence is reached / model convergence",
+        "hyperparameters": {
+          "qubits": [
+            4,
+            6,
+            8
+          ],
+          "layers": 8,
+          "initial_states": [
+            "Bell",
+            "GHZ",
+            "W"
+          ],
+          "variables": [
+            2,
+            3
+          ],
+          "spsa_c": 0.1,
+          "spsa_a": 0.1,
+          "initial_parameters": "random uniform in [-pi, pi]"
+        },
+        "parameter_initialization": "random values from [-pi, pi] with different maximally entangled initial states",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "step_size": 0.1,
+          "learning_rate_schedule": null,
+          "tolerance": null,
+          "parameter_bounds": "[-pi, pi]"
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Continuous copula samples are discretized into binary strings; two-variable and three-variable cases are compared",
+        "objective_function": "Minimize KL divergence between generated discrete distribution and target discrete distribution derived from copula-space data",
+        "constraints_handling": "Comparison of initial states that satisfy or violate maximal-mixing behavior in reduced subsystems",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Effect of initial entangled state on copula modeling for 2-variable and 3-variable market data",
+        "num_assets": 2,
+        "time_steps": null,
+        "num_features": 2,
+        "dataset_size": 1000,
+        "data_type": "real_market",
+        "dataset_name": "NIFTY 50 and NIFTY BANK; NIFTY IT added for 3-variable case",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "NIFTY 50",
+            "NIFTY BANK",
+            "NIFTY IT"
+          ],
+          "date_range": "29-04-2014 to 29-04-2019",
+          "benchmark_name": "Indian stock market indices",
+          "preprocessing": "closing prices converted to returns, then probability integral transform to copula space",
+          "train_test_split": null
+        },
+        "data_preprocessing_details": "Closing prices are converted to returns; returns are transformed to copula space using the probability integral transform; continuous values are discretized via binning before training",
+        "evaluation_methodology": "Minimum KL divergence after convergence is compared across initial states for 2-variable and 3-variable cases"
+      },
+      "quantum_resources": {
+        "num_qubits": 8,
+        "qubit_type": "not_specified",
+        "circuit_depth": 8,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 1000,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": "PennyLane",
+        "framework_version": null,
+        "transpilation_target": null
+      },
+      "noise_model": {
+        "is_noisy": null,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "classical_solver": "Student-t copula parametric fit for comparison; ndtest for statistics",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Bootstrapping 1000 samples from the dataset; probability integral transform; binning into discrete strings",
+        "classical_postprocessing": "Inverse binning transform from binary strings back to continuous copula space",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "kl_divergence",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 1000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "student_t_copula",
+          "metric_name": "kl_divergence",
+          "value": null,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "exponential",
+          "baseline_method": "classical computation",
+          "conditions": "qopula circuits as cited from prior work; no empirical speedup measured in this paper",
+          "is_demonstrated": false,
+          "caveats": "The figure reports only relative comparison of initial states; exact KL values are not stated in text."
+        }
+      ],
+      "scalability_data": [],
+      "complexity_analysis": {
+        "quantum_complexity": "Theoretical exponential complexity separation claimed for qopula circuits in cited work",
+        "classical_complexity": null,
+        "speedup_order": "exponential",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "data_loading_bottleneck": null
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper explicitly compares Bell vs W for 2 variables and GHZ vs W for 3 variables, with 8 layers in the QCBM-Regular setup.",
+          "PennyLane is explicitly reported; no specific backend/QPU is named."
+        ]
+      }
+    },
+    {
+      "experiment_id": "exp_7",
+      "description": "Binning-strategy evaluation for QCBM-Regular on the same copula modeling task, comparing generic, equal, and k-means binning across qubit counts.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "QCBM-Regular binning-strategy evaluation",
+        "ansatz": "Generator circuit ansatz from Fig. 1a with maximally entangled initial state",
+        "optimizer": "SPSA",
+        "num_layers": 8,
+        "convergence_criteria": "trained for 1000 epochs",
+        "hyperparameters": {
+          "qubits": [
+            4,
+            6,
+            8
+          ],
+          "layers": 8,
+          "epochs": 1000,
+          "spsa_c": 0.1,
+          "spsa_a": 0.1,
+          "binning_strategies": [
+            "generic",
+            "equal",
+            "k-means"
+          ],
+          "runs_per_setting": 20,
+          "samples_per_run": 1000
+        },
+        "parameter_initialization": "random uniform in [-pi, pi]",
+        "optimizer_settings": {
+          "max_iterations": 1000,
+          "step_size": 0.1,
+          "learning_rate_schedule": null,
+          "tolerance": null,
+          "parameter_bounds": "[-pi, pi]"
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Continuous copula samples are discretized into binary strings; binning strategy determines interval boundaries for mapping [0,1) to bit strings",
+        "objective_function": "Minimize KL divergence between generated discrete distribution and target discrete distribution derived from copula-space data",
+        "constraints_handling": "Maximally entangled initial state to satisfy uniform marginal condition",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Comparison of discretization strategies for copula modeling of NIFTY 50 and NIFTY BANK",
+        "num_assets": 2,
+        "time_steps": null,
+        "num_features": 2,
+        "dataset_size": 1000,
+        "data_type": "real_market",
+        "dataset_name": "NIFTY 50 and NIFTY BANK",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "NIFTY 50",
+            "NIFTY BANK"
+          ],
+          "date_range": "29-04-2014 to 29-04-2019",
+          "benchmark_name": "Indian stock market indices",
+          "preprocessing": "closing prices converted to returns, then probability integral transform to copula space",
+          "train_test_split": null
+        },
+        "data_preprocessing_details": "Closing prices are converted to returns; returns are transformed to copula space using the probability integral transform; continuous values are discretized via generic, equal, or k-means binning before training",
+        "evaluation_methodology": "20 independent model runs for each binning strategy and qubit count; 1000 samples drawn from each trained circuit; KS and E-statistic computed with 95% confidence intervals; p-value threshold 0.05"
+      },
+      "quantum_resources": {
+        "num_qubits": 8,
+        "qubit_type": "not_specified",
+        "circuit_depth": 8,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 1000,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": "PennyLane",
+        "framework_version": null,
+        "transpilation_target": null
+      },
+      "noise_model": {
+        "is_noisy": null,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "classical_solver": "Student-t copula parametric fit for comparison; ndtest for statistics",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Bootstrapping 1000 samples from the dataset; probability integral transform; binning into discrete strings",
+        "classical_postprocessing": "Inverse binning transform from binary strings back to continuous copula space",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": 95.0,
+          "num_independent_runs": 20
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "ks_statistic",
+          "value": 0.040040000000000006,
+          "uncertainty": "95% CI over 20 runs",
+          "num_runs": 20,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "e_statistic",
+          "value": 0.003,
+          "uncertainty": "95% CI over 20 runs",
+          "num_runs": 20,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 1000,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "student_t_copula",
+          "metric_name": "ks_statistic",
+          "value": null,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "student_t_copula",
+          "metric_name": "e_statistic",
+          "value": null,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "exponential",
+          "baseline_method": "classical computation",
+          "conditions": "qopula circuits as cited from prior work; no empirical speedup measured in this paper",
+          "is_demonstrated": false,
+          "caveats": "This is an ablation over discretization strategies, not a speed benchmark."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 4.0,
+          "num_qubits": 4,
+          "metric_name": "ks_statistic",
+          "metric_value": 0.040040000000000006
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 6,
+          "metric_name": "ks_statistic",
+          "metric_value": 0.040040000000000006
+        },
+        {
+          "problem_size": 8.0,
+          "num_qubits": 8,
+          "metric_name": "ks_statistic",
+          "metric_value": 0.040040000000000006
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "Theoretical exponential complexity separation claimed for qopula circuits in cited work",
+        "classical_complexity": null,
+        "speedup_order": "exponential",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "data_loading_bottleneck": null
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "This is a discretization/encoding ablation study, not a new algorithm family.",
+          "PennyLane is explicitly reported; no specific backend/QPU is named."
+        ]
+      }
+    },
+    {
+      "experiment_id": "exp_new_1",
+      "description": "Quantum Circuit Born Machine (QCBM) trained using a genetic algorithm to learn the copula distribution of NIFTY 50 and NIFTY BANK returns.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "QCBM with genetic algorithm optimization",
+        "ansatz": "Maximally entangled qopula generator circuit (Fig. 1a)",
+        "optimizer": "Genetic Algorithm",
+        "hyperparameters": {
+          "iterations_I": 200,
+          "population_size_N": 100,
+          "elite_count_M": 25,
+          "mutation_layers_per_cycle": 1,
+          "alpha_initial": 1,
+          "beta": 0.013863,
+          "angle_discretization_parameter_m": "equal to qubit count"
+        },
+        "num_layers": null
+      },
+      "key_results": [
+        "KS statistic range: 0.0414 – 0.0590",
+        "E-statistic range: 0.0034 – 0.0038",
+        "Performance slightly worse and less stable than SPSA-trained QCBM"
+      ]
+    }
+  ]
+}

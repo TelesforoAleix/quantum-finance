@@ -1,0 +1,512 @@
+{
+  "paper_id": "e4ff7159708b",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T10:14:22+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "e4ff7159708b_simulating_the_non_hermitian_dynamics_of_financial_option_pricing_with_quantum_c.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.7,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 16,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[1].unit='fidelity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='fidelity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='fidelity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='fidelity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='fidelity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='fidelity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='fidelity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='fidelity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='fidelity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='fidelity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='fidelity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='fidelity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='fidelity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='fidelity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[15].unit='fidelity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[16].unit='fidelity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.7,
+      "completeness": 0.7,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.7
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Simulating the non-Hermitian dynamics of financial option pricing with quantum computers",
+    "authors": [
+      "Swagat Kumar",
+      "Colin Michael Wilmott"
+    ],
+    "year": 2025,
+    "doi": "10.1038/s41598-025-97245-3",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": [
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper introduces Quantum Non‑Unitary Time Evolution (QNUTE), a generalization of simulated QITE for arbitrary non‑Hermitian Hamiltonians, and applies it to Black–Scholes option pricing. Classical simulations of circuits with 2–6 qubits and 500 time steps reproduce analytical Black–Scholes solutions for several European option payoffs (call, put, spreads, straddle, strangle) with fidelities up to ~1.0 when full-domain unitaries are used, while truncated-domain variants show fidelities as low as ~0.11.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "QNUTE simulation of the Black-Scholes equation for pricing European options (call, put, bull spread, bear spread, straddle, strangle) using gate-based quantum circuits, including exact and inexact domain-size variants.",
+      "algorithm": {
+        "family": "quantum-simulation",
+        "variant": "Quantum Non-Unitary Time Evolution (QNUTE), generalized simulated QITE for arbitrary non-Hermitian dynamics",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "T": 3,
+          "NT": 500,
+          "r": 0.04,
+          "sigma": 0.2,
+          "asset_price_domain": "[0,150]",
+          "option_types": [
+            "call",
+            "put",
+            "bull spread",
+            "bear spread",
+            "straddle",
+            "strangle"
+          ],
+          "domain_size_D": "varied (inexact QNUTE)",
+          "qubit_counts": "2-6"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Option price samples u(x_k,τ) stored in computational basis amplitudes of an n-qubit state over 2^n discretization points; discretized Black-Scholes Hamiltonian encoded as a finite-difference operator and decomposed into Pauli strings.",
+        "objective_function": "Simulate the non-Hermitian Black-Scholes PDE ∂u/∂τ = 1/2(σx)^2 ∂²u/∂x² + rx∂u/∂x - ru with linear boundary conditions and recover option prices from the evolved quantum state.",
+        "constraints_handling": "Linear boundary conditions encoded directly into the Hamiltonian via modified first/last rows; norm rescaling protocol used to correct accumulated scale factors.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": "-i H_BS and -i H_LBS finite-difference matrices for the Black-Scholes operator with and without linear boundary conditions, decomposed into Pauli basis.",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "European option pricing under the Black-Scholes model for multiple payoff types.",
+        "num_assets": 1,
+        "time_steps": 500,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Synthetic Black-Scholes parameters; asset prices x∈[0,150], maturity T=3 years, strike prices at 50, 75, 100 for some payoffs."
+        },
+        "data_preprocessing_details": "Discretize asset-price domain into 2^n points with spacing h=(x_N-x_0)/(2^n-1); encode normalized option-price samples into amplitudes; apply linear boundary conditions.",
+        "evaluation_methodology": "Numerical simulation compared against analytical Black-Scholes solutions; fidelities averaged over each time step for inexact QNUTE; results shown for n=2,3,4,5,6 and D values including D<n."
+      },
+      "quantum_resources": {
+        "num_qubits": 2,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "noise_parameters": null,
+        "mitigation_details": null,
+        "is_noisy": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Finite-difference discretization of the Black-Scholes PDE; Pauli decomposition of the discretized Hamiltonian; inexact local-domain approximation for some runs.",
+        "classical_postprocessing": "Option prices recovered from final quantum state amplitudes; norm rescaling using boundary-condition-derived scale factors; fidelity comparison to analytical solutions.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": 1.0,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "price_error",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 1.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "fidelity",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 0.994,
+          "uncertainty": 0.00477,
+          "num_runs": null,
+          "unit": "fidelity",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 0.982,
+          "uncertainty": 0.012,
+          "num_runs": null,
+          "unit": "fidelity",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 0.71,
+          "uncertainty": 0.278,
+          "num_runs": null,
+          "unit": "fidelity",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 0.904,
+          "uncertainty": 0.0802,
+          "num_runs": null,
+          "unit": "fidelity",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 0.158,
+          "uncertainty": 0.211,
+          "num_runs": null,
+          "unit": "fidelity",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 0.749,
+          "uncertainty": 0.0679,
+          "num_runs": null,
+          "unit": "fidelity",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 0.111,
+          "uncertainty": 0.179,
+          "num_runs": null,
+          "unit": "fidelity",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 0.655,
+          "uncertainty": 0.17,
+          "num_runs": null,
+          "unit": "fidelity",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 0.13,
+          "uncertainty": 0.0727,
+          "num_runs": null,
+          "unit": "fidelity",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 0.724,
+          "uncertainty": 0.0418,
+          "num_runs": null,
+          "unit": "fidelity",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 0.122,
+          "uncertainty": 0.0732,
+          "num_runs": null,
+          "unit": "fidelity",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 0.766,
+          "uncertainty": 0.052,
+          "num_runs": null,
+          "unit": "fidelity",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 1.0,
+          "uncertainty": 3.81e-08,
+          "num_runs": null,
+          "unit": "fidelity",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 1.0,
+          "uncertainty": 2.67e-05,
+          "num_runs": null,
+          "unit": "fidelity",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 1.0,
+          "uncertainty": 4.54e-05,
+          "num_runs": null,
+          "unit": "fidelity",
+          "higher_is_better": true,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "analytical black-scholes solution",
+          "metric_name": "price_error",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The paper reports numerical agreement with analytical Black-Scholes solutions and discusses asymptotic measurement/circuit-depth scaling, but does not claim or demonstrate a concrete empirical speedup over a classical pricing baseline."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 2.0,
+          "num_qubits": 2,
+          "metric_name": "success_probability",
+          "metric_value": 1.0
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 3,
+          "metric_name": "success_probability",
+          "metric_value": 0.994
+        },
+        {
+          "problem_size": 4.0,
+          "num_qubits": 4,
+          "metric_name": "success_probability",
+          "metric_value": 1.0
+        },
+        {
+          "problem_size": 4.0,
+          "num_qubits": 4,
+          "metric_name": "success_probability",
+          "metric_value": 0.71
+        },
+        {
+          "problem_size": 4.0,
+          "num_qubits": 4,
+          "metric_name": "success_probability",
+          "metric_value": 1.0
+        },
+        {
+          "problem_size": 5.0,
+          "num_qubits": 5,
+          "metric_name": "success_probability",
+          "metric_value": 0.158
+        },
+        {
+          "problem_size": 5.0,
+          "num_qubits": 5,
+          "metric_name": "success_probability",
+          "metric_value": 0.111
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 6,
+          "metric_name": "success_probability",
+          "metric_value": 1.0
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 6,
+          "metric_name": "success_probability",
+          "metric_value": 0.13
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 6,
+          "metric_name": "success_probability",
+          "metric_value": 0.122
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": 2,
+          "metric_name": "success_probability",
+          "metric_value": 1.0
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": 3,
+          "metric_name": "success_probability",
+          "metric_value": 0.982
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": 4,
+          "metric_name": "success_probability",
+          "metric_value": 0.904
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": 5,
+          "metric_name": "success_probability",
+          "metric_value": 0.749
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": 6,
+          "metric_name": "success_probability",
+          "metric_value": 0.724
+        },
+        {
+          "problem_size": 4.0,
+          "num_qubits": 5,
+          "metric_name": "success_probability",
+          "metric_value": 0.655
+        },
+        {
+          "problem_size": 4.0,
+          "num_qubits": 6,
+          "metric_name": "success_probability",
+          "metric_value": 0.766
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(N_T M I^2) measurements; circuit depth O(I) per Trotter step",
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Unknown; algorithm requires O(N_T M I^2) measurements and circuits acting on up to n qubits with Pauli-string decompositions that scale exponentially with qubit count.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Only classical statevector simulations were performed",
+          "Problem sizes limited to 2–6 qubits (≤64 grid points)",
+          "Hamiltonian Pauli decomposition scales exponentially with qubit count",
+          "Large measurement cost O(N_T M I^2)",
+          "No empirical comparison with classical numerical PDE solvers"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_statevector because the paper reports numerical implementations and fidelities but no physical QPU/device.",
+          "Num_qubits reported from the figure/table context showing simulations for n=2 to 6; the experiment is summarized as one scalable experiment with varying qubit counts.",
+          "Circuit depth is not numerically specified in the paper; only asymptotic depth O(I) per Trotter step is reported.",
+          "The authors demonstrate numerical agreement with analytical Black–Scholes solutions but do not claim a practical quantum advantage.",
+          "All results are obtained from classical simulations of quantum circuits (no hardware experiments)."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

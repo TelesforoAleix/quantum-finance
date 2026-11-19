@@ -1,0 +1,434 @@
+{
+  "paper_id": "288305d31b7d",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:20:15+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "288305d31b7d_towards_practical_quantum_credit_risk_analysis.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.8,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 7,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='confidence level' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='absolute error' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='currency units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='currency units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.8,
+      "completeness": 0.8,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.8
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Towards practical Quantum Credit Risk Analysis",
+    "authors": [
+      "Emanuele Dri",
+      "Edoardo Giusto",
+      "Antonello Aita",
+      "Bartolomeo Montrucchio"
+    ],
+    "year": 2022,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "risk-management",
+    "secondary_silos": [
+      "simulation-monte-carlo",
+      "credit-lending"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper extends the quantum credit risk analysis algorithm using iterative quantum amplitude estimation to support multi‑factor risk models and non‑integer LGD values. A toy experiment with 2 assets and 2 risk factors was simulated on the Qiskit qasm simulator using 9 qubits, ~50,000 quantum samples, target precision ε = 0.002, and 99% confidence to estimate VaR at α = 0.95. No real‑hardware results or runtime comparisons with classical Monte Carlo were reported.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Simulation study of an enhanced quantum credit risk analysis circuit using iterative quantum amplitude estimation with a multi-factor uncertainty model and non-integer LGD values, evaluated on a toy 2-asset, 2-risk-factor instance.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Iterative Quantum Amplitude Estimation (IQAE) applied to credit risk analysis with multi-factor uncertainty model",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": "target precision epsilon = 0.002 and 99% target confidence interval",
+        "hyperparameters": {
+          "alpha": 0.95,
+          "epsilon": 0.002,
+          "target_confidence_interval": 0.99,
+          "num_assets": 2,
+          "num_risk_factors": 2,
+          "qubits_per_risk_factor": 2,
+          "average_quantum_samples": 50000
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Two qubits encode each latent normal risk factor Z1 and Z2; asset default qubits are controlled by linear rotations. The paper also proposes a LinearAmplitudeFunction-based replacement for the S operator to avoid integer-only LGD constraints, but the reported experiment uses the multiple-rotations variant without the sum register.",
+        "objective_function": "Estimate VaR at confidence level alpha = 0.95 for portfolio loss distribution, then compute economic capital as VaR_alpha - E[L].",
+        "constraints_handling": "Bisection search over loss threshold x; objective qubit flipped when cumulative loss is less than or equal to x. No penalty formulation.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Toy credit portfolio with 2 assets and 2 systemic risk factors, used to validate the proposed multi-factor and non-integer LGD improvements.",
+        "num_assets": 2,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Parameters given in Table 1: asset 1 LGD 1000.5, p0 0.15, rho 0.1, weights (0.35, 0.2); asset 2 LGD 2000.5, p0 0.25, rho 0.05, weights (0.1, 0.25)."
+        },
+        "data_preprocessing_details": null,
+        "evaluation_methodology": "Circuit supplied to IQAE in Qiskit; bisection search used to find VaR at alpha = 0.95; target precision and confidence interval specified; experiment simulated on qasm simulator."
+      },
+      "quantum_resources": {
+        "num_qubits": 9,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 50000,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": "qasm simulator backend",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": "Qiskit qasm simulator backend",
+        "classical_solver": "Iterative quantum amplitude estimation with classical bisection search",
+        "transpilation_settings": null,
+        "classical_preprocessing": null,
+        "classical_postprocessing": "Bisection search over VaR threshold using IQAE estimates; expected loss and VaR used to assess economic capital.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "var_accuracy",
+          "value": 0.95,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "confidence level",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "tail_risk_estimate",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_risk_factors",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "epsilon",
+          "value": 0.002,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute error",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "target_confidence_interval",
+          "value": 0.99,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "average_quantum_samples",
+          "value": 50000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "lgd_asset_1",
+          "value": 1000.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "currency units",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "lgd_asset_2",
+          "value": 2000.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "currency units",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "default_probability_asset_1",
+          "value": 0.15,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "default_probability_asset_2",
+          "value": 0.25,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "default_sensitivity_asset_1",
+          "value": 0.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "default_sensitivity_asset_2",
+          "value": 0.05,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "risk_factor_weight_asset_1",
+          "value": 0.35,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "risk_factor_weight_asset_1",
+          "value": 0.2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "risk_factor_weight_asset_2",
+          "value": 0.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "risk_factor_weight_asset_2",
+          "value": 0.25,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "convergence_rate",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "var_accuracy",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical monte carlo",
+          "conditions": "for quantum amplitude estimation / iterative quantum amplitude estimation in credit risk analysis",
+          "is_demonstrated": false,
+          "caveats": "The paper states the quadratic speedup as a property of amplitude estimation; the reported experiment is a simulator study and does not empirically benchmark runtime against classical Monte Carlo."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 2.0,
+          "num_qubits": 9,
+          "metric_name": "num_qubits",
+          "metric_value": 9
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": 9,
+          "metric_name": "average_quantum_samples",
+          "metric_value": 50000
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "Quadratic speedup over classical Monte Carlo for amplitude estimation; IQAE avoids QPE and still provides quadratic speedup.",
+        "classical_complexity": "O(sqrt(n)) Monte Carlo convergence rate as stated in the paper.",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not provided; expected very large because the demonstrated instance uses only 2 assets and 2 risk factors.",
+        "resources_for_advantage": "Large fault‑tolerant quantum computers with many more qubits and long coherence times; the paper notes that current hardware noise destroys results and that meaningful scaling would require thousands of assets and significantly more qubits.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Only simulator experiments on a toy instance (2 assets, 2 risk factors).",
+          "Algorithm relies on amplitude estimation with quadratic speedup only.",
+          "Circuit depth and qubit requirements increase significantly with assets and risk factors.",
+          "Current hardware noise prevents successful execution on real QPUs.",
+          "Data loading circuits for probability distributions and linear amplitude functions add significant overhead."
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "circuit_depth not explicitly reported; only resource scaling discussion is given, so left null/inferred not used.",
+          "num_shots inferred from 'average of approximately 50000 quantum samples' used by IQAE.",
+          "hardware.type inferred as simulator_other because the paper states the experiment was simulated on the qasm simulator backend provided by Qiskit.",
+          "The authors mention the theoretical quadratic speedup of amplitude estimation but do not experimentally demonstrate quantum advantage.",
+          "All reported experiments are classical simulations (Qiskit qasm simulator) on a very small toy model."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

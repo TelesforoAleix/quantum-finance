@@ -1,0 +1,601 @@
+{
+  "paper_id": "87ac65c206bd",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:12:26+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "87ac65c206bd_predict_and_conquer_navigating_algorithm_trade_offs_with_quantum_design_automati.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.8,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 1,
+    "validation_warnings": 14,
+    "validation_passed": false,
+    "validation_error_details": [
+      "Schema error at experiments.0.quantum_resources.two_qubit_gate_count: 'C–X gate count used as depth proxy in runtime model; exact counts not reported' is not of type 'integer', 'null'"
+    ],
+    "validation_warning_details": [
+      "experiments[0].results[5].unit='data_points' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='data_points' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='instances' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='dimensionless' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='dimensionless' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='dimensionless' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='dimensionless' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='dimensionless' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[16].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[17].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[18].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[26].unit='µs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[27].unit='µs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[28].unit='µs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.8,
+      "completeness": 0.8,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.8
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Predict and Conquer: Navigating Algorithm Trade-offs with Quantum Design Automation",
+    "authors": [
+      "Simon Thelen",
+      "Wolfgang Mauerer"
+    ],
+    "year": 2025,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "other",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper evaluates four hybrid QAOA-based algorithms (QAOA, WSQAOA, WS‑Init‑QAOA, RQAOA) on five NP‑complete problems using simulations of 5–19 qubits (ideal) and up to 10 qubits with noise, averaging 100 random instances per size. Using 10,000 shots and COBYLA (≤150 iterations), the authors build statistical models predicting runtime and solution quality with RMSE below 0.09 on baseline data and below 0.07 when extrapolating to larger instances.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Numerical simulation study comparing four gate-based hybrid QAOA variants on five combinatorial optimization problems across ideal and noisy settings, varying circuit depth and problem size.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "QAOA",
+        "ansatz": null,
+        "optimizer": "COBYLA",
+        "num_layers": 1,
+        "convergence_criteria": "max 150 optimizer iterations; tolerance 1%",
+        "hyperparameters": {
+          "problem_variants": [
+            "QAOA",
+            "WSQAOA",
+            "WS-Init-QAOA",
+            "RQAOA"
+          ],
+          "layers_p": "1-7 ideal, 1-4 noisy",
+          "shots_per_optimizer_iteration": 10000,
+          "optimizer": "COBYLA",
+          "optimizer_tolerance": "1%",
+          "optimizer_max_iterations": 150,
+          "instance_count_per_size": 100,
+          "noise_levels": [
+            0,
+            0.25,
+            0.5,
+            1,
+            2,
+            4
+          ],
+          "qubit_range": "5-19 (ideal), up to 10 (noisy)"
+        },
+        "parameter_initialization": "Not specified for QAOA parameters; warm-start variants initialize from classical approximate solutions",
+        "optimizer_settings": {
+          "max_iterations": 150,
+          "tolerance": "1%",
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "QUBO",
+        "encoding_details": "One qubit per vertex for Max-Cut, MIS, MVC; Partition and Max-3SAT use QUBO encodings described in cited formulations",
+        "objective_function": "Max-Cut, Minimum Vertex Cover, Maximum Independent Set, Partition, and Max-3SAT encoded as QUBO/Ising optimization problems",
+        "constraints_handling": "Penalty-weighted QUBO for constrained problems; for MIS and MVC, constraint and objective QUBO weighted 2:1",
+        "num_binary_variables": 5,
+        "problem_hamiltonian": "Problem Hamiltonian HC encodes the QUBO objective; mixer Hamiltonian HM = sum_i X_i",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Random instances of five NP-complete optimization problems: Max-Cut, MVC, MIS, Partition, Max-3SAT",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 100,
+        "data_type": "synthetic",
+        "dataset_name": "Random graph / random number / random SAT benchmark instances",
+        "dataset_specification": {
+          "description": "Max-Cut/MVC/MIS: Erdős-Rényi graphs with edge probability 0.5; Partition: numbers uniformly sampled from [0,1]; Max-3SAT: number of variables uniformly between 1 and one third of qubit count; clauses chosen uniformly from all possible clause configurations"
+        },
+        "data_preprocessing_details": "No external preprocessing; instances generated synthetically; warm-start classical heuristics used to obtain initial guesses for some variants",
+        "evaluation_methodology": "Average over 100 random instances per size; solution quality and runtime measured for ideal and noisy simulations; baseline test set uses 20 of 100 instances per size for model evaluation, with remaining instances for training"
+      },
+      "quantum_resources": {
+        "num_qubits": 5,
+        "qubit_type": "logical",
+        "circuit_depth": 1,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 10000,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "Eviden",
+        "device_name": "Qaptiva 800 / QLM noisy circuit simulator",
+        "framework": "QLM",
+        "framework_version": null
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "density-matrix-based noise model with depolarizing gate errors and thermal relaxation",
+        "error_mitigation_method": null,
+        "noise_parameters": {
+          "T1": "100 µs baseline",
+          "T2": "85 µs baseline",
+          "1_qubit_gate_error": "0.03% baseline",
+          "2_qubit_gate_error": "1% baseline",
+          "1_qubit_gate_time": "35 ns baseline",
+          "2_qubit_gate_time": "400 ns baseline",
+          "measurement_time": "4 µs",
+          "noise_level_l": "0, 0.25, 0.5, 1, 2, 4"
+        }
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "links in PDF / reproduction package",
+        "framework_version": null,
+        "transpilation_target": "Native gate set {RZ, sqrt(X), C–X}",
+        "classical_solver": "SciPy COBYLA",
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": [
+            "RZ",
+            "sqrt(X)",
+            "C–X"
+          ],
+          "routing_method": null
+        },
+        "classical_preprocessing": "Warm-start initial solutions from Goemans-Williamson (Max-Cut), greedy list scheduling (Partition), derandomized coin-flip algorithm (Max-3SAT), and 2-approximation via greedy maximal matching (MVC/MIS)",
+        "classical_postprocessing": "Solution quality computed from output state averaged over multiple runs; runtime includes circuit execution, classical optimization, transpilation, and warm-start computation",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "Not reported",
+          "variance_across_runs": 100.0,
+          "num_independent_runs": 100
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "approximation_quality",
+          "value": 1.0,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "approximation_quality",
+          "value": 0.4,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "runtime",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "root_mean_square_error",
+          "value": 0.09,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "root_mean_square_error",
+          "value": 0.07,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_data_points",
+          "value": 14000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "data_points",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_data_points",
+          "value": 30000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "data_points",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "baseline_instances_needed_for_10_percent_off_optimal_error",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "instances",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "noise_level",
+          "value": 1.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimensionless",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "noise_level",
+          "value": 0.25,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimensionless",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "noise_level",
+          "value": 0.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimensionless",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "noise_level",
+          "value": 2.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimensionless",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "noise_level",
+          "value": 4.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimensionless",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "qubit_count",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "qubit_count",
+          "value": 19,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "qubit_count",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "qaoa_layers",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "qaoa_layers",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "qaoa_layers",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots_per_optimizer_iteration",
+          "value": 10000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "optimizer_max_iterations",
+          "value": 150,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "optimizer_tolerance",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "1_qubit_gate_error",
+          "value": 0.03,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "2_qubit_gate_error",
+          "value": 1.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "1_qubit_gate_time",
+          "value": 35,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ns",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "2_qubit_gate_time",
+          "value": 400,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ns",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "t1",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "µs",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "t2",
+          "value": 85,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "µs",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "measurement_time",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "µs",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "goemans_williamson",
+          "metric_name": "approximation_quality",
+          "value": null,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "greedy_list_scheduling",
+          "metric_name": "approximation_quality",
+          "value": null,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "derandomized_coin_flip_algorithm",
+          "metric_name": "approximation_quality",
+          "value": null,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "two_approximation_via_greedy_maximal_matching",
+          "metric_name": "approximation_quality",
+          "value": null,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The paper does not claim a quantum speedup; it reports empirical trade-offs between solution quality and runtime across QAOA variants."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 5,
+          "num_qubits": 5,
+          "metric_name": "approximation_quality",
+          "metric_value": null
+        },
+        {
+          "problem_size": 19,
+          "num_qubits": 19,
+          "metric_name": "approximation_quality",
+          "metric_value": null
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": 5,
+          "metric_name": "runtime",
+          "metric_value": null
+        },
+        {
+          "problem_size": 19,
+          "num_qubits": 19,
+          "metric_name": "runtime",
+          "metric_value": null
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": 5,
+          "metric_name": "root_mean_square_error",
+          "metric_value": 0.09
+        },
+        {
+          "problem_size": 19,
+          "num_qubits": 19,
+          "metric_name": "root_mean_square_error",
+          "metric_value": 0.07
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "Not explicitly characterized asymptotically; runtime modeled empirically as T(x) ≈ α d_C–X^β",
+        "classical_complexity": "Not explicitly characterized asymptotically",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L2_noisy_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Not analyzed; experiments only evaluate algorithm runtime/quality trends for 5–19 qubits (ideal) and ≤10 qubits (noisy) using simulators.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Experiments conducted entirely on classical simulators rather than QPUs",
+          "Problem sizes limited to at most 19 qubits (10 qubits for noisy simulations)",
+          "No comparison against full classical optimization solvers for performance advantage",
+          "Paper focuses on predictive modeling for algorithm selection rather than demonstrating computational advantage"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware is a noisy simulator on Eviden Qaptiva 800 / QLM, not a real QPU.",
+          "The paper reports QAOA, WSQAOA, WS-Init-QAOA, and RQAOA together; extracted as one experiment family with scalability across problem sizes and noise levels.",
+          "Exact gate counts and transpiled depth are not reported; only C–X depth is used in the runtime model.",
+          "The paper explicitly studies runtime/quality prediction and algorithm selection; it does not claim quantum advantage.",
+          "No classical-vs-quantum performance comparison is presented; only comparisons among QAOA variants."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

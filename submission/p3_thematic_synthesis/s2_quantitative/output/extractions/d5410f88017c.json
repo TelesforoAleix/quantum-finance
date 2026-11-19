@@ -1,0 +1,1008 @@
+{
+  "paper_id": "d5410f88017c",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T10:02:53+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "d5410f88017c_composite_qdrift_product_formulas_for_quantum_and_classical_simulations_in_real_.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.617,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 21,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='x' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='x' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='x' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='x' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='x' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='x' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='x' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='terms' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='terms' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='terms' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='terms' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='terms' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='terms' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='terms' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[16].unit='time units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[0].unit='x' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[1].unit='x' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[2].unit='x' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[0].unit='absolute error' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[1].unit='scale parameter' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[3].unit='field strength' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.617,
+      "completeness": 0.617,
+      "num_experiments": 3,
+      "experiment_scores": [
+        0.683,
+        0.583,
+        0.583
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Composite QDrift-Product Formulas for Quantum and Classical Simulations in Real and Imaginary Time",
+    "authors": [
+      "Matthew Pocrnic",
+      "Matthew Hagan",
+      "Juan Carrasquilla",
+      "Dvira Segal",
+      "Nathan Wiebe"
+    ],
+    "year": 2023,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "simulation-monte-carlo",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper introduces composite QDrift–Trotter product‑formula methods for Hamiltonian simulation and shows constant‑factor gate‑count reductions in classical simulations. Numerical benchmarks on small systems (e.g., H3, Jellium, and spin models) report up to ≈18.8× fewer exponential gates for a 6‑site Jellium Hamiltonian compared with standard Trotter or QDrift methods. The work also extends the framework to imaginary‑time simulations for classical Monte‑Carlo algorithms.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Real-time composite quantum simulation of several Hamiltonians using hybrid Trotter-Suzuki + QDrift product formulas, with exact gate-cost evaluation and partition optimization/heuristics.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Composite QDrift-Trotter / local composite channels for real-time Hamiltonian simulation",
+        "ansatz": null,
+        "optimizer": "Gradient-Boosted Regression Trees (GBRT) for partition optimization; binary search on iteration count r",
+        "num_layers": null,
+        "convergence_criteria": "find minimal r meeting target trace-distance error ϵ; optimizer convergence not otherwise specified",
+        "hyperparameters": {
+          "inner_order": "2k (varied; includes 1st and 2nd order in numerics)",
+          "outer_order": "1 or 2 (varied in discussion)",
+          "QDrift_samples_NB": "varied/optimized; heuristic examples include approximately 1/5 of terms for Jellium and NB=(4,1,4) for local Heisenberg",
+          "iterations_r": "optimized by search",
+          "chop_threshold_omega_c": "optimized or heuristic",
+          "error_tolerance_epsilon": "varied by experiment",
+          "simulation_time_t": "varied up to 3π/2",
+          "Hamiltonian_norm": "normalized to 1 in numerics"
+        },
+        "parameter_initialization": "GBRT initialized over random values from fixed intervals for ωc and NB; heuristic partitions also used",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": "ωc ∈ [0, max_i h_i]"
+        },
+        "classical_baselines": [
+          "standard Trotter-Suzuki",
+          "standard QDrift"
+        ]
+      },
+      "problem_formulation": {
+        "encoding_method": "product_formula_decomposition",
+        "encoding_details": "Hamiltonians are decomposed into sums of local or nonlocal terms; simulation implemented as products of exponentials e^{-iH_j t}",
+        "objective_function": "approximate real-time evolution e^{-iHt} within trace-distance tolerance ϵ while minimizing gate cost",
+        "constraints_handling": "partition Hamiltonian into A (Trotter) and B (QDrift); optional chop threshold ωc; local block decomposition for geometrically local Hamiltonians",
+        "num_binary_variables": null,
+        "problem_hamiltonian": "general Hamiltonians H = Σ_j H_j; includes H3, Jellium, graph spin model, Heisenberg model, and local Heisenberg variants",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Benchmark Hamiltonians: H3 hydrogen chain, 5/6/7-site Jellium, 7/8-spin graph model, 8-spin Heisenberg model, and local 8-spin Heisenberg with weak couplings",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": "OpenFermion/PySCF-generated chemistry Hamiltonians; analytic spin models",
+        "dataset_specification": {
+          "description": "H3 in minimal basis; Jellium in momentum plane-wave basis with periodic boundary conditions; graph and Heisenberg spin chains"
+        },
+        "data_preprocessing_details": "Hamiltonians generated with OpenFermion; electronic structure integrals from PySCF; Jordan-Wigner transform used for fermionic models; Heisenberg couplings sampled from exponential distribution for some cases",
+        "evaluation_methodology": "Exact numerical simulation of channels; gate cost counted as number of exponentials needed to reach target trace-distance error; crossover advantages reported at points where composite cost equals baseline cost"
+      },
+      "quantum_resources": {
+        "num_qubits": 3,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": 18,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "NumPy / OpenFermion / PySCF / SciKit-Optimize",
+        "framework_version": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": null,
+        "transpilation_target": null,
+        "classical_solver": "GBRT optimizer; exact dense linear algebra / Monte Carlo for some error estimates",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Hamiltonian partitioning via chop heuristic or GBRT; Jordan-Wigner mapping for fermionic models",
+        "classical_postprocessing": "trace-distance evaluation; exact gate counting; interpolation for crossover points",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "speedup_factor",
+          "value": 2.3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "x",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "speedup_factor",
+          "value": 9.2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "x",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "speedup_factor",
+          "value": 18.8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "x",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "speedup_factor",
+          "value": 10.4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "x",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "speedup_factor",
+          "value": 4.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "x",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "speedup_factor",
+          "value": 3.9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "x",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "speedup_factor",
+          "value": 3.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "x",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "num_terms",
+          "value": 62,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "terms",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "num_terms",
+          "value": 56,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "terms",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "num_terms",
+          "value": 94,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "terms",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "num_terms",
+          "value": 197,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "terms",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "num_terms",
+          "value": 49,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "terms",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "num_terms",
+          "value": 64,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "terms",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "num_terms",
+          "value": 29,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "terms",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "gate_cost",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gate_cost",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "simulation_time",
+          "value": 4.71238898038469,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "time units",
+          "higher_is_better": false,
+          "data_source": "computed"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "standard_trotter_suzuki",
+          "metric_name": "speedup_factor",
+          "value": null,
+          "unit": "x"
+        },
+        {
+          "method_name": "standard_qdrift",
+          "metric_name": "speedup_factor",
+          "value": null,
+          "unit": "x"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "2.3x",
+          "baseline_method": "standard Trotter-Suzuki and standard QDrift",
+          "conditions": "real-time H3 benchmark at crossover point",
+          "is_demonstrated": true,
+          "caveats": "Exact gate-cost evaluation on simulator; constant-factor improvement only."
+        },
+        {
+          "type": "empirical",
+          "factor": "9.2x",
+          "baseline_method": "standard Trotter-Suzuki and standard QDrift",
+          "conditions": "real-time 5-site Jellium at crossover point",
+          "is_demonstrated": true,
+          "caveats": "Heuristic chop partition used in one variant."
+        },
+        {
+          "type": "empirical",
+          "factor": "18.8x",
+          "baseline_method": "standard Trotter-Suzuki and standard QDrift",
+          "conditions": "real-time 6-site Jellium at crossover point",
+          "is_demonstrated": true,
+          "caveats": "Largest reported real-time advantage; exact numerical cost on simulator."
+        },
+        {
+          "type": "empirical",
+          "factor": "10.4x",
+          "baseline_method": "standard Trotter-Suzuki and standard QDrift",
+          "conditions": "real-time 7-site Jellium at crossover point",
+          "is_demonstrated": true,
+          "caveats": "Optimizer had difficulty finding optimal partition."
+        },
+        {
+          "type": "empirical",
+          "factor": "4.1x",
+          "baseline_method": "standard Trotter-Suzuki and standard QDrift",
+          "conditions": "real-time 7-spin graph model at crossover point",
+          "is_demonstrated": true,
+          "caveats": "Exact numerical cost; multiple regions where different composite channels are optimal."
+        },
+        {
+          "type": "empirical",
+          "factor": "3.9x",
+          "baseline_method": "standard Trotter-Suzuki and standard QDrift",
+          "conditions": "real-time 8-spin graph model at crossover point",
+          "is_demonstrated": true,
+          "caveats": "Slightly smaller than 7-spin case; possibly due to optimizer convergence."
+        },
+        {
+          "type": "empirical",
+          "factor": "3.1x",
+          "baseline_method": "standard Trotter-Suzuki and standard QDrift",
+          "conditions": "imaginary-time 8-spin Heisenberg model at crossover point",
+          "is_demonstrated": true,
+          "caveats": "Reported in summary table; exact numerical cost on simulator."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 3.0,
+          "num_qubits": 3,
+          "metric_name": "speedup_factor",
+          "metric_value": 2.3
+        },
+        {
+          "problem_size": 5.0,
+          "num_qubits": 5,
+          "metric_name": "speedup_factor",
+          "metric_value": 9.2
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 6,
+          "metric_name": "speedup_factor",
+          "metric_value": 18.8
+        },
+        {
+          "problem_size": 7.0,
+          "num_qubits": 7,
+          "metric_name": "speedup_factor",
+          "metric_value": 10.4
+        },
+        {
+          "problem_size": 7.0,
+          "num_qubits": 7,
+          "metric_name": "speedup_factor",
+          "metric_value": 4.1
+        },
+        {
+          "problem_size": 8.0,
+          "num_qubits": 8,
+          "metric_name": "speedup_factor",
+          "metric_value": 3.9
+        },
+        {
+          "problem_size": 8.0,
+          "num_qubits": 8,
+          "metric_name": "speedup_factor",
+          "metric_value": 3.1
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "gate cost depends on Hamiltonian structure; composite methods can reduce constant factors, but no asymptotic speedup proven",
+        "classical_complexity": "not explicitly characterized; exact simulation is classically expensive and scales poorly with system size",
+        "speedup_order": "constant",
+        "constant_factor_quantum": "up to 18.8× fewer gates for 6-site Jellium; 9.2× for 5-site Jellium; 4.1× for 7-spin graph; 3.1× for 8-spin Heisenberg",
+        "constant_factor_classical": null,
+        "total_operations_quantum": "exact exponential-gate counts reported per instance",
+        "total_operations_classical": null,
+        "crossover_n": "problem-size dependent; no single N* reported",
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not defined; results shown only for small Hamiltonians (≤8 spins or ≤7-site Jellium)",
+        "resources_for_advantage": "Fault‑tolerant quantum computer capable of implementing large Hamiltonian simulations where product‑formula costs dominate and constant‑factor reductions matter",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Results are constant-factor improvements only (up to ~18.8×) rather than asymptotic speedups",
+          "Benchmarks use very small systems (≤8 spins or small Jellium instances)",
+          "Experiments performed via classical exact simulation rather than on quantum hardware",
+          "No comparison against best classical Hamiltonian simulation algorithms"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "This paper is primarily a simulation-methods paper; experiments are exact numerical cost evaluations, not hardware runs.",
+          "Hardware is inferred as simulator-based because the paper reports NumPy/OpenFermion/PySCF/SciKit-Optimize library use and exact channel simulation, with no QPU device named.",
+          "num_qubits is reported as instance size in the paper (e.g., 3-site H3, 6-site Jellium, 8-spin models), not as a single universal register size.",
+          "The authors do not claim quantum advantage over classical algorithms; they report constant-factor gate-cost reductions for quantum Hamiltonian simulation methods.",
+          "All results are obtained via classical simulation of quantum circuits."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Imaginary-time composite classical simulation of the same benchmark Hamiltonians using QDrift + Trotter-Suzuki product formulas, evaluated by exact trace-distance cost.",
+      "algorithm": {
+        "family": "classical-simulation",
+        "variant": "Imaginary-time composite QDrift-Trotter channels",
+        "ansatz": null,
+        "optimizer": "GBRT for partition optimization; binary search on r",
+        "num_layers": null,
+        "convergence_criteria": "minimal r meeting target trace-distance error ϵ",
+        "hyperparameters": {
+          "inner_order": "2k (varied; includes 1st and 2nd order in numerics)",
+          "outer_order": "1",
+          "QDrift_samples_NB": "optimized or heuristic; e.g., 15 terms in H3 discussion, 1/5 of terms heuristic for Jellium",
+          "iterations_r": "optimized by search",
+          "chop_threshold_omega_c": "optimized or heuristic",
+          "error_tolerance_epsilon": "varied by experiment",
+          "inverse_temperature_beta": "varied",
+          "Hamiltonian_norm": "normalized to 1 in numerics"
+        },
+        "parameter_initialization": "random initialization for GBRT over ωc and NB; heuristic partitions also used",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": "ωc ∈ [0, max_i h_i]"
+        },
+        "classical_baselines": [
+          "imaginary-time Trotter-Suzuki",
+          "imaginary-time QDrift"
+        ]
+      },
+      "problem_formulation": {
+        "encoding_method": "block_encoding",
+        "encoding_details": "Imaginary-time propagator e^{-βH} approximated by product formulas over Hamiltonian terms",
+        "objective_function": "approximate normalized imaginary-time evolution e^{-βH}ρe^{-βH}/Tr(...) with minimal gate cost",
+        "constraints_handling": "partition Hamiltonian into A and B; QDrift sampling for B; Trotter for A",
+        "num_binary_variables": null,
+        "problem_hamiltonian": "same benchmark Hamiltonians as real-time section: H3, 6-site Jellium, 8-spin Heisenberg",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Imaginary-time simulations of H3, 6-site Jellium, and 8-spin Heisenberg models",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": "OpenFermion/PySCF-generated chemistry Hamiltonians; spin models",
+        "dataset_specification": {
+          "description": "same as real-time benchmarks; inverse temperature β used instead of time t"
+        },
+        "data_preprocessing_details": "same Hamiltonian generation and Jordan-Wigner mapping as real-time section",
+        "evaluation_methodology": "Exact density-matrix evolution; trace distance used as error metric; crossover advantages reported at points where composite cost equals baseline cost"
+      },
+      "quantum_resources": {
+        "num_qubits": 3,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "NumPy / OpenFermion / PySCF / SciKit-Optimize",
+        "framework_version": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": null,
+        "transpilation_target": null,
+        "classical_solver": "GBRT optimizer; exact dense linear algebra",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Hamiltonian partitioning and exact imaginary-time channel construction",
+        "classical_postprocessing": "trace-distance evaluation; exact gate counting; interpolation for crossover points",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "speedup_factor",
+          "value": 2.3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "x",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "speedup_factor",
+          "value": 18.8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "x",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "speedup_factor",
+          "value": 3.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "x",
+          "higher_is_better": true,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "imaginary-time_trotter_suzuki",
+          "metric_name": "speedup_factor",
+          "value": null,
+          "unit": "x"
+        },
+        {
+          "method_name": "imaginary-time_qdrift",
+          "metric_name": "speedup_factor",
+          "value": null,
+          "unit": "x"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "2.3x",
+          "baseline_method": "imaginary-time Trotter-Suzuki and imaginary-time QDrift",
+          "conditions": "H3 imaginary-time simulation at crossover point",
+          "is_demonstrated": true,
+          "caveats": "Exact trace-distance cost on simulator; classical algorithmic setting."
+        },
+        {
+          "type": "empirical",
+          "factor": "18.8x",
+          "baseline_method": "imaginary-time Trotter-Suzuki and imaginary-time QDrift",
+          "conditions": "6-site Jellium imaginary-time simulation at crossover point",
+          "is_demonstrated": true,
+          "caveats": "Largest reported imaginary-time advantage; exact numerical cost."
+        },
+        {
+          "type": "empirical",
+          "factor": "3.1x",
+          "baseline_method": "imaginary-time Trotter-Suzuki and imaginary-time QDrift",
+          "conditions": "8-spin Heisenberg imaginary-time simulation at crossover point",
+          "is_demonstrated": true,
+          "caveats": "Reported in summary table; exact numerical cost."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 3.0,
+          "num_qubits": 3,
+          "metric_name": "speedup_factor",
+          "metric_value": 2.3
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 6,
+          "metric_name": "speedup_factor",
+          "metric_value": 18.8
+        },
+        {
+          "problem_size": 8.0,
+          "num_qubits": 8,
+          "metric_name": "speedup_factor",
+          "metric_value": 3.1
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "no asymptotic quantum advantage claimed; constant-factor improvements in gate cost for imaginary-time simulation",
+        "classical_complexity": "classical Monte-Carlo / exact dense simulation context; no explicit asymptotic bound given",
+        "speedup_order": "constant",
+        "constant_factor_quantum": "up to 18.8× for 6-site Jellium; 3.1× for 8-spin Heisenberg; 2.3× for H3",
+        "constant_factor_classical": null,
+        "total_operations_quantum": "exact exponential-gate counts per instance",
+        "total_operations_classical": null,
+        "crossover_n": "problem-size dependent; no single N* reported",
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "data_loading_bottleneck": null
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "This is an imaginary-time classical algorithmic study, not a digital quantum hardware experiment.",
+          "Hardware inferred as simulator-based for the same reasons as exp_1."
+        ]
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "Local composite quantum simulation of an 8-spin weakly coupled Heisenberg model using Lieb-Robinson block decomposition plus Trotter/QDrift hybridization.",
+      "algorithm": {
+        "family": "hybrid",
+        "variant": "Local composite channels for real-time evolution",
+        "ansatz": null,
+        "optimizer": "Heuristic partitioning with NB=(4,1,4) on lattice subsets (A,Y,B); no full optimizer emphasized",
+        "num_layers": null,
+        "convergence_criteria": "not specified",
+        "hyperparameters": {
+          "inner_order": "1 or 2 (as discussed)",
+          "outer_order": "1",
+          "QDrift_samples_NB": "(4,1,4) on lattice subsets (A,Y,B)",
+          "block_overlap_l": "varied; example l=2 in figure caption",
+          "coupling_scale": "0.00005 for J(j)_ν sampling",
+          "error_tolerance_epsilon": "0.000001",
+          "Bz": "1",
+          "number_of_sites": "8"
+        },
+        "parameter_initialization": "heuristic based on weak coupling and locality; no explicit random initialization reported",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        },
+        "classical_baselines": [
+          "localized Trotter-Suzuki",
+          "standard Trotter-Suzuki"
+        ]
+      },
+      "problem_formulation": {
+        "encoding_method": "block_encoding",
+        "encoding_details": "1D lattice Heisenberg Hamiltonian decomposed into local blocks with overlap; each block further split into A/B for Trotter/QDrift",
+        "objective_function": "approximate real-time evolution while exploiting locality and minimizing gate cost",
+        "constraints_handling": "Lieb-Robinson-based block decomposition; local partitioning within each block",
+        "num_binary_variables": null,
+        "problem_hamiltonian": "8-spin Heisenberg model with weak, site-dependent couplings J(j)_ν and field Bz",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "8-spin Heisenberg chain with very weak couplings to test locality advantages",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": "Heisenberg spin chain",
+        "dataset_specification": {
+          "description": "J(j)_ν sampled from exponential distribution with scale 0.00005; Bz=1"
+        },
+        "data_preprocessing_details": "couplings sampled to create sharply local/weakly coupled regime",
+        "evaluation_methodology": "Exact cost comparison between localized and standard channels; trace-distance-based error threshold"
+      },
+      "quantum_resources": {
+        "num_qubits": 8,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "NumPy / custom simulation library",
+        "framework_version": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": null,
+        "transpilation_target": null,
+        "classical_solver": "exact numerical simulation and cost counting",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Lieb-Robinson block construction and local partitioning",
+        "classical_postprocessing": "trace-distance evaluation and gate counting",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "error_tolerance_epsilon",
+          "value": 1e-06,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute error",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "coupling_scale",
+          "value": 5e-05,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "scale parameter",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "magnetic_field_bz",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "field strength",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "nb_partition",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "nb_partition",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "nb_partition",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "localized_trotter_suzuki",
+          "metric_name": "gate_cost",
+          "value": null,
+          "unit": "gates"
+        },
+        {
+          "method_name": "standard_trotter_suzuki",
+          "metric_name": "gate_cost",
+          "value": null,
+          "unit": "gates"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": "no proven speedup",
+          "baseline_method": "localized Trotter-Suzuki and standard Trotter-Suzuki",
+          "conditions": "8-spin weakly coupled Heisenberg local-composite test",
+          "is_demonstrated": false,
+          "caveats": "Paper explicitly states the regime is not one where locality provides advantages; composite channel is most efficient but no locality-specific advantage is established."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 8.0,
+          "num_qubits": 8,
+          "metric_name": "error_tolerance_epsilon",
+          "metric_value": 1e-06
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "local composite bound includes exponentially small locality error plus hybrid simulation terms; no asymptotic speedup demonstrated in numerics",
+        "classical_complexity": "localized exact simulation remains expensive; no explicit asymptotic bound given",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "data_loading_bottleneck": null
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper reports this as a numerical study of localized channels, not a hardware execution.",
+          "No explicit transpiled depth or gate counts beyond exact cost comparisons are given."
+        ]
+      }
+    }
+  ]
+}

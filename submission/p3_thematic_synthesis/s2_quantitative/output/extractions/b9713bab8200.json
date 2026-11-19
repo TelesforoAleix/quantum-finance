@@ -1,0 +1,702 @@
+{
+  "paper_id": "b9713bab8200",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:40:40+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "b9713bab8200_data_re_uploading_in_quantum_machine_learning_for_time_series_application_to_tra.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.65,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 16,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='normalized MSE' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='normalized MAE' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='R2' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='timesteps' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='learning_rate' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='data points' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='days' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[0].unit='normalized MSE' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[1].unit='normalized MAE' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[2].unit='R2' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[3].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[4].unit='timesteps' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[5].unit='learning_rate' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[7].unit='data points' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[9].unit='days' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.65,
+      "completeness": 0.65,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.65,
+        0.65
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Data re-uploading in Quantum Machine Learning for time series: application to traffic forecasting",
+    "authors": [
+      "Nikolaos Schetakis",
+      "Paolo Bonfini",
+      "Negin Alisoltani",
+      "Konstantinos Blazakis",
+      "Symeon I. Tsintzos",
+      "Alexis Askitopoulos",
+      "Davit Aghamalyan",
+      "Panagiotis Fafoutellis",
+      "Eleni I. Vlahogianni"
+    ],
+    "year": 2025,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "other",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper evaluates hybrid quantum–classical neural networks for traffic forecasting using simulated variational circuits with 2–14 qubits and data re-uploading. On a real dataset (~40,000 traffic measurements over 40 days), recursive hybrid models with ≥6 qubits achieve slightly better prediction metrics (MSE/MAE/R²) than classical LSTM baselines, while fully connected hybrid models converge slower and show no benefit. All results are obtained using classical simulation via PennyLane.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Hybrid quantum-classical traffic forecasting model using a quantum variational circuit as a replacement for the first fully connected layer (Scenario A), compared against a classical fully connected regressor.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "hybrid quantum variational circuit layer replacement for fully connected regression",
+        "ansatz": "angle embedding followed by trainable single-qubit rotations and CNOT entangling layers",
+        "optimizer": "Adam",
+        "num_layers": null,
+        "convergence_criteria": "trained for 20 epochs",
+        "hyperparameters": {
+          "window_size": 20,
+          "learning_rate": 0.0005,
+          "loss_function": "MSE",
+          "cross_validation": "5-fold gap cross-validation",
+          "qubits_range": "2 to 14",
+          "batch_size": 32,
+          "encoder_units": 32
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "max_iterations": 20,
+          "learning_rate": 0.0005,
+          "optimization_level": null,
+          "tolerance": null,
+          "step_size": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "compressed sequence encoded using angle rotation gates followed by entangling layers consisting of trainable single-qubit rotations and CNOT gates, with Pauli-Z measurement at output",
+        "objective_function": "one-step-ahead traffic flow regression minimizing mean squared error",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "One-step-ahead traffic flow forecasting for a loop detector on Syggrou Avenue in Athens, Greece",
+        "num_assets": null,
+        "time_steps": 40,
+        "num_features": 1,
+        "dataset_size": 40,
+        "data_type": "real_market",
+        "dataset_name": "Athens traffic flow dataset",
+        "dataset_specification": {
+          "description": "traffic volume from a loop detector on Syggrou Avenue; March-April 2023; 1.5-minute sampling; 40 days"
+        },
+        "data_preprocessing_details": "input sequences windowed with size 20; LSTM autoencoder used to compress each window to Nq features before regression; data split with gap-cross-validation to avoid temporal leakage; normalization implied in reported scores",
+        "evaluation_methodology": "5-fold gap cross-validation with train/validation/test splits; performance evaluated on hold-out test folds using MSE, MAE, and R2"
+      },
+      "quantum_resources": {
+        "num_qubits": 2,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "PennyLane"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "LSTM autoencoder encoder compresses each input window; classical baseline uses a fully connected layer with 2Nq neurons",
+        "classical_postprocessing": "single linear output neuron for next-step prediction",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 20,
+          "final_loss_value": null,
+          "loss_curve_shape": "hybrid fully connected models converge slower than classical counterparts; all models flatten before 20 epochs",
+          "variance_across_runs": 1.0,
+          "num_independent_runs": 5
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "mse",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "normalized MSE",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "mae",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "normalized MAE",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "r2",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "R2",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "training_epochs_to_converge",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "window_size",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "timesteps",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "learning_rate",
+          "value": 0.0005,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "learning_rate",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "batch_size",
+          "value": 32,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 40000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "data points",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "time_resolution",
+          "value": 1.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "minutes",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_data_duration",
+          "value": 40,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "days",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical fully connected regressor",
+          "metric_name": "mse",
+          "value": null,
+          "unit": "normalized MSE"
+        },
+        {
+          "method_name": "classical fully connected regressor",
+          "metric_name": "mae",
+          "value": null,
+          "unit": "normalized MAE"
+        },
+        {
+          "method_name": "classical fully connected regressor",
+          "metric_name": "r2",
+          "value": null,
+          "unit": "R2"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": "classical fully connected regressor",
+          "conditions": "Scenario A; hybrid quantum layer replaces first fully connected layer; simulated on classical hardware with PennyLane",
+          "is_demonstrated": false,
+          "caveats": "Paper states hybrid fully connected models do not appear convenient; classical models converge faster and hybrid models only become comparable from about 10 qubits onward."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 2.0,
+          "num_qubits": 2,
+          "metric_name": "mse",
+          "metric_value": null
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 6,
+          "metric_name": "mse",
+          "metric_value": null
+        },
+        {
+          "problem_size": 10.0,
+          "num_qubits": 10,
+          "metric_name": "mse",
+          "metric_value": null
+        },
+        {
+          "problem_size": 14.0,
+          "num_qubits": 14,
+          "metric_name": "mse",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Not analyzed; experiments only simulate up to 14 qubits and compare training convergence and prediction metrics.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Quantum circuits only simulated on classical hardware",
+          "Very small circuit sizes (2–14 qubits)",
+          "No algorithmic complexity advantage reported",
+          "Hybrid model converges slower than classical fully connected baseline",
+          "Classical LSTM preprocessing dominates model capacity"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Paper states quantum layers were implemented using PennyLane and simulated on classical hardware; no physical QPU used.",
+          "Number of qubits varies across runs (Q2 to Q14); representative minimum value recorded in num_qubits because the schema expects a single value.",
+          "Figures 8 and 9 show classical fully connected models converging faster and achieving comparable or better performance for small qubit counts.",
+          "Authors explicitly state hybrid models are computationally more expensive and do not claim practical quantum advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Hybrid quantum-classical traffic forecasting model using a data re-uploading quantum layer as a replacement for the first recurrent layer (Scenario B), compared against a classical LSTM regressor.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "data re-uploading variational quantum circuit for recursive regression",
+        "ansatz": "repeated angle embedding blocks with trainable single-qubit rotations and CNOT entangling layers",
+        "optimizer": "Adam",
+        "num_layers": null,
+        "convergence_criteria": "trained for 20 epochs",
+        "hyperparameters": {
+          "window_size": 20,
+          "learning_rate": 0.0005,
+          "loss_function": "MSE",
+          "cross_validation": "5-fold gap cross-validation",
+          "qubits_range": "2 to 14",
+          "reuploads_range": "2 to 14",
+          "batch_size": 32,
+          "encoder_units": 32
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "max_iterations": 20,
+          "learning_rate": 0.0005,
+          "optimization_level": null,
+          "tolerance": null,
+          "step_size": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "compressed sequence encoded via repeated angle-embedding blocks; each block contains embedding rotations followed by trainable single-qubit rotations and CNOT entangling gates, repeated Nq times with Pauli‑Z measurement at output",
+        "objective_function": "one-step-ahead traffic flow regression minimizing mean squared error",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "One-step-ahead traffic flow forecasting for a loop detector on Syggrou Avenue in Athens, Greece",
+        "num_assets": null,
+        "time_steps": 40,
+        "num_features": 1,
+        "dataset_size": 40,
+        "data_type": "real_market",
+        "dataset_name": "Athens traffic flow dataset",
+        "dataset_specification": {
+          "description": "traffic volume from a loop detector on Syggrou Avenue; March-April 2023; 1.5-minute sampling; 40 days"
+        },
+        "data_preprocessing_details": "input sequences windowed with size 20; LSTM autoencoder used to compress each window to Nq features before regression; data split with gap-cross-validation to avoid temporal leakage; normalization implied in reported scores",
+        "evaluation_methodology": "5-fold gap cross-validation with train/validation/test splits; performance evaluated on hold-out test folds using MSE, MAE, and R2"
+      },
+      "quantum_resources": {
+        "num_qubits": 2,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "PennyLane"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "LSTM autoencoder encoder compresses each input window; classical baseline uses an LSTM layer with Nq units",
+        "classical_postprocessing": "single linear output neuron for next-step prediction",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 20,
+          "final_loss_value": null,
+          "loss_curve_shape": "hybrid recursive models converge faster than classical counterparts for smaller qubit counts; all models flatten before 20 epochs",
+          "variance_across_runs": 1.0,
+          "num_independent_runs": 5
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "mse",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "normalized MSE",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "mae",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "normalized MAE",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "r2",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "R2",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "training_epochs_to_converge",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "window_size",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "timesteps",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "learning_rate",
+          "value": 0.0005,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "learning_rate",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "batch_size",
+          "value": 32,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 40000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "data points",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "time_resolution",
+          "value": 1.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "minutes",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_data_duration",
+          "value": 40,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "days",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical LSTM regressor",
+          "metric_name": "mse",
+          "value": null,
+          "unit": "normalized MSE"
+        },
+        {
+          "method_name": "classical LSTM regressor",
+          "metric_name": "mae",
+          "value": null,
+          "unit": "normalized MAE"
+        },
+        {
+          "method_name": "classical LSTM regressor",
+          "metric_name": "r2",
+          "value": null,
+          "unit": "R2"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": "classical LSTM regressor",
+          "conditions": "Scenario B; hybrid quantum layer uses data re-uploading with Nq qubits and Nq re-uploads; simulated on classical hardware with PennyLane",
+          "is_demonstrated": false,
+          "caveats": "Paper reports better predictive performance for hybrid recursive models with 6 qubits or more, and faster convergence for smaller qubit counts, but no computational speedup is claimed."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 2.0,
+          "num_qubits": 2,
+          "metric_name": "mse",
+          "metric_value": null
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 6,
+          "metric_name": "mse",
+          "metric_value": null
+        },
+        {
+          "problem_size": 10.0,
+          "num_qubits": 10,
+          "metric_name": "mse",
+          "metric_value": null
+        },
+        {
+          "problem_size": 14.0,
+          "num_qubits": 14,
+          "metric_name": "mse",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "parity_with_classical",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Unknown; only empirical comparison of prediction metrics with small simulated circuits.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "All experiments performed via classical simulation (PennyLane)",
+          "Small circuit sizes (≤14 qubits)",
+          "No formal complexity or scaling analysis",
+          "Hybrid model requires significantly more computation due to circuit simulation",
+          "Advantage only observed empirically on one dataset"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Paper states quantum layers were implemented using PennyLane and simulated on classical hardware; no physical QPU used.",
+          "Scenario B uses Nq qubits and Nq re-upload blocks; the paper reports experiments across 2 to 14 qubits/re-uploads, so a single representative qubit count is recorded in num_qubits.",
+          "Figure 10 shows hybrid recursive models outperform classical LSTM baselines for ≥6 qubits in forecasting metrics (MSE/MAE/R2).",
+          "However, authors state the hybrid approach has higher computational complexity and do not claim quantum advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

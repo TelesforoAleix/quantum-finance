@@ -1,0 +1,889 @@
+{
+  "paper_id": "25b9eceec1f2",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:19:16+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "25b9eceec1f2_performance_comparison_of_qaoa_mixers_for_ternary_portfolio_optimization.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.65,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 8,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[1].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[1].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[2].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[1].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[2].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[3].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[6].unit='range midpoint of 0 to 0.01' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.65,
+      "completeness": 0.65,
+      "num_experiments": 4,
+      "experiment_scores": [
+        0.8,
+        0.8,
+        0.85,
+        0.15
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Performance Comparison of QAOA Mixers for Ternary Portfolio Optimization",
+    "authors": [
+      "Shintaro Yamamura",
+      "Satoshi Watanabe",
+      "Masaya Kunimi",
+      "Kazuhiro Saito",
+      "Tetsuro Nikuni"
+    ],
+    "year": 2026,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "portfolio-optimization",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper benchmarks five QAOA mixer designs (Standard, XY Ring, XY Parity Ring, XY Full, and QAMPA) for ternary portfolio optimization using real DAX30 market data on instances with N=5 (10 qubits) and N=8 (16 qubits). In noiseless simulations, XY Full and QAMPA achieve the best performance with approximation ratios exceeding ~0.99 at depth p≤7, but under depolarizing noise (η up to 0.01) the Standard mixer becomes superior beyond crossover thresholds around η≈0.003 (p=1) and η≈0.0005 (p≥5).",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "QAOA portfolio optimization on a ternary (long/flat/short) formulation comparing five mixers on N=5 assets with B=2, evaluated on statevector and QASM simulators.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "QAOA with Standard Mixer, XY Ring Mixer, XY Parity Ring Mixer, XY Full Mixer, and QAMPA",
+        "ansatz": "alternating cost and mixer unitaries; XY-based variants use Dicke-state initial state",
+        "optimizer": "SLSQP (statevector), Nelder-Mead (QASM)",
+        "num_layers": 1,
+        "convergence_criteria": "classical optimization of expectation value; no explicit stopping criterion reported",
+        "hyperparameters": {
+          "q": "1/3",
+          "N": "5",
+          "B": "2",
+          "mixers": [
+            "Standard",
+            "XY Ring",
+            "XY Parity Ring",
+            "XY Full",
+            "QAMPA"
+          ],
+          "shots_statevector": null,
+          "shots_qasm": 3000,
+          "initial_parameter_search": "grid search for p=1; layerwise parameter transfer for p>1",
+          "noise_strength_eta": null
+        },
+        "parameter_initialization": "For p=1, grid search over linear schedules; for p>1, parameters initialized from prior layer using four estimation methods and the best one selected",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": {
+            "gamma": "[0, π]",
+            "beta": "[0, ∞)"
+          }
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Each ternary asset state z_i∈{1,0,-1} encoded with two qubits per asset: z_i = x_i^+ - x_i^-; total register size 2N qubits",
+        "objective_function": "min F(z)= q * sum_{i,j} σ_ij z_i z_j - (1-q) * sum_i μ_i z_i, with q=1/3",
+        "constraints_handling": "Standard Mixer uses penalty term A(Σ_i z_i - B)^2; XY-based mixers enforce feasibility via hard constraint-preserving mixer and feasible initial state (Dicke state)",
+        "num_binary_variables": 10,
+        "problem_hamiltonian": "Cost Hamiltonian derived from F^(A) with Pauli-Z mapping; includes pairwise ZZ terms and single-qubit Z terms",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Ternary portfolio optimization on DAX30 stock data for 5 assets",
+        "num_assets": 5,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "real_market",
+        "dataset_name": "DAX 30 / selected DAX stocks",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "LIN.DE",
+            "BAYN.DE",
+            "VNA.DE",
+            "MTX.DE",
+            "MUV2.DE"
+          ],
+          "date_range": "2016/01/01 to 2020/12/31",
+          "benchmark_name": "DAX 30",
+          "preprocessing": "daily adjusted closing prices; daily simple returns; annualized expected returns and covariance matrix"
+        },
+        "data_preprocessing_details": "Historical prices from Yahoo Finance via yfinance; missing dates dropped; daily simple returns computed; expected returns annualized by geometric compounding over 252 trading days; covariance annualized by multiplying daily sample covariance by 252",
+        "evaluation_methodology": "20 randomly generated portfolios based on DAX30 data; average approximation ratio and optimal solution probability over multiple output distributions; QASM uses finite-shot sampling"
+      },
+      "quantum_resources": {
+        "num_qubits": 10,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 3000,
+        "num_variational_params": 2,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/Shintaro-Yamamura/QAOA-Ternary-Portfolio",
+        "framework_version": "Qiskit (version not specified)",
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": null,
+          "routing_method": null
+        },
+        "classical_preprocessing": "Classical estimation of returns/covariance; grid search for initial parameters at p=1; layerwise parameter transfer for p>1",
+        "classical_postprocessing": "Compute approximation ratio and optimal solution probability from measurement outcomes",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": 20.0,
+          "num_independent_runs": 20
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.99,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "ground_state_probability",
+          "value": 0.6,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "assets",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots",
+          "value": 3000,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "Paper reports comparative performance among QAOA mixers only; no classical optimization baseline or quantum speedup claim."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 5,
+          "num_qubits": 10,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.99
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": 10,
+          "metric_name": "ground_state_probability",
+          "metric_value": 0.6
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "QAOA circuit depth scales with p; XY initial-state preparation depth O(n) and CNOT count O(k n) for Dicke-state preparation",
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not analyzed",
+        "resources_for_advantage": "not specified; experiments limited to 10 qubits (N=5 assets)",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Small problem size (5 assets, 10 qubits)",
+          "No classical optimization benchmark comparison",
+          "Results evaluated only on simulators",
+          "No complexity-based quantum speedup analysis"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": null,
+        "notes": [
+          "num_qubits inferred as 2N=10 from ternary encoding with N=5 assets.",
+          "hardware.type inferred as simulator_statevector because the experiment uses the Statevector Simulator in Qiskit.",
+          "speedup_order set to none_proven because the paper reports comparative performance only, not asymptotic quantum advantage.",
+          "Authors do not claim quantum advantage; study focuses on comparing mixer designs within QAOA.",
+          "No classical baseline solver is benchmarked against the quantum algorithm."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "QAOA portfolio optimization on a ternary formulation comparing five mixers on N=8 assets with B=4, evaluated on statevector and QASM simulators.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "QAOA with Standard Mixer, XY Ring Mixer, XY Parity Ring Mixer, XY Full Mixer, and QAMPA",
+        "ansatz": "alternating cost and mixer unitaries; XY-based variants use Dicke-state initial state",
+        "optimizer": "SLSQP (statevector), Nelder-Mead (QASM)",
+        "num_layers": 1,
+        "convergence_criteria": "classical optimization of expectation value; no explicit stopping criterion reported",
+        "hyperparameters": {
+          "q": "1/3",
+          "N": "8",
+          "B": "4",
+          "mixers": [
+            "Standard",
+            "XY Ring",
+            "XY Parity Ring",
+            "XY Full",
+            "QAMPA"
+          ],
+          "shots_statevector": null,
+          "shots_qasm": 10000,
+          "initial_parameter_search": "grid search for p=1; layerwise parameter transfer for p>1",
+          "noise_strength_eta": null
+        },
+        "parameter_initialization": "For p=1, grid search over linear schedules; for p>1, parameters initialized from prior layer using four estimation methods and the best one selected",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": {
+            "gamma": "[0, π]",
+            "beta": "[0, ∞)"
+          }
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Each ternary asset state z_i∈{1,0,-1} encoded with two qubits per asset: z_i = x_i^+ - x_i^-; total register size 2N qubits",
+        "objective_function": "min F(z)= q * sum_{i,j} σ_ij z_i z_j - (1-q) * sum_i μ_i z_i, with q=1/3",
+        "constraints_handling": "Standard Mixer uses penalty term A(Σ_i z_i - B)^2; XY-based mixers enforce feasibility via hard constraint-preserving mixer and feasible initial state (Dicke state)",
+        "num_binary_variables": 16,
+        "problem_hamiltonian": "Cost Hamiltonian derived from F^(A) with Pauli-Z mapping; includes pairwise ZZ terms and single-qubit Z terms",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Ternary portfolio optimization on DAX30 stock data for 8 assets",
+        "num_assets": 8,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "real_market",
+        "dataset_name": "DAX 30 / selected DAX stocks",
+        "dataset_specification": {
+          "ticker_symbols": null,
+          "date_range": "2016/01/01 to 2020/12/31",
+          "benchmark_name": "DAX 30",
+          "preprocessing": "daily adjusted closing prices; daily simple returns; annualized expected returns and covariance matrix"
+        },
+        "data_preprocessing_details": "Historical prices from Yahoo Finance via yfinance; missing dates dropped; daily simple returns computed; expected returns annualized by geometric compounding over 252 trading days; covariance annualized by multiplying daily sample covariance by 252",
+        "evaluation_methodology": "10 randomly generated portfolios based on DAX30 data; average approximation ratio and optimal solution probability over multiple output distributions; QASM uses finite-shot sampling"
+      },
+      "quantum_resources": {
+        "num_qubits": 16,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 10000,
+        "num_variational_params": 2,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/Shintaro-Yamamura/QAOA-Ternary-Portfolio",
+        "framework_version": "Qiskit (version not specified)",
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": null,
+          "routing_method": null
+        },
+        "classical_preprocessing": "Classical estimation of returns/covariance; grid search for initial parameters at p=1; layerwise parameter transfer for p>1",
+        "classical_postprocessing": "Compute approximation ratio and optimal solution probability from measurement outcomes",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": 10.0,
+          "num_independent_runs": 10
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "approximation_ratio",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "ground_state_probability",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "assets",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 16,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots",
+          "value": 10000,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "Paper reports comparative performance among QAOA mixers only; no classical optimization baseline or quantum speedup claim."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 8,
+          "num_qubits": 16,
+          "metric_name": "approximation_ratio",
+          "metric_value": null
+        },
+        {
+          "problem_size": 8,
+          "num_qubits": 16,
+          "metric_name": "ground_state_probability",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "QAOA circuit depth scales with p; XY initial-state preparation depth O(n) and CNOT count O(k n) for Dicke-state preparation",
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not analyzed",
+        "resources_for_advantage": "not specified; largest instance uses 16 qubits (N=8 assets)",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Very small optimization instances (8 assets)",
+          "Simulation-only evaluation",
+          "No runtime or scaling comparison with classical portfolio optimizers",
+          "No asymptotic speedup analysis"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": null,
+        "notes": [
+          "num_qubits inferred as 2N=16 from ternary encoding with N=8 assets.",
+          "hardware.type inferred as simulator_statevector because the experiment uses the Statevector Simulator in Qiskit.",
+          "speedup_order set to none_proven because the paper reports comparative performance only, not asymptotic quantum advantage.",
+          "Paper evaluates relative performance among QAOA mixer designs only.",
+          "No claim that QAOA outperforms classical portfolio optimization algorithms."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "Noise-robustness study of QAOA mixers for ternary portfolio optimization on N=5 assets with B=2 under depolarizing noise, using density-matrix simulation.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "QAOA with Standard Mixer, XY Ring Mixer, XY Parity Ring Mixer, XY Full Mixer, and QAMPA under depolarizing noise",
+        "ansatz": "alternating cost and mixer unitaries; XY-based variants use Dicke-state initial state",
+        "optimizer": "COBYLA",
+        "num_layers": 1,
+        "convergence_criteria": "classical optimization of expectation value; no explicit stopping criterion reported",
+        "hyperparameters": {
+          "q": "1/3",
+          "N": "5",
+          "B": "2",
+          "mixers": [
+            "Standard",
+            "XY Ring",
+            "XY Parity Ring",
+            "XY Full",
+            "QAMPA"
+          ],
+          "noise_strength_eta": "0 to 0.01 in steps of 0.001",
+          "shots": 8192,
+          "initial_parameter_search": "layerwise parameter transfer; best of four estimation methods for p>1",
+          "depolarizing_channel": "E(ρ)=η I/2^(2N) + (1-η)ρ"
+        },
+        "parameter_initialization": "For p=1, grid search over linear schedules; for p>1, parameters initialized from prior layer using four estimation methods and the best one selected",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": {
+            "gamma": "[0, π]",
+            "beta": "[0, ∞)"
+          }
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Each ternary asset state z_i∈{1,0,-1} encoded with two qubits per asset: z_i = x_i^+ - x_i^-; total register size 2N qubits",
+        "objective_function": "min F(z)= q * sum_{i,j} σ_ij z_i z_j - (1-q) * sum_i μ_i z_i, with q=1/3",
+        "constraints_handling": "Standard Mixer uses penalty term A(Σ_i z_i - B)^2; XY-based mixers enforce feasibility via hard constraint-preserving mixer and feasible initial state (Dicke state)",
+        "num_binary_variables": 10,
+        "problem_hamiltonian": "Cost Hamiltonian derived from F^(A) with Pauli-Z mapping; includes pairwise ZZ terms and single-qubit Z terms",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Ternary portfolio optimization on five DAX stocks under depolarizing noise",
+        "num_assets": 5,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "real_market",
+        "dataset_name": "DAX 30 / selected DAX stocks",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "LIN.DE",
+            "BAYN.DE",
+            "VNA.DE",
+            "MTX.DE",
+            "MUV2.DE"
+          ],
+          "date_range": "2016/01/01 to 2020/12/31",
+          "benchmark_name": "DAX 30",
+          "preprocessing": "daily adjusted closing prices; daily simple returns; annualized expected returns and covariance matrix"
+        },
+        "data_preprocessing_details": "Historical prices from Yahoo Finance via yfinance; missing dates dropped; daily simple returns computed; expected returns annualized by geometric compounding over 252 trading days; covariance annualized by multiplying daily sample covariance by 252",
+        "evaluation_methodology": "For p=1,3,5,7 and η∈{0,0.001,...,0.01}, compute average approximation ratio and optimal solution probability; 8192 shots per setting; 20,000 shots used for Dicke-state feasibility probability analysis"
+      },
+      "quantum_resources": {
+        "num_qubits": 10,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 8192,
+        "num_variational_params": 2,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_noisy",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "depolarizing channel applied after every one-qubit and two-qubit gate",
+        "error_mitigation_method": null,
+        "noise_parameters": {
+          "eta": "0 to 0.01 in steps of 0.001"
+        },
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/Shintaro-Yamamura/QAOA-Ternary-Portfolio",
+        "framework_version": "Qiskit (version not specified)",
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": null,
+          "routing_method": null
+        },
+        "classical_preprocessing": "Classical estimation of returns/covariance; grid search for initial parameters at p=1; layerwise parameter transfer for p>1",
+        "classical_postprocessing": "Compute approximation ratio, optimal solution probability, and feasible-state probability from measurement outcomes",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": 20.0,
+          "num_independent_runs": 20
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "approximation_ratio",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "ground_state_probability",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "feasibility_percentage",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 20000,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "assets",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots",
+          "value": 8192,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "noise_strength_eta",
+          "value": 0.005,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "range midpoint of 0 to 0.01",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "Noise-robustness comparison among QAOA mixers only; no classical baseline or speedup claim."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 5,
+          "num_qubits": 10,
+          "metric_name": "approximation_ratio",
+          "metric_value": null
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": 10,
+          "metric_name": "ground_state_probability",
+          "metric_value": null
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": 10,
+          "metric_name": "feasibility_percentage",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "QAOA circuit depth scales with p; XY initial-state preparation depth O(n) and CNOT count O(k n) for Dicke-state preparation",
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": false,
+        "maturity_level": "L2_noisy_sim",
+        "crossover_size": "not analyzed",
+        "resources_for_advantage": "not specified",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Depolarizing noise simulated rather than hardware-tested",
+          "Small system size (10 qubits)",
+          "Noise quickly degrades constraint-preserving Dicke initial states",
+          "Gate count overhead of XY mixers increases decoherence sensitivity"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": null,
+        "notes": [
+          "num_qubits inferred as 2N=10 from ternary encoding with N=5 assets.",
+          "hardware.type inferred as simulator_noisy because the paper uses the Qiskit DensityMatrix Simulator with depolarizing noise.",
+          "speedup_order set to none_proven because the paper reports noise-robustness comparisons only, not asymptotic quantum advantage.",
+          "The experiment evaluates noise robustness of mixer choices rather than quantum vs classical performance.",
+          "Figures 5–8 demonstrate performance crossover between mixers under increasing noise."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "Noise robustness study of QAOA mixers using a depolarizing noise channel applied after each gate, evaluated on a ternary portfolio instance with N=5 assets and B=2.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "QAOA with Standard, XY Ring, XY Parity Ring, XY Full, and QAMPA mixers under depolarizing noise",
+        "optimizer": "COBYLA",
+        "num_layers": 1,
+        "hyperparameters": {
+          "noise_strength_eta": "0 to 0.01 in increments of 0.001",
+          "shots": 8192
+        }
+      },
+      "key_results": [
+        "XY-based mixers outperform the Standard mixer in noiseless settings but lose their advantage as noise increases.",
+        "Crossover noise thresholds observed: approx η≈0.003 for p=1 and η≈0.0005 for p≥5 in approximation ratio.",
+        "Performance degradation attributed to large gate counts and fragile Dicke-state initialization used by XY mixers."
+      ],
+      "source": "Section 7.3 (Performance under depolarizing Noise), Figures 5–8, Table 1"
+    }
+  ]
+}

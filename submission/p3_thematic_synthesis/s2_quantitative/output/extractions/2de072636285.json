@@ -1,0 +1,496 @@
+{
+  "paper_id": "2de072636285",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:26:48+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "2de072636285_application_of_an_upsampling_algorithm_to_quantum_state_preparation_of_continuou.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.483,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 7,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[1].unit='qualitative: exponential for direct divide-and-conquer circuit; polylogarithmic after quantum forking' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='free parameter' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='0 <= zeta < 1/2^(n-1)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='Delta x_n = w / 2^n' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='f_n = 1 / (2 Delta x_n)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[1].unit='qualitative: exponential for direct divide-and-conquer circuit; polylogarithmic after quantum forking' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[2].unit='symbolic: l, p, q = 1 - p' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.483,
+      "completeness": 0.483,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.483,
+        0.483
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 0.5,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 0.5,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Application of an upsampling algorithm to quantum state preparation of continuous and discrete probability distributions",
+    "authors": [
+      "R. P. Erickson"
+    ],
+    "year": 2025,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "simulation-monte-carlo",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes an upsampling-based gate-model quantum algorithm for preparing quantum states whose amplitudes correspond to sampled probability distributions. Example simulations prepare Gaussian and Laplace distributions with n = 3 qubits and a binomial distribution with n = 4 qubits; the original divide‑and‑conquer circuit has exponential depth but can be transformed via quantum forking to polylogarithmic depth at the cost of 2^n − 1 ancilla qubits.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Gate-based quantum state preparation via an upsampling/divide-and-conquer circuit for continuous probability distributions, demonstrated on Gaussian and Laplace distributions and converted to a polylogarithmic-depth quantum-forking circuit.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "upsampling quantum state preparation; divide-and-conquer circuit transformed to quantum forking",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "distribution_types": [
+            "Gaussian",
+            "Laplace"
+          ],
+          "sampling_window_width_w": "reported as a free parameter",
+          "shift_parameter_zeta": "0 <= zeta < 1/2^(n-1)",
+          "qubit_count_n": "varies; examples use n=3 for Gaussian and Laplace simulations"
+        },
+        "parameter_initialization": "not specified; state-preparation angles computed analytically from the target distribution",
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Prepare an n-qubit state whose amplitudes are square roots of sampled probabilities from a continuous PDF over R; computational basis states map to sampled points x_n via x_n = x_0 + Delta x_n * i_n",
+        "objective_function": "Prepare |psi_n> = sum_i sqrt(P(x_i) delta_x) |i> with amplitudes proportional to sampled PDF values",
+        "constraints_handling": "Normalization via delta_xn; periodic extension of the PDF over the sampling window; no optimization constraints",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Univariate continuous probability distributions on the real line; examples shown for Gaussian and Laplace distributions, with lognormal mentioned as a mapped example",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "distribution_examples": [
+            "Gaussian",
+            "Laplace",
+            "lognormal (mapped from Gaussian)"
+          ],
+          "parameters": [
+            "mu",
+            "sigma",
+            "b"
+          ],
+          "example_qubit_count": "n=3 for the simulated examples"
+        },
+        "data_preprocessing_details": "Discretize the continuous PDF on a sampling window of width w; choose sampling interval Delta x_n = w/2^n; optionally shift window by zeta to avoid aliasing",
+        "evaluation_methodology": "State-vector preparation illustrated by sampling/measurement plots and circuit diagrams; no statistical benchmarking protocol reported"
+      },
+      "quantum_resources": {
+        "num_qubits": 11,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/adjs/dcsp",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Analytical computation of rotation angles from the target PDF; sampling-window discretization",
+        "classical_postprocessing": "Measurement probabilities compared to target distribution plots",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": null,
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_qubits",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qualitative: exponential for direct divide-and-conquer circuit; polylogarithmic after quantum forking",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sampling_window_width_w",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "free parameter",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shift_parameter_zeta",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "0 <= zeta < 1/2^(n-1)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sampling_interval",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "Delta x_n = w / 2^n",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "nyquist_frequency",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "f_n = 1 / (2 Delta x_n)",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "polylogarithmic gate depth after quantum forking; exponential depth for the direct divide-and-conquer circuit",
+          "baseline_method": "direct divide-and-conquer upsampling circuit",
+          "conditions": "using quantum forking transformation; no numeric benchmark reported",
+          "is_demonstrated": true,
+          "caveats": "The paper reports qualitative complexity only and does not provide measured runtime, gate counts, or a classical runtime baseline."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 3.0,
+          "num_qubits": 3,
+          "metric_name": "example_qubit_count",
+          "metric_value": 3
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "polylogarithmic gate depth after quantum forking; exponential depth for the direct divide-and-conquer circuit",
+        "classical_complexity": null,
+        "speedup_order": "logarithmic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Would require large-scale fault-tolerant quantum hardware implementing the quantum-forking circuit with O(polylog N) depth and substantial ancilla overhead (≈2^n ancilla qubits for n data qubits).",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "No comparison with classical algorithms for probability distribution sampling or state preparation",
+          "Simulations only; no hardware implementation",
+          "Quantum forking requires exponential ancilla overhead (2^n − 1 ancilla qubits)",
+          "No quantitative runtime or gate-count evaluation"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_statevector because the paper presents simulations and circuit diagrams but names no physical QPU/device.",
+          "n=3 is explicitly stated for the Gaussian and Laplace example circuits in the figure captions.",
+          "Depth is reported qualitatively: exponential for the original circuit and polylogarithmic after quantum forking; no numeric depth is given.",
+          "The authors do not claim quantum advantage over classical algorithms; they present a quantum circuit construction and a depth-reduction technique.",
+          "All results are circuit simulations illustrating probability distributions."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Gate-based quantum state preparation for a discrete probability distribution, demonstrated on a binomial distribution using the same upsampling framework and its quantum-forking conversion.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "upsampling quantum state preparation for discrete probabilities; binomial example",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "distribution_type": "binomial",
+          "binomial_parameters": {
+            "l": "reported symbolically",
+            "p": "reported symbolically",
+            "q": "1-p"
+          },
+          "qubit_count_n": "n=4 in the figure caption for the binomial example"
+        },
+        "parameter_initialization": "not specified; angles derived analytically from discrete probabilities",
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Prepare a state whose amplitudes are square roots of discrete probabilities P(k,l); the paper notes a special construction using an auxiliary complementary-probability state for n>1",
+        "objective_function": "Prepare |psi_n> with amplitudes sqrt(P(in)) for a discrete distribution",
+        "constraints_handling": "Normalization by construction; auxiliary complementary state used to fit the divide-and-conquer circuit form",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Discrete binomial distribution over k in {0,...,l}",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "distribution": "binomial",
+          "support": "k = 0,...,l",
+          "example_qubit_count": "n=4"
+        },
+        "data_preprocessing_details": "No data preprocessing beyond mapping discrete probabilities into the state-preparation circuit",
+        "evaluation_methodology": "Projection of the most significant qubit shown in the figure caption; no formal benchmarking protocol reported"
+      },
+      "quantum_resources": {
+        "num_qubits": 20,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/adjs/dcsp",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Analytical derivation of discrete-probability rotation angles from the binomial distribution",
+        "classical_postprocessing": "Measurement/projection of the most significant qubit to visualize the binomial distribution",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": null,
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_qubits",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qualitative: exponential for direct divide-and-conquer circuit; polylogarithmic after quantum forking",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "binomial_parameters",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "symbolic: l, p, q = 1 - p",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "polylogarithmic gate depth after quantum forking; exponential depth for the direct divide-and-conquer circuit",
+          "baseline_method": "direct divide-and-conquer upsampling circuit",
+          "conditions": "using quantum forking transformation; no numeric benchmark reported",
+          "is_demonstrated": true,
+          "caveats": "No empirical speedup or classical baseline is reported; only asymptotic circuit-depth improvement is claimed."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 4.0,
+          "num_qubits": 4,
+          "metric_name": "example_qubit_count",
+          "metric_value": 4
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "polylogarithmic gate depth after quantum forking; exponential depth for the direct divide-and-conquer circuit",
+        "classical_complexity": null,
+        "speedup_order": "logarithmic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Would require scalable fault-tolerant hardware capable of executing the quantum-forking version of the discrete distribution state-preparation circuit with large ancilla registers.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Demonstration limited to a small simulated binomial distribution (n = 4)",
+          "No classical baseline comparison",
+          "Ancilla overhead scales as 2^n − 1 in the quantum forking construction",
+          "No empirical runtime or hardware evaluation"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_statevector because the paper presents simulated circuit results and no physical device is named.",
+          "n=4 is explicitly stated in the binomial figure caption.",
+          "Depth is reported qualitatively only; no numeric depth or gate counts are provided.",
+          "The binomial example is a demonstration of the state-preparation circuit rather than a benchmark against classical sampling or probability preparation methods."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

@@ -1,0 +1,645 @@
+{
+  "paper_id": "5beb1712456c",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:46:42+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "5beb1712456c_using_quantum_monte_carlo_simulation_to_price_complicated_derivatives_in_the_big.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.8,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 20,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='price units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='price units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='price units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='absolute price difference vs bsm' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='absolute price difference vs bsm' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='absolute price difference vs bsm' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='price units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='price units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='o(1/m) for qae; o(1/sqrt(m)) for classical mc' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[0].unit='price units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[1].unit='price units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[2].unit='absolute price difference vs classical mc' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[3].unit='price units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[4].unit='price units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[5].unit='assets/liability processes' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[6].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[8].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[9].unit='o(1/m) for qae; o(1/sqrt(m)) for classical mc' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.8,
+      "completeness": 0.8,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.75,
+        0.85
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Using Quantum Monte Carlo Simulation to Price Complicated Derivatives in the Big Data Environment",
+    "authors": [
+      "Gen Chen",
+      "Lin Wang"
+    ],
+    "year": 2024,
+    "doi": "10.1145/3651640.3651650",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": [
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper applies Quantum Monte Carlo with Quantum Amplitude Estimation to derivative pricing, obtaining a European call option price of 4.1911 versus 4.1896 from classical Monte Carlo and 4.1905 from the Black–Scholes formula. For a defaultable bond under an AD‑DG jump‑diffusion model, a 127‑qubit simulation yields a price of 0.61831 versus 0.61821 from classical Monte Carlo, with a reported quadratic theoretical convergence advantage O(1/M) vs O(1/√M).",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum Monte Carlo pricing of a European call option using quantum amplitude estimation on IBM Quantum Experience, compared against classical Monte Carlo and Black-Scholes-Merton baseline.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Quantum Monte Carlo simulation with quantum amplitude estimation",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "underlying_asset_price_S_t": 6,
+          "strike_price_K": 2,
+          "risk_free_rate_r": 0.1,
+          "volatility_sigma": 0.25,
+          "time_to_maturity_T_minus_t": 1,
+          "qubits_for_samples_n": null,
+          "sample_count_classical_MC": 1000000,
+          "confidence_level": 0.95
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Truncated lognormal distribution of terminal asset price S_T discretized over 2^n points and loaded into n qubits; payoff max(S_T-K,0) encoded via comparator and piecewise-linear circuit with an ancilla qubit whose amplitude is estimated by QAE.",
+        "objective_function": "Estimate discounted expected payoff E[e^{-r(T-t)} max(S_T-K,0)] for a European call option.",
+        "constraints_handling": "Comparator flips ancilla when S_T >= K; payoff encoded as piecewise linear function in quantum circuit.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "European call option pricing under Black-Scholes-Merton dynamics.",
+        "num_assets": 1,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Synthetic lognormal terminal-price distribution derived from BSM parameters."
+        },
+        "data_preprocessing_details": "Terminal price distribution truncated to [S_Tmin, S_Tmax] and discretized into 2^n mesh points; probabilities loaded as amplitudes.",
+        "evaluation_methodology": "Single illustrative pricing instance; results compared against BSM closed form and classical Monte Carlo; 95% confidence interval reported."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": "IBM",
+        "device_name": "IBM Quantum Experience",
+        "framework": "IBM Quantum Experience (framework not explicitly specified)"
+      },
+      "noise_model": {
+        "is_noisy": null,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": "https://qiskit.org/documentation/finance/tutorials/00_amplitude_estimation.html",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Classical Monte Carlo simulation; Black-Scholes-Merton closed-form formula",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Parameterization of BSM model and discretization of terminal-price distribution.",
+        "classical_postprocessing": "Discounting of estimated expected payoff; comparison to BSM and classical Monte Carlo prices.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "option_price",
+          "value": 4.1911,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "price units",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "option_price",
+          "value": 4.1905,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "price units",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "option_price",
+          "value": 4.1896,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "price units",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 0.0006,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute price difference vs bsm",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 0.0009,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute price difference vs bsm",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 0.0015,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute price difference vs bsm",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "confidence_interval",
+          "value": 4.1904,
+          "uncertainty": "95% CI [4.1886, 4.1922]",
+          "num_runs": null,
+          "unit": "price units",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "confidence_interval",
+          "value": 4.1915,
+          "uncertainty": "95% CI [4.1884, 4.1944]",
+          "num_runs": null,
+          "unit": "price units",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "o(1/m) for qae; o(1/sqrt(m)) for classical mc",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_underlyings",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sample_count_classical_mc",
+          "value": 1000000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "confidence_level",
+          "value": 0.95,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "qubits_for_samples_n",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "black_scholes_merton",
+          "metric_name": "option_price",
+          "value": 4.1905,
+          "unit": "price units"
+        },
+        {
+          "method_name": "classical_monte_carlo",
+          "metric_name": "option_price",
+          "value": 4.1896,
+          "unit": "price units"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical monte carlo",
+          "conditions": "qae convergence compared with monte carlo stochastic simulation",
+          "is_demonstrated": true,
+          "caveats": "paper states asymptotic convergence improvement; no wall-clock timing reported"
+        }
+      ],
+      "scalability_data": [],
+      "complexity_analysis": {
+        "quantum_complexity": "O(1/M) amplitude-estimation convergence",
+        "classical_complexity": "O(1/sqrt(M)) Monte Carlo convergence",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not provided; only a single toy parameter instance evaluated.",
+        "resources_for_advantage": "Would require large fault‑tolerant circuits implementing amplitude estimation with many controlled Grover iterations and accurate amplitude loading of the lognormal distribution.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Only a single toy option instance evaluated",
+          "No runtime comparison or wall‑clock benchmark",
+          "Amplitude loading of probability distributions is expensive",
+          "No circuit depth, gate counts, or shots reported",
+          "Quadratic speedup only (QAE vs classical MC)"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper states the quantum circuit was constructed on IBM Quantum Experience and uses QAE, but does not explicitly name the backend device or total qubit count for the European option example. The text describes n qubits for the sample register plus an ancilla, but n is not numerically specified in the example.",
+          "The paper claims QAE provides quadratic convergence speedup over classical Monte Carlo but presents only pricing accuracy comparisons, not computational cost or runtime benchmarks."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Quantum Monte Carlo pricing of a defaultable bond under an AD-DG jump-diffusion model using quantum amplitude estimation, compared against classical Monte Carlo.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Quantum Monte Carlo simulation with quantum amplitude estimation for defaultable bond pricing",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "parameter_count_model": 18,
+          "qubits_used": 127,
+          "confidence_level": 0.95
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Risk-neutral asset-liability ratio under AD-DG jump-diffusion is discretized and loaded into a quantum state; payoff/pricing quantity extracted via QAE.",
+        "objective_function": "Estimate the price of a defaultable bond under an extended AD-DG jump-diffusion structural model.",
+        "constraints_handling": "Default event handled through structural-form bond pricing; quantum circuit similar to vanilla option pricing with payoff encoding and amplitude estimation.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Defaultable bond pricing in a complicated-derivatives setting with 18 model parameters.",
+        "num_assets": 2,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Synthetic AD-DG jump-diffusion model with correlated asset and liability processes."
+        },
+        "data_preprocessing_details": "Input 18 parameters; compute transitional variables; simulate jump magnitudes and asset-liability ratio under risk-neutral measure.",
+        "evaluation_methodology": "Single illustrative pricing instance; quantum price compared with classical Monte Carlo price and 95% credit interval reported."
+      },
+      "quantum_resources": {
+        "num_qubits": 127,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": "IBM",
+        "device_name": "not_specified",
+        "framework": "IBM Quantum Experience (framework not explicitly specified)"
+      },
+      "noise_model": {
+        "is_noisy": null,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": "https://qiskit.org/documentation/finance/tutorials/00_amplitude_estimation.html",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Classical Monte Carlo simulation",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Esscher transform and parameter conversion for the AD-DG jump-diffusion model.",
+        "classical_postprocessing": "Discounting and comparison of quantum and classical bond prices; confidence interval calculation.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "bond_price",
+          "value": 0.61831,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "price units",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "bond_price",
+          "value": 0.61821,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "price units",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 0.0001,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute price difference vs classical mc",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "confidence_interval",
+          "value": 0.609795,
+          "uncertainty": "95% credit interval [0.59987, 0.61972]",
+          "num_runs": null,
+          "unit": "price units",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "confidence_interval",
+          "value": 0.604545,
+          "uncertainty": "95% credit interval [0.58897, 0.62012]",
+          "num_runs": null,
+          "unit": "price units",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_underlyings",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets/liability processes",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "parameter_count_model",
+          "value": 18,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "qubits_used",
+          "value": 127,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "confidence_level",
+          "value": 0.95,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "o(1/m) for qae; o(1/sqrt(m)) for classical mc",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical_monte_carlo",
+          "metric_name": "bond_price",
+          "value": 0.61821,
+          "unit": "price units"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical monte carlo",
+          "conditions": "qae versus classical monte carlo convergence",
+          "is_demonstrated": true,
+          "caveats": "paper claims speed-up is obvious for the ad-dg model with many parameters; no runtime measurements reported"
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 18.0,
+          "num_qubits": 127,
+          "metric_name": "bond_price",
+          "metric_value": 0.61831
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(1/M) amplitude-estimation convergence",
+        "classical_complexity": "O(1/sqrt(M)) Monte Carlo convergence",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not analyzed; paper only reports one simulated pricing instance with 127 qubits.",
+        "resources_for_advantage": "Fault‑tolerant amplitude estimation circuits capable of representing complex jump‑diffusion distributions and running many Grover iterations with high precision.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "127‑qubit experiment likely simulated rather than executed on hardware",
+          "No circuit depth, runtime, or gate counts reported",
+          "No scaling study with increasing parameters or data size",
+          "Quadratic speedup only from QAE",
+          "State preparation complexity for AD‑DG distribution"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper explicitly states the defaultable bond experiment used 127 qubits. It does not report circuit depth, gate counts, or backend device name.",
+          "The authors claim quantum Monte Carlo provides speed advantages in big‑data environments, but the paper provides only numerical price comparisons and theoretical convergence arguments."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

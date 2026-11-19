@@ -1,0 +1,414 @@
+{
+  "paper_id": "3f4c5ad6749d",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:33:40+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "3f4c5ad6749d_quantum_unary_approach_to_option_pricing.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 1.0,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 7,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='absolute payoff value' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='percent error; below 1% at about 100 bins' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='percent error; below 0.5% at about 50 bins' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='percent single-qubit gate error threshold where unary AE at M=2 remains close to optimal' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='percent single-qubit gate error; simulation sweep upper bound' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='confidence level' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 1.0,
+      "completeness": 1.0,
+      "num_experiments": 1,
+      "experiment_scores": [
+        1.0
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum unary approach to option pricing",
+    "authors": [
+      "Sergi Ramos-Calderer",
+      "Adrián Pérez-Salinas",
+      "Diego García-Martín",
+      "Carlos Bravo-Prieto",
+      "Jorge Cortada",
+      "Jordi Planagumà",
+      "José I. Latorre"
+    ],
+    "year": 2021,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": [
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a unary‑encoded gate‑based quantum algorithm for European option pricing using amplitude estimation. Simulations with 8 unary qubits (8 bins) under a Black–Scholes model show improved noise robustness relative to a binary encoding and estimate a reference payoff of 0.1595, while maintaining <1% discretization error with ~100 bins; the claimed advantage is the standard quadratic sampling speedup of amplitude estimation over classical Monte Carlo.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Unary gate-based quantum algorithm for European option pricing under the Black-Scholes model, evaluated via classical simulation in ideal and noisy settings, including amplitude distribution loading, payoff estimation, and iterative amplitude estimation with post-selection.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Unary option-pricing algorithm with iterative amplitude estimation and post-selection",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "asset_model": "Black-Scholes",
+          "option_type": "European call",
+          "volatility": 0.4,
+          "risk_free_rate": 0.05,
+          "maturity_time_years": 0.1,
+          "initial_asset_price": 2.0,
+          "strike_price": 1.9,
+          "bins_or_qubits": 8,
+          "AE_iterations_M": "0 to 4",
+          "mj_schedule": "linear mj=j",
+          "confidence_level": 0.95,
+          "noise_model": "depolarizing + measurement errors",
+          "single_qubit_gate_error_max": 0.005,
+          "two_qubit_gate_error_max": 0.01,
+          "readout_error_max": 0.05
+        },
+        "parameter_initialization": "Initial unary state prepared by applying a single X gate to the middle qubit; amplitude-distributor angles computed classically from the target probability distribution",
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Unary basis: one qubit in |1> identifies each asset-price bin; 8 bins used in simulations with 8 unary qubits",
+        "objective_function": "Estimate the expected payoff of a European call option, E[max(S_T-K,0)], under the Black-Scholes log-normal distribution",
+        "constraints_handling": "Post-selection on measurements that remain in the unary subspace; ancilla outcome |1> encodes payoff probability",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": ">=1 (one payoff ancilla; AE may require additional ancillas depending on AE variant)"
+      },
+      "problem_instance": {
+        "description": "Single European call option pricing under Black-Scholes with a discretized log-normal asset-price distribution",
+        "num_assets": 1,
+        "time_steps": 1,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Synthetic Black-Scholes distribution; price range up to three standard deviations from the mean"
+        },
+        "data_preprocessing_details": "Classical computation of the target log-normal distribution and binning into unary basis states; exact classical payoff used as reference from high-resolution discretization (10^4 bins)",
+        "evaluation_methodology": "Classical simulations in Qiskit; 100 experiments with 10^4 samples each for distribution-loading and noisy-payoff studies; AE experiments repeated 100 times; some larger-bin AE studies repeated 10 times"
+      },
+      "quantum_resources": {
+        "num_qubits": 8,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 10000,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_noisy",
+        "provider": "not_specified",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "depolarizing noise on single- and two-qubit gates plus symmetric measurement error",
+        "error_mitigation_method": "post-selection on unary subspace"
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/UB-Quantic/quantum-unary-option-pricing",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "classical Monte Carlo / classical high-resolution discretization for reference values",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Compute Black-Scholes log-normal distribution and derive gate angles for amplitude distributor; determine strike-dependent controlled rotations",
+        "classical_postprocessing": "Estimate payoff from ancilla probability and multiply by normalization factor; discard non-unary measurement outcomes via post-selection",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "AE precision improves with more iterations; noisy performance degrades for larger M",
+          "variance_across_runs": null,
+          "num_independent_runs": 100
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "price_error",
+          "value": 0.1595,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute payoff value",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "percent error; below 1% at about 100 bins",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 0.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "percent error; below 0.5% at about 50 bins",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 0.3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "percent single-qubit gate error threshold where unary AE at M=2 remains close to optimal",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 0.5,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "percent single-qubit gate error; simulation sweep upper bound",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": 0.95,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "confidence level",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 0.81,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "sampling_uncertainty",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "figure"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical high-resolution discretization",
+          "metric_name": "price_error",
+          "value": 0.1595,
+          "unit": "absolute payoff value"
+        },
+        {
+          "method_name": "classical Monte Carlo",
+          "metric_name": "convergence_rate",
+          "value": 0.5,
+          "unit": "O(N^-1/2) sampling error scaling"
+        },
+        {
+          "method_name": "classical sampling",
+          "metric_name": "convergence_rate",
+          "value": 0.5,
+          "unit": "O(N^-1/2) uncertainty scaling"
+        },
+        {
+          "method_name": "classical Monte Carlo",
+          "metric_name": "price_error",
+          "value": 1,
+          "unit": "percent error below 1% at about 100 bins"
+        },
+        {
+          "method_name": "classical Monte Carlo",
+          "metric_name": "price_error",
+          "value": 0.5,
+          "unit": "percent error below 0.5% at about 50 bins"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical Monte Carlo / direct sampling",
+          "conditions": "Amplitude Estimation with idealized assumptions; quadratic reduction in number of circuit runs / samples needed for a target precision",
+          "is_demonstrated": true,
+          "caveats": "The paper notes this is only achievable when the probability distribution can be loaded efficiently; NISQ noise and post-selection reduce practical advantage."
+        },
+        {
+          "type": "projected",
+          "factor": "better than binary for fewer than about 100 bins",
+          "baseline_method": "binary option-pricing circuit",
+          "conditions": "Practical NISQ-like settings with limited qubits and noise; based on gate-count comparison and simulations",
+          "is_demonstrated": true,
+          "caveats": "This is a practical crossover claim, not an asymptotic one; binary has better asymptotic qubit scaling but worse gate overhead and connectivity requirements."
+        },
+        {
+          "type": "asymptotic",
+          "factor": "O(n) gates for unary amplitude distribution and O(kappa n) controlled-Ry gates",
+          "baseline_method": "binary option-pricing circuit",
+          "conditions": "Ideal chip connectivity; unary representation",
+          "is_demonstrated": true,
+          "caveats": "Unary uses linearly many qubits, while binary uses logarithmically many qubits."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 8.0,
+          "num_qubits": 8,
+          "metric_name": "kl_divergence",
+          "metric_value": null
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 3,
+          "metric_name": "kl_divergence",
+          "metric_value": null
+        },
+        {
+          "problem_size": 8.0,
+          "num_qubits": 8,
+          "metric_name": "price_error",
+          "metric_value": 0.1595
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 3,
+          "metric_name": "price_error",
+          "metric_value": 0.1595
+        },
+        {
+          "problem_size": 8.0,
+          "num_qubits": null,
+          "metric_name": "price_error",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(n) gates for amplitude distribution and O(κn) controlled-Ry gates for payoff; iterative AE used for estimation",
+        "classical_complexity": "Monte Carlo sampling with O(1/ε^2) samples for precision ε",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": "around fewer than 100 bins/qubits for practical gate-count advantage per paper discussion",
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L2_noisy_sim",
+        "crossover_size": "authors argue unary circuits may be preferable for <~100 bins due to gate overhead and noise, but no demonstrated runtime crossover vs classical Monte Carlo",
+        "resources_for_advantage": "Fault‑tolerant implementation of amplitude estimation with efficient state preparation for the log‑normal distribution and many more logical qubits than the 8‑qubit simulations; scalable amplitude loading and low‑error circuits required",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Probability distribution loading requires classical preprocessing and parameter calculation",
+          "Unary encoding requires O(n) qubits rather than O(log n)",
+          "Amplitude estimation advantage requires many coherent circuit repetitions",
+          "Simulations only performed on very small systems (8 bins)",
+          "Noise strongly limits AE iterations on NISQ devices"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "hardware.type inferred as simulator_noisy because the paper states simulations were carried out in Qiskit with depolarizing and measurement noise, and no real QPU is named.",
+          "circuit_depth not explicitly given as a single total value for the full simulated experiment; only module-level scaling and asymptotic depths are reported, so it is left inferred/null where not directly stated.",
+          "num_qubits=8 comes from the simulation setup for the unary algorithm (8 unary qubits corresponding to 8 bins).",
+          "The paper claims a theoretical quadratic speedup via amplitude estimation but does not experimentally demonstrate quantum advantage.",
+          "All results are classical simulations (ideal and noisy) with small toy instances (8 bins).",
+          "Comparison with classical Monte Carlo is theoretical rather than runtime benchmarking."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

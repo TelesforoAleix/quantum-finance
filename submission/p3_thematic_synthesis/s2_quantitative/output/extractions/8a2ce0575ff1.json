@@ -1,0 +1,1046 @@
+{
+  "paper_id": "8a2ce0575ff1",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:13:45+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "8a2ce0575ff1_quantum_reinforcement_learning_trading_agent_for_sector_rotation_in_the_taiwan_s.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.8,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 3,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='reward' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[0].unit='reward' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[0].unit='reward' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.8,
+      "completeness": 0.8,
+      "num_experiments": 3,
+      "experiment_scores": [
+        0.8,
+        0.8,
+        0.8
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum Reinforcement Learning Trading Agent for Sector Rotation in the Taiwan Stock Market",
+    "authors": [
+      "Chi-Sheng Chen",
+      "Xinyu Zhang",
+      "Ya-Chuan Chen"
+    ],
+    "year": 2025,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "trading-execution",
+    "secondary_silos": [
+      "quantum-ml-finance",
+      "portfolio-optimization"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper evaluates hybrid PPO reinforcement‑learning trading agents using three 4‑qubit variational quantum architectures (QNN, QRWKV, QASA) on Taiwan stock market sector‑rotation data (2007–2025). Although quantum models achieved higher training rewards (e.g., QASA 2883.3 vs LSTM 2737.0), they produced worse financial outcomes, with cumulative returns of 93.14–105.93% and Sharpe ratios 0.71–0.78 compared to LSTM and Transformer returns of ~124–125% and Sharpe ≈0.88. The study concludes that quantum models overfit the proxy reward signal and do not outperform classical baselines.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Hybrid PPO sector-rotation trading agent using a quantum neural network (QNN) policy/value backbone on Taiwan stock market sector data.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Quantum neural network (QNN) used as policy and/or value network within PPO",
+        "ansatz": "Variational quantum circuit with angle embedding and entangling layers (CNOTs mentioned)",
+        "optimizer": "PPO (classical outer-loop optimizer); no separate quantum circuit optimizer reported",
+        "num_layers": 2,
+        "convergence_criteria": "trained for 100 epochs",
+        "hyperparameters": {
+          "discount_factor_gamma": 0.99,
+          "ppo_clip_epsilon": 0.2,
+          "entropy_coefficient_beta": 0.01,
+          "batch_size": 64,
+          "ppo_epochs_per_training_epoch": 10,
+          "actor_learning_rate": 0.0003,
+          "critic_learning_rate": 0.001,
+          "feature_sequence_length": 10,
+          "num_qubits": 4,
+          "quantum_circuit_layers": 2,
+          "top_N": 10,
+          "training_epochs": 100
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "max_iterations": 100,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Classical financial features are projected to a 4-dimensional latent space and encoded into 4 qubits via single-qubit rotations (RX/RZ angle embedding).",
+        "objective_function": "Maximize PPO surrogate objective for sector-rotation policy learning; reward is 1.0 if selected sector is among next-step top-10 sectors by capital share, otherwise −0.1.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Sector rotation trading on Taiwan stock market industry sectors using daily capital share, stock prices, and engineered technical indicators.",
+        "num_assets": 47,
+        "time_steps": 2007,
+        "num_features": null,
+        "dataset_size": 2,
+        "data_type": "real_market",
+        "dataset_name": "Taiwan stock market sector-level data",
+        "dataset_specification": {
+          "description": "47 industry sectors; daily capital share information; feature sequences of length 10; rolling-window evaluation"
+        },
+        "data_preprocessing_details": "Automated feature engineering from raw price/volume data including 10/20/50-day SMAs, 5/10-day momentum, and rolling volatility; sequence length 10; rolling-window split for backtesting",
+        "evaluation_methodology": "Single train/test temporal split with rolling-window backtesting; performance reported via final training reward, cumulative return, annualized return, annualized volatility, Sharpe ratio, and maximum drawdown"
+      },
+      "quantum_resources": {
+        "num_qubits": 4,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "noise_type": "NISQ constraints mentioned; no explicit noise model reported",
+        "is_noisy": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "PPO",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Automated feature engineering; temporal train/test split; rolling-window backtesting",
+        "classical_postprocessing": "Financial metric evaluation: cumulative return, annualized return, annualized volatility, Sharpe ratio, maximum drawdown",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_baselines": [
+          "LSTM policy/value network trained with PPO",
+          "Transformer policy/value network trained with PPO"
+        ],
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "final_training_reward",
+          "value": 2847.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "reward",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "cumulative_return",
+          "value": 105.93,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "annualized_return",
+          "value": 14.89,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "annualized_volatility",
+          "value": 19.18,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "sharpe_ratio",
+          "value": 0.78,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "max_drawdown",
+          "value": -32.26,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "LSTM",
+          "metric_name": "final_training_reward",
+          "value": 2737.0,
+          "unit": "reward"
+        },
+        {
+          "method_name": "LSTM",
+          "metric_name": "cumulative_return",
+          "value": 125.33,
+          "unit": "%"
+        },
+        {
+          "method_name": "LSTM",
+          "metric_name": "annualized_return",
+          "value": 16.9,
+          "unit": "%"
+        },
+        {
+          "method_name": "LSTM",
+          "metric_name": "annualized_volatility",
+          "value": 19.25,
+          "unit": "%"
+        },
+        {
+          "method_name": "LSTM",
+          "metric_name": "sharpe_ratio",
+          "value": 0.88,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "LSTM",
+          "metric_name": "max_drawdown",
+          "value": -31.98,
+          "unit": "%"
+        },
+        {
+          "method_name": "Transformer",
+          "metric_name": "final_training_reward",
+          "value": 2795.3,
+          "unit": "reward"
+        },
+        {
+          "method_name": "Transformer",
+          "metric_name": "cumulative_return",
+          "value": 124.29,
+          "unit": "%"
+        },
+        {
+          "method_name": "Transformer",
+          "metric_name": "annualized_return",
+          "value": 16.8,
+          "unit": "%"
+        },
+        {
+          "method_name": "Transformer",
+          "metric_name": "annualized_volatility",
+          "value": 19.16,
+          "unit": "%"
+        },
+        {
+          "method_name": "Transformer",
+          "metric_name": "sharpe_ratio",
+          "value": 0.88,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Transformer",
+          "metric_name": "max_drawdown",
+          "value": -35.31,
+          "unit": "%"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No computational speedup or runtime advantage is reported; only empirical trading performance is compared."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 47.0,
+          "num_qubits": 4,
+          "metric_name": "cumulative_return",
+          "metric_value": 105.93
+        },
+        {
+          "problem_size": 47.0,
+          "num_qubits": 4,
+          "metric_name": "sharpe_ratio",
+          "metric_value": 0.78
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Not analyzed; experiment uses a 4‑qubit variational circuit embedded in PPO with no complexity or scaling analysis.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Only 4 qubits used",
+          "No hardware execution reported",
+          "No complexity or scaling analysis",
+          "Classical LSTM and Transformer outperform quantum models in investment metrics",
+          "Reward function mismatch causing overfitting"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "No specific QPU or simulator is named, so hardware remains not_specified.",
+          "Quantum model is described as a 4-qubit QNN with 2 quantum circuit layers; no transpiled depth, gate counts, shots, or optimizer for the quantum circuit are reported.",
+          "Speedup order is not characterized in the paper; only empirical performance is discussed.",
+          "Table I shows QNN cumulative return 105.93% and Sharpe 0.78, worse than LSTM (125.33%, Sharpe 0.88) and Transformer (124.29%, Sharpe 0.88).",
+          "Authors explicitly note quantum models achieve higher training reward but worse financial performance."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Hybrid PPO sector-rotation trading agent using a quantum RWKV (QRWKV) backbone on Taiwan stock market sector data.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Quantum RWKV (QRWKV) with variational quantum layers in the time-mixing component",
+        "ansatz": "Variational quantum circuit with angle embedding and entangling layers",
+        "optimizer": "PPO (classical outer-loop optimizer); no separate quantum circuit optimizer reported",
+        "num_layers": 4,
+        "convergence_criteria": "trained for 100 epochs",
+        "hyperparameters": {
+          "discount_factor_gamma": 0.99,
+          "ppo_clip_epsilon": 0.2,
+          "entropy_coefficient_beta": 0.01,
+          "batch_size": 64,
+          "ppo_epochs_per_training_epoch": 10,
+          "actor_learning_rate": 0.0003,
+          "critic_learning_rate": 0.001,
+          "feature_sequence_length": 10,
+          "num_qubits": 4,
+          "quantum_circuit_layers": 4,
+          "rwkv_heads": 4,
+          "embedding_size": 128,
+          "top_N": 10,
+          "training_epochs": 100
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "max_iterations": 100,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Classical features are projected and encoded into 4 qubits via variational quantum layers embedded in the RWKV channel-mixing/time-mixing path.",
+        "objective_function": "Maximize PPO surrogate objective for sector-rotation policy learning; reward based on whether selected sector is among next-step top-10 sectors by capital share.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Sector rotation trading on Taiwan stock market industry sectors using daily capital share, stock prices, and engineered technical indicators.",
+        "num_assets": 47,
+        "time_steps": 2007,
+        "num_features": null,
+        "dataset_size": 2,
+        "data_type": "real_market",
+        "dataset_name": "Taiwan stock market sector-level data",
+        "dataset_specification": {
+          "description": "47 industry sectors; daily capital share information; feature sequences of length 10; rolling-window evaluation"
+        },
+        "data_preprocessing_details": "Automated feature engineering from raw price/volume data including 10/20/50-day SMAs, 5/10-day momentum, and rolling volatility; sequence length 10; rolling-window split for backtesting",
+        "evaluation_methodology": "Single train/test temporal split with rolling-window backtesting; performance reported via final training reward, cumulative return, annualized return, annualized volatility, Sharpe ratio, and maximum drawdown"
+      },
+      "quantum_resources": {
+        "num_qubits": 4,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "noise_type": "NISQ constraints mentioned; no explicit noise model reported",
+        "is_noisy": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "PPO",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Automated feature engineering; temporal train/test split; rolling-window backtesting",
+        "classical_postprocessing": "Financial metric evaluation: cumulative return, annualized return, annualized volatility, Sharpe ratio, maximum drawdown",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_baselines": [
+          "LSTM policy/value network trained with PPO",
+          "Transformer policy/value network trained with PPO"
+        ],
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "final_training_reward",
+          "value": 2653.4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "reward",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "cumulative_return",
+          "value": 103.91,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "annualized_return",
+          "value": 14.68,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "annualized_volatility",
+          "value": 19.18,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "sharpe_ratio",
+          "value": 0.77,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "max_drawdown",
+          "value": -32.75,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "LSTM",
+          "metric_name": "final_training_reward",
+          "value": 2737.0,
+          "unit": "reward"
+        },
+        {
+          "method_name": "LSTM",
+          "metric_name": "cumulative_return",
+          "value": 125.33,
+          "unit": "%"
+        },
+        {
+          "method_name": "LSTM",
+          "metric_name": "annualized_return",
+          "value": 16.9,
+          "unit": "%"
+        },
+        {
+          "method_name": "LSTM",
+          "metric_name": "annualized_volatility",
+          "value": 19.25,
+          "unit": "%"
+        },
+        {
+          "method_name": "LSTM",
+          "metric_name": "sharpe_ratio",
+          "value": 0.88,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "LSTM",
+          "metric_name": "max_drawdown",
+          "value": -31.98,
+          "unit": "%"
+        },
+        {
+          "method_name": "Transformer",
+          "metric_name": "final_training_reward",
+          "value": 2795.3,
+          "unit": "reward"
+        },
+        {
+          "method_name": "Transformer",
+          "metric_name": "cumulative_return",
+          "value": 124.29,
+          "unit": "%"
+        },
+        {
+          "method_name": "Transformer",
+          "metric_name": "annualized_return",
+          "value": 16.8,
+          "unit": "%"
+        },
+        {
+          "method_name": "Transformer",
+          "metric_name": "annualized_volatility",
+          "value": 19.16,
+          "unit": "%"
+        },
+        {
+          "method_name": "Transformer",
+          "metric_name": "sharpe_ratio",
+          "value": 0.88,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Transformer",
+          "metric_name": "max_drawdown",
+          "value": -35.31,
+          "unit": "%"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No computational speedup or runtime advantage is reported; only empirical trading performance is compared."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 47.0,
+          "num_qubits": 4,
+          "metric_name": "cumulative_return",
+          "metric_value": 103.91
+        },
+        {
+          "problem_size": 47.0,
+          "num_qubits": 4,
+          "metric_name": "sharpe_ratio",
+          "metric_value": 0.77
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Not analyzed; QRWKV uses embedded 4‑qubit variational layers without scaling analysis.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "current_nisq",
+        "limiting_factors": [
+          "4‑qubit circuits only",
+          "No hardware or noisy simulation reported",
+          "No speedup or complexity argument",
+          "Lower return (103.91%) and Sharpe (0.77) than classical baselines"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "No specific QPU or simulator is named, so hardware remains not_specified.",
+          "Quantum model is described as 4 qubits with 4 quantum circuit layers; no transpiled depth, gate counts, shots, or optimizer for the quantum circuit are reported.",
+          "Speedup order is not characterized in the paper; only empirical performance is discussed.",
+          "Table I shows QRWKV cumulative return 103.91% vs LSTM 125.33% and Transformer 124.29%.",
+          "Paper frames results as analysis of reward–performance mismatch rather than quantum advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "Hybrid PPO sector-rotation trading agent using a quantum adaptive self-attention (QASA) backbone on Taiwan stock market sector data.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Quantum adaptive self-attention (QASA) with variational quantum attention layers",
+        "ansatz": "Variational quantum circuit used to compute attention scores via query-key interaction",
+        "optimizer": "PPO (classical outer-loop optimizer); no separate quantum circuit optimizer reported",
+        "num_layers": 2,
+        "convergence_criteria": "trained for 100 epochs",
+        "hyperparameters": {
+          "discount_factor_gamma": 0.99,
+          "ppo_clip_epsilon": 0.2,
+          "entropy_coefficient_beta": 0.01,
+          "batch_size": 64,
+          "ppo_epochs_per_training_epoch": 10,
+          "actor_learning_rate": 0.0003,
+          "critic_learning_rate": 0.001,
+          "feature_sequence_length": 10,
+          "num_qubits": 4,
+          "quantum_circuit_layers": 2,
+          "transformer_layers": 2,
+          "attention_heads": 4,
+          "top_N": 10,
+          "training_epochs": 100
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "max_iterations": 100,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Classical token/query-key features are encoded into 4 qubits via angle embedding for quantum attention computation.",
+        "objective_function": "Maximize PPO surrogate objective for sector-rotation policy learning; reward based on whether selected sector is among next-step top-10 sectors by capital share.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Sector rotation trading on Taiwan stock market industry sectors using daily capital share, stock prices, and engineered technical indicators.",
+        "num_assets": 47,
+        "time_steps": 2007,
+        "num_features": null,
+        "dataset_size": 2,
+        "data_type": "real_market",
+        "dataset_name": "Taiwan stock market sector-level data",
+        "dataset_specification": {
+          "description": "47 industry sectors; daily capital share information; feature sequences of length 10; rolling-window evaluation"
+        },
+        "data_preprocessing_details": "Automated feature engineering from raw price/volume data including 10/20/50-day SMAs, 5/10-day momentum, and rolling volatility; sequence length 10; rolling-window split for backtesting",
+        "evaluation_methodology": "Single train/test temporal split with rolling-window backtesting; performance reported via final training reward, cumulative return, annualized return, annualized volatility, Sharpe ratio, and maximum drawdown"
+      },
+      "quantum_resources": {
+        "num_qubits": 4,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "noise_type": "NISQ constraints mentioned; no explicit noise model reported",
+        "is_noisy": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "PPO",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Automated feature engineering; temporal train/test split; rolling-window backtesting",
+        "classical_postprocessing": "Financial metric evaluation: cumulative return, annualized return, annualized volatility, Sharpe ratio, maximum drawdown",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_baselines": [
+          "LSTM policy/value network trained with PPO",
+          "Transformer policy/value network trained with PPO"
+        ],
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "final_training_reward",
+          "value": 2883.3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "reward",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "cumulative_return",
+          "value": 93.14,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "annualized_return",
+          "value": 13.49,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "annualized_volatility",
+          "value": 19.03,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "sharpe_ratio",
+          "value": 0.71,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "max_drawdown",
+          "value": -31.73,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "LSTM",
+          "metric_name": "final_training_reward",
+          "value": 2737.0,
+          "unit": "reward"
+        },
+        {
+          "method_name": "LSTM",
+          "metric_name": "cumulative_return",
+          "value": 125.33,
+          "unit": "%"
+        },
+        {
+          "method_name": "LSTM",
+          "metric_name": "annualized_return",
+          "value": 16.9,
+          "unit": "%"
+        },
+        {
+          "method_name": "LSTM",
+          "metric_name": "annualized_volatility",
+          "value": 19.25,
+          "unit": "%"
+        },
+        {
+          "method_name": "LSTM",
+          "metric_name": "sharpe_ratio",
+          "value": 0.88,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "LSTM",
+          "metric_name": "max_drawdown",
+          "value": -31.98,
+          "unit": "%"
+        },
+        {
+          "method_name": "Transformer",
+          "metric_name": "final_training_reward",
+          "value": 2795.3,
+          "unit": "reward"
+        },
+        {
+          "method_name": "Transformer",
+          "metric_name": "cumulative_return",
+          "value": 124.29,
+          "unit": "%"
+        },
+        {
+          "method_name": "Transformer",
+          "metric_name": "annualized_return",
+          "value": 16.8,
+          "unit": "%"
+        },
+        {
+          "method_name": "Transformer",
+          "metric_name": "annualized_volatility",
+          "value": 19.16,
+          "unit": "%"
+        },
+        {
+          "method_name": "Transformer",
+          "metric_name": "sharpe_ratio",
+          "value": 0.88,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Transformer",
+          "metric_name": "max_drawdown",
+          "value": -35.31,
+          "unit": "%"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No computational speedup or runtime advantage is reported; only empirical trading performance is compared."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 47.0,
+          "num_qubits": 4,
+          "metric_name": "cumulative_return",
+          "metric_value": 93.14
+        },
+        {
+          "problem_size": 47.0,
+          "num_qubits": 4,
+          "metric_name": "sharpe_ratio",
+          "metric_value": 0.71
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Not analyzed; QASA uses a small variational circuit for attention score calculation with no complexity analysis.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "4‑qubit attention circuit",
+          "No hardware experiments",
+          "No gate counts or runtime analysis",
+          "Worst financial performance among tested models (93.14% cumulative return, Sharpe 0.71)",
+          "Proxy reward optimization leads to overfitting"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "No specific QPU or simulator is named, so hardware remains not_specified.",
+          "Quantum model is described as 4 qubits with 2 quantum circuit layers; no transpiled depth, gate counts, shots, or optimizer for the quantum circuit are reported.",
+          "Speedup order is not characterized in the paper; only empirical performance is discussed.",
+          "Table I shows QASA has the highest training reward but lowest cumulative return and Sharpe ratio.",
+          "Authors explicitly highlight this as evidence of reward misalignment rather than quantum benefit."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

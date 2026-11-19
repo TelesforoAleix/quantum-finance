@@ -1,0 +1,648 @@
+{
+  "paper_id": "f9f0249a4f6d",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T10:58:26+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "f9f0249a4f6d_advanced_equivalence_checking_for_quantum_circuits.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.783,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 6,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='s (timeout threshold; reported as >3600.00 for many cases)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='runs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='s (reported as >3600.00 for timeouts)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='runs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[15].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.783,
+      "completeness": 0.783,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.783
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Advanced Equivalence Checking for Quantum Circuits",
+    "authors": [
+      "Lukas Burgholzer",
+      "Robert Wille"
+    ],
+    "year": 2020,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "other",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a simulation-assisted decision-diagram equivalence-checking flow for gate-based quantum circuits. Across RevLib benchmarks (≈16–37 qubits), the approach often detects non-equivalence using ≤16 simulations and can reduce runtimes from >3600 s (state-of-the-art DD method timeouts) to sub-second times (e.g., 0.02–0.62 s) in many non-equivalent cases, while also providing 2–3× speedups for several equivalent cases.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Benchmark evaluation of an advanced gate-based quantum circuit equivalence-checking flow using random simulation runs followed by a decision-diagram-based equivalence-checking routine, compared against a state-of-the-art DD-based method, on a suite of compiled/mapped quantum circuits.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Quantum circuit equivalence checking with simulation-assisted DD-based verification",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": "Up to r = 16 random simulation runs; if no counterexample is found, run the equivalence-checking routine until completion or timeout",
+        "hyperparameters": {
+          "r": 16,
+          "timeout_seconds": 3600
+        },
+        "parameter_initialization": "Randomly chosen computational basis states for simulation runs",
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": null,
+        "encoding_details": "Two quantum circuits G and G' on the same number of qubits are compared for functional equivalence up to global phase; no QUBO/Ising encoding",
+        "objective_function": "Determine whether two quantum circuits are equivalent (U = e^{i\\alpha}U') or produce a counterexample input state",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Quantum circuit equivalence checking benchmarks from RevLib/JKQ/Qiskit compilation flow, including high-level circuits and their compiled/mapped low-level counterparts; also injected non-equivalent variants by removing random gates",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "public_benchmark",
+        "dataset_name": "RevLib benchmarks / quantum circuit compiler benchmarks",
+        "dataset_specification": {
+          "description": "Benchmarks taken from [52]; low-level descriptions generated by compiling and/or mapping with IBM Qiskit; non-equivalent cases created by removing 1 or 3 random gates from G'"
+        },
+        "data_preprocessing_details": "Compilation to elementary gates and/or mapping to target architecture using Qiskit; for non-equivalent tests, random gate removal from the compiled circuit",
+        "evaluation_methodology": "Benchmarks evaluated on a 4 GHz Amazon EC2 z1d instance with at least 32 GB RAM per job; hard timeout 1 hour; equivalent and non-equivalent benchmark suites; for simulation-power study, 100 erroneous instances per benchmark and r = 16 simulation runs each"
+      },
+      "quantum_resources": {
+        "num_qubits": 16,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "Amazon EC2",
+        "device_name": "Amazon EC2 z1d instance (4 GHz CPU)",
+        "framework": "JKQ / decision-diagram package; Qiskit used for compilation of benchmark circuits",
+        "transpilation_target": "IBM Qiskit target architectures (for generating low-level benchmark circuits)"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://iic.jku.at/eda/research/quantum_verification/",
+        "framework_version": null,
+        "transpilation_target": "IBM Qiskit architectures",
+        "classical_solver": "Decision-diagram-based equivalence checking; simulation via decision diagrams",
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": null,
+          "routing_method": null
+        },
+        "classical_preprocessing": "Benchmark compilation/mapping with Qiskit; optional gate removal for non-equivalent instances",
+        "classical_postprocessing": "Counterexample extraction from difference decision diagram; comparison against state-of-the-art DD-based equivalence checking",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "runtime_state_of_the_art_ec",
+          "value": 3600.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "s (timeout threshold; reported as >3600.00 for many cases)",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "runtime_simulation_runs",
+          "value": 16,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "runs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "timeout",
+          "value": 3600.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "s",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "simulation_runtime",
+          "value": 0.02,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "s",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "simulation_runtime",
+          "value": 25.92,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "s",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "proposed_ec_runtime",
+          "value": 0.03,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "s",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "proposed_ec_runtime",
+          "value": 39.78,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "s",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "proposed_total_runtime",
+          "value": 0.05,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "s",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "proposed_total_runtime",
+          "value": 3600.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "s (reported as >3600.00 for timeouts)",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "relative_improvement_vs_state_of_the_art",
+          "value": 0.001,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "relative_improvement_vs_state_of_the_art",
+          "value": 0.629,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "average_number_of_simulations",
+          "value": 4.98,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "runs",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "average_simulation_runtime",
+          "value": 0.95,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "s",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "maximum_simulation_runtime",
+          "value": 24.53,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "s",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "simulation_success_probability",
+          "value": 0.8,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "simulation_success_probability",
+          "value": 1.0,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "state_of_the_art_dd_based_equivalence_checking",
+          "metric_name": "runtime_state_of_the_art_ec",
+          "value": 3600.0,
+          "unit": "s (reported as >3600.00 for many benchmarks)"
+        },
+        {
+          "method_name": "state_of_the_art_dd_based_equivalence_checking",
+          "metric_name": "runtime_state_of_the_art_ec",
+          "value": 3452.7,
+          "unit": "s"
+        },
+        {
+          "method_name": "state_of_the_art_dd_based_equivalence_checking",
+          "metric_name": "runtime_state_of_the_art_ec",
+          "value": 13.19,
+          "unit": "s"
+        },
+        {
+          "method_name": "state_of_the_art_dd_based_equivalence_checking",
+          "metric_name": "runtime_state_of_the_art_ec",
+          "value": 3.44,
+          "unit": "s"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "up to >1000x (timeouts vs sub-second runtimes; e.g., >3600 s vs 0.02–0.62 s)",
+          "baseline_method": "state-of-the-art DD-based equivalence checking",
+          "conditions": "for several non-equivalent benchmarks where simulation alone detects the error; and for some equivalent benchmarks where the proposed flow finishes in seconds while baseline times out",
+          "is_demonstrated": true,
+          "caveats": "Many baseline runs timed out at 3600 s, so the factor is lower-bounded; speedup varies widely by benchmark and by whether the EC routine is needed after simulation."
+        },
+        {
+          "type": "empirical",
+          "factor": "roughly 2x to 3x faster in many equivalent cases",
+          "baseline_method": "state-of-the-art DD-based equivalence checking",
+          "conditions": "equivalent benchmarks where the proposed proportional strategy completes and baseline also completes",
+          "is_demonstrated": true,
+          "caveats": "The paper states that in the majority of cases the dedicated strategies reduce runtime to about half or a third of the baseline."
+        },
+        {
+          "type": "empirical",
+          "factor": "simulation often sufficient within 1 to 4 runs for non-equivalent cases",
+          "baseline_method": "full DD-based equivalence checking",
+          "conditions": "non-equivalent benchmarks with one or three random gates removed",
+          "is_demonstrated": true,
+          "caveats": "This is not a proof of equivalence; it only shows that non-equivalence is frequently detected quickly."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 22,
+          "num_qubits": 22,
+          "metric_name": "proposed_total_runtime",
+          "metric_value": 3600.0
+        },
+        {
+          "problem_size": 28,
+          "num_qubits": 28,
+          "metric_name": "proposed_total_runtime",
+          "metric_value": 3600.0
+        },
+        {
+          "problem_size": 34,
+          "num_qubits": 34,
+          "metric_name": "proposed_total_runtime",
+          "metric_value": 3600.0
+        },
+        {
+          "problem_size": 32,
+          "num_qubits": 32,
+          "metric_name": "proposed_total_runtime",
+          "metric_value": 3600.0
+        },
+        {
+          "problem_size": 27,
+          "num_qubits": 27,
+          "metric_name": "proposed_total_runtime",
+          "metric_value": 3600.0
+        },
+        {
+          "problem_size": 35,
+          "num_qubits": 35,
+          "metric_name": "proposed_total_runtime",
+          "metric_value": 2501.52
+        },
+        {
+          "problem_size": 29,
+          "num_qubits": 29,
+          "metric_name": "proposed_total_runtime",
+          "metric_value": 184.87
+        },
+        {
+          "problem_size": 22,
+          "num_qubits": 22,
+          "metric_name": "proposed_total_runtime",
+          "metric_value": 4.03
+        },
+        {
+          "problem_size": 25,
+          "num_qubits": 25,
+          "metric_name": "proposed_total_runtime",
+          "metric_value": 196.47
+        },
+        {
+          "problem_size": 35,
+          "num_qubits": 35,
+          "metric_name": "proposed_total_runtime",
+          "metric_value": 4.83
+        },
+        {
+          "problem_size": 16,
+          "num_qubits": 16,
+          "metric_name": "proposed_total_runtime",
+          "metric_value": 82.93
+        },
+        {
+          "problem_size": 25,
+          "num_qubits": 25,
+          "metric_name": "proposed_total_runtime",
+          "metric_value": 73.32
+        },
+        {
+          "problem_size": 21,
+          "num_qubits": 21,
+          "metric_name": "proposed_total_runtime",
+          "metric_value": 81.64
+        },
+        {
+          "problem_size": 19,
+          "num_qubits": 19,
+          "metric_name": "proposed_total_runtime",
+          "metric_value": 39.78
+        },
+        {
+          "problem_size": 21,
+          "num_qubits": 21,
+          "metric_name": "proposed_total_runtime",
+          "metric_value": 37.78
+        },
+        {
+          "problem_size": 16,
+          "num_qubits": 16,
+          "metric_name": "proposed_total_runtime",
+          "metric_value": 25.1
+        },
+        {
+          "problem_size": 20,
+          "num_qubits": 20,
+          "metric_name": "proposed_total_runtime",
+          "metric_value": 4.39
+        },
+        {
+          "problem_size": 17,
+          "num_qubits": 17,
+          "metric_name": "proposed_total_runtime",
+          "metric_value": 5.7
+        },
+        {
+          "problem_size": 21,
+          "num_qubits": 21,
+          "metric_name": "proposed_total_runtime",
+          "metric_value": 2.04
+        },
+        {
+          "problem_size": 18,
+          "num_qubits": 18,
+          "metric_name": "proposed_total_runtime",
+          "metric_value": 1.78
+        },
+        {
+          "problem_size": 29,
+          "num_qubits": 29,
+          "metric_name": "average_simulation_runtime",
+          "metric_value": 0.62
+        },
+        {
+          "problem_size": 37,
+          "num_qubits": 37,
+          "metric_name": "average_simulation_runtime",
+          "metric_value": 0.24
+        },
+        {
+          "problem_size": 37,
+          "num_qubits": 37,
+          "metric_name": "average_simulation_runtime",
+          "metric_value": 0.13
+        },
+        {
+          "problem_size": 37,
+          "num_qubits": 37,
+          "metric_name": "average_simulation_runtime",
+          "metric_value": 0.1
+        },
+        {
+          "problem_size": 28,
+          "num_qubits": 28,
+          "metric_name": "average_simulation_runtime",
+          "metric_value": 0.09
+        },
+        {
+          "problem_size": 37,
+          "num_qubits": 37,
+          "metric_name": "average_simulation_runtime",
+          "metric_value": 0.09
+        },
+        {
+          "problem_size": 37,
+          "num_qubits": 37,
+          "metric_name": "average_simulation_runtime",
+          "metric_value": 0.24
+        },
+        {
+          "problem_size": 22,
+          "num_qubits": 22,
+          "metric_name": "average_simulation_runtime",
+          "metric_value": 0.76
+        },
+        {
+          "problem_size": 28,
+          "num_qubits": 28,
+          "metric_name": "average_simulation_runtime",
+          "metric_value": 0.07
+        },
+        {
+          "problem_size": 37,
+          "num_qubits": 37,
+          "metric_name": "average_simulation_runtime",
+          "metric_value": 0.14
+        },
+        {
+          "problem_size": 24,
+          "num_qubits": 24,
+          "metric_name": "average_simulation_runtime",
+          "metric_value": 0.95
+        },
+        {
+          "problem_size": 33,
+          "num_qubits": 33,
+          "metric_name": "average_simulation_runtime",
+          "metric_value": 0.29
+        },
+        {
+          "problem_size": 28,
+          "num_qubits": 28,
+          "metric_name": "average_simulation_runtime",
+          "metric_value": 0.28
+        },
+        {
+          "problem_size": 19,
+          "num_qubits": 19,
+          "metric_name": "average_simulation_runtime",
+          "metric_value": 6.06
+        },
+        {
+          "problem_size": 28,
+          "num_qubits": 28,
+          "metric_name": "average_simulation_runtime",
+          "metric_value": 0.31
+        },
+        {
+          "problem_size": 24,
+          "num_qubits": 24,
+          "metric_name": "average_simulation_runtime",
+          "metric_value": 0.49
+        },
+        {
+          "problem_size": 28,
+          "num_qubits": 28,
+          "metric_name": "average_simulation_runtime",
+          "metric_value": 0.08
+        },
+        {
+          "problem_size": 28,
+          "num_qubits": 28,
+          "metric_name": "average_simulation_runtime",
+          "metric_value": 0.24
+        },
+        {
+          "problem_size": 28,
+          "num_qubits": 28,
+          "metric_name": "average_simulation_runtime",
+          "metric_value": 0.14
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "Equivalence checking of quantum circuits is QMA-complete; simulation of a single basis state corresponds to one column of the unitary",
+        "classical_complexity": "State-of-the-art DD-based equivalence checking can be exponential in the worst case; constructing full unitary is exponential in number of qubits",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not applicable; no quantum hardware execution or asymptotic quantum speedup analysis",
+        "resources_for_advantage": "Not applicable; the method is a classical verification workflow using decision diagrams and classical simulation of circuits up to ~37 qubits.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "All experiments run on classical CPU infrastructure",
+          "No execution on quantum hardware",
+          "No algorithmic quantum speedup claimed",
+          "Problem addressed (equivalence checking) solved using classical decision-diagram data structures"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "hardware.type inferred as simulator_other because the paper reports classical simulation/decision-diagram execution and no real QPU device; num_qubits is not given for the overall benchmark suite in a single value, but individual benchmark sizes are reported in tables and vary across instances.",
+          "The paper does not claim quantum computational advantage; it presents a classical verification methodology for quantum circuits.",
+          "All reported experiments run on classical infrastructure (Amazon EC2 CPU) using decision-diagram simulation."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

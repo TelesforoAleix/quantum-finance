@@ -1,0 +1,812 @@
+{
+  "paper_id": "63287a0e96b2",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:49:48+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "63287a0e96b2_time_series_forecasting_with_quantum_machine_learning_architectures.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.575,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 6,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[16].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[17].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[18].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[19].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[20].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[21].unit='not_reported' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.575,
+      "completeness": 0.575,
+      "num_experiments": 2,
+      "experiment_scores": [
+        1.0,
+        0.15
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Time Series Forecasting with Quantum Machine Learning Architectures",
+    "authors": [
+      "Mayra Alejandra Rivera-Ruiz",
+      "Andres Mendez-Vazquez",
+      "José Mauricio López-Romero"
+    ],
+    "year": 2022,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes two hybrid quantum‑classical architectures (QNN and HQNN) based on variational quantum circuits for time series forecasting and evaluates them on four datasets (Mackey‑Glass, Lorenz attractor, Box‑Jenkins gas furnace, and USD/EUR exchange rates). Using 2–5 qubits and circuit depths between 4 and 10 on a PennyLane simulator, the QNN achieved RMSE 0.0136 on Mackey‑Glass and 0.00281 on USD/EUR forecasting, showing performance comparable to classical MLP, CNN, and LSTM models but without demonstrating computational advantage.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum neural network (QNN) for one-step-ahead time series forecasting using a variational quantum circuit.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Quantum Neural Network (QNN) with multilayer variational quantum circuit",
+        "ansatz": "Layered VQC with Ry input encoding and repeated Rz-Ry-Rx parameterized layers plus CNOT entanglement",
+        "optimizer": "Adam for Mackey-Glass and USD/EUR; SGD for Lorenz; Adam for Box-Jenkins",
+        "num_layers": null,
+        "convergence_criteria": "100 epochs for all experiments",
+        "hyperparameters": {
+          "input_encoding": "Pauli-Y rotation encoding",
+          "entangling_gate": "CNOT",
+          "measurement": "Pauli-Z expectation values",
+          "loss_function": "squared loss",
+          "epochs": 100,
+          "learning_rate": 0.001,
+          "learning_rate_box_jenkins": 0.0005,
+          "optimizer_lorenz": "SGD",
+          "optimizer_mackey_glass": "Adam",
+          "optimizer_usd_eur": "Adam"
+        },
+        "parameter_initialization": "not_specified",
+        "optimizer_settings": {
+          "max_iterations": 100,
+          "learning_rate": 0.001,
+          "learning_rate_box_jenkins": 0.0005,
+          "step_size": null,
+          "tolerance": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Classical regressor vector encoded with Ry(πx_j) on one qubit per input feature; number of qubits equals the number of past values used in the regressor",
+        "objective_function": "Minimize squared error between forecasted value and target time-series value",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Time series forecasting on four benchmark problems: Mackey-Glass, Lorenz attractor, Box-Jenkins gas furnace, and USD-to-euro exchange rate",
+        "num_assets": null,
+        "time_steps": 1000,
+        "num_features": 4,
+        "dataset_size": 1000,
+        "data_type": "public_benchmark",
+        "dataset_name": "Mackey-Glass, Lorenz attractor, Box-Jenkins gas furnace, USD/EUR exchange rate",
+        "dataset_specification": {
+          "description": "Mackey-Glass generated from differential equation; Lorenz generated from ODEs; Box-Jenkins from standard gas furnace benchmark; USD/EUR from fx.sauder.ubc.ca"
+        },
+        "data_preprocessing_details": "All time series scaled to [0,1] using min-max normalization; training/test splits: Mackey-Glass 500/500, Lorenz 500/500, Box-Jenkins 200/rest, USD/EUR 300/rest",
+        "evaluation_methodology": "Comparison against MLP, CNN, and LSTM using RMSE, MAE, and MAPE; same optimizers, learning rates, and 100 epochs for all models"
+      },
+      "quantum_resources": {
+        "num_qubits": 3,
+        "qubit_type": "not_specified",
+        "circuit_depth": 5,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "PennyLane",
+        "device_name": "lightning.qubit",
+        "framework": "PennyLane",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "PyTorch"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "classical_preprocessing": "Min-max normalization; regressor construction from past time steps; for HQNN, classical pre/post-processing layers around quantum circuit",
+        "classical_postprocessing": "Classical optimization of parameters; forecast evaluation with RMSE/MAE/MAPE",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "MSE loss curves reported; no numeric convergence threshold beyond fixed epochs",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "rmse",
+          "value": 0.0136,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "mae",
+          "value": 0.0114,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "mape",
+          "value": 0.01319,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "rmse",
+          "value": 0.065382,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "mae",
+          "value": 0.37843,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "mape",
+          "value": 0.12376,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "rmse",
+          "value": 1.62488,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "mae",
+          "value": 0.97698,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "mape",
+          "value": 0.01733,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "rmse",
+          "value": 0.00281,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "mae",
+          "value": 0.00215,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "mape",
+          "value": 0.00258,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "epochs",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "rmse",
+          "value": 0.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "not_reported",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "rmse",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "mae",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "mape",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 1000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 296,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 376,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "mlp",
+          "metric_name": "rmse",
+          "value": 0.02047,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "mlp",
+          "metric_name": "mae",
+          "value": 0.01697,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "mlp",
+          "metric_name": "mape",
+          "value": 0.01963,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "cnn",
+          "metric_name": "rmse",
+          "value": 0.04586,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "cnn",
+          "metric_name": "mae",
+          "value": 0.03419,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "cnn",
+          "metric_name": "mape",
+          "value": 0.04159,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "lstm",
+          "metric_name": "rmse",
+          "value": 0.01866,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "lstm",
+          "metric_name": "mae",
+          "value": 0.01395,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "lstm",
+          "metric_name": "mape",
+          "value": 0.01659,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "mlp",
+          "metric_name": "rmse",
+          "value": 2.11768,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "mlp",
+          "metric_name": "mae",
+          "value": 1.48587,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "mlp",
+          "metric_name": "mape",
+          "value": 0.52687,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "cnn",
+          "metric_name": "rmse",
+          "value": 2.04956,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "cnn",
+          "metric_name": "mae",
+          "value": 1.44207,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "cnn",
+          "metric_name": "mape",
+          "value": 0.40423,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "lstm",
+          "metric_name": "rmse",
+          "value": 1.95701,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "lstm",
+          "metric_name": "mae",
+          "value": 1.53737,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "lstm",
+          "metric_name": "mape",
+          "value": 0.52913,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "mlp",
+          "metric_name": "rmse",
+          "value": 0.75594,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "mlp",
+          "metric_name": "mae",
+          "value": 0.49578,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "mlp",
+          "metric_name": "mape",
+          "value": 0.00885,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "cnn",
+          "metric_name": "rmse",
+          "value": 0.80361,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "cnn",
+          "metric_name": "mae",
+          "value": 0.54213,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "cnn",
+          "metric_name": "mape",
+          "value": 0.00968,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "lstm",
+          "metric_name": "rmse",
+          "value": 0.64989,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "lstm",
+          "metric_name": "mae",
+          "value": 0.43938,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "lstm",
+          "metric_name": "mape",
+          "value": 0.00788,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "mlp",
+          "metric_name": "rmse",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "cnn",
+          "metric_name": "rmse",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "lstm",
+          "metric_name": "rmse",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "mlp",
+          "metric_name": "mae",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "cnn",
+          "metric_name": "mae",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "lstm",
+          "metric_name": "mae",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "mlp",
+          "metric_name": "mape",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "cnn",
+          "metric_name": "mape",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "lstm",
+          "metric_name": "mape",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The paper reports empirical forecasting performance only and does not claim any quantum speedup."
+        },
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No gate-based quantum computing experiment or quantum finance result is present in the provided paper text. The text instead contains unrelated classical ML papers and no quantum speedup claim."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 1000.0,
+          "num_qubits": 4,
+          "metric_name": "rmse",
+          "metric_value": 0.0136
+        },
+        {
+          "problem_size": 1000.0,
+          "num_qubits": 3,
+          "metric_name": "rmse",
+          "metric_value": 0.065382
+        },
+        {
+          "problem_size": 296.0,
+          "num_qubits": 2,
+          "metric_name": "rmse",
+          "metric_value": 1.62488
+        },
+        {
+          "problem_size": 376.0,
+          "num_qubits": 5,
+          "metric_name": "rmse",
+          "metric_value": 0.00281
+        },
+        {
+          "problem_size": 1000.0,
+          "num_qubits": 4,
+          "metric_name": "rmse",
+          "metric_value": null
+        },
+        {
+          "problem_size": 1000.0,
+          "num_qubits": 3,
+          "metric_name": "rmse",
+          "metric_value": null
+        },
+        {
+          "problem_size": 296.0,
+          "num_qubits": 2,
+          "metric_name": "rmse",
+          "metric_value": null
+        },
+        {
+          "problem_size": 376.0,
+          "num_qubits": 5,
+          "metric_name": "rmse",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "parity_with_classical",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not_applicable",
+        "resources_for_advantage": "Not applicable; algorithm evaluated only on small benchmark time series with <=5 qubits in simulation",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "current_nisq",
+        "limiting_factors": [
+          "Evaluated only on simulator (PennyLane lightning.qubit)",
+          "Very small qubit counts (2–5 qubits)",
+          "No complexity or runtime advantage analysis",
+          "Classical models (MLP, CNN, LSTM) often match or outperform results"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_statevector because the paper explicitly states use of the built-in PennyLane simulator lightning.qubit.",
+          "No gate counts, shot counts, or transpilation details were reported.",
+          "The paper compares performance empirically only; no asymptotic quantum speedup claim is made.",
+          "The authors compare accuracy metrics only and do not claim computational speedup.",
+          "Quantum models sometimes outperform MLP but not consistently across datasets.",
+          "Classical models such as LSTM outperform the quantum model on some tasks (e.g., Box‑Jenkins)."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Hybrid‑Quantum Neural Network (HQNN) for time series forecasting using classical layers surrounding a variational quantum circuit.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Hybrid Quantum Neural Network (HQNN)",
+        "ansatz": "Dressed quantum circuit (classical layer → VQC → classical layer) stacked into two hybrid layers",
+        "optimizer": "Adam for Mackey‑Glass, USD/EUR and Box‑Jenkins; SGD for Lorenz",
+        "num_layers": 2,
+        "hyperparameters": {
+          "epochs": 100,
+          "learning_rate": 0.001,
+          "learning_rate_box_jenkins": 0.0005
+        }
+      },
+      "key_results": [
+        {
+          "dataset": "Mackey‑Glass",
+          "rmse": 0.02117,
+          "mae": 0.01726,
+          "mape": 0.01992
+        },
+        {
+          "dataset": "Box‑Jenkins Gas Furnace",
+          "rmse": 0.69741,
+          "mae": 0.47627,
+          "mape": 0.00851
+        },
+        {
+          "dataset": "USD/EUR exchange rate",
+          "rmse": 0.00298,
+          "mae": 0.00224,
+          "mape": 0.00269
+        }
+      ]
+    }
+  ]
+}

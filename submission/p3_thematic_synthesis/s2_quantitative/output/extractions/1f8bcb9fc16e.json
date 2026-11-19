@@ -1,0 +1,1095 @@
+{
+  "paper_id": "1f8bcb9fc16e",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:15:29+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "1f8bcb9fc16e_continual_quantum_architecture_search_with_tensor_train_encoding_theory_and_appl.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.717,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 10,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[13].unit='features' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[15].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[17].unit='tasks' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[18].unit='seeds' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[21].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[12].unit='simulated_closing_prices' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[14].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[16].unit='tasks' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[17].unit='seeds' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[20].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.717,
+      "completeness": 0.717,
+      "num_experiments": 3,
+      "experiment_scores": [
+        1.0,
+        1.0,
+        0.15
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Continual Quantum Architecture Search with Tensor-Train Encoding: Theory and Applications to Signal Processing",
+    "authors": [
+      "Jun Qi",
+      "Chao-Han Huck Yang",
+      "Pin-Yu Chen",
+      "Javier Tejedor",
+      "Ling Li",
+      "Min-Hsiu Hsieh"
+    ],
+    "year": 2026,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes CL-QAS, a continual-learning quantum architecture search framework using tensor-train amplitude encoding and reinforcement-learning-driven circuit design. Experiments with 20‑qubit, 6‑layer VQCs on ECG classification and synthetic financial forecasting show improvements over baseline VQCs, e.g., ECG F1 score 0.819 vs 0.741 (Naive‑VQC) in noiseless simulation and hardware accuracy 0.863 ± 0.008 on IBM Heron r2. Results demonstrate improved robustness and continual learning performance but do not establish quantum advantage over classical methods.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Continual quantum architecture search (CL-QAS) for ECG-based signal classification using tensor-train amplitude encoding and a variational quantum circuit, evaluated in noiseless simulation, noisy simulation, and on IBM Heron r2 hardware.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "CL-QAS with tensor-train amplitude encoding and bi-loop reinforcement-learning-based quantum architecture search",
+        "ansatz": "parameterized VQC with layers of RX, RY, RZ rotations and CNOT entanglers",
+        "optimizer": "Adam",
+        "num_layers": 6,
+        "convergence_criteria": "100 epochs",
+        "hyperparameters": {
+          "learning_rate": 0.003,
+          "batch_size": 128,
+          "epochs": 100,
+          "num_measurements": 1024,
+          "qubits": 20,
+          "TT_input_modes": [
+            4,
+            16,
+            4
+          ],
+          "TT_output": [
+            3,
+            2,
+            2
+          ],
+          "TT_ranks": [
+            1,
+            2,
+            3,
+            1
+          ],
+          "sequential_tasks": 8,
+          "seeds": 5,
+          "noise_model_depolarizing": 0.001,
+          "noise_model_two_qubit_pauli": 0.001,
+          "noise_model_readout_error": 0.01
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "learning_rate": 0.003,
+          "max_iterations": 100,
+          "parameter_bounds": null,
+          "step_size": null,
+          "tolerance": null,
+          "learning_rate_schedule": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "256-dimensional ECG input compressed by tensor-train encoder into a 20-qubit amplitude state; 20 qubits used for the VQC classifier",
+        "objective_function": "cross-entropy loss for binary classification, with outer-loop reward based on validation accuracy and a penalty proportional to CNOT count",
+        "constraints_handling": "hardware-aware reward penalty on excessive entanglement; EWC regularization and KL-divergence regularization in outer loop",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "ECG-based classification on MIT-BIH Arrhythmia Database, framed as eight sequential tasks of normal vs ventricular beat classification",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 256,
+        "dataset_size": null,
+        "data_type": "public_benchmark",
+        "dataset_name": "MIT-BIH Arrhythmia Database",
+        "dataset_specification": {
+          "description": "Eight sequential tasks; 80/10/10 split after an initial 80/20 train/held-out split, with the 80% training split further divided into 85% train and 15% validation"
+        },
+        "data_preprocessing_details": "TT encoder with input modes (4,16,4), output (3,2,2), ranks (1,2,3,1); stratified, time-agnostic splitting; 256-dimensional inputs mapped to 20-qubit amplitude states",
+        "evaluation_methodology": "Results averaged over eight sequential tasks and five random seeds; metrics reported as mean ± standard deviation"
+      },
+      "quantum_resources": {
+        "num_qubits": 20,
+        "qubit_type": "not_specified",
+        "circuit_depth": 6,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 1024,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_superconducting",
+        "provider": "IBM",
+        "device_name": "Heron r2",
+        "framework": "not_specified"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "depolarizing noise, two-qubit Pauli errors, readout error, and encoder-angle jitter",
+        "error_mitigation_method": null,
+        "noise_parameters": {
+          "single_qubit_depolarizing": 0.001,
+          "two_qubit_pauli": 0.001,
+          "readout_error": 0.01,
+          "encoder_angle_jitter": null
+        }
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/jqi41/CL_QAS",
+        "framework_version": null,
+        "transpilation_target": "IBM Heron r2",
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "TT-based amplitude encoding; robust median-based scaling is mentioned for financial data, not ECG",
+        "classical_postprocessing": "softmax over Pauli-Z expectation values",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": 5.0,
+          "num_independent_runs": 5
+        },
+        "classical_baselines": [
+          "Naive-VQC",
+          "QAS-No-CL"
+        ],
+        "quantum_baselines": [
+          "TTN+VQC",
+          "Differential QAS"
+        ],
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "accuracy",
+          "value": 0.963,
+          "uncertainty": 0.009,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "balanced_accuracy",
+          "value": 0.955,
+          "uncertainty": 0.011,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.819,
+          "uncertainty": 0.031,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "reward",
+          "value": 0.8855,
+          "uncertainty": 0.0384,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.932,
+          "uncertainty": 0.015,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "balanced_accuracy",
+          "value": 0.936,
+          "uncertainty": 0.012,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.729,
+          "uncertainty": 0.041,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "reward",
+          "value": 0.8622,
+          "uncertainty": 0.0259,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.863,
+          "uncertainty": 0.008,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "balanced_accuracy",
+          "value": 0.9,
+          "uncertainty": 0.06,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.496,
+          "uncertainty": 0.009,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "reward",
+          "value": 0.7674,
+          "uncertainty": 0.0018,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "runtime",
+          "value": 38.0,
+          "uncertainty": 6.0,
+          "num_runs": 5,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 256,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "features",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_measurements",
+          "value": 1024,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sequential_tasks",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "tasks",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "seeds",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seeds",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "learning_rate",
+          "value": 0.003,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "batch_size",
+          "value": 128,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "epochs",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "epochs",
+          "higher_is_better": null,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "Naive-VQC",
+          "metric_name": "accuracy",
+          "value": 0.948,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Naive-VQC",
+          "metric_name": "balanced_accuracy",
+          "value": 0.947,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Naive-VQC",
+          "metric_name": "f1_score",
+          "value": 0.741,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "QAS-No-CL",
+          "metric_name": "accuracy",
+          "value": 0.946,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "QAS-No-CL",
+          "metric_name": "balanced_accuracy",
+          "value": 0.947,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "QAS-No-CL",
+          "metric_name": "f1_score",
+          "value": 0.748,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "TTN+VQC",
+          "metric_name": "accuracy",
+          "value": 0.846,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "TTN+VQC",
+          "metric_name": "balanced_accuracy",
+          "value": 0.881,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "TTN+VQC",
+          "metric_name": "f1_score",
+          "value": 0.481,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Differential QAS",
+          "metric_name": "accuracy",
+          "value": 0.822,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Differential QAS",
+          "metric_name": "balanced_accuracy",
+          "value": 0.878,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Differential QAS",
+          "metric_name": "f1_score",
+          "value": 0.437,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No explicit computational speedup over classical methods is reported; the paper reports improved accuracy/F1 and hardware efficiency, not runtime or asymptotic speedup."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 256.0,
+          "num_qubits": 20,
+          "metric_name": "accuracy",
+          "metric_value": 0.963
+        },
+        {
+          "problem_size": 256.0,
+          "num_qubits": 20,
+          "metric_name": "f1_score",
+          "metric_value": 0.819
+        },
+        {
+          "problem_size": 256.0,
+          "num_qubits": 20,
+          "metric_name": "runtime",
+          "metric_value": 38.0
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "polynomial scaling in sample complexity and gradient variance; O(1/|Dm|) + O(1/r^2) trainability bound",
+        "classical_complexity": null,
+        "speedup_order": "polynomial_other",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "unknown; experiments use 20 logical qubits and shallow 6-layer VQC on IBM Heron r2 with 1024 shots",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "no comparison with classical machine-learning models",
+          "problem sizes remain small (20 qubits, shallow circuits)",
+          "no demonstrated runtime or complexity advantage",
+          "results mainly compare variants of quantum models"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "No separate transpiled depth, gate counts, or optimizer-specific circuit parameter count were reported.",
+          "IBM Heron r2 hardware experiment is explicitly reported; simulator results are part of the same experiment family and not split into separate entries.",
+          "Authors do not claim quantum computational advantage; experiments only compare different VQC architectures and quantum baselines.",
+          "Classical ML baselines (e.g., SVM, neural networks) are not included in the empirical comparisons."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Continual quantum architecture search (CL-QAS) for financial time-series direction prediction using tensor-train amplitude encoding and a variational quantum circuit, evaluated in noiseless simulation, noisy simulation, and on IBM Heron r2 hardware.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "CL-QAS with tensor-train amplitude encoding and bi-loop reinforcement-learning-based quantum architecture search",
+        "ansatz": "parameterized VQC with layers of RX, RY, RZ rotations and CNOT entanglers",
+        "optimizer": "Adam",
+        "num_layers": 6,
+        "convergence_criteria": "100 epochs",
+        "hyperparameters": {
+          "learning_rate": 0.003,
+          "batch_size": 128,
+          "epochs": 100,
+          "num_measurements": 1024,
+          "qubits": 20,
+          "TT_input_modes": [
+            4,
+            16,
+            4
+          ],
+          "TT_output": [
+            5,
+            2,
+            2
+          ],
+          "TT_ranks": [
+            1,
+            2,
+            3,
+            1
+          ],
+          "sequential_tasks": 8,
+          "seeds": 5,
+          "noise_model_depolarizing": 0.001,
+          "noise_model_two_qubit_pauli": 0.001,
+          "noise_model_readout_error": 0.01
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "learning_rate": 0.003,
+          "max_iterations": 100,
+          "parameter_bounds": null,
+          "step_size": null,
+          "tolerance": null,
+          "learning_rate_schedule": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "256-dimensional financial feature vector compressed by tensor-train encoder into a 20-qubit amplitude state; 20 qubits used for the VQC classifier",
+        "objective_function": "cross-entropy loss for binary next-step direction classification, with outer-loop reward based on validation accuracy and a penalty proportional to CNOT count",
+        "constraints_handling": "hardware-aware reward penalty on excessive entanglement; EWC regularization and KL-divergence regularization in outer loop",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Synthetic-realistic financial time-series forecasting with regime shifts; binary prediction of next-step market direction (up vs down) across eight sequential tasks",
+        "num_assets": null,
+        "time_steps": 32,
+        "num_features": 256,
+        "dataset_size": 6,
+        "data_type": "synthetic",
+        "dataset_name": "synthetic financial time-series benchmark",
+        "dataset_specification": {
+          "description": "Eight sequential non-overlapping regimes/tasks; chronological 80/10/10 split within each regime"
+        },
+        "data_preprocessing_details": "Eight technical-indicator channels per time step; stack most recent 32 steps into a 256-dimensional vector; robust median-based scaling; TT encoder with input modes (4,16,4), output (5,2,2), ranks (1,2,3,1)",
+        "evaluation_methodology": "Results averaged over eight regimes/tasks and five random seeds; metrics reported as mean ± standard deviation"
+      },
+      "quantum_resources": {
+        "num_qubits": 20,
+        "qubit_type": "not_specified",
+        "circuit_depth": 6,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 1024,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_superconducting",
+        "provider": "IBM",
+        "device_name": "Heron r2",
+        "framework": "not_specified"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "depolarizing noise, two-qubit Pauli errors, readout error, and encoder-angle jitter",
+        "error_mitigation_method": null,
+        "noise_parameters": {
+          "single_qubit_depolarizing": 0.001,
+          "two_qubit_pauli": 0.001,
+          "readout_error": 0.01,
+          "encoder_angle_jitter": null
+        }
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/jqi41/CL_QAS",
+        "framework_version": null,
+        "transpilation_target": "IBM Heron r2",
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "TT-based amplitude encoding; robust median-based scaling; technical indicators from price series",
+        "classical_postprocessing": "softmax over Pauli-Z expectation values",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": 5.0,
+          "num_independent_runs": 5
+        },
+        "classical_baselines": [
+          "Naive-VQC",
+          "QAS-No-CL"
+        ],
+        "quantum_baselines": [
+          "TTN+VQC",
+          "Differential QAS"
+        ],
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "accuracy",
+          "value": 0.604,
+          "uncertainty": 0.063,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "balanced_accuracy",
+          "value": 0.604,
+          "uncertainty": 0.07,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.624,
+          "uncertainty": 0.063,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "reward",
+          "value": 0.6054,
+          "uncertainty": 0.0622,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.637,
+          "uncertainty": 0.11,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "balanced_accuracy",
+          "value": 0.641,
+          "uncertainty": 0.096,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.618,
+          "uncertainty": 0.168,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "reward",
+          "value": 0.6395,
+          "uncertainty": 0.0882,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.607,
+          "uncertainty": 0.015,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "balanced_accuracy",
+          "value": 0.607,
+          "uncertainty": 0.011,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.624,
+          "uncertainty": 0.019,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "reward",
+          "value": 0.6067,
+          "uncertainty": 0.0118,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 6000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "simulated_closing_prices",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_measurements",
+          "value": 1024,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sequential_tasks",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "tasks",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "seeds",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seeds",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "learning_rate",
+          "value": 0.003,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "batch_size",
+          "value": 128,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "epochs",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "epochs",
+          "higher_is_better": null,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "Naive-VQC",
+          "metric_name": "accuracy",
+          "value": 0.592,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Naive-VQC",
+          "metric_name": "balanced_accuracy",
+          "value": 0.587,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Naive-VQC",
+          "metric_name": "f1_score",
+          "value": 0.549,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "QAS-No-CL",
+          "metric_name": "accuracy",
+          "value": 0.603,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "QAS-No-CL",
+          "metric_name": "balanced_accuracy",
+          "value": 0.603,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "QAS-No-CL",
+          "metric_name": "f1_score",
+          "value": 0.555,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "TTN+VQC",
+          "metric_name": "accuracy",
+          "value": 0.562,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "TTN+VQC",
+          "metric_name": "balanced_accuracy",
+          "value": 0.587,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "TTN+VQC",
+          "metric_name": "f1_score",
+          "value": 0.529,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Differential QAS",
+          "metric_name": "accuracy",
+          "value": 0.573,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Differential QAS",
+          "metric_name": "balanced_accuracy",
+          "value": 0.605,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Differential QAS",
+          "metric_name": "f1_score",
+          "value": 0.535,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No explicit computational speedup over classical methods is reported; the paper reports improved predictive performance and hardware efficiency, not runtime or asymptotic speedup."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 6000.0,
+          "num_qubits": 20,
+          "metric_name": "accuracy",
+          "metric_value": 0.604
+        },
+        {
+          "problem_size": 6000.0,
+          "num_qubits": 20,
+          "metric_name": "f1_score",
+          "metric_value": 0.624
+        },
+        {
+          "problem_size": 6000.0,
+          "num_qubits": 20,
+          "metric_name": "runtime",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "polynomial scaling in sample complexity and gradient variance; O(1/|Dm|) + O(1/r^2) trainability bound",
+        "classical_complexity": null,
+        "speedup_order": "polynomial_other",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "unknown; experiments use 20-qubit VQC with tensor-train encoding and shallow depth on IBM Heron r2",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "synthetic financial dataset rather than large real-world benchmarks",
+          "no comparison against strong classical forecasting models",
+          "small circuit depth and qubit count",
+          "no runtime or complexity advantage analysis"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "No separate transpiled depth, gate counts, or optimizer-specific circuit parameter count were reported.",
+          "IBM Heron r2 hardware experiment is explicitly reported; simulator results are part of the same experiment family and not split into separate entries.",
+          "Paper focuses on architectural improvements for quantum continual learning rather than demonstrating quantum advantage.",
+          "Reported improvements are relative to other VQC baselines."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_new_1",
+      "description": "Ablation study evaluating CL-QAS with tensor-train encoding versus CL-QAS without TT encoding on ECG signal classification under simulated noise.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "CL-QAS (TT) vs CL-QAS (No-TT)",
+        "ansatz": "6-layer variational quantum circuit with RX/RY/RZ rotations and CNOT entanglers",
+        "optimizer": "Adam",
+        "num_layers": null
+      },
+      "key_results": [
+        {
+          "metric": "accuracy",
+          "CL-QAS_TT": "0.932 ± 0.015",
+          "CL-QAS_NoTT": "0.922 ± 0.009",
+          "source": "Table 4"
+        },
+        {
+          "metric": "F1_score",
+          "CL-QAS_TT": "0.729 ± 0.041",
+          "CL-QAS_NoTT": "0.714 ± 0.053",
+          "source": "Table 4"
+        },
+        {
+          "metric": "runtime",
+          "CL-QAS_TT": "38.0 ± 6.0 s",
+          "CL-QAS_NoTT": "43.5 ± 6.8 s",
+          "source": "Table 4"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,449 @@
+{
+  "paper_id": "d746904e8cbb",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T10:02:59+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "d746904e8cbb_training_quantum_self_attention_model_in_near_term_quantum_computer.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.933,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 2,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[10].unit='microseconds' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='microseconds' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.933,
+      "completeness": 0.933,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.933
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Training Quantum Self-Attention Model in Near-Term Quantum Computer",
+    "authors": [
+      "Junyuan He",
+      "Yin Kan",
+      "Cheng Xue"
+    ],
+    "year": 2024,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper demonstrates training a variational quantum self‑attention model for text classification on the 72‑qubit OriginQ Wukong superconducting processor using 28 qubits. On the MC dataset (130 samples) the model achieved 100% test accuracy, and on the RP dataset (105 samples) it achieved 83.87% accuracy on hardware (vs. 80.66% on simulator). Each training step required about 85 s forward and 270 s backward time on the QPU with 2000 shots per circuit.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Training and evaluating a quantum self-attention model for binary text classification on the MC and RP datasets using a superconducting quantum computer and a simulator baseline.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "quantum self-attention neural network for text classification",
+        "ansatz": "parameterized quantum circuits Uq, Uk, Uv with angle encoding, alternating Rc layers and CZ entanglers",
+        "optimizer": "classical optimizer not specified; parameters updated via parameter-shift rule",
+        "num_layers": null,
+        "convergence_criteria": "trained over epochs; no explicit stopping criterion reported",
+        "hyperparameters": {
+          "datasets": [
+            "MC",
+            "RP"
+          ],
+          "batch_size": 16,
+          "average_sentence_length_MC": 4,
+          "average_sentence_length_RP": null,
+          "circuit_num": 3,
+          "parallel_scheme": "seven-way parallel scheme",
+          "qubits_used_for_experiment": 28,
+          "shots_per_circuit": 2000,
+          "single_circuit_runtime_after_sampling": 0.2,
+          "forward_time_theoretical_example_seconds": 84,
+          "backward_time_theoretical_example_seconds": 268.8,
+          "learning_rate": null
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        },
+        "hyperparameters.batch_size": 7,
+        "hyperparameters.forward_time_theoretical_example_seconds": 16.8
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Classical token vectors are mapped into quantum states using arctan(x) followed by Rc encoding; query, key, and value are produced by separate VQCs",
+        "objective_function": "Binary text classification loss for MC and RP datasets",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Binary text classification on two NLP datasets: MC (meaning classification) and RP (relative pronoun classification)",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "public_benchmark",
+        "dataset_name": "MC, RP",
+        "dataset_specification": {
+          "MC": "130 sentences; 70 train, 30 validation, 30 test; 3-4 words per sentence; 17-word vocabulary; food vs IT classes",
+          "RP": "105 noun phrases from RelPron; 15-word vocabulary; binary classification of subject vs object relative clause"
+        },
+        "data_preprocessing_details": "Each input token vector is transformed with arctan(x) into a bounded range before quantum encoding; vocabulary shared within each dataset; selection criteria for RP ensure each word appears at least 3 times",
+        "evaluation_methodology": "Training/validation/test loss and accuracy over epochs; hardware and simulator compared on MC and RP"
+      },
+      "quantum_resources": {
+        "num_qubits": 28,
+        "qubit_type": "physical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 2000,
+        "num_variational_params": null,
+        "gate_fidelity": {
+          "single_qubit": 0.9969,
+          "two_qubit": 0.9637
+        },
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_superconducting",
+        "provider": "OriginQ",
+        "device_name": "Wukong",
+        "framework": "VQNet",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "hardware noise on superconducting QPU",
+        "error_mitigation_method": null,
+        "noise_parameters": {
+          "T1_time_us": 14.78,
+          "T2_time_us": 1.87,
+          "single_qubit_gate_fidelity": 0.9969,
+          "cz_gate_fidelity": 0.9637
+        },
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": null,
+          "routing_method": null
+        },
+        "classical_preprocessing": "Token vectors encoded via arctan(x) and Rc gates; seven-way parallel scheme used",
+        "classical_postprocessing": "Expectation values measured and fed into classical self-attention computation and training loop",
+        "total_execution_time": "forward_hardware_seconds=85; backward_hardware_seconds=270; forward_simulator_seconds=5567; backward_simulator_seconds=9092",
+        "quantum_execution_time": "single_circuit_runtime_seconds=0.2; shots_per_circuit=2000",
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "training and validation loss/accuracy curves reported; hardware slightly outperformed simulator on MC and RP",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "accuracy",
+          "value": 100.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 83.87,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 85,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 270,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 5567,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 9092,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 130,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 105,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "single_qubit_gate_fidelity",
+          "value": 0.9969,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "cz_gate_fidelity",
+          "value": 0.9637,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "t1_time",
+          "value": 14.78,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "microseconds",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "t2_time",
+          "value": 1.87,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "microseconds",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 28,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots_per_circuit",
+          "value": 2000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "single_circuit_runtime",
+          "value": 0.2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "forward_time_theoretical_example",
+          "value": 84,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "backward_time_theoretical_example",
+          "value": 268.8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "simulator",
+          "metric_name": "accuracy",
+          "value": 100.0,
+          "unit": "%"
+        },
+        {
+          "method_name": "simulator",
+          "metric_name": "accuracy",
+          "value": 80.66,
+          "unit": "%"
+        },
+        {
+          "method_name": "simulator",
+          "metric_name": "training_time",
+          "value": 5567,
+          "unit": "seconds"
+        },
+        {
+          "method_name": "simulator",
+          "metric_name": "training_time",
+          "value": 9092,
+          "unit": "seconds"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "960x",
+          "baseline_method": "non-parallel strategy",
+          "conditions": "example with average sentence length 20 tokens and batch size 16; combining attention-level, token-level, and batch-level parallelism",
+          "is_demonstrated": false,
+          "caveats": "This is a theoretical parallelism speedup estimate, not an experimentally demonstrated end-to-end speedup."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 130.0,
+          "num_qubits": 28,
+          "metric_name": "accuracy",
+          "metric_value": 100.0
+        },
+        {
+          "problem_size": 105.0,
+          "num_qubits": 28,
+          "metric_name": "accuracy",
+          "metric_value": 83.87
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "Forward training time scales as 3 × bs × n × Tanz; backward time scales as forwardTime × paramsNum × PSR",
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": "85 s forward, 270 s backward per practical training scenario",
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L4_qpu_scale",
+        "crossover_size": "Not reported; no asymptotic comparison with classical NLP models.",
+        "resources_for_advantage": "Not specified. Current implementation uses 28 physical qubits of a 72‑qubit superconducting QPU with variational circuits and heavy sampling (2000 shots per circuit).",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Very small datasets (MC: 130 samples, RP: 105 samples)",
+          "No classical deep‑learning baselines (e.g., transformer or classical attention models)",
+          "Training requires many circuit evaluations with parameter‑shift gradients",
+          "High sampling overhead (2000 shots per circuit)",
+          "No asymptotic complexity advantage analysis"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware identified from explicit mention of the 'Wukong' 72-qubit superconducting quantum computer; 28 qubits were used in the seven-way parallel scheme.",
+          "The paper reports 2000 circuit executions and 0.2 s per circuit after repeated measurements.",
+          "No explicit optimizer name, circuit depth, or number of variational parameters is given in the provided text.",
+          "The paper gives a theoretical parallelism speedup factor (up to 960x in an example) but does not establish an asymptotic quantum speedup over classical methods.",
+          "The paper claims feasibility of training a quantum self‑attention model on real hardware but does not claim a computational advantage over classical NLP models.",
+          "Reported comparisons are only between hardware and simulator implementations of the same quantum model."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

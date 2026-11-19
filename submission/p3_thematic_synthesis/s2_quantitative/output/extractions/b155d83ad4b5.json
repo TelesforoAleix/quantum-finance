@@ -1,0 +1,891 @@
+{
+  "paper_id": "b155d83ad4b5",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:35:57+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "b155d83ad4b5_quantum_portfolio_optimization_with_expert_analysis_evaluation.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.85,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 4,
+    "validation_warnings": 10,
+    "validation_passed": false,
+    "validation_error_details": [
+      "Schema error at experiments.0.problem_instance.dataset_specification.ticker_symbols.0: ['AAPL', 'GOOG', 'MSFT', 'TSLA'] is not of type 'string'",
+      "Schema error at experiments.0.problem_instance.dataset_specification.ticker_symbols.1: ['AAPL', 'GOOG', 'MSFT', 'TSLA', 'AMZN', 'NVDA', 'GS', 'MS', 'NKE', 'KO'] is not of type 'string'",
+      "Schema error at experiments.1.problem_instance.dataset_specification.ticker_symbols.0: ['AAPL', 'GOOG', 'MSFT', 'TSLA'] is not of type 'string'",
+      "Schema error at experiments.1.problem_instance.dataset_specification.ticker_symbols.1: ['AAPL', 'GOOG', 'MSFT', 'TSLA', 'AMZN', 'NVDA', 'GS', 'MS', 'NKE', 'KO'] is not of type 'string'"
+    ],
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='seeds' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='dimensionless' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='n/2' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[0].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[2].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[5].unit='seeds' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[6].unit='dimensionless' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[7].unit='n/2' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.85,
+      "completeness": 0.85,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.85,
+        0.85
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum Portfolio Optimization with Expert Analysis Evaluation",
+    "authors": [
+      "Nouhaila Innan",
+      "Ayesha Saleem",
+      "Alberto Marchisio",
+      "Muhammad Shafique"
+    ],
+    "year": 2025,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "portfolio-optimization",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper benchmarks QAOA and SamplingVQE for QUBO-based portfolio optimization on 4-asset (4‑qubit) and 10-asset (10‑qubit) instances using a Qiskit Aer QASM simulator with circuit depths 2–10, 1024 shots, and 5 random seeds. SamplingVQE with ansatzes such as EfficientSU2 and TwoLocal generally produced more stable convergence than QAOA. Portfolio outputs were evaluated using historical data from Dec 2024–May 2025 and forward returns in June 2025, but no classical performance comparison or quantum advantage analysis was conducted.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "QAOA-based portfolio optimization on 4-asset and 10-asset instances, evaluated across circuit depths 2, 4, 6, 8, and 10 using Qiskit Aer QASM simulation.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "standard QAOA with built-in alternating operator ansatz",
+        "ansatz": "alternating operator ansatz",
+        "optimizer": "COBYLA",
+        "num_layers": 10,
+        "convergence_criteria": "not specified; convergence assessed by loss stabilization over iterations",
+        "hyperparameters": {
+          "shots": 1024,
+          "random_seeds": 5,
+          "problem_sizes": [
+            4,
+            10
+          ],
+          "risk_aversion_q": 0.5,
+          "penalty_alpha": "n/2",
+          "entanglement": "full"
+        },
+        "parameter_initialization": "not specified",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "QUBO",
+        "encoding_details": "1 qubit per binary asset-selection variable; portfolio selection encoded as binary vector x in {0,1}^n with n equal to number of assets",
+        "objective_function": "min_{x in {0,1}^n} q x^T Σ x - μ^T x + α(1^T x - B)^2",
+        "constraints_handling": "budget constraint enforced via quadratic penalty term α(1^T x - B)^2",
+        "num_binary_variables": 10,
+        "problem_hamiltonian": "H_C = sum_i h_i Z_i + sum_{i<j} J_ij Z_i Z_j + const",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Mean-variance portfolio optimization for two asset universes",
+        "num_assets": 10,
+        "time_steps": 6,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "real_market",
+        "dataset_name": "Yahoo Finance",
+        "dataset_specification": {
+          "ticker_symbols": [
+            [
+              "AAPL",
+              "GOOG",
+              "MSFT",
+              "TSLA"
+            ],
+            [
+              "AAPL",
+              "GOOG",
+              "MSFT",
+              "TSLA",
+              "AMZN",
+              "NVDA",
+              "GS",
+              "MS",
+              "NKE",
+              "KO"
+            ]
+          ],
+          "date_range": "historical data from 2 Dec 2024 to 30 May 2025; forward evaluation from 2 Jun 2025 to 20 Jun 2025",
+          "benchmark_name": null,
+          "preprocessing": "stock returns computed from start/end prices; average portfolio return computed as mean of selected asset returns",
+          "train_test_split": "historical period used for optimization; subsequent June 2025 period used for expert/future evaluation"
+        },
+        "data_preprocessing_details": "Historical stock prices from Yahoo Finance; 6-month returns computed as (P_end - P_start)/P_start * 100; portfolio average return computed as arithmetic mean of selected asset returns",
+        "evaluation_methodology": "Five random seeds; circuit depths 2, 4, 6, 8, 10; 1024 shots; convergence curves and sampled bitstring histograms analyzed; portfolio quality additionally evaluated on June 2025 forward returns"
+      },
+      "quantum_resources": {
+        "num_qubits": 10,
+        "qubit_type": "logical",
+        "circuit_depth": 10,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 1024,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "IBM",
+        "device_name": "Qiskit Aer QASM simulator",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "MinimumEigenOptimizer",
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": null,
+          "routing_method": null
+        },
+        "classical_preprocessing": "QUBO mapping from mean-variance portfolio optimization; historical price data used to compute returns and covariance",
+        "classical_postprocessing": "Most frequently sampled bitstrings interpreted as candidate portfolios; expert analysis applied to assess feasibility and future returns",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "generally downward with high variance for QAOA, especially at lower depths",
+          "variance_across_runs": null,
+          "num_independent_runs": 5
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_assets",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots",
+          "value": 1024,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "random_seeds",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seeds",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "risk_aversion_q",
+          "value": 0.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimensionless",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "penalty_alpha",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "n/2",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "average_return",
+          "value": 0.95,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "average_return",
+          "value": -3.17,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "average_return",
+          "value": -3.71,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "average_return",
+          "value": -1.33,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "average_return",
+          "value": 1.34,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "average_return",
+          "value": 1.99,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "average_return",
+          "value": 1.62,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "average_return",
+          "value": -0.39,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "average_return",
+          "value": 0.34,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [],
+      "scalability_data": [
+        {
+          "problem_size": 4,
+          "num_qubits": 4,
+          "metric_name": "average_return",
+          "metric_value": 0.95
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": 4,
+          "metric_name": "average_return",
+          "metric_value": -3.17
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": 4,
+          "metric_name": "average_return",
+          "metric_value": -3.71
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": 4,
+          "metric_name": "average_return",
+          "metric_value": -1.33
+        },
+        {
+          "problem_size": 10,
+          "num_qubits": 10,
+          "metric_name": "average_return",
+          "metric_value": 1.34
+        },
+        {
+          "problem_size": 10,
+          "num_qubits": 10,
+          "metric_name": "average_return",
+          "metric_value": 1.99
+        },
+        {
+          "problem_size": 10,
+          "num_qubits": 10,
+          "metric_name": "average_return",
+          "metric_value": 1.62
+        },
+        {
+          "problem_size": 10,
+          "num_qubits": 10,
+          "metric_name": "average_return",
+          "metric_value": -0.39
+        },
+        {
+          "problem_size": 10,
+          "num_qubits": 10,
+          "metric_name": "average_return",
+          "metric_value": 0.34
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Not provided; experiments limited to 4- and 10-qubit portfolio instances with circuit depths 2–10 on a simulator.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Very small problem sizes (4 and 10 assets/qubits)",
+          "No comparison against strong classical optimization solvers",
+          "No asymptotic complexity or speedup analysis",
+          "Simulator-only evaluation without noise",
+          "Performance evaluated via convergence behavior rather than computational advantage"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "hardware.type inferred as simulator_other because the paper explicitly states all simulations are performed using the QASM simulator and no real QPU is used.",
+          "num_qubits reported from the 4-asset and 10-asset configurations corresponding to 4 and 10 qubits.",
+          "circuit_depth reported from the five tested depths 2, 4, 6, 8, and 10.",
+          "speedup_order set to none_proven because the paper discusses convergence/portfolio quality but does not provide asymptotic speedup analysis.",
+          "The authors discuss potential scalability benefits of quantum computing but do not claim demonstrated quantum advantage.",
+          "Experiments are limited to toy instances (4 and 10 assets) and only analyze convergence and portfolio composition."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "SamplingVQE-based portfolio optimization on 4-asset and 10-asset instances using four ansatz families, evaluated across circuit depths 2, 4, 6, 8, and 10 on the Qiskit Aer QASM simulator.",
+      "algorithm": {
+        "family": "vqe",
+        "variant": "SamplingVQE with multiple ansatz architectures",
+        "ansatz": "TwoLocal, EfficientSU2, PauliTwoDesign, RealAmplitudes",
+        "optimizer": "COBYLA",
+        "num_layers": 10,
+        "convergence_criteria": "not specified; convergence assessed by loss stabilization over iterations",
+        "hyperparameters": {
+          "shots": 1024,
+          "random_seeds": 5,
+          "problem_sizes": [
+            4,
+            10
+          ],
+          "risk_aversion_q": 0.5,
+          "penalty_alpha": "n/2",
+          "entanglement": "full",
+          "ansatz_gate_set_for_TwoLocal": [
+            "Rx",
+            "Ry",
+            "Cz"
+          ]
+        },
+        "parameter_initialization": "not specified",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "QUBO",
+        "encoding_details": "1 qubit per binary asset-selection variable; portfolio selection encoded as binary vector x in {0,1}^n with n equal to number of assets",
+        "objective_function": "min_{x in {0,1}^n} q x^T Σ x - μ^T x + α(1^T x - B)^2",
+        "constraints_handling": "budget constraint enforced via quadratic penalty term α(1^T x - B)^2",
+        "num_binary_variables": 10,
+        "problem_hamiltonian": "H_C = sum_i h_i Z_i + sum_{i<j} J_ij Z_i Z_j + const",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Mean-variance portfolio optimization for two asset universes",
+        "num_assets": 10,
+        "time_steps": 6,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "real_market",
+        "dataset_name": "Yahoo Finance",
+        "dataset_specification": {
+          "ticker_symbols": [
+            [
+              "AAPL",
+              "GOOG",
+              "MSFT",
+              "TSLA"
+            ],
+            [
+              "AAPL",
+              "GOOG",
+              "MSFT",
+              "TSLA",
+              "AMZN",
+              "NVDA",
+              "GS",
+              "MS",
+              "NKE",
+              "KO"
+            ]
+          ],
+          "date_range": "historical data from 2 Dec 2024 to 30 May 2025; forward evaluation from 2 Jun 2025 to 20 Jun 2025",
+          "benchmark_name": null,
+          "preprocessing": "stock returns computed from start/end prices; average portfolio return computed as mean of selected asset returns",
+          "train_test_split": "historical period used for optimization; subsequent June 2025 period used for expert/future evaluation"
+        },
+        "data_preprocessing_details": "Historical stock prices from Yahoo Finance; 6-month returns computed as (P_end - P_start)/P_start * 100; portfolio average return computed as arithmetic mean of selected asset returns",
+        "evaluation_methodology": "Five random seeds; circuit depths 2, 4, 6, 8, 10; 1024 shots; convergence curves and sampled bitstring histograms analyzed; portfolio quality additionally evaluated on June 2025 forward returns"
+      },
+      "quantum_resources": {
+        "num_qubits": 10,
+        "qubit_type": "logical",
+        "circuit_depth": 10,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 1024,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "IBM",
+        "device_name": "Qiskit Aer QASM simulator",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "MinimumEigenOptimizer",
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": null,
+          "routing_method": null
+        },
+        "classical_preprocessing": "QUBO mapping from mean-variance portfolio optimization; historical price data used to compute returns and covariance",
+        "classical_postprocessing": "Most frequently sampled bitstrings interpreted as candidate portfolios; expert analysis applied to assess feasibility and future returns",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "generally downward with smoother convergence for most ansatzes; QAOA-like instability not applicable here except as comparison in discussion",
+          "variance_across_runs": null,
+          "num_independent_runs": 5
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_assets",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots",
+          "value": 1024,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "random_seeds",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seeds",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "risk_aversion_q",
+          "value": 0.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimensionless",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "penalty_alpha",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "n/2",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "average_return",
+          "value": 0.95,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "average_return",
+          "value": -3.17,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "average_return",
+          "value": -3.71,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "average_return",
+          "value": -1.33,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "average_return",
+          "value": 1.34,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "average_return",
+          "value": 1.99,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "average_return",
+          "value": 1.62,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "average_return",
+          "value": -0.39,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "average_return",
+          "value": 0.34,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [],
+      "scalability_data": [
+        {
+          "problem_size": 4,
+          "num_qubits": 4,
+          "metric_name": "average_return",
+          "metric_value": 0.95
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": 4,
+          "metric_name": "average_return",
+          "metric_value": -3.17
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": 4,
+          "metric_name": "average_return",
+          "metric_value": -3.71
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": 4,
+          "metric_name": "average_return",
+          "metric_value": -1.33
+        },
+        {
+          "problem_size": 10,
+          "num_qubits": 10,
+          "metric_name": "average_return",
+          "metric_value": 1.34
+        },
+        {
+          "problem_size": 10,
+          "num_qubits": 10,
+          "metric_name": "average_return",
+          "metric_value": 1.99
+        },
+        {
+          "problem_size": 10,
+          "num_qubits": 10,
+          "metric_name": "average_return",
+          "metric_value": 1.62
+        },
+        {
+          "problem_size": 10,
+          "num_qubits": 10,
+          "metric_name": "average_return",
+          "metric_value": -0.39
+        },
+        {
+          "problem_size": 10,
+          "num_qubits": 10,
+          "metric_name": "average_return",
+          "metric_value": 0.34
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Not provided; SamplingVQE tested with 4 ansatz types across depths 2–10 on 4- and 10-qubit instances using simulation.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Experiments restricted to 4- and 10-qubit instances",
+          "No classical solver benchmarking (e.g., exact QUBO solvers)",
+          "No runtime or complexity comparison",
+          "Simulator-only results without noise or hardware validation",
+          "Evaluation focuses on portfolio plausibility rather than computational performance"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "hardware.type inferred as simulator_other because the paper explicitly states all simulations are performed using the QASM simulator and no real QPU is used.",
+          "num_qubits reported from the 4-asset and 10-asset configurations corresponding to 4 and 10 qubits.",
+          "circuit_depth reported from the five tested depths 2, 4, 6, 8, and 10.",
+          "speedup_order set to none_proven because the paper discusses convergence/portfolio quality but does not provide asymptotic speedup analysis.",
+          "The study benchmarks ansatz architectures and convergence but does not attempt to demonstrate computational advantage over classical algorithms.",
+          "SamplingVQE outputs are assessed mainly via financial plausibility and forward-return evaluation."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

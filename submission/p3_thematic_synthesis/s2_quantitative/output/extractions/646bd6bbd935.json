@@ -1,0 +1,459 @@
+{
+  "paper_id": "646bd6bbd935",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:50:19+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "646bd6bbd935_accelerated_quantum_monte_carlo_with_mitigated_error_on_noisy_quantum_computer.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.575,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 1,
+    "validation_warnings": 4,
+    "validation_passed": false,
+    "validation_error_details": [
+      "Schema error at experiments.0.quantum_resources.two_qubit_gate_count: 'Up to 14 controlled-NOTs for each S1 in the Fermi-Hubbard example; otherwise same as cnot_count where only CNOTs are reported' is not of type 'integer', 'null'"
+    ],
+    "validation_warning_details": [
+      "experiments[0].results[2].unit='coefficient in gamma ≃ 2.45 ε^0.82' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='power' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='dimensionless' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.575,
+      "completeness": 0.575,
+      "num_experiments": 2,
+      "experiment_scores": [
+        1.0,
+        0.15
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Accelerated quantum Monte Carlo with mitigated error on noisy quantum computer",
+    "authors": [
+      "Yongdan Yang",
+      "Bing-Nan Lu",
+      "Ying Li"
+    ],
+    "year": 2022,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "simulation-monte-carlo",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a hybrid gate‑based quantum‑circuit Monte Carlo (QCMC) algorithm that uses shallow quantum circuits as subroutines to mitigate the Monte‑Carlo sign problem. Numerical simulations on small systems (3‑site Fermi–Hubbard and 6‑spin Heisenberg models) show that QCMC can reduce estimator variance by up to ~4×10^4 at noise rate ε=0.1 (and ~4×10^6 at ε=0.01) for htott=4, with noisy‑circuit tests using p=0.03% CNOT error rates and up to 85 time steps. All demonstrations are performed via classical simulation rather than on real quantum hardware.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Hybrid quantum-classical quantum-circuit Monte Carlo (QCMC) for real-time simulation of many-body systems using exact summation formulas and error mitigation; demonstrated on the Fermi-Hubbard model and the Heisenberg model, with comparisons to classical Monte Carlo baselines.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "quantum-circuit Monte Carlo (QCMC) with leading-order-rotation (LOR) and Pauli-operator-expansion (POE) summation formulas; compact and forward-backward circuits; probabilistic error cancellation and postselection-based error mitigation",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "time_step_size_delta_t": "varied; examples include 0.05 and 0.01 in numerical demonstrations",
+          "num_time_steps_N": "chosen as t/delta_t; examples include up to 85 time steps in error-mitigation simulation",
+          "num_samples_Ns": "examples include 10000, 200000, and 100000 in demonstrations",
+          "shots_per_circuit_Ms": "1 for optimal unbiased estimator; larger Ms used for postselection protocol",
+          "formula_order": "zeroth-order POE, first-order POE, second-order POE, first-order LOR, second-order LOR",
+          "error_rate_per_gate_p": "0.03% in the noisy-circuit numerical demonstration",
+          "controlled_cnot_count_per_S1": "14 in the Fermi-Hubbard error-mitigation demonstration",
+          "system_size": "Fermi-Hubbard on 3 sites (6 qubits); Heisenberg model on 6 spins"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Hamiltonians are encoded into qubit Pauli operators via Jordan-Wigner transformation for the Fermi-Hubbard example; general framework uses Pauli-operator summation of time-evolution operators rather than a QUBO encoding",
+        "objective_function": "Estimate transition amplitudes of the form <psi_f|e^{iHt*} O e^{-iHt}|psi_i> and observables <psi_i|e^{iHt} O e^{-iHt}|psi_i> using Monte Carlo with quantum subroutines",
+        "constraints_handling": "Error mitigation via probabilistic error cancellation; forward-backward circuits with postselection; optimal sampling distribution P(s) proportional to |product of coefficients|",
+        "num_binary_variables": null,
+        "problem_hamiltonian": "H = sum_j h_j sigma_j; examples include Fermi-Hubbard and Heisenberg Hamiltonians mapped to Pauli strings",
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "Real-time evolution of quantum many-body systems; numerical demonstrations on a 3-site Fermi-Hubbard model and a 6-spin Heisenberg model",
+        "num_assets": null,
+        "time_steps": 85,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Fermi-Hubbard: NL=3 sites, initial state c†_{1,↑} c†_{2,↓} c†_{3,↑}|Vac>; observable O = 2 c†_{3,↑} c_{3,↑} - 1. Heisenberg: NS=6 spins, initial state |010101>, observable O = Z3"
+        },
+        "data_preprocessing_details": "Fermi-Hubbard encoded with Jordan-Wigner transformation; no external dataset preprocessing",
+        "evaluation_methodology": "Numerical simulation comparing exact, raw noisy, postselection, purification, and Trotter results; Monte Carlo estimates with Ns samples; phase-average diagnostics for sign problem"
+      },
+      "quantum_resources": {
+        "num_qubits": 6,
+        "qubit_type": "physical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": 4,
+        "cnot_count": 14,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 10000,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_type": null,
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_noisy",
+        "provider": "classical simulation",
+        "device_name": null,
+        "framework": "QuESTlink (simulation toolkit)",
+        "framework_version": null
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "depolarising / Pauli error model; quasi-probability decomposition; postselection and purification",
+        "error_mitigation_method": "probabilistic error cancellation; forward-backward circuit with postselection; tomography purification",
+        "noise_parameters": {
+          "gate_error_rate": "p = 0.03% per controlled-NOT gate in the numerical demonstration",
+          "pauli_error_model": "p_sigma = p/15 for two-qubit gate depolarising noise",
+          "total_error_rate_example": "maximum total error rate above 71.4% in the Fermi-Hubbard demonstration due to many gates"
+        },
+        "mitigation_details": "Probabilistic error cancellation with CE factor; postselection on |0>^n for forward-backward circuit; tomography purification of ancillary qubit; no calibration sample counts reported",
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "classical Monte Carlo / exact classical evaluation used as baselines and for numerical simulation of noisy circuits",
+        "transpilation_settings": null,
+        "classical_preprocessing": null,
+        "classical_postprocessing": "Monte Carlo averaging of sampled circuit outcomes; phase averaging; postselection-conditioned expectation reconstruction"
+      },
+      "implementation_details": {},
+      "results": [
+        {
+          "metric_name": "variance_reduction_factor",
+          "value": 40000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "variance_reduction_factor",
+          "value": 4000000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gamma",
+          "value": 2.45,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "coefficient in gamma ≃ 2.45 ε^0.82",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gamma_exponent",
+          "value": 0.82,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "power",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "error_rate_per_gate",
+          "value": 0.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "error_rate_per_gate",
+          "value": 0.01,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "evolution_time_times_htot",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimensionless",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gate_error_rate",
+          "value": 0.0003,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "fraction",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "controlled_cnot_count_per_s1",
+          "value": 14,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_time_steps",
+          "value": 85,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "total_error_rate",
+          "value": 0.714,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "fraction",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sample_complexity",
+          "value": 10000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sample_complexity",
+          "value": 100000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sample_complexity",
+          "value": 200000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 0.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical Monte Carlo / Green's function Monte Carlo",
+          "metric_name": "variance_reduction_factor",
+          "value": 1,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical Monte Carlo / Green's function Monte Carlo",
+          "metric_name": "gamma",
+          "value": 1,
+          "unit": "coefficient"
+        },
+        {
+          "method_name": "Lie-Trotter-Suzuki product formula without machine errors",
+          "metric_name": "accuracy",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "approximately 4×10^4 variance reduction",
+          "baseline_method": "classical Monte Carlo / Green's function Monte Carlo",
+          "conditions": "for h_tot t = 4 and gate error rate ε = 0.1",
+          "is_demonstrated": true,
+          "caveats": "Claim is about variance/sample reduction, not wall-clock runtime; derived from the paper's variance model."
+        },
+        {
+          "type": "theoretical",
+          "factor": "approximately 4×10^6 variance reduction",
+          "baseline_method": "classical Monte Carlo / Green's function Monte Carlo",
+          "conditions": "for h_tot t = 4 and gate error rate ε = 0.01",
+          "is_demonstrated": true,
+          "caveats": "Claim is about variance/sample reduction, not wall-clock runtime; derived from the paper's variance model."
+        },
+        {
+          "type": "theoretical",
+          "factor": "polynomial scaling on fault-tolerant quantum computer",
+          "baseline_method": "classical QMC with sign problem",
+          "conditions": "assuming fault-tolerant quantum error correction can suppress gate error to arbitrarily small values at polynomial cost",
+          "is_demonstrated": false,
+          "caveats": "This is an asymptotic complexity claim, not an empirical benchmark."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 3.0,
+          "num_qubits": 6,
+          "metric_name": "system_size",
+          "metric_value": 3
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 6,
+          "metric_name": "system_size",
+          "metric_value": 6
+        },
+        {
+          "problem_size": 85.0,
+          "num_qubits": 6,
+          "metric_name": "num_time_steps",
+          "metric_value": 85
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "Polynomial on a fault-tolerant quantum computer; on noisy hardware, variance scales approximately as exp(4 gamma h_tot t) with gamma depending on error rate",
+        "classical_complexity": "Classical QMC with sign problem has exponential variance scaling in general; zeroth-order POE/classical analogue scales approximately as exp(4 h_tot t)",
+        "speedup_order": "polynomial_other",
+        "constant_factor_quantum": "Variance reduction factor can be orders of magnitude smaller than classical for finite error rates; example factor ~4e4 at h_tot t = 4 and epsilon = 0.1",
+        "constant_factor_classical": "Classical baseline variance factor approximately exp(4 h_tot t) in the sign-problem regime",
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": "Depends on error rate; paper gives threshold condition epsilon ≲ (gamma_c/2.45)^(1/0.82) for advantage over classical, but no problem-size crossover n",
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L2_noisy_sim",
+        "crossover_size": "Not specified; advantage condition given analytically as ε ≲ (γ_c/2.45)^(1/0.82).",
+        "resources_for_advantage": "Fault‑tolerant quantum computer with sufficiently low logical error rate so that CA≈1 and circuit depth N=t/Δt remains polynomial; NISQ case still exponential but with smaller variance exponent.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "No hardware implementation; results based on classical simulation of circuits",
+          "Advantage arises from variance reduction rather than asymptotic polynomial speedup on NISQ hardware",
+          "Monte Carlo variance still scales exponentially with evolution time on noisy devices",
+          "Demonstrations limited to small toy models (3‑site Fermi–Hubbard, 6‑spin Heisenberg)"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "num_qubits inferred from the Fermi-Hubbard example: 3 sites encoded into 2NL = 6 qubits; the paper also separately discusses a 6-spin Heisenberg model.",
+          "hardware.type inferred as simulator_noisy because the paper reports numerical simulation of noisy quantum computing on a classical computer using QuESTlink and does not name a real QPU.",
+          "circuit_depth is reported qualitatively (proportional to N; forward-backward doubles depth) rather than as a single numeric depth.",
+          "The paper contains both gate-based quantum circuits and classical Monte Carlo baselines; only the gate-based QCMC experiment is extracted.",
+          "Authors claim potential quantum advantage via variance reduction (Sec. IX) but only provide analytic scaling arguments and small simulated demonstrations.",
+          "No real quantum hardware experiment or large‑scale benchmark."
+        ],
+        "advantage_status": "paper_reported"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Numerical simulation demonstrating inherent error mitigation using forward‑backward quantum circuits with postselection and tomography purification for a 3‑site Fermi–Hubbard model.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "forward‑backward circuit evaluation of transition amplitudes with postselection and purification",
+        "key_components": [
+          "first‑order Lie‑Trotter‑Suzuki product",
+          "forward‑backward circuit structure",
+          "postselection on |0>^n",
+          "tomography purification"
+        ],
+        "num_layers": null
+      },
+      "key_results": [
+        {
+          "metric": "gate_error_rate",
+          "value": "p = 0.03% per CNOT",
+          "source": "Sec. VIII.B numerical demonstration"
+        },
+        {
+          "metric": "controlled_not_per_trotter_step",
+          "value": 14,
+          "source": "Sec. VIII.B"
+        },
+        {
+          "metric": "maximum_time_steps",
+          "value": 85,
+          "source": "Sec. VIII.B"
+        },
+        {
+          "metric": "observed_effect",
+          "value": "postselection and purification substantially reduce observable error relative to raw noisy circuits",
+          "source": "Fig. 4 and accompanying text"
+        }
+      ]
+    }
+  ]
+}

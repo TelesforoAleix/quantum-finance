@@ -1,0 +1,390 @@
+{
+  "paper_id": "76ee3cb38743",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:00:37+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "76ee3cb38743_quantum_speedup_of_monte_carlo_integration_with_respect_to_the_number_of_dimensi.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.633,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 9,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='oracle-call scaling' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='oracle-call scaling' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='percentile point' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='success probability lower bound' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='obligors' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='sample register size / obligors in example setting' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='dimension register size / obligors in example setting' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='T-count' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='T-count' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.633,
+      "completeness": 0.633,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.633
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum Speedup of Monte Carlo Integration with respect to the Number of Dimensions and its Application to Finance",
+    "authors": [
+      "Kazuya Kaneko",
+      "Koichi Miyamoto",
+      "Naoyuki Takeda",
+      "Kazuyoshi Yoshino"
+    ],
+    "year": 2021,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "risk-management",
+    "secondary_silos": [
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a nested quantum amplitude estimation method for high‑dimensional Monte Carlo integration using pseudorandom numbers. For a credit‑portfolio risk example with Nsamp = Nobl = 2^20 ≈ 10^6, the authors estimate T-count per integrand query of ~7.2×10^5 for the previous method versus ~4.6×10^7 for the new method, but the reduced query count yields an overall projected runtime ratio ≈0.64 (about a several‑tens‑of‑percent speedup).",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Theoretical nested quantum amplitude estimation method for Monte Carlo integration with pseudorandom numbers, applied to high-dimensional separable integrands and illustrated on credit portfolio risk measurement.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "nested QAE with pseudorandom numbers (PRNs) and quantum parallel evaluation of separable terms",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "outer_QAE_samples": "Nsamp",
+          "inner_QAE_iterations": "M = 2^nM",
+          "PRN_generator": "PCG",
+          "PRN_bit_width": "nPRN = 64 (example setting)",
+          "fixed_point_precision": "ndig = 16 (example setting)",
+          "ICDF_piecewise_intervals": "nICDF = 10^9 (example setting)",
+          "sample_register_size": "nsamp = 20 (example setting)",
+          "dimension_register_size": "nobl = 20 (example setting)"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "qRAM",
+        "encoding_details": "Superposition over sample index j and dimension index i; PRNs are mapped to stochastic variables via inverse CDF transforms; integrand is separable as F = g(sum_i f(eps_com, eps_i; c_i)).",
+        "objective_function": "Estimate E[F] where F(eps_com,{eps_i};{c_i}) = g(sum_{i=1}^D f(eps_com, eps_i; c_i)) using nested QAE.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "High-dimensional Monte Carlo integration with a separable integrand; finance use case is credit portfolio risk measurement (VaR/CVaR) under a Merton-style model.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "proprietary",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Illustrative finance application; no concrete market dataset specified."
+        },
+        "data_preprocessing_details": "PRNs transformed to target distributions using inverse CDF sampling; for credit risk, loss modeled as sum of obligor default-loss terms.",
+        "evaluation_methodology": "Theoretical complexity analysis; example numerical setting used to estimate T-count reduction (not an empirical benchmark)."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": 280,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "noise_model": null,
+        "noise_parameters": null,
+        "mitigation_details": null,
+        "is_noisy": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Classical PRN generation and inverse-CDF mapping are assumed implementable; qRAM assumed available for loading parameters.",
+        "classical_postprocessing": "Measure outer QAE register to estimate expectation value; compare with classical Monte Carlo complexity analytically.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": null,
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "convergence_rate",
+          "value": "O(N^-1)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "oracle-call scaling",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": "O(N^-1/2)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "oracle-call scaling",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "tail_risk_estimate",
+          "value": "1 - alpha",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "percentile point",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "var_accuracy",
+          "value": "8 / pi^2",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "success probability lower bound",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_risk_factors",
+          "value": 220,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "obligors",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_risk_factors",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "sample register size / obligors in example setting",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_risk_factors",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimension register size / obligors in example setting",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "t_count",
+          "value": 720000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "T-count",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "t_count",
+          "value": 46000000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "T-count",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "t_count_ratio",
+          "value": 64,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "t_count_reduction_ratio",
+          "value": 0.64,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "query_number_reduction_ratio",
+          "value": 0.01,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "convergence_rate",
+          "value": "O(N^-1/2)",
+          "unit": "oracle-call scaling"
+        },
+        {
+          "method_name": "previous method",
+          "metric_name": "t_count",
+          "value": 720000,
+          "unit": "T-count"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical Monte Carlo",
+          "conditions": "standard QAE-based Monte Carlo integration",
+          "is_demonstrated": true,
+          "caveats": "This is the usual oracle-call scaling claim; the paper also notes that total runtime may not decrease if the per-query cost increases."
+        },
+        {
+          "type": "theoretical",
+          "factor": "O(delta^-1 / D) reduction in repeated-term queries",
+          "baseline_method": "previous sequential method for separable integrands",
+          "conditions": "when the integrand has separable form and PRNs allow quantum-parallel evaluation; beneficial when delta^-1 less than or comparable to D",
+          "is_demonstrated": true,
+          "caveats": "This is a query-count reduction, not necessarily a wall-clock speedup."
+        },
+        {
+          "type": "projected",
+          "factor": "64(l delta_rel)^-1 / D total T-count ratio",
+          "baseline_method": "previous method",
+          "conditions": "credit portfolio risk measurement with PCG, using ndig=16, nPRN=64, nICDF=10^9, nsamp=nobl=20, l=10^-2, delta_rel=10^-2",
+          "is_demonstrated": true,
+          "caveats": "The paper reports this as an analytical estimate, not an empirical benchmark."
+        },
+        {
+          "type": "projected",
+          "factor": "about 0.64 total T-count ratio",
+          "baseline_method": "previous method",
+          "conditions": "same typical credit-risk setting as above",
+          "is_demonstrated": true,
+          "caveats": "Interpreted as a several-tens-of-percent reduction in total computational time under the stated assumptions."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 2.0,
+          "num_qubits": null,
+          "metric_name": "num_risk_factors",
+          "metric_value": 1048576
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": null,
+          "metric_name": "num_risk_factors",
+          "metric_value": 1048576
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(δ^-1) oracle calls for standard QAE; for nested QAE inner summation, O(δ^-2) calculations of f in the inner QAE, with reduction relative to classical sequential summation when δ^-1 ≲ D.",
+        "classical_complexity": "O(δ^-2) oracle calls for classical Monte Carlo; for the repeated-term summation in the previous method, Nf,prev ∼ Dδ^-1.",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": "O(M) calls to the integrand circuit A for QAE; inner QAE uses about M iterations.",
+        "total_operations_classical": "O(δ^-2) for Monte Carlo estimation; repeated-term summation in previous method scales as Dδ^-1.",
+        "crossover_n": "When (l δ_rel)^-1 < D for query-count reduction; for total T-count in the credit-risk example, beneficial if 64(l δ_rel)^-1 / D < 1.",
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L0_theory",
+        "crossover_size": "Advantage in query complexity when δ^-1 ≲ D; example analysis uses D = 2^20 ≈ 10^6 obligors with (l δ_rel)^-1 ≈ 10^4 leading to query reduction ≈10^-2",
+        "resources_for_advantage": "Requires large-scale fault‑tolerant quantum computer capable of ~10^7 T-gates per integrand query (Tone,new ≈ 4.6×10^7 T-count) plus many QAE iterations and qRAM for parameter loading.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Only quadratic speedup from amplitude estimation",
+          "Very high T-count per oracle (~4.6×10^7)",
+          "Assumed availability of qRAM",
+          "No empirical implementation or resource estimation for full algorithm",
+          "Error-corrected gate overhead likely dominates runtime"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "This paper is theoretical and does not report a concrete hardware execution; hardware fields are therefore not specified.",
+          "T-count expressions and example parameter values are explicitly reported in the paper; no actual qubit count is given because the method is presented abstractly.",
+          "The finance application is credit portfolio risk measurement, but no empirical dataset or runtime benchmark is provided.",
+          "The paper explicitly presents a theoretical quadratic speedup using QAE and analyzes T-count reductions analytically.",
+          "No hardware experiment or simulation benchmark is performed."
+        ],
+        "advantage_status": "paper_reported"
+      }
+    }
+  ]
+}

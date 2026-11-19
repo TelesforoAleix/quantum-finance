@@ -1,0 +1,416 @@
+{
+  "paper_id": "e884248dc62e",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T10:15:57+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "e884248dc62e_clock_quantum_monte_carlo_an_imaginary_time_method_for_real_time_quantum_dynamic.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.8,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 13,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "paper_metadata.year=2014 outside expected range [2015, 2027]",
+      "experiments[0].results[1].unit='time steps' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='radians' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='radians' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='radians' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='walkers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='walkers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='walkers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='dimensionless' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='dimensionless' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='dimensionless' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='x' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='x' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.8,
+      "completeness": 0.8,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.8
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Clock Quantum Monte Carlo: an imaginary-time method for real-time quantum dynamics",
+    "authors": [
+      "Jarrod R. McClean",
+      "Alán Aspuru-Guzik"
+    ],
+    "year": 2014,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "other",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper introduces Clock Quantum Monte Carlo, a classical simulation method combining the Feynman–Kitaev clock Hamiltonian with FCIQMC to simulate quantum circuit dynamics. Demonstrations include synthetic circuits with 11 qubits and 128 time steps and show parallel efficiencies of about 95% with 2 processors and about 70% with 8 processors on a CPU cluster. The work focuses on mitigating the dynamical sign problem using time-dependent basis rotations.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Clock Quantum Monte Carlo applied to gate-based quantum circuit dynamics using the Feynman-Kitaev clock construction, with numerical examples on local rotations and circuits containing CNOT gates; includes time-dependent basis rotations to mitigate the sign problem and a parallel-in-time implementation.",
+      "algorithm": {
+        "family": "classical-simulation",
+        "variant": "FCIQMC applied to the Feynman-Kitaev Clock Hamiltonian for quantum dynamics",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": "simulation time evolved until walker population equilibrates; observables averaged after equilibration",
+        "hyperparameters": {
+          "simulation_time_step": "δτ",
+          "shift": "S",
+          "average_number_of_walkers": "varied across experiments",
+          "rotation_angle_theta": [
+            "5π/32",
+            "0.49",
+            "0.098"
+          ],
+          "number_of_qubits": [
+            "11",
+            "11",
+            "11"
+          ],
+          "number_of_time_points": 128
+        },
+        "parameter_initialization": "walkers initialized from the chosen initial state |0⟩⊗N and circuit-defined history state; basis-rotation scheme initialized from local circuit rotations when used",
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "system basis states |i⟩ combined with discrete time register |t⟩ in the Clock Hamiltonian; circuit dynamics encoded as history state over time steps",
+        "objective_function": "minimize the Clock Hamiltonian ground state energy corresponding to the history state of the unitary evolution",
+        "constraints_handling": "penalty operator C0 fixes the initial state at t=0",
+        "num_binary_variables": null,
+        "problem_hamiltonian": "H = H' + C0, where H' = 1/2 Σ_t (I⊗|t⟩⟨t| - U_t⊗|t+1⟩⟨t| - U_t^†⊗|t⟩⟨t+1| + I|t+1⟩⟨t+1|)",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Quantum circuit dynamics examples: single-qubit local rotations and circuits with varying numbers of CNOT gates; one benchmark uses 11 qubits and 128 time points",
+        "num_assets": null,
+        "time_steps": 128,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "synthetic quantum circuits; local rotation R(θ) and circuits with controlled-NOT gates"
+        },
+        "data_preprocessing_details": null,
+        "evaluation_methodology": "expectation value ⟨S_z⟩ at final time versus mean number of walkers; multiple rotation angles and gate counts compared; strong-scaling benchmark on 11-qubit, 128-time-point instance"
+      },
+      "quantum_resources": {
+        "num_qubits": 11,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": "Linux cluster with AMD Opteron 6376 CPUs",
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": "time-dependent basis rotations to mitigate the sign problem"
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "FCIQMC / interacting-walker Monte Carlo on classical computer",
+        "transpilation_settings": null,
+        "classical_preprocessing": "basis rotations Bt chosen from circuit structure; for local rotations Bt = Q_{t'<t} U_{t'} with multi-qubit gates replaced by identity in the approximate scheme",
+        "classical_postprocessing": "time-averaged observables with autocorrelation correction; annihilation of walkers; parallel domain decomposition in time",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "sharp transition from sign-incoherent to sign-coherent sampling as walker number increases",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "problem_size",
+          "value": 11,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "time_points",
+          "value": 128,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "time steps",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "rotation_angle_theta",
+          "value": 0.4908738521234052,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "radians",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "rotation_angle_theta",
+          "value": 0.4908738521234052,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "radians",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "rotation_angle_theta",
+          "value": 0.098,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "radians",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "mean_number_of_walkers",
+          "value": 800000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "walkers",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "mean_number_of_walkers",
+          "value": 800000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "walkers",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "mean_number_of_walkers",
+          "value": 1200000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "walkers",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "expectation_value_sz_final_time",
+          "value": 0.6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimensionless",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "expectation_value_sz_final_time",
+          "value": 0.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimensionless",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "expectation_value_sz_final_time",
+          "value": 0.6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimensionless",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "parallel_efficiency",
+          "value": 0.95,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "fraction",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "parallel_efficiency",
+          "value": 0.7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "fraction",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "parallel_speedup",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "x",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "parallel_speedup",
+          "value": 14,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "x",
+          "higher_is_better": true,
+          "data_source": "figure"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "single_core_time",
+          "metric_name": "parallel_speedup",
+          "value": 1,
+          "unit": "x"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "over 95% parallel efficiency with 2 processors; 70% with 8 processors",
+          "baseline_method": "single-core runtime",
+          "conditions": "strong scaling on an 11-qubit, 128-time-point simulation using a simple MPI implementation on a commodity cluster",
+          "is_demonstrated": true,
+          "caveats": "Efficiency is reported for a specific benchmark and implementation; not a general algorithmic speedup."
+        },
+        {
+          "type": "empirical",
+          "factor": "up to ~14x speedup",
+          "baseline_method": "single-core runtime",
+          "conditions": "from the strong-scaling plot on a commodity Linux cluster for the reported benchmark",
+          "is_demonstrated": true,
+          "caveats": "Exact value is estimated from the figure; the paper text does not state the maximum speedup numerically."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 11.0,
+          "num_qubits": 11,
+          "metric_name": "parallel_efficiency",
+          "metric_value": 0.95
+        },
+        {
+          "problem_size": 11.0,
+          "num_qubits": 11,
+          "metric_name": "parallel_efficiency",
+          "metric_value": 0.7
+        },
+        {
+          "problem_size": 11.0,
+          "num_qubits": 11,
+          "metric_name": "parallel_speedup",
+          "metric_value": 2
+        },
+        {
+          "problem_size": 11.0,
+          "num_qubits": 11,
+          "metric_name": "parallel_speedup",
+          "metric_value": 14
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "not applicable; classical Monte Carlo simulation of quantum dynamics via Clock Hamiltonian mapping",
+        "classical_complexity": "not explicitly given; sign problem can make required walkers scale exponentially in general",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Not applicable; the work proposes a classical Monte Carlo algorithm (FCIQMC) for simulating quantum circuit dynamics using the Feynman–Kitaev clock Hamiltonian.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Severe dynamical sign problem causing exponential walker requirements in general",
+          "Method is entirely classical and does not execute on quantum hardware",
+          "Benchmarks limited to small circuits (11 qubits, 128 time steps)"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "No actual quantum hardware is used; the paper studies classical simulation of gate-based quantum circuits via FCIQMC and the Clock Hamiltonian.",
+          "num_qubits inferred from the explicit 11-qubit simulation and strong-scaling benchmark.",
+          "circuit_depth not explicitly reported as a circuit depth metric; 128 time points are reported and treated as the effective temporal depth of the history-state construction.",
+          "The authors do not claim quantum advantage; the paper introduces a classical algorithm for simulating quantum dynamics.",
+          "All experiments are classical simulations of gate-based circuits rather than executions on quantum hardware."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

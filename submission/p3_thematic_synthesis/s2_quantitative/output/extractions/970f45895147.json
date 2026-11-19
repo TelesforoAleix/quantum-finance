@@ -1,0 +1,936 @@
+{
+  "paper_id": "970f45895147",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:20:10+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "970f45895147_empirical_analysis_of_classical_and_quantum_algorithms_for_portfolio_optimizatio.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.7,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 3,
+    "validation_warnings": 12,
+    "validation_passed": false,
+    "validation_error_details": [
+      "Schema error at experiments.0.problem_instance.dataset_specification.preprocessing: ['missing values excluded', 'daily returns computed as percentage changes in adjusted closing prices', 'normalization', 'standardization'] is not of type 'string', 'null'",
+      "Schema error at experiments.1.problem_instance.dataset_specification.preprocessing: ['missing values excluded', 'daily returns computed as percentage changes in adjusted closing prices', 'normalization', 'standardization'] is not of type 'string', 'null'",
+      "Schema error at experiments.2.problem_instance.dataset_specification.preprocessing: ['missing values excluded', 'daily returns computed as percentage changes in adjusted closing prices', 'normalization', 'standardization'] is not of type 'string', 'null'"
+    ],
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='mse' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='rmse' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='mae' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[0].unit='mse' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[1].unit='rmse' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[2].unit='mae' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[3].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[0].unit='mse' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[1].unit='rmse' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[2].unit='mae' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[3].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.7,
+      "completeness": 0.7,
+      "num_experiments": 3,
+      "experiment_scores": [
+        0.7,
+        0.7,
+        0.7
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Empirical Analysis of Classical and Quantum Algorithms for Portfolio Optimization: Enhancing Financial Decision-Making through Quantum Computing",
+    "authors": [
+      "Krish Valecha",
+      "Anuradha Yeole",
+      "Atharv Salian",
+      "Shruti Mathur"
+    ],
+    "year": 2024,
+    "doi": "10.1109/ICSCNA63714.2024.10864082",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "portfolio-optimization",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper compares QAOA, Sampling VQE, and an exact eigensolver with classical portfolio methods on 20 NSE stocks (2021–2024). Reported prediction errors show QAOA achieving MSE 0.005, VQE 0.007, and the exact eigensolver 0.006, compared with GA at 0.0105 and much larger errors for MVO (0.946) and SA (0.65). However, no quantum hardware, circuit sizes, or runtime benchmarks are reported.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Portfolio optimization experiment comparing QAOA against VQE, Exact Minimum Eigen Solver, and classical baselines on 20 NSE stocks using historical return data.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "QAOA for portfolio optimization",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "risk_factor_q": 0.5,
+          "portfolio_budget": "half the number of assets",
+          "assets": 20
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "QUBO",
+        "encoding_details": "Portfolio selection formulated from expected returns and covariance matrix; discrete portfolio allocation optimized with QAOA. The paper does not specify the exact qubit-to-variable mapping.",
+        "objective_function": "Maximize f(x) = μ^T x − q · x^T Σ x",
+        "constraints_handling": "Budget constraint with portfolio budget set to half the number of assets; no explicit penalty formulation reported for QAOA.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Portfolio optimization over 20 equities from the National Stock Exchange of India (NSE) using historical adjusted closing prices from 2021-01-01 to 2024-01-01.",
+        "num_assets": 20,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "real_market",
+        "dataset_name": "NSE equities via yfinance",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "ADANIENT.NS",
+            "BAJFINANCE.NS",
+            "HCLTECH.NS",
+            "HDFCBANK.NS",
+            "HDFCLIFE.NS",
+            "HEROMOTOCO.NS",
+            "HINDALCO.NS",
+            "HINDUNILVR.NS",
+            "ICICIBANK.NS",
+            "INDUSINDBK.NS",
+            "POWERGRID.NS",
+            "RELIANCE.NS",
+            "SBIN.NS",
+            "SUNPHARMA.NS",
+            "TCS.NS",
+            "TATACONSUM.NS",
+            "TATAMOTORS.NS",
+            "TATASTEEL.NS",
+            "TECHM.NS",
+            "WIPRO.NS"
+          ],
+          "date_range": "2021-01-01 to 2024-01-01",
+          "preprocessing": [
+            "missing values excluded",
+            "daily returns computed as percentage changes in adjusted closing prices",
+            "normalization",
+            "standardization"
+          ]
+        },
+        "data_preprocessing_details": "Adjusted closing prices were downloaded with yfinance; missing values were excluded; daily returns were computed; return data was normalized and standardized.",
+        "evaluation_methodology": "Performance compared using MSE, RMSE, and MAE against an equal-weight portfolio benchmark; results reported for a single experimental setup."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "noise_model": null,
+        "noise_parameters": null,
+        "mitigation_details": null,
+        "is_noisy": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Classical optimizers/baselines include MVO, GA, and SA; QAOA implementation details such as optimizer and framework are not reported.",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Historical price preprocessing, missing-value removal, return calculation, normalization, standardization, covariance matrix estimation, predicted returns estimation.",
+        "classical_postprocessing": "Portfolio weights and return/error metrics compared across methods.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "mse",
+          "value": 0.005,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "mse",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "rmse",
+          "value": 0.224,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "rmse",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "mae",
+          "value": 0.179,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "mae",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "mvo",
+          "metric_name": "mse",
+          "value": 0.946,
+          "unit": "mse"
+        },
+        {
+          "method_name": "mvo",
+          "metric_name": "rmse",
+          "value": 0.973,
+          "unit": "rmse"
+        },
+        {
+          "method_name": "mvo",
+          "metric_name": "mae",
+          "value": 0.778,
+          "unit": "mae"
+        },
+        {
+          "method_name": "ga",
+          "metric_name": "mse",
+          "value": 0.0105,
+          "unit": "mse"
+        },
+        {
+          "method_name": "ga",
+          "metric_name": "rmse",
+          "value": 0.1025,
+          "unit": "rmse"
+        },
+        {
+          "method_name": "ga",
+          "metric_name": "mae",
+          "value": 0.082,
+          "unit": "mae"
+        },
+        {
+          "method_name": "sa",
+          "metric_name": "mse",
+          "value": 0.65,
+          "unit": "mse"
+        },
+        {
+          "method_name": "sa",
+          "metric_name": "rmse",
+          "value": 0.806,
+          "unit": "rmse"
+        },
+        {
+          "method_name": "sa",
+          "metric_name": "mae",
+          "value": 0.645,
+          "unit": "mae"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The paper reports empirical accuracy improvements for QAOA over classical baselines, but no asymptotic or wall-clock speedup is quantified."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 20,
+          "num_qubits": null,
+          "metric_name": "mse",
+          "metric_value": 0.005
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Not specified; qubit counts, circuit depth, shots, and hardware backend are not reported.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "No real quantum hardware used or reported",
+          "No circuit size, qubit count, or runtime data",
+          "Very small problem instance (20 assets)",
+          "Comparison focuses only on prediction error metrics rather than computational advantage",
+          "Classical baselines not rigorously tuned or benchmarked"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper explicitly reports QAOA as one of the evaluated quantum algorithms and provides the portfolio objective function and dataset details, but does not specify the QAOA circuit size, depth, optimizer, backend, or qubit count.",
+          "num_qubits and circuit_depth are not reported; no device or circuit diagram details are given, so they cannot be reliably inferred.",
+          "speedup_order is not characterized asymptotically; the paper reports empirical metric improvements only.",
+          "Authors claim quantum algorithms outperform classical methods based on lower MSE values (QAOA 0.005 vs GA 0.0105), but experiments appear to be classical simulations with no hardware or runtime comparison.",
+          "Problem size (20 assets) is far below scales where combinatorial optimization advantage could emerge."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Portfolio optimization experiment comparing Sampling VQE against QAOA, Exact Minimum Eigen Solver, and classical baselines on the same 20-stock NSE dataset.",
+      "algorithm": {
+        "family": "vqe",
+        "variant": "Sampling VQE",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "risk_factor_q": 0.5,
+          "portfolio_budget": "half the number of assets",
+          "assets": 20
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "QUBO",
+        "encoding_details": "Portfolio selection formulated from expected returns and covariance matrix; the paper does not specify the exact qubit-to-variable mapping for VQE.",
+        "objective_function": "Maximize f(x) = μ^T x − q · x^T Σ x",
+        "constraints_handling": "Budget constraint with portfolio budget set to half the number of assets; no explicit penalty formulation reported for VQE.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Portfolio optimization over 20 NSE equities using historical adjusted closing prices from 2021-01-01 to 2024-01-01.",
+        "num_assets": 20,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "real_market",
+        "dataset_name": "NSE equities via yfinance",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "ADANIENT.NS",
+            "BAJFINANCE.NS",
+            "HCLTECH.NS",
+            "HDFCBANK.NS",
+            "HDFCLIFE.NS",
+            "HEROMOTOCO.NS",
+            "HINDALCO.NS",
+            "HINDUNILVR.NS",
+            "ICICIBANK.NS",
+            "INDUSINDBK.NS",
+            "POWERGRID.NS",
+            "RELIANCE.NS",
+            "SBIN.NS",
+            "SUNPHARMA.NS",
+            "TCS.NS",
+            "TATACONSUM.NS",
+            "TATAMOTORS.NS",
+            "TATASTEEL.NS",
+            "TECHM.NS",
+            "WIPRO.NS"
+          ],
+          "date_range": "2021-01-01 to 2024-01-01",
+          "preprocessing": [
+            "missing values excluded",
+            "daily returns computed as percentage changes in adjusted closing prices",
+            "normalization",
+            "standardization"
+          ]
+        },
+        "data_preprocessing_details": "Adjusted closing prices were downloaded with yfinance; missing values were excluded; daily returns were computed; return data was normalized and standardized.",
+        "evaluation_methodology": "Performance compared using MSE, RMSE, and MAE against an equal-weight portfolio benchmark; results reported for a single experimental setup."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "noise_model": null,
+        "noise_parameters": null,
+        "mitigation_details": null,
+        "is_noisy": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Classical optimizers/baselines include MVO, GA, and SA; VQE implementation details such as ansatz, optimizer, and framework are not reported.",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Historical price preprocessing, missing-value removal, return calculation, normalization, standardization, covariance matrix estimation, predicted returns estimation.",
+        "classical_postprocessing": "Portfolio weights and return/error metrics compared across methods.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "mse",
+          "value": 0.007,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "mse",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "rmse",
+          "value": 0.264,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "rmse",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "mae",
+          "value": 0.211,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "mae",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "mvo",
+          "metric_name": "mse",
+          "value": 0.946,
+          "unit": "mse"
+        },
+        {
+          "method_name": "mvo",
+          "metric_name": "rmse",
+          "value": 0.973,
+          "unit": "rmse"
+        },
+        {
+          "method_name": "mvo",
+          "metric_name": "mae",
+          "value": 0.778,
+          "unit": "mae"
+        },
+        {
+          "method_name": "ga",
+          "metric_name": "mse",
+          "value": 0.0105,
+          "unit": "mse"
+        },
+        {
+          "method_name": "ga",
+          "metric_name": "rmse",
+          "value": 0.1025,
+          "unit": "rmse"
+        },
+        {
+          "method_name": "ga",
+          "metric_name": "mae",
+          "value": 0.082,
+          "unit": "mae"
+        },
+        {
+          "method_name": "sa",
+          "metric_name": "mse",
+          "value": 0.65,
+          "unit": "mse"
+        },
+        {
+          "method_name": "sa",
+          "metric_name": "rmse",
+          "value": 0.806,
+          "unit": "rmse"
+        },
+        {
+          "method_name": "sa",
+          "metric_name": "mae",
+          "value": 0.645,
+          "unit": "mae"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The paper claims better accuracy for Sampling VQE than some classical methods in narrative form, but no runtime or asymptotic speedup is reported."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 20,
+          "num_qubits": null,
+          "metric_name": "mse",
+          "metric_value": 0.007
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Not specified; no ansatz, qubit count, circuit depth, or shot information reported.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "No hardware execution reported",
+          "Missing circuit specification and optimizer details",
+          "Small dataset (20 assets)",
+          "Performance metric improvement limited to statistical prediction error rather than optimization runtime"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper explicitly reports Sampling VQE as an evaluated quantum algorithm and provides the same portfolio objective and dataset context as QAOA.",
+          "No ansatz, optimizer, qubit count, depth, or hardware details are given, so these cannot be extracted beyond null values.",
+          "speedup_order is not asymptotically analyzed; only empirical performance is reported.",
+          "Sampling VQE reported MSE 0.007 vs classical GA 0.0105, but no computational advantage or runtime comparison is provided.",
+          "Experiment appears to be algorithmic simulation rather than real quantum execution."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "Exact Minimum Eigen Solver experiment on the same portfolio optimization instance, used as a quantum exact baseline against QAOA, Sampling VQE, and classical methods.",
+      "algorithm": {
+        "family": "classical-simulation",
+        "variant": "Exact Minimum Eigen Solver (NumPyMinimumEigensolver)",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "risk_factor_q": 0.5,
+          "portfolio_budget": "half the number of assets",
+          "assets": 20
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "QUBO",
+        "encoding_details": "Exact solver applied to the same portfolio objective; the paper does not specify the explicit binary encoding or qubit mapping.",
+        "objective_function": "Maximize f(x) = μ^T x − q · x^T Σ x",
+        "constraints_handling": "Budget constraint with portfolio budget set to half the number of assets.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Portfolio optimization over 20 NSE equities using historical adjusted closing prices from 2021-01-01 to 2024-01-01.",
+        "num_assets": 20,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "real_market",
+        "dataset_name": "NSE equities via yfinance",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "ADANIENT.NS",
+            "BAJFINANCE.NS",
+            "HCLTECH.NS",
+            "HDFCBANK.NS",
+            "HDFCLIFE.NS",
+            "HEROMOTOCO.NS",
+            "HINDALCO.NS",
+            "HINDUNILVR.NS",
+            "ICICIBANK.NS",
+            "INDUSINDBK.NS",
+            "POWERGRID.NS",
+            "RELIANCE.NS",
+            "SBIN.NS",
+            "SUNPHARMA.NS",
+            "TCS.NS",
+            "TATACONSUM.NS",
+            "TATAMOTORS.NS",
+            "TATASTEEL.NS",
+            "TECHM.NS",
+            "WIPRO.NS"
+          ],
+          "date_range": "2021-01-01 to 2024-01-01",
+          "preprocessing": [
+            "missing values excluded",
+            "daily returns computed as percentage changes in adjusted closing prices",
+            "normalization",
+            "standardization"
+          ]
+        },
+        "data_preprocessing_details": "Adjusted closing prices were downloaded with yfinance; missing values were excluded; daily returns were computed; return data was normalized and standardized.",
+        "evaluation_methodology": "Performance compared using MSE, RMSE, and MAE against an equal-weight portfolio benchmark; results reported for a single experimental setup."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "noise_model": null,
+        "noise_parameters": null,
+        "mitigation_details": null,
+        "is_noisy": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "NumPyMinimumEigensolver",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Historical price preprocessing, missing-value removal, return calculation, normalization, standardization, covariance matrix estimation, predicted returns estimation.",
+        "classical_postprocessing": "Portfolio weights and return/error metrics compared across methods.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "mse",
+          "value": 0.006,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "mse",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "rmse",
+          "value": 0.245,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "rmse",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "mae",
+          "value": 0.196,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "mae",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "mvo",
+          "metric_name": "mse",
+          "value": 0.946,
+          "unit": "mse"
+        },
+        {
+          "method_name": "mvo",
+          "metric_name": "rmse",
+          "value": 0.973,
+          "unit": "rmse"
+        },
+        {
+          "method_name": "mvo",
+          "metric_name": "mae",
+          "value": 0.778,
+          "unit": "mae"
+        },
+        {
+          "method_name": "ga",
+          "metric_name": "mse",
+          "value": 0.0105,
+          "unit": "mse"
+        },
+        {
+          "method_name": "ga",
+          "metric_name": "rmse",
+          "value": 0.1025,
+          "unit": "rmse"
+        },
+        {
+          "method_name": "ga",
+          "metric_name": "mae",
+          "value": 0.082,
+          "unit": "mae"
+        },
+        {
+          "method_name": "sa",
+          "metric_name": "mse",
+          "value": 0.65,
+          "unit": "mse"
+        },
+        {
+          "method_name": "sa",
+          "metric_name": "rmse",
+          "value": 0.806,
+          "unit": "rmse"
+        },
+        {
+          "method_name": "sa",
+          "metric_name": "mae",
+          "value": 0.645,
+          "unit": "mae"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The exact eigensolver is used as a quantum exact baseline; the paper reports only empirical error metrics and no speedup analysis."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 20,
+          "num_qubits": null,
+          "metric_name": "mse",
+          "metric_value": 0.006
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "data_loading_bottleneck": null
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper explicitly names Exact Minimum Eigen Solver / NumPyMinimumEigensolver as an evaluated quantum method.",
+          "No circuit-level resource data are reported; because it is an exact eigensolver used in a software setting, qubit count and depth are not specified in the paper.",
+          "speedup_order is not asymptotically analyzed."
+        ]
+      }
+    }
+  ]
+}

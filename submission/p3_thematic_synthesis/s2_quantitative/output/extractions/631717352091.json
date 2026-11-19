@@ -1,0 +1,760 @@
+{
+  "paper_id": "631717352091",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:49:23+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "631717352091_monte_carlo_option_pricing_in_quantum_parallel.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.478,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 13,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='absolute error' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='absolute error' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='absolute error' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='absolute error' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='absolute error' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='slope on log-log plot' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='applications of operator A / quantum samples' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='underlyings' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='underlyings' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[0].unit='underlyings' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[1].unit='stochastic variables' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[0].unit='underlyings' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.478,
+      "completeness": 0.478,
+      "num_experiments": 3,
+      "experiment_scores": [
+        0.7,
+        0.55,
+        0.183
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Monte-Carlo Option Pricing in Quantum Parallel",
+    "authors": [
+      "Robert Scriba",
+      "Yuying Li",
+      "Jingbo B. Wang"
+    ],
+    "year": 2025,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": [
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a gate-based 'Monte‑Carlo in Quantum Parallel' (MCQP) state‑preparation algorithm for option pricing combined with Quantum Amplitude Estimation to achieve O(1/M) error scaling versus classical O(1/√N). Validation is performed only via classical simulations using parameters such as 10,000 Monte Carlo paths, 100 time steps, and 5 price‑bin bits with 30 trials, showing standard Monte‑Carlo error behavior but no executed quantum circuits.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Classical simulation study of the proposed Monte-Carlo in Quantum Parallel (MCQP) option-pricing algorithm for a single stochastic variable under the Black-Scholes-Merton model, including accuracy versus strike price, volatility, number of simulations, time steps, and precision bits.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Monte-Carlo in Quantum Parallel (MCQP) evaluated via classical simulation",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "initial_stock_price": 100.0,
+          "drift_rate": 0.05,
+          "total_time": 1.0,
+          "number_of_time_steps": 100,
+          "number_of_price_bin_bits": 5,
+          "number_of_simulations": 10000,
+          "volatility_range": "varied",
+          "strike_price_range": "varied",
+          "num_trials": 30,
+          "precision_bits": "varied"
+        },
+        "parameter_initialization": "Not applicable; classical simulation parameters set directly in the study",
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Stock price, stochastic variable, payoff, and index values are discretized into computational-basis bit strings; index register size is log2(N) for N simulated paths.",
+        "objective_function": "Estimate European call option price as discounted expected payoff E[max(S_T - K, 0)] under Black-Scholes-Merton dynamics.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "European call option pricing under Black-Scholes-Merton dynamics; comparison against analytical BSM price and discretized-bin approximation.",
+        "num_assets": 1,
+        "time_steps": 100,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Synthetic BSM process with initial stock price 100, drift 0.05, total time 1.0, volatility varied, strike price varied."
+        },
+        "data_preprocessing_details": "Discretization of final stock prices into 2^n bins for the 'Bins' model; rounding of values to approximate finite precision in the accuracy study.",
+        "evaluation_methodology": "Classical simulations over parameter sweeps; 30 independent trials for the precision/time-step study; comparison to theoretical BSM call price; error and standard deviation reported."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": null,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Classical Monte-Carlo / numerical simulation",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Discretization/rounding of continuous variables to finite precision; binning of final stock prices for the 'Bins' approximation.",
+        "classical_postprocessing": "Option price estimated from mean payoff; errors compared to analytical BSM value.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": 30.0,
+          "num_independent_runs": 30
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "price_error",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 30,
+          "unit": "absolute error",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "price_error",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 30,
+          "unit": "absolute error",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "price_error",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 30,
+          "unit": "absolute error",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "price_error",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 30,
+          "unit": "absolute error",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "price_error",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 30,
+          "unit": "absolute error",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 30,
+          "unit": "slope on log-log plot",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "applications of operator A / quantum samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_underlyings",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "underlyings",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_underlyings",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "underlyings",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "price_error",
+          "value": null,
+          "unit": "absolute error"
+        },
+        {
+          "method_name": "theoretical bsm analytical price",
+          "metric_name": "price_error",
+          "value": 0,
+          "unit": "absolute error"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical monte carlo",
+          "conditions": "assuming efficient state preparation and use of QAMC/QAE after MCQP state preparation",
+          "is_demonstrated": false,
+          "caveats": "The paper is a proposal/classical simulation study; no gate-based quantum hardware execution is reported. The quadratic advantage is stated for QAMC/QAE-style sampling, not directly demonstrated on hardware."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 10000.0,
+          "num_qubits": null,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 5.0,
+          "num_qubits": null,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 13.0,
+          "num_qubits": 13,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 100.0,
+          "num_qubits": null,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 1000.0,
+          "num_qubits": null,
+          "metric_name": "price_error",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(1/M) sampling error for QAMC/QAE-based estimation; circuit depth O(m) for the proposed MCQP state-preparation procedure",
+        "classical_complexity": "O(1/sqrt(N)) Monte-Carlo sampling error",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not reported; analysis is asymptotic only",
+        "resources_for_advantage": "Requires full MCQP circuit with index register of n qubits representing N=2^n paths, stochastic-variable registers, arithmetic for path evolution over m≈100 time steps, payoff register, and repeated applications of amplitude estimation; no concrete qubit or gate counts given",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Only classical simulations of the financial model were performed; no quantum circuit execution",
+          "Quadratic speedup relies on QAE which requires deep circuits and coherent amplitude amplification",
+          "Arithmetic for stochastic evolution and random-number generation likely requires large reversible circuits",
+          "No explicit qubit counts or gate counts are provided",
+          "No empirical comparison against optimized classical Monte Carlo implementations"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "This paper is primarily a proposal and classical simulation study; no gate-based quantum hardware execution is reported.",
+          "The paper states the circuit size is approximately n + kp + (kv + ks)·d + log(m) + 1 and depth O(m), but does not provide a concrete qubit count for the evaluated classical simulations, so num_qubits is null.",
+          "The authors claim that combining MCQP state preparation with QAE provides a quadratic speedup over classical Monte Carlo (Sections 2.1–2.2).",
+          "However, the paper presents only classical simulations of the stochastic process and error scaling, not quantum experiments."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Classical simulation study of the proposed MCQP extension to the Heston model with two correlated stochastic variables, focusing on circuit-size scaling and conceptual resource overhead.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "MCQP Heston-model extension evaluated via classical simulation",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "correlated_stochastic_variables": 2,
+          "initial_stock_price": 100.0,
+          "drift_rate": 0.05,
+          "total_time": 1.0,
+          "number_of_time_steps": 100,
+          "number_of_price_bin_bits": 5,
+          "number_of_simulations": 10000,
+          "volatility_process": "Heston",
+          "correlation_rho": "present but not numerically specified"
+        },
+        "parameter_initialization": "Not applicable; model parameters set directly",
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Additional volatility stochastic-variable register and volatility register are added; each path remains represented in parallel via an index register.",
+        "objective_function": "Estimate European option payoff under Heston stochastic volatility dynamics.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "European option pricing under the Heston model with correlated stock-price and volatility Brownian motions.",
+        "num_assets": 1,
+        "time_steps": 100,
+        "num_features": 2,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Synthetic Heston process with correlated stochastic variables for stock and volatility."
+        },
+        "data_preprocessing_details": "No explicit preprocessing beyond discretization/bit-string encoding of stochastic variables and state values.",
+        "evaluation_methodology": "Conceptual extension and classical simulation discussion; no separate numerical benchmark table for the Heston case is reported."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": null,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Classical Monte-Carlo / numerical simulation",
+        "transpilation_settings": null,
+        "classical_preprocessing": "None beyond the proposed bit-string discretization of volatility and stock-price variables.",
+        "classical_postprocessing": "Not separately reported.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_underlyings",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "underlyings",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_underlyings",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "stochastic variables",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "linear circuit-size overhead in the number of stochastic variables",
+          "baseline_method": "single-stochastic-variable MCQP construction",
+          "conditions": "for the Heston-model extension with correlated stock-price and volatility processes",
+          "is_demonstrated": false,
+          "caveats": "No separate numerical benchmark or hardware run is reported; the claim is a qualitative scaling statement."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 2.0,
+          "num_qubits": null,
+          "metric_name": "num_underlyings",
+          "metric_value": 2
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "Circuit size grows linearly with the number of stochastic variables; depth remains O(m)",
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L0_theory",
+        "crossover_size": "Not reported",
+        "resources_for_advantage": "Requires additional volatility and stochastic-variable registers and correlated arithmetic evolution circuits for the Heston model",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "No experiments or simulations specific to the Heston quantum circuit",
+          "Circuit resource estimates not quantified",
+          "Advantage still depends on quadratic QAE sampling improvement"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The Heston section is an extension proposal with no separate hardware run; resource scaling is described qualitatively as linear in the number of stochastic variables.",
+          "Section 4.1 provides only a conceptual extension of the algorithm to the Heston model with qualitative scaling claims."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "Classical simulation study of the proposed nested MCQP-style risk-analysis extension for portfolio value-at-risk / threshold-crossing estimation at an intermediate time τ.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Nested Monte-Carlo in Quantum Parallel (conceptual extension)",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "outer_simulations_N": "not numerically specified in the paper",
+          "inner_simulations_m": "not numerically specified in the paper",
+          "threshold_epsilon": "not numerically specified in the paper",
+          "intermediate_time_tau": "not numerically specified in the paper",
+          "secondary_index_register": "introduced conceptually"
+        },
+        "parameter_initialization": "Not applicable; conceptual algorithmic extension",
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Adds a secondary index register |j⟩ to represent inner Monte-Carlo paths; uses quantum digital-to-analog conversion style amplitude encoding of mean payoff and risk metric.",
+        "objective_function": "Estimate P(Portfolio Value < ε) or related risk metrics via nested simulation.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "Nested risk valuation / threshold-crossing probability for a derivative portfolio at time τ before expiry.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Synthetic portfolio-risk setup; no market dataset specified."
+        },
+        "data_preprocessing_details": "No explicit preprocessing reported.",
+        "evaluation_methodology": "Conceptual derivation only; no numerical experiment or benchmark results reported for this extension."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": null,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Classical nested Monte-Carlo / numerical simulation",
+        "transpilation_settings": null,
+        "classical_preprocessing": "None reported.",
+        "classical_postprocessing": "Risk metric estimated from threshold-crossing proportion / payoff statistics.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_underlyings",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "underlyings",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "conceptual polynomial sampling after nested state preparation",
+          "baseline_method": "nested classical monte carlo",
+          "conditions": "for portfolio risk estimation at intermediate time tau using nested simulation and amplitude-estimation-style readout",
+          "is_demonstrated": false,
+          "caveats": "No numerical experiment, benchmark, or hardware implementation is reported; the section is a proposed extension only."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": null,
+          "num_qubits": null,
+          "metric_name": "oracle_queries",
+          "metric_value": null
+        },
+        {
+          "problem_size": null,
+          "num_qubits": null,
+          "metric_name": "oracle_queries",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "Conceptually polynomial with amplitude-estimation-style sampling after nested state preparation; no explicit asymptotic bound beyond the described construction",
+        "classical_complexity": "Nested Monte-Carlo is computationally expensive; no explicit Big-O given",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L0_theory",
+        "crossover_size": "Not reported",
+        "resources_for_advantage": "Requires nested Monte Carlo circuit with two index registers representing N^2 paths, plus QDAC/QADC operators and amplitude estimation",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "No simulations or experiments evaluating the nested algorithm",
+          "Quantum digital–analog conversion primitives are assumed but not resource-estimated",
+          "Quadratic QAE speedup may be overwhelmed by circuit depth for nested simulation"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "This is a proposed extension only; the paper gives a circuit construction with secondary index registers and QDAC/QADC steps but no implemented experiment or hardware results.",
+          "Section 4.2 proposes a nested MCQP risk-analysis algorithm but provides no empirical evaluation."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

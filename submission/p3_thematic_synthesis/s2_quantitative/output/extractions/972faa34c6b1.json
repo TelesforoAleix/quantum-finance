@@ -1,0 +1,626 @@
+{
+  "paper_id": "972faa34c6b1",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:20:12+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "972faa34c6b1_explaining_the_advantage_of_quantum_enhanced_physics_informed_neural_networks.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.9,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 22,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='input features (t, x)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='neurons' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='learning rate' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='factor' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='points' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='points' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[15].unit='points' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[16].unit='runs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[17].unit='x fewer epochs to reach similar MSE' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[18].unit='x fewer epochs to reach similar MSE (for some approximation accuracies around 1e-4)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[19].unit='x more accurate at fixed epoch count in the presented instance' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[22].unit='x (cPINN MSE / qPINN MSE at same epoch)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[23].unit='ratio at general accuracy limit' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[25].unit='fraction (cPINN can fail / get stuck in local minimum for low collocation points; exact value not numerically specified)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.9,
+      "completeness": 0.9,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.9
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Explaining the advantage of quantum-enhanced physics-informed neural networks",
+    "authors": [
+      "Nils Klement",
+      "Veronika Eyring",
+      "Mierk Schwabe"
+    ],
+    "year": 2026,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "other",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper evaluates hybrid quantum physics‑informed neural networks (qPINNs) with a 3‑qubit variational circuit on parametrized 1D PDEs and reports that qPINNs reach comparable mean‑squared error with roughly 10× fewer training epochs than classical PINNs, with up to ~100× fewer epochs for some accuracy targets (MSE≈10⁻⁴). Experiments are performed via noiseless simulation using networks with 100–250 total trainable parameters and training sets of 256–1024 collocation points.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Hybrid quantum-classical PINN (qPINN) versus classical PINN (cPINN) for solving parametrized 1D PDEs with two boundary-condition/forcing families ('xsin' and 'poly') and varying PDE parameters, training-set sizes, and network sizes.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "quantum physics-informed neural network (qPINN) with classical input/output layers and a variational quantum circuit",
+        "ansatz": "hardware-efficient variational circuit with alternating RY/RX data encoding and parametrized single-qubit + entangling layers",
+        "optimizer": "Adam",
+        "num_layers": null,
+        "convergence_criteria": "trained for up to 2·10^4 epochs for qPINNs; evaluation by MSE over training epochs",
+        "hyperparameters": {
+          "num_qubits": 3,
+          "trainable_parameters": [
+            100,
+            150,
+            200,
+            250
+          ],
+          "classical_input_output_width": 6,
+          "classical_depth_options": [
+            0,
+            1
+          ],
+          "encoding_gates": [
+            "RY",
+            "RX"
+          ],
+          "boundary_condition_families": [
+            "xsin",
+            "poly"
+          ],
+          "forcing_families": [
+            "xsin",
+            "poly"
+          ],
+          "PDE_parameters": {
+            "L": [
+              0.01,
+              0.03,
+              0.1,
+              0.3,
+              1.0
+            ],
+            "N": [
+              0.0,
+              1.0
+            ]
+          },
+          "training_points_per_loss_term": [
+            256,
+            512,
+            1024
+          ],
+          "batches": 4,
+          "learning_rate_initial": 0.01,
+          "learning_rate_decay_factor": "up to 0.1",
+          "epochs_qPINN": 20000,
+          "epochs_cPINN": 1000000,
+          "independent_runs": 10
+        },
+        "parameter_initialization": "randomly initialized trainable parameters (implied by repeated independent training runs; exact distribution not reported)",
+        "optimizer_settings": {
+          "max_iterations": 20000,
+          "learning_rate": 0.01,
+          "learning_rate_schedule": "gradually reduced by a factor up to 0.1 during training",
+          "parameter_bounds": null
+        },
+        "hyperparameters.trainable_parameters": "100, 150, 200, or 250 total trainable parameters for the entire network (classical + quantum), not the quantum circuit alone"
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "classical input network maps (t,x) to features that are encoded into the quantum circuit via alternating RY and RX rotations before each variational layer",
+        "objective_function": "minimize PINN loss Lθ = wbounds Lbounds + wpde Lpde, where Lbounds enforces boundary/initial conditions and Lpde enforces the PDE residual for D(L,N,F)=∂u/∂t − L·∂²u/∂x² + N·u∂u/∂x − F(t)",
+        "constraints_handling": "boundary and PDE residual terms combined with adaptive loss weighting; training data resampled when Lvalidation > 1.1·Ltrain",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "1D time-dependent PDEs including heat-equation and Burgers-equation variants with parametrized forcing and boundary conditions",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 2,
+        "dataset_size": 1024,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "boundary_condition_families": [
+            "uxsin_t(x)=sin(3πx)·x",
+            "upoly_t(x)=50x(0.3−x)(0.6−x)(1.0−x)"
+          ],
+          "forcing_families": [
+            "F^xsin(t)=sin(4πt)",
+            "F^poly(t)=15t(0.4−t)(1.0−t)"
+          ],
+          "PDE_family": "D(L,N,F)=∂u/∂t − L·∂²u/∂x² + N·u∂u/∂x − F(t)",
+          "train_test_split": "validation loss used to trigger resampling; exact split not reported"
+        },
+        "data_preprocessing_details": "collocation points sampled by Sobol sampling from domain, initial-condition, and boundary-condition regions; training data resampled when validation loss exceeds 1.1× training loss",
+        "evaluation_methodology": "median over 10 independent training runs; MSE computed every 100 epochs; comparisons made across PDE parameters, boundary conditions, and training-set sizes"
+      },
+      "quantum_resources": {
+        "num_qubits": 3,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 250,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "not_specified",
+        "device_name": null,
+        "framework": "PennyLane"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Adam optimizer with JAX/Optax; classical baseline cPINN is a dense neural network",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Sobol sampling of collocation points; adaptive loss weighting; resampling of training data when validation loss exceeds threshold",
+        "classical_postprocessing": "MSE evaluation against exact/numerical solution; median across 10 runs",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "qPINNs reach similar final MSE as cPINNs but in substantially fewer epochs; sometimes up to ~100× faster at fixed MSE",
+          "variance_across_runs": 10.0,
+          "num_independent_runs": 10
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "problem_size",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "input features (t, x)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "trainable_parameters",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "trainable_parameters",
+          "value": 150,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "trainable_parameters",
+          "value": 200,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "trainable_parameters",
+          "value": 250,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "classical_input_output_width",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "neurons",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "classical_depth",
+          "value": 0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "classical_depth",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "epochs_qpinn",
+          "value": 20000,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "epochs_cpinn",
+          "value": 1000000,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "learning_rate_initial",
+          "value": 0.01,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "learning rate",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "learning_rate_decay_factor",
+          "value": 0.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "factor",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_points_per_loss_term",
+          "value": 256,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "points",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_points_per_loss_term",
+          "value": 512,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "points",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_points_per_loss_term",
+          "value": 1024,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "points",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "independent_runs",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "runs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "mse_speedup",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "x fewer epochs to reach similar MSE",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "mse_speedup",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "x fewer epochs to reach similar MSE (for some approximation accuracies around 1e-4)",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "mse_speedup",
+          "value": 50,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "x more accurate at fixed epoch count in the presented instance",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "epoch_ratio",
+          "value": 0.001,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "epoch_ratio",
+          "value": 0.01,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "mse_ratio",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "x (cPINN MSE / qPINN MSE at same epoch)",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "mse_ratio",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "ratio at general accuracy limit",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_ratio",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "fraction",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_ratio",
+          "value": 0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "fraction (cPINN can fail / get stuck in local minimum for low collocation points; exact value not numerically specified)",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "cPINN",
+          "metric_name": "epochs_to_reach_similar_mse",
+          "value": 10,
+          "unit": "x more epochs than qPINN (inverse of qPINN speedup)"
+        },
+        {
+          "method_name": "cPINN",
+          "metric_name": "epochs_to_reach_similar_mse",
+          "value": 100,
+          "unit": "x more epochs than qPINN for some approximation accuracies around 1e-4 (inverse of qPINN speedup)"
+        },
+        {
+          "method_name": "cPINN",
+          "metric_name": "mse_at_fixed_epoch",
+          "value": 50,
+          "unit": "x worse than qPINN in the presented instance at fixed epoch count"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "10x fewer epochs",
+          "baseline_method": "cPINN",
+          "conditions": "for comparable final MSE on the representative example in Fig. 1; 250 parameters, 1024 training points, L=0.1, N=1.0, xsin boundary/forcing",
+          "is_demonstrated": true,
+          "caveats": "Both methods eventually reach similar MSE; advantage is in training speed, not proven asymptotic complexity."
+        },
+        {
+          "type": "empirical",
+          "factor": "up to 100x fewer epochs",
+          "baseline_method": "cPINN",
+          "conditions": "for some approximation accuracies around MSE ~1e-4",
+          "is_demonstrated": true,
+          "caveats": "Observed only for some accuracies; depends on the general accuracy limit and problem difficulty."
+        },
+        {
+          "type": "empirical",
+          "factor": "up to 50x lower MSE at fixed epoch count",
+          "baseline_method": "cPINN",
+          "conditions": "in the presented instance after a fixed number of epochs",
+          "is_demonstrated": true,
+          "caveats": "Eventually MSE ratios approach 1 when both models reach the general accuracy limit."
+        },
+        {
+          "type": "empirical",
+          "factor": "up to 100x smaller MSE at the same training epoch",
+          "baseline_method": "cPINN",
+          "conditions": "for small general accuracy limits / harder problems",
+          "is_demonstrated": true,
+          "caveats": "The paper states this as an upper bound across tested settings; not universal for all cases."
+        },
+        {
+          "type": "empirical",
+          "factor": "more stable training; qPINN did not get stuck in local minima in tests",
+          "baseline_method": "cPINN",
+          "conditions": "especially when collocation points are reduced",
+          "is_demonstrated": true,
+          "caveats": "Stability is qualitative; cPINN success ratio decreases with fewer collocation points, but exact percentages are not numerically reported."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 256.0,
+          "num_qubits": 3,
+          "metric_name": "training_points_per_loss_term",
+          "metric_value": 256
+        },
+        {
+          "problem_size": 512.0,
+          "num_qubits": 3,
+          "metric_name": "training_points_per_loss_term",
+          "metric_value": 512
+        },
+        {
+          "problem_size": 1024.0,
+          "num_qubits": 3,
+          "metric_name": "training_points_per_loss_term",
+          "metric_value": 1024
+        },
+        {
+          "problem_size": 0.01,
+          "num_qubits": 3,
+          "metric_name": "pde_parameter_grid_size",
+          "metric_value": 10
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 3,
+          "metric_name": "mse_speedup",
+          "metric_value": 10
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 3,
+          "metric_name": "mse_speedup",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported; experiments performed only on small simulated 3‑qubit circuits and 1D PDE benchmarks",
+        "resources_for_advantage": "Unknown; authors state larger networks and real quantum hardware would be required to study scaling beyond classical statevector simulation.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Results obtained only with noiseless statevector simulation",
+          "Very small quantum model (3 qubits)",
+          "No wall‑clock runtime comparison; only training epochs compared",
+          "Classical baseline not optimized with equal computational budget",
+          "No asymptotic complexity analysis or proven speedup"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_statevector because the paper states the study used PennyLane/JAX and explicitly says shot noise is not taken into account and that real hardware is only suggested for future work.",
+          "Circuit depth is not explicitly given as a single depth number; only the number of trainable parameters and repeated encoding/variational layers are described.",
+          "No asymptotic speedup order is characterized; the paper reports empirical training-epoch acceleration, not a formal complexity speedup.",
+          "Authors report that qPINNs reach similar MSE in ~10× fewer epochs and sometimes ~100× fewer epochs for certain accuracy levels (Fig. 1–3).",
+          "However, experiments use noiseless simulation and small toy PDE problems, and improvement is measured in training epochs rather than runtime or asymptotic complexity, so practical quantum advantage is not demonstrated."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

@@ -1,0 +1,624 @@
+{
+  "paper_id": "3506790b2a7a",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:29:39+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "3506790b2a7a_hqrnn_fd_a_hybrid_quantum_recurrent_neural_network_for_fraud_detection.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.8,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 1,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[20].unit='records' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.8,
+      "completeness": 0.8,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.8
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "HQRNN-FD: A Hybrid Quantum Recurrent Neural Network for Fraud Detection",
+    "authors": [
+      "Yao-Chong Li",
+      "Yi-Fan Zhang",
+      "Rui-Qing Xu",
+      "Ri-Gui Zhou",
+      "Yi-Lin Dong"
+    ],
+    "year": 2025,
+    "doi": "10.3390/e27090906",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "fraud-detection",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a hybrid quantum–classical fraud detection model (HQRNN-FD) combining a variational quantum circuit with an RNN and attention mechanism. On a 1,754,155‑transaction fraud dataset, the model achieves accuracy 0.9715 and fraud-class F1-score 0.9009, outperforming classical CNN (accuracy 0.9373, F1 0.8037) and RNN (accuracy 0.9563, F1 0.8563) baselines in simulation using up to 6 qubits.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Hybrid quantum recurrent neural network for fraud detection using variational quantum circuits with angle encoding, data reuploading, hierarchical entanglement, RNN, and self-attention; evaluated on a public credit card fraud dataset with qubit-scaling and noise-robustness tests.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "HQRNN-FD (hybrid quantum recurrent neural network with self-attention)",
+        "ansatz": "layered VQC with Hadamard initialization, dual-angle encoding (Ry/Rz), data reuploading, local and global CNOT entanglement, and U3 rotations",
+        "optimizer": "Adam",
+        "num_layers": 2,
+        "convergence_criteria": "early stopping based on validation performance; max epochs 100",
+        "hyperparameters": {
+          "dropout": 0.2,
+          "batch_size": 256,
+          "max_epochs": 100,
+          "learning_rate": 0.001,
+          "training_epochs_for_baselines": 64,
+          "qubit_configurations": [
+            2,
+            4,
+            6
+          ],
+          "hidden_units_rnn": 64,
+          "input_features": 6,
+          "noise_levels": [
+            0,
+            0.01,
+            0.05,
+            0.1
+          ],
+          "noise_models": [
+            "depolarizing",
+            "bit-flip",
+            "phase-flip"
+          ]
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "learning_rate": 0.001,
+          "learning_rate_schedule": "learning rate scheduling",
+          "max_iterations": 100,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Each of the 6 standardized input features is embedded into a qubit using dual-angle encoding: Ry(arctan(x_i)) for amplitude and Rz(arctan(x_i^2)) for phase; data reuploading repeats the same encoding across layers.",
+        "objective_function": "Binary fraud classification minimizing binary cross-entropy loss",
+        "constraints_handling": "SMOTE oversampling used to rebalance the minority fraud class during preprocessing",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Financial fraud detection on a public fraudulent transaction dataset with sequential transaction records and binary labels (fraud/non-fraud).",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 6,
+        "dataset_size": 1754155,
+        "data_type": "public_benchmark",
+        "dataset_name": "Fraudulent Transaction Detection dataset / public credit card fraud detection dataset",
+        "dataset_specification": {
+          "train_test_split": "80% train / 20% test",
+          "original_features": [
+            "TRANSACTION_ID",
+            "TX_DATETIME",
+            "CUSTOMER_ID",
+            "TERMINAL_ID",
+            "TX_AMOUNT",
+            "TX_TIME_SECONDS",
+            "TX_TIME_DAYS",
+            "TX_FRAUD"
+          ],
+          "class_imbalance": "fraudulent transactions are a small minority; training fraud proportion reported as 13.5% before SMOTE",
+          "months_covered": [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July"
+          ]
+        },
+        "data_preprocessing_details": "Removed irrelevant fields; interpolated missing values; standardized numerical features with Z-score normalization; label-encoded categorical variables; applied SMOTE to training set; constructed tensor-based sequential inputs.",
+        "evaluation_methodology": "Single train/test split with comparative evaluation against baselines; monthly accuracy reported for 2-, 4-, and 6-qubit configurations; robustness evaluated under three noise models at four noise intensities; ablation study performed with and without preprocessing/components."
+      },
+      "quantum_resources": {
+        "num_qubits": 2,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "PennyLane"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "depolarizing, bit-flip, phase-flip",
+        "error_mitigation_method": null,
+        "noise_parameters": {
+          "noise_intensities": [
+            0.01,
+            0.05,
+            0.1
+          ]
+        },
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Adam optimizer; binary cross-entropy loss",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Data cleaning, interpolation, Z-score normalization, label encoding, SMOTE oversampling, train/test split",
+        "classical_postprocessing": "Threshold-based binary classifier on model outputs",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "accuracy",
+          "value": 0.9715,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.8486,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.9601,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.9009,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.9666,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.7797,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.955,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.8694,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.9721,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.9631,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.9702,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.8455,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.8214,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.8943,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.9009,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.8914,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.8906,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.8455,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.8214,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.8943,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 1754155,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "records",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "cnn",
+          "metric_name": "accuracy",
+          "value": 0.9373,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "cnn",
+          "metric_name": "precision",
+          "value": 0.6957,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "cnn",
+          "metric_name": "recall",
+          "value": 0.9515,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "cnn",
+          "metric_name": "f1_score",
+          "value": 0.8037,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "rnn",
+          "metric_name": "accuracy",
+          "value": 0.9563,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "rnn",
+          "metric_name": "precision",
+          "value": 0.7705,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "rnn",
+          "metric_name": "recall",
+          "value": 0.9636,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "rnn",
+          "metric_name": "f1_score",
+          "value": 0.8563,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The paper reports empirical performance improvements and robustness, but no asymptotic or wall-clock speedup claim."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": null,
+          "num_qubits": 2,
+          "metric_name": "accuracy",
+          "metric_value": 0.9698
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 4,
+          "metric_name": "accuracy",
+          "metric_value": 0.9703
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 6,
+          "metric_name": "accuracy",
+          "metric_value": 0.9733
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 2,
+          "metric_name": "accuracy",
+          "metric_value": 0.956
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 4,
+          "metric_name": "accuracy",
+          "metric_value": 0.9643
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 6,
+          "metric_name": "accuracy",
+          "metric_value": 0.9657
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 2,
+          "metric_name": "accuracy",
+          "metric_value": 0.9613
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 4,
+          "metric_name": "accuracy",
+          "metric_value": 0.9663
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 6,
+          "metric_name": "accuracy",
+          "metric_value": 0.9687
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 2,
+          "metric_name": "accuracy",
+          "metric_value": 0.9691
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 4,
+          "metric_name": "accuracy",
+          "metric_value": 0.9716
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 6,
+          "metric_name": "accuracy",
+          "metric_value": 0.9733
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 2,
+          "metric_name": "accuracy",
+          "metric_value": 0.9519
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 4,
+          "metric_name": "accuracy",
+          "metric_value": 0.9724
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 6,
+          "metric_name": "accuracy",
+          "metric_value": 0.9739
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 2,
+          "metric_name": "accuracy",
+          "metric_value": 0.9705
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 4,
+          "metric_name": "accuracy",
+          "metric_value": 0.9766
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 6,
+          "metric_name": "accuracy",
+          "metric_value": 0.9775
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "parity_with_classical",
+        "hoefler_viable": null,
+        "maturity_level": "L2_noisy_sim",
+        "crossover_size": "unknown",
+        "resources_for_advantage": "Not specified; experiments use only 2–6 qubits in simulation.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Only simulated quantum circuits (PennyLane simulator), no QPU execution",
+          "Very small system size (≤6 qubits)",
+          "No asymptotic complexity or runtime comparison with classical methods",
+          "Hybrid architecture where most computation occurs in classical RNN",
+          "Classical feature preprocessing and SMOTE dominate data pipeline"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "hardware.type inferred as simulator_other because the paper states quantum simulations are performed using PennyLane and no real QPU/device is named.",
+          "num_qubits reported from the 2-, 4-, and 6-qubit configurations; 6 qubits is the main HQRNN-FD setting and the largest reported configuration.",
+          "circuit depth not explicitly quantified; only shallow VQCs and layer structure are described.",
+          "speedup order is not characterized asymptotically; the paper reports empirical performance only.",
+          "The paper reports higher classification metrics for HQRNN-FD (F1=0.9009, accuracy=0.9715) relative to classical baselines like CNN and RNN, but these improvements are empirical ML performance gains rather than a computational speedup or complexity advantage.",
+          "No claim of quantum computational advantage or asymptotic improvement is made; experiments are small-scale simulations with hybrid models."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

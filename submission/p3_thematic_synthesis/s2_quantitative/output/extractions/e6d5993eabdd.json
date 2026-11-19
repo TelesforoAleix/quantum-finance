@@ -1,0 +1,661 @@
+{
+  "paper_id": "e6d5993eabdd",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T10:15:12+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "e6d5993eabdd_toward_practical_quantum_machine_learning_a_novel_hybrid_quantum_lstm_for_fraud_.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.4,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 5,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[5].unit='seconds per epoch (reported range 45-65 seconds)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='% (approximate starting value from figure/text)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='% (approximate end value from figure/text)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='loss (approximate starting value from figure/text)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[16].unit='seconds per epoch' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.4,
+      "completeness": 0.4,
+      "num_experiments": 3,
+      "experiment_scores": [
+        0.9,
+        0.15,
+        0.15
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Toward Practical Quantum Machine Learning: A Novel Hybrid Quantum LSTM for Fraud Detection",
+    "authors": [
+      "Rushikesh Ubale",
+      "Sujan K. K.",
+      "Sangram Deshpande",
+      "Gregory T. Byrd"
+    ],
+    "year": 2025,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "fraud-detection",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a hybrid quantum–classical LSTM for fraud detection using a 10‑qubit variational quantum circuit simulated with PennyLane. On a 10k‑sample balanced dataset it achieves 95.33% accuracy, 96.67% recall, and 95.39% F1, slightly outperforming a classical LSTM baseline (94.33% accuracy) but with much higher training cost (~55 s vs ~1.5 s per epoch). Scaling experiments with larger datasets and up to 12 qubits reach ~98% accuracy but remain simulator-based.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Hybrid quantum-classical LSTM for credit card fraud detection using a variational quantum circuit with angle embedding and strongly entangling layers, evaluated against a classical LSTM baseline on balanced subsets of a fraud dataset.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Quantum LSTM / hybrid quantum-classical LSTM with variational quantum circuit",
+        "ansatz": "AngleEmbedding + StronglyEntanglingLayers (PennyLane template)",
+        "optimizer": "Adam",
+        "num_layers": null,
+        "convergence_criteria": "trained for 80 epochs",
+        "hyperparameters": {
+          "batch_size": 32,
+          "learning_rate": 0.001,
+          "weight_decay": 0.0001,
+          "dropout_rate": 0.3,
+          "epochs": 80,
+          "train_validation_test_split": "70/15/15",
+          "dataset_subset_size": 10000,
+          "balanced_classes_per_subset": 5000,
+          "qubits": 10,
+          "larger_configurations": [
+            {
+              "qubits": 10,
+              "samples": 35000
+            },
+            {
+              "qubits": 12,
+              "samples": 30000
+            }
+          ]
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "max_iterations": 80,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Classical feature vector is projected to n_qubits dimensions by a fully connected layer and encoded with RY rotations via AngleEmbedding; each sample is treated as a sequence of length 1 for the LSTM.",
+        "objective_function": "Binary fraud classification minimizing BCEWithLogitsLoss",
+        "constraints_handling": "class balancing via oversampling minority class and downsampling majority class; no quantum constraint encoding",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Credit card fraud detection on a synthetically generated credit card transaction dataset with temporal, geospatial, categorical, and demographic features.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 27,
+        "dataset_size": 10000,
+        "data_type": "synthetic",
+        "dataset_name": "synthetically generated credit card fraud dataset",
+        "dataset_specification": {
+          "description": "27 features; balanced subset of 10,000 transactions (5,000 fraud, 5,000 non-fraud); split 70/15/15 train/validation/test; larger runs at 35k and 30k samples with 10 and 12 qubits respectively"
+        },
+        "data_preprocessing_details": "Removed personally identifiable columns (first, last, street, trans_num); label-encoded categorical variables; extracted temporal features (hour, day, weekday, month, year); computed customer-merchant distance using haversine formula; computed customer age from date of birth; z-score normalization; stratified split; converted to PyTorch tensors",
+        "evaluation_methodology": "Single training run reported for 80 epochs with validation each epoch; final test evaluation on held-out test set; scalability comparison across 10k, 35k, and 30k sample configurations"
+      },
+      "quantum_resources": {
+        "num_qubits": 10,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "PennyLane",
+        "device_name": "default.qubit",
+        "framework": "PennyLane",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Label encoding, feature engineering, z-score normalization, class balancing, train/validation/test split, tensor conversion",
+        "classical_postprocessing": "Sigmoid output thresholding for fraud probability; confusion matrix and metrics computation",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "training loss decreases over 80 epochs; validation loss also decreases",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "accuracy",
+          "value": 95.33,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "precision",
+          "value": 94.16,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "recall",
+          "value": 96.67,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 95.39,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "inference_time",
+          "value": 6.32,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "time_per_epoch",
+          "value": 55,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds per epoch (reported range 45-65 seconds)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_accuracy",
+          "value": 99.69,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "test_accuracy",
+          "value": 95.33,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_accuracy",
+          "value": 70,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "% (approximate starting value from figure/text)",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "validation_accuracy",
+          "value": 95,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "% (approximate end value from figure/text)",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_loss",
+          "value": 0.6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "loss (approximate starting value from figure/text)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "classical_lstm_accuracy",
+          "value": 94.33,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "classical_lstm_precision",
+          "value": 95.61,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "classical_lstm_recall",
+          "value": 92.93,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "classical_lstm_f1_score",
+          "value": 94.25,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "classical_lstm_evaluation_time",
+          "value": 0.07,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "classical_lstm_average_time_per_epoch",
+          "value": 1.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds per epoch",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 98.38,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 99.81,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 98.4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 98.04,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 100.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 98.08,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "Classical LSTM",
+          "metric_name": "accuracy",
+          "value": 94.33,
+          "unit": "%"
+        },
+        {
+          "method_name": "Classical LSTM",
+          "metric_name": "precision",
+          "value": 95.61,
+          "unit": "%"
+        },
+        {
+          "method_name": "Classical LSTM",
+          "metric_name": "recall",
+          "value": 92.93,
+          "unit": "%"
+        },
+        {
+          "method_name": "Classical LSTM",
+          "metric_name": "f1_score",
+          "value": 94.25,
+          "unit": "%"
+        },
+        {
+          "method_name": "Classical LSTM",
+          "metric_name": "evaluation_time",
+          "value": 0.07,
+          "unit": "seconds"
+        },
+        {
+          "method_name": "Classical LSTM",
+          "metric_name": "average_time_per_epoch",
+          "value": 1.5,
+          "unit": "seconds per epoch"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "about 27x slower than classical LSTM per epoch (55 s vs 1.5 s); quantum model is not faster",
+          "baseline_method": "Classical LSTM",
+          "conditions": "10 qubits, 10k samples, default.qubit simulator, 80 epochs",
+          "is_demonstrated": true,
+          "caveats": "The paper claims the hybrid model is faster than some prior hybrid quantum LSTM work, but relative to the classical baseline it is much slower. Reported quantum epoch time is a range of 45-65 seconds."
+        },
+        {
+          "type": "empirical",
+          "factor": "faster than prior hybrid quantum LSTM approaches reported in the literature",
+          "baseline_method": "prior hybrid quantum LSTM approaches",
+          "conditions": "same general fraud-detection context; no exact baseline runtime given",
+          "is_demonstrated": false,
+          "caveats": "No exact comparative runtime numbers are provided for the cited prior works, so the speedup is qualitative rather than numerically established."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 10000,
+          "num_qubits": 10,
+          "metric_name": "accuracy",
+          "metric_value": 95.33
+        },
+        {
+          "problem_size": 10000,
+          "num_qubits": 10,
+          "metric_name": "recall",
+          "metric_value": 96.67
+        },
+        {
+          "problem_size": 10000,
+          "num_qubits": 10,
+          "metric_name": "f1_score",
+          "metric_value": 95.39
+        },
+        {
+          "problem_size": 10000,
+          "num_qubits": 10,
+          "metric_name": "average_time_per_epoch",
+          "metric_value": 55
+        },
+        {
+          "problem_size": 35000,
+          "num_qubits": 10,
+          "metric_name": "accuracy",
+          "metric_value": 98.38
+        },
+        {
+          "problem_size": 35000,
+          "num_qubits": 10,
+          "metric_name": "recall",
+          "metric_value": 99.81
+        },
+        {
+          "problem_size": 35000,
+          "num_qubits": 10,
+          "metric_name": "f1_score",
+          "metric_value": 98.4
+        },
+        {
+          "problem_size": 35000,
+          "num_qubits": 10,
+          "metric_name": "average_time_per_epoch",
+          "metric_value": 172.5
+        },
+        {
+          "problem_size": 30000,
+          "num_qubits": 12,
+          "metric_name": "accuracy",
+          "metric_value": 98.04
+        },
+        {
+          "problem_size": 30000,
+          "num_qubits": 12,
+          "metric_name": "recall",
+          "metric_value": 100.0
+        },
+        {
+          "problem_size": 30000,
+          "num_qubits": 12,
+          "metric_name": "f1_score",
+          "metric_value": 98.08
+        },
+        {
+          "problem_size": 30000,
+          "num_qubits": 12,
+          "metric_name": "average_time_per_epoch",
+          "metric_value": 270
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": "45-65 seconds per epoch for 10k-sample, 10-qubit configuration",
+        "wall_clock_classical": "under 2 seconds per epoch for classical LSTM"
+      },
+      "advantage_assessment": {
+        "advantage_status": "parity_with_classical",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Not specified; current implementation uses 10 qubits on a PennyLane statevector simulator (default.qubit). Real-device advantage would require substantially larger qubit counts and error-mitigated hardware.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Entire experiment performed on a noiseless simulator rather than quantum hardware",
+          "No asymptotic complexity or speedup analysis provided",
+          "Classical LSTM baseline achieves similar accuracy with ~35x faster training (≈1.5 s vs 45–65 s per epoch)",
+          "Small problem size (10k samples, 10 qubits)",
+          "Data encoding overhead removes potential advantage"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "default.qubit explicitly reported; treated as a statevector simulator on CPU.",
+          "10 qubits explicitly reported in the comparison table and circuit description.",
+          "Circuit depth not numerically reported; only StronglyEntanglingLayers and 80 training epochs are described, so depth is not directly extractable.",
+          "No asymptotic complexity or proven speedup order is characterized; only empirical runtime comparisons are given.",
+          "Classical LSTM baseline is included only as a benchmark, not as a separate experiment.",
+          "Authors report slightly higher accuracy for the hybrid model (95.33% vs 94.33%) but do not claim formal quantum advantage.",
+          "Classical LSTM is dramatically faster computationally and achieves comparable metrics, indicating parity rather than advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Hybrid quantum-classical LSTM using 10 qubits trained on an expanded dataset of 35,000 samples to evaluate scalability and generalization improvements.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Hybrid quantum LSTM with variational quantum circuit",
+        "ansatz": "AngleEmbedding + StronglyEntanglingLayers",
+        "optimizer": "Adam",
+        "num_layers": null
+      },
+      "key_results": [
+        {
+          "metric": "accuracy",
+          "value": 98.38,
+          "unit": "%"
+        },
+        {
+          "metric": "recall",
+          "value": 99.81,
+          "unit": "%"
+        },
+        {
+          "metric": "f1_score",
+          "value": 98.4,
+          "unit": "%"
+        },
+        {
+          "metric": "time_per_epoch",
+          "value": "165–180",
+          "unit": "seconds"
+        }
+      ]
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "Hybrid quantum-classical LSTM using 12 qubits trained on 30,000 samples to evaluate scaling with additional qubits.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Hybrid quantum LSTM with variational quantum circuit",
+        "ansatz": "AngleEmbedding + StronglyEntanglingLayers",
+        "optimizer": "Adam",
+        "num_layers": null
+      },
+      "key_results": [
+        {
+          "metric": "accuracy",
+          "value": 98.04,
+          "unit": "%"
+        },
+        {
+          "metric": "recall",
+          "value": 100.0,
+          "unit": "%"
+        },
+        {
+          "metric": "f1_score",
+          "value": 98.08,
+          "unit": "%"
+        },
+        {
+          "metric": "time_per_epoch",
+          "value": "4–5",
+          "unit": "minutes"
+        }
+      ]
+    }
+  ]
+}

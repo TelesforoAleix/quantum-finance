@@ -1,0 +1,1471 @@
+{
+  "paper_id": "10e947e4e6c8",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:04:40+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "10e947e4e6c8_optimizing_quantum_algorithms_on_bipotent_architectures.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.477,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 0,
+    "validation_passed": true,
+    "quality_details": {
+      "score": 0.477,
+      "completeness": 0.477,
+      "num_experiments": 5,
+      "experiment_scores": [
+        1.0,
+        0.933,
+        0.15,
+        0.15,
+        0.15
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 0.3333333333333333
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Optimizing Quantum Algorithms on Bipotent Architectures",
+    "authors": [
+      "Yanjun Ji",
+      "Kathrin F. Koenig",
+      "Ilia Polian"
+    ],
+    "year": 2023,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "portfolio-optimization",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper experimentally evaluates QAOA for portfolio optimization (3–5 qubits) and MaxCut (5 qubits) on IBM superconducting QPUs (ibmq ehningen and ibm auckland) with up to p=5 layers and 50,000 shots per circuit. By exploiting pulse‑level optimized ZZ and ZZ‑SWAP gates on bipotent architectures, the authors report approximation‑ratio improvements of up to about 70% relative to fidelity‑only qubit mapping strategies. The work demonstrates that pulse‑level optimization and gate‑type selection can outperform circuits mapped solely for maximal gate fidelity on NISQ hardware.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "QAOA for portfolio optimization on IBM bipotent superconducting QPUs, comparing ECR-only, direct-only, global, and bipotent qubit mappings with default and pulse-optimized ZZ / ZZ-SWAP implementations across 3-, 4-, and 5-qubit instances.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "QAOA for portfolio optimization on bipotent architectures",
+        "ansatz": null,
+        "optimizer": "COBYLA",
+        "num_layers": 5,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "problem_type": "portfolio optimization",
+          "risk_preference_q": 0.33,
+          "budget_B": [
+            2,
+            2,
+            3
+          ],
+          "penalty_factor_A": [
+            0,
+            0.13,
+            0.07
+          ],
+          "global_scaling_factor_lambda": [
+            20.97,
+            17.99,
+            17.51
+          ],
+          "instance_sizes_qubits": [
+            3,
+            4,
+            5
+          ],
+          "p_values": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "shots_per_circuit": 50000
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "QUBO",
+        "encoding_details": "One qubit per binary decision variable (asset selection); QAOA implements the QUBO-derived Ising cost Hamiltonian with ZZ interactions and Z fields.",
+        "objective_function": "Portfolio optimization cost function C = sum_{i<j} (lambda/2)(q sigma_ij + A) Z_i Z_j - sum_i k_i Z_i, with k_i = (lambda/2)[A(2B-n) + (1-q)mu_i - q sum_j sigma_ij].",
+        "constraints_handling": "Penalty term A in the QUBO; feasible solutions are post-selected for evaluation of approximation ratio.",
+        "num_binary_variables": 5,
+        "problem_hamiltonian": "H_C = sum_{i<j} (lambda/2)(q sigma_ij + A) Z_i Z_j - sum_i k_i Z_i",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Portfolio optimization instances with 3, 4, and 5 assets derived from a 5-asset benchmark; evaluated on dense connectivity requiring SWAPs on sparse hardware.",
+        "num_assets": 5,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "public_benchmark",
+        "dataset_name": "Portfolio optimization benchmark from Brandhofer et al. (2023) / Ref. [44]",
+        "dataset_specification": {
+          "description": "5-asset benchmark; 3-asset and 4-asset instances use the first three and first four assets, respectively."
+        },
+        "data_preprocessing_details": "QUBO formulation from asset returns and covariance matrix; circuits pre-transpiled to a linear topology before hardware mapping.",
+        "evaluation_methodology": "Noiseless QASM-simulator baseline; hardware runs with 50000 shots per circuit; metrics are approximation ratio (AR), success probability (SP), schedule duration, and CX count across p in {1,...,5}."
+      },
+      "quantum_resources": {
+        "num_qubits": 5,
+        "qubit_type": "physical",
+        "circuit_depth": 2,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 50000,
+        "num_variational_params": null,
+        "gate_fidelity": {
+          "cx_gate_error_percent": {
+            "ECR_circuits": [
+              0.78,
+              0.87,
+              0.89
+            ],
+            "Global_circuits": 0.48,
+            "Direct_circuits": [
+              0.48,
+              0.6
+            ]
+          },
+          "single_qubit_gate_error_percent": null,
+          "readout_error_percent": null
+        },
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_superconducting",
+        "provider": "IBM",
+        "device_name": "ibmq_ehningen",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "hardware noise on superconducting QPUs; calibration-dependent CX, single-qubit, and readout errors",
+        "error_mitigation_method": "default readout error mitigation in Qiskit; pulse-level optimization of ZZ and ZZ-SWAP gates; no additional calibration"
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": "IBM bipotent superconducting devices with basis gates ID, RZ, SX, X, CX",
+        "classical_solver": "QASM-simulator for noiseless baseline; COBYLA for parameter optimization",
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": [
+            "ID",
+            "RZ",
+            "SX",
+            "X",
+            "CX"
+          ],
+          "routing_method": "algorithm-aware qubit mapping / Mapomatic for some baselines"
+        },
+        "classical_preprocessing": "Pre-transpile to a linear topology using an exact scalable qubit-mapping approach; select qubits by fidelity, schedule duration, and gate type depending on circuit family.",
+        "classical_postprocessing": "Post-select feasible solutions satisfying the budget constraint; compute AR and SP from measurement outcomes.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_baselines": [
+          "noiseless QASM-simulator",
+          "Mapomatic fidelity-based qubit selection"
+        ],
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.993,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 99.34,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.996,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 99.57,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.998,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 99.83,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 1.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 99.99,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 1.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 99.98,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.525,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 21.18,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.674,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 29.04,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.892,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 44.3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.93,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 45.61,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.935,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 46.97,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.513,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 17.7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.819,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 48.61,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.828,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 45.28,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.898,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 55.33,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.909,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 58.35,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "schedule_duration",
+          "value": 245.3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ns",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "schedule_duration",
+          "value": 320.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ns",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "schedule_duration",
+          "value": 490.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ns",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "schedule_duration",
+          "value": 640.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ns",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "schedule_duration",
+          "value": 241.8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ns",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gate_error",
+          "value": 0.83,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "gate_error",
+          "value": 0.79,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "gate_time",
+          "value": 382.22,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ns",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "gate_time",
+          "value": 256.89,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ns",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "t1",
+          "value": 122.59,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "us",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "t2",
+          "value": 132.94,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "us",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "t1",
+          "value": 154.29,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "us",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "t2",
+          "value": 118.02,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "us",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "t1",
+          "value": 161.16,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "us",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "t2",
+          "value": 175.16,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "us",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "single_qubit_gate_error",
+          "value": 0.021,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "single_qubit_gate_error",
+          "value": 0.023,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "single_qubit_gate_error",
+          "value": 0.026,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "readout_error",
+          "value": 1.386,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "readout_error",
+          "value": 1.009,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "readout_error",
+          "value": 1.077,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "noiseless qasm-simulator",
+          "metric_name": "approximation_ratio",
+          "value": 0.993,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "noiseless qasm-simulator",
+          "metric_name": "success_probability",
+          "value": 99.34,
+          "unit": "%"
+        },
+        {
+          "method_name": "noiseless qasm-simulator",
+          "metric_name": "approximation_ratio",
+          "value": 0.996,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "noiseless qasm-simulator",
+          "metric_name": "success_probability",
+          "value": 99.57,
+          "unit": "%"
+        },
+        {
+          "method_name": "noiseless qasm-simulator",
+          "metric_name": "approximation_ratio",
+          "value": 0.998,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "noiseless qasm-simulator",
+          "metric_name": "success_probability",
+          "value": 99.83,
+          "unit": "%"
+        },
+        {
+          "method_name": "noiseless qasm-simulator",
+          "metric_name": "approximation_ratio",
+          "value": 1.0,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "noiseless qasm-simulator",
+          "metric_name": "success_probability",
+          "value": 99.99,
+          "unit": "%"
+        },
+        {
+          "method_name": "noiseless qasm-simulator",
+          "metric_name": "approximation_ratio",
+          "value": 1.0,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "noiseless qasm-simulator",
+          "metric_name": "success_probability",
+          "value": 99.98,
+          "unit": "%"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No asymptotic or classical speedup claim is made; the paper reports empirical performance comparisons only."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 3,
+          "num_qubits": 3,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.993
+        },
+        {
+          "problem_size": 3,
+          "num_qubits": 3,
+          "metric_name": "success_probability",
+          "metric_value": 99.34
+        },
+        {
+          "problem_size": 3,
+          "num_qubits": 3,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.996
+        },
+        {
+          "problem_size": 3,
+          "num_qubits": 3,
+          "metric_name": "success_probability",
+          "metric_value": 99.57
+        },
+        {
+          "problem_size": 3,
+          "num_qubits": 3,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.998
+        },
+        {
+          "problem_size": 3,
+          "num_qubits": 3,
+          "metric_name": "success_probability",
+          "metric_value": 99.83
+        },
+        {
+          "problem_size": 3,
+          "num_qubits": 3,
+          "metric_name": "approximation_ratio",
+          "metric_value": 1.0
+        },
+        {
+          "problem_size": 3,
+          "num_qubits": 3,
+          "metric_name": "success_probability",
+          "metric_value": 99.99
+        },
+        {
+          "problem_size": 3,
+          "num_qubits": 3,
+          "metric_name": "approximation_ratio",
+          "metric_value": 1.0
+        },
+        {
+          "problem_size": 3,
+          "num_qubits": 3,
+          "metric_name": "success_probability",
+          "metric_value": 99.98
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": 4,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.525
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": 4,
+          "metric_name": "success_probability",
+          "metric_value": 21.18
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": 4,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.674
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": 4,
+          "metric_name": "success_probability",
+          "metric_value": 29.04
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": 4,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.892
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": 4,
+          "metric_name": "success_probability",
+          "metric_value": 44.3
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": 4,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.93
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": 4,
+          "metric_name": "success_probability",
+          "metric_value": 45.61
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": 4,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.935
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": 4,
+          "metric_name": "success_probability",
+          "metric_value": 46.97
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": 5,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.513
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": 5,
+          "metric_name": "success_probability",
+          "metric_value": 17.7
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": 5,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.819
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": 5,
+          "metric_name": "success_probability",
+          "metric_value": 48.61
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": 5,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.828
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": 5,
+          "metric_name": "success_probability",
+          "metric_value": 45.28
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": 5,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.898
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": 5,
+          "metric_name": "success_probability",
+          "metric_value": 55.33
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": 5,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.909
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": 5,
+          "metric_name": "success_probability",
+          "metric_value": 58.35
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": null,
+        "resources_for_advantage": "Not analyzed; experiments use ≤5 physical qubits with shallow QAOA circuits (p≤5).",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Very small problem size (3–5 qubits)",
+          "NISQ noise and limited connectivity",
+          "No classical optimization baseline for portfolio optimization performance comparison",
+          "Focus is hardware mapping optimization rather than computational speedup"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper reports multiple hardware experiments on IBM superconducting QPUs (ibmq ehningen and ibm auckland) and multiple problem sizes (3Q, 4Q, 5Q) within one QAOA portfolio-optimization study.",
+          "Circuit depth is reported as the pre-transpiled QAOA structure 2 + (n + 2) × p; exact transpiled depths are not given.",
+          "Speedup order is not characterized asymptotically in the paper.",
+          "Authors do not claim quantum advantage; experiments study mapping strategies and pulse‑level optimizations on NISQ hardware.",
+          "Problem sizes (≤5 qubits) are far below classical difficulty thresholds."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "QAOA for MaxCut on IBM superconducting QPUs, comparing ECR-only, direct-only, global, and bipotent mappings with default and pulse-optimized gate decompositions for a 5-qubit complete graph.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "QAOA for MaxCut on bipotent architectures",
+        "ansatz": null,
+        "optimizer": "COBYLA",
+        "num_layers": 5,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "problem_type": "MaxCut",
+          "graph_type": "complete graph",
+          "instance_size_qubits": 5,
+          "p_values": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "shots_per_circuit": 50000
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "QUBO",
+        "encoding_details": "One qubit per graph vertex; MaxCut cost Hamiltonian uses ZZ interactions on edges.",
+        "objective_function": "H_C = 1/2 sum_{i,j} (1 - Z_i Z_j) over edges (i,j).",
+        "constraints_handling": "No explicit constraints beyond the MaxCut objective; evaluation uses approximation ratio and success probability.",
+        "num_binary_variables": 5,
+        "problem_hamiltonian": "H_C = 1/2 sum_{(i,j) in E} (1 - Z_i Z_j)",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "5-qubit MaxCut on a complete graph, chosen to match the dense connectivity requirements of the portfolio-optimization instances.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": "Complete graph MaxCut benchmark",
+        "dataset_specification": {
+          "description": "5-node complete graph"
+        },
+        "data_preprocessing_details": "No dataset preprocessing; graph-based benchmark instance.",
+        "evaluation_methodology": "Noiseless QASM-simulator baseline; hardware runs with 50000 shots per circuit; metrics are AR, SP, schedule duration, and CX count across p in {1,...,5}."
+      },
+      "quantum_resources": {
+        "num_qubits": 5,
+        "qubit_type": "physical",
+        "circuit_depth": 2,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 50000,
+        "num_variational_params": null,
+        "gate_fidelity": {
+          "cx_gate_error_percent": {
+            "ECR_circuits": 0.89,
+            "Global_B": 0.48,
+            "Direct_circuit": 0.6
+          },
+          "single_qubit_gate_error_percent": null,
+          "readout_error_percent": null
+        },
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_superconducting",
+        "provider": "IBM",
+        "device_name": "ibmq_ehningen",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "hardware noise on superconducting QPU; calibration-dependent CX, single-qubit, and readout errors",
+        "error_mitigation_method": "default readout error mitigation in Qiskit; pulse-level optimization of ZZ and ZZ-SWAP gates; no additional calibration"
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": "IBM bipotent superconducting device with basis gates ID, RZ, SX, X, CX",
+        "classical_solver": "QASM-simulator for noiseless baseline; COBYLA for parameter optimization",
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": [
+            "ID",
+            "RZ",
+            "SX",
+            "X",
+            "CX"
+          ],
+          "routing_method": "algorithm-aware qubit mapping / Mapomatic for some baselines"
+        },
+        "classical_preprocessing": "Pre-transpile to a linear topology; select qubits by fidelity, schedule duration, and gate type.",
+        "classical_postprocessing": "No special postprocessing beyond standard QAOA measurement evaluation.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_baselines": [
+          "noiseless QASM-simulator",
+          "Mapomatic fidelity-based qubit selection"
+        ],
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.914,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 87.79,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.972,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 96.99,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.996,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 99.45,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.997,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 99.62,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.997,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 99.72,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "schedule_duration",
+          "value": 30.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "us",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "schedule_duration",
+          "value": 0.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "us",
+          "higher_is_better": false,
+          "data_source": "figure"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "noiseless qasm-simulator",
+          "metric_name": "approximation_ratio",
+          "value": 0.914,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "noiseless qasm-simulator",
+          "metric_name": "success_probability",
+          "value": 87.79,
+          "unit": "%"
+        },
+        {
+          "method_name": "noiseless qasm-simulator",
+          "metric_name": "approximation_ratio",
+          "value": 0.972,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "noiseless qasm-simulator",
+          "metric_name": "success_probability",
+          "value": 96.99,
+          "unit": "%"
+        },
+        {
+          "method_name": "noiseless qasm-simulator",
+          "metric_name": "approximation_ratio",
+          "value": 0.996,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "noiseless qasm-simulator",
+          "metric_name": "success_probability",
+          "value": 99.45,
+          "unit": "%"
+        },
+        {
+          "method_name": "noiseless qasm-simulator",
+          "metric_name": "approximation_ratio",
+          "value": 0.997,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "noiseless qasm-simulator",
+          "metric_name": "success_probability",
+          "value": 99.62,
+          "unit": "%"
+        },
+        {
+          "method_name": "noiseless qasm-simulator",
+          "metric_name": "approximation_ratio",
+          "value": 0.997,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "noiseless qasm-simulator",
+          "metric_name": "success_probability",
+          "value": 99.72,
+          "unit": "%"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No asymptotic or classical speedup claim is made; only empirical performance comparisons are reported."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 5,
+          "num_qubits": 5,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.914
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": 5,
+          "metric_name": "success_probability",
+          "metric_value": 87.79
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": 5,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.972
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": 5,
+          "metric_name": "success_probability",
+          "metric_value": 96.99
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": 5,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.996
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": 5,
+          "metric_name": "success_probability",
+          "metric_value": 99.45
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": 5,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.997
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": 5,
+          "metric_name": "success_probability",
+          "metric_value": 99.62
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": 5,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.997
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": 5,
+          "metric_name": "success_probability",
+          "metric_value": 99.72
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": null,
+        "resources_for_advantage": "Not provided; experiment uses a 5‑qubit MaxCut instance on NISQ hardware.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Toy‑scale graph (5 vertices)",
+          "No classical algorithm comparison",
+          "Objective is gate‑mapping performance rather than computational advantage",
+          "Noise limits circuit depth"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "This is the MaxCut hardware benchmark on ibmq ehningen; the paper reports 5 qubits and p from 1 to 5.",
+          "Circuit depth is reported only in the generic pre-transpiled form 2 + (n + 2) × p; exact transpiled depths are not given.",
+          "Speedup order is not characterized asymptotically in the paper.",
+          "MaxCut experiment evaluates mapping strategies on bipotent architectures rather than comparing quantum vs classical algorithms."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_new_1",
+      "description": "5‑qubit QAOA portfolio optimization executed on the IBM ibm_auckland superconducting QPU using bipotent qubit mapping with pulse‑optimized ZZ and ZZ‑SWAP gates.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "QAOA for portfolio optimization (bipotent architecture mapping)",
+        "optimizer": "COBYLA",
+        "num_layers": 5
+      },
+      "key_results": [
+        "Runs performed with 5 qubits and p ∈ {1,…,5}.",
+        "Bipotent‑ZZ‑SWAPOPT mapping achieves the best approximation ratio and success probability compared with Bipotent‑Default and Bipotent‑ZZOPT.",
+        "Performance trends match those observed on ibmq ehningen."
+      ]
+    },
+    {
+      "experiment_id": "exp_new_2",
+      "description": "Quantum Process Tomography (QPT) benchmarking of ZZ and ZZ‑SWAP gates and their pulse‑level optimized variants on IBM ibmq ehningen to measure process infidelity versus rotation angle and gate repetition.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Process‑tomography benchmarking of two‑qubit gates (ZZ, ZZOPT, ZZ‑SWAP, ZZ‑SWAPOPT)",
+        "optimizer": null,
+        "num_layers": null
+      },
+      "key_results": [
+        "Pulse‑optimized gates (ZZOPT and ZZ‑SWAPOPT) show lower process infidelity than default implementations.",
+        "Native control‑target polarity yields lower infidelity than reversed polarity.",
+        "Demonstrated via QPT experiments on ibmq ehningen (Fig. 8)."
+      ]
+    },
+    {
+      "experiment_id": "exp_new_3",
+      "description": "Algorithm‑agnostic benchmarking of ECR‑CX versus direct‑CX gate properties on ibmq ehningen using calibration data collected hourly during September 2022.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "hardware calibration benchmarking of CX gate implementations",
+        "optimizer": null,
+        "num_layers": null
+      },
+      "key_results": [
+        "Average CX error rate: 0.83% (ECR‑CX) vs 0.79% (direct‑CX).",
+        "Average gate duration: 382.22 ns (ECR‑CX) vs 256.89 ns (direct‑CX).",
+        "Direct‑CX gates are ~32.8% faster but lack user‑accessible pulse‑level optimization."
+      ]
+    }
+  ]
+}

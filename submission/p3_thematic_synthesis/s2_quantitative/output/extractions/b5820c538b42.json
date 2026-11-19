@@ -1,0 +1,557 @@
+{
+  "paper_id": "b5820c538b42",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:39:28+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "b5820c538b42_solving_linear_systems_on_quantum_hardware_with_hybrid_hhl.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 1.0,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 1,
+    "validation_warnings": 3,
+    "validation_passed": false,
+    "validation_error_details": [
+      "Schema error at experiments.0.quantum_resources.two_qubit_gate_count: {'semiclassical_qpe': {'3_bit': 57, '4_bit': 76, '5_bit': 95}, 'standard_qpe': {'3_bit': 63, '4_bit': 88, '5_bit': 115}} is not of type 'integer', 'null'"
+    ],
+    "validation_warning_details": [
+      "experiments[0].results[18].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[19].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[23].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 1.0,
+      "completeness": 1.0,
+      "num_experiments": 1,
+      "experiment_scores": [
+        1.0
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Solving Linear Systems on Quantum Hardware with Hybrid HHL++",
+    "authors": [
+      "Romina Yalovetzky",
+      "Pierre Minssen",
+      "Dylan Herman",
+      "Marco Pistoia"
+    ],
+    "year": 2024,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "portfolio-optimization",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper introduces Hybrid HHL++, a modified HHL linear-system algorithm with spectral scaling and circuit compression, demonstrated on Quantinuum H1 trapped‑ion hardware for portfolio optimization. Experiments used up to 10 qubits and circuits with median two‑qubit depth ≈262 ZZPhase gates, achieving eigenvalue-estimation fidelities up to 98% (3–4 bits) and portfolio-state overlap ≈0.92±0.04 with the classical solution for 2‑asset (4×4) systems.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Hybrid HHL++ on Quantinuum H-series trapped-ion hardware for small-scale portfolio optimization, including spectral scaling, semiclassical QPE benchmarking, and HHL solution validation via controlled-SWAP.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Hybrid HHL++",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "scaling_factor_gamma": "optimized via Algorithm 1/2",
+          "bit_precision_m": "3, 4, 5 bits for QPE benchmarks; 4 bits for portfolio-validation runs",
+          "k": "reduced QPE precision for eigenvalue inversion, problem-dependent",
+          "shots": "2000 for QPE benchmarks; 1000 for controlled-SWAP validation; 400 for some emulator studies"
+        },
+        "parameter_initialization": "Initial guess for lambda_max overapproximation (example 0.02, gamma=50)",
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "block_encoding",
+        "encoding_details": "Portfolio optimization mapped to a linear system Ax=b using Lagrange multipliers; HHL used to prepare |x> proportional to A^+|b>",
+        "objective_function": "minimize w^T Σ w subject to ξ = p^T w and μ = r^T w",
+        "constraints_handling": "Linear-system reformulation via Lagrange multipliers; post-selection on ancilla |0> in HHL; controlled-SWAP used for validation",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": "1 for semiclassical QPE; 1 rotation ancilla plus 1 swap ancilla in validation circuits"
+      },
+      "problem_instance": {
+        "description": "Mean-variance portfolio optimization instances from S&P 500 assets, formulated as small linear systems",
+        "num_assets": 2,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "real_market",
+        "dataset_name": "S&P 500 stock data",
+        "dataset_specification": {
+          "description": "Historical covariance matrix, expected returns, and prices used to build the linear system; five problem instances for 2-asset case and four portfolios for 6-asset case"
+        },
+        "data_preprocessing_details": "Portfolio optimization reformulated as a linear system using Lagrange multipliers; details of covariance/return construction not further specified",
+        "evaluation_methodology": "Compare hardware output distributions to noiseless simulation using fidelity; compare HHL output state to analytically loaded classical solution using controlled-SWAP inner product; bootstrap with 9,999 resamples for fidelity statistics"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "physical",
+        "circuit_depth": 63,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": 57,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_trapped_ion",
+        "provider": "Quantinuum",
+        "device_name": "Quantinuum H1 (H-series)",
+        "framework": "Qiskit with pytket transpilation",
+        "framework_version": null
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "hardware noise plus noisy emulator studies",
+        "error_mitigation_method": null,
+        "noise_parameters": {
+          "two_qubit_fault_probability": "default 1.38e-3 in emulator; varied in scaling study",
+          "mid_circuit_measurement_and_reset": "used in semiclassical QPE"
+        }
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": "Quantinuum H-series native gates (ZZPhase)",
+        "classical_solver": "classical eigensolver / analytical eigenvalues for some validation and scaling studies",
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": "Quantinuum native gates via pytket",
+          "routing_method": null
+        },
+        "classical_preprocessing": "Classical computation of U=e^{2πiγA}, eigenvalue estimates, scaling-factor search, and reduced-precision control mapping",
+        "classical_postprocessing": "Fidelity computation, bootstrap resampling, and controlled-SWAP inner-product estimation from measured probabilities",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "fidelity",
+          "value": 98.1,
+          "uncertainty": "±1.4",
+          "num_runs": 9999,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "fidelity",
+          "value": 95.0,
+          "uncertainty": "±1.6",
+          "num_runs": 9999,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "fidelity",
+          "value": 43.2,
+          "uncertainty": "±1.0",
+          "num_runs": 9999,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "fidelity",
+          "value": 98.6,
+          "uncertainty": "±1.2",
+          "num_runs": 9999,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "fidelity",
+          "value": 90.4,
+          "uncertainty": "±1.7",
+          "num_runs": 9999,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "fidelity",
+          "value": 42.6,
+          "uncertainty": "±2.4",
+          "num_runs": 9999,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "inner_product",
+          "value": 0.92,
+          "uncertainty": "±0.04",
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "inner_product",
+          "value": 0.92,
+          "uncertainty": "±0.06",
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "inner_product",
+          "value": 0.96,
+          "uncertainty": "±0.05",
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "zzphase_gate_count",
+          "value": 57,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "zzphase_gate_count",
+          "value": 76,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "zzphase_gate_count",
+          "value": 95,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "zzphase_depth",
+          "value": 63,
+          "uncertainty": "±4.60",
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "zzphase_depth",
+          "value": 262,
+          "uncertainty": "±19.36",
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "zzphase_depth",
+          "value": 356,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "zzphase_depth",
+          "value": 964,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots",
+          "value": 2000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots",
+          "value": 1000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots",
+          "value": 400,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "two_qubit_fault_probability",
+          "value": 0.00138,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "noiseless simulation",
+          "metric_name": "fidelity",
+          "value": 100,
+          "unit": "%"
+        },
+        {
+          "method_name": "qiskit qasm simulator",
+          "metric_name": "fidelity",
+          "value": null,
+          "unit": "%"
+        },
+        {
+          "method_name": "theoretical value",
+          "metric_name": "eigenvalue distribution / eigenvalue estimates",
+          "value": null,
+          "unit": "decimal bins"
+        },
+        {
+          "method_name": "noiseless simulation",
+          "metric_name": "inner_product",
+          "value": 0.96,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "emulator with approximated noise",
+          "metric_name": "inner_product",
+          "value": 0.92,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "noiseless simulation",
+          "metric_name": "fidelity",
+          "value": null,
+          "unit": "%"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": "no speedup claimed",
+          "baseline_method": "classical portfolio optimization / classical eigensolver",
+          "conditions": "Hybrid HHL++ is presented as a near-term benchmark; authors explicitly state they do not claim speedup",
+          "is_demonstrated": false,
+          "caveats": "The paper states: 'We do not claim any speedup with our method.'"
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 2,
+          "num_qubits": 3,
+          "metric_name": "fidelity",
+          "metric_value": 98.1
+        },
+        {
+          "problem_size": 2,
+          "num_qubits": 3,
+          "metric_name": "fidelity",
+          "metric_value": 95.0
+        },
+        {
+          "problem_size": 2,
+          "num_qubits": 3,
+          "metric_name": "fidelity",
+          "metric_value": 43.2
+        },
+        {
+          "problem_size": 2,
+          "num_qubits": 3,
+          "metric_name": "fidelity",
+          "metric_value": 98.6
+        },
+        {
+          "problem_size": 2,
+          "num_qubits": 3,
+          "metric_name": "fidelity",
+          "metric_value": 90.4
+        },
+        {
+          "problem_size": 2,
+          "num_qubits": 3,
+          "metric_name": "fidelity",
+          "metric_value": 42.6
+        },
+        {
+          "problem_size": 2,
+          "num_qubits": 10,
+          "metric_name": "inner_product",
+          "metric_value": 0.92
+        },
+        {
+          "problem_size": 2,
+          "num_qubits": 10,
+          "metric_name": "inner_product",
+          "metric_value": 0.92
+        },
+        {
+          "problem_size": 2,
+          "num_qubits": 10,
+          "metric_name": "inner_product",
+          "metric_value": 0.96
+        },
+        {
+          "problem_size": 6,
+          "num_qubits": 4,
+          "metric_name": "zzphase_depth",
+          "metric_value": 356
+        },
+        {
+          "problem_size": 6,
+          "num_qubits": 12,
+          "metric_name": "zzphase_depth",
+          "metric_value": 964
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "HHL linear-system solver with phase estimation; no explicit asymptotic improvement claimed for Hybrid HHL++",
+        "classical_complexity": "Not explicitly characterized; classical portfolio optimization and eigensolving used as baselines/auxiliary steps",
+        "speedup_order": "none",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "Not analyzed; experiments limited to 2‑asset (4×4) and simulated 6‑asset (8×8) linear systems.",
+        "resources_for_advantage": "Fault‑tolerant quantum computer capable of large‑scale Hamiltonian simulation and phase estimation for large sparse matrices with low condition number; far beyond current NISQ devices.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Problem sizes extremely small (4×4 and simulated 8×8 linear systems).",
+          "Algorithm intentionally sacrifices asymptotic speedup (Hybrid HHL variant).",
+          "Heavy classical preprocessing including classical eigensolvers and matrix exponentiation.",
+          "NISQ noise limits circuit depth; fidelity collapses at 5‑bit precision.",
+          "State preparation and data loading overhead not addressed."
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper reports multiple related experiments under one Hybrid HHL++ workflow: spectral scaling (Algorithm 1/2), semiclassical QPE benchmarking, and HHL solution validation. All are gate-based and on Quantinuum trapped-ion hardware or its emulator/simulator.",
+          "Table 1 reports qubits and ZZPhase gate counts for 3/4/5-bit QPE; Table 3 reports 10 qubits and 262.00±19.36 ZZPhase depth for the reduced HHL+SWAP validation; Table 4 reports 4 qubits and 356 ZZPhase depth for semiclassical QPE and 12 qubits and 964 ZZPhase depth for HHL in the 6-asset scaling study.",
+          "The paper explicitly states no speedup claim: 'We do not claim any speedup with our method.'",
+          "Paper explicitly states: 'We do not claim any speedup with our method.'",
+          "Experiments are framed as application‑oriented benchmarking rather than demonstrating quantum advantage."
+        ],
+        "advantage_status": "paper_reported"
+      }
+    }
+  ]
+}

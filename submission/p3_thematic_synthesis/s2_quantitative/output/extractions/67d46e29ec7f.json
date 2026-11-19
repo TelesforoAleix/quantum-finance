@@ -1,0 +1,445 @@
+{
+  "paper_id": "67d46e29ec7f",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:53:19+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "67d46e29ec7f_gaussian_boson_sampling_for_binary_optimization.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.6,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 15,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[1].unit='fidelity threshold' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='fidelity threshold' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='N' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='N' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='N' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='N' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='N' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='N' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='instances' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='runs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='50N function evaluations' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='CVaR parameter' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='CVaR parameter' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='CVaR parameter' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[15].unit='CVaR parameter' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.6,
+      "completeness": 0.6,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.6
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Gaussian Boson Sampling for binary optimization",
+    "authors": [
+      "Jean Cazalis",
+      "Yahui Chai",
+      "Karl Jansen",
+      "Stefan Kuehn",
+      "Tirth Shah"
+    ],
+    "year": 2023,
+    "doi": "10.1109/QCE57702.2023.10268",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "other",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a CVaR-enhanced VQE approach implemented with a Gaussian Boson Sampling ansatz to solve the Flight Gate Assignment problem formulated as a QUBO. Numerical simulations were performed on randomly generated instances with N = 6–16 optical modes (50 instances per size, 5 training runs each), showing near‑perfect success rates for CVaR parameters α = 0.01–0.1 at fidelity thresholds t ∈ {0.1, 0.01}.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Proof-of-principle numerical simulation of a Gaussian Boson Sampling-based variational quantum eigensolver with CVaR cost for the Flight-Gate Assignment problem on randomly generated instances.",
+      "algorithm": {
+        "family": "vqe",
+        "variant": "CVaR-VQE using a Gaussian Boson Sampling ansatz",
+        "ansatz": "Gaussian Boson Sampling ansatz with squeezing gates followed by a passive interferometer",
+        "optimizer": "COBYLA; ADAM for the analytically tractable alpha=1 case",
+        "num_layers": null,
+        "convergence_criteria": "up to 50N function evaluations; success defined by fidelity threshold after 5 random initializations",
+        "hyperparameters": {
+          "alpha": [
+            1,
+            0.25,
+            0.1,
+            0.01
+          ],
+          "threshold_t": [
+            0.1,
+            0.01
+          ],
+          "function_evaluations_max": "50N",
+          "training_runs_per_instance": 5,
+          "problem_sizes_N": [
+            6,
+            8,
+            10,
+            12,
+            14,
+            16
+          ],
+          "instances_per_size": 50
+        },
+        "parameter_initialization": "random initialization",
+        "optimizer_settings": {
+          "max_iterations": "50N function evaluations",
+          "learning_rate_schedule": null,
+          "step_size": null,
+          "tolerance": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "QUBO",
+        "encoding_details": "Binary variable x_{iα} indicates whether flight i is assigned to gate α; embedded into GBS with N = |F| × |G| optical modes",
+        "objective_function": "Q(x)=T(x)+λ_one Σ_i(Σ_α x_{iα}-1)^2 + λ_not Σ_(i,j)∈P Σ_α x_{iα}x_{jα}",
+        "constraints_handling": "Penalty terms λ_one and λ_not enforce at-most-one-gate assignment and incompatibility constraints",
+        "num_binary_variables": null,
+        "problem_hamiltonian": "Q̂ obtained by replacing each binary variable x_{iα} with projector Π̂^(1)_{iα}",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Flight-Gate Assignment (FGA) problem minimizing total passenger transfer time subject to assignment and incompatibility constraints",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 50,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "randomly generated non-trivial and classically-hard instances"
+        },
+        "data_preprocessing_details": null,
+        "evaluation_methodology": "5 training runs with random initialization per instance; success fraction reported for fidelity thresholds 0.1 and 0.01"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 3,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "not_specified",
+        "device_name": null,
+        "framework": "TensorFlow",
+        "framework_version": null,
+        "transpilation_target": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "classical_solver": "COBYLA; ADAM (TensorFlow)",
+        "transpilation_settings": null,
+        "classical_preprocessing": null,
+        "classical_postprocessing": "Instance deemed successful if one of five runs achieves fidelity above threshold t",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": 5
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "success_fraction",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "fraction",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "fidelity_threshold",
+          "value": 0.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "fidelity threshold",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "fidelity_threshold",
+          "value": 0.01,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "fidelity threshold",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "problem_size",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "N",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "problem_size",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "N",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "problem_size",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "N",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "problem_size",
+          "value": 12,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "N",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "problem_size",
+          "value": 14,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "N",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "problem_size",
+          "value": 16,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "N",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "instances_per_problem_size",
+          "value": 50,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "instances",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_runs_per_instance",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "runs",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "function_evaluations_max",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "50N function evaluations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "alpha",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "CVaR parameter",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "alpha",
+          "value": 0.25,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "CVaR parameter",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "alpha",
+          "value": 0.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "CVaR parameter",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "alpha",
+          "value": 0.01,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "CVaR parameter",
+          "higher_is_better": null,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The paper reports proof-of-principle numerical simulations only and does not provide a classical runtime baseline or asymptotic speedup analysis."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 6,
+          "num_qubits": null,
+          "metric_name": "success_fraction",
+          "metric_value": null
+        },
+        {
+          "problem_size": 8,
+          "num_qubits": null,
+          "metric_name": "success_fraction",
+          "metric_value": null
+        },
+        {
+          "problem_size": 10,
+          "num_qubits": null,
+          "metric_name": "success_fraction",
+          "metric_value": null
+        },
+        {
+          "problem_size": 12,
+          "num_qubits": null,
+          "metric_name": "success_fraction",
+          "metric_value": null
+        },
+        {
+          "problem_size": 14,
+          "num_qubits": null,
+          "metric_name": "success_fraction",
+          "metric_value": null
+        },
+        {
+          "problem_size": 16,
+          "num_qubits": null,
+          "metric_name": "success_fraction",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Unknown; experiments are limited to simulated Gaussian Boson Sampling instances with N ∈ {6,8,10,12,14,16} optical modes and no hardware resource analysis for scalable advantage.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Only classical numerical simulations are performed",
+          "Very small problem sizes (N ≤ 16 optical modes)",
+          "No comparison against classical optimization solvers",
+          "No asymptotic complexity or runtime scaling analysis",
+          "Uses a non-universal photonic GBS model rather than a gate-based architecture"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "hardware.type inferred as simulator_other because the paper reports only numerical simulations and no physical QPU device.",
+          "num_qubits not explicitly stated; GBS embedding uses N = |F| × |G| optical modes, but the paper does not provide concrete gate-based qubit counts.",
+          "circuit_depth not reported; GBS ansatz structure is described but no depth metric is given.",
+          "speedup_order set to none_proven because the paper presents proof-of-principle simulations without asymptotic complexity analysis.",
+          "The authors present a proof-of-principle numerical study and do not claim demonstrated quantum advantage.",
+          "Performance comparisons are only between CVaR-VQE and standard VQE within the same quantum-inspired framework, not against classical optimization baselines."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

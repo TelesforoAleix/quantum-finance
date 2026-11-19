@@ -1,0 +1,517 @@
+{
+  "paper_id": "10be86fe1795",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:03:25+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "10be86fe1795_a_comparative_analysis_of_hybrid_quantum_neural_networks_in_binary_credit_defaul.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.75,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 13,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[6].unit='loss' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='loss' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='loss' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='loss' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='loss' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='loss' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='loss interval lower bound' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='loss interval upper bound' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='records' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[17].unit='normal:default' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[18].unit='features retained' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[20].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[21].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.75,
+      "completeness": 0.75,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.75
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "A Comparative Analysis of Hybrid Quantum Neural Networks in Binary Credit Defaulting Tasks",
+    "authors": [
+      "Aditya Sengar",
+      "Aarya Vijayaraghavan",
+      "Jiwoo Hwang"
+    ],
+    "year": 2023,
+    "doi": "10.1109/URTC60662.2023.10535032",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "credit-lending",
+    "secondary_silos": [
+      "quantum-ml-finance"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "A hybrid classical–quantum neural network using a continuous‑variable variational circuit (interferometer–squeezer–displacement–Kerr blocks) was tested for credit‑default prediction on ~17,000 records. The QCNN achieved 97.63% training accuracy (96.21% validation) versus ~91.2% for a classical neural network but required about 70 seconds per training step compared with 7 seconds for the classical model, and was evaluated only on a Strawberry Fields simulator.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Hybrid quantum-classical neural network for binary credit default prediction using a continuous-variable variational quantum circuit, compared against a classical neural network baseline.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Hybrid quantum neural network / QCNN with continuous-variable variational circuit",
+        "ansatz": "Continuous-variable circuit with interferometer, squeezer, displacement, and Kerr gates; repeated for five blocks",
+        "optimizer": "Adam",
+        "num_layers": 5,
+        "convergence_criteria": "trained for at least 30 epochs; additional 10 epochs for quantum model",
+        "hyperparameters": {
+          "hidden_layers_classical_pre-quantum": 2,
+          "classical_hidden_nodes": 10,
+          "feature_reduction_method": "LDA from 20 to 10 features",
+          "test_split": 0.1,
+          "undersampling_ratio": "3:1 normal:default",
+          "epochs_classical": 30,
+          "epochs_quantum": 40,
+          "activation_functions": [
+            "ELU",
+            "ReLU",
+            "sigmoid"
+          ],
+          "loss_function": "binary cross entropy"
+        },
+        "parameter_initialization": "not reported",
+        "optimizer_settings": {
+          "learning_rate_schedule": "exponentially decayed learning rate for classical model; quantum optimizer settings not otherwise reported",
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Ten LDA-reduced classical features were amplitude-embedded into the quantum circuit using PennyLane/Strawberry Fields; output of prior classical layer encoded into the variational circuit",
+        "objective_function": "binary credit default classification minimizing binary cross entropy",
+        "constraints_handling": "class imbalance handled by undersampling normal cases to a 3:1 ratio relative to default cases",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Binary credit default prediction on credit card holder data",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 20,
+        "dataset_size": 17000,
+        "data_type": "public_benchmark",
+        "dataset_name": "Synthetic oversampling for credit card default prediction (Fransiscus Pratikto, 2023)",
+        "dataset_specification": {
+          "description": "Over 17,000 credit card holder records; 20 predictor features and one binary target; 10,? actually 20 predictors reduced to 10 by LDA; 10% held out for testing"
+        },
+        "data_preprocessing_details": "Converted Excel to CSV; inspected data types/non-null counts/statistics; dropped null columns and client ID; addressed class imbalance by undersampling normal cases to 3:1; standardized features with StandardScaler; LDA reduced 20 features to 10; one-hot encoded outputs",
+        "evaluation_methodology": "Training/validation accuracy and loss tracked over epochs; 10% test split; classical model run for 30 epochs, quantum model for 40 epochs"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "PennyLane",
+        "device_name": "Strawberry Fields TensorFlow simulator",
+        "framework": "PennyLane"
+      },
+      "noise_model": {
+        "is_noisy": null,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Adam optimizer; TensorFlow/Keras and scikit-learn for classical preprocessing and baseline model",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Pandas/NumPy data handling; StandardScaler normalization; LDA dimensionality reduction; undersampling for class balance",
+        "classical_postprocessing": "Accuracy and loss evaluation on training and validation sets",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": 0.0451,
+          "loss_curve_shape": "quantum model loss decreased and leveled out after about 15 epochs with higher variability than classical model",
+          "variance_across_runs": null,
+          "num_independent_runs": 1
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "default_prediction_accuracy",
+          "value": 97.63,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "default_prediction_accuracy",
+          "value": 91.2,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "default_prediction_accuracy",
+          "value": 96.21,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "default_prediction_accuracy",
+          "value": 91.11,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "default_prediction_accuracy",
+          "value": 96.34,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "default_prediction_accuracy",
+          "value": 91.22,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "loss",
+          "value": 0.0451,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "loss",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "loss",
+          "value": 0.0321,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "loss",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "loss",
+          "value": 0.0487,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "loss",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "loss",
+          "value": 0.0354,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "loss",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "loss",
+          "value": 0.3128,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "loss",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "loss",
+          "value": 0.2627,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "loss",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "loss",
+          "value": 0.2,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "loss interval lower bound",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "loss",
+          "value": 0.4,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "loss interval upper bound",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 17000,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "records",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "train_test_split",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "class_imbalance_ratio",
+          "value": 10.32,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "undersampling_ratio",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "normal:default",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "feature_reduction",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "features retained",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "feature_variability_retained",
+          "value": 97.67,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "epochs",
+          "value": 30,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "epochs",
+          "value": 40,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "runtime_per_epoch",
+          "value": 70,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "runtime_per_epoch",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical neural network",
+          "metric_name": "accuracy",
+          "value": 91.2,
+          "unit": "%"
+        },
+        {
+          "method_name": "classical neural network",
+          "metric_name": "accuracy",
+          "value": 91.11,
+          "unit": "%"
+        },
+        {
+          "method_name": "classical neural network",
+          "metric_name": "accuracy",
+          "value": 91.22,
+          "unit": "%"
+        },
+        {
+          "method_name": "classical neural network",
+          "metric_name": "loss",
+          "value": 0.2627,
+          "unit": "loss"
+        },
+        {
+          "method_name": "classical neural network",
+          "metric_name": "loss",
+          "value": 0.3128,
+          "unit": "loss"
+        },
+        {
+          "method_name": "classical neural network",
+          "metric_name": "runtime_per_epoch",
+          "value": 7,
+          "unit": "seconds"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": "classical neural network",
+          "conditions": "same dataset and training setup; quantum model trained for 40 epochs vs classical model for 30 epochs",
+          "is_demonstrated": false,
+          "caveats": "No speedup was demonstrated; the quantum model was slower per epoch (70 s vs 7 s) but achieved higher accuracy."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 17000,
+          "num_qubits": null,
+          "metric_name": "accuracy",
+          "metric_value": 97.63
+        },
+        {
+          "problem_size": 17000,
+          "num_qubits": null,
+          "metric_name": "runtime_per_epoch",
+          "metric_value": 70
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "unknown",
+        "resources_for_advantage": "Not specified; the paper provides no qubit/mode count, circuit depth, or scaling analysis for the continuous‑variable circuit.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Experiment executed on a simulator rather than quantum hardware",
+          "No complexity analysis or theoretical speedup provided",
+          "Small dataset (~17k samples) typical for classical ML benchmarks",
+          "Quantum model is significantly slower (≈70 s per step vs 7 s classical)",
+          "Quantum resources (modes, parameters, circuit depth) not reported"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper reports a continuous-variable variational quantum circuit built with PennyLane/Strawberry Fields, but does not specify qubit count, circuit depth, shot count, or gate counts. Hardware is therefore not a named gate-based QPU; it is reported as not_specified rather than inferred to a physical device. The classical neural network is included only as a baseline, not a separate experiment.",
+          "The abstract states the QCNN achieved higher prediction accuracy (97.63%) than the classical neural network (91.20%), implying 'quantum advantage'.",
+          "However, the experiment is performed on a simulator and the quantum model is ~10× slower per step, with no complexity or scaling analysis, so advantage is not demonstrated under Hoefler criteria."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}
