@@ -1,0 +1,534 @@
+{
+  "paper_id": "bf1f4204b1e6",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:44:59+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "bf1f4204b1e6_quantum_advantage_of_monte_carlo_option_pricing.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.85,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 1,
+    "validation_warnings": 16,
+    "validation_passed": false,
+    "validation_error_details": [
+      "Schema error at experiments.0.quantum_resources.qubit_type: 'simulated physical qubits (no error correction; depolarizing noise model)' is not one of ['logical', 'physical', 'not_specified', None]"
+    ],
+    "validation_warning_details": [
+      "experiments[0].results[1].unit='queries' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='underlyings' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='logical qubits (approx.)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='error rate' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='error rate' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='error parameter' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='error parameter' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='repetitions' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='rate' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='rate' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[15].unit='rate' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[16].unit='volatility' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[17].unit='volatility' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[18].unit='volatility' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[19].unit='volatility' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.85,
+      "completeness": 0.85,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.85
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum advantage of Monte Carlo option pricing",
+    "authors": [
+      "Zoltán Udvarnoki",
+      "Gábor Fáth",
+      "Norbert Fogarasi"
+    ],
+    "year": 2023,
+    "doi": "10.1088/2399-6528/acd2a4",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": [
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper analyzes quantum Monte Carlo option pricing using Quantum Amplitude Estimation in noisy Qiskit simulations. It shows that a Fourier-series payoff approximation outperforms the standard rescaling method and estimates that quantum advantage over classical Monte Carlo would require ≈20 logical qubits and two‑qubit gate error rates below about 10^-6, far beyond current hardware (~10^-2–10^-3).",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum-accelerated Monte Carlo option pricing for European call options using quantum amplitude estimation, comparing rescaling and Fourier-series function approximation under depolarizing noise in Qiskit simulations.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Quantum-accelerated Monte Carlo (QAMC) with standard QAE; compared rescaling technique and Fourier-series-based function application",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "Grover_schedule": "exponentially increasing schedule with base 2: m0=0, mk=2^(k-1) for k>0",
+          "sample_size_per_Grover_step": "Nshot=100 in optimization studies",
+          "truncation_parameter_w": "varied from 0.5 to 10 (30 evenly spaced values)",
+          "rescaling_parameter_c": "varied from 1e-5 to 100 (30 logarithmically spaced values)",
+          "fourier_truncation_lmax": "0 to 59 (step size 1)",
+          "maximum_exponential_schedule_step": "0 to 223",
+          "error_threshold": "ethr=1% in some comparisons",
+          "option_maturity": "T=1",
+          "spot_price": "S0=2",
+          "strike_price": "K=2",
+          "volatility_grid": "nu in {0.1,0.2,0.3,0.4}",
+          "risk_free_rate_grid": "r in {0.05,0.1,0.2}",
+          "state_preparation_qubits": "n from 1 to 14",
+          "noise_ratio": "two-qubit error to one-qubit error ratio e2/e1=30",
+          "coupling_map": "all-to-all"
+        },
+        "parameter_initialization": "Not reported; optimization performed by grid search over n, w, c, lmax, and schedule length",
+        "optimizer_settings": {
+          "optimization_method": "numerical grid search",
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": "n step 1; w 30 evenly spaced; c 30 log-spaced; lmax step 1",
+          "parameter_bounds": {
+            "n": "1..14",
+            "w": "0.5..10",
+            "c": "1e-5..100",
+            "lmax": "0..59",
+            "schedule_max": "0..223"
+          }
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Log-normal asset-price distribution discretized into 2^n bins and loaded into n state-preparation qubits; comparator uses n ancilla qubits; payoff encoded on one payoff qubit",
+        "objective_function": "Price of a European call option: discounted expectation E[e^{-rT} max(S_T-K,0)] under Black-Scholes-Merton log-normal distribution",
+        "constraints_handling": "Truncation of distribution to [E(S_T)-w*Var(S_T), E(S_T)+w*Var(S_T)] and discretization into 2^n bins; payoff approximated either by rescaling or Fourier-series function approximation",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": "n ancilla qubits for comparator circuit, plus one payoff qubit"
+      },
+      "problem_instance": {
+        "description": "European call option pricing under the Black-Scholes-Merton model",
+        "num_assets": 1,
+        "time_steps": 1,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": "Black-Scholes-Merton log-normal model",
+        "dataset_specification": {
+          "description": "At-the-money options with S0=K=2, T=1; parameter grid over r and nu"
+        },
+        "data_preprocessing_details": "Analytic log-normal distribution truncated and discretized; no empirical dataset used",
+        "evaluation_methodology": "Noisy Qiskit simulations; optimization over parameter grid; comparison of quantum and classical pricing errors; 1000 repeated maximum-likelihood simulations for a simple 2-qubit case to estimate finite-sample standard deviation"
+      },
+      "quantum_resources": {
+        "num_qubits": 13,
+        "qubit_type": "simulated physical qubits (no error correction; depolarizing noise model)",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 100,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_noisy",
+        "provider": "IBM Qiskit simulator environment (no physical device used)",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "depolarizing noise on 1-qubit and 2-qubit gates",
+        "error_mitigation_method": null,
+        "noise_parameters": {
+          "one_qubit_gate_error_parameter": "e1",
+          "two_qubit_gate_error_parameter": "e2",
+          "error_ratio": "e2/e1=30",
+          "effective_grover_coherence_probability": "h_Q fitted from simulation",
+          "example_values": "e1=2e-5, e2=6e-4 in one figure"
+        },
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/udvzol/option_pricing",
+        "framework_version": null,
+        "transpilation_target": "IBM basis gates {CX, X, SX, RZ}",
+        "classical_solver": "Classical Monte Carlo / Black-Scholes analytic benchmark",
+        "transpilation_settings": {
+          "optimization_level": "maximum optimization",
+          "basis_gates": [
+            "CX",
+            "X",
+            "SX",
+            "RZ"
+          ],
+          "routing_method": "all-to-all coupling map"
+        },
+        "classical_preprocessing": "Grid search over algorithm parameters; analytic truncation and variance formulas",
+        "classical_postprocessing": "Maximum-likelihood estimation for QAE probabilities; error aggregation from statistical and systematic components",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": 1000.0,
+          "num_independent_runs": 1000
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "price_error",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "queries",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_underlyings",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "underlyings",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 27,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "logical qubits (approx.)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "two_qubit_gate_error_rate_threshold",
+          "value": 1e-06,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "error rate",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "two_qubit_gate_error_rate_threshold",
+          "value": 1e-07,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "error rate",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "one_qubit_gate_error_parameter",
+          "value": 2e-05,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "error parameter",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "two_qubit_gate_error_parameter",
+          "value": 0.0006,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "error parameter",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "effective_grover_coherence_probability",
+          "value": 0.941,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "sample_size_per_grover_step",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_runs",
+          "value": 1000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "repetitions",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "risk_free_rate",
+          "value": 0.05,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "rate",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "risk_free_rate",
+          "value": 0.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "rate",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "risk_free_rate",
+          "value": 0.2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "rate",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "volatility",
+          "value": 0.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "volatility",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "volatility",
+          "value": 0.2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "volatility",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "volatility",
+          "value": 0.3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "volatility",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "volatility",
+          "value": 0.4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "volatility",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "state_preparation_qubits",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "state_preparation_qubits",
+          "value": 14,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": null,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "price_error",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "black-scholes analytic benchmark",
+          "metric_name": "price_error",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical monte carlo",
+          "conditions": "ideal quantum amplitude estimation; ignoring noise and systematic errors",
+          "is_demonstrated": false,
+          "caveats": "The paper emphasizes that systematic errors and hardware noise can prevent practical advantage; the quadratic speedup is the standard QAE claim."
+        },
+        {
+          "type": "empirical",
+          "factor": "quantum advantage for most tested options only when CX error rate is around 1e-6 to 1e-7",
+          "baseline_method": "classical monte carlo",
+          "conditions": "noisy Qiskit simulations of European call option pricing with optimized parameters",
+          "is_demonstrated": true,
+          "caveats": "Advantage is highly variable due to systematic errors; Fourier function approximation outperforms rescaling across the tested grid."
+        },
+        {
+          "type": "projected",
+          "factor": "about 20 logical qubits may suffice",
+          "baseline_method": "classical monte carlo",
+          "conditions": "under sufficiently low noise / fault-tolerant-like conditions",
+          "is_demonstrated": false,
+          "caveats": "This is an extrapolated estimate, not directly simulated at full scale."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 1.0,
+          "num_qubits": 3,
+          "metric_name": "num_qubits",
+          "metric_value": 3
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 7,
+          "metric_name": "num_qubits",
+          "metric_value": 7
+        },
+        {
+          "problem_size": 13.0,
+          "num_qubits": 27,
+          "metric_name": "num_qubits",
+          "metric_value": 27
+        },
+        {
+          "problem_size": 1.0,
+          "num_qubits": null,
+          "metric_name": "optimized quantum advantage",
+          "metric_value": 1.0
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(1/N) estimation error for QAE; quadratic speedup over classical Monte Carlo sampling",
+        "classical_complexity": "O(1/sqrt(N)) estimation error for classical Monte Carlo sampling",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": "Paper reports quantum advantage for most options only when CX error rate is around 1e-6 to 1e-7; about 20 logical qubits may suffice",
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L2_noisy_sim",
+        "crossover_size": "Estimated advantage requires CX error rates ≈10^-6–10^-7 and ~20 logical qubits; current devices have ~10^-2–10^-3 error rates",
+        "resources_for_advantage": "≈20 logical qubits with two‑qubit gate error ≤10^-6; likely requiring full fault‑tolerant error correction",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Two‑qubit gate error must drop from ~10^-2–10^-3 to ≤10^-6",
+          "State preparation circuit scales exponentially with qubit count",
+          "Systematic errors from discretization, truncation, and payoff approximation",
+          "Amplitude estimation circuits accumulate noise through repeated Grover iterations"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "num_qubits inferred from stated formula 2n+1 and reported simulation limit n=13; the paper explicitly states total qubits necessary is 2n+1 and discusses simulations up to 13 qubits due to computational cost.",
+          "circuit_depth not explicitly reported; left null.",
+          "The paper uses Qiskit noisy simulation with depolarizing channels and no named QPU, so hardware.type is simulator_noisy.",
+          "Classical Monte Carlo and Black-Scholes are baselines, not separate experiments.",
+          "Authors explicitly conclude that quantum advantage would require CX error rates around 10^-6.",
+          "All results are from noisy classical simulation; no QPU experiments are performed."
+        ],
+        "advantage_status": "paper_reported"
+      }
+    }
+  ]
+}

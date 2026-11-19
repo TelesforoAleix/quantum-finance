@@ -1,0 +1,636 @@
+{
+  "paper_id": "2b4dc3c2ba75",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:25:04+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "2b4dc3c2ba75_quantum_algorithms_for_stochastic_differential_equations_achieving_polynomial_an.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.842,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 6,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='relative accuracy (0.1%)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='x' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='x' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='x' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[0].unit='beads / coarse-grained coordinates' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.842,
+      "completeness": 0.842,
+      "num_experiments": 2,
+      "experiment_scores": [
+        1.0,
+        0.683
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum Algorithms for Stochastic Differential Equations: Achieving Polynomial and Super-Polynomial Speedups for High-Dimensional Systems",
+    "authors": [
+      "Yalla Jnan Devi Satya Prasad"
+    ],
+    "year": 2025,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": [
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes quantum algorithms for stochastic differential equations combining Hamiltonian simulation and amplitude estimation, claiming complexity ~O(poly(d) polylog(1/ε)) versus classical O(poly(d)/ε²). Two simulator demonstrations are reported: a 2‑asset Black–Scholes example using 10 qubits with 32 amplitude‑estimation calls achieving ≈0.3 s runtime versus ≈1 s for 10,000 classical Monte Carlo samples (~3× speedup), and a Langevin rare‑event example claiming ≈100× sampling improvement over 100k classical trajectories.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum simulation and amplitude-estimation experiment for multi-asset Black-Scholes option pricing, evaluated on small instances in Qiskit (2- to 4-asset cases; example shown as 2D Black-Scholes with 10 qubits).",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Quantum SDE simulation with amplitude estimation for option pricing",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "assets": 2,
+          "qubits": 10,
+          "shots": 8192,
+          "backend": "Qiskit Aer",
+          "basis_gates": [
+            "u3",
+            "cx"
+          ],
+          "optimization_level": 2,
+          "heavy_hex_layout_qubits": 27,
+          "correlation_matrix": "used",
+          "maturity_T": "used",
+          "strike_K": "used",
+          "drift_mu": "used",
+          "volatility_sigma": "used"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Log-prices / asset states encoded into qubit registers; payoff encoded into an ancilla rotation for amplitude estimation. Appendix states d assets use d·ℓ qubits for price registers plus ancilla.",
+        "objective_function": "Estimate option price C = e^{-rT} E[payoff(S_T)] via amplitude estimation on the final SDE state.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "Multi-asset Black-Scholes basket option pricing; example instance is 2 correlated assets (2D Black-Scholes), with additional mention of 2- to 4-asset instances.",
+        "num_assets": 2,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Synthetic Black-Scholes parameters; correlated assets; basket option payoff."
+        },
+        "data_preprocessing_details": "Encode log-returns / log-prices on discretized intervals; simulate SDE forward; encode payoff function into ancilla rotation.",
+        "evaluation_methodology": "Qiskit simulations on Aer; 8192 shots per circuit; compare estimated option price against analytic Black-Scholes price or high-precision Monte Carlo reference; report bias, RMSE, circuit depth, and two-qubit gate count."
+      },
+      "quantum_resources": {
+        "num_qubits": 10,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 8192,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_noisy",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "calibrated IBM heavy-hex device noise model",
+        "error_mitigation_method": null,
+        "noise_parameters": "Average one-qubit error rate 10^-4 and two-qubit error rate 10^-3 (basis-gate model); calibrated to IBM heavy-hex devices."
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": "Qiskit Terra 0.46 and Aer 0.15",
+        "transpilation_target": "27-qubit heavy-hex graphs",
+        "classical_solver": "Analytic Black-Scholes price / high-precision Monte Carlo reference",
+        "transpilation_settings": {
+          "optimization_level": 2,
+          "basis_gates": [
+            "u3",
+            "cx"
+          ],
+          "routing_method": null
+        },
+        "classical_preprocessing": "Problem parameters set (drift, volatility, correlation matrix, maturity, strike); build SDE simulation circuit; append payoff encoding block.",
+        "classical_postprocessing": "Estimate bias and RMSE versus reference; record circuit depth and two-qubit gate count.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_underlyings",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_shots",
+          "value": 8192,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 0.001,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "relative accuracy (0.1%)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "wall_clock_time",
+          "value": 0.3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "wall_clock_time",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sample_count",
+          "value": 10000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "speedup_factor",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "x",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "speedup_factor",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "x",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "speedup_factor",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "x",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "price_error",
+          "value": 0.001,
+          "unit": "relative accuracy (0.1%)"
+        },
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "sample_count",
+          "value": 10000,
+          "unit": "samples"
+        },
+        {
+          "method_name": "analytic black-scholes price / high-precision monte carlo reference",
+          "metric_name": "price_error",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical monte carlo",
+          "conditions": "amplitude estimation for option pricing; accuracy scaling in epsilon",
+          "is_demonstrated": false,
+          "caveats": "The paper states the amplitude-estimation part gives O(1/sqrt(epsilon)) versus classical O(1/epsilon^2), and the overall theorem claims ~O(poly(d) polylog(1/epsilon)); the quadratic advantage is theoretical."
+        },
+        {
+          "type": "empirical",
+          "factor": "3x",
+          "baseline_method": "classical monte carlo",
+          "conditions": "2D Black-Scholes example on Qiskit simulator; 10 qubits; 8192 shots; reported wall-clock times",
+          "is_demonstrated": true,
+          "caveats": "Speedup is limited by simulation overhead on the classical simulator."
+        },
+        {
+          "type": "projected",
+          "factor": "10-20x",
+          "baseline_method": "classical monte carlo",
+          "conditions": "estimated on real hardware for the 2D Black-Scholes example",
+          "is_demonstrated": false,
+          "caveats": "This is an estimate, not an observed hardware result."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 2,
+          "num_qubits": 10,
+          "metric_name": "execution_time",
+          "metric_value": 0.3
+        },
+        {
+          "problem_size": 2,
+          "num_qubits": 10,
+          "metric_name": "sample_count",
+          "metric_value": 10000
+        },
+        {
+          "problem_size": 2,
+          "num_qubits": 10,
+          "metric_name": "speedup_factor",
+          "metric_value": 3
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "~O(poly(d) / sqrt(epsilon)) for amplitude-estimation part; overall theorem claims ~O(poly(d) polylog(1/epsilon))",
+        "classical_complexity": "O(poly(d) / epsilon^2)",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": "~0.3 seconds (simulated example)",
+        "wall_clock_classical": "~1 second (10000 Monte Carlo samples in example)"
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": false,
+        "maturity_level": "L2_noisy_sim",
+        "crossover_size": "Not reported; only a 2‑asset toy instance (10 qubits) evaluated.",
+        "resources_for_advantage": "Paper estimates ~150 qubits for realistic finance instances (d≈10, ε≈10^-3) but does not provide full logical gate counts or fault‑tolerant resource estimates.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Evaluation performed only on a classical simulator",
+          "Toy problem size (2 assets, 10 qubits)",
+          "Quadratic speedup from amplitude estimation only",
+          "State preparation/oracle costs not quantified",
+          "No hardware experiment"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware type inferred as simulator_noisy because the paper states Qiskit Aer on a classical backend with noise models calibrated to IBM heavy-hex devices.",
+          "Circuit depth not explicitly given for the Black-Scholes example; only general depth scaling is discussed in the theory section.",
+          "Authors report ≈3× runtime improvement on a simulator but acknowledge this is limited by simulation overhead.",
+          "Theoretical quadratic precision advantage from amplitude estimation is claimed but not demonstrated on meaningful scale."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Quantum simulation and amplitude-estimation experiment for Langevin dynamics / barrier-crossing probability in a coarse-grained molecular system, evaluated in Qiskit on small instances (example shown as 3D coarse-grain / 3 beads).",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Quantum SDE simulation with amplitude estimation for hitting-time / barrier-crossing estimation",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "beads": 3,
+          "shots": 8192,
+          "backend": "Qiskit Aer",
+          "basis_gates": [
+            "u3",
+            "cx"
+          ],
+          "optimization_level": 2,
+          "heavy_hex_layout_qubits": 27,
+          "observable": "hitting-time indicator"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Coarse-grained coordinates q and velocities encoded into registers; noise injected via parameterized random unitaries; barrier-crossing probability estimated from ancilla measurement.",
+        "objective_function": "Estimate probability of crossing a barrier within time T for Langevin dynamics / hitting-time indicator.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "Langevin dynamics for a coarse-grained molecular system; example mentions a 3D coarse-grain protein model with 3 beads.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Synthetic coarse-grained Langevin / Brownian-dynamics setup."
+        },
+        "data_preprocessing_details": "Encode coarse-grained coordinate q; compare against classical Brownian-dynamics simulations using BAOAB integrator.",
+        "evaluation_methodology": "Qiskit simulations on Aer; 8192 shots per circuit; compare quantum estimates to classical Brownian-dynamics simulations; report RMSE and wall-clock comparison on simulator."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 8192,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_noisy",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "calibrated IBM heavy-hex device noise model",
+        "error_mitigation_method": null,
+        "noise_parameters": "Average one-qubit error rate 10^-4 and two-qubit error rate 10^-3 (basis-gate model); calibrated to IBM heavy-hex devices."
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": "Qiskit Terra 0.46 and Aer 0.15",
+        "transpilation_target": "27-qubit heavy-hex graphs",
+        "classical_solver": "Classical Brownian-dynamics simulations using BAOAB integrator",
+        "transpilation_settings": {
+          "optimization_level": 2,
+          "basis_gates": [
+            "u3",
+            "cx"
+          ],
+          "routing_method": null
+        },
+        "classical_preprocessing": "Build Langevin circuit with drift, noise, and symplectic mixer blocks; encode barrier-crossing observable.",
+        "classical_postprocessing": "Compare quantum estimates to classical Brownian-dynamics reference; report RMSE and sample-efficiency improvement.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_underlyings",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "beads / coarse-grained coordinates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_shots",
+          "value": 8192,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "rmse",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical brownian-dynamics simulations using baoab integrator",
+          "metric_name": "rmse",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "smaller rmse at fixed wall-clock budget",
+          "baseline_method": "classical brownian-dynamics simulations using BAOAB integrator",
+          "conditions": "Langevin example on Qiskit simulator; once shot counts are high enough for amplitude-estimation advantages to manifest",
+          "is_demonstrated": true,
+          "caveats": "No numeric RMSE values are reported in the text."
+        },
+        {
+          "type": "empirical",
+          "factor": "100x",
+          "baseline_method": "classical sampling",
+          "conditions": "3D coarse-grain / 3-bead protein model; superposition over trajectories",
+          "is_demonstrated": true,
+          "caveats": "The paper describes this as a speedup in sampling and labels it superpolynomial; it is reported in the numerical simulations section."
+        },
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical monte carlo",
+          "conditions": "amplitude-estimation part for hitting-time / barrier-crossing estimation",
+          "is_demonstrated": false,
+          "caveats": "The paper gives the same asymptotic O(1/sqrt(epsilon)) versus O(1/epsilon^2) claim as for the finance example."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 3,
+          "num_qubits": null,
+          "metric_name": "speedup_factor",
+          "metric_value": 100
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "~O(poly(d) / sqrt(epsilon)) for amplitude-estimation part; overall theorem claims ~O(poly(d) polylog(1/epsilon))",
+        "classical_complexity": "O(poly(d) / epsilon^2)",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": false,
+        "maturity_level": "L2_noisy_sim",
+        "crossover_size": "Not reported; example uses a small coarse‑grained 3‑bead system.",
+        "resources_for_advantage": "Not quantified; qubit count and circuit depth for the Langevin example are not explicitly given.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Result is based on simulator experiments",
+          "Speedup claim (~100×) derived from sampling argument rather than measured hardware performance",
+          "No explicit circuit resource reporting",
+          "Quadratic amplitude‑estimation advantage dominates",
+          "Classical baseline not rigorously benchmarked under identical conditions"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper reports a 3-bead / 3D coarse-grain Langevin example but does not explicitly state the total qubit count for this experiment.",
+          "Circuit depth is not explicitly reported for the Langevin example; only general depth scaling is discussed in the theory/appendix.",
+          "Paper reports ≈100× sampling improvement for rare‑event estimation but provides no detailed runtime or resource analysis.",
+          "Experiment remains a simulator‑based proof‑of‑concept."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

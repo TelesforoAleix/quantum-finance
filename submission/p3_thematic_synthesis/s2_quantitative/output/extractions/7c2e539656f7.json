@@ -1,0 +1,482 @@
+{
+  "paper_id": "7c2e539656f7",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:03:16+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "7c2e539656f7_neural_networks_for_estimating_macro_asset_pricing_model_in_football_clubs.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.7,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 1,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[17].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.7,
+      "completeness": 0.7,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.7
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Neural networks for estimating Macro Asset Pricing model in football clubs",
+    "authors": [
+      "David Alaminos",
+      "Ignacio Esteban",
+      "M. Belén Salas"
+    ],
+    "year": 2023,
+    "doi": "10.1002/isaf.1532",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper estimates a macro asset pricing model for 21 listed European football clubs (2011–2020) using neural networks. The proposed QNN achieves 93.97% training accuracy and 90.90% test accuracy with RMSE 0.52/0.61, outperforming classical DRCNN (74.95% test accuracy, RMSE 1.13) and DNDT (86.74%, RMSE 0.81). However, the QNN is described mathematically without any gate‑based quantum circuit or hardware execution.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum neural network (QNN) used to estimate a macro asset pricing model for listed football clubs, compared against DRCNN and DNDT on monthly European football stock/consumption/dividend data.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Quantum Neural Networks (hybrid quantum-inspired neural network)",
+        "ansatz": null,
+        "optimizer": "feedforward backpropagation with quantum-gate weight updates",
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "learning_rate": 0.1,
+          "activation_function": "sigmoid or Gaussian (problem-dependent)",
+          "qubit_state_preparation": "superposition state",
+          "rotation_gate": "U(Δθ)"
+        },
+        "parameter_initialization": "classical neurons initiated by random number generation; quantum hidden neuron prepared from |0> into superposition",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Qubit amplitudes/angles are updated via rotation gates; paper describes a hybrid quantum neuron with amplitudes α, β and rotation gate updates, but does not specify a finance-specific binary encoding.",
+        "objective_function": "Estimate the macro asset pricing model price-dividend ratio pdt = μpd + Ax xt + AV σ~^2_t + As s~_t + Ae e_t and minimize squared prediction error.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Macro asset pricing estimation for football clubs listed on STOXX Europe Football index plus Manchester United.",
+        "num_assets": 21,
+        "time_steps": 2011,
+        "num_features": 4,
+        "dataset_size": null,
+        "data_type": "real_market",
+        "dataset_name": "Eurostat + STOXX Europe Football Index + Bureau Van Dijk Amadeus",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "STOXX Europe Football clubs plus Manchester United"
+          ],
+          "date_range": "2011–2020",
+          "benchmark_name": "STOXX Europe Football Index",
+          "preprocessing": "monthly frequency; 70% training / 30% testing; consumption harmonized at European level",
+          "train_test_split": "70/30"
+        },
+        "data_preprocessing_details": "Monthly frequency; consumption data harmonized at the European level; 70% of data used for training and 30% for testing.",
+        "evaluation_methodology": "Reported accuracy, RMSE, and MAPE on training and test data; posterior parameter estimation and variance decomposition."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "noise_model": null,
+        "noise_parameters": null,
+        "mitigation_details": null,
+        "is_noisy": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Monthly financial time series preparation; train/test split; parameter priors set from sample means and literature values.",
+        "classical_postprocessing": "Variance decomposition, accuracy/RMSE/MAPE computation, posterior parameter summaries.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "accuracy",
+          "value": 93.97,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 90.9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 90.63,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 86.74,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 79.71,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 74.95,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "rmse",
+          "value": 0.52,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "rmse",
+          "value": 0.61,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "rmse",
+          "value": 0.63,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "rmse",
+          "value": 0.81,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "rmse",
+          "value": 0.95,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "rmse",
+          "value": 1.13,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "r_squared",
+          "value": 62.27,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "r_squared",
+          "value": 58.19,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "r_squared",
+          "value": 41.96,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "r_squared",
+          "value": 41.36,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "mape",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 21,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "DRCNN",
+          "metric_name": "accuracy",
+          "value": 79.71,
+          "unit": "%"
+        },
+        {
+          "method_name": "DRCNN",
+          "metric_name": "accuracy",
+          "value": 74.95,
+          "unit": "%"
+        },
+        {
+          "method_name": "DNDT",
+          "metric_name": "accuracy",
+          "value": 90.63,
+          "unit": "%"
+        },
+        {
+          "method_name": "DNDT",
+          "metric_name": "accuracy",
+          "value": 86.74,
+          "unit": "%"
+        },
+        {
+          "method_name": "DRCNN",
+          "metric_name": "rmse",
+          "value": 0.95,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "DRCNN",
+          "metric_name": "rmse",
+          "value": 1.13,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "DNDT",
+          "metric_name": "rmse",
+          "value": 0.63,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "DNDT",
+          "metric_name": "rmse",
+          "value": 0.81,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "OLS",
+          "metric_name": "r_squared",
+          "value": 30,
+          "unit": "%"
+        },
+        {
+          "method_name": "Marfè and Penasse (2016) disaster-risk model",
+          "metric_name": "accuracy",
+          "value": 86,
+          "unit": "%"
+        },
+        {
+          "method_name": "Gu et al. (2020) multilayer perceptron",
+          "metric_name": "accuracy",
+          "value": 67,
+          "unit": "%"
+        },
+        {
+          "method_name": "Gu et al. (2021) conditional autoencoder",
+          "metric_name": "r_squared",
+          "value": 57,
+          "unit": "%"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": "classical linear methods / OLS",
+          "conditions": "Empirical comparison on monthly football-club asset-pricing estimation",
+          "is_demonstrated": false,
+          "caveats": "The paper reports higher empirical accuracy for QNN/DNDT than prior linear methods, but no asymptotic or computational speedup is shown."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 21,
+          "num_qubits": null,
+          "metric_name": "accuracy",
+          "metric_value": 93.97
+        },
+        {
+          "problem_size": 21,
+          "num_qubits": null,
+          "metric_name": "rmse",
+          "metric_value": 0.52
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": null,
+        "maturity_level": "L0_theory",
+        "crossover_size": "not_applicable",
+        "resources_for_advantage": "Not defined; the paper provides no qubit count, circuits, runtime scaling, or complexity comparison.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "No actual quantum hardware or simulator implementation",
+          "Model appears quantum‑inspired rather than gate‑based",
+          "No complexity analysis or runtime comparison",
+          "Performance comparison is only against classical ML models"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper explicitly presents a QNN method and reports performance metrics, but it does not specify the quantum hardware, simulator, qubit count, circuit depth, shots, or gate counts.",
+          "The QNN is described as a hybrid quantum neural network with rotation-gate updates; no gate-based circuit implementation details are provided.",
+          "Speedup order is not characterized in the paper; any advantage is empirical/accuracy-based rather than asymptotic.",
+          "The authors report higher predictive accuracy for their QNN (90.90% test accuracy) than DRCNN (74.95%) and DNDT (86.74%), but the QNN implementation is not executed on quantum hardware or a gate-based simulator.",
+          "Because the implementation is effectively classical and lacks quantum resource reporting, no quantum advantage can be assessed."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

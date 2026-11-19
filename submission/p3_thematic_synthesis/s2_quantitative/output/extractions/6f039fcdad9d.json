@@ -1,0 +1,739 @@
+{
+  "paper_id": "6f039fcdad9d",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:57:55+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "6f039fcdad9d_variational_quantum_algorithm_based_on_lagrange_polynomial_encoding_to_solve_dif.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.783,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 12,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='loss' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='loss' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='loss' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='loss' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='loss' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='loss' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='loss' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='loss' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[17].unit='basic gates / circuits' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[3].unit='loss' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[4].unit='loss' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[5].unit='basic gates / circuits' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.783,
+      "completeness": 0.783,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.783,
+        0.783
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 0.3333333333333333
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Variational quantum algorithm based on Lagrange polynomial encoding to solve differential equations",
+    "authors": [
+      "Josephine Hunout",
+      "Sylvain Laizet",
+      "Lorenzo Iannucci"
+    ],
+    "year": 2025,
+    "doi": "10.1103/PhysRevA.111.062404",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper introduces a variational quantum algorithm using Lagrange polynomial encoding with Hadamard-test differentiation to solve differential equations. In noiseless simulations it solves a damped mass–spring ODE and a Poisson equation using circuits with about 3–8 qubits, achieving lower gate complexity than prior VQAs (e.g., fewer parameters and ~200× fewer gates per iteration compared to the Sato et al. Poisson VQA) while maintaining comparable or improved solution accuracy.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Variational quantum algorithm with Lagrange polynomial encoding and Hadamard-test differentiation applied to the damped mass-spring system (initial value problem), comparing a Kyriienko-inspired VQA and the proposed Hadamard-Lagrange VQA on noise-free simulation.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Kyriienko-inspired variational quantum algorithm extended to second-order DEs; compared against proposed Hadamard-Lagrange VQA",
+        "ansatz": "hardware-efficient ansatz simplified to layers of RX gates and CNOTs",
+        "optimizer": "Adam",
+        "num_layers": 2,
+        "convergence_criteria": "loss <= 1e-4 or all gradient components <= 1e-4",
+        "hyperparameters": {
+          "learning_rate": "0.01 (Kyriienko-inspired)",
+          "learning_rate_schedule": "0.04 to 0.01 depending on total loss (Hadamard-Lagrange first phase), then fixed 0.01",
+          "gradient_threshold": "1e-4",
+          "target_loss": "1e-4",
+          "training_points": "7, 9, or 12 points for Kyriienko-inspired; 5 to 8 points for Hadamard-Lagrange",
+          "boundary_condition_weights": {
+            "eta_DE": 1,
+            "eta_Cs": 1,
+            "eta_R": 0,
+            "Hadamard-Lagrange_first_phase": "eta_DE=1, eta_Cs=0.6, eta_R=1"
+          },
+          "initial_condition_handling": "floating boundary handling for u0; derivative condition included in loss",
+          "regularization": "used in Hadamard-Lagrange to reduce gate complexity"
+        },
+        "parameter_initialization": "random initial variational parameters theta; five independent random initializations used for variability analysis",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": "1e-4 on loss and gradients",
+          "step_size": null,
+          "learning_rate": "0.01",
+          "learning_rate_schedule": "0.04 to 0.01 for Hadamard-Lagrange first phase",
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "time variable encoded through nonlinear polynomial feature maps; Kyriienko-inspired uses Chebyshev polynomials, Hadamard-Lagrange uses Lagrange interpolation nodes with arccos((x-xi)/2) encoding",
+        "objective_function": "minimize mean-square residual of m d2f/dt2 + b df/dt + k f = 0 plus initial-condition terms",
+        "constraints_handling": "initial condition u0 handled by floating boundary shift; derivative initial condition included in loss",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "Damped mass-spring system over time interval [0,10] s with m=1, b=1, k=1 and initial conditions u0=1, u0_dot=0",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Chebyshev-node training sets of 7, 9, or 12 points; two node sets defined in Eqs. (22) and (23)"
+        },
+        "data_preprocessing_details": "training points chosen as Chebyshev nodes; for Kyriienko-inspired algorithm, training interval extended to [0,12] s to reduce edge oscillations",
+        "evaluation_methodology": "five independent random initializations; compare average total loss, boundary-condition loss, and gate complexity across configurations"
+      },
+      "quantum_resources": {
+        "num_qubits": 3,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 5,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": "noise-free simulation",
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Adam optimizer",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Chebyshev-node selection; interval rescaling; regularization-point scheduling for Hadamard-Lagrange",
+        "classical_postprocessing": "compare optimized function, first derivative, second derivative, and loss curves against analytical solution",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 670,
+          "final_loss_value": 0.0025,
+          "loss_curve_shape": "oscillatory for Kyriienko-inspired derivatives; smoother for Hadamard-Lagrange",
+          "variance_across_runs": 20.0,
+          "num_independent_runs": 5
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "total_de_loss",
+          "value": 0.0025,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "loss",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "total_de_loss",
+          "value": 0.00277,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "loss",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "total_de_loss",
+          "value": 0.00151,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "loss",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "total_de_loss",
+          "value": 0.00287,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "loss",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "boundary_condition_loss",
+          "value": 0.447,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "loss",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "boundary_condition_loss",
+          "value": 0.485,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "loss",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "boundary_condition_loss",
+          "value": 0.00118,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "loss",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "boundary_condition_loss",
+          "value": 0.000107,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "loss",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "iterations_to_converge",
+          "value": 670,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "iterations_to_converge",
+          "value": 620,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "coefficient_of_variation_total_loss",
+          "value": 0.2,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "coefficient_of_variation_iterations",
+          "value": 0.57,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "coefficient_of_variation_total_loss",
+          "value": 0.5,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "coefficient_of_variation_iterations",
+          "value": 0.4,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "coefficient_of_variation_total_loss",
+          "value": 0.01,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "coefficient_of_variation_total_loss",
+          "value": 0.015,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "coefficient_of_variation_iterations",
+          "value": 0.11,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gate_complexity",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "basic gates / circuits",
+          "higher_is_better": false,
+          "data_source": "figure"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "analytical_solution",
+          "metric_name": "total_de_loss",
+          "value": 0.0,
+          "unit": "loss"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": "reduced gate complexity",
+          "baseline_method": "Kyriienko-inspired variational quantum algorithm",
+          "conditions": "noise-free simulation; damped mass-spring system; best-performing Hadamard-Lagrange configuration on 7 training points of the first kind",
+          "is_demonstrated": true,
+          "caveats": "No asymptotic speedup is claimed; comparison is only in gate complexity and solution quality."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 7.0,
+          "num_qubits": 8,
+          "metric_name": "total_de_loss",
+          "metric_value": 0.00151
+        },
+        {
+          "problem_size": 7.0,
+          "num_qubits": 8,
+          "metric_name": "boundary_condition_loss",
+          "metric_value": 0.00118
+        },
+        {
+          "problem_size": 12.0,
+          "num_qubits": 5,
+          "metric_name": "total_de_loss",
+          "metric_value": 0.0025
+        },
+        {
+          "problem_size": 12.0,
+          "num_qubits": 4,
+          "metric_name": "total_de_loss",
+          "metric_value": 0.00277
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Not discussed; experiments use ≤8 qubits in noiseless simulation.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Experiments performed only in noiseless simulation",
+          "Very small circuits (3–8 qubits)",
+          "No comparison against state-of-the-art classical ODE solvers",
+          "Evaluation focuses on gate-count comparison between quantum VQAs rather than classical vs quantum runtime"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_statevector because the paper states all VQAs are simulated in a noise-free environment and no physical QPU is used.",
+          "Exact qubit count for the damped mass-spring experiment is not given as a single value; the paper reports multiple configurations (3-5 qubits for Kyriienko-inspired, 4-8 qubits for Hadamard-Lagrange).",
+          "Speedup order is not characterized asymptotically; only gate-complexity comparisons are reported.",
+          "The paper does not claim quantum advantage; it compares gate complexity between VQA variants and reports improved accuracy and reduced gate counts relative to prior VQAs."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Variational quantum algorithm with Lagrange polynomial encoding and Hadamard-test differentiation applied to the Poisson equation under periodic, Dirichlet, and Neumann boundary conditions, compared against the Sato et al. variational Poisson solver on noise-free simulation.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Proposed Hadamard-Lagrange VQA with simplified structure; compared against Sato et al. minimum-potential-energy VQA",
+        "ansatz": "one-layer variational ansatz; simplified Hadamard-Lagrange structure with one ancilla qubit for encoding",
+        "optimizer": "Adam for Hadamard-Lagrange; BFGS for Sato et al. baseline",
+        "num_layers": 1,
+        "convergence_criteria": "Hadamard-Lagrange iterated until matching Sato-level averaged loss or local minimum; general stopping when gradient components <= 1e-4",
+        "hyperparameters": {
+          "training_points": "3 points for Hadamard-Lagrange",
+          "boundary_conditions": [
+            "periodic",
+            "Dirichlet",
+            "Neumann"
+          ],
+          "learning_rate": "0.01 (fixed in second phase)",
+          "learning_rate_schedule": "0.04 to 0.01 in first phase for Hadamard-Lagrange",
+          "gradient_threshold": "1e-4",
+          "boundary_condition_weights": {
+            "eta_DE": 1,
+            "eta_Cs": 0.6,
+            "eta_R": 1
+          },
+          "Sato_reference_setup": {
+            "qubits": 6,
+            "points": 32,
+            "parameters": 45,
+            "observables": "3/4/5 depending on boundary condition"
+          }
+        },
+        "parameter_initialization": "random initial variational parameters theta; five independent random initializations used for averaging",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": "1e-4",
+          "step_size": null,
+          "learning_rate": "0.01",
+          "learning_rate_schedule": "0.04 to 0.01",
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "source term and solution encoded through Lagrange interpolation on control points; Hadamard-Lagrange uses arccos((x-xi)/2) feature map and Z-basis local measurements",
+        "objective_function": "minimize total potential energy / DE residual for d2f/dx2 + s(x) = 0 with boundary-condition terms",
+        "constraints_handling": "periodic, Dirichlet, and Neumann boundary conditions included in loss; subinterval splitting used for discontinuous source term",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "1D Poisson equation with step-function source term over interval [a,b], compared across periodic, Dirichlet, and Neumann boundary conditions",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "source term s(x) is a step function with n=5 in the cited analytical setup; Sato comparison uses 32 nodes over interval [0,31]"
+        },
+        "data_preprocessing_details": "problem split into half-intervals to handle source discontinuity; Hadamard-Lagrange applied to half interval and iterated until comparable precision",
+        "evaluation_methodology": "five independent trials; compare mean absolute error, DE loss, boundary-condition loss, and gate complexity against Sato et al. for each boundary condition"
+      },
+      "quantum_resources": {
+        "num_qubits": 4,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 3,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": "noise-free simulation",
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Adam for proposed method; BFGS for baseline",
+        "transpilation_settings": null,
+        "classical_preprocessing": "subinterval decomposition for discontinuous source term; boundary-condition-specific loss construction",
+        "classical_postprocessing": "compare solution, first derivative, second derivative, and loss against analytical solution and Sato et al. baseline",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 300,
+          "final_loss_value": 300.0,
+          "loss_curve_shape": "smooth convergence; boundary-condition loss depends on boundary type",
+          "variance_across_runs": null,
+          "num_independent_runs": 5
+        },
+        "convergence_data.iterations_to_converge": "≈300 iterations to reach same averaged loss as Sato et al.; ≈399 iterations to reach local minimum",
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "iterations_to_converge",
+          "value": 300,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "iterations_to_converge",
+          "value": 399,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "mean_absolute_error",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "de_loss",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "loss",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "boundary_condition_loss",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "loss",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gate_complexity",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "basic gates / circuits",
+          "higher_is_better": false,
+          "data_source": "figure"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "Sato et al. variational quantum algorithm",
+          "metric_name": "iterations_to_converge",
+          "value": 300,
+          "unit": "iterations"
+        },
+        {
+          "method_name": "Sato et al. variational quantum algorithm",
+          "metric_name": "iterations_to_converge",
+          "value": 399,
+          "unit": "iterations"
+        },
+        {
+          "method_name": "Sato et al. variational quantum algorithm",
+          "metric_name": "num_qubits",
+          "value": 6,
+          "unit": "qubits"
+        },
+        {
+          "method_name": "Sato et al. variational quantum algorithm",
+          "metric_name": "num_parameters",
+          "value": 45,
+          "unit": "parameters"
+        },
+        {
+          "method_name": "Sato et al. variational quantum algorithm",
+          "metric_name": "num_points",
+          "value": 32,
+          "unit": "points"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": "about 200x fewer gates per iteration",
+          "baseline_method": "Sato et al. variational quantum algorithm",
+          "conditions": "Poisson equation; noise-free simulation; compared at similar averaged-in-space loss / local-minimum loss levels",
+          "is_demonstrated": true,
+          "caveats": "The paper states this as an order-of-magnitude estimate; the baseline uses a different optimizer (BFGS) and a fundamentally different discretized formulation."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 3.0,
+          "num_qubits": 4,
+          "metric_name": "iterations_to_converge",
+          "metric_value": 300
+        },
+        {
+          "problem_size": 4.0,
+          "num_qubits": 4,
+          "metric_name": "iterations_to_converge",
+          "metric_value": 300
+        },
+        {
+          "problem_size": 5.0,
+          "num_qubits": 4,
+          "metric_name": "iterations_to_converge",
+          "metric_value": 300
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Unknown; experiments use 4-qubit circuits for the proposed method and 6 qubits for the Sato baseline.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Noiseless simulation only",
+          "Problem size extremely small (≤32 grid points)",
+          "Comparison only against another quantum algorithm rather than classical Poisson solvers",
+          "No asymptotic complexity or scaling analysis establishing advantage"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_statevector because the paper states the circuits are simulated in a noise-free environment and no physical device is named.",
+          "The paper reports the Hadamard-Lagrange Poisson experiment on 4 qubits and compares it to the Sato et al. 6-qubit setup; exact depth is not explicitly stated.",
+          "Speedup order is not given asymptotically; only gate-complexity and accuracy comparisons are reported.",
+          "The authors show reduced gate complexity relative to the Sato et al. VQA but do not claim superiority over classical Poisson solvers."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

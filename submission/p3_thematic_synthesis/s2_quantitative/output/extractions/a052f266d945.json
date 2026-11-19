@@ -1,0 +1,662 @@
+{
+  "paper_id": "a052f266d945",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:25:00+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "a052f266d945_carbon_market_risk_estimation_using_quantum_conditional_generative_adversarial_n.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.417,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 6,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[3].unit='loss-rate units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='loss-rate units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='loss-rate units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='data points' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='feature' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.417,
+      "completeness": 0.417,
+      "num_experiments": 3,
+      "experiment_scores": [
+        0.95,
+        0.15,
+        0.15
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Carbon market risk estimation using quantum conditional generative adversarial network and amplitude estimation",
+    "authors": [
+      "Xiyuan Zhou",
+      "Huan Zhao",
+      "Yuji Cao",
+      "Xiang Fei",
+      "Gaoqi Liang",
+      "Junhua Zhao"
+    ],
+    "year": 2024,
+    "doi": "10.1049/enc2.12122",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "risk-management",
+    "secondary_silos": [
+      "quantum-ml-finance"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a hybrid QCGAN‑QAE framework for carbon market risk estimation using EU ETS data (1544 daily prices). A simulated 32‑qubit model encodes loss distributions (8‑qubit output) and estimates VaR/CVaR using QAE with binary search, achieving Δr ≈ 0.94%, 0.83%, and 0.03% at 90%, 95%, and 99% confidence levels respectively, while reporting estimated quantum runtimes of ~0.002 s versus ~168 s for a classical CGAN baseline.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Carbon market risk estimation using a hybrid QCGAN-QAE framework on EU ETS data, including direct QCGAN measurement and QCGAN combined with quantum amplitude estimation plus binary search for VaR/CVaR estimation.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Quantum amplitude estimation combined with binary search applied to QCGAN-generated risk distributions",
+        "ansatz": null,
+        "optimizer": "COBYLA",
+        "num_layers": null,
+        "convergence_criteria": "Training convergence of QCGAN generator/discriminator losses; QAE used for measurement rather than iterative variational convergence",
+        "hyperparameters": {
+          "input_dimension": "3 x 1",
+          "output_dimension": 1,
+          "condition_qubits": "3 x 8",
+          "simulation_qubits": 8,
+          "batch_size": 32,
+          "learning_rate": 0.001,
+          "depth": 2,
+          "hidden_dimension": 2,
+          "confidence_levels": [
+            0.9,
+            0.95,
+            0.99
+          ],
+          "training_split": "80/20",
+          "normalization_range": "[-1, 1]",
+          "discretization_segments": "2^8",
+          "historical_window_days": 3,
+          "rolling_window_days_for_baseline": 100
+        },
+        "parameter_initialization": "Not reported for QAE; QCGAN parameters optimized with Adam/COBYLA-based training setup, initial values not specified",
+        "optimizer_settings": {
+          "optimizer": "COBYLA for quantum circuits; Adam for GAN training",
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Historical loss rates are min-max normalized to [-1,1], divided into 2^8 segments, and converted to binary quantum encoding; 3 days of historical loss rates are encoded as conditional data using 3 x 8 qubits, and the future daily loss rate is encoded with 8 qubits",
+        "objective_function": "Estimate VaR and CVaR of carbon market loss-rate distribution by learning the conditional future loss distribution and measuring tail probabilities",
+        "constraints_handling": "Binary search over quantum state space to identify VaR threshold; QAE measures cumulative probability mass above threshold",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "EU ETS carbon market risk estimation using daily ECX price data from 2015-01-01 to 2020-12-31",
+        "num_assets": null,
+        "time_steps": 1544,
+        "num_features": 1,
+        "dataset_size": 1544,
+        "data_type": "real_market",
+        "dataset_name": "European Union Emissions Trading System / European Climate Exchange (ECX)",
+        "dataset_specification": {
+          "description": "Daily carbon prices from European Energy Exchange; third phase of EU carbon market (2013-2020), analysis period 2015-01-01 to 2020-12-31, 1544 data points, no public holidays, 80% train / 20% test split without shuffling"
+        },
+        "data_preprocessing_details": "Compute daily return from price series, negate return to obtain loss rate, min-max normalize loss rates to [-1,1], discretize into 2^8 bins, binary encode, use past 3 days as conditional input",
+        "evaluation_methodology": "Backtesting with Kupiec test for VaR and DLC test for CVaR; compare against historical simulation, CGAN, QCGAN, and QCGAN-QAE across 90%, 95%, and 99% confidence levels"
+      },
+      "quantum_resources": {
+        "num_qubits": 32,
+        "qubit_type": "not_specified",
+        "circuit_depth": 2,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": "Qiskit 0.20.0",
+        "transpilation_target": null,
+        "classical_solver": "Scikit-learn for discriminator; Adam optimizer; COBYLA for quantum circuit optimization",
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": null,
+          "routing_method": null
+        },
+        "classical_preprocessing": "Pandas and NumPy preprocessing; min-max normalization; binary discretization; train/test split without shuffling",
+        "classical_postprocessing": "Decode measured quantum states to loss rates; compute VaR and CVaR; Kupiec and DLC backtests",
+        "total_execution_time": null,
+        "quantum_execution_time": "0.0020–0.0021 s (estimated quantum hardware execution time)",
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 30,
+          "final_loss_value": null,
+          "loss_curve_shape": "stabilizing losses with reduced oscillation for QCGAN-QAE",
+          "variance_across_runs": null,
+          "num_independent_runs": 10
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "var_accuracy",
+          "value": 0.94,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "var_accuracy",
+          "value": 0.83,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "var_accuracy",
+          "value": 0.03,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "cvar_estimation_error",
+          "value": 1.5217,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "loss-rate units",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "cvar_estimation_error",
+          "value": 0.3417,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "loss-rate units",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "cvar_estimation_error",
+          "value": 6.7714,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "loss-rate units",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": 30,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "tail_risk_estimate",
+          "value": 0.002,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "tail_risk_estimate",
+          "value": 0.0021,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "tail_risk_estimate",
+          "value": 1544,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "data points",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_risk_factors",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "feature",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "historical simulation",
+          "metric_name": "var_accuracy",
+          "value": 0.94,
+          "unit": "%"
+        },
+        {
+          "method_name": "historical simulation",
+          "metric_name": "cvar_estimation_error",
+          "value": 0.5429,
+          "unit": "loss-rate units"
+        },
+        {
+          "method_name": "historical simulation",
+          "metric_name": "cvar_estimation_error",
+          "value": 0.7435,
+          "unit": "loss-rate units"
+        },
+        {
+          "method_name": "historical simulation",
+          "metric_name": "cvar_estimation_error",
+          "value": 2.4754,
+          "unit": "loss-rate units"
+        },
+        {
+          "method_name": "CGAN",
+          "metric_name": "var_accuracy",
+          "value": 1.0,
+          "unit": "%"
+        },
+        {
+          "method_name": "CGAN",
+          "metric_name": "var_accuracy",
+          "value": 1.47,
+          "unit": "%"
+        },
+        {
+          "method_name": "CGAN",
+          "metric_name": "var_accuracy",
+          "value": 0.03,
+          "unit": "%"
+        },
+        {
+          "method_name": "CGAN",
+          "metric_name": "cvar_estimation_error",
+          "value": 1.7279,
+          "unit": "loss-rate units"
+        },
+        {
+          "method_name": "CGAN",
+          "metric_name": "cvar_estimation_error",
+          "value": 2.6208,
+          "unit": "loss-rate units"
+        },
+        {
+          "method_name": "CGAN",
+          "metric_name": "cvar_estimation_error",
+          "value": 1.9099,
+          "unit": "loss-rate units"
+        },
+        {
+          "method_name": "QCGAN",
+          "metric_name": "var_accuracy",
+          "value": 7.48,
+          "unit": "%"
+        },
+        {
+          "method_name": "QCGAN",
+          "metric_name": "var_accuracy",
+          "value": 10.53,
+          "unit": "%"
+        },
+        {
+          "method_name": "QCGAN",
+          "metric_name": "var_accuracy",
+          "value": 10.33,
+          "unit": "%"
+        },
+        {
+          "method_name": "QCGAN",
+          "metric_name": "cvar_estimation_error",
+          "value": 1.6866,
+          "unit": "loss-rate units"
+        },
+        {
+          "method_name": "QCGAN",
+          "metric_name": "cvar_estimation_error",
+          "value": 1.7234,
+          "unit": "loss-rate units"
+        },
+        {
+          "method_name": "QCGAN",
+          "metric_name": "cvar_estimation_error",
+          "value": 1.9534,
+          "unit": "loss-rate units"
+        },
+        {
+          "method_name": "QCGAN (original)",
+          "metric_name": "var_accuracy",
+          "value": 7.48,
+          "unit": "%"
+        },
+        {
+          "method_name": "QCGAN (original)",
+          "metric_name": "var_accuracy",
+          "value": 10.53,
+          "unit": "%"
+        },
+        {
+          "method_name": "QCGAN (original)",
+          "metric_name": "var_accuracy",
+          "value": 10.33,
+          "unit": "%"
+        },
+        {
+          "method_name": "QCGAN (original)",
+          "metric_name": "cvar_estimation_error",
+          "value": 1.6866,
+          "unit": "loss-rate units"
+        },
+        {
+          "method_name": "QCGAN (original)",
+          "metric_name": "cvar_estimation_error",
+          "value": 1.7234,
+          "unit": "loss-rate units"
+        },
+        {
+          "method_name": "QCGAN (original)",
+          "metric_name": "cvar_estimation_error",
+          "value": 1.9534,
+          "unit": "loss-rate units"
+        },
+        {
+          "method_name": "QCGAN-QAE",
+          "metric_name": "var_accuracy",
+          "value": 0.94,
+          "unit": "%"
+        },
+        {
+          "method_name": "QCGAN-QAE",
+          "metric_name": "var_accuracy",
+          "value": 0.83,
+          "unit": "%"
+        },
+        {
+          "method_name": "QCGAN-QAE",
+          "metric_name": "var_accuracy",
+          "value": 0.03,
+          "unit": "%"
+        },
+        {
+          "method_name": "QCGAN-QAE",
+          "metric_name": "cvar_estimation_error",
+          "value": 1.5217,
+          "unit": "loss-rate units"
+        },
+        {
+          "method_name": "QCGAN-QAE",
+          "metric_name": "cvar_estimation_error",
+          "value": 0.3417,
+          "unit": "loss-rate units"
+        },
+        {
+          "method_name": "QCGAN-QAE",
+          "metric_name": "cvar_estimation_error",
+          "value": 6.7714,
+          "unit": "loss-rate units"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "99.9988% reduction in runtime; about 1/84,500 of CGAN runtime",
+          "baseline_method": "CGAN on traditional computer",
+          "conditions": "90% confidence level",
+          "is_demonstrated": true,
+          "caveats": "Paper compares quantum-computer time for QCGAN-QAE against traditional-computer time for CGAN; not a like-for-like hardware comparison."
+        },
+        {
+          "type": "empirical",
+          "factor": "99.9988% reduction in runtime; about 1/84,000 of CGAN runtime",
+          "baseline_method": "CGAN on traditional computer",
+          "conditions": "95% confidence level",
+          "is_demonstrated": true,
+          "caveats": "Same caveat as above."
+        },
+        {
+          "type": "empirical",
+          "factor": "99.9987% reduction in runtime; about 1/79,524 of CGAN runtime",
+          "baseline_method": "CGAN on traditional computer",
+          "conditions": "99% confidence level",
+          "is_demonstrated": true,
+          "caveats": "Same caveat as above."
+        },
+        {
+          "type": "asymptotic",
+          "factor": "O(log N)",
+          "baseline_method": "exhaustive QAE-style traversal / O(N) search",
+          "conditions": "VaR search with binary search integrated into QAE",
+          "is_demonstrated": true,
+          "caveats": "Claimed for the search procedure; practical runtime depends on circuit depth and measurement cost."
+        },
+        {
+          "type": "empirical",
+          "factor": "83.61% runtime reduction",
+          "baseline_method": "QCGAN-QAE without binary search",
+          "conditions": "90% confidence level",
+          "is_demonstrated": true,
+          "caveats": "Reported on quantum-computer timing estimates."
+        },
+        {
+          "type": "empirical",
+          "factor": "68.75% runtime reduction",
+          "baseline_method": "QCGAN-QAE without binary search",
+          "conditions": "95% confidence level",
+          "is_demonstrated": true,
+          "caveats": "Reported on quantum-computer timing estimates."
+        },
+        {
+          "type": "empirical",
+          "factor": "23.53% runtime increase",
+          "baseline_method": "QCGAN-QAE without binary search",
+          "conditions": "99% confidence level",
+          "is_demonstrated": true,
+          "caveats": "Binary search was slower at the highest confidence level because the VaR lies in a large-loss region."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 3.0,
+          "num_qubits": 24,
+          "metric_name": "var_accuracy",
+          "metric_value": 0.94
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 24,
+          "metric_name": "var_accuracy",
+          "metric_value": 0.83
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 24,
+          "metric_name": "var_accuracy",
+          "metric_value": 0.03
+        },
+        {
+          "problem_size": 8.0,
+          "num_qubits": 8,
+          "metric_name": "tail_risk_estimate",
+          "metric_value": 0.002
+        },
+        {
+          "problem_size": 8.0,
+          "num_qubits": 8,
+          "metric_name": "tail_risk_estimate",
+          "metric_value": 0.0021
+        },
+        {
+          "problem_size": 8.0,
+          "num_qubits": 8,
+          "metric_name": "tail_risk_estimate",
+          "metric_value": 0.002
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(log N) for VaR search with binary search integrated into QAE; QAE measurement otherwise discussed as reducing from O(N) to O(log N)",
+        "classical_complexity": "O(N) for exhaustive QAE-style traversal; classical Monte Carlo requires many simulations",
+        "speedup_order": "logarithmic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": "0.0020-0.0021 s reported for QCGAN-QAE on quantum computer with binary search",
+        "wall_clock_classical": "167-169 s reported for CGAN on traditional computer; 0.0064-0.0122 s for QCGAN-QAE without binary search on quantum computer"
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported; theoretical complexity O(log N) claimed for VaR search",
+        "resources_for_advantage": "Would require scalable fault‑tolerant QAE circuits and many logical qubits to evaluate large financial distributions; paper only simulates ~32 qubits and does not estimate logical‑qubit resources.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Experiments performed only in classical simulation (Qiskit)",
+          "No execution on real QPU",
+          "Speedup comparison uses estimated quantum hardware times rather than measured runtime",
+          "Hybrid pipeline requires classical GAN training and classical preprocessing",
+          "Input data must be encoded into quantum states (data loading cost not accounted for)",
+          "Problem size extremely small (single asset, 1544 data points, discretized into 8‑qubit distribution)",
+          "No rigorous classical baseline for amplitude estimation complexity"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "hardware.type inferred as simulator_other because the paper reports Qiskit 0.20.0 and quantum-computer timing estimates but no specific real QPU/device name or hardware execution results",
+          "num_qubits taken from the reported 8 simulation qubits for the output/data register; the paper also reports 3 x 8 condition qubits for the conditional input, but the experiment-level register size is not uniquely specified beyond these circuit components",
+          "circuit_depth taken from Table 1 (depth = 2) for the QCGAN circuit; QAE depth is not separately reported",
+          "speedup_order inferred from the paper's stated O(log N) improvement for binary search + QAE",
+          "Authors claim large runtime reductions compared with classical CGAN (e.g., ~0.002 s vs ~168 s in Table 3), but the quantum time is only an estimated hardware execution time rather than a real experiment.",
+          "All quantum components were simulated using Qiskit, so no empirical quantum advantage is demonstrated."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_new_1",
+      "description": "Comparison of QCGAN circuit architectures: original circuit, modified circuit with swapped entanglement/rotation order, and modified circuit with quantum fully connected (QFC) layer for improved risk distribution generation.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "QCGAN with alternative circuit architectures",
+        "optimizer": "Adam (GAN training) with parameter‑shift gradient estimation",
+        "num_layers": 2
+      },
+      "key_results": [
+        "Original QCGAN fails Kupiec test at 90%, 95%, and 99% confidence levels (LR values 16.06, 47.47, 109.53).",
+        "Modified QCGAN with QFC improves Δr to 3.59%, 0.50%, and 0.29% at 90%, 95%, and 99% confidence levels respectively (Table 4).",
+        "CVaR DLC improves from 1.6866 (original) to 0.9882 (modified+QFC) at 90% confidence."
+      ]
+    },
+    {
+      "experiment_id": "exp_new_2",
+      "description": "Comparison between direct measurement of QCGAN-generated quantum states and QCGAN combined with Quantum Amplitude Estimation (QAE) for VaR/CVaR estimation.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "QAE vs direct measurement for risk tail probability estimation",
+        "num_layers": null
+      },
+      "key_results": [
+        "At 99% confidence level, Δr improves from 0.29% (direct measurement) to 0.03% (QAE).",
+        "CVaR DLC improves from 24.9763 to 6.7714 when using QAE (Table 5).",
+        "Binary search + QAE reduces quantum runtime from 0.0122 s to 0.0020 s at 90% confidence (Table 6)."
+      ]
+    }
+  ]
+}

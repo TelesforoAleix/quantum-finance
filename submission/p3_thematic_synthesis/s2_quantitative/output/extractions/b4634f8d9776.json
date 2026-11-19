@@ -1,0 +1,708 @@
+{
+  "paper_id": "b4634f8d9776",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:38:31+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "b4634f8d9776_quantum_support_vector_machine_for_fraud_detection.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.5,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 4,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[20].unit='transactions' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[21].unit='transactions' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[23].unit='features' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[24].unit='features' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.5,
+      "completeness": 0.5,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.85,
+        0.15
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum Support Vector Machine for Fraud Detection",
+    "authors": [
+      "Liang Ren",
+      "Xuesong Zhang"
+    ],
+    "year": 2025,
+    "doi": "10.1109/CCPQT66408.2025.11383198",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "fraud-detection",
+    "secondary_silos": [
+      "quantum-ml-finance"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a QSVM fraud‑detection pipeline using Quantum‑SMOTE for class imbalance on the Kaggle credit‑card dataset (284,807 transactions, 492 fraud cases). In simulation with Qiskit, a 10‑qubit QSVM with Quantum‑SMOTE achieved 98.8% accuracy, F1=0.962, recall=0.945, and AUC=0.992, outperforming undersampling (92.4% accuracy) and slightly exceeding classical SVM performance (95.1% accuracy at 10 features).",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum-SMOTE preprocessing followed by QSVM fraud detection on a credit card fraud dataset, compared against undersampling and classical SVM baselines; evaluated at 4, 8, and 10 qubits/features.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "QSVM with ZZFeatureMap quantum kernel",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "feature_map": "ZZFeatureMap",
+          "qubit_settings": [
+            4,
+            8,
+            10
+          ],
+          "data_balancing_methods": [
+            "Quantum-SMOTE",
+            "undersampling"
+          ],
+          "feature_selection": "KBest top 10 features"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Classical features are mapped into quantum states using Qiskit's ZZFeatureMap; the number of qubits equals the selected feature dimension (4, 8, or 10). Quantum-SMOTE uses quantum swap tests and quantum rotation to synthesize minority samples.",
+        "objective_function": "Binary classification of fraudulent vs. legitimate credit card transactions using a quantum kernel SVM; maximize classification performance on imbalanced data.",
+        "constraints_handling": "Class imbalance handled by Quantum-SMOTE synthetic minority oversampling; comparison baseline uses undersampling.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "Credit card fraud detection on a Kaggle dataset with severe class imbalance.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 30,
+        "dataset_size": 284807,
+        "data_type": "public_benchmark",
+        "dataset_name": "Kaggle Credit Card Fraud Detection dataset",
+        "dataset_specification": {
+          "description": "284,807 transactions over two days; 492 fraud cases; features V1-V28 plus Time and Amount; PCA-derived numerical features; class label 1=fraud, 0=legitimate."
+        },
+        "data_preprocessing_details": "Feature selection with KBest; top 10 features selected; Quantum-SMOTE used to generate synthetic minority samples; undersampling baseline formed from first 15,000 samples with 293 fraud and 300 non-fraud samples; experiments also run with 4, 8, and 10 selected features/qubits.",
+        "evaluation_methodology": "Performance compared using accuracy, F1-score, recall, and AUC; results reported for Quantum-SMOTE vs undersampling and QSVM vs classical SVM across 4, 8, and 10 qubits."
+      },
+      "quantum_resources": {
+        "num_qubits": 10,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": null,
+        "device_name": null,
+        "framework": "Qiskit",
+        "framework_version": null,
+        "transpilation_target": null
+      },
+      "noise_model": {
+        "noise_model": null,
+        "noise_parameters": null,
+        "mitigation_details": null,
+        "is_noisy": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "classical_solver": "classical SVM solver for kernel matrix optimization; classical SVM baseline",
+        "transpilation_settings": null,
+        "classical_preprocessing": "KBest feature selection; dataset balancing via Quantum-SMOTE or undersampling",
+        "classical_postprocessing": "Classification metrics computed from confusion matrix; comparison against classical SVM baseline",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": null,
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "accuracy",
+          "value": 98.8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.962,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.945,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 0.992,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 92.4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.907,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.881,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 0.972,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 92.2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.902,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.894,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 0.971,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 96.7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.956,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.941,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 0.983,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 98.8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.962,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.945,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 0.992,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 284807,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "transactions",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "fraud_case_count",
+          "value": 492,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "transactions",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "fraud_rate",
+          "value": 0.172,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_features",
+          "value": 30,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "features",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "selected_features",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "features",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "undersampling",
+          "metric_name": "accuracy",
+          "value": 92.4,
+          "unit": "%"
+        },
+        {
+          "method_name": "undersampling",
+          "metric_name": "f1_score",
+          "value": 0.907,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "undersampling",
+          "metric_name": "recall",
+          "value": 0.881,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "undersampling",
+          "metric_name": "auc_roc",
+          "value": 0.972,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_svm",
+          "metric_name": "accuracy",
+          "value": 91.4,
+          "unit": "%"
+        },
+        {
+          "method_name": "classical_svm",
+          "metric_name": "f1_score",
+          "value": 0.897,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_svm",
+          "metric_name": "recall",
+          "value": 0.871,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_svm",
+          "metric_name": "auc_roc",
+          "value": 0.969,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_svm",
+          "metric_name": "accuracy",
+          "value": 94.3,
+          "unit": "%"
+        },
+        {
+          "method_name": "classical_svm",
+          "metric_name": "f1_score",
+          "value": 0.932,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_svm",
+          "metric_name": "recall",
+          "value": 0.921,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_svm",
+          "metric_name": "auc_roc",
+          "value": 0.973,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_svm",
+          "metric_name": "accuracy",
+          "value": 95.1,
+          "unit": "%"
+        },
+        {
+          "method_name": "classical_svm",
+          "metric_name": "f1_score",
+          "value": 0.933,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_svm",
+          "metric_name": "recall",
+          "value": 0.923,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_svm",
+          "metric_name": "auc_roc",
+          "value": 0.979,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The paper makes empirical performance comparisons only; no formal computational speedup is derived."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 4.0,
+          "num_qubits": 4,
+          "metric_name": "accuracy",
+          "metric_value": 92.2
+        },
+        {
+          "problem_size": 4.0,
+          "num_qubits": 4,
+          "metric_name": "f1_score",
+          "metric_value": 0.902
+        },
+        {
+          "problem_size": 4.0,
+          "num_qubits": 4,
+          "metric_name": "recall",
+          "metric_value": 0.894
+        },
+        {
+          "problem_size": 4.0,
+          "num_qubits": 4,
+          "metric_name": "auc_roc",
+          "metric_value": 0.971
+        },
+        {
+          "problem_size": 8.0,
+          "num_qubits": 8,
+          "metric_name": "accuracy",
+          "metric_value": 96.7
+        },
+        {
+          "problem_size": 8.0,
+          "num_qubits": 8,
+          "metric_name": "f1_score",
+          "metric_value": 0.956
+        },
+        {
+          "problem_size": 8.0,
+          "num_qubits": 8,
+          "metric_name": "recall",
+          "metric_value": 0.941
+        },
+        {
+          "problem_size": 8.0,
+          "num_qubits": 8,
+          "metric_name": "auc_roc",
+          "metric_value": 0.983
+        },
+        {
+          "problem_size": 10.0,
+          "num_qubits": 10,
+          "metric_name": "accuracy",
+          "metric_value": 98.8
+        },
+        {
+          "problem_size": 10.0,
+          "num_qubits": 10,
+          "metric_name": "f1_score",
+          "metric_value": 0.962
+        },
+        {
+          "problem_size": 10.0,
+          "num_qubits": 10,
+          "metric_name": "recall",
+          "metric_value": 0.945
+        },
+        {
+          "problem_size": 10.0,
+          "num_qubits": 10,
+          "metric_name": "auc_roc",
+          "metric_value": 0.992
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not_reported",
+        "resources_for_advantage": "unknown; experiments use simulated circuits with 4–10 qubits and no resource estimate for larger datasets",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Experiments performed only in simulation using Qiskit",
+          "Very small quantum models (4–10 qubits)",
+          "Kernel values computed for a classical SVM optimizer, making the workflow largely classical",
+          "No asymptotic complexity analysis or runtime comparison",
+          "Classical SVM baseline performs nearly as well (≤3.7 percentage point gap)"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": null,
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware type is not explicitly named; paper describes Qiskit-based QSVM experiments and does not report a specific QPU, so hardware.type is left not_specified.",
+          "Num qubits reported as 4, 8, and 10; 10 is used as the maximum resource setting in the main comparison table.",
+          "Circuit depth is not numerically reported; only low-depth quantum circuits and feature-map usage are described, so depth remains null.",
+          "No asymptotic speedup order is formally derived; performance comparisons are empirical only.",
+          "The paper suggests quantum models show 'advantages' in classification performance, but the evidence is limited to small simulated circuits and modest accuracy improvements over classical SVM.",
+          "No runtime speedup, complexity analysis, or hardware execution is provided."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_new_1",
+      "description": "Scaling comparison between QSVM and classical SVM across increasing feature/qubit dimensions (4, 8, 10) using the same dataset and test set.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "QSVM with ZZFeatureMap kernel",
+        "feature_map": "ZZFeatureMap",
+        "qubits_tested": [
+          4,
+          8,
+          10
+        ],
+        "num_layers": null
+      },
+      "key_results": [
+        {
+          "metric": "accuracy",
+          "values": {
+            "QSVM": [
+              92.2,
+              96.7,
+              98.8
+            ],
+            "SVM": [
+              91.4,
+              94.3,
+              95.1
+            ]
+          },
+          "unit": "%"
+        },
+        {
+          "metric": "AUC",
+          "values": {
+            "QSVM": [
+              0.971,
+              0.983,
+              0.992
+            ],
+            "SVM": [
+              0.969,
+              0.973,
+              0.979
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

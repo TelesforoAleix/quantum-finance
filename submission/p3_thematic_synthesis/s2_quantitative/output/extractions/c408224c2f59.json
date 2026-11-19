@@ -1,0 +1,993 @@
+{
+  "paper_id": "c408224c2f59",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:47:26+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "c408224c2f59_qfdnn_a_resource_efficient_variational_quantum_feature_deep_neural_networks_for_.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.8,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 6,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[9].unit='features' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='O(2N)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='O(dN)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[8].unit='features' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[11].unit='O(2N)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[12].unit='O(dN)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.8,
+      "completeness": 0.8,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.8,
+        0.8
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "QFDNN: A Resource-Efficient Variational Quantum Feature Deep Neural Networks for Fraud Detection and Loan Prediction",
+    "authors": [
+      "Subham Das",
+      "Ashtakala Meghanath",
+      "Bikash K. Behera",
+      "Shahid Mumtaz",
+      "Saif Al-Kuwari",
+      "Ahmed Farouk"
+    ],
+    "year": 2025,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "fraud-detection",
+    "secondary_silos": [
+      "credit-lending"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a variational quantum feature deep neural network (QFDNN) using a UU† encoding method and a small variational circuit (3 qubits) evaluated on two financial datasets. On a 500-sample credit card fraud dataset the model achieved 0.822 accuracy, while classical methods reached up to 1.000; on a loan prediction dataset it achieved 0.744 accuracy versus 0.854 for logistic regression. All experiments were conducted on a simulator with injected noise models rather than real quantum hardware.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Variational quantum feature deep neural network (QFDNN) for credit card fraud detection using UU† feature encoding and a variational quantum circuit, evaluated on a balanced/SMOTE-processed credit card fraud dataset with noise robustness tests.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "QFDNN with UU† method and variational quantum circuit",
+        "ansatz": "Parameterized circuit with layers of Ry, Rz, CNOT, Ry",
+        "optimizer": "COBYLA",
+        "num_layers": null,
+        "convergence_criteria": "10 iterations",
+        "hyperparameters": {
+          "training_iterations": 10,
+          "pca_output_features": 7,
+          "original_features_after_exclusion": 28,
+          "dataset_sample_size": 500,
+          "noise_models_tested": [
+            "bit flip",
+            "phase flip",
+            "bit-phase flip",
+            "depolarizing",
+            "amplitude damping",
+            "phase damping"
+          ]
+        },
+        "parameter_initialization": "randomly initialized parameters",
+        "optimizer_settings": {
+          "max_iterations": 10,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Multiple-qubit UU† encoding; features are encoded using unitary U and reverse-order U† with controlled and anti-controlled U gates; paper claims exponential compression of 2N−1 features using N qubits",
+        "objective_function": "Binary classification of fraudulent vs non-fraudulent transactions; loss = 1 - accuracy",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Credit card fraud detection on European cardholder transaction data",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 7,
+        "dataset_size": 500,
+        "data_type": "public_benchmark",
+        "dataset_name": "Credit Card Fraud (CCF)",
+        "dataset_specification": {
+          "description": "Original dataset had 30 features; 'Amount' and 'Time' excluded; PCA reduced 28 features to 7; SMOTE used to balance classes; 500 cases used for simulation; same 500 points used for train/test comparison"
+        },
+        "data_preprocessing_details": "Normalization/scaling, PCA dimensionality reduction, SMOTE oversampling, feature exclusion of Amount and Time",
+        "evaluation_methodology": "Performance reported on the processed dataset; accuracy, precision, recall, and F1-score reported; noise robustness evaluated across noise strength values"
+      },
+      "quantum_resources": {
+        "num_qubits": 3,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "not_specified"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "bit flip, phase flip, bit-phase flip, depolarizing, amplitude damping, phase damping",
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "COBYLA",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Normalization/scaling, PCA, SMOTE",
+        "classical_postprocessing": "Classification thresholding via measured inner product; metrics computed: accuracy, precision, recall, F1-score",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 10,
+          "final_loss_value": 0.178,
+          "loss_curve_shape": "accuracy increases and loss decreases then plateaus",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "accuracy",
+          "value": 0.822,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.9524,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.8779,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.8779,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.814,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.726,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.786,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "final_loss",
+          "value": 0.178,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 500,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_features",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "features",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "training_iterations",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "quantum_complexity",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "O(2N)",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "classical_complexity",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "O(dN)",
+          "higher_is_better": false,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "Logistic Regression",
+          "metric_name": "accuracy",
+          "value": 0.9908,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Logistic Regression",
+          "metric_name": "precision",
+          "value": 1.0,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Logistic Regression",
+          "metric_name": "recall",
+          "value": 0.9899,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Logistic Regression",
+          "metric_name": "f1_score",
+          "value": 0.9949,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "KNN",
+          "metric_name": "accuracy",
+          "value": 0.9633,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "KNN",
+          "metric_name": "precision",
+          "value": 1.0,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "KNN",
+          "metric_name": "recall",
+          "value": 0.9596,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "KNN",
+          "metric_name": "f1_score",
+          "value": 0.9794,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "SVM",
+          "metric_name": "accuracy",
+          "value": 0.9908,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "SVM",
+          "metric_name": "precision",
+          "value": 0.99,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "SVM",
+          "metric_name": "recall",
+          "value": 1.0,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "SVM",
+          "metric_name": "f1_score",
+          "value": 0.995,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "ANN",
+          "metric_name": "accuracy",
+          "value": 0.9908,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "ANN",
+          "metric_name": "precision",
+          "value": 0.99,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "ANN",
+          "metric_name": "recall",
+          "value": 1.0,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "ANN",
+          "metric_name": "f1_score",
+          "value": 0.995,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Random Forest",
+          "metric_name": "accuracy",
+          "value": 1.0,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Random Forest",
+          "metric_name": "precision",
+          "value": 1.0,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Random Forest",
+          "metric_name": "recall",
+          "value": 1.0,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Random Forest",
+          "metric_name": "f1_score",
+          "value": 1.0,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Gradient Boosting",
+          "metric_name": "accuracy",
+          "value": 1.0,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Gradient Boosting",
+          "metric_name": "precision",
+          "value": 1.0,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Gradient Boosting",
+          "metric_name": "recall",
+          "value": 1.0,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Gradient Boosting",
+          "metric_name": "f1_score",
+          "value": 1.0,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "Paper reports resource-efficiency and asymptotic complexity comparisons, but no demonstrated speedup over classical baselines."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 500.0,
+          "num_qubits": 3,
+          "metric_name": "accuracy",
+          "metric_value": 0.822
+        },
+        {
+          "problem_size": 500.0,
+          "num_qubits": 3,
+          "metric_name": "final_loss",
+          "metric_value": 0.178
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(2N)",
+        "classical_complexity": "O(dN)",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": false,
+        "maturity_level": "L2_noisy_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Not specified; experiments use only 3 qubits on simulator with 500 data samples and shallow VQC.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Classical baselines outperform QFDNN (RF and GB reach 1.000 accuracy vs 0.822).",
+          "Very small dataset (500 samples) and reduced feature set.",
+          "Simulation-only experiments with noise models; no real QPU.",
+          "No asymptotic advantage proof; complexity O(2N) encoding may offset benefits.",
+          "Amplitude encoding introduces classical data-loading overhead."
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_other because the paper reports simulation experiments and noisy-model studies but no real QPU/device name.",
+          "Num qubits reported in Table VII as 3 for CCF.",
+          "Circuit depth not explicitly reported; only gate complexity/time asymptotics and circuit structure are given.",
+          "Speedup order inferred as none_proven because the paper provides resource-comparison asymptotics but no asymptotic quantum advantage claim.",
+          "Authors do not demonstrate or claim a formal quantum advantage.",
+          "Classical models significantly outperform QFDNN on accuracy and F1 metrics."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Variational quantum feature deep neural network (QFDNN) for loan eligibility prediction using UU† feature encoding and a variational quantum circuit, evaluated on a loan prediction dataset with noise robustness tests.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "QFDNN with UU† method and variational quantum circuit",
+        "ansatz": "Parameterized circuit with layers of Ry, Rz, CNOT, Ry",
+        "optimizer": "COBYLA",
+        "num_layers": null,
+        "convergence_criteria": "10 iterations",
+        "hyperparameters": {
+          "training_iterations": 10,
+          "pca_output_features": 7,
+          "original_features": 11,
+          "dataset_sample_size": 500,
+          "noise_models_tested": [
+            "bit flip",
+            "phase flip",
+            "bit-phase flip",
+            "depolarizing",
+            "amplitude damping",
+            "phase damping"
+          ]
+        },
+        "parameter_initialization": "randomly initialized parameters",
+        "optimizer_settings": {
+          "max_iterations": 10,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Multiple-qubit UU† encoding; features are encoded using unitary U and reverse-order U† with controlled and anti-controlled U gates; paper claims exponential compression of 2N−1 features using N qubits",
+        "objective_function": "Binary classification of loan eligibility; loss = 1 - accuracy",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Loan eligibility prediction for Dream Housing Finance Company data",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 7,
+        "dataset_size": 500,
+        "data_type": "public_benchmark",
+        "dataset_name": "Loan Prediction (LP)",
+        "dataset_specification": {
+          "description": "Original dataset had 11 features; PCA reduced to 7; SMOTE used; 500 cases used for simulation; same 500 points used for train/test comparison"
+        },
+        "data_preprocessing_details": "Normalization/scaling, PCA dimensionality reduction, SMOTE oversampling",
+        "evaluation_methodology": "Performance reported on the processed dataset; accuracy, precision, recall, and F1-score reported; noise robustness evaluated across noise strength values"
+      },
+      "quantum_resources": {
+        "num_qubits": 3,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "not_specified"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "bit flip, phase flip, bit-phase flip, depolarizing, amplitude damping, phase damping",
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "COBYLA",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Normalization/scaling, PCA, SMOTE",
+        "classical_postprocessing": "Classification thresholding via measured inner product; metrics computed: accuracy, precision, recall, F1-score",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 10,
+          "final_loss_value": 0.256,
+          "loss_curve_shape": "accuracy increases and loss decreases then plateaus",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "accuracy",
+          "value": 0.744,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.7659,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.8932,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.8247,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.634,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.674,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "final_loss",
+          "value": 0.256,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 500,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_features",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "features",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "training_iterations",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "quantum_complexity",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "O(2N)",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "classical_complexity",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "O(dN)",
+          "higher_is_better": false,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "Logistic Regression",
+          "metric_name": "accuracy",
+          "value": 0.854,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Logistic Regression",
+          "metric_name": "precision",
+          "value": 0.838,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Logistic Regression",
+          "metric_name": "recall",
+          "value": 0.976,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Logistic Regression",
+          "metric_name": "f1_score",
+          "value": 0.902,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "KNN",
+          "metric_name": "accuracy",
+          "value": 0.846,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "KNN",
+          "metric_name": "precision",
+          "value": 0.837,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "KNN",
+          "metric_name": "recall",
+          "value": 0.965,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "KNN",
+          "metric_name": "f1_score",
+          "value": 0.896,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "SVM",
+          "metric_name": "accuracy",
+          "value": 0.854,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "SVM",
+          "metric_name": "precision",
+          "value": 0.832,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "SVM",
+          "metric_name": "recall",
+          "value": 0.988,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "SVM",
+          "metric_name": "f1_score",
+          "value": 0.903,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "ANN",
+          "metric_name": "accuracy",
+          "value": 0.772,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "ANN",
+          "metric_name": "precision",
+          "value": 0.813,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "ANN",
+          "metric_name": "recall",
+          "value": 0.871,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "ANN",
+          "metric_name": "f1_score",
+          "value": 0.841,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Random Forest",
+          "metric_name": "accuracy",
+          "value": 0.821,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Random Forest",
+          "metric_name": "precision",
+          "value": 0.839,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Random Forest",
+          "metric_name": "recall",
+          "value": 0.918,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Random Forest",
+          "metric_name": "f1_score",
+          "value": 0.876,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Gradient Boosting",
+          "metric_name": "accuracy",
+          "value": 0.813,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Gradient Boosting",
+          "metric_name": "precision",
+          "value": 0.823,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Gradient Boosting",
+          "metric_name": "recall",
+          "value": 0.929,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Gradient Boosting",
+          "metric_name": "f1_score",
+          "value": 0.873,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "Paper reports resource-efficiency and asymptotic complexity comparisons, but no demonstrated speedup over classical baselines."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 500.0,
+          "num_qubits": 3,
+          "metric_name": "accuracy",
+          "metric_value": 0.744
+        },
+        {
+          "problem_size": 500.0,
+          "num_qubits": 3,
+          "metric_name": "final_loss",
+          "metric_value": 0.256
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(2N)",
+        "classical_complexity": "O(dN)",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": false,
+        "maturity_level": "L2_noisy_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Not specified; experiments use 3 qubits on simulator with PCA-reduced features.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Classical models outperform QFDNN (Logistic Regression accuracy 0.854 vs QFDNN 0.744).",
+          "Simulation-only evaluation with synthetic noise models.",
+          "Small dataset and heavy preprocessing (PCA, SMOTE).",
+          "No demonstrated asymptotic advantage.",
+          "Amplitude encoding introduces costly data loading."
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_other because the paper reports simulation experiments and noisy-model studies but no real QPU/device name.",
+          "Num qubits reported in Table VII as 3 for LP.",
+          "Circuit depth not explicitly reported; only gate complexity/time asymptotics and circuit structure are given.",
+          "Speedup order inferred as none_proven because the paper provides resource-comparison asymptotics but no asymptotic quantum advantage claim.",
+          "Authors position the model as resource-efficient but do not demonstrate superior performance vs classical methods.",
+          "Classical baselines outperform QFDNN on accuracy and F1 score."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

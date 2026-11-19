@@ -1,0 +1,525 @@
+{
+  "paper_id": "ec46c4209f52",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T10:17:49+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "ec46c4209f52_optimal_tuning_of_quantum_generative_adversarial_networks_for_multivariate_distr.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.95,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 4,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[7].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.95,
+      "completeness": 0.95,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.95
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Optimal Tuning of Quantum Generative Adversarial Networks for Multivariate Distribution Loading",
+    "authors": [
+      "Gabriele Agliardi",
+      "Enrico Prati"
+    ],
+    "year": 2022,
+    "doi": "10.3390/quantum4010006",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": [
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper studies hyperparameter tuning for gate‑based qGANs that load lognormal distributions into quantum states. Using 3‑qubit circuits with Adam AMSGRAD and optimized settings, the authors reduce the Kolmogorov–Smirnov statistic to about 0.0296 ± 0.0149 compared to a previous benchmark of 0.0821 (≈64% improvement), while training on ~17,200 samples. Experiments are performed on noiseless Qiskit simulators with 3–4 qubits and show that Adam significantly outperforms SPSA in approximation accuracy.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Gate-based quantum generative adversarial network (qGAN) for loading and approximating univariate and multivariate lognormal distributions, with hyperparameter tuning of generator/discriminator learning rates, network sizes, shot counts, and optimizer choice (Adam AMSGRAD vs SPSA).",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "qGAN for approximate data loading / distribution learning",
+        "ansatz": "Layered variational circuit with RY rotations and circular CZ entanglement",
+        "optimizer": "Adam AMSGRAD; SPSA (comparison)",
+        "num_layers": 1,
+        "convergence_criteria": "run converges when generator parameters are substantially stable for m = M/200 subsequent epochs; slope threshold 1/10 of generator learning rate",
+        "hyperparameters": {
+          "target_distribution": "lognormal",
+          "target_distribution_parameters": {
+            "mu": 1,
+            "sigma": 1
+          },
+          "discretization_bins": "2^n bins over [0,8]",
+          "n_qubits_tested": [
+            3,
+            4
+          ],
+          "generator_learning_rate": [
+            0.0005,
+            0.001,
+            0.002
+          ],
+          "discriminator_learning_rate": [
+            0.0005,
+            0.001,
+            0.002
+          ],
+          "Adam_betas": [
+            0.7,
+            0.99
+          ],
+          "SPSA_learning_rate": [
+            0.0001,
+            0.001,
+            0.01
+          ],
+          "SPSA_perturbation": [
+            0.1,
+            1,
+            10
+          ],
+          "discriminator_hidden_layers": [
+            8,
+            8
+          ],
+          "discriminator_hidden_layers_tuned": [
+            4,
+            8,
+            16,
+            32,
+            64,
+            128,
+            256
+          ],
+          "shots": [
+            500,
+            1000,
+            2000,
+            4000,
+            8000
+          ],
+          "max_epochs": [
+            2000,
+            10000
+          ],
+          "batch_size": 2000,
+          "training_set_size": "~17,200 after binning",
+          "repetitions_per_test_case": 10,
+          "loss_function": "non-saturating loss"
+        },
+        "parameter_initialization": "random initialization of generator and discriminator parameters; multiple random seeds / initial conditions",
+        "optimizer_settings": {
+          "max_iterations": 2000,
+          "max_iterations_spsa": 10000,
+          "learning_rate_schedule": null,
+          "step_size": null,
+          "tolerance": null,
+          "parameter_bounds": null
+        },
+        "hyperparameters.discriminator_hidden_layers": "(H1,H2) baseline = (8,8); sensitivity analysis performed over H1,H2 ∈ {4,8,16,32,64,128,256}"
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Generator outputs amplitudes x_i whose squared magnitudes encode approximate probabilities; univariate distribution discretized into 2^n bins, and multivariate distributions are treated equivalently by feeding each qubit as an input node to the discriminator",
+        "objective_function": "Minimize divergence between target distribution p_i and generated distribution \\tilde{p}_i via adversarial training; evaluation uses chi-square goodness-of-fit and Kolmogorov-Smirnov statistic",
+        "constraints_handling": "Implicit normalization of output probabilities through quantum state amplitudes; no explicit penalty terms reported",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Approximate loading of a lognormal distribution for data loading / distribution learning; paper emphasizes equivalence of univariate and multivariate distributions under the discriminator design",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 20,
+        "data_type": "synthetic",
+        "dataset_name": "lognormal distribution",
+        "dataset_specification": {
+          "description": "Lognormal with mu=1, sigma=1, discretized in [0,8] into 2^n bins"
+        },
+        "data_preprocessing_details": "Samples are binned into 2^n buckets over [0,8]; tails are trimmed, reducing sample count to ~17,200",
+        "evaluation_methodology": "Each test case repeated 10 times with different random initializations; quality assessed with chi-square test p-values, and also Kolmogorov-Smirnov statistic / relative entropy for comparison with prior work"
+      },
+      "quantum_resources": {
+        "num_qubits": 4,
+        "qubit_type": "not_specified",
+        "circuit_depth": 1,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 8000,
+        "num_variational_params": 1,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "not_specified",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": "noiseless simulator used for training; statevector simulator used for final evaluation",
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": "Qiskit 0.1x / PyTorch 1.8.1 referenced; exact version not fully specified",
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Training data shuffled and split into batches; discriminator input uses one node per qubit rather than one node per label",
+        "classical_postprocessing": "After training, circuit evaluated on statevector simulator to remove finite-shot effects; chi-square and KS statistics computed",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 681,
+          "final_loss_value": null,
+          "loss_curve_shape": "Adam: generally convergent with isolated high-quality spikes; SPSA: faster convergence but degraded accuracy",
+          "variance_across_runs": null,
+          "num_independent_runs": 10
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "kolmogorov_smirnov_statistic",
+          "value": 0.0296,
+          "uncertainty": "±0.0149",
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "relative_entropy",
+          "value": 0.0082,
+          "uncertainty": "±0.0071",
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "kolmogorov_smirnov_statistic",
+          "value": 0.0299,
+          "uncertainty": "±0.0183",
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "relative_entropy",
+          "value": 0.0123,
+          "uncertainty": "±0.0313",
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "chi_square_p_value",
+          "value": 0.9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "chi_square_p_value",
+          "value": 0.6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "chi_square_p_value",
+          "value": 0.95,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 681,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 1588,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 334,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 774,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 17200,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 20000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots",
+          "value": 2000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots",
+          "value": 8000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": 0.1,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "fraction",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": 0.3,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "fraction",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": 1.0,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "fraction",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "previous qGAN benchmark (random initialization)",
+          "metric_name": "kolmogorov_smirnov_statistic",
+          "value": 0.0821,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "previous qGAN benchmark (random initialization)",
+          "metric_name": "relative_entropy",
+          "value": 0.0916,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "previous qGAN benchmark (uniform initialization)",
+          "metric_name": "kolmogorov_smirnov_statistic",
+          "value": 0.0522,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "previous qGAN benchmark (uniform initialization)",
+          "metric_name": "relative_entropy",
+          "value": 0.0454,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "Paper studies accuracy/training-time trade-offs and does not claim a quantum speedup; it explicitly notes no proven asymptotic advantage."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 3.0,
+          "num_qubits": 3,
+          "metric_name": "kolmogorov_smirnov_statistic",
+          "metric_value": 0.0296
+        },
+        {
+          "problem_size": 4.0,
+          "num_qubits": 4,
+          "metric_name": "chi_square_p_value",
+          "metric_value": 0.001
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 3,
+          "metric_name": "chi_square_p_value",
+          "metric_value": 0.95
+        },
+        {
+          "problem_size": 4.0,
+          "num_qubits": 4,
+          "metric_name": "chi_square_p_value",
+          "metric_value": 0.001
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "cq_load = n(k+1)+1; cq_gen_train = C_optimizer * s * cq_gen_eval for SPSA, or C_Adam * [n(k+1)] * s * cq_gen_eval for Adam; cq_train = j*b*(cq_gen_train + cq_discr_train)",
+        "classical_complexity": "cc_discr_eval = nH1 + H1H2 + H2; cc_train = j*b*(cc_gen_train + cc_discr_train)",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": "C_optimizer, s, j, b as defined in paper",
+        "constant_factor_classical": "network-size-dependent factors in cc_discr_eval and optimizer-dependent constants C_optimizer",
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "not applicable; study focuses on training behavior and accuracy of qGAN circuits with 3–4 qubits rather than demonstrating computational speedup",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "experiments limited to 3–4 qubits",
+          "training performed only on noiseless simulators",
+          "no comparison with classical generative models for computational efficiency",
+          "paper focuses on approximation accuracy rather than runtime advantage",
+          "data-loading itself identified as a bottleneck in quantum algorithms"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "hardware.type reported as noiseless simulator for training and statevector simulator for final evaluation; mapped to simulator_other because no specific simulator subtype is provided",
+          "num_qubits extracted from experiments spanning n=3 and n=4 qubits",
+          "circuit_depth inferred from reported ansatz cost cq_gen_eval = n(k+1)+1 and k=1 in main experiments",
+          "speedup_order set to none_proven because paper discusses training/accuracy trade-offs and does not claim asymptotic quantum advantage",
+          "The paper explicitly studies training quality and hyperparameter tuning for qGANs and reports no quantum speedup or advantage claims.",
+          "Experiments are simulation-only with small qubit counts (n=3 and n=4) and focus on distribution approximation metrics rather than computational complexity advantages."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

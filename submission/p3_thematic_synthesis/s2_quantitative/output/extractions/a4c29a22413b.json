@@ -1,0 +1,1012 @@
+{
+  "paper_id": "a4c29a22413b",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:28:28+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "a4c29a22413b_quantum_circuit_learning_to_compute_option_prices_and_their_sensitivities.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.65,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 11,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[10].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[2].unit='paths' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[4].unit='% average absolute error per tenor date in years' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[5].unit='% average absolute error per tenor date in years' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[6].unit='% average absolute error per tenor date in years' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[7].unit='% average absolute error per tenor date in years' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[9].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[10].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[11].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[2].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[4].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.65,
+      "completeness": 0.65,
+      "num_experiments": 3,
+      "experiment_scores": [
+        0.65,
+        0.65,
+        0.65
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum differential machine learning",
+    "authors": [
+      "Takayuki Sakuma"
+    ],
+    "year": 2023,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": [
+      "simulation-monte-carlo",
+      "quantum-ml-finance"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper introduces Quantum Differential Machine Learning (QDML) using parametrized quantum circuits to learn derivative prices and sensitivities. Simulator experiments show a 2‑qubit model achieving ≈0.069% mean relative error for European option prices and ≈0.258% for deltas, a 4‑qubit circuit learning Bermudan swaption prices with improved vega accuracy when trained with derivative information, and a 6‑qubit circuit trained on 8192 Monte Carlo samples to approximate basket option prices and deltas. All results are obtained via noiseless simulation without runtime or scaling comparisons to classical methods.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "2-qubit parametrized quantum circuit trained to learn European call option prices and deltas from Black-Scholes data using parameter-shift gradients.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "quantum differential machine learning with a 2-qubit parametrized circuit",
+        "ansatz": "2-qubit parametrized circuit with data re-uploading; UO(Θ) optimal 2-qubit gate decomposition with 3 CNOTs",
+        "optimizer": "Adam",
+        "num_layers": null,
+        "convergence_criteria": "500 iterations",
+        "hyperparameters": {
+          "C1": 100,
+          "C2": 10,
+          "beta": 5.0,
+          "gamma": 0.75,
+          "learning_rate": 0.01,
+          "iterations": 500,
+          "training_set_size": 20,
+          "test_set_size": 10,
+          "spot_range": [
+            93,
+            107
+          ],
+          "strike": 100,
+          "maturity": 0.25,
+          "volatility": 0.15
+        },
+        "parameter_initialization": "not_specified",
+        "optimizer_settings": {
+          "max_iterations": 500,
+          "learning_rate": 0.01,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Stock price S encoded via x(S)=tanh((S/C1)^beta), then ϕ1=...=ϕ4=arccos(x); option price V encoded via y(V)=tanh((V/C2)^gamma)",
+        "objective_function": "minimize mean squared error between predicted and target transformed option prices; optional delta term added via weighted loss",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "European call option pricing and delta estimation under Black-Scholes model",
+        "num_assets": 1,
+        "time_steps": null,
+        "num_features": 1,
+        "dataset_size": 30,
+        "data_type": "synthetic",
+        "dataset_name": "Black-Scholes European call",
+        "dataset_specification": {
+          "description": "20 training prices and 10 test prices; spot prices uniformly/equally spaced between 93 and 107; K=100, T=0.25, sigma=0.15"
+        },
+        "data_preprocessing_details": "Transform S and V using tanh scaling; encode inputs with arccos; delta computed analytically from trained circuit via parameter-shift and chain rule",
+        "evaluation_methodology": "Train on 20 prices, test on 10 held-out spots; report relative error for prices and deltas"
+      },
+      "quantum_resources": {
+        "num_qubits": 2,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": 3,
+        "two_qubit_gate_count": 3,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 15,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "PennyLane",
+        "framework_version": null,
+        "transpilation_target": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://pennylane.ai/qml/demos_community.html",
+        "classical_solver": "Adam optimizer in PyTorch",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Black-Scholes prices generated synthetically; data scaled with tanh and arccos encodings",
+        "classical_postprocessing": "Inverse tanh scaling used to recover price and delta from circuit output",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 500,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "price_error",
+          "value": 0.069,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "greeks_accuracy",
+          "value": 0.258,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 0.161,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 0.004,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "greeks_accuracy",
+          "value": 0.004,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "greeks_accuracy",
+          "value": 0.433,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "training_set_size",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "test_set_size",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "iterations",
+          "value": 500,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_variational_params",
+          "value": 15,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "cnot_count",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": null,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "black_scholes_model",
+          "metric_name": "price_error",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "black_scholes_model",
+          "metric_name": "greeks_accuracy",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No explicit speedup claim or runtime comparison is reported; the paper focuses on accuracy of learned prices and deltas."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 93.0,
+          "num_qubits": 2,
+          "metric_name": "price_error",
+          "metric_value": 0.069
+        },
+        {
+          "problem_size": 93.0,
+          "num_qubits": 2,
+          "metric_name": "greeks_accuracy",
+          "metric_value": 0.258
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not_reported",
+        "resources_for_advantage": "Not analyzed; experiment uses 2 qubits and 15 parameters on a simulator with 20 training samples and 10 test samples.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Only simulator experiments",
+          "Very small problem size (2 qubits)",
+          "No complexity or scaling comparison with classical ML",
+          "No runtime comparison with classical pricing models"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_other because the paper states all numerical experiments were conducted using simulators and mentions PennyLane/PyTorch, with no real QPU named.",
+          "Circuit depth not explicitly given as a single depth number; only the 2-qubit optimal decomposition with 3 CNOT gates and 15 parameters is described.",
+          "No asymptotic speedup claim is characterized in the paper.",
+          "Authors report learning accuracy (mean relative price error ≈0.069%, delta error ≈0.258%) but do not compare runtime or scaling with classical approaches.",
+          "No claim of computational advantage is made."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "4-qubit parametrized quantum circuit trained to learn Bermudan swaption prices and vegas from Hull-White / least-squares Monte Carlo data, comparing a normal parameterization (NOP) and an overparameterized version (OP).",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "quantum differential machine learning for Bermudan swaption pricing and vega estimation; NOP and OP circuit variants",
+        "ansatz": "4-qubit circuit built from repeated UO(Θ) blocks; NOP uses 15×3×2 parameters, OP uses 15×3×5 parameters",
+        "optimizer": "Adam",
+        "num_layers": null,
+        "convergence_criteria": "200 epochs",
+        "hyperparameters": {
+          "learning_rate": 0.01,
+          "batch_size": 27,
+          "epoch_size": 200,
+          "w": [
+            0.0,
+            0.1
+          ],
+          "training_data_size": 201,
+          "test_data_size": 50,
+          "Monte_Carlo_simulations": 1000000,
+          "strike_rate": 0.0055,
+          "exercise_interval_months": 6,
+          "notional": 1000000
+        },
+        "parameter_initialization": "not_specified",
+        "optimizer_settings": {
+          "max_iterations": 200,
+          "learning_rate": 0.01,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Inputs are transformed into angles: t1= tanh(sqrt(np)/10), t2=tanh(sqrt(tau-np)/10), volatilities encoded via arccos-based sums into ϕ3-ϕ6; output price transformed by tanh(sqrt(V)/200000)",
+        "objective_function": "weighted sum of transformed price MSE and transformed vega MSE using parameter-shift-rule vega estimates",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Bermudan swaption pricing and vega estimation under a one-factor Hull-White model using least-squares Monte Carlo generated data",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 9,
+        "dataset_size": 251,
+        "data_type": "synthetic",
+        "dataset_name": "Bermudan swaption dataset generated from Hull-White / LSMC",
+        "dataset_specification": {
+          "description": "201 training data and 50 test data; no-call periods 1Y,2Y,3Y,4Y,5Y,7Y,10Y,15Y,20Y,25Y; tenor dates 3Y,4Y,5Y,7Y,10Y,15Y,20Y,25Y,30Y; seven ATM normal volatilities shifted by ±0.05% and ±0.1%"
+        },
+        "data_preprocessing_details": "Stratified sampling by tenor date into 9 groups; transformed no-call period, tenor, and volatilities into circuit angles; benchmark vega computed by finite-difference approximation with ±0.01% volatility shift and recalibration",
+        "evaluation_methodology": "Compare test prices and vegas for NOP vs OP, with and without vega term in loss; report histogram of absolute error and average absolute error per tenor date"
+      },
+      "quantum_resources": {
+        "num_qubits": 4,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 225,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "PennyLane",
+        "framework_version": null,
+        "transpilation_target": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": "https://github.com/juntang-zhuang/Adabelief-Optimizer",
+        "classical_solver": "Adam optimizer; benchmark vega from finite differences on Monte Carlo prices",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Hull-White / LSMC synthetic data generation; stratified sampling by tenor date; angle encoding of market variables",
+        "classical_postprocessing": "Inverse tanh scaling for price and vega outputs; finite-difference vega benchmark",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 200,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "training_data_size",
+          "value": 201,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "test_data_size",
+          "value": 50,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "monte_carlo_simulations",
+          "value": 1000000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "paths",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "price_error",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "greeks_accuracy",
+          "value": 24.8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "% average absolute error per tenor date in years",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "greeks_accuracy",
+          "value": 26.2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "% average absolute error per tenor date in years",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "greeks_accuracy",
+          "value": 6.2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "% average absolute error per tenor date in years",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "greeks_accuracy",
+          "value": 4.6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "% average absolute error per tenor date in years",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_variational_params",
+          "value": 90,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_variational_params",
+          "value": 225,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "iterations",
+          "value": 200,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "epochs",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "batch_size",
+          "value": 27,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "learning_rate",
+          "value": 0.01,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": null,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "finite_difference_approximation",
+          "metric_name": "greeks_accuracy",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "least_squares_monte_carlo",
+          "metric_name": "price_error",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No runtime or asymptotic speedup is claimed; the paper reports improved accuracy from adding vega to the loss and from overparameterization."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 9.0,
+          "num_qubits": 4,
+          "metric_name": "greeks_accuracy",
+          "metric_value": 24.8
+        },
+        {
+          "problem_size": 9.0,
+          "num_qubits": 4,
+          "metric_name": "greeks_accuracy",
+          "metric_value": 26.2
+        },
+        {
+          "problem_size": 9.0,
+          "num_qubits": 4,
+          "metric_name": "greeks_accuracy",
+          "metric_value": 6.2
+        },
+        {
+          "problem_size": 9.0,
+          "num_qubits": 4,
+          "metric_name": "greeks_accuracy",
+          "metric_value": 4.6
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not_reported",
+        "resources_for_advantage": "4-qubit variational circuits with 90 (NOP) or 225 (OP) parameters trained on 201 samples; no resource scaling analysis provided.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Experiments performed only on simulators",
+          "Small circuit size (4 qubits)",
+          "Training data generated by classical Monte Carlo (1,000,000 simulations)",
+          "No runtime comparison with classical ML or Monte Carlo surrogates",
+          "No asymptotic complexity analysis"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_other because the paper states all numerical experiments were conducted using simulators and no real device is named.",
+          "The paper reports 4 qubits and parameter counts for NOP/OP, but not a single circuit depth number.",
+          "No asymptotic speedup claim is characterized in the paper.",
+          "Paper evaluates prediction accuracy and vega estimation but does not compare computational efficiency against classical methods.",
+          "Authors frame the work as exploratory for future quantum hardware rather than demonstrating advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "6-qubit parametrized quantum circuit trained to learn basket option prices and deltas from Monte Carlo sample paths for a 7-asset Bachelier model.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "quantum differential machine learning for sample-space learning of basket option prices and pathwise deltas",
+        "ansatz": "6-qubit multi-variate circuit with repeated UO(Θ) blocks; 141 parameters total",
+        "optimizer": "AdaBelief",
+        "num_layers": null,
+        "convergence_criteria": "200 iterations",
+        "hyperparameters": {
+          "learning_rate": 0.1,
+          "epsilon": 1e-16,
+          "beta1": 0.9,
+          "beta2": 0.999,
+          "weight_decouple": true,
+          "rectify": false,
+          "batch_size": 512,
+          "iterations": 200,
+          "training_data_size": 8192,
+          "test_data_size": 4096,
+          "num_assets": 7
+        },
+        "parameter_initialization": "not_specified",
+        "optimizer_settings": {
+          "max_iterations": 200,
+          "learning_rate": 0.1,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Inputs x_{i,j}=tanh(S_{i,j}/6), y_i=tanh(V_i), ϕ(x)=arccos(x); all 7 variables are input to all qubits, with x6 and x7 encoded sequentially in the same qubit",
+        "objective_function": "weighted sum of price MSE and delta MSE using pathwise derivatives; delta term averaged over 7 assets with weights w_j",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Basket option pricing and delta estimation for 7 correlated stocks under Bachelier Gaussian model using Monte Carlo sample data",
+        "num_assets": 7,
+        "time_steps": null,
+        "num_features": 7,
+        "dataset_size": 12288,
+        "data_type": "synthetic",
+        "dataset_name": "Bachelier basket option dataset",
+        "dataset_specification": {
+          "description": "8192 training samples and 4096 test samples generated from Jupyter Notebook linked to differential-machine-learning repository"
+        },
+        "data_preprocessing_details": "Transform stock prices and payoffs with tanh and arccos encodings; sample deltas are pathwise derivatives",
+        "evaluation_methodology": "Compare learned prices and deltas; assess effect of adding delta information to loss"
+      },
+      "quantum_resources": {
+        "num_qubits": 6,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 141,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "not_specified",
+        "framework_version": null,
+        "transpilation_target": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "classical_solver": "AdaBelief optimizer; Monte Carlo path generation on classical computer",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Synthetic Bachelier model data generation; tanh/arccos feature scaling; pathwise derivative computation for deltas",
+        "classical_postprocessing": "No explicit postprocessing beyond inverse interpretation of transformed outputs",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 200,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "training_data_size",
+          "value": 8192,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "test_data_size",
+          "value": 4096,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_underlyings",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_variational_params",
+          "value": 141,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "iterations",
+          "value": 200,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "batch_size",
+          "value": 512,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "learning_rate",
+          "value": 0.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "epsilon",
+          "value": 1e-16,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": null,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "monte_carlo_path_generation",
+          "metric_name": "price_error",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "pathwise_derivatives",
+          "metric_name": "greeks_accuracy",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No speedup claim is made; the paper only reports that adding delta information improves delta estimation, not price estimation."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 7.0,
+          "num_qubits": 6,
+          "metric_name": "num_variational_params",
+          "metric_value": 141
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not_reported",
+        "resources_for_advantage": "6-qubit circuit with 141 parameters trained on 8192 samples with batch size 512 and 200 iterations.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Simulator-only evaluation",
+          "Small-scale circuit (6 qubits)",
+          "Training labels generated via classical Monte Carlo simulation",
+          "No complexity comparison to classical neural networks used in differential machine learning",
+          "Potential barren plateau issues noted by authors when scaling"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_other because the paper states all numerical experiments were conducted using simulators and no real device is named.",
+          "The paper reports 6 qubits and 141 parameters, but not a single circuit depth number.",
+          "No asymptotic speedup claim is characterized in the paper.",
+          "Authors evaluate prediction accuracy but do not claim or demonstrate quantum computational advantage.",
+          "Results are presented as proof-of-concept for quantum differential machine learning."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

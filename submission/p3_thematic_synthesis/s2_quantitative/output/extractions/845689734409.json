@@ -1,0 +1,436 @@
+{
+  "paper_id": "845689734409",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:09:15+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "845689734409_a_quantum_unstructured_search_algorithm_for_discrete_optimisation_the_use_case_o.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.75,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 7,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='qubits/binary variables' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='logical qubits' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='return' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='volatility' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='power' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.75,
+      "completeness": 0.75,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.75
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "A quantum unstructured search algorithm for discrete optimisation: the use case of portfolio optimisation",
+    "authors": [
+      "Titos Matsakos",
+      "Adrian Lomas"
+    ],
+    "year": 2025,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "portfolio-optimization",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper introduces QSERA, a Grover-based quantum search method for finding extrema of discrete objective functions and demonstrates it on a toy portfolio optimization problem with 4 assets (16 portfolios) using 4 data qubits plus 3 ancillas on a Qiskit zero-noise simulator. The algorithm uses Grover amplitude amplification with m_opt = 2 iterations and theoretical complexity O(√N) versus O(N) classical brute-force search.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "QSERA gate-based Grover search applied to a 4-asset portfolio optimization instance, using a quantum oracle built from the objective function and amplitude amplification to identify the minimum portfolio.",
+      "algorithm": {
+        "family": "grover",
+        "variant": "QSERA (Quantum Search for Extrema and Roots Algorithm) using Grover's algorithm",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": "mopt iterations of Grover-style amplitude amplification; for the 4-asset example mopt = 2",
+        "hyperparameters": {
+          "n": 24,
+          "fmin_assumed": 0,
+          "fmax_assumed": 0.15,
+          "lambda_mu": 0.95,
+          "lambda_sigma2": 0.049,
+          "budget_multiplier": 0.001,
+          "benchmark_return": 0.043,
+          "benchmark_volatility": 0.195,
+          "Nb": 2,
+          "Na": 4
+        },
+        "parameter_initialization": "Initial state is uniform superposition over all 2^4 portfolios; oracle power n chosen as 24 in the worked example",
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "1 qubit per asset binary decision variable; 4 qubits encode the 16 possible portfolios bdbcbbba",
+        "objective_function": "f(xa, xb, xc, xd) = λµ (Npµp − Npµb)^2 + λσ2 (N_p^2σ_p^2 − N_p^2σ_b^2)^2 + (1 − λµ − λσ2)(Np − Nb)^2, with Np = xa+xb+xc+xd",
+        "constraints_handling": "Soft constraint via penalty term (Np − Nb)^2",
+        "num_binary_variables": 4,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 3
+      },
+      "problem_instance": {
+        "description": "Toy portfolio optimization over 4 assets (a,b,c,d) to match a benchmark return and volatility with target budget of 2 assets",
+        "num_assets": 4,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "ticker_symbols": [
+            "a",
+            "b",
+            "c",
+            "d"
+          ],
+          "benchmark_name": "benchmark portfolio",
+          "date_range": null,
+          "preprocessing": null,
+          "train_test_split": null
+        },
+        "data_preprocessing_details": null,
+        "evaluation_methodology": "Single worked example; probability distribution over all 16 portfolios shown, and probability of the optimal portfolio plotted versus oracle power n"
+      },
+      "quantum_resources": {
+        "num_qubits": 7,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "not_specified",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": "Qiskit 1.0",
+        "transpilation_target": null,
+        "classical_solver": "classical zero-noise simulator",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Classical calculation of rescaled objective coefficients c1, c1,i, c1,ij, ... and recursive coefficients for g(x)^n",
+        "classical_postprocessing": "Measure output state probabilities; identify portfolio with highest probability",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 2,
+          "final_loss_value": null,
+          "loss_curve_shape": "Grover-style oscillatory amplitude amplification",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_assets",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_binary_variables",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits/binary variables",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "logical qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_ancilla_qubits",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "benchmark_return",
+          "value": 0.043,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "return",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "benchmark_volatility",
+          "value": 0.195,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "volatility",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "nb",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "lambda_mu",
+          "value": 0.95,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "lambda_sigma2",
+          "value": 0.049,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "budget_multiplier",
+          "value": 0.001,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "oracle_power_n",
+          "value": 24,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "power",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "grover_iterations",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "quantum_complexity",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "classical_complexity",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "ground_state_probability",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "expected_return",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sharpe_ratio",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "cvar",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "feasibility_percentage",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical brute-force search",
+          "conditions": "Grover-style search with known fmin and fmax and sufficiently large oracle power n; single quantum execution (single shot) in the ideal case",
+          "is_demonstrated": true,
+          "caveats": "If fmin and fmax are only estimated, the oracle may not perfectly identify the optimum and multiple shots may be needed; the paper also notes that too-large n can drive the oracle value toward 0 for all states."
+        },
+        {
+          "type": "asymptotic",
+          "factor": "O(sqrt(N))",
+          "baseline_method": "classical O(N) search",
+          "conditions": "Unstructured search over N=2^K states using Grover's algorithm",
+          "is_demonstrated": true,
+          "caveats": "This is a theoretical complexity claim, not an empirical runtime benchmark."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 4,
+          "num_qubits": 7,
+          "metric_name": "num_qubits",
+          "metric_value": 7
+        },
+        {
+          "problem_size": 16,
+          "num_qubits": 7,
+          "metric_name": "grover_iterations",
+          "metric_value": 2
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(sqrt(N))",
+        "classical_complexity": "O(N)",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not estimated; example uses N=16 (4 assets)",
+        "resources_for_advantage": "Would require large fault‑tolerant quantum computer implementing Grover search over combinatorial portfolio space of size N=2^K with deep oracle circuits encoding the objective function.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Only a toy problem with 4 assets (16 portfolios) is demonstrated",
+          "Execution performed on a noiseless classical simulator rather than real hardware",
+          "Oracle construction requires high-order controlled phase operations leading to deep circuits",
+          "Grover quadratic speedup insufficient to overcome fault‑tolerant overhead per Hoefler constant‑factor analysis",
+          "No empirical comparison against classical optimization solvers"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": null,
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "hardware.type inferred as simulator_noisy because the paper states computations were performed on a classical computer using a zero-noise simulator from Qiskit; provider set to IBM because Qiskit is explicitly named, but no IBM QPU is used.",
+          "num_qubits inferred as 7 from the circuit description: 4 data qubits for the 4 assets, 2 ancilla qubits for AND operations, and 1 ancilla qubit for phase tracking.",
+          "circuit_depth not explicitly reported; only the number of Grover iterations mopt = 2 is given, so depth was not estimated.",
+          "The paper discusses theoretical quadratic speedup from Grover search but does not empirically benchmark against classical algorithms.",
+          "The only implementation is a small illustrative example (4 assets) executed on a zero-noise simulator."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

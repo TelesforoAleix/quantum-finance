@@ -1,0 +1,450 @@
+{
+  "paper_id": "28ab67c2d22a",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:20:36+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "28ab67c2d22a_experimental_demonstration_of_fermionic_qaoa_with_one_dimensional_cyclic_driver_.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 1.0,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 8,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='E/W' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='E/W' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='E/W' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='E/W' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='E/W' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='E/W' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[15].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 1.0,
+      "completeness": 1.0,
+      "num_experiments": 1,
+      "experiment_scores": [
+        1.0
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Experimental Demonstration of Fermionic QAOA with One-Dimensional Cyclic Driver Hamiltonian",
+    "authors": [
+      "Takuya Yoshioka",
+      "Keita Sasada",
+      "Yuichiro Nakano",
+      "Keisuke Fujii"
+    ],
+    "year": 2023,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "portfolio-optimization",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper experimentally demonstrates a fermionic QAOA with a cyclic driver Hamiltonian on a 16‑qubit IonQ Aria trapped‑ion device for a portfolio optimization problem (N=8, D=2). The cyclic mixer reduces mixer gate complexity from O(N²D) to O(ND) and improves hardware performance: at p=1 the QPU achieves ΔE/W = 0.23±0.16 versus 0.34±0.17 for the previous ladder‑lattice FQAOA, with ≈0.17 probability of satisfying the fermion‑number constraint. The work shows noise reduction rather than computational advantage.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Fermionic QAOA (FQAOA) for portfolio optimization using the proposed one-dimensional cyclic driver Hamiltonian, evaluated by noiseless simulation and trapped-ion QPU experiment at p=1, compared against the previous ladder-lattice FQAOA and XY-QAOA baseline.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "fermionic QAOA (FQAOA) with one-dimensional cyclic driver Hamiltonian",
+        "ansatz": null,
+        "optimizer": "BFGS",
+        "num_layers": 1,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "p": 1,
+          "lambda": 0.9,
+          "N": 8,
+          "D": 2,
+          "K": 4,
+          "M": 4,
+          "t": "W/W_hop^alpha",
+          "W_delta_t": 10,
+          "debiasing": true,
+          "post_selection": true,
+          "shots": 10000
+        },
+        "parameter_initialization": "QAA-inspired initial angles from discretized schedule: gamma_j^(0)=(2j-1)/(2p) * Δt, beta_j^(0)=(1-(2j-1)/(2p)) * Δt",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Unary fermionic encoding with one binary occupation variable x_{l,d} mapped to each fermionic mode n_{l,d}; total modes ND=16 for N=8, D=2.",
+        "objective_function": "Minimize portfolio optimization Hamiltonian H_p = λ/K^2 * sum_{l,l'} sigma_{l,l'} sum_{d,d'} (n_{l,d}-1/2)(n_{l',d'}-1/2) + (1-λ)/K * sum_l mu_l sum_d (n_{l,d}-1/2) subject to total particle number C = sum_{l,d} n_{l,d} = M.",
+        "constraints_handling": "Hard constraint via fermion-number-conserving FQAOA mixer; post-selection on measurement outcomes satisfying M=4; debiasing error mitigation applied before post-selection.",
+        "num_binary_variables": 16,
+        "problem_hamiltonian": "H_p as given in Eq. (15); constraint operator C = sum_{l=1}^N sum_{d=1}^D n_{l,d}",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Portfolio optimization instance from prior studies, with N=8 assets and D=2 unary levels per asset; constraint K=4 holdings, corresponding to M=4 fermions.",
+        "num_assets": 8,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "public_benchmark",
+        "dataset_name": "Portfolio optimization benchmark from Ref. [2]",
+        "dataset_specification": {
+          "description": "Covariance matrix sigma_{l,l'} and expected returns mu_l taken from Fig. 2 and Table IV of Ref. [2]; lambda=0.9; N=8, D=2, K=4."
+        },
+        "data_preprocessing_details": null,
+        "evaluation_methodology": "Noiseless simulation with fixed-angle and optimized parameters; QPU experiment with 10,000 measurements and debiasing; post-selection on samples satisfying the particle-number constraint; comparison against random-with-constraint and ladder-lattice/XY-QAOA baselines."
+      },
+      "quantum_resources": {
+        "num_qubits": 16,
+        "qubit_type": "physical",
+        "circuit_depth": 1,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 10000,
+        "num_variational_params": 2,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_trapped_ion",
+        "provider": "IonQ",
+        "device_name": "Aria",
+        "framework": "Amazon Braket",
+        "framework_version": null
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "hardware noise on trapped-ion QPU",
+        "error_mitigation_method": "debiasing",
+        "noise_parameters": null,
+        "mitigation_details": "Debiasing applied to 10,000 measurements; post-selection on M=4 samples; sharpening not applied."
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": "IonQ Aria via Amazon Braket",
+        "classical_solver": "BFGS",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Parameters initialized from QAA schedule; hopping integral t set by energy-scale ratio t=W/W_hop^alpha.",
+        "classical_postprocessing": "Debiasing, then post-selection on constraint-satisfying bitstrings; energy histograms and expectation values computed from selected samples.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "expected_return",
+          "value": 0.23,
+          "uncertainty": "±0.16",
+          "num_runs": null,
+          "unit": "E/W",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "expected_return",
+          "value": 0.34,
+          "uncertainty": "±0.17",
+          "num_runs": null,
+          "unit": "E/W",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "expected_return",
+          "value": 0.12,
+          "uncertainty": "±0.13",
+          "num_runs": null,
+          "unit": "E/W",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "expected_return",
+          "value": 0.13,
+          "uncertainty": "±0.13",
+          "num_runs": null,
+          "unit": "E/W",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "expected_return",
+          "value": 0.12,
+          "uncertainty": "±0.13",
+          "num_runs": null,
+          "unit": "E/W",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "expected_return",
+          "value": 0.38,
+          "uncertainty": "±0.18",
+          "num_runs": null,
+          "unit": "E/W",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "feasibility_percentage",
+          "value": 17,
+          "uncertainty": null,
+          "num_runs": 10000,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "feasibility_percentage",
+          "value": 25,
+          "uncertainty": null,
+          "num_runs": 10000,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "feasibility_percentage",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": 10000,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 16,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gate_count_total",
+          "value": 988,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "single_qubit_gate_count",
+          "value": 620,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "two_qubit_gate_count",
+          "value": 368,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "shots",
+          "value": 10000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "p_layers",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "lad-FQAOA",
+          "metric_name": "expected_return",
+          "value": 0.34,
+          "unit": "E/W"
+        },
+        {
+          "method_name": "lad-FQAOA",
+          "metric_name": "expected_return",
+          "value": 0.12,
+          "unit": "E/W"
+        },
+        {
+          "method_name": "random with constraint",
+          "metric_name": "expected_return",
+          "value": 0.38,
+          "unit": "E/W"
+        },
+        {
+          "method_name": "XY-QAOA",
+          "metric_name": "expected_return",
+          "value": 0.3,
+          "unit": "E/W"
+        },
+        {
+          "method_name": "lad-FQAOA",
+          "metric_name": "feasibility_percentage",
+          "value": 10,
+          "unit": "%"
+        },
+        {
+          "method_name": "random sampling",
+          "metric_name": "feasibility_percentage",
+          "value": null,
+          "unit": "%"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "asymptotic",
+          "factor": "O(ND) mixer gate operations vs O(N^2D) for previous ladder-lattice implementation",
+          "baseline_method": "ladder-lattice FQAOA mixer",
+          "conditions": "for the cyclic driver Hamiltonian implementation of the mixer",
+          "is_demonstrated": true,
+          "caveats": "This is a gate-count reduction, not a proven runtime speedup; full ansatz gate counts still include the problem unitary and initial-state preparation."
+        },
+        {
+          "type": "empirical",
+          "factor": "about 2.5x improvement in probability of obtaining low-cost solutions",
+          "baseline_method": "lad-FQAOA",
+          "conditions": "trapped-ion QPU experiment at p=1 with debiasing and post-selection",
+          "is_demonstrated": true,
+          "caveats": "The paper states this in the summary; the detailed figure shows cyc-FQAOA peak probability around 0.25 versus about 0.10 for lad-FQAOA in the lowest-energy bin."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 8,
+          "num_qubits": 16,
+          "metric_name": "expected_return",
+          "metric_value": 0.23
+        },
+        {
+          "problem_size": 8,
+          "num_qubits": 16,
+          "metric_name": "feasibility_percentage",
+          "metric_value": 17
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(ND) gate operations for the cyclic mixer; paper states mixer gate count reduced from O(N^2D) to O(ND)",
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": "For p-layer FQAOA, reported gate counts for cyclic mixer: single-qubit 388 + 232p, two-qubit 96 + 272p; at p=1 this gives 620 single-qubit and 368 two-qubit gates for the full ansatz as reported in the discussion.",
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "parity_with_classical",
+        "hoefler_viable": false,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "not provided",
+        "resources_for_advantage": "Unknown; the paper studies only a 16‑qubit instance (N=8, D=2) and does not estimate scaling to larger portfolios.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Very small problem size (16 qubits, 8 assets)",
+          "Shallow circuit depth (p=1) required due to hardware noise",
+          "No comparison against strong classical portfolio optimizers",
+          "Performance gain limited to reduced gate count and noise sensitivity",
+          "Constraint violations increase rapidly with circuit depth"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware is explicitly stated as IonQ Aria on Amazon Braket.",
+          "Num qubits inferred from N=8 and D=2 unary encoding, giving ND=16 physical qubits/modes.",
+          "Circuit depth reported as p=1 for the experiment; no transpiled depth given.",
+          "Speedup order is not claimed; only gate-count reduction and noise reduction are discussed.",
+          "Total gate counts are taken from the text comparing cyclic and ladder implementations; the paper reports counts as functions of p rather than a single compiled depth.",
+          "The authors do not claim quantum advantage; they claim reduced gate count and improved noise robustness versus ladder‑lattice FQAOA.",
+          "The only baseline with classical relevance is random sampling under the constraint; no competitive classical optimizer is benchmarked."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

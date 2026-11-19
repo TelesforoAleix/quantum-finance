@@ -1,0 +1,468 @@
+{
+  "paper_id": "46db6505e091",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:36:42+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "46db6505e091_lep_qnn_loan_eligibility_prediction_using_quantum_neural_networks.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 1.0,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 4,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[16].unit='instances' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[17].unit='instances' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[18].unit='instances' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[21].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 1.0,
+      "completeness": 1.0,
+      "num_experiments": 1,
+      "experiment_scores": [
+        1.0
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "LEP-QNN: Loan Eligibility Prediction using Quantum Neural Networks",
+    "authors": [
+      "Nouhaila Innan",
+      "Alberto Marchisio",
+      "Mohamed Bennai",
+      "Muhammad Shafique"
+    ],
+    "year": 2024,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": [
+      "credit-lending"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a variational gate‑based quantum neural network (LEP‑QNN) with angle encoding, RX/RY layers, and CNOT entanglement using 6 qubits and circuit depth 5. On a Kaggle loan‑eligibility dataset (614 train, 367 test), the model achieves 98% accuracy with the Adam optimizer, outperforming several reported classical baselines (e.g., 87.26% ensemble, 86.2% extra trees). Experiments are conducted on simulators with additional noise‑model robustness analysis.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum neural network (LEP-QNN) for loan eligibility prediction using a variational gate-based circuit with angle encoding, parameterized RY/RX layers, CNOT entanglement, dropout regularization, and optimizer comparison on a loan-approval dataset.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "quantum neural network (LEP-QNN) with dropout regularization",
+        "ansatz": "angle encoding followed by parameterized RY and RX layers with ring CNOT entanglement",
+        "optimizer": "GradientDescent, Adam, RMSProp, Adagrad",
+        "num_layers": 5,
+        "convergence_criteria": "max 100 iterations",
+        "hyperparameters": {
+          "num_qubits_visualization": 5,
+          "num_qubits_training": 6,
+          "learning_rate_range": "0.00001 to 0.1",
+          "iterations": 100,
+          "dropout_rate_start": 0.2,
+          "dropout_rate_decrease_per_layer": 0.02,
+          "train_set_size": 614,
+          "test_set_size": 367,
+          "loss_metric": "MSE"
+        },
+        "parameter_initialization": "randomly initialized QNN parameters",
+        "optimizer_settings": {
+          "max_iterations": 100,
+          "learning_rate_schedule": "fixed per optimizer setting; Adam 0.01, RMSProp 0.001, Adagrad 0.01, GradientDescent 0.1",
+          "step_size": null,
+          "tolerance": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "each feature is embedded via RY rotation angle proportional to the feature value; six qubits used for training",
+        "objective_function": "minimize MSE between predicted loan eligibility output and true labels",
+        "constraints_handling": "dropout regularization by deactivating selected rotation gates during training",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Binary loan eligibility prediction on a public Kaggle loan-eligible dataset with demographic and financial features",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 614,
+        "data_type": "public_benchmark",
+        "dataset_name": "Loan Eligible Dataset (Kaggle)",
+        "dataset_specification": {
+          "description": "features include Gender, Marital Status, Education, Dependents, Income, Loan Amount, Loan Term, Credit History, Property Area, and Loan Status; Loan_ID used as identifier"
+        },
+        "data_preprocessing_details": "data normalization using mean and standard deviation; angle encoding applied to normalized features; dropout applied during training",
+        "evaluation_methodology": "single train/test split; optimizer comparison; noise-model robustness analysis"
+      },
+      "quantum_resources": {
+        "num_qubits": 6,
+        "qubit_type": "not_specified",
+        "circuit_depth": 5,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "PennyLane and Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "bitflip, phaseflip, bitphaseflip, depolarizing, phase damping, amplitude damping",
+        "error_mitigation_method": null,
+        "noise_parameters": {
+          "noise_parameter_range": "0 to 1"
+        },
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "normalization of train and test data using training-set mean and standard deviation",
+        "classical_postprocessing": "compute accuracy, precision, recall, F1-score, and MSE on test set",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 100,
+          "final_loss_value": null,
+          "loss_curve_shape": "Adam shows fastest and most stable loss decrease; GradientDescent slower; RMSProp and Adagrad intermediate",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "convergence_data.num_variational_params": 60,
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "accuracy",
+          "value": 98,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.97,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.98,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.97,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 98,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.95,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.93,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.94,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 94,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.94,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.94,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.94,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 94,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.94,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.94,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.94,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 981,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "instances",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "train_set_size",
+          "value": 614,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "instances",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "test_set_size",
+          "value": 367,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "instances",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "iterations",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "ensemble with best three classical alternatives",
+          "metric_name": "accuracy",
+          "value": 87.26,
+          "unit": "%"
+        },
+        {
+          "method_name": "extra_trees",
+          "metric_name": "accuracy",
+          "value": 86.2,
+          "unit": "%"
+        },
+        {
+          "method_name": "decision_tree_with_adaboost",
+          "metric_name": "accuracy",
+          "value": 84,
+          "unit": "%"
+        },
+        {
+          "method_name": "naive_bayesian",
+          "metric_name": "accuracy",
+          "value": 80.4,
+          "unit": "%"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": "classical machine learning baselines for loan eligibility prediction",
+          "conditions": "empirical comparison on the Kaggle loan-eligible dataset",
+          "is_demonstrated": false,
+          "caveats": "The paper reports higher predictive accuracy, not computational speedup or asymptotic advantage."
+        }
+      ],
+      "scalability_data": [],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": null,
+        "maturity_level": "L2_noisy_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "not reported; experiment uses 6 qubits and depth‑5 variational circuit on simulator",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "current_nisq",
+        "limiting_factors": [
+          "Only 6 qubits and shallow depth‑5 circuit evaluated on simulator",
+          "Small classical dataset (614 train / 367 test)",
+          "No complexity analysis or asymptotic speedup claim",
+          "Comparison only against a few classical ML models rather than state‑of‑the‑art benchmarks",
+          "Classical feature loading via angle encoding scales linearly with feature count"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware type inferred as simulator_other because the paper reports running on IBM Quantum/Qiskit and PennyLane with cloud services but does not name a specific real QPU device; the experimental setup figure indicates simulator/cloud execution rather than a named hardware backend.",
+          "Num qubits reported explicitly as 6 for training and 5 for visualization; 6 used as the experiment's resource count.",
+          "Circuit depth reported explicitly as 5 for training.",
+          "No asymptotic quantum speedup analysis is provided; only empirical accuracy comparison against classical baselines.",
+          "Paper reports higher predictive accuracy (98%) than several classical baselines but does not demonstrate computational speedup or scaling advantage.",
+          "All experiments appear to be conducted on simulators (Aer) with optional noise models rather than real QPU runs."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

@@ -1,0 +1,537 @@
+{
+  "paper_id": "d85be19938f4",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T10:04:00+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "d85be19938f4_quantum_computation_for_pricing_the_collateralized_debt_obligations.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.8,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 11,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='dimensionless' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='dimensionless' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='dimensionless' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='dimensionless' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='dimensionless' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='dimensionless' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='dimensionless' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='dimensionless' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[15].unit='repetitions' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[16].unit='sets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.8,
+      "completeness": 0.8,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.8
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum Computation for Pricing the Collateralized Debt Obligations",
+    "authors": [
+      "Hao Tang",
+      "Anurag Pal",
+      "Tian-Yu Wang",
+      "Lu-Feng Qiao",
+      "Jun Gao",
+      "Xian-Min Jin"
+    ],
+    "year": 2020,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": [
+      "simulation-monte-carlo",
+      "risk-management"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper implements a gate‑based quantum circuit for pricing collateralized debt obligations using amplitude estimation in Qiskit. A toy portfolio of 4 assets is simulated with nz=4 qubits for the systematic risk distribution and ns=3 qubits for loss accumulation, and IQAE estimates tranche losses of 52.0% (equity), 41.7% (mezzanine), and 23.8% (senior), matching classical Monte Carlo results while relying on the theoretical quadratic speedup of amplitude estimation.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum amplitude estimation (IQAE and canonical QAE) for pricing CDO tranches under Gaussian and Normal Inverse Gaussian copula models, implemented in IBM Qiskit and evaluated against Monte Carlo and matrix-calculation baselines.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "canonical QAE and iterative QAE (IQAE) for tranche pricing",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "distribution_models": [
+            "Gaussian copula",
+            "Normal Inverse Gaussian (NIG) copula"
+          ],
+          "systematic_risk_qubits_nz": 4,
+          "asset_qubits_nx": 4,
+          "sum_qubits_ns": 3,
+          "scaling_factor_epsilon": 0.001,
+          "confidence_parameter_alpha": 0.05,
+          "QASM_simulator_used": true,
+          "canonical_QAE_register_qubits_m": [
+            2,
+            3,
+            7
+          ]
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Asset default probabilities are loaded with Ry rotations (one qubit per asset). Systematic risk Z is discretized on nz qubits and loaded via controlled rotations. Correlations are encoded through conditional default probabilities pi(z). Total loss is accumulated with a weighted-sum circuit, then tranche loss is extracted with comparator plus piecewise linear rotation.",
+        "objective_function": "Estimate expected tranche loss E[L_k] and fair spread/return for equity, mezzanine, and senior CDO tranches.",
+        "constraints_handling": "Comparator-based piecewise linear payoff encoding with lower and upper attachment points; no penalty formulation.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "CDO pricing for a 4-asset pool split into equity, mezzanine, and senior tranches.",
+        "num_assets": 4,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Example portfolio with four assets; parameters given in Table I. Tranche attachment points given in Table II."
+        },
+        "data_preprocessing_details": "No external dataset preprocessing reported; model parameters are directly specified and compared with Monte Carlo simulation.",
+        "evaluation_methodology": "Quantum circuit results compared with classical matrix calculation and Monte Carlo simulation. Monte Carlo uses 20 sets of simulations, each with 1000 random repetitions. Robustness tested by varying epsilon, alpha, default probabilities, and correlations."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": "QASM simulator / NISQ environment",
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Monte Carlo simulation and matrix calculation",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Model parameters for Gaussian and NIG distributions are set; conditional independence approach used to derive conditional default probabilities.",
+        "classical_postprocessing": "Convert estimated amplitude/probability to tranche loss and return using the paper's analytic relation.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": 52.0,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_underlyings",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "expected_tranche_loss",
+          "value": 52.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "expected_tranche_loss",
+          "value": 41.7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "expected_tranche_loss",
+          "value": 23.8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "tranche_return",
+          "value": 52.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "tranche_return",
+          "value": 41.7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "tranche_return",
+          "value": 4.76,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "nig_distribution_skewness",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimensionless",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "nig_distribution_kurtosis",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimensionless",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gaussian_distribution_mean",
+          "value": 0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimensionless",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gaussian_distribution_variance",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimensionless",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "nig_distribution_mean",
+          "value": 0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimensionless",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "nig_distribution_variance",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimensionless",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "scaling_factor_epsilon",
+          "value": 0.001,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimensionless",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "confidence_parameter_alpha",
+          "value": 0.05,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimensionless",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "monte_carlo_repetitions_per_set",
+          "value": 1000,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "repetitions",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "monte_carlo_sets",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "sets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "canonical_qae_register_qubits",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "canonical_qae_register_qubits",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "canonical_qae_register_qubits",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "nig_senior_tranche_loss",
+          "value": 0.2233,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "fraction",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gaussian_senior_tranche_loss",
+          "value": 0.2301,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "fraction",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical matrix calculation",
+          "metric_name": "expected_tranche_loss",
+          "value": 52.0,
+          "unit": "%"
+        },
+        {
+          "method_name": "classical matrix calculation",
+          "metric_name": "expected_tranche_loss",
+          "value": 41.7,
+          "unit": "%"
+        },
+        {
+          "method_name": "classical matrix calculation",
+          "metric_name": "expected_tranche_loss",
+          "value": 23.8,
+          "unit": "%"
+        },
+        {
+          "method_name": "classical matrix calculation",
+          "metric_name": "nig_senior_tranche_loss",
+          "value": 0.2233,
+          "unit": "fraction"
+        },
+        {
+          "method_name": "classical matrix calculation",
+          "metric_name": "gaussian_senior_tranche_loss",
+          "value": 0.2301,
+          "unit": "fraction"
+        },
+        {
+          "method_name": "classical Monte Carlo",
+          "metric_name": "expected_tranche_loss",
+          "value": null,
+          "unit": "%"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "Monte Carlo simulation",
+          "conditions": "Amplitude estimation for finance pricing / tranche loss estimation",
+          "is_demonstrated": true,
+          "caveats": "The paper states quadratic speedup in principle; practical performance depends on circuit depth and NISQ noise."
+        },
+        {
+          "type": "empirical",
+          "factor": "agreement with classical baselines",
+          "baseline_method": "classical matrix calculation and Monte Carlo simulation",
+          "conditions": "4-asset CDO example under Gaussian and NIG copula models on QASM simulator",
+          "is_demonstrated": true,
+          "caveats": "Agreement is qualitative/visual and based on the reported tranche-loss values; no runtime speedup benchmark is reported."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 4.0,
+          "num_qubits": 4,
+          "metric_name": "num_underlyings",
+          "metric_value": 4
+        },
+        {
+          "problem_size": 4.0,
+          "num_qubits": 4,
+          "metric_name": "asset_register_qubits",
+          "metric_value": 4
+        },
+        {
+          "problem_size": 4.0,
+          "num_qubits": 4,
+          "metric_name": "systematic_risk_qubits",
+          "metric_value": 4
+        },
+        {
+          "problem_size": 4.0,
+          "num_qubits": 3,
+          "metric_name": "sum_qubits",
+          "metric_value": 3
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": 2,
+          "metric_name": "canonical_qae_register_qubits",
+          "metric_value": 2
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 3,
+          "metric_name": "canonical_qae_register_qubits",
+          "metric_value": 3
+        },
+        {
+          "problem_size": 7.0,
+          "num_qubits": 7,
+          "metric_name": "canonical_qae_register_qubits",
+          "metric_value": 7
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "Quadratic speedup over Monte Carlo via amplitude estimation",
+        "classical_complexity": "Monte Carlo scales as O(M^-1/2) error / O(1/epsilon^2) samples for fixed precision (as discussed qualitatively in the paper)",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported; only a toy 4‑asset portfolio is simulated",
+        "resources_for_advantage": "Would require fault‑tolerant amplitude estimation circuits with deep controlled‑Q operations and QFT registers; significantly larger portfolios and many logical qubits would be needed before asymptotic scaling dominates.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Only simulated circuits (QASM simulator), no QPU execution",
+          "Toy problem size: portfolio of 4 assets",
+          "Heavy state‑preparation circuits for distributions and correlations",
+          "Quadratic speedup from amplitude estimation insufficient to overcome error‑correction overhead",
+          "No wall‑clock comparison with classical Monte Carlo"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "hardware.type inferred as simulator_other because the paper states QASM cloud backend / QASM simulator and does not name a real QPU device.",
+          "num_qubits not given as a single total register size; inferred components are nx=4, nz=4, ns=3, plus QAE ancillas, but the paper does not state a total circuit qubit count explicitly.",
+          "circuit depth is discussed qualitatively in the appendix, but no single total depth number is reported for the full experiment.",
+          "The paper discusses the theoretical quadratic speedup of amplitude estimation over Monte Carlo but does not demonstrate runtime advantage experimentally.",
+          "All results are obtained on a simulator with a small illustrative 4‑asset example."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

@@ -1,0 +1,623 @@
+{
+  "paper_id": "b4397d93ce2f",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:37:57+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "b4397d93ce2f_benchmarking_amplitude_estimation_on_a_superconducting_quantum_computer.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.85,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 5,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[2].unit='repetitions' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='depth' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[4].unit='depth' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[7].unit='depth' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[8].unit='depth' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.85,
+      "completeness": 0.85,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.85,
+        0.85
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Benchmarking Amplitude Estimation on a Superconducting Quantum Computer",
+    "authors": [
+      "Salvatore Certo",
+      "Anh Dung Pham",
+      "Daniel Beaulieu"
+    ],
+    "year": 2022,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "simulation-monte-carlo",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper benchmarks Maximum Likelihood Amplitude Estimation (MLAE) on the 7‑qubit IBM Nairobi superconducting device using inner‑product circuits for 2‑ and 4‑dimensional unit vectors. Optimized compilation (Qiskit level‑3 and Pytket level‑2) enabled circuits with depth ~131 for 3 Grover iterations and achieved a best mean error of 0.0442 for the 4‑qubit case, while the 2‑qubit case reached ~0.0017 error. Results show MLAE outperforming naive sampling on these small benchmarks but remain far from the ~54 million T‑depth estimated for real quantum advantage in Monte Carlo finance tasks.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Benchmarking maximum-likelihood amplitude estimation (MLAE) for estimating the inner product amplitude of two 2-dimensional unit vectors on IBM Nairobi, comparing ordinary transpilation, optimized transpilation, and naive sampling.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Maximum Likelihood Amplitude Estimation (MLAE) with linear incremental sequence (LIS) schedule",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "grover_iterations": "0 to 7",
+          "shots_per_iteration": 500,
+          "schedule": "LIS",
+          "initial_theta_distribution": "uniform on [0, pi/2]",
+          "repetitions_per_experiment": 50
+        },
+        "parameter_initialization": "uniform distribution over theta in [0, pi/2]",
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Unary data-loader / inner-product circuit; amplitude of the first qubit encodes the squared inner product of two 2D unit vectors",
+        "objective_function": "Estimate the amplitude a of a prepared quantum state, where sin^2(theta)=a and a corresponds to the squared inner product of two unit vectors",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Inner product estimation for two 2-dimensional unit vectors",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 2,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Example vectors given in paper; one instance shown with a=[-0.96184207, 0.27360523], b=[0.96845237, 0.24919873]"
+        },
+        "data_preprocessing_details": "Random unit vectors generated; inner product uniformly distributed",
+        "evaluation_methodology": "500 shots per Grover-iteration circuit, repeated 50 times; compared MLE output and naive sampling against exact inner product; mean relative error reported"
+      },
+      "quantum_resources": {
+        "num_qubits": 2,
+        "qubit_type": "physical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 500,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_superconducting",
+        "provider": "IBM",
+        "device_name": "IBM Nairobi",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "hardware noise / decoherence",
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": "IBM Nairobi basis gates",
+        "classical_solver": null,
+        "transpilation_settings": {
+          "optimization_level": "standard transpilation vs aggressive optimization (Qiskit level 3 and Pytket level 2)",
+          "basis_gates": null,
+          "routing_method": null
+        },
+        "classical_preprocessing": "Random unit-vector generation; construction of inner-product circuits; compilation with Qiskit and Pytket",
+        "classical_postprocessing": "Maximum-likelihood estimation over theta; naive sampling baseline; relative error computation",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": 50.0,
+          "num_independent_runs": 50
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "grover_iterations",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": 50,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots_per_iteration",
+          "value": 500,
+          "uncertainty": null,
+          "num_runs": 50,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "repetitions_per_experiment",
+          "value": 50,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "repetitions",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "mean_relative_error",
+          "value": 0.0017,
+          "uncertainty": null,
+          "num_runs": 50,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "mean_relative_error",
+          "value": 0.04,
+          "uncertainty": null,
+          "num_runs": 50,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 131,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "depth",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "qubit_count",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "device_qubit_count",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "naive_sampling",
+          "metric_name": "mean_relative_error",
+          "value": null,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "outperformed naive sampling",
+          "baseline_method": "naive sampling",
+          "conditions": "2-qubit inner-product estimation on IBM Nairobi; up to 7 Grover iterations; 500 shots per iteration; averaged over 50 repetitions",
+          "is_demonstrated": true,
+          "caveats": "The paper does not provide a numeric naive-sampling error for the 2-qubit case in text; it only states that both ordinary and optimized circuits outperformed naive sampling."
+        },
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "naive Monte Carlo / sampling",
+          "conditions": "Amplitude estimation convergence versus classical sampling",
+          "is_demonstrated": false,
+          "caveats": "This is a general AE property stated in the introduction, not a measured speedup from the experiment."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 2.0,
+          "num_qubits": 2,
+          "metric_name": "mean_relative_error",
+          "metric_value": 0.0017
+        },
+        {
+          "problem_size": 4.0,
+          "num_qubits": 4,
+          "metric_name": "mean_relative_error",
+          "metric_value": 0.04
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(1/M) convergence for amplitude estimation",
+        "classical_complexity": "O(1/sqrt(M)) for naive Monte Carlo/sampling",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "parity_with_classical",
+        "hoefler_viable": false,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "unknown; paper provides no scaling analysis beyond toy circuits",
+        "resources_for_advantage": "Authors cite prior work estimating ~54 million T-depth required for practical quantum advantage in Monte Carlo finance applications.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "very small toy problem (2-qubit circuit)",
+          "hardware noise limits useful Grover iterations",
+          "no demonstrated scaling advantage",
+          "quadratic speedup only",
+          "state preparation overhead not addressed"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Paper explicitly states IBM Nairobi superconducting computer with 7 qubits, but this experiment uses a 2-qubit inner-product circuit; num_qubits set to the circuit register size for the experiment.",
+          "Circuit depth for the 2-qubit case is not explicitly given; only qualitative depth comparisons and a 4-qubit depth example are reported elsewhere.",
+          "Authors compare MLAE with naive sampling and show lower error for a toy 2‑qubit experiment, but do not claim practical quantum advantage.",
+          "Problem size is trivial and does not outperform classical Monte Carlo in realistic settings."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Benchmarking MLAE for estimating the inner product amplitude of two 4-dimensional unit vectors on IBM Nairobi, comparing ordinary transpilation, optimized transpilation (Qiskit and Pytket), and naive sampling.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Maximum Likelihood Amplitude Estimation (MLAE) with linear incremental sequence (LIS) schedule",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "grover_iterations": "0 to 7",
+          "shots_per_iteration": 500,
+          "schedule": "LIS",
+          "initial_theta_distribution": "uniform on [0, pi/2]",
+          "repetitions_per_experiment": 50,
+          "naive_sampling_shots": "up to 3000 in increments of 500"
+        },
+        "parameter_initialization": "uniform distribution over theta in [0, pi/2]",
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Unary data-loader / inner-product circuit; 4 basis states encode a 4-dimensional unit vector, and the amplitude of |0001> encodes the squared inner product",
+        "objective_function": "Estimate the amplitude a of a prepared quantum state, where a corresponds to the squared inner product of two 4-dimensional unit vectors",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Inner product estimation for two random 4-dimensional unit vectors",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 4,
+        "dataset_size": 50,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "50 random vector pairs per experiment; one example amplitude reported as |01> = 0.745314789774813 for a 2D illustration"
+        },
+        "data_preprocessing_details": "Random unit vectors generated; inner product uniformly distributed",
+        "evaluation_methodology": "50 random vector pairs; 500 shots per Grover-iteration circuit; repeated 50 times; compared MLE and naive sampling against exact inner product; mean error reported"
+      },
+      "quantum_resources": {
+        "num_qubits": 4,
+        "qubit_type": "physical",
+        "circuit_depth": 131,
+        "circuit_depth_transpiled": 131,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 500,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_superconducting",
+        "provider": "IBM",
+        "device_name": "IBM Nairobi",
+        "framework": "Qiskit and Pytket"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "hardware noise / decoherence",
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": "IBM Nairobi basis gates",
+        "classical_solver": null,
+        "transpilation_settings": {
+          "optimization_level": "Qiskit level 3; Pytket level 2",
+          "basis_gates": null,
+          "routing_method": null
+        },
+        "classical_preprocessing": "Random unit-vector generation; construction of 4D inner-product circuits; compilation with Qiskit and Pytket",
+        "classical_postprocessing": "Maximum-likelihood estimation over theta; naive sampling baseline; relative error computation",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": 50.0,
+          "num_independent_runs": 50
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "grover_iterations",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": 50,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots_per_iteration",
+          "value": 500,
+          "uncertainty": null,
+          "num_runs": 50,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "naive_sampling_shots",
+          "value": 3000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "mean_error",
+          "value": 0.0442,
+          "uncertainty": null,
+          "num_runs": 50,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 131,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "depth",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "qubit_count",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "device_qubit_count",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "maximum_depth",
+          "value": 300,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "depth",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "maximum_depth",
+          "value": 500,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "depth",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "naive_sampling",
+          "metric_name": "mean_error",
+          "value": null,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "outperformed naive sampling",
+          "baseline_method": "naive sampling",
+          "conditions": "4-dimensional unit-vector inner-product estimation on IBM Nairobi; 500 shots per Grover-iteration circuit; up to 7 Grover iterations; averaged over 50 repetitions",
+          "is_demonstrated": true,
+          "caveats": "The paper does not provide a numeric naive-sampling error in text for the 4D case, only that MLE outperformed naive sampling."
+        },
+        {
+          "type": "empirical",
+          "factor": "shallower circuit with lower mean error",
+          "baseline_method": "ordinary transpilation / standard compiler",
+          "conditions": "Optimized compilation using Qiskit level 3 and Pytket level 2 on IBM Nairobi",
+          "is_demonstrated": true,
+          "caveats": "The paper states Pytket provided a shallower circuit with lower mean error, but does not give a full numeric comparison table in text."
+        },
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "naive Monte Carlo / sampling",
+          "conditions": "Amplitude estimation convergence versus classical sampling",
+          "is_demonstrated": false,
+          "caveats": "General AE property stated in the introduction, not a measured experimental speedup."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 4.0,
+          "num_qubits": 4,
+          "metric_name": "mean_error",
+          "metric_value": 0.0442
+        },
+        {
+          "problem_size": 4.0,
+          "num_qubits": 4,
+          "metric_name": "circuit_depth",
+          "metric_value": 131
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(1/M) convergence for amplitude estimation",
+        "classical_complexity": "O(1/sqrt(M)) for naive Monte Carlo/sampling",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "parity_with_classical",
+        "hoefler_viable": false,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "not estimated experimentally; theoretical analyses cited indicate extremely large circuit depths needed",
+        "resources_for_advantage": "Paper references prior estimate of ~54 million T-depth for quantum advantage in derivative pricing Monte Carlo tasks.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "hardware noise and decoherence limit Grover iterations beyond ~3",
+          "circuit depths already ~131–300 at only 4 qubits",
+          "quadratic speedup insufficient given fault‑tolerant overhead",
+          "toy synthetic data rather than real finance workloads"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper explicitly reports a best result for the 4-qubit experiment at depth 131 for 3 Grover iterations; this is used as the circuit depth for the optimized 4D experiment.",
+          "The paper does not provide a full gate count breakdown for the 4D experiment, so those fields are null.",
+          "MLAE shows lower error than naive sampling on 4‑qubit circuits, but this is a small-scale benchmark rather than a practical computational advantage.",
+          "Authors explicitly state that current hardware is far from the threshold for quantum advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

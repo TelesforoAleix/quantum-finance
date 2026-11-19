@@ -1,0 +1,848 @@
+{
+  "paper_id": "9fd619b02b3e",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:24:17+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "9fd619b02b3e_quantum_computational_insurance_and_actuarial_science.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.694,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 5,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[2].unit='approximate payment scale from figure' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[2].unit='risk factors' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[4].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[0].unit='optimization steps' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[2].unit='4x4 matrix' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.694,
+      "completeness": 0.694,
+      "num_experiments": 3,
+      "experiment_scores": [
+        0.583,
+        0.75,
+        0.75
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum Computational Insurance and Actuarial Science",
+    "authors": [
+      "Huan-Yu Liu",
+      "Xi-Ning Zhuang",
+      "Chao Wang",
+      "Qing-Song Li",
+      "Meng-Han Dou",
+      "Zhao-Yun Chen",
+      "Cheng Xue",
+      "Yu-Chun Wu",
+      "Guo-Ping Guo",
+      "Guang-Can Guo"
+    ],
+    "year": 2025,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "insurance-actuarial",
+    "secondary_silos": [
+      "quantum-ml-finance",
+      "simulation-monte-carlo",
+      "portfolio-optimization",
+      "risk-management"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper demonstrates three proof‑of‑concept quantum insurance workloads: (1) a simulated excess‑loss evaluation algorithm using n+2 qubits, (2) a 6‑qubit variational optimization for reinsurance allocation executed on the Wukong superconducting processor, and (3) a 4‑qubit variational QSVD solver for the Lee–Carter mortality model using a 4×4 real mortality dataset. All experiments operate on very small toy instances and focus on feasibility rather than performance advantage.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Numerical quantum excess evaluation for the policy excess problem, estimating expected reinsurer payment under a discretized lognormal loss distribution using a gate-based quantum stochastic modeling circuit.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "quantum excess evaluation algorithm",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "loss_distribution": "lognormal",
+          "mu": 0,
+          "sigma": 1,
+          "threshold_function": "M(x)=0 for x<=1; 0.6(x-1)+1 for x>1",
+          "range_truncation": "[0,10]",
+          "discretization_points": "N=2^n",
+          "auxiliary_qubits": 2,
+          "measurement_qubit": 1,
+          "rotation_angle_parameter": "c (small positive number)"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "n qubits encode N=2^n discretized loss values |j>; the interval [0,10] is rescaled to [0,2^n-1] so basis state |x> represents 10x/(2^n-1)",
+        "objective_function": "Estimate E[max(0, X-M(X))] for a lognormal loss X with threshold M(X)",
+        "constraints_handling": "State preparation, quantum subtraction, and controlled rotations; final value extracted by measurement/post-processing",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 2
+      },
+      "problem_instance": {
+        "description": "Policy excess / excess evaluation for reinsurer payment under a lognormal claim distribution",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Synthetic lognormal distribution with mu=0, sigma=1; excess threshold M(x) piecewise defined; truncation to x in [0,10]"
+        },
+        "data_preprocessing_details": "Continuous loss distribution truncated to [0,10], discretized into N=2^n points",
+        "evaluation_methodology": "Numerical simulation comparing Rtheory, Rtruncate, and Rdiscrete as n increases"
+      },
+      "quantum_resources": {
+        "num_qubits": 2,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "QPanda",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null
+      },
+      "noise_model": {
+        "is_noisy": null,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "classical_preprocessing": "Discretize the loss range, prepare the distribution state, and rescale the threshold 1 to binary form 1n",
+        "classical_postprocessing": "Measure auxiliary qubit probability and convert it to the expected payment using the derived formula",
+        "transpilation_settings": null,
+        "classical_solver": null,
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "tail_expectation_error",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "loss_distribution_accuracy",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "payment",
+          "value": 1.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "approximate payment scale from figure",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "range_truncation_upper_bound",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic acceleration",
+          "baseline_method": "classical Monte Carlo / classical stochastic estimation",
+          "conditions": "via amplitude estimation in the quantum stochastic modeling framework",
+          "is_demonstrated": false,
+          "caveats": "The paper discusses quadratic speedup in general terms but does not provide a formal asymptotic comparison or benchmark against a classical implementation for this specific experiment."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": null,
+          "num_qubits": 2,
+          "metric_name": "payment",
+          "metric_value": null
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 4,
+          "metric_name": "payment",
+          "metric_value": null
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 6,
+          "metric_name": "payment",
+          "metric_value": null
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 8,
+          "metric_name": "payment",
+          "metric_value": null
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 10,
+          "metric_name": "payment",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "Not explicitly stated; described as using n+2 qubits and amplitude-estimation-style quadratic acceleration",
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not provided; algorithm analyzed only conceptually with discretization size N = 2^n",
+        "resources_for_advantage": "Would require fault‑tolerant amplitude estimation circuits with large qubit registers and deep coherent circuits to outperform classical Monte Carlo",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Only numerical simulation, not hardware",
+          "No classical runtime comparison",
+          "State preparation of arbitrary distributions can require exponential resources",
+          "Amplitude‑estimation style quadratic speedup insufficient once error‑correction overhead is included"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware type not explicitly named for this numerical experiment; QPanda is a gate-based framework, but no specific device is reported.",
+          "Num qubits inferred from Appendix A: the algorithm uses n qubits for the loss register plus 2 ancilla/measurement qubits.",
+          "Speedup order inferred because the paper discusses quadratic acceleration via amplitude estimation but does not provide a formal asymptotic comparison for this specific experiment.",
+          "The paper discusses quadratic speedups via quantum Monte Carlo/amplitude estimation but does not experimentally demonstrate them.",
+          "Results are purely numerical simulations of correctness, not runtime advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Experimental reinsurance type allocation on a superconducting quantum processor using a variational quantum optimization circuit with constraint-preserving RBS layers and measurement-based error mitigation.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "variational quantum optimization for constrained reinsurance allocation",
+        "ansatz": "constraint-preserving ansatz with parameterized initialization layer and repeated reconfigurable Beam Splitter (RBS) layers",
+        "optimizer": "classical optimizer (not specified)",
+        "num_layers": 3,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "num_qubits": 6,
+          "rbs_layers": 3,
+          "constraint": "sum_j x_j = p n",
+          "p": 0.5,
+          "error_mitigation": "measurement-based error mitigation"
+        },
+        "parameter_initialization": "parameterized initialization layer to prepare a state satisfying the constraint",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Binary variable x_j mapped to qubit occupation via x_j -> (I - Z_j)/2; 6-qubit constrained binary optimization",
+        "objective_function": "min_x Var[R_total] = x^T V x subject to sum_j x_j = p n",
+        "constraints_handling": "Constraint-preserving ansatz rather than penalty function; erroneous shots excluded via measurement-based error mitigation",
+        "num_binary_variables": 6,
+        "problem_hamiltonian": "H_cost = sum_{j,k} v_jk (I - Z_j)/2 (I - Z_k)/2",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Reinsurance type allocation minimizing portfolio variance across insurance products",
+        "num_assets": 6,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Randomly generated covariance matrix V for 6 retained risks"
+        },
+        "data_preprocessing_details": "Covariance matrix randomly generated; optimization constrained to fixed allocation proportion p=0.5",
+        "evaluation_methodology": "Iterative optimization on hardware; loss function tracked over iterations and compared with noiseless classical evaluation"
+      },
+      "quantum_resources": {
+        "num_qubits": 6,
+        "qubit_type": "physical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": {
+          "single_qubit": 0.997,
+          "two_qubit": 0.963
+        },
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_superconducting",
+        "provider": "Origin Quantum",
+        "device_name": "Wukong",
+        "framework": "QPanda",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "classical optimizer (not specified)"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "hardware noise on superconducting processor",
+        "error_mitigation_method": "measurement-based error mitigation"
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "classical_preprocessing": "Random covariance matrix generation; construction of constraint-preserving ansatz",
+        "classical_postprocessing": "Benchmarking measurement flip probabilities and reversing the noise model to obtain mitigated results",
+        "transpilation_settings": null,
+        "classical_solver": "classical optimizer (not specified)",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 70,
+          "final_loss_value": null,
+          "loss_curve_shape": "monotonic decrease",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "convergence_rate",
+          "value": 70,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "loss_function",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "num_risk_factors",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "risk factors",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "rbs_layers",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "single_qubit_gate_fidelity",
+          "value": 0.997,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "two_qubit_gate_fidelity",
+          "value": 0.963,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical optimizer",
+          "metric_name": "loss_function",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "classical noiseless evaluation",
+          "metric_name": "loss_function",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "This is an experimental variational optimization demonstration; no quantum speedup claim is made."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 6.0,
+          "num_qubits": 6,
+          "metric_name": "loss_function",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "Unknown; experiment uses only 6 qubits",
+        "resources_for_advantage": "Would require hundreds–thousands of logical qubits and deeper circuits for meaningful portfolio optimization instances",
+        "data_loading_bottleneck": false,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Problem instance limited to 6 binary variables",
+          "Random synthetic covariance matrix rather than realistic portfolio scale",
+          "No classical optimizer baseline comparison",
+          "Hardware noise requiring error mitigation",
+          "Variational optimization overhead"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper explicitly states 6 superconducting qubits on Wukong and 3 RBS layers.",
+          "A specific optimizer name, shot count, and transpiled depth are not reported.",
+          "Speedup order is not established; this is an experimental VQA demonstration.",
+          "The experiment demonstrates feasibility of running a constrained variational optimization circuit on 6 superconducting qubits but does not benchmark against classical algorithms."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "Experimental Lee-Carter mortality forecasting via a variational quantum singular value decomposition solver on a superconducting quantum processor using real mortality data.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "variational quantum singular value decomposition (QSVD)",
+        "ansatz": "two parameterized quantum circuits UA(θ1) and VB(θ2)",
+        "optimizer": "classical optimizer (not specified)",
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "num_qubits": 4,
+          "optimization_steps": 200,
+          "data_matrix_size": "4x4"
+        },
+        "parameter_initialization": "not specified",
+        "optimizer_settings": {
+          "max_iterations": 200,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Mortality matrix D of size 4x4 is vectorized and encoded into a bipartite quantum state for QSVD",
+        "objective_function": "Find left and right singular vectors β and κ of D = ln m_x,t - α_x via QSVD",
+        "constraints_handling": "Loss based on matching measurement outcomes of the two subsystems; no explicit constraints beyond variational optimization",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Lee-Carter mortality forecasting on real-world mortality data",
+        "num_assets": null,
+        "time_steps": 4,
+        "num_features": 4,
+        "dataset_size": null,
+        "data_type": "public_benchmark",
+        "dataset_name": "mortality.org",
+        "dataset_specification": {
+          "description": "Real-world mortality data from 2014 to 2017 and ages 0 to 10-14; matrix size 4x4"
+        },
+        "data_preprocessing_details": "Construct D with elements D_x,t = ln m_x,t - α_x; perform SVD target extraction for β_x and κ_t",
+        "evaluation_methodology": "Track loss function, Frobenius norm ||D - βκ||_F, and K-L divergences D_KL(β||β_x), D_KL(κ||κ_t) over 200 optimization steps"
+      },
+      "quantum_resources": {
+        "num_qubits": 4,
+        "qubit_type": "physical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": {
+          "single_qubit": 0.997,
+          "two_qubit": 0.963
+        },
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_superconducting",
+        "provider": "Origin Quantum",
+        "device_name": "Wukong",
+        "framework": "QPanda",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "classical optimizer (not specified)"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "hardware noise on superconducting processor",
+        "error_mitigation_method": null,
+        "noise_parameters": {
+          "T1": "14.84 us",
+          "T2": "1.85 us"
+        }
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "classical_preprocessing": "Construct the 4x4 matrix D from mortality data and normalize for QSVD preparation",
+        "classical_postprocessing": "Extract β and κ from optimized quantum states and compute Frobenius norm and K-L divergences",
+        "transpilation_settings": null,
+        "classical_solver": "classical optimizer (not specified)",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 200,
+          "final_loss_value": null,
+          "loss_curve_shape": "decreasing",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "convergence_rate",
+          "value": 200,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "optimization steps",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "matrix_size",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "4x4 matrix",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "frobenius_norm_distance",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "kl_divergence_left",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "kl_divergence_right",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "t1",
+          "value": 14.84,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "us",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "t2",
+          "value": 1.85,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "us",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical benchmark using same optimized parameters",
+          "metric_name": "frobenius_norm_distance",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The paper reports a proof-of-principle QSVD experiment and does not claim or demonstrate a speedup over classical SVD."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 4.0,
+          "num_qubits": 4,
+          "metric_name": "loss_function",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "Unknown; experiment uses a 4×4 matrix (4 qubits)",
+        "resources_for_advantage": "Practical QSVD advantage would require large fault‑tolerant linear‑algebra circuits and efficient data loading (e.g., QRAM)",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Extremely small dataset (4×4 mortality matrix)",
+          "Variational QSVD with shallow circuits",
+          "No classical runtime or accuracy comparison",
+          "Data loading and state preparation overhead",
+          "Hardware noise"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper explicitly states 4 superconducting qubits and 200 optimization steps.",
+          "No circuit depth, shot count, or optimizer name is reported.",
+          "Speedup order is not established; this is a proof-of-principle QSVD experiment on real hardware.",
+          "The authors highlight this as the first insurance‑specific quantum algorithm run on hardware with real data, but no computational advantage over classical SVD is evaluated."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

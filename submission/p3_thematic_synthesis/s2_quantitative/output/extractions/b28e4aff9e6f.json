@@ -1,0 +1,809 @@
+{
+  "paper_id": "b28e4aff9e6f",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:37:10+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "b28e4aff9e6f_the_maximum_likelihood_quantum_amplitude_estimation_algorithm_provides_the_best_.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.883,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 13,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[1].unit='oracle queries / samples' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='slope in log-log error scaling' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='queries' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='O(1/M)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[1].unit='shots per circuit' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[2].unit='slope in log-log error scaling' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[3].unit='samples / oracle queries' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[4].unit='approximately O(1/M)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[1].unit='shots per circuit' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[3].unit='samples / oracle queries' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[4].unit='queries' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[5].unit='not numerically reported' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[7].unit='quadratic speedup over Monte Carlo; up to T = ceil(log2(pi/(8 epsilon))) iterations' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.883,
+      "completeness": 0.883,
+      "num_experiments": 3,
+      "experiment_scores": [
+        0.883,
+        0.883,
+        0.883
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 0.3333333333333333
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 0.3333333333333333
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "The maximum-likelihood quantum amplitude estimation algorithm provides the best tradeoff between accuracy and circuit depth among quantum solutions for integral estimation",
+    "authors": [
+      "Marco Maronese",
+      "Massimiliano Incudini",
+      "Luca Asproni",
+      "Enrico Prati"
+    ],
+    "year": 2023,
+    "doi": "10.1109/QCE57702.2023.00069",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "simulation-monte-carlo",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper benchmarks three quantum amplitude estimation variants (standard QAE, MLAE, and IQAE) for estimating a 1D integral of sin^2(x) using a Qiskit Aer simulator with a 3‑qubit data register plus one ancilla (4 qubits total). Empirical scaling shows ~O(1/M) error reduction for the quantum methods versus ~O(1/√M) for classical Metropolis–Hastings Monte Carlo, but simulator timing shows classical sampling is ~10^4× faster. The authors conclude MLAE offers the best NISQ trade-off between circuit depth and precision but that practical advantage would require large fault‑tolerant devices (estimated ~1000 qubits for ~10^-3 precision).",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Benchmark of standard quantum amplitude estimation (QAE) for 1D integral estimation of sin^2(x) using a 3-qubit Qiskit Aer simulator implementation, compared against classical Metropolis-Hastings Monte Carlo.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "standard QAE (phase-estimation-based)",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "integrand": "sin^2(x)",
+          "integral": "I = (1/b_max) ∫_0^{b_max} sin^2(x) dx",
+          "qubits_for_integral_encoding": 3,
+          "simulator_seeds": "10 executions with different seeds",
+          "shots": "standalone execution; exact shot count not specified for standard QAE in the text",
+          "confidence_level": null
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "An n-qubit register q encodes the discretized integration variable x over 2^n samples; an ancilla qubit encodes the function value via controlled-Y rotations.",
+        "objective_function": "Estimate the integral I = (1/b_max) ∫_0^{b_max} sin^2(x) dx via amplitude estimation.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "1D numerical integration benchmark with integrand sin^2(x).",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Analytic benchmark integral over [0, b_max]."
+        },
+        "data_preprocessing_details": null,
+        "evaluation_methodology": "Average over 10 simulator executions with different seeds; error vs number of samples/oracle queries and vs circuit depth."
+      },
+      "quantum_resources": {
+        "num_qubits": 4,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 8192,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": "aer simulator",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Metropolis-Hastings Monte Carlo",
+        "transpilation_settings": null,
+        "classical_preprocessing": null,
+        "classical_postprocessing": "Maximum-likelihood/estimation of amplitude from measurement outcomes; error and runtime compared against classical Monte Carlo.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": 10
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_qubits",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sample_complexity",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "oracle queries / samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": -1.267,
+          "uncertainty": "±0.206",
+          "num_runs": 10,
+          "unit": "slope in log-log error scaling",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "queries",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 0.81,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "error_scaling",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "O(1/M)",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "convergence_rate",
+          "value": -0.485,
+          "unit": "slope in log-log error scaling"
+        },
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "error_scaling",
+          "value": 0.5,
+          "unit": "O(1/sqrt(M))"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical monte carlo",
+          "conditions": "standard QAE with phase estimation; idealized oracle-query scaling",
+          "is_demonstrated": true,
+          "caveats": "Requires fault-tolerant hardware for practical advantage; current NISQ hardware limitations noted."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 1.0,
+          "num_qubits": 3,
+          "metric_name": "error_scaling",
+          "metric_value": 1.0
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(1/M) error scaling with M oracle queries; quadratic improvement over classical Monte Carlo.",
+        "classical_complexity": "O(1/sqrt(M)) error scaling for Monte Carlo.",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Estimated advantage only at extremely small error ranges (~10^-13–10^-11 in simulator analysis), requiring very large numbers of classical samples and far more capable quantum hardware.",
+        "resources_for_advantage": "Authors estimate ~1000 qubits with long coherence times and high-fidelity gates to reach precision ~10^-3 for realistic multidimensional integrals.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "QAE circuit depth due to phase estimation and QFT",
+          "NISQ noise and limited coherence time",
+          "Large number of oracle calls",
+          "Quadratic speedup insufficient to overcome hardware overhead"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper states all simulations were performed on the Qiskit Aer simulator with 3 qubits. Circuit depth for the standard QAE is discussed qualitatively and in a figure, but no explicit numeric depth is provided in the text excerpt, so it is left null.",
+          "Authors explicitly state current hardware cannot achieve the theoretical speedup and that QAE has not shown practical advantage on NISQ devices.",
+          "All experiments are noiseless simulator benchmarks and classical Monte Carlo is far faster in wall-clock time."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Benchmark of maximum-likelihood quantum amplitude estimation (MLAE / MLQAE) for the same 1D sin^2(x) integral on a 3-qubit Qiskit Aer simulator, compared against classical Metropolis-Hastings Monte Carlo.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "maximum-likelihood amplitude estimation (MLAE / MLQAE)",
+        "ansatz": "Grover-like circuit",
+        "optimizer": "maximum likelihood estimation",
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "integrand": "sin^2(x)",
+          "integral": "I = (1/b_max) ∫_0^{b_max} sin^2(x) dx",
+          "qubits_for_integral_encoding": 3,
+          "shots_per_quantum_circuit": 100,
+          "simulator_seeds": "10 executions with different seeds",
+          "k_values": "k = 0, ..., M",
+          "confidence_level": null
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "n-qubit register encodes the discretized integration variable; ancilla qubit encodes the amplitude to be estimated.",
+        "objective_function": "Estimate the integral I = (1/b_max) ∫_0^{b_max} sin^2(x) dx by estimating a = sin^2(θ_a) from Grover-like circuit measurements.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "1D numerical integration benchmark with integrand sin^2(x).",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Analytic benchmark integral over [0, b_max]."
+        },
+        "data_preprocessing_details": null,
+        "evaluation_methodology": "Average over 10 simulator executions with different seeds; 100 shots per quantum circuit; error vs number of samples/oracle queries, circuit depth, and runtime."
+      },
+      "quantum_resources": {
+        "num_qubits": 4,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 100,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": "aer simulator",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Maximum likelihood estimation; Metropolis-Hastings Monte Carlo baseline",
+        "transpilation_settings": null,
+        "classical_preprocessing": null,
+        "classical_postprocessing": "Classical MLE over measurement counts to estimate θ_a and then a = sin^2(θ_a).",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": 10
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_qubits",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_shots",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "shots per circuit",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": -0.974,
+          "uncertainty": "±0.058",
+          "num_runs": 10,
+          "unit": "slope in log-log error scaling",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "sample_complexity",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples / oracle queries",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "error_scaling",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "approximately O(1/M)",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "convergence_rate",
+          "value": -0.485,
+          "unit": "slope in log-log error scaling"
+        },
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "error_scaling",
+          "value": 0.5,
+          "unit": "O(1/sqrt(M))"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "slightly less than quadratic",
+          "baseline_method": "classical monte carlo",
+          "conditions": "pure MLAE / MLQAE variant on 1D integral benchmark",
+          "is_demonstrated": true,
+          "caveats": "Paper notes pure MLAE has less than quadratic advantage in theory, though empirical scaling is close to O(1/M)."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 1.0,
+          "num_qubits": 3,
+          "metric_name": "error_scaling",
+          "metric_value": 1.0
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "Less than quadratic advantage in the pure MLAE variant is discussed in the paper; empirically close to O(1/M) error scaling.",
+        "classical_complexity": "O(1/sqrt(M)) error scaling for Monte Carlo.",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Simulator analysis suggests potential advantage in runtime only for extremely high-precision regimes (~10^-13–10^-11 error), unrealistic for NISQ hardware.",
+        "resources_for_advantage": "Projected advantage would require substantially faster quantum gates and large-scale devices; authors discuss scenarios assuming gates 100–1000× faster than simulation and far more qubits.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Hybrid algorithm still slower than classical Monte Carlo on simulator",
+          "Shot overhead and repeated circuit executions",
+          "Hardware noise ignored in evaluation",
+          "Quadratic asymptotic advantage insufficient under realistic constants"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper explicitly reports 100 shots per quantum circuit for MLQAE and 10 independent simulator executions. The exact circuit depth is only shown comparatively in a figure, not as a numeric value in the text excerpt.",
+          "Paper concludes MLAE provides the best trade-off between circuit depth and precision and could be the first variant to show advantage over Monte Carlo, but only under future hardware assumptions.",
+          "Actual experiments are simulator-only and do not outperform classical methods."
+        ],
+        "advantage_status": "paper_reported"
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "Benchmark of iterative quantum amplitude estimation (IQAE) for the same 1D sin^2(x) integral on a 3-qubit Qiskit Aer simulator, compared against classical Metropolis-Hastings Monte Carlo.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "iterative quantum amplitude estimation (IQAE)",
+        "ansatz": "Grover-like circuit",
+        "optimizer": "classical iterative interval update / FindNextK routine",
+        "num_layers": null,
+        "convergence_criteria": "Target accuracy ε and confidence level 1−α; iterative procedure continues until confidence interval width meets target.",
+        "hyperparameters": {
+          "integrand": "sin^2(x)",
+          "integral": "I = (1/b_max) ∫_0^{b_max} sin^2(x) dx",
+          "qubits_for_integral_encoding": 3,
+          "confidence_level": "90%",
+          "shots_per_quantum_circuit": 100,
+          "simulator_seeds": "10 executions with different seeds",
+          "target_accuracy": "ε (varied in experiments)",
+          "Nmax": "32 / (1 - 2 sin(π/14))^2 * log( (2/α) * log2(π/(4ε)) )",
+          "Lmax": "arcsin((2/Nshots * log(2T(ε)/α))^(1/4))"
+        },
+        "parameter_initialization": "Initial confidence interval [θ_l, θ_u] = [0, π/2]; k_0 = 0.",
+        "optimizer_settings": {
+          "parameter_bounds": "θ ∈ [0, π/2]",
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "n-qubit register encodes the discretized integration variable; ancilla qubit encodes the amplitude to be estimated.",
+        "objective_function": "Estimate the integral I = (1/b_max) ∫_0^{b_max} sin^2(x) dx by iteratively estimating a = sin^2(θ_a).",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "1D numerical integration benchmark with integrand sin^2(x).",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Analytic benchmark integral over [0, b_max]."
+        },
+        "data_preprocessing_details": null,
+        "evaluation_methodology": "Average over 10 simulator executions with different seeds; 100 shots per quantum circuit; 90% confidence interval; error vs number of samples/oracle queries, circuit depth, and runtime."
+      },
+      "quantum_resources": {
+        "num_qubits": 4,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 100,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": "aer simulator",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Classical iterative interval update / FindNextK routine; Metropolis-Hastings Monte Carlo baseline",
+        "transpilation_settings": null,
+        "classical_preprocessing": null,
+        "classical_postprocessing": "Classical update of confidence interval [θ_l, θ_u] from measured probabilities and inversion of a = cos((4k+2)θ_a).",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": 10
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_qubits",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_shots",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "shots per circuit",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "confidence_level",
+          "value": 0.9,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sample_complexity",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples / oracle queries",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "queries",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "not numerically reported",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "iterations_to_converge",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "error_scaling",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "quadratic speedup over Monte Carlo; up to T = ceil(log2(pi/(8 epsilon))) iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "error_scaling",
+          "value": 0.5,
+          "unit": "O(1/sqrt(M))"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical monte carlo",
+          "conditions": "iterative QAE with target accuracy epsilon and confidence level 1-alpha; up to T = ceil(log2(pi/(8 epsilon))) iterations",
+          "is_demonstrated": true,
+          "caveats": "Speedup depends on chosen confidence level and target accuracy; exact empirical runtime/depth values are not numerically given in the text excerpt."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 1.0,
+          "num_qubits": 3,
+          "metric_name": "error_scaling",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "Quadratic speedup over Monte Carlo; target accuracy achieved in up to T = ceil(log2(π/(8ε))) iterations.",
+        "classical_complexity": "O(1/sqrt(M)) error scaling for Monte Carlo.",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not demonstrated; IQAE shows similar asymptotic scaling to MLAE but requires deeper circuits for equivalent accuracy.",
+        "resources_for_advantage": "Would require large-scale fault-tolerant hardware and many oracle calls; not feasible on current NISQ devices.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Increasing circuit depth due to repeated Grover iterations",
+          "Hybrid iteration overhead",
+          "Noisy hardware limitations not addressed in experiments",
+          "Quadratic speedup only"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper explicitly states IQAE was run with a 90% confidence interval and 100 shots per quantum circuit. The exact circuit depth is not numerically specified in the text excerpt.",
+          "Paper reports IQAE has comparable asymptotic scaling to MLAE but requires deeper circuits, making it less practical for NISQ.",
+          "No runtime advantage over classical Monte Carlo is demonstrated."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

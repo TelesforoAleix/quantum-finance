@@ -1,0 +1,403 @@
+{
+  "paper_id": "6684e6c1b57f",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:51:10+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "6684e6c1b57f_quantum_algorithm_for_stochastic_optimal_stopping_problems_with_applications_in_.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.183,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 13,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='oracle calls / query complexity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='additive error in U0 / option price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='time complexity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='time complexity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='time complexity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='time complexity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='time complexity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='time complexity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='time complexity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='time complexity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='asymptotic factor' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='dimension d' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.183,
+      "completeness": 0.183,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.183
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum algorithm for stochastic optimal stopping problems with applications in finance",
+    "authors": [
+      "João F. Doriguello",
+      "Alessandro Luongo",
+      "Jinge Bao",
+      "Patrick Rebentrost",
+      "Miklos Santha"
+    ],
+    "year": 2023,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": [
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a quantum least‑squares Monte Carlo algorithm for stochastic optimal stopping (e.g., American option pricing). It achieves a theoretical runtime improvement from Õ(1/ε^2) for classical LSM to Õ(1/ε) using quantum Monte Carlo/amplitude estimation techniques (Corollary 3.15), corresponding to a quadratic speedup in the sampling error ε under smoothness assumptions on continuation values.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum least-squares Monte Carlo algorithm for stochastic optimal stopping / American option pricing, with case studies for Brownian motion and geometric Brownian motion under polynomial approximation architectures.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Quantum LSM algorithm for optimal stopping with recursive superposition-based stopping-time computation and quantum Monte Carlo subroutines",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "delta": "failure probability parameter for Monte Carlo subroutines",
+          "epsilon": "additive accuracy parameter",
+          "delta_A": "delta/(4Tm^2)",
+          "delta_b": "delta/(4Tm)",
+          "epsilon_A": "epsilon/m",
+          "epsilon_b": "epsilon/sqrt(m)",
+          "T": "number of time steps",
+          "m": "number of basis functions",
+          "L": "max_t,k ||e_{t,k}||_{L2(rho_t)}",
+          "R": "max_t ||z_t||_u",
+          "sigma_min": "min_t sigma_min(A_t)",
+          "Ttotal": "Tsamp + Tz + Te",
+          "q": "polynomial degree parameter in Section 4",
+          "n": "smoothness order of continuation values",
+          "lambda": "cube truncation parameter for Brownian/geometric Brownian motion cases",
+          "beta": "lambda^(2/p) for truncation of payoffs",
+          "p": "Lp moment parameter, 2<p<infty"
+        },
+        "parameter_initialization": "Not applicable; algorithm is non-variational. Basis functions and truncation parameters are chosen analytically.",
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "other",
+        "encoding_details": "No QUBO/Ising encoding; the problem is formulated as stochastic optimal stopping with dynamic programming and continuation-value regression. Quantum subroutines estimate expectations and compute stopping times in superposition.",
+        "objective_function": "Approximate U0 = sup_tau E[Z_tau] for a pay-off process Z_t = z_t(X_t) over a Markov chain X_t, i.e., the optimal stopping value / American option price.",
+        "constraints_handling": "Stopping rule implemented via recursive comparison Z_t >= E[Z_{tau_{t+1}}|X_t]; no penalty formulation.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Stochastic optimal stopping / American option pricing; general Markov chain setting plus explicit Brownian motion and geometric Brownian motion case studies.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Brownian motion and geometric Brownian motion processes; no empirical market dataset specified in the paper text provided."
+        },
+        "data_preprocessing_details": "For Brownian/geometric Brownian motion analyses, polynomial basis functions are chosen; in truncated versions, the state space is restricted to Q_d(lambda) and payoffs are truncated via T_beta.",
+        "evaluation_methodology": "The paper provides theoretical error and runtime analysis; no numerical benchmark protocol, shot averaging, or independent-run protocol is reported in the provided text."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": "not_specified"
+      },
+      "noise_model": {
+        "noise_model": null,
+        "noise_parameters": null,
+        "mitigation_details": null,
+        "is_noisy": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Classical linear algebra for matrix inversion and classical postprocessing of estimated expectations",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Choose basis functions; compute/estimate matrices A_t and vectors b_t; for Brownian motion, use Hermite polynomials; for geometric Brownian motion, use monomials; optionally truncate payoffs and state space.",
+        "classical_postprocessing": "Invert estimated matrices classically to obtain alpha_t; compute stopping times recursively; output max{Z0, estimated continuation value}.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "oracle_queries",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "oracle calls / query complexity",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "price_error",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "additive error in U0 / option price",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "quantum_runtime_general",
+          "value": "O~(T^2 m^4 / epsilon)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "time complexity",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "classical_runtime_general",
+          "value": "O~(T m^4 (T + m^2) / epsilon^2)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "time complexity",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "quantum_runtime_smooth_continuation",
+          "value": "O~(1/epsilon)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "time complexity",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "classical_runtime_smooth_continuation",
+          "value": "O~(1/epsilon^2)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "time complexity",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "quantum_runtime_brownian_motion",
+          "value": "O~((5T/epsilon)^(1+7d/(2n)))",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "time complexity",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "classical_runtime_brownian_motion",
+          "value": "O~((5T/epsilon)^(2+4d/n))",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "time complexity",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "quantum_runtime_geometric_brownian_motion",
+          "value": "O~((5T/epsilon)^(1+15d/(2n)) * (5T/epsilon)^(2/n))",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "time complexity",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "classical_runtime_geometric_brownian_motion",
+          "value": "O~((5T/epsilon)^(2+12d/n) * (5T/epsilon)^(2/n))",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "time complexity",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "speedup_order",
+          "value": "quadratic",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "asymptotic factor",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_underlyings",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimension d",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical lsm algorithm",
+          "metric_name": "quantum_runtime_general",
+          "value": "O~(T m^4 (T + m^2) / epsilon^2)",
+          "unit": "time complexity"
+        },
+        {
+          "method_name": "classical lsm algorithm",
+          "metric_name": "quantum_runtime_smooth_continuation",
+          "value": "O~(1/epsilon^2)",
+          "unit": "time complexity"
+        },
+        {
+          "method_name": "classical lsm algorithm",
+          "metric_name": "quantum_runtime_brownian_motion",
+          "value": "O~((5T/epsilon)^(2+4d/n))",
+          "unit": "time complexity"
+        },
+        {
+          "method_name": "classical lsm algorithm",
+          "metric_name": "quantum_runtime_geometric_brownian_motion",
+          "value": "O~((5T/epsilon)^(2+12d/n) * (5T/epsilon)^(2/n))",
+          "unit": "time complexity"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical least squares Monte Carlo (LSM)",
+          "conditions": "under mild assumptions; with quantum sampling access and quantum query access; for sufficiently smooth continuation values the runtime improves from O~(1/epsilon^2) to O~(1/epsilon)",
+          "is_demonstrated": true,
+          "caveats": "The advantage is in runtime complexity, not an empirical hardware demonstration. The algorithm assumes quantum oracles, fixed-point arithmetic model, and classical inversion of estimated matrices. Some bounds depend on sigma_min, basis choice, and smoothness of continuation values."
+        },
+        {
+          "type": "theoretical",
+          "factor": "quadratic in epsilon",
+          "baseline_method": "classical LSM with Monte Carlo sampling",
+          "conditions": "general setting with finite-dimensional linear approximation architecture",
+          "is_demonstrated": true,
+          "caveats": "The paper states a nearly quadratic speedup in runtime; the exact improvement depends on approximation error and smoothness assumptions."
+        }
+      ],
+      "scalability_data": [],
+      "complexity_analysis": {
+        "quantum_complexity": "Theoretical runtime eO(T^2 m^4 / epsilon) in the general setting (Corollary 3.15), with improved forms for smooth continuation values; for n = Theta(log(5T/epsilon)/log log(5T/epsilon)), eO(1/epsilon) up to polylog factors.",
+        "classical_complexity": "Theoretical runtime eO(T m^4 (T + m^2) / epsilon^2) in the general setting (Corollary 3.15), with improved forms for smooth continuation values; for n = Theta(log(5T/epsilon)/log log(5T/epsilon)), eO(1/epsilon^2) up to polylog factors.",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L0_theory",
+        "crossover_size": "Not reported; complexity comparison given only asymptotically in ε and basis size m.",
+        "resources_for_advantage": "Requires fault‑tolerant quantum computer capable of repeated amplitude estimation and coherent simulation of Markov chain sampling oracles across O(T^2) circuit depth and large polynomial basis size m. Also requires quantum oracles for payoff functions and stochastic process sampling.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Only theoretical algorithmic analysis; no simulation or hardware implementation",
+          "Quadratic speedup only (from O(1/ε^2) to O(1/ε)), which Hoefler analysis suggests is unlikely to survive fault‑tolerance overhead",
+          "Requires strong oracle assumptions (quantum sampling access to stochastic process)",
+          "Circuit depth grows as O(T^2) due to recursive stopping-time construction",
+          "Additional dependence on polynomial basis size m and smoothness assumptions on continuation values",
+          "No explicit resource estimates (qubits, gates) provided"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper is a theory paper and does not report an actual hardware implementation, qubit count, circuit depth, shots, or gate counts.",
+          "num_qubits and circuit_depth are not explicitly reported; the algorithm is described at the oracle/circuit level only, so these remain null and are marked inferred/not specified rather than measured.",
+          "No simulator or QPU platform is named in the provided text.",
+          "The authors claim a nearly quadratic runtime speedup compared to classical least‑squares Monte Carlo under certain smoothness assumptions (Theorems 1.2–1.3, Corollary 3.15).",
+          "However, the paper presents only theoretical complexity analysis and no numerical or hardware experiments."
+        ],
+        "advantage_status": "paper_reported"
+      }
+    }
+  ]
+}

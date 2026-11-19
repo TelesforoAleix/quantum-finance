@@ -1,0 +1,472 @@
+{
+  "paper_id": "b660e6ffe7f2",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:39:36+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "b660e6ffe7f2_a_new_initial_distribution_for_quantum_generative_adversarial_networks_to_load_p.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.95,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 4,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[8].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='runs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[15].unit='points' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.95,
+      "completeness": 0.95,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.95
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "A New Initial Distribution for Quantum Generative Adversarial Networks to Load Probability Distributions",
+    "authors": [
+      "Yuichi Sano",
+      "Ryosuke Koga",
+      "Masaya Abe",
+      "Kei Nakagawa"
+    ],
+    "year": 2023,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": [
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a label-replacement method for constructing shallow initial distributions for qGAN generators that can be implemented with single-qubit gates (depth d≈1 or effectively d=0). In classical simulation with 3 qubits and 8 discretized points, the method reduces relative entropy when learning distributions (e.g., ≈0.0016 mean KL divergence for log-normal targets with k=2) compared to uniform initialization and is competitive with normal-distribution initialization while requiring shallower circuits.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "qGAN simulation study comparing a proposed shallow initial distribution (via label replacement) against uniform and normal initial distributions for learning log-normal, triangular, and bimodal target probability distributions.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "quantum generative adversarial network (qGAN) with custom initial distribution / label replacement",
+        "ansatz": "parameterized Ry layers with interleaved CZ gates in the generator; initial distribution circuit uses single-qubit H or Ry gates",
+        "optimizer": "AMSGRAD",
+        "num_layers": null,
+        "convergence_criteria": "trained up to 2000 epochs",
+        "hyperparameters": {
+          "learning_rate": 0.0001,
+          "beta1": 0.7,
+          "beta2": 0.99,
+          "num_samples_for_gradient": 8000,
+          "training_epochs": 2000,
+          "training_runs_per_setting": 10,
+          "training_data_samples": 2000,
+          "discretization_points": 8,
+          "mini_batch_size": 2000,
+          "generator_initial_weights_range": "[-1e-1, 1e-1]",
+          "target_distributions": [
+            "log-normal",
+            "triangular",
+            "bimodal"
+          ],
+          "generator_iterations_k": [
+            1,
+            2,
+            3
+          ]
+        },
+        "parameter_initialization": "generator initial weights randomly sampled from uniform [-1e-1, 1e-1]; proposed initial distribution encoded by fixed Ry angles derived from target distribution; uniform baseline via H gates; normal baseline via fixed Ry circuit",
+        "optimizer_settings": {
+          "learning_rate": 0.0001,
+          "max_iterations": 2000,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "8-point discretized probability distributions loaded into computational basis states; label replacement permutes measurement outcomes to match target ordering",
+        "objective_function": "minimize relative entropy H(P|Q) between target distribution and generated distribution",
+        "constraints_handling": "none reported; label replacement is a classical relabeling of measurement outcomes rather than a quantum constraint method",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Learning and loading probability distributions for qGAN-based state preparation relevant to quantum expectation estimation in finance",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 2000,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "target distributions: log-normal (mu=1, sigma=1), triangular (l=0, u=7, m=2), bimodal (two Gaussians with mu1=0.5, sigma1=1 and mu2=3.5, sigma2=0.5); 8-point discretization"
+        },
+        "data_preprocessing_details": "samples drawn from each target distribution, discretized into 8 points; target probabilities sorted for label replacement initial distribution construction",
+        "evaluation_methodology": "10 independent training runs per initial distribution and target distribution; performance measured by mean, standard deviation, and minimum relative entropy over runs"
+      },
+      "quantum_resources": {
+        "num_qubits": 3,
+        "qubit_type": "not_specified",
+        "circuit_depth": 1,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 8000,
+        "num_variational_params": 3,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "PyTorch discriminator; AMSGRAD optimizer",
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": null,
+          "routing_method": null
+        },
+        "classical_preprocessing": "target distributions sampled and discretized; label replacement permutation computed from sorted probabilities; initial Ry angles derived analytically",
+        "classical_postprocessing": "relative entropy computed between generated and target distributions; best run selected for figure comparisons",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": 10.0,
+          "num_independent_runs": 10
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "relative_entropy",
+          "value": 0.00163,
+          "uncertainty": "±0.000405",
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "relative_entropy",
+          "value": 0.00134,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "relative_entropy",
+          "value": 0.03931,
+          "uncertainty": "±0.011143",
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "relative_entropy",
+          "value": 0.00744,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "relative_entropy",
+          "value": 0.09782,
+          "uncertainty": "±0.067075",
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "relative_entropy",
+          "value": 0.00194,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 2000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_epochs",
+          "value": 2000,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "epochs",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "learning_rate",
+          "value": 0.0001,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "beta1",
+          "value": 0.7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "beta2",
+          "value": 0.99,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_samples_for_gradient",
+          "value": 8000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_runs_per_setting",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "runs",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "discretization_points",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "points",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "mini_batch_size",
+          "value": 2000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": null,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "uniform initial distribution",
+          "metric_name": "relative_entropy",
+          "value": 0.07702,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "normal initial distribution",
+          "metric_name": "relative_entropy",
+          "value": 0.0132,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "uniform initial distribution",
+          "metric_name": "relative_entropy",
+          "value": 0.19945,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "normal initial distribution",
+          "metric_name": "relative_entropy",
+          "value": 0.00288,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "uniform initial distribution",
+          "metric_name": "relative_entropy",
+          "value": 0.04484,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "normal initial distribution",
+          "metric_name": "relative_entropy",
+          "value": 0.00863,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "O(1/epsilon) vs O(1/epsilon^2)",
+          "baseline_method": "classical Monte Carlo expectation estimation",
+          "conditions": "for quantum expectation estimation / amplitude estimation",
+          "is_demonstrated": false,
+          "caveats": "This is a general algorithmic claim from prior work, not a new empirical speedup shown in this paper."
+        },
+        {
+          "type": "theoretical",
+          "factor": "up to O(2^n) gates for Grover-Rudolph state preparation",
+          "baseline_method": "Grover-Rudolph state preparation",
+          "conditions": "for loading probability distributions into quantum states",
+          "is_demonstrated": false,
+          "caveats": "Used as motivation for shallow qGAN-based loading; not a measured speedup in the experiments."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 3.0,
+          "num_qubits": 3,
+          "metric_name": "relative_entropy",
+          "metric_value": 0.00163
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 3,
+          "metric_name": "relative_entropy",
+          "metric_value": 0.03931
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 3,
+          "metric_name": "relative_entropy",
+          "metric_value": 0.09782
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "qGAN generator uses shallow circuits; paper emphasizes d=1 or d=0 initial distributions and contrasts with Grover-Rudolph O(2^n) state preparation",
+        "classical_complexity": "Monte Carlo expectation estimation O(1/epsilon^2); Grover-Rudolph state preparation up to O(2^n) gates",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not analyzed",
+        "resources_for_advantage": "Not quantified. The study only evaluates 3‑qubit circuits with 8 discretization points in classical simulation.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Experiments only use 3 qubits and 8-point discretized distributions",
+          "All results obtained via noiseless classical simulation",
+          "No comparison to classical state-preparation or distribution-learning algorithms beyond internal qGAN initialization variants",
+          "No empirical speedup or runtime comparison measured",
+          "Practical usefulness depends on larger-scale amplitude-estimation workflows that are not demonstrated"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "num_qubits inferred as 3 from the 8-point discretization and explicit references to 3-qubit circuits in the text; hardware is a Qiskit simulation with no real QPU named, so simulator_other is inferred from context.",
+          "The paper does not claim experimental quantum advantage; it motivates the work using the known quadratic speedup of amplitude estimation (O(1/ε) vs O(1/ε²)) but only studies initialization strategies for qGAN state preparation.",
+          "The experiment compares different initial distributions within the same qGAN framework rather than quantum vs classical algorithms."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

@@ -1,0 +1,1407 @@
+{
+  "paper_id": "3e373f43ba5b",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:33:36+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "3e373f43ba5b_quantum_state_preparation_for_multivariate_functions.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.67,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 4,
+    "validation_warnings": 6,
+    "validation_passed": false,
+    "validation_error_details": [
+      "Schema error at experiments.0.quantum_resources.two_qubit_gate_count: 'Reported as two-qubit gate counts after compilation; fit uses α0 + α1 D 2^⌈log2(d+1)⌉ n⌈log2 n⌉ + α2 2^D⌈log2(d+1)⌉, and the largest example at d=63, n=6 uses 30 qubits and the paper discusses compiled two-qubit gate counts in Fig. 7(c)' is not of type 'integer', 'null'",
+      "Schema error at experiments.1.quantum_resources.two_qubit_gate_count: 'Reported as two-qubit gate counts after compilation; fit uses α0 + α1 D n⌈log2(2d+1)⌉ + α2 2^D⌈log2(2d+1)⌉' is not of type 'integer', 'null'",
+      "Schema error at experiments.2.quantum_resources.two_qubit_gate_count: '1602–12450 depending on configuration (e.g., 1656 two-qubit gates for 30-qubit circuit)' is not of type 'integer', 'null'",
+      "Schema error at experiments.3.quantum_resources.two_qubit_gate_count: '80 (uncorrelated), 237 (correlated)' is not of type 'integer', 'null'"
+    ],
+    "validation_warning_details": [
+      "experiments[0].results[8].unit='O(dx dy log(dx dy))' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='O(dD + Ddn log n) two-qubit gates' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[7].unit='O(dx dy log(dx dy))' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[8].unit='O(dD + Dn log d) two-qubit gates' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[3].results[1].unit='depth' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[3].results[2].unit='depth' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.67,
+      "completeness": 0.67,
+      "num_experiments": 5,
+      "experiment_scores": [
+        0.75,
+        0.75,
+        0.85,
+        0.85,
+        0.15
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum state preparation for multivariate functions",
+    "authors": [
+      "Matthias Rosenkranz",
+      "Eric Brunner",
+      "Gabriel Marin-Sanchez",
+      "Nathan Fitzpatrick",
+      "Silas Dilkes",
+      "Yao Tang",
+      "Yuta Kikuchi",
+      "Marcello Benedetti"
+    ],
+    "year": 2025,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "simulation-monte-carlo",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper introduces gate-based algorithms for preparing quantum states encoding multivariate functions using Fourier or Chebyshev series with resource scaling O(d^D + Dn log d) or O(d^D + Ddn log n). Simulations demonstrate preparation of functions such as a 2D Ricker wavelet and Student’s t-distribution, while a hardware experiment prepares a 512×512 discretized Gaussian distribution on the Quantinuum H2‑1 processor using 24 qubits and up to 237 two‑qubit gates, achieving fidelities up to 0.986.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Preparation of a 2D Ricker wavelet on a grid using a Chebyshev-series-based gate model, with numerical simulation and resource scaling analysis.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Multivariate state preparation via truncated Chebyshev series and LCU/block-encoding",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "target_function": "2D Ricker wavelet",
+          "sigma": 0.5,
+          "dimension": 2,
+          "degree_d": "varied",
+          "grid_size": "2^n x 2^n",
+          "n": "varied (examples include n=4,5,6)"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "block_encoding",
+        "encoding_details": "Amplitudes encode a discretized 2D function on an equidistant grid; Chebyshev basis functions are block-encoded and combined with LCU.",
+        "objective_function": "Prepare a quantum state proportional to the discretized Ricker wavelet f(x,y) on [−1,1]^2.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": "D(⌈log2(d+1)⌉+⌈log2 n⌉) for Chebyshev approach; for the 2D case with D=2 this is 2(⌈log2(d+1)⌉+⌈log2 n⌉)"
+      },
+      "problem_instance": {
+        "description": "2D Ricker wavelet centered at (0,0).",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 2,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": null,
+        "data_preprocessing_details": "Chebyshev interpolation on [−1,1]^2; coefficients computed via 2D cosine transform / FFT.",
+        "evaluation_methodology": "Noiseless simulation; compare prepared amplitudes to target function and report maximum absolute error and gate counts across degrees and grid sizes."
+      },
+      "quantum_resources": {
+        "num_qubits": 30,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "Quantinuum",
+        "device_name": null,
+        "framework": "pytket",
+        "transpilation_target": "Quantinuum H2-1 native gate set",
+        "classical_solver": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/CQCL/mvsp",
+        "framework_version": null,
+        "transpilation_target": "H2-1 default native gate set",
+        "classical_solver": null,
+        "transpilation_settings": {
+          "optimization_level": 2,
+          "basis_gates": [
+            "ZZPhase",
+            "PhasedX"
+          ],
+          "routing_method": null
+        },
+        "classical_preprocessing": "Chebyshev coefficients computed by interpolation using FFT / discrete cosine transform.",
+        "classical_postprocessing": "Rescale noiseless amplitudes for comparison to target function; compute maximum absolute error over grid and over continuous domain.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "error decreases rapidly with degree; supergeometric convergence for analytic target",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "max_absolute_error",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 0.0842,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 30,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "two_qubit_gate_count",
+          "value": 1638,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "two_qubit_gate_count",
+          "value": 1602,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "two_qubit_gate_count",
+          "value": 1620,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "two_qubit_gate_count",
+          "value": 12450,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "two_qubit_gate_count",
+          "value": 1656,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "classical_preprocessing_cost",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "O(dx dy log(dx dy))",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "quantum_complexity",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "O(dD + Ddn log n) two-qubit gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "O(dD + Ddn log n) two-qubit gates; qubits O(Dn + D log d)",
+          "baseline_method": "prior multivariate state-preparation methods",
+          "conditions": "Chebyshev-series-based gate model; large n and d; compared qualitatively against prior work",
+          "is_demonstrated": false,
+          "caveats": "No explicit classical runtime baseline or end-to-end speedup is demonstrated; this is a resource-scaling claim."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 63.0,
+          "num_qubits": 30,
+          "metric_name": "two_qubit_gate_count",
+          "metric_value": 1638
+        },
+        {
+          "problem_size": 63.0,
+          "num_qubits": 30,
+          "metric_name": "success_probability",
+          "metric_value": 0.0842
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(dD + Ddn log n) two-qubit gates for Chebyshev approach; qubits scale as O(Dn + D log d)",
+        "classical_complexity": "O(dx dy log(dx dy)) for 2D coefficient computation via FFT; more generally O(\\bar d log \\bar d)",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not analyzed",
+        "resources_for_advantage": "Unknown; algorithm provides resource scaling O(d^D + D d n log n) but no classical runtime comparison.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "No comparison with classical state preparation costs",
+          "State preparation itself is a subroutine rather than an end-to-end algorithm",
+          "Polynomial degree grows exponentially with dimension",
+          "Requires amplitude post-selection or amplification"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "This is a gate-based trapped-ion experiment/simulation, not quantum annealing.",
+          "The paper reports compiled two-qubit gate counts and qubit counts for example settings, but not a single universal depth number for this experiment.",
+          "Paper analyzes scaling but does not claim quantum advantage; results are numerical simulations of circuit resources."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Preparation of a bivariate Student’s t-distribution using a Fourier-series-based gate model, with numerical simulation and resource scaling analysis.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Multivariate state preparation via truncated Fourier series and LCU/block-encoding",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "target_function": "bivariate Student’s t-distribution (Cauchy, ν=1)",
+          "mu": "(0.5, 0.5)",
+          "Sigma": "[[0.05, 0],[0,0.05]]",
+          "dimension": 2,
+          "degree_d": "varied",
+          "grid_size": "2^n x 2^n",
+          "n": "varied (examples include n=4,5,6)"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "block_encoding",
+        "encoding_details": "Amplitudes encode a discretized 2D function on [0,1]^2; Fourier basis functions are implemented as controlled phase evolutions and combined with LCU.",
+        "objective_function": "Prepare a quantum state proportional to the discretized periodically extended Student’s t-distribution.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": "D⌈log2(2d+1)⌉ for Fourier approach; for the 2D case with D=2 this is 2⌈log2(2d+1)⌉"
+      },
+      "problem_instance": {
+        "description": "Bivariate non-standardized Student’s t-distribution with one degree of freedom, periodically extended to [−1,1]^2 for Fourier approximation.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 2,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": null,
+        "data_preprocessing_details": "Periodic extension from [0,1]^2 to [−1,1]^2; Fourier coefficients computed via FFT.",
+        "evaluation_methodology": "Noiseless simulation; compare prepared amplitudes to target function and report maximum absolute error and gate counts across degrees and grid sizes."
+      },
+      "quantum_resources": {
+        "num_qubits": 26,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "Quantinuum",
+        "device_name": null,
+        "framework": "pytket",
+        "transpilation_target": "Quantinuum H2-1 native gate set",
+        "classical_solver": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/CQCL/mvsp",
+        "framework_version": null,
+        "transpilation_target": "H2-1 default native gate set",
+        "classical_solver": null,
+        "transpilation_settings": {
+          "optimization_level": 2,
+          "basis_gates": [
+            "ZZPhase",
+            "PhasedX"
+          ],
+          "routing_method": null
+        },
+        "classical_preprocessing": "Fourier coefficients computed by interpolation / FFT after periodic extension.",
+        "classical_postprocessing": "Rescale noiseless amplitudes for comparison to target function; compute maximum absolute error over grid and over continuous domain.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "error decays approximately as O(1/d) due to boundary derivative discontinuity from periodic extension",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "max_absolute_error",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 0.0752,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "two_qubit_gate_count",
+          "value": 1638,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "two_qubit_gate_count",
+          "value": 1602,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "two_qubit_gate_count",
+          "value": 1620,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "two_qubit_gate_count",
+          "value": 12450,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "two_qubit_gate_count",
+          "value": 1656,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "classical_preprocessing_cost",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "O(dx dy log(dx dy))",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "quantum_complexity",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "O(dD + Dn log d) two-qubit gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "O(dD + Dn log d) two-qubit gates; qubits O(Dn + D log d)",
+          "baseline_method": "prior Fourier-series state-preparation methods",
+          "conditions": "Fourier-series-based gate model; large n and d; compared qualitatively against prior work",
+          "is_demonstrated": false,
+          "caveats": "No explicit classical runtime baseline or end-to-end speedup is demonstrated; this is a resource-scaling claim."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 63.0,
+          "num_qubits": 30,
+          "metric_name": "two_qubit_gate_count",
+          "metric_value": 1638
+        },
+        {
+          "problem_size": 63.0,
+          "num_qubits": 30,
+          "metric_name": "success_probability",
+          "metric_value": 0.0752
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(dD + Dn log d) two-qubit gates for Fourier approach; qubits scale as O(Dn + D log d)",
+        "classical_complexity": "O(Dd^D log d) for coefficient computation in the general multivariate case; for 2D FFT specifically O(dx dy log(dx dy))",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not provided",
+        "resources_for_advantage": "Not quantified; algorithm complexity O(d^D + D n log d) but no classical baseline.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Only noiseless simulation",
+          "No classical performance benchmark",
+          "State preparation overhead remains large for high dimension",
+          "Fourier approximation error depends on function smoothness"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "This is a gate-based Fourier-series state-preparation experiment/simulation, not quantum annealing.",
+          "The paper reports compiled two-qubit gate counts and qubit counts for example settings, but not a single universal depth number for this experiment.",
+          "Experiment evaluates approximation accuracy and gate counts only."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "Preparation of single-electron wavefunctions in a periodic 3D Coulomb potential using the Fourier-based gate model, with numerical simulation and compilation resource estimates.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "State preparation of plane-wave coefficients for a 3D electronic wavefunction via Fourier-series LCU/block-encoding",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "dimension": 3,
+          "grid_points_per_dimension": "2^n",
+          "coefficients_per_dimension": "N",
+          "unit_cell": "(1x1x1) periodic Coulomb potential",
+          "n": "varied (examples include n=4,5,6,7)"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "block_encoding",
+        "encoding_details": "Wavefunction amplitudes are encoded on a 3D grid; Fourier coefficients from the Schrödinger equation are loaded into ancilla registers and combined with controlled basis-function unitaries.",
+        "objective_function": "Prepare ground and first-excited-state wavefunctions of a single electron in a periodic Coulomb potential.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": "Electronic Hamiltonian in plane-wave basis: H^(el)_{k,k'} = -T_{k,k'} - U_{k,k'}",
+        "num_ancilla_qubits": "3a where a=⌈log2 N⌉ per dimension; total ancillas = 3a"
+      },
+      "problem_instance": {
+        "description": "Single electron in a 3D translationally invariant Coulomb potential in a unit cell with one nucleus at the center.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 3,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": null,
+        "data_preprocessing_details": "Solve the time-independent Schrödinger equation in a plane-wave basis to obtain Fourier coefficients; then prepare the corresponding wavefunction state.",
+        "evaluation_methodology": "Statevector simulation compared to direct numerical evaluation of the wavefunction; compilation resource table reported for multiple n and coefficient-register sizes."
+      },
+      "quantum_resources": {
+        "num_qubits": 21,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": 2,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "Quantinuum",
+        "device_name": null,
+        "framework": "pytket",
+        "transpilation_target": "{CX, RZ, RX} gate set",
+        "classical_solver": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/CQCL/mvsp",
+        "framework_version": null,
+        "transpilation_target": "{CX, RZ, RX}",
+        "classical_solver": null,
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": [
+            "CX",
+            "RZ",
+            "RX"
+          ],
+          "routing_method": null
+        },
+        "classical_preprocessing": "Solve the Schrödinger equation in the plane-wave basis to obtain Fourier coefficients.",
+        "classical_postprocessing": "Compare simulated probability density to direct numerical evaluation; report resource counts in Table 2.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_qubits",
+          "value": 30,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 33,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "two_qubit_gate_count",
+          "value": 1602,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "two_qubit_gate_count",
+          "value": 1620,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "two_qubit_gate_count",
+          "value": 1638,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "two_qubit_gate_count",
+          "value": 1656,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "two_qubit_gate_count",
+          "value": 12450,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 0.7047,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 0.2392,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "O(dD + Dn log d) two-qubit gates; qubits O(Dn + D log d)",
+          "baseline_method": "classical plane-wave coefficient computation / prior quantum state-preparation methods",
+          "conditions": "3D periodic Coulomb potential; Fourier-series-based state preparation",
+          "is_demonstrated": false,
+          "caveats": "The paper reports statevector simulation and compiled resource counts, not a classical runtime comparison."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 4.0,
+          "num_qubits": 21,
+          "metric_name": "two_qubit_gate_count",
+          "metric_value": 1602
+        },
+        {
+          "problem_size": 5.0,
+          "num_qubits": 24,
+          "metric_name": "two_qubit_gate_count",
+          "metric_value": 1620
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 27,
+          "metric_name": "two_qubit_gate_count",
+          "metric_value": 1638
+        },
+        {
+          "problem_size": 7.0,
+          "num_qubits": 30,
+          "metric_name": "two_qubit_gate_count",
+          "metric_value": 1656
+        },
+        {
+          "problem_size": 7.0,
+          "num_qubits": 33,
+          "metric_name": "two_qubit_gate_count",
+          "metric_value": 12450
+        },
+        {
+          "problem_size": 7.0,
+          "num_qubits": 30,
+          "metric_name": "success_probability",
+          "metric_value": 0.7047
+        },
+        {
+          "problem_size": 7.0,
+          "num_qubits": 30,
+          "metric_name": "success_probability",
+          "metric_value": 0.2392
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(dD + Dn log d) two-qubit gates for Fourier approach; qubits scale as O(Dn + D log d)",
+        "classical_complexity": "Solving the Schrödinger equation in a plane-wave basis is classical preprocessing; no explicit asymptotic complexity stated for this specific instance",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not discussed",
+        "resources_for_advantage": "Unclear; preparation cost dominated by loading Fourier coefficients O(d^D).",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Only simulation and compiled resource estimates",
+          "Small system (single electron in toy periodic cell)",
+          "State preparation is not the computational bottleneck in full quantum chemistry algorithms"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "This is a gate-based quantum-simulation/state-preparation application, not quantum annealing.",
+          "The paper reports total qubits and compiled two-qubit gate counts in Table 2, but not a single depth number for this experiment.",
+          "Paper uses this example to illustrate applicability to physics simulations but does not claim advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_4",
+      "description": "Hardware demonstration of preparing a 2D Gaussian distribution on Quantinuum H2-1 using a Fourier-series-based gate circuit, for both uncorrelated and correlated cases.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Multivariate state preparation via truncated Fourier series and LCU/block-encoding on hardware",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "target_function": "2D Gaussian distribution",
+          "mu": "(0.5, 0.5)",
+          "sigma_x": 0.22,
+          "sigma_y": 0.18,
+          "rho_values": [
+            0.0,
+            0.4
+          ],
+          "dimension": 2,
+          "degree_d": 3,
+          "grid_size": "512 x 512",
+          "shots": 20000,
+          "n": 9,
+          "a": 3,
+          "correlated_case": "rho=0.4",
+          "uncorrelated_case": "rho=0.0"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "block_encoding",
+        "encoding_details": "Two-dimensional function on [0,1]^2 encoded in amplitudes; Fourier coefficients loaded into ancilla registers and applied to a 2D grid state.",
+        "objective_function": "Prepare a quantum state proportional to a 2D Gaussian density (uncorrelated or correlated).",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": "6 total coefficient ancillas (a_x=a_y=3)"
+      },
+      "problem_instance": {
+        "description": "Uncorrelated and correlated bivariate Gaussian distributions on [0,1]^2.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 2,
+        "dataset_size": 20000,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": null,
+        "data_preprocessing_details": "Fourier coefficients computed analytically from the Gaussian characteristic function after extending the density to zero outside [0,1]^2; output analyzed via kernel density estimation.",
+        "evaluation_methodology": "20,000 shots per experiment; compare measured distributions to target via KDE, marginal distributions, mean/variance/correlation, and classical fidelity."
+      },
+      "quantum_resources": {
+        "num_qubits": 24,
+        "qubit_type": "physical",
+        "circuit_depth": 42,
+        "circuit_depth_transpiled": 42,
+        "gate_count_total": 123,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 20000,
+        "num_variational_params": null,
+        "gate_fidelity": "Average two-qubit gate infidelity 0.2% (device-level specification)",
+        "readout_fidelity": "State preparation and measurement error typically 0.2% on average",
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_trapped_ion",
+        "provider": "Quantinuum",
+        "device_name": "H2-1",
+        "framework": "pytket",
+        "transpilation_target": "Quantinuum H2-1 native gate set",
+        "classical_solver": null
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "hardware noise on trapped-ion QPU",
+        "error_mitigation_method": null,
+        "noise_parameters": {
+          "single_qubit_gate_infidelity": "0.003%",
+          "two_qubit_gate_infidelity": "0.2%",
+          "state_preparation_measurement_error": "0.2%"
+        },
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/CQCL/mvsp",
+        "framework_version": null,
+        "transpilation_target": "H2-1 native gate set",
+        "classical_solver": null,
+        "transpilation_settings": {
+          "optimization_level": 2,
+          "basis_gates": [
+            "PhasedX",
+            "ZZPhase"
+          ],
+          "routing_method": null
+        },
+        "classical_preprocessing": "Fourier coefficients computed analytically; kernel density estimation used to analyze measured data.",
+        "classical_postprocessing": "Post-select on ancilla zero state; estimate densities with KDE; compute marginals, means, variances, correlation coefficients, and fidelity.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_qubits",
+          "value": 24,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 42,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "depth",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 352,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "depth",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "single_qubit_gate_count",
+          "value": 123,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "single_qubit_gate_count",
+          "value": 266,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "two_qubit_gate_count",
+          "value": 80,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "two_qubit_gate_count",
+          "value": 237,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_shots",
+          "value": 20000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 0.139,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 0.134,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 0.1299,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 0.0877,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "fidelity",
+          "value": 0.986,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "fidelity",
+          "value": 0.918,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "mean_x",
+          "value": 0.494,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "mean_y",
+          "value": 0.495,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "variance_x",
+          "value": 0.0468,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "variance_y",
+          "value": 0.0396,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "correlation_coefficient",
+          "value": -0.015,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "mean_x",
+          "value": 0.493,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "mean_y",
+          "value": 0.488,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "variance_x",
+          "value": 0.0519,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "variance_y",
+          "value": 0.051,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "correlation_coefficient",
+          "value": 0.088,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "This is a hardware demonstration of state preparation quality, not a speedup study."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": null,
+          "num_qubits": 24,
+          "metric_name": "two_qubit_gate_count",
+          "metric_value": 80
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 24,
+          "metric_name": "two_qubit_gate_count",
+          "metric_value": 237
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 24,
+          "metric_name": "circuit_depth",
+          "metric_value": 42
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 24,
+          "metric_name": "circuit_depth",
+          "metric_value": 352
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 24,
+          "metric_name": "success_probability",
+          "metric_value": 0.1299
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 24,
+          "metric_name": "success_probability",
+          "metric_value": 0.0877
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 24,
+          "metric_name": "fidelity",
+          "metric_value": 0.986
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 24,
+          "metric_name": "fidelity",
+          "metric_value": 0.918
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(dD + Dn log d) two-qubit gates for Fourier approach; qubits scale as O(Dn + D log d)",
+        "classical_complexity": "Coefficient computation from analytic characteristic function; no explicit asymptotic complexity stated for this specific experiment",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": false,
+        "maturity_level": "L4_qpu_scale",
+        "crossover_size": "Unknown; classical Gaussian sampling and evaluation are trivial.",
+        "resources_for_advantage": "Would require large fault‑tolerant systems where state preparation is amortized inside larger algorithms.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "near_term_2_5_years",
+        "limiting_factors": [
+          "Only 24 qubits used",
+          "Task (sampling Gaussian distribution) trivial classically",
+          "Noise significantly affects correlations",
+          "Circuit depth limited to a few hundred gates"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "This is the only true hardware experiment in the paper; it is gate-based on Quantinuum H2-1, not annealing.",
+          "The paper reports separate resource counts for uncorrelated and correlated Gaussian settings; both are included in one experiment because they share the same algorithm and hardware setup.",
+          "Paper demonstrates feasibility of state preparation on hardware but does not claim performance advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_4",
+      "description": "Hardware demonstration of 2D Gaussian state preparation using the Fourier-series LCU method on the Quantinuum H2-1 trapped-ion quantum processor.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Multivariate Fourier-series state preparation via LCU/block-encoding",
+        "hyperparameters": {
+          "dimension": 2,
+          "grid_size": "512 × 512",
+          "qubits_per_dimension": 9,
+          "degree_d": 3,
+          "ancilla_qubits_per_dimension": 3,
+          "total_qubits": 24
+        },
+        "num_layers": null
+      },
+      "key_results": [
+        "Executed on Quantinuum H2-1 with 24 qubits",
+        "Circuits used 80 two-qubit gates (uncorrelated Gaussian) and 237 two-qubit gates (correlated Gaussian)",
+        "20,000 shots per experiment",
+        "Achieved classical fidelity F = 0.986 for uncorrelated Gaussian and F = 0.918 for correlated Gaussian",
+        "Observed experimental success probabilities 0.1299 (uncorrelated) and 0.0877 (correlated)"
+      ]
+    }
+  ]
+}

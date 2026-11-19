@@ -1,0 +1,743 @@
+{
+  "paper_id": "16d418f1da92",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:07:15+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "16d418f1da92_a_more_general_quantum_credit_risk_analysis_framework.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.85,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 18,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[4].unit='absolute error' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='currency_units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='currency_units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='weight' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='weight' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[15].unit='weight' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[16].unit='weight' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[17].unit='1.4/epsilon * ln((2/gamma) * log2(pi/(4*epsilon)))' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[18].unit='order' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[4].unit='quantum_volume' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[5].unit='quantum_volume' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[9].unit='qualitative' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.85,
+      "completeness": 0.85,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.8,
+        0.9
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "A More General Quantum Credit Risk Analysis Framework",
+    "authors": [
+      "Emanuele Dri",
+      "Antonello Aita",
+      "Edoardo Giusto",
+      "Davide Ricossa",
+      "Davide Corbelletto",
+      "Bartolomeo Montrucchio",
+      "Roberto Ugoccioni"
+    ],
+    "year": 2023,
+    "doi": "10.3390/e25040593",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "risk-management",
+    "secondary_silos": [
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes an enhanced quantum credit risk analysis algorithm using iterative quantum amplitude estimation with a multi‑factor default model and arbitrary (non‑integer) LGD encoding. A noiseless simulation of a 2‑asset, 2‑factor portfolio used 9 qubits and ~50,000 IQAE samples, while noisy experiments on IBM devices (ibm_perth, ibm_lagos, ibm_canberra, ibm_algiers) used 7–13 qubits for portfolios with 2–4 assets but failed to produce reliable estimates due to decoherence.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Noiseless simulation of the enhanced quantum credit risk analysis algorithm using the multiple-rotations multi-factor uncertainty model on a two-asset, two-risk-factor toy portfolio, with iterative quantum amplitude estimation to estimate VaR at 95% confidence.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "iterative quantum amplitude estimation (IQAE) for VaR estimation",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": "target precision ϵ = 0.002 and 99% target confidence interval",
+        "hyperparameters": {
+          "alpha": 0.95,
+          "epsilon": 0.002,
+          "target_confidence_interval": 0.99,
+          "num_assets": 2,
+          "num_risk_factors": 2,
+          "qubits_per_normal_distribution": 2
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Default states of two assets are encoded in qubits; two qubits are used to discretize each standard normal risk factor; controlled rotations encode default probabilities under the multi-factor model.",
+        "objective_function": "Estimate VaR_α by finding the smallest x such that P[L ≤ x] ≥ α, where L = Σ_k PD_k·LGD_k under the multi-factor default model.",
+        "constraints_handling": "Bisection search over threshold x using the amplitude-estimation subroutine; no penalty formulation.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Toy credit portfolio with two assets and two systemic risk factors; LGD values are non-integer to demonstrate arbitrary-LGD support.",
+        "num_assets": 2,
+        "time_steps": null,
+        "num_features": 2,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Asset 1: LGD 1000.5, p0=0.15, ρ=0.1, weights (0.35, 0.2); Asset 2: LGD 2000.5, p0=0.25, ρ=0.05, weights (0.1, 0.25)."
+        },
+        "data_preprocessing_details": "Noiseless classical simulation of the Qiskit circuit; no external dataset preprocessing reported.",
+        "evaluation_methodology": "Single noiseless simulation run reported; VaR estimated via IQAE and bisection search."
+      },
+      "quantum_resources": {
+        "num_qubits": 9,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 50000,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://doi.org/10.5281/zenodo.7729267",
+        "framework_version": "Qiskit 0.36.1 (via cited documentation)",
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": null,
+        "classical_postprocessing": "Bisection search over the estimated CDF to obtain VaR_α.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_risk_factors",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "count",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "count",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 9,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_shots",
+          "value": 50000,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "target_precision",
+          "value": 0.002,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "absolute error",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "target_confidence_interval",
+          "value": 0.99,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "confidence_level_alpha",
+          "value": 0.95,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "lgd_asset_1",
+          "value": 1000.5,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "currency_units",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "lgd_asset_2",
+          "value": 2000.5,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "currency_units",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "default_probability_asset_1",
+          "value": 0.15,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "probability",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "default_probability_asset_2",
+          "value": 0.25,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "probability",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sensitivity_asset_1",
+          "value": 0.1,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "probability",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sensitivity_asset_2",
+          "value": 0.05,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "probability",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "risk_factor_weight_asset_1_factor_1",
+          "value": 0.35,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "weight",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "risk_factor_weight_asset_1_factor_2",
+          "value": 0.2,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "weight",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "risk_factor_weight_asset_2_factor_1",
+          "value": 0.1,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "weight",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "risk_factor_weight_asset_2_factor_2",
+          "value": 0.25,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "weight",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "iqae_query_complexity",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "1.4/epsilon * ln((2/gamma) * log2(pi/(4*epsilon)))",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "speedup_order",
+          "value": "quadratic",
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "order",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "quantum_samples",
+          "value": 50000,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "var_accuracy",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical Monte Carlo",
+          "conditions": "for quantum amplitude estimation / iterative quantum amplitude estimation used to estimate VaR",
+          "is_demonstrated": false,
+          "caveats": "The paper states the quadratic speedup claim but does not provide a direct empirical runtime comparison for this noiseless simulation."
+        }
+      ],
+      "scalability_data": [],
+      "complexity_analysis": {
+        "quantum_complexity": "IQAE query complexity bounded by 1.4/ϵ · ln( (2/γ) log2(π/(4ϵ)) )",
+        "classical_complexity": "Monte Carlo methods for VaR estimation; paper does not give a specific asymptotic bound here",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": "Approximately 50,000 quantum samples for the reported precision/confidence setting",
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not estimated in the paper; experiment uses a toy instance with K=2 assets and 2 risk factors.",
+        "resources_for_advantage": "Would require large-scale fault‑tolerant hardware capable of executing tens of thousands of Grover/QAE iterations with deep circuits encoding large portfolios.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Only noiseless classical simulation",
+          "Toy portfolio (2 assets)",
+          "Deep circuits required for amplitude-estimation-based risk evaluation",
+          "No empirical comparison with classical Monte Carlo runtime",
+          "Quadratic speedup only"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": null,
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "No circuit depth or gate counts were reported for the noiseless simulation.",
+          "Hardware is a classical simulator back-end in Qiskit, not a real QPU.",
+          "The paper states that QAE provides quadratic speedup over Monte Carlo but does not demonstrate empirical advantage.",
+          "Experiment is a small noiseless simulation used to illustrate the algorithm."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Noisy simulations and real-hardware executions of the enhanced multi-factor quantum credit risk algorithm across multiple portfolio sizes and IBM superconducting QPUs, used to study noise, topology, and scalability effects.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "iterative quantum amplitude estimation (IQAE) with multi-factor uncertainty model and arbitrary-LGD encoding",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": "Not explicitly stated; experiments executed for multiple configurations to observe noise and hardware effects",
+        "hyperparameters": {
+          "num_assets_range": "2-4",
+          "num_risk_factors_range": "1-3",
+          "qubits_per_normal_distribution": 2,
+          "hardware_devices": [
+            "ibm_perth",
+            "ibm_lagos",
+            "ibm_canberra",
+            "ibm_algiers"
+          ],
+          "quantum_volumes": [
+            32,
+            32,
+            32,
+            128
+          ]
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Multi-factor default model encoded with multiple rotations; arbitrary LGD handled via LinearAmplitudeFunction instead of a weighted sum register; configurations vary from 2 to 4 assets and 1 to 3 systemic risk factors.",
+        "objective_function": "Estimate expected loss / VaR-related quantities for the credit portfolio under the enhanced quantum CRA framework.",
+        "constraints_handling": "Bisection search and amplitude-estimation subroutine; arbitrary-LGD support implemented by piecewise linear amplitude function rather than integer-weight sum register.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Family of toy credit-risk instances with realistic LGD values generated by domain experts; used to benchmark hardware behavior under increasing circuit size.",
+        "num_assets": 4,
+        "time_steps": null,
+        "num_features": 3,
+        "dataset_size": null,
+        "data_type": "proprietary",
+        "dataset_name": "QVaR",
+        "dataset_specification": {
+          "description": "Public repository with generated credit-risk benchmark data; configurations span 2-4 assets and 1-3 systemic risk factors."
+        },
+        "data_preprocessing_details": "Data generated by domain experts to reflect realistic input measurements; no further preprocessing details reported.",
+        "evaluation_methodology": "Experiments run on actual machines and on classical simulations of the machines’ noise models; aggregate results reported across configurations, with ratio of estimated expected loss to maximum possible loss plotted."
+      },
+      "quantum_resources": {
+        "num_qubits": 7,
+        "qubit_type": "physical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_superconducting",
+        "provider": "IBM",
+        "device_name": "ibm_perth, ibm_lagos, ibm_canberra, ibm_algiers",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "hardware noise / simulator noise models from IBM QPUs",
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": "Noise-model simulations were run for each hardware configuration to validate the noise models; no explicit mitigation method reported."
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://doi.org/10.5281/zenodo.7729267",
+        "framework_version": "Qiskit 0.36.1 (via cited documentation)",
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": null,
+        "classical_postprocessing": "Expected loss estimated directly from the objective qubit; ratio to maximum possible loss used for analysis.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "Results concentrated toward half of the maximum possible loss under noise/decoherence",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_assets",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "count",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_assets_range",
+          "value": 3,
+          "uncertainty": "range 2-4 assets",
+          "num_runs": 1,
+          "unit": "count",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_risk_factors",
+          "value": 3,
+          "uncertainty": "range 1-3 risk factors",
+          "num_runs": 1,
+          "unit": "count",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 13,
+          "uncertainty": "range 7-13 qubits",
+          "num_runs": 1,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "quantum_volume",
+          "value": 128,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "quantum_volume",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "quantum_volume",
+          "value": 32,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "quantum_volume",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "expected_loss_ratio",
+          "value": 0.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "expected_loss_ratio_to_maximum_possible_loss",
+          "value": 0.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "variance_across_runs",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "hardware_convergence_behavior",
+          "value": "converged toward half of the maximum possible loss",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qualitative",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "noise-model simulation",
+          "metric_name": "expected_loss_ratio",
+          "value": 0.5,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "real qpu execution",
+          "metric_name": "expected_loss_ratio",
+          "value": 0.5,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical Monte Carlo",
+          "conditions": "IQAE-based VaR estimation under the enhanced multi-factor credit risk framework",
+          "is_demonstrated": false,
+          "caveats": "The paper does not report an empirical speedup on hardware; instead it reports noise/decoherence effects and scalability limitations."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 2.0,
+          "num_qubits": 7,
+          "metric_name": "hardware_configuration",
+          "metric_value": null
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": 27,
+          "metric_name": "hardware_configuration",
+          "metric_value": null
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": 7,
+          "metric_name": "qubit_requirement",
+          "metric_value": null
+        },
+        {
+          "problem_size": 1.0,
+          "num_qubits": 7,
+          "metric_name": "qubit_requirement",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "IQAE query complexity bounded by 1.4/ϵ · ln( (2/γ) log2(π/(4ϵ)) )",
+        "classical_complexity": "Monte Carlo methods for VaR estimation; paper does not give a specific asymptotic bound here",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": "Example given: around 28,000 applications of the Grover operator for 99.9% confidence and 0.05% target error",
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": false,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "Not estimated; current experiments involve only 2–4 assets and 7–13 qubits.",
+        "resources_for_advantage": "Would require substantially longer qubit coherence times and far deeper executable circuits to run many IQAE iterations reliably.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Strong decoherence on current hardware",
+          "Circuit depth exceeds coherence time",
+          "Results converge toward ~50% default probability due to noise",
+          "Very small problem instances (2–4 assets)",
+          "Quadratic speedup insufficient under realistic error-correction costs"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper reports qubit ranges (7 to 13) for the configurations but does not provide explicit circuit depth or gate counts.",
+          "The experiment includes both real QPU runs and noisy simulations; hardware.type is set to real_qpu_superconducting because actual IBM superconducting devices were used.",
+          "Section 4 reports that noise causes results to converge toward half of the maximum loss, preventing extraction of correct expected values.",
+          "Authors explicitly state that current circuit depth and coherence limitations hinder meaningful results."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

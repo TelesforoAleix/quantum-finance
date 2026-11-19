@@ -1,0 +1,853 @@
+{
+  "paper_id": "c233bf88de0f",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:47:37+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "c233bf88de0f_on_quantum_bsde_solver_for_high_dimensional_parabolic_pdes.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.75,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 19,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='relative error (%)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='relative error (%)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='assets/options' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='Monte Carlo sample paths' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='steps' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='options per portfolio' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='strike price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='rate' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='rate' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='year' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[0].unit='relative error (%)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[1].unit='dimension' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[3].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[4].unit='Monte Carlo sample paths' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[5].unit='steps' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[6].unit='control parameter' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[7].unit='year' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.75,
+      "completeness": 0.75,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.75,
+        0.75
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "On Quantum BSDE Solver for High-Dimensional Parabolic PDEs",
+    "authors": [
+      "Howard Su",
+      "Huan-Hsin Tseng"
+    ],
+    "year": 2025,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": [
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a variational quantum circuit (VQC) BSDE solver for high‑dimensional PDEs and benchmarks it on 100‑dimensional Black–Scholes and HJB problems using 10,000 Monte Carlo paths and 10 time steps. Simulated VQC models with 4 qubits (Black–Scholes) and 2 qubits (HJB), each with 2 layers and trained for 10 epochs, show similar or slightly lower relative error and variance than a 4‑layer 64‑neuron DNN baseline, but all results are obtained via noiseless quantum circuit simulation.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Pure VQC-based BSDE solver benchmarked on 100-dimensional Black–Scholes option-pricing portfolios (8 call strikes and 8 put strikes), compared against a classical DNN baseline.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "pure VQC-based BSDE solver",
+        "ansatz": null,
+        "optimizer": "Adam",
+        "num_layers": 2,
+        "convergence_criteria": "10 epochs",
+        "hyperparameters": {
+          "qubits": 4,
+          "VQC_layers": 2,
+          "batch_size": 100,
+          "learning_rate": 0.01,
+          "epochs": 10,
+          "Monte_Carlo_sample_paths": 10000,
+          "time_steps": 10,
+          "portfolio_size": 100,
+          "strike_prices": [
+            70,
+            80,
+            90,
+            100,
+            110,
+            120,
+            130,
+            140
+          ],
+          "risk_free_rate": 0.1,
+          "volatility": 0.2,
+          "initial_asset_price": 100,
+          "maturity": 1
+        },
+        "parameter_initialization": "randomly initialized VQC parameters; classical encoder-decoder fixed and randomly initialized",
+        "optimizer_settings": {
+          "max_iterations": 10,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "High-dimensional state X_t is compressed by a fixed random classical encoder from R^d to the 4-qubit input space; VQC processes the reduced state and a fixed decoder maps back to R^d. The trainable map approximates (t, X_t) -> Z_t in the BSDE.",
+        "objective_function": "Minimize E[|Y_T^theta - g(X_T)|^2] for the BSDE terminal condition under the Black–Scholes dynamics.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "European option pricing under the Black–Scholes PDE in 100 dimensions, evaluated on 16 portfolios (8 call, 8 put) each containing 100 options with varying strikes.",
+        "num_assets": 100,
+        "time_steps": 10,
+        "num_features": 100,
+        "dataset_size": 10000,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "ticker_symbols": null,
+          "date_range": null,
+          "benchmark_name": "Black–Scholes analytical solution",
+          "preprocessing": "simulate log X_t for numerical stability; Euler–Maruyama discretization; Monte Carlo sampling",
+          "train_test_split": null
+        },
+        "data_preprocessing_details": "Simulate the forward SDE in logarithmic variables; use Euler–Maruyama with N=10 time steps and 10,000 Monte Carlo paths; repeat each experiment five times and report mean/std relative error.",
+        "evaluation_methodology": "Each experiment repeated five times; report mean and standard deviation of relative error against the analytical Black–Scholes price."
+      },
+      "quantum_resources": {
+        "num_qubits": 4,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 10000,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "noise_model": null,
+        "noise_parameters": null,
+        "mitigation_details": null,
+        "is_noisy": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "DNN baseline; Adam optimizer for VQC training",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Fixed random classical encoder-decoder used only for dimensional adaptation",
+        "classical_postprocessing": "Relative error computed against analytical Black–Scholes solution",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 10,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": 5
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "price_error",
+          "value": null,
+          "uncertainty": "mean and standard deviation reported, but exact numeric values not provided in text",
+          "num_runs": 5,
+          "unit": "relative error (%)",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "price_error",
+          "value": null,
+          "uncertainty": "mean and standard deviation reported, but exact numeric values not provided in text",
+          "num_runs": 5,
+          "unit": "relative error (%)",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "num_underlyings",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets/options",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": 10000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "Monte Carlo sample paths",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "time_steps",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "steps",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "portfolio_size",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "options per portfolio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "strike_price",
+          "value": 105,
+          "uncertainty": "range 70 to 140",
+          "num_runs": null,
+          "unit": "strike price",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "risk_free_rate",
+          "value": 0.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "rate",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "volatility",
+          "value": 0.2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "rate",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "initial_asset_price",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "price",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "maturity",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "year",
+          "higher_is_better": null,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical dnn",
+          "metric_name": "price_error",
+          "value": null,
+          "unit": "relative error (%)"
+        },
+        {
+          "method_name": "analytical black-scholes solution",
+          "metric_name": "price_error",
+          "value": null,
+          "unit": "relative error (%)"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": "classical dnn",
+          "conditions": "empirical comparison only; no asymptotic or wall-clock speedup analysis reported",
+          "is_demonstrated": false,
+          "caveats": "Paper reports improved stability/lower variance and better accuracy in some cases, but no runtime or complexity speedup."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 100,
+          "num_qubits": 4,
+          "metric_name": "price_error",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "parity_with_classical",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Not specified; experiments use a 4‑qubit VQC with 2 layers on a simulator and a 100‑dimensional classical input compressed via a fixed encoder.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Results obtained only via noiseless circuit simulation",
+          "Very small quantum model (4 qubits, 2 layers)",
+          "No runtime or complexity comparison with classical solvers",
+          "Evaluation metric limited to approximation error rather than computational efficiency",
+          "High-dimensional input handled mostly by classical preprocessing"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware is not tied to a named QPU; results are described as obtained via quantum circuit simulation, so hardware.type is simulator_other.",
+          "The paper reports 4 qubits and 2 VQC layers for the Black–Scholes experiment.",
+          "No asymptotic speedup analysis is provided; only empirical accuracy/variance comparisons are reported.",
+          "Authors report that VQC and DNN achieve similar mean accuracy for call options while VQC shows lower variance; this indicates parity rather than clear superiority.",
+          "No runtime or scaling advantage over classical methods is demonstrated."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Pure VQC-based BSDE solver benchmarked on a 100-dimensional nonlinear Hamilton–Jacobi–Bellman (HJB) equation for multiple nonlinearity strengths λ, compared against a classical DNN baseline.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "pure VQC-based BSDE solver",
+        "ansatz": null,
+        "optimizer": "Adam",
+        "num_layers": 2,
+        "convergence_criteria": "10 epochs",
+        "hyperparameters": {
+          "qubits": 2,
+          "VQC_layers": 2,
+          "batch_size": 100,
+          "learning_rate": 0.01,
+          "epochs": 10,
+          "Monte_Carlo_sample_paths": 10000,
+          "time_steps": 10,
+          "dimension": 100,
+          "lambda_values": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            30,
+            40,
+            50,
+            60
+          ],
+          "time_horizon": 1
+        },
+        "parameter_initialization": "randomly initialized VQC parameters; classical encoder-decoder fixed and randomly initialized",
+        "optimizer_settings": {
+          "max_iterations": 10,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "High-dimensional state X_t is compressed by a fixed random classical encoder from R^d to the 2-qubit input space; VQC processes the reduced state and a fixed decoder maps back to R^d. The trainable map approximates (t, X_t) -> Z_t in the BSDE.",
+        "objective_function": "Minimize E[|Y_T^theta - g(X_T)|^2] for the BSDE terminal condition under the HJB dynamics.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Nonlinear 100-dimensional HJB equation with terminal condition g(x)=log((1+||x||^2)/2), evaluated across varying λ values to test increasing nonlinearity.",
+        "num_assets": null,
+        "time_steps": 10,
+        "num_features": 100,
+        "dataset_size": 10000,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "ticker_symbols": null,
+          "date_range": null,
+          "benchmark_name": "Exact solution via Monte Carlo evaluation of the closed-form expression",
+          "preprocessing": "simulate Brownian motion increments; Euler discretization of the forward SDE; Monte Carlo reference solution from the exact formula",
+          "train_test_split": null
+        },
+        "data_preprocessing_details": "Use forward SDE dX_t=sqrt(2)dW_t, N=10 time steps, 10,000 Monte Carlo paths; evaluate across λ in {1,...,20,30,40,50,60}; repeat each experiment five times.",
+        "evaluation_methodology": "Each experiment repeated five times; report mean and standard deviation of relative error across λ values."
+      },
+      "quantum_resources": {
+        "num_qubits": 2,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 10000,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "noise_model": null,
+        "noise_parameters": null,
+        "mitigation_details": null,
+        "is_noisy": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "DNN baseline; Adam optimizer for VQC training",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Fixed random classical encoder-decoder used only for dimensional adaptation",
+        "classical_postprocessing": "Relative error computed against the exact HJB solution formula / Monte Carlo reference",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 10,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": 5
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "price_error",
+          "value": null,
+          "uncertainty": "mean and standard deviation reported, but exact numeric values not provided in text",
+          "num_runs": 5,
+          "unit": "relative error (%)",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "num_underlyings",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimension",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": 10000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "Monte Carlo sample paths",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "time_steps",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "steps",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "lambda",
+          "value": 15.5,
+          "uncertainty": "range 1 to 20, plus 30, 40, 50, 60",
+          "num_runs": null,
+          "unit": "control parameter",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "time_horizon",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "year",
+          "higher_is_better": null,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical dnn",
+          "metric_name": "price_error",
+          "value": null,
+          "unit": "relative error (%)"
+        },
+        {
+          "method_name": "exact solution via monte carlo evaluation of the closed-form expression",
+          "metric_name": "price_error",
+          "value": null,
+          "unit": "relative error (%)"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": "classical dnn",
+          "conditions": "empirical comparison only; no asymptotic or wall-clock speedup analysis reported",
+          "is_demonstrated": false,
+          "caveats": "Paper reports lower average error and smaller variance for VQC across lambda values, but no runtime or complexity speedup."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 100,
+          "num_qubits": 2,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 1,
+          "num_qubits": 2,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 2,
+          "num_qubits": 2,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 3,
+          "num_qubits": 2,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": 2,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": 2,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 6,
+          "num_qubits": 2,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 7,
+          "num_qubits": 2,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 8,
+          "num_qubits": 2,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 9,
+          "num_qubits": 2,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 10,
+          "num_qubits": 2,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 11,
+          "num_qubits": 2,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 12,
+          "num_qubits": 2,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 13,
+          "num_qubits": 2,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 14,
+          "num_qubits": 2,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 15,
+          "num_qubits": 2,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 16,
+          "num_qubits": 2,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 17,
+          "num_qubits": 2,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 18,
+          "num_qubits": 2,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 19,
+          "num_qubits": 2,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 20,
+          "num_qubits": 2,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 30,
+          "num_qubits": 2,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 40,
+          "num_qubits": 2,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 50,
+          "num_qubits": 2,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 60,
+          "num_qubits": 2,
+          "metric_name": "price_error",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "parity_with_classical",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Demonstrated with a 2‑qubit VQC (2 layers) trained for 10 epochs on simulated BSDE trajectories.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Only simulated quantum circuits are used",
+          "Extremely small quantum model (2 qubits)",
+          "No complexity or runtime comparison with classical PDE solvers",
+          "Training relies heavily on classical Monte Carlo sampling (10,000 paths)",
+          "Most computation occurs in classical preprocessing and BSDE simulation"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware is not tied to a named QPU; results are described as obtained via quantum circuit simulation, so hardware.type is simulator_other.",
+          "The paper reports 2 qubits and 2 VQC layers for the HJB experiment.",
+          "No asymptotic speedup analysis is provided; only empirical accuracy/variance comparisons are reported.",
+          "The paper reports lower mean error and variance for VQC than the DNN baseline on the HJB problem, but only in a small simulated setting without runtime comparisons.",
+          "Because experiments are simulation-only and no scaling advantage is shown, this is best classified as parity/empirical improvement rather than demonstrated quantum advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

@@ -1,0 +1,570 @@
+{
+  "paper_id": "05a01a257cc7",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T07:59:28+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "05a01a257cc7_large_scale_portfolio_optimization_using_pauli_correlation_encoding.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.95,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 1,
+    "validation_warnings": 8,
+    "validation_passed": false,
+    "validation_error_details": [
+      "Schema error at experiments.0.quantum_resources.two_qubit_gate_count: [25, 25, 91, 145, 298, 430, 586, 715] is not of type 'integer', 'null'"
+    ],
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.95,
+      "completeness": 0.95,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.95
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "LARGE-SCALE PORTFOLIO OPTIMIZATION USING PAULI CORRELATION ENCODING",
+    "authors": [
+      "Vicente P. Soloviev",
+      "Michal Krompiec"
+    ],
+    "year": 2026,
+    "doi": "https://doi.org/10.21203/rs.3.rs-8649790/v1",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "portfolio-optimization",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a gate‑based variational portfolio optimization method using Pauli Correlation Encoding (PCE) that encodes multiple variables per qubit, enabling experiments on S&P 500 subsets up to 250 assets using only 9 qubits on a statevector simulator. Gate counts remain under ~730 gates for PCE compared with >42,000 gates for QAOA at similar problem sizes, and the approach reportedly solves instances with ≥200 assets in about one hour of simulation while improving Sharpe ratios over the baseline portfolio.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Gate-based variational portfolio optimization using Pauli Correlation Encoding (PCE) with a hardware-efficient ansatz, benchmarked across S&P 500 subproblems from 10 to 250 assets and compared against QAOA for the smallest instance and a classical EDA baseline for larger instances.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Pauli Correlation Encoding (PCE) with Hardware-Efficient Ansatz",
+        "ansatz": "Hardware-Efficient Ansatz (HEA) with linear entangling structure and CZ gates",
+        "optimizer": "COBYLA (for PCE); optimizer for QAOA benchmark not specified",
+        "num_layers": null,
+        "convergence_criteria": "not reported",
+        "hyperparameters": {
+          "encoding_order_k": [
+            2,
+            3
+          ],
+          "alpha": "usually tuned to n⌊k/2⌋",
+          "measurement": "statevector simulation",
+          "nsplits": "varied by instance size; 2, 4, 6, 9 for m < 100 and (m/10)-1 for m >= 100",
+          "qaoa_benchmark_depth_p": 5
+        },
+        "parameter_initialization": "Initialize symbol map; initial parameter values not reported",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "other",
+        "encoding_details": "Multiple optimization variables are encoded per qubit via Pauli correlation signs; number of variables scales as O(nk) with k-th order Pauli strings",
+        "objective_function": "Maximize Cut(G, x) = sum_{(i,j) in E} w_ij x_i (1 - x_j) within recursive bipartitioning; portfolio selection then chooses the highest-return asset from each cluster",
+        "constraints_handling": "Recursive bipartitioning of the market graph; no explicit penalty formulation reported",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Real-world portfolio optimization on S&P 500 market graphs, recursively partitioned into sub-portfolios and evaluated on train/test splits",
+        "num_assets": 250,
+        "time_steps": 5,
+        "num_features": null,
+        "dataset_size": 500,
+        "data_type": "real_market",
+        "dataset_name": "S&P 500 stock market dataset (Kaggle camnugent/sandp500)",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "first m columns of the dataset for each experiment size"
+          ],
+          "date_range": "5 years historical data; exact dates not reported",
+          "benchmark_name": "S&P 500",
+          "preprocessing": "market graph built from pairwise Pearson correlations above threshold lambda; training set used for partitioning, testing set for evaluation",
+          "train_test_split": "80% training, 20% testing"
+        },
+        "data_preprocessing_details": "Construct market graph with nodes as assets and edges when |rho_ij| > lambda, with edge weight w_ij = 1 - |rho_ij|; select representative asset in each cluster by highest historical return",
+        "evaluation_methodology": "Benchmarking against QAOA for m=10 and EDA for larger instances; performance evaluated by portfolio value over time and Sharpe ratio on train and test sets; runtime analysis for a single iteration with nsplits=1"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "logical",
+        "circuit_depth": 27,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": 730,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "COBYLA optimizer for PCE variational training; classical baseline method is Estimation of Distribution Algorithms (EDA)",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Statevector simulation used for measurements; recursive graph partitioning; train/test split; representative asset selection by maximum return within each cluster",
+        "classical_postprocessing": "Construct final portfolio from selected representatives and evaluate portfolio value and Sharpe ratio",
+        "total_execution_time": "PCE solves m >= 200 in approximately one hour (statevector simulation); exact per-instance times not fully reported",
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_assets",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 30,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 50,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 150,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 200,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 250,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sharpe_ratio",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "portfolio_value",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "USD",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "runtime",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "gate_count_total",
+          "value": 25,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "gate_count_total",
+          "value": 25,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "gate_count_total",
+          "value": 91,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "gate_count_total",
+          "value": 145,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "gate_count_total",
+          "value": 298,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "gate_count_total",
+          "value": 430,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "gate_count_total",
+          "value": 586,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "gate_count_total",
+          "value": 715,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "QAOA",
+          "metric_name": "gate_count_total",
+          "value": 59,
+          "unit": "gates"
+        },
+        {
+          "method_name": "QAOA",
+          "metric_name": "gate_count_total",
+          "value": 108,
+          "unit": "gates"
+        },
+        {
+          "method_name": "QAOA",
+          "metric_name": "gate_count_total",
+          "value": 290,
+          "unit": "gates"
+        },
+        {
+          "method_name": "QAOA",
+          "metric_name": "gate_count_total",
+          "value": 550,
+          "unit": "gates"
+        },
+        {
+          "method_name": "QAOA",
+          "metric_name": "gate_count_total",
+          "value": 814,
+          "unit": "gates"
+        },
+        {
+          "method_name": "QAOA",
+          "metric_name": "gate_count_total",
+          "value": 1578,
+          "unit": "gates"
+        },
+        {
+          "method_name": "QAOA",
+          "metric_name": "gate_count_total",
+          "value": 3354,
+          "unit": "gates"
+        },
+        {
+          "method_name": "QAOA",
+          "metric_name": "gate_count_total",
+          "value": 6608,
+          "unit": "gates"
+        },
+        {
+          "method_name": "QAOA",
+          "metric_name": "gate_count_total",
+          "value": 14563,
+          "unit": "gates"
+        },
+        {
+          "method_name": "QAOA",
+          "metric_name": "gate_count_total",
+          "value": 21448,
+          "unit": "gates"
+        },
+        {
+          "method_name": "EDA",
+          "metric_name": "portfolio_value",
+          "value": null,
+          "unit": "USD"
+        },
+        {
+          "method_name": "EDA",
+          "metric_name": "sharpe_ratio",
+          "value": null,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "S&P 500 baseline",
+          "metric_name": "portfolio_value",
+          "value": null,
+          "unit": "USD"
+        },
+        {
+          "method_name": "S&P 500 baseline",
+          "metric_name": "sharpe_ratio",
+          "value": null,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "PCE gate count remains under 750 gates up to 250 assets, versus QAOA reaching 42,646 gates at 250 assets",
+          "baseline_method": "QAOA",
+          "conditions": "Table 2 comparison; QAOA shown for p = 1 and p = 2, PCE for k = 2 and k = 3",
+          "is_demonstrated": true,
+          "caveats": "This is a gate-count/resource comparison, not a proven runtime or asymptotic speedup; QAOA and PCE are evaluated on different encodings and depths."
+        },
+        {
+          "type": "empirical",
+          "factor": "PCE solves m >= 200 in approximately one hour on statevector simulation",
+          "baseline_method": "QAOA",
+          "conditions": "Single-iteration runtime analysis with nsplits = 1; statevector simulation",
+          "is_demonstrated": true,
+          "caveats": "The paper states QAOA has the highest computational cost, but does not provide a direct numeric runtime for QAOA at the same sizes in text."
+        },
+        {
+          "type": "projected",
+          "factor": "Scalability beyond conventional one-qubit-per-asset gate-based methods",
+          "baseline_method": "traditional gate-based portfolio optimization (e.g., QAOA)",
+          "conditions": "Using Pauli Correlation Encoding with multiple variables per qubit",
+          "is_demonstrated": false,
+          "caveats": "The paper claims improved scalability and potential to accommodate the full S&P 500 or larger asset sets, but no formal speedup proof is given."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 10,
+          "num_qubits": 4,
+          "metric_name": "gate_count_total",
+          "metric_value": 25
+        },
+        {
+          "problem_size": 20,
+          "num_qubits": 4,
+          "metric_name": "gate_count_total",
+          "metric_value": 61
+        },
+        {
+          "problem_size": 30,
+          "num_qubits": 4,
+          "metric_name": "gate_count_total",
+          "metric_value": 91
+        },
+        {
+          "problem_size": 50,
+          "num_qubits": 4,
+          "metric_name": "gate_count_total",
+          "metric_value": 145
+        },
+        {
+          "problem_size": 100,
+          "num_qubits": 7,
+          "metric_name": "gate_count_total",
+          "metric_value": 298
+        },
+        {
+          "problem_size": 150,
+          "num_qubits": 9,
+          "metric_name": "gate_count_total",
+          "metric_value": 430
+        },
+        {
+          "problem_size": 200,
+          "num_qubits": 9,
+          "metric_name": "gate_count_total",
+          "metric_value": 586
+        },
+        {
+          "problem_size": 250,
+          "num_qubits": 9,
+          "metric_name": "gate_count_total",
+          "metric_value": 715
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "PCE encoding scales as O(nk); circuit depth does not depend on target problem size in the same way as QAOA",
+        "classical_complexity": "not reported",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Would require substantially larger logical quantum hardware than the simulated 4–9 qubits and a clear asymptotic speedup over classical heuristics; none is established.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "All experiments performed on statevector simulation",
+          "No asymptotic quantum speedup proven",
+          "Classical heuristic (EDA) used successfully for large instances",
+          "Performance comparison focuses on portfolio returns rather than computational complexity advantage",
+          "Gate-based circuits demonstrated only with ≤9 qubits"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "num_qubits and circuit_depth are inferred from Table 2 and the relation p = floor(m/n) with reported n values implied by the table; the paper explicitly reports gate counts and PCE scaling but not a single fixed qubit count for all instances.",
+          "hardware.type is paper_reported as statevector simulation.",
+          "QAOA and EDA are baselines, not separate experiments.",
+          "The paper suggests improved scalability of the PCE encoding relative to QAOA in gate counts but does not demonstrate runtime or solution-quality advantage over classical methods.",
+          "Experiments rely on noiseless simulation and comparison with a classical heuristic (EDA) that still performs competitively."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

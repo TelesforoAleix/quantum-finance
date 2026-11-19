@@ -1,0 +1,367 @@
+{
+  "paper_id": "a64e9d084306",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:28:13+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "a64e9d084306_study_on_quantum_finance_algorithm_quantum_monte_carlo_algorithm_based_on_europe.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.7,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 6,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='$' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='$' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='$' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='yuan' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='yuan' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='years' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.7,
+      "completeness": 0.7,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.7
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Study on Quantum Finance Algorithm: Quantum Monte Carlo Algorithm based on European Option Pricing",
+    "authors": [
+      "Jian-Guo Hu",
+      "Shao-Yi Wu",
+      "Yi Yang",
+      "Qin-Sheng Zhu",
+      "Xiao-Yu Li",
+      "Shan Yang"
+    ],
+    "year": 2022,
+    "doi": "10.32604/jqc.2022.027683",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": [
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper simulates a gate‑based quantum Monte Carlo option‑pricing algorithm using amplitude estimation for a European call option with S0=4.36, K=5, r=3%, σ=20%, and T=0.5 years. In classical simulation, QMC produced an estimated price of 0.0892 (exact 0.0728) with runtime 4.037 s, compared to classical Monte Carlo’s estimate 0.07051 using 200,000 samples and runtime 10.376 s. The authors attribute the improvement to the theoretical quadratic convergence of amplitude estimation.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum Monte Carlo / amplitude estimation for European call option pricing using a gate-based quantum circuit on a simulated quantum hardware environment, compared against classical Monte Carlo baseline.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Quantum Monte Carlo (QMC) with amplitude estimation for European option pricing",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "m": null,
+          "capprox": null,
+          "strike_price_K": 5,
+          "spot_price_S0": 4.36,
+          "risk_free_rate_r": 0.03,
+          "volatility_sigma": 0.2,
+          "maturity_T": 0.5,
+          "simulation_iterations_classical_MC": 200000
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Truncated and discretized log-normal distribution loaded into an n-qubit register with 2^n grid points; payoff encoded via comparator and controlled Y-rotations; AE estimates the expectation value from the amplitude of an ancilla qubit.",
+        "objective_function": "Estimate discounted European call option price C0 = e^{-r(T-t)} E[max(0, S_T - K)] under the risk-neutral measure.",
+        "constraints_handling": "Comparator flips an auxiliary qubit when S_T >= K; linear payoff approximated with controlled rotations and scaling factor c_approx.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "European call option pricing example with six-month maturity.",
+        "num_assets": 1,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Underlying asset price modeled by Black-Scholes-Merton log-normal distribution; parameters given for a single illustrative option."
+        },
+        "data_preprocessing_details": "Truncated log-normal distribution on interval [low, high], discretized into 2^n grid points and mapped affinely to asset prices.",
+        "evaluation_methodology": "Single illustrative simulation; classical MC run with 200,000 iterations; QMC result reported with runtime comparison."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Classical Monte Carlo baseline uses discretized Brownian-motion simulation of the stock price.",
+        "classical_postprocessing": "Discounting the expected payoff by e^{-r(T-t)}; comparison of estimated option values and runtimes.",
+        "total_execution_time": 4.037455,
+        "quantum_execution_time": 4.037455,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "estimated_option_price",
+          "value": 0.0892,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "$",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "exact_option_price",
+          "value": 0.0728,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "$",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "classical_monte_carlo_estimated_value",
+          "value": 0.07051,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "$",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "classical_monte_carlo_runtime",
+          "value": 10.375985,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "s",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "quantum_monte_carlo_runtime",
+          "value": 4.037455,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "s",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "simulation_iterations_classical_mc",
+          "value": 200000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "strike_price",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "yuan",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "spot_price",
+          "value": 4.36,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "yuan",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "risk_free_rate",
+          "value": 0.03,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "volatility",
+          "value": 0.2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "maturity",
+          "value": 0.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "years",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "runtime_reduction",
+          "value": 61.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "computed"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "estimated_option_price",
+          "value": 0.07051,
+          "unit": "$"
+        },
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "runtime",
+          "value": 10.375985,
+          "unit": "s"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical Monte Carlo",
+          "conditions": "Amplitude estimation convergence rate is O(1/M) versus classical Monte Carlo O(1/sqrt(M)) in number of samples.",
+          "is_demonstrated": false,
+          "caveats": "This is a theoretical scaling claim; the paper also states the actual quantum hardware remains to be tested and the algorithm needs optimization."
+        },
+        {
+          "type": "empirical",
+          "factor": "about 61%",
+          "baseline_method": "classical Monte Carlo",
+          "conditions": "For the single illustrative European call option example with 200,000 classical MC iterations and simulated gate-based QMC/AE runtime.",
+          "is_demonstrated": true,
+          "caveats": "The paper reports QMC runtime 4.037455 s versus MC runtime 10.375985 s; the text describes this as 'more than 60%' time reduction."
+        }
+      ],
+      "scalability_data": [],
+      "complexity_analysis": {
+        "quantum_complexity": "Quadratic speedup via amplitude estimation (implied O(1/M) convergence in number of quantum samples).",
+        "classical_complexity": "Monte Carlo convergence O(1/sqrt(M)) in number of samples.",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not analyzed in the paper; no scaling study provided.",
+        "resources_for_advantage": "Would require large fault‑tolerant quantum computers implementing amplitude estimation with many controlled Grover iterations and efficient log‑normal distribution loading for financial models.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Experiment performed only on a classical simulator of quantum circuits",
+          "No qubit count, circuit depth, or resource estimates reported",
+          "Comparison uses small toy instance rather than scaling study",
+          "Runtime comparison reflects classical simulation overhead rather than real QPU execution",
+          "Amplitude estimation provides only quadratic speedup over classical Monte Carlo",
+          "State preparation (log‑normal distribution loading) may dominate circuit cost"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware type inferred as simulator_other because the paper states the quantum circuits were constructed by simulating a quantum hardware environment on a traditional computer and no real QPU is named.",
+          "The paper describes the gate-based QMC/AE circuit but does not report an explicit qubit count or circuit depth in the provided text; num_qubits and circuit_depth remain null.",
+          "The authors suggest QMC reduces runtime and mention the quadratic speedup of amplitude estimation, but experiments are performed on a simulated quantum environment rather than real hardware.",
+          "The reported runtime improvement (4.037455 s vs 10.375985 s) is from classical simulations and does not demonstrate practical quantum advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

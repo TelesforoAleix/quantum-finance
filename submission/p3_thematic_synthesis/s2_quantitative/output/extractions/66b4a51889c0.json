@@ -1,0 +1,540 @@
+{
+  "paper_id": "66b4a51889c0",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:51:40+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "66b4a51889c0_quantum_2_player_games_and_realizations_with_circuits.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.583,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 18,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='inputs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='inputs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='inputs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='inputs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='nodes' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='nodes' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='nodes' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='nodes' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='nodes' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[19].unit='runs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[20].unit='ohm' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[21].unit='farad' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[22].unit='cm' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[23].unit='cm' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.583,
+      "completeness": 0.583,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.583
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum 2-Player Games and Realizations with Circuits",
+    "authors": [
+      "Jinliang Zhang",
+      "Tian Chen",
+      "Wenyuan Deng",
+      "Xiaoxue Tong",
+      "Xiangdong Zhang"
+    ],
+    "year": 2024,
+    "doi": "10.34133/research.0480",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "other",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a continuous‑time quantum walk algorithm for evaluating 2‑player game trees mapped to AND‑OR trees with theoretical runtime t ∝ √N. The authors simulate and physically implement small instances (2‑ to 5‑input trees) using classical analog circuits (PCB with R=10 kΩ and C=100 nF), observing decision times around 6–10 ms that match theoretical evolution curves. No gate‑based quantum hardware or qubit circuits are used.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum 2-player zero-sum game realized as a continuous-time quantum walk on AND-OR trees, with theoretical analysis, circuit-network simulation, and PCB experimental realization for 2-, 3-, 4-, and 5-input game trees.",
+      "algorithm": {
+        "family": "quantum-walk",
+        "variant": "continuous-time quantum walk on AND-OR trees / quantum game trees",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "tree_depths": [
+            2,
+            3,
+            4,
+            5
+          ],
+          "tree_types": [
+            "2-input OR",
+            "2-input AND",
+            "3-input subtree",
+            "4-input subtree",
+            "5-input game tree"
+          ],
+          "runway_length_L_values": [
+            "8*sqrt(2) for 2-input OR",
+            "8*sqrt(2) for 2-input AND",
+            "8*sqrt(3) for 3-input subtree",
+            "8*sqrt(4) for 4-input subtree",
+            "24 for 5-input game tree"
+          ],
+          "measurement_times_ms": [
+            6,
+            8,
+            7,
+            8,
+            9,
+            10
+          ],
+          "input_sizes_N": [
+            2,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        "parameter_initialization": "initial wave packet placed on the left side of the bottom runway; initial voltage state on left runway nodes in circuit implementation",
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Binary inputs are encoded by connected/disconnected switches or tree-node connections; the game tree alternates OR and AND nodes, and the root output is determined by the sign of the probability/voltage difference between right and left runway regions.",
+        "objective_function": "Evaluate the minimax value of a 2-player zero-sum game tree by mapping it to an AND-OR tree and determining the root node output (Alice wins if root=1, Bob wins if root=0).",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": "Hamiltonian of the AND-OR tree / quantum walk system constructed from the tree and runway graph; circuit-network Hamiltonian obtained via similarity transform from Kirchhoff equations.",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Synthetic AND-OR game trees of sizes 2, 3, 4, and 5 inputs, including OR, AND, and mixed-depth subtrees; evaluated for all distinct input patterns shown in figures.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "All possible binary input combinations for each tree size; e.g., 2-input OR: 00,01,10,11; 3-input subtree: 000,001,010,011,110,111; 4-input subtree: 0000,0001,0011,0101,0111,1111; 5-input tree: 00000,00001,00010,00011,00110,00111,01010,01011,01110,01111,11110,11111."
+        },
+        "data_preprocessing_details": "No external dataset; inputs are manually configured via switches/relays on the circuit board or by setting the corresponding tree connections.",
+        "evaluation_methodology": "Theoretical curves, circuit simulations, and experiments are compared by measuring the output sign after a critical evolution time; each experimental point is averaged over 5 runs with error bars."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": 2,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": "LTspice for simulation; custom classical circuit board / PCB for experiment",
+        "framework_version": null
+      },
+      "noise_model": {
+        "noise_model": null,
+        "noise_parameters": null,
+        "mitigation_details": null,
+        "is_noisy": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Circuit parameters chosen as R=10 kΩ and C=100 nF; initial voltages applied to left runway nodes; relays disconnect initial voltages to start evolution.",
+        "classical_postprocessing": "Output computed from voltage difference between rightmost nodes and non-rightmost nodes, V_out(t)=sum_right |V_i(t)|^2 - sum_nonright |V_i(t)|^2, or equivalently sign of P_out.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": 5.0,
+          "num_independent_runs": 5
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "problem_size",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "inputs",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "problem_size",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "inputs",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "problem_size",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "inputs",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "problem_size",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "inputs",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "runway_length_l",
+          "value": 11.313708498984761,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "nodes",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "runway_length_l",
+          "value": 11.313708498984761,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "nodes",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "runway_length_l",
+          "value": 13.856406460551018,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "nodes",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "runway_length_l",
+          "value": 16,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "nodes",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "runway_length_l",
+          "value": 24,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "nodes",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "tree_depth",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "tree_depth",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "tree_depth",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "tree_depth",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "measurement_time",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ms",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "measurement_time",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ms",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "measurement_time",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ms",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "measurement_time",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ms",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "measurement_time",
+          "value": 9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ms",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "measurement_time",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ms",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_independent_runs",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "runs",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_component_values",
+          "value": 10000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ohm",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_component_values",
+          "value": 1e-07,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "farad",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "pcb_size",
+          "value": 35,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "cm",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "pcb_size",
+          "value": 25,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "cm",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "O(sqrt(N))",
+          "baseline_method": "classical AND-OR tree evaluation / game-tree evaluation",
+          "conditions": "for 2-player zero-sum games mapped to AND-OR trees; reported for 3-input subtree, 4-input subtree, and 5-input game tree; also stated for the general quantum AND-OR tree construction",
+          "is_demonstrated": true,
+          "caveats": "The paper reports this as a quantum-walk advantage and validates it on classical circuit networks; the implementation is not gate-based quantum hardware."
+        },
+        {
+          "type": "theoretical",
+          "factor": "O(N^0.754)",
+          "baseline_method": "classical balanced binary AND-OR tree evaluation",
+          "conditions": "balanced binary AND-OR tree with zero error, expected time",
+          "is_demonstrated": false,
+          "caveats": "This is a cited classical complexity result used for comparison, not newly benchmarked in the paper."
+        },
+        {
+          "type": "theoretical",
+          "factor": "t ~ sqrt(N)",
+          "baseline_method": "classical decision-tree / game-tree evaluation",
+          "conditions": "output time versus input scale N for the 3-input subtree, 4-input subtree, and 5-input game tree; also summarized for the 4 different AND-OR tree structures",
+          "is_demonstrated": true,
+          "caveats": "The paper states the measured output time satisfies t ∝ sqrt(N); the exact proportionality constant is not given."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 2,
+          "num_qubits": null,
+          "metric_name": "measurement_time",
+          "metric_value": 6
+        },
+        {
+          "problem_size": 2,
+          "num_qubits": null,
+          "metric_name": "measurement_time",
+          "metric_value": 8
+        },
+        {
+          "problem_size": 3,
+          "num_qubits": null,
+          "metric_name": "measurement_time",
+          "metric_value": 7
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": null,
+          "metric_name": "measurement_time",
+          "metric_value": 8
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": null,
+          "metric_name": "measurement_time",
+          "metric_value": 9
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": null,
+          "metric_name": "measurement_time",
+          "metric_value": 10
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(sqrt(N))",
+        "classical_complexity": "O(N^0.754) for balanced binary AND-OR tree evaluation; alpha-beta pruning mentioned as classical baseline in general",
+        "speedup_order": "polynomial_other",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not estimated; experiments only demonstrate trees with N ≤ 5 inputs.",
+        "resources_for_advantage": "Authors claim O(√N) quantum walk evaluation of AND‑OR trees compared with classical O(N^0.754) algorithms, but no gate‑based implementation or resource estimates (qubits, gates, error correction) are provided.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Not a gate‑based quantum implementation; experiments are classical analog circuit simulations of a quantum walk.",
+          "Only tiny problem instances (2–5 inputs).",
+          "No qubit counts, gate counts, or fault‑tolerant resource estimates.",
+          "Claimed speedup is only quadratic O(√N)."
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "This paper does not use gate-based quantum hardware; it realizes the quantum-walk game tree on classical circuit networks (PCB) and via circuit simulation. No qubit count is reported because the implementation is not a gate-based qubit circuit.",
+          "The reported 'depth' refers to tree depth / graph depth, not quantum circuit depth.",
+          "Paper repeatedly claims 'quantum speedup' with scaling t ~ √N for evaluating AND‑OR game trees.",
+          "However the experiments are classical circuit realizations of the quantum‑walk Hamiltonian and not quantum hardware demonstrations."
+        ],
+        "advantage_status": "paper_reported"
+      }
+    }
+  ]
+}

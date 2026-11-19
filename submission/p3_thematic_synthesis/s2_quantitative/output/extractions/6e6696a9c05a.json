@@ -1,0 +1,517 @@
+{
+  "paper_id": "6e6696a9c05a",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:57:31+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "6e6696a9c05a_quantum_time_series_similarity_measures_and_quantum_temporal_kernels.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.9,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 4,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[16].unit='steps' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[17].unit='dimension' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[18].unit='dimension' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[19].unit='dimension' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.9,
+      "completeness": 0.9,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.9
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum Time Series Similarity Measures and Quantum Temporal Kernels",
+    "authors": [
+      "Vanio Markov",
+      "Vladimir Rastunkov",
+      "Daniel Fry"
+    ],
+    "year": 2025,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper introduces predictive and structural quantum kernels derived from quantum hidden Markov models and evaluates them on a synthetic binary market‑movement dataset of 500 samples. Using SVC and k‑NN classifiers, the quantum kernels achieve up to 0.980 out‑of‑sample accuracy in the predictive task versus 0.916 for classical RBF kernels, and up to 0.949 versus 0.903 in the structural task. A kernel matrix is also demonstrated on IBM’s 72‑qubit Nazca device using projected‑kernel measurements.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum hidden Markov model (QHMM) kernel experiments on a synthetic/market binary time-series classification task, comparing predictive and structural quantum kernels across Hilbert-space dimensions 2, 4, and 16, and against classical RBF-kernel baselines.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Quantum generative kernels based on QHMM; predictive kernel and structural kernel; trace-distance and Bures-metric variants",
+        "ansatz": "unitary QHMM circuit with hidden-state and emission subsystems; SWAP-test circuit for fidelity-based kernel; projected-kernel measurement circuit",
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "hilbert_space_dimensions": [
+            2,
+            4,
+            16
+          ],
+          "metrics": [
+            "trace distance",
+            "Bures metric",
+            "fidelity"
+          ],
+          "classification_tasks": [
+            "predictive",
+            "structural"
+          ],
+          "kernel_types": [
+            "predictive generative quantum kernel",
+            "structural generative quantum kernel"
+          ],
+          "classical_kernel_baseline": "RBF",
+          "train_test_split": "50/50",
+          "dataset_size": 500,
+          "predictive_horizon_k": 5,
+          "gamma": 1
+        },
+        "parameter_initialization": "QHMM parameters learned/constructed from the market process model; initial state described as maximally mixed in circuit implementation",
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Binary time-series symbols 0/1 are generated and processed by a QHMM; sequences are mapped to quantum density operators via the QHMM evolution",
+        "objective_function": "Kernel-based classification of symbolic time series using similarity induced by quantum state distances; predictive kernel κp(y1,y2)=exp(-D(ρy1,ρy2)) and structural kernel κs(y,z)=exp(-D(ρ̂y,ρ̂z))",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Binary market-movement time-series classification using a simplified generative model of directional price movement; both predictive and structural label maps are defined",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 500,
+        "data_type": "synthetic",
+        "dataset_name": "Market movements QHMM example",
+        "dataset_specification": {
+          "description": "Binary sequences over alphabet {0,1}; predictive task uses forward horizon k=5 and label string L='11110011001100100110001011000110'; structural task labels by majority of bits in the sequence"
+        },
+        "data_preprocessing_details": "Sequences sampled from the QHMM via P[y|ρ0]=tr(Tyρ0); no additional preprocessing reported",
+        "evaluation_methodology": "Kernel distance-distribution analysis; same-class probability vs distance plots; classifier accuracy on 500 samples with 50% train/test split; comparison of SVC and k-NN using classical vs quantum kernels, with random forest benchmark"
+      },
+      "quantum_resources": {
+        "num_qubits": 72,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_superconducting",
+        "provider": "IBM",
+        "device_name": "ibm_nazca",
+        "framework": "Qiskit",
+        "transpilation_target": "IBM Nazca device"
+      },
+      "noise_model": {
+        "is_noisy": null,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "classical_solver": "scikit-learn classifiers (random forest, SVC, k-NN) as baselines",
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": null,
+          "routing_method": null
+        },
+        "classical_preprocessing": null,
+        "classical_postprocessing": "Kernel matrices and classifier accuracies computed from quantum-state distances / fidelities",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "accuracy",
+          "value": 0.999,
+          "uncertainty": "95% CI [0.999, 1.000]",
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.98,
+          "uncertainty": "95% CI [0.977, 0.981]",
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 1.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.949,
+          "uncertainty": "95% CI [0.946, 0.952]",
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.998,
+          "uncertainty": "95% CI [0.997, 0.998]",
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.947,
+          "uncertainty": "95% CI [0.944, 0.949]",
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.993,
+          "uncertainty": "95% CI [0.992, 0.994]",
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.98,
+          "uncertainty": "95% CI [0.978, 0.982]",
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.985,
+          "uncertainty": "95% CI [0.984, 0.987]",
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.824,
+          "uncertainty": "95% CI [0.819, 0.829]",
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.962,
+          "uncertainty": "95% CI [0.959, 0.965]",
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.903,
+          "uncertainty": "95% CI [0.896, 0.909]",
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.863,
+          "uncertainty": "95% CI [0.857, 0.869]",
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.72,
+          "uncertainty": "95% CI [0.715, 0.723]",
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 500,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "train_test_split",
+          "value": 0.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "predictive_horizon_k",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "steps",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "hilbert_space_dimension",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimension",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "hilbert_space_dimension",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimension",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "hilbert_space_dimension",
+          "value": 16,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimension",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shot_complexity",
+          "value": 1048576,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "random_forest_classifier",
+          "metric_name": "accuracy",
+          "value": 0.998,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "random_forest_classifier",
+          "metric_name": "accuracy",
+          "value": 0.985,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "support_vector_classifier_classical_rbf",
+          "metric_name": "accuracy",
+          "value": 0.951,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "support_vector_classifier_classical_rbf",
+          "metric_name": "accuracy",
+          "value": 0.962,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "k_nearest_neighbors_classical_rbf",
+          "metric_name": "accuracy",
+          "value": 0.971,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "k_nearest_neighbors_classical_rbf",
+          "metric_name": "accuracy",
+          "value": 0.863,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": "classical_rbf_kernel_classifiers",
+          "conditions": "Empirical comparison on 500 synthetic market-movement samples with 50/50 train-test split",
+          "is_demonstrated": true,
+          "caveats": "Paper reports better classification accuracy for quantum kernels, but no asymptotic or wall-clock speedup is claimed."
+        },
+        {
+          "type": "projected",
+          "factor": "O(n) shots for SWAP-test kernel estimation; paper states n = 2^(2t+1) for sequence length t",
+          "baseline_method": "classical kernel evaluation",
+          "conditions": "SWAP-test-based fidelity estimation on pure states",
+          "is_demonstrated": false,
+          "caveats": "This is a resource-scaling statement, not a speedup; the paper notes that sequences of length 7-8 may require about 1 million shots or more."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 2.0,
+          "num_qubits": 1,
+          "metric_name": "distance_separation_quality",
+          "metric_value": null
+        },
+        {
+          "problem_size": 4.0,
+          "num_qubits": 2,
+          "metric_name": "distance_separation_quality",
+          "metric_value": 1.0
+        },
+        {
+          "problem_size": 16.0,
+          "num_qubits": 4,
+          "metric_name": "distance_separation_quality",
+          "metric_value": null
+        },
+        {
+          "problem_size": 7.0,
+          "num_qubits": null,
+          "metric_name": "swap_test_shots_required",
+          "metric_value": 1000000
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 72,
+          "metric_name": "hardware_layout_size",
+          "metric_value": 72
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "SWAP-test kernel estimation requires O(n) shots; paper states n = 2^(2t+1) for sequence length t in the SWAP-test approach",
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": false,
+        "maturity_level": "L4_qpu_scale",
+        "crossover_size": "not_reported",
+        "resources_for_advantage": "Not specified; kernel estimation via SWAP test or projected kernels would require very large shot counts as sequence length grows (≈10^6 shots for length 7–8 according to the paper).",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Very small dataset (500 samples) and synthetic process model",
+          "Kernel estimation requires many circuit executions (large shot counts)",
+          "No asymptotic quantum speedup proven",
+          "Quantum advantage evaluated only against simple classical kernels (RBF) and small ML models",
+          "Problem size far below regimes where quantum kernel methods might show scaling benefits"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as real_qpu_superconducting because the paper explicitly shows an IBM Nazca device layout and states the kernel matrix was estimated on ibm nazca.",
+          "No single total qubit count is reported for the QHMM experiments; the paper shows circuits with varying qubit registers (e.g., 1-, 2-, 4-qubit QHMMs and a 72-qubit layout for multiprogramming), but does not provide one unified num_qubits for the experiment.",
+          "Circuit depth is not explicitly reported as a numeric value; only circuit diagrams and qualitative descriptions are given.",
+          "The paper does not claim an asymptotic quantum speedup; it reports empirical performance advantages and notes SWAP-test shot cost scaling, so speedup_order is none_proven.",
+          "The authors report that quantum kernels outperform classical RBF kernels on their synthetic market example (e.g., SVC accuracy 0.980 vs 0.916 out-of-sample in Table 2).",
+          "However, the task uses a small synthetic dataset (500 samples) generated from the same model family as the quantum kernel, which biases the comparison.",
+          "No asymptotic speedup or scaling advantage over classical methods is demonstrated."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

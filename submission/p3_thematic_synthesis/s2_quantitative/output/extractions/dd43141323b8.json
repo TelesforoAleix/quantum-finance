@@ -1,0 +1,542 @@
+{
+  "paper_id": "dd43141323b8",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T10:06:42+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "dd43141323b8_applying_qnlp_to_sentiment_analysis_in_finance.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.8,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 6,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='sentences (roughly)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[0].unit='sentences (roughly)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[2].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[3].unit='ratio (random guessing baseline mentioned)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.8,
+      "completeness": 0.8,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.85,
+        0.75
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Applying QNLP to sentiment analysis in finance",
+    "authors": [
+      "Jonas Stein",
+      "Ivo Christ",
+      "Nicolas Kraus",
+      "Maximilian Blathasar Mansky",
+      "Robert Müller",
+      "Claudia Linnhoff-Popien"
+    ],
+    "year": 2023,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper evaluates two QNLP approaches—QLSTM and DisCoCat—for financial sentiment analysis on ~1000 ChatGPT-generated sentences. QLSTM achieves validation accuracies above 80% similar to a classical LSTM baseline but requires ~10 hours of simulation for the more complex dataset, while the DisCoCat implementation performs poorly (≈50% accuracy) and requires ~82 hours of CPU simulation for 100 epochs.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "QLSTM sentiment-analysis experiment on synthetic finance sentences, evaluated on low- and moderate-complexity datasets and compared against a classical LSTM baseline.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "Quantum-Enhanced Long Short-Term Memory (QLSTM)",
+        "ansatz": "Original QLSTM ansatz from Chen et al. (data input layer, variational layer, measurement layer)",
+        "optimizer": null,
+        "num_layers": 1,
+        "convergence_criteria": "trained for up to 200 epochs; performance assessed over training curves",
+        "hyperparameters": {
+          "yt_encoding": "3-qubit one-hot encoding",
+          "qubits_per_qnn": 4,
+          "ansatz_layers_per_qnn": 1,
+          "datasets": [
+            "low complexity",
+            "moderate complexity"
+          ],
+          "output_classes": 3,
+          "loss_function": "binary cross entropy",
+          "train_validation_test_split": "80/10/10"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Current input vector xt and previous hidden state ht-1 are concatenated into vt and fed into the QLSTM cell; the paper does not specify a formal amplitude/basis encoding beyond the QLSTM data-input ansatz",
+        "objective_function": "sentiment classification over synthetic finance sentences",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Synthetic finance sentiment analysis with ChatGPT-generated sentences labeled negative/neutral/positive; QLSTM evaluated on both low- and moderate-complexity datasets.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 1000,
+        "data_type": "synthetic",
+        "dataset_name": "ChatGPT-generated finance sentiment dataset",
+        "dataset_specification": {
+          "description": "Low complexity: max length 5 words; Moderate complexity: detailed sentences; labels negative=0, neutral=1, positive=2"
+        },
+        "data_preprocessing_details": "ChatGPT used to generate grammatically structured finance-related sentences; labels appended in generation prompt; no further preprocessing details reported",
+        "evaluation_methodology": "80/10/10 train/validation/test split; training curves reported over epochs; compared to classical LSTM baseline"
+      },
+      "quantum_resources": {
+        "num_qubits": 4,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "not_specified",
+        "device_name": null,
+        "framework": "PennyLane (likely) with custom QLSTM implementation; GPU-enabled simulator mentioned but backend unspecified",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/ichrist97/qnlp_finance",
+        "transpilation_settings": null,
+        "classical_preprocessing": "ChatGPT-based synthetic data generation; hyperparameter tuning for QLSTM and baseline LSTM",
+        "classical_postprocessing": "Binary cross entropy evaluation and accuracy/loss tracking over epochs",
+        "total_execution_time": "about 10 hours for the moderate-complexity QLSTM simulation",
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "low complexity converges within about 20 epochs; moderate complexity shows delayed learning and possible barren plateaus",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "dataset_size",
+          "value": 1000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "sentences (roughly)",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "hours",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "epoch",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "epoch",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical_lstm",
+          "metric_name": "accuracy",
+          "value": 0.8,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_lstm",
+          "metric_name": "training_time",
+          "value": 10,
+          "unit": "hours"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "faster training than DisCoCat",
+          "baseline_method": "DisCoCat QNLP",
+          "conditions": "on the generated finance sentiment datasets using the reported CPU-based circuit simulation setup",
+          "is_demonstrated": true,
+          "caveats": "The paper does not claim asymptotic speedup; comparison is empirical and implementation-dependent."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": null,
+          "num_qubits": 4,
+          "metric_name": "accuracy",
+          "metric_value": 0.8
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 4,
+          "metric_name": "training_time",
+          "metric_value": 10
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": "about 10 hours for moderate-complexity simulation",
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "parity_with_classical",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "not analyzed; experiments limited to small circuit simulations with 4‑qubit QNN blocks inside the QLSTM cell",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Only simulator-based experiments",
+          "No demonstrated improvement over classical LSTM accuracy",
+          "Possible barren plateaus observed in moderate dataset training",
+          "Small datasets (~1000 sentences)",
+          "No complexity-theoretic speedup analysis"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_other because the paper reports CPU/GPU-based circuit simulation and no real QPU device.",
+          "PennyLane is explicitly mentioned in the discussion of implementation support; no specific backend device is named.",
+          "No explicit circuit depth, shot count, optimizer, or parameter count is reported for the QLSTM; only qubit count and ansatz-layer count are given.",
+          "Speedup order is not characterized asymptotically; the paper only reports empirical training-time comparisons.",
+          "Paper states QLSTM achieves results 'close to classical results', not better.",
+          "Classical LSTM baseline reaches similar validation accuracy (>80%).",
+          "No claim of quantum advantage over classical baselines."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "DisCoCat-based QNLP sentiment-analysis experiment on the low-complexity synthetic finance dataset, reduced to binary classification due to CPU simulation cost.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "DisCoCat QNLP with CCG parser and lambeq/BobCatParser",
+        "ansatz": "Single-qubit words: Euler parameterization Rx(theta3) Rz(theta2) Rx(theta1); multi-qubit words: IQP layers",
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": "trained for 100 epochs",
+        "hyperparameters": {
+          "classification_type": "binary",
+          "neutral_class_dropped": true,
+          "word_embedding_single_qubit": "Rx(theta3) Rz(theta2) Rx(theta1) |0>",
+          "word_embedding_multi_qubit": "d IQP layers",
+          "parser": "BobCatParser",
+          "library": "lambeq",
+          "epochs": 100
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Words are embedded into quantum states via parameterized rotations; sentence meaning extracted by postselection on the sentence wire",
+        "objective_function": "binary sentiment classification of finance sentences",
+        "constraints_handling": "classical postselection on wires 1 and 3 in the |0> state to extract sentence meaning",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Low-complexity synthetic finance sentiment dataset generated with ChatGPT; neutral class removed for DisCoCat to enable binary classification and reduce simulation cost.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 1000,
+        "data_type": "synthetic",
+        "dataset_name": "ChatGPT-generated finance sentiment dataset",
+        "dataset_specification": {
+          "description": "Low complexity sentences of maximum length five words; binary labels after dropping neutral class"
+        },
+        "data_preprocessing_details": "CCG parsing via BobCatParser; neutral class removed; sentence meaning extracted by postselection",
+        "evaluation_methodology": "100 training epochs; loss and accuracy curves reported"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "not_specified",
+        "device_name": null,
+        "framework": "PennyLane",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/ichrist97/qnlp_finance",
+        "transpilation_settings": null,
+        "classical_preprocessing": "ChatGPT-based sentence generation; CCG parsing with BobCatParser; neutral class dropped",
+        "classical_postprocessing": "Postselection on sentence wire; binary accuracy/loss tracking",
+        "total_execution_time": "about 82 hours of wallclock time for 100 epochs",
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "slight improvement over 100 epochs; barely better than random guessing",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "dataset_size",
+          "value": 1000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "sentences (roughly)",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 82,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "hours",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "epoch",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio (random guessing baseline mentioned)",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "random_guessing",
+          "metric_name": "accuracy",
+          "value": 0.5,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "slower than QLSTM; no numeric speedup factor reported",
+          "baseline_method": "QLSTM",
+          "conditions": "same CPU-based circuit simulator setup; 100 epochs on low-complexity data",
+          "is_demonstrated": true,
+          "caveats": "The paper explicitly avoids claiming DisCoCat is worse in general; it notes that a more efficient software implementation could improve results."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": null,
+          "num_qubits": null,
+          "metric_name": "accuracy",
+          "metric_value": 0.5
+        },
+        {
+          "problem_size": null,
+          "num_qubits": null,
+          "metric_name": "training_time",
+          "metric_value": 82
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": "about 82 hours for 100 epochs",
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "not analyzed; CPU-based DisCoCat circuit simulation required ~82 hours for 100 epochs on a small dataset",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "CPU-only circuit simulation extremely slow (82 hours for 100 epochs)",
+          "Accuracy barely above random guessing (~50%)",
+          "Binary classification simplification required due to compute limits",
+          "Heavy postselection overhead in DisCoCat circuits",
+          "No demonstrated advantage vs classical NLP models"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper reports CPU-based circuit simulation and no real QPU, so hardware.type is inferred as simulator_other.",
+          "No explicit qubit count is given for DisCoCat; the paper states the sentence wire can be represented with a single qubit after dropping the neutral class, but the full circuit qubit count is not specified, so num_qubits is left null.",
+          "No explicit circuit depth or gate counts are reported for the DisCoCat experiment.",
+          "Speedup order is not characterized asymptotically; only empirical wall-clock comparison is reported.",
+          "Section IV: DisCoCat accuracy barely exceeds random guessing.",
+          "Authors explicitly state QLSTMs are faster to train than DisCoCat in their setup.",
+          "No advantage over classical methods demonstrated."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

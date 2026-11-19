@@ -1,0 +1,487 @@
+{
+  "paper_id": "f90adf90a78a",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T10:19:32+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "f90adf90a78a_exploring_quantum_neural_networks_for_demand_forecasting.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.95,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 19,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='daily financing units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='daily financing units (12-month mean)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='daily financing units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='daily financing units (12-month mean)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='daily financing units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='daily financing units (12-month mean)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='daily financing units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='daily financing units (12-month mean)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='daily financing units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='daily financing units (12-month mean)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='daily financing units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='daily financing units (12-month mean)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='seconds per run' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='seconds per run' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='seconds per run' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[15].unit='seconds per run' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[16].unit='seconds per run' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[17].unit='seconds per run' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[18].unit='monthly samples' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.95,
+      "completeness": 0.95,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.95
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Exploring Quantum Neural Networks for Demand Forecasting",
+    "authors": [
+      "Gleydson Fernandes de Jesus",
+      "Maria Heloísa Fraga da Silva",
+      "Otto Menegasso Pires",
+      "Lucas Cruz da Silva",
+      "Clebson dos Santos Cruz",
+      "Valéria Loureiro da Silva"
+    ],
+    "year": 2024,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper evaluates a hybrid variational quantum neural network for forecasting vehicle financing demand using a proprietary dataset of 52 monthly samples. Across feature sets (4, 8, and 19 features) and circuit depths (1–5 layers), the best quantum result achieves a 12‑month mean absolute error of about 682±284, while a classical RNN baseline can reach MAE ≈344 when excluding anomalous months. All experiments were performed as PennyLane simulations rather than on quantum hardware.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum neural network for short-term demand forecasting of used vehicle financing in Brazil, evaluated on three feature sets (4, 8, and 19 features) and three variational depths (1, 3, and 5 layers), with two quantum experiment variants compared against a classical RNN baseline.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "variational quantum neural network (hybrid QNN) with feature-map RY encoding and two entanglement patterns",
+        "ansatz": "layered parameterized quantum circuit with Hadamard feature preparation, RY data encoding, entanglement layer 1 or 2, and parametrized single-qubit rotations R(θ, ϕ, ω)",
+        "optimizer": "not_specified (TensorFlow-based classical optimizer)",
+        "num_layers": null,
+        "convergence_criteria": "training stopped at 30 epochs based on rapid convergence observed in preliminary 1000-epoch tests",
+        "hyperparameters": {
+          "feature_sets": [
+            4,
+            8,
+            19
+          ],
+          "variational_layers": [
+            1,
+            3,
+            5
+          ],
+          "runs_per_configuration": 10,
+          "training_epochs_used_for_statistics": 30,
+          "preliminary_epochs_tested": 1000,
+          "measurement": true
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "classical features encoded into qubits using Hadamard gates followed by RY(x_i) rotations; one qubit per feature in the depicted 4-qubit circuit, with analogous scaling for larger feature sets not explicitly detailed",
+        "objective_function": "minimize mean absolute error for demand forecasting of used vehicle financing",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Forecasting monthly demand for used vehicle financing in Brazil",
+        "num_assets": null,
+        "time_steps": 2019,
+        "num_features": 19,
+        "dataset_size": 52,
+        "data_type": "proprietary",
+        "dataset_name": "BV bank financing dataset",
+        "dataset_specification": {
+          "source": "Brazilian bank BV",
+          "date_range": "January 2019 to April 2023",
+          "target": "daily average of used vehicle financing each month",
+          "train_period": "January 2019 to April 2022",
+          "test_period": "May 2022 to April 2023",
+          "feature_selection": "6 of 25 features removed because they lacked 2019 data; PCA used to create 4-feature and 8-feature subsets from 19 remaining features"
+        },
+        "data_preprocessing_details": "removed 6 features without 2019 values; applied PCA to 19 remaining features to obtain 4-feature and 8-feature subsets; standardized features using z-score normalization; kept pandemic-period data; no imputation for missing 2019 values",
+        "evaluation_methodology": "10 independent runs per configuration; evaluated by monthly mean absolute error and standard deviation over the 12-month test period"
+      },
+      "quantum_resources": {
+        "num_qubits": 4,
+        "qubit_type": "not_specified",
+        "circuit_depth": 1,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 3,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "Xanadu",
+        "device_name": null,
+        "framework": "PennyLane"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "TensorFlow training for the hybrid QNN; classical RNN baselines with 128 and 1024 neurons in the recurrent layer",
+        "transpilation_settings": null,
+        "classical_preprocessing": "PCA feature reduction and standardization",
+        "classical_postprocessing": "mean absolute error and standard deviation computed from 10 runs",
+        "total_execution_time": "Quantum simulations: 4-feature models 1.5-5 min per run; 8-feature models 3-10 min per run; 19-feature models 1-3.5 h per run",
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 30,
+          "final_loss_value": null,
+          "loss_curve_shape": "rapid convergence with marginal or zero improvement after ~30 epochs",
+          "variance_across_runs": 10.0,
+          "num_independent_runs": 10
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "mae",
+          "value": 299.9,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "daily financing units",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "mae",
+          "value": 682.52,
+          "uncertainty": "±284.14",
+          "num_runs": 10,
+          "unit": "daily financing units (12-month mean)",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "mae",
+          "value": 411.97,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "daily financing units",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "mae",
+          "value": 785.98,
+          "uncertainty": "±192.21",
+          "num_runs": 10,
+          "unit": "daily financing units (12-month mean)",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "mae",
+          "value": 346.1,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "daily financing units",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "mae",
+          "value": 709.76,
+          "uncertainty": "±297.93",
+          "num_runs": 10,
+          "unit": "daily financing units (12-month mean)",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "mae",
+          "value": 441.65,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "daily financing units",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "mae",
+          "value": 980.79,
+          "uncertainty": "±239.93",
+          "num_runs": 10,
+          "unit": "daily financing units (12-month mean)",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "mae",
+          "value": 522.95,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "daily financing units",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "mae",
+          "value": 1141.58,
+          "uncertainty": "±465.98",
+          "num_runs": 10,
+          "unit": "daily financing units (12-month mean)",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "mae",
+          "value": 365.82,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "daily financing units",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "mae",
+          "value": 1074.9,
+          "uncertainty": "±450.09",
+          "num_runs": 10,
+          "unit": "daily financing units (12-month mean)",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 90,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "seconds per run",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 300,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "seconds per run",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 240,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "seconds per run",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 600,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "seconds per run",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 3600,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "seconds per run",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 12600,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "seconds per run",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 52,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "monthly samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical_rnn",
+          "metric_name": "mae",
+          "value": 774.93,
+          "unit": "daily financing units (12-month mean)"
+        },
+        {
+          "method_name": "classical_rnn",
+          "metric_name": "mae",
+          "value": 997.12,
+          "unit": "daily financing units (12-month mean)"
+        },
+        {
+          "method_name": "classical_rnn",
+          "metric_name": "mae",
+          "value": 90480.42,
+          "unit": "daily financing units (12-month mean)"
+        },
+        {
+          "method_name": "classical_rnn",
+          "metric_name": "mae",
+          "value": 646.12,
+          "unit": "daily financing units (12-month mean)"
+        },
+        {
+          "method_name": "classical_rnn",
+          "metric_name": "mae",
+          "value": 683.3,
+          "unit": "daily financing units (12-month mean)"
+        },
+        {
+          "method_name": "classical_rnn",
+          "metric_name": "mae",
+          "value": 79695.14,
+          "unit": "daily financing units (12-month mean)"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": "no proven speedup",
+          "baseline_method": "classical recurrent neural network",
+          "conditions": "simulation on PennyLane/TensorFlow HPC environment; faster convergence and fewer parameters were observed",
+          "is_demonstrated": false,
+          "caveats": "The paper does not establish an asymptotic or hardware-demonstrated quantum speedup; it only reports faster convergence in simulation and comparable accuracy in the best cases."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 4,
+          "num_qubits": 4,
+          "metric_name": "mae",
+          "metric_value": 682.52
+        },
+        {
+          "problem_size": 8,
+          "num_qubits": 8,
+          "metric_name": "mae",
+          "metric_value": 709.76
+        },
+        {
+          "problem_size": 19,
+          "num_qubits": 19,
+          "metric_name": "mae",
+          "metric_value": 1141.58
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not_reported",
+        "resources_for_advantage": "unknown; experiments simulated up to ~19 qubits with shallow variational circuits (1–5 layers)",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "all experiments performed on classical simulators rather than quantum hardware",
+          "very small dataset (52 samples)",
+          "classical RNN baseline achieves lower error in best case (MAE ≈344 vs quantum ≈682 for comparable configuration)",
+          "no asymptotic complexity advantage claimed or demonstrated",
+          "quantum model performance comparable but not superior"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "hardware.type inferred as simulator_other because the paper states all simulations were performed in PennyLane on an HPC environment and explicitly says the problem was solved through simulation, not on a quantum computer.",
+          "num_qubits inferred from the 4-feature circuit figure showing four qubits; the paper does not explicitly state qubit counts for the 8- and 19-feature cases, but the architecture is feature-to-qubit angle encoding.",
+          "speedup_order set to none_proven because the paper discusses faster convergence and shorter execution times in simulation but does not establish an asymptotic quantum speedup.",
+          "The paper claims similar predictive performance and faster convergence with fewer parameters, but does not claim a computational speedup or demonstrate superior accuracy.",
+          "Classical RNN achieves MAE ≈344 (excluding anomalous months) compared to quantum best mean ≈682, indicating classical still performs better."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

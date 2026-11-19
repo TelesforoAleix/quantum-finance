@@ -1,0 +1,346 @@
+{
+  "paper_id": "02db829631f9",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T07:57:57+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "02db829631f9_quantum_optimization_for_portfolio_management_in_financial_services_using_the_va.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.8,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 2,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='variance' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.8,
+      "completeness": 0.8,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.8
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum Optimization for Portfolio Management in Financial Services Using the Variational Quantum Eigensolver (VQE) Algorithm",
+    "authors": [
+      "Pankaj Varma",
+      "Kodirov Zokhid Zokirkhanovich",
+      "Yalla Jeevan Nagendra Kumar",
+      "Aakansha Soy",
+      "Layth Hussein Jasim",
+      "Gayrat Bekbergenov"
+    ],
+    "year": 2025,
+    "doi": "10.1109/ICNSoC66817.2025.00113",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "portfolio-optimization",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper evaluates VQE for portfolio optimization on a 20‑asset dataset and reports slightly improved financial metrics compared to classical methods: variance 0.0147 vs 0.0152 (MVO) and 0.0155 (BLM), expected return 9.32% vs 8.85%/8.9%, and Sharpe ratio 0.624 vs 0.593/0.608. However, VQE requires 120 s to converge compared to 15 s (MVO) and 25 s (BLM), indicating classical algorithms remain computationally superior in the reported experiment.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "VQE-based portfolio optimization on a 20-asset sample portfolio, compared against classical mean-variance optimization and Black-Litterman model; evaluated on simulated and IBM Quantum hardware in a hybrid quantum-classical workflow.",
+      "algorithm": {
+        "family": "vqe",
+        "variant": "standard hybrid VQE for portfolio optimization",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "asset_count": 20,
+          "risk_return_tradeoff_alpha": null,
+          "risk_return_tradeoff_beta": null
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "other",
+        "encoding_details": "Portfolio weights are encoded into a quantum Hamiltonian objective; the paper does not specify a binary/QUBO mapping or qubit-to-variable mapping.",
+        "objective_function": "Minimize portfolio risk (variance) while maximizing expected return, formulated as H(w) = alpha * w^T Sigma w - beta * w^T r.",
+        "constraints_handling": "Not specified; described as portfolio optimization with classical constraints and hybrid VQE search.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": "H(w) = alpha * w^T Sigma w - beta * w^T r",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Portfolio optimization using historical stock data; sample set of twenty stocks.",
+        "num_assets": 20,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "real_market",
+        "dataset_name": "Yahoo Finance or Quandl or Bloomberg (sources mentioned generically)",
+        "dataset_specification": {
+          "description": "Historical daily closing prices over 5-10 years; 20-50 most liquid shares across sectors are discussed, but results table uses 20 stocks."
+        },
+        "data_preprocessing_details": "Historical prices used to compute expected returns, variance/covariance matrix, volatility, Value at Risk, and alpha parameters; exact preprocessing steps not specified.",
+        "evaluation_methodology": "Comparison against classical MVO and Black-Litterman using portfolio risk (variance), expected return, convergence time, and Sharpe ratio."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": null,
+        "noise_type": "noise and decoherence mentioned generally",
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "classical optimizer not specified; classical baselines include mean-variance optimization and Black-Litterman model",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Compute returns, covariance matrix, and portfolio statistics from historical price data.",
+        "classical_postprocessing": "Compare VQE output with classical baselines using risk, return, convergence time, and Sharpe ratio.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_assets",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "risk_variance",
+          "value": 0.0147,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "variance",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "expected_return",
+          "value": 9.32,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "convergence_time",
+          "value": 120,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "sharpe_ratio",
+          "value": 0.624,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "MVO",
+          "metric_name": "variance",
+          "value": 0.0152,
+          "unit": "variance"
+        },
+        {
+          "method_name": "MVO",
+          "metric_name": "expected_return",
+          "value": 8.85,
+          "unit": "%"
+        },
+        {
+          "method_name": "MVO",
+          "metric_name": "convergence_time",
+          "value": 15,
+          "unit": "seconds"
+        },
+        {
+          "method_name": "MVO",
+          "metric_name": "sharpe_ratio",
+          "value": 0.593,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Black-Litterman Model (BLM)",
+          "metric_name": "variance",
+          "value": 0.0155,
+          "unit": "variance"
+        },
+        {
+          "method_name": "Black-Litterman Model (BLM)",
+          "metric_name": "expected_return",
+          "value": 8.9,
+          "unit": "%"
+        },
+        {
+          "method_name": "Black-Litterman Model (BLM)",
+          "metric_name": "convergence_time",
+          "value": 25,
+          "unit": "seconds"
+        },
+        {
+          "method_name": "Black-Litterman Model (BLM)",
+          "metric_name": "sharpe_ratio",
+          "value": 0.608,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The paper reports empirical performance comparisons only; no asymptotic or proven speedup is provided. It notes that VQE is slower than classical methods on the 20-asset instance (120 s vs 15 s and 25 s)."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 20,
+          "num_qubits": null,
+          "metric_name": "convergence_time",
+          "metric_value": 120
+        },
+        {
+          "problem_size": 20,
+          "num_qubits": null,
+          "metric_name": "variance",
+          "metric_value": 0.0147
+        },
+        {
+          "problem_size": 20,
+          "num_qubits": null,
+          "metric_name": "expected_return",
+          "metric_value": 9.32
+        },
+        {
+          "problem_size": 20,
+          "num_qubits": null,
+          "metric_name": "sharpe_ratio",
+          "metric_value": 0.624
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "unknown",
+        "resources_for_advantage": "Not specified in the paper; qubit count, circuit depth, ansatz, and optimizer configuration are not reported, so required hardware scale cannot be estimated.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "VQE convergence time is significantly slower than classical baselines (120 s vs 15 s for MVO and 25 s for BLM).",
+          "Experiments performed on small toy instance (20 assets).",
+          "No qubit count, circuit depth, or ansatz specification reported.",
+          "Results primarily from simulator-level experiments with no demonstrated hardware advantage.",
+          "No asymptotic complexity or proven speedup analysis."
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Paper explicitly states implementation on IBM Quantum Experience using Qiskit and mentions execution on simulators and real quantum hardware, but does not name a specific device, so hardware.type is not fully specified.",
+          "No qubit count, circuit depth, ansatz, optimizer, or shot count is reported; these are not inferable from the text.",
+          "The paper reports only empirical comparison and does not provide asymptotic complexity or proven speedup; speedup_order set to none_proven.",
+          "Table II shows VQE convergence time of 120 s compared with 15 s (MVO) and 25 s (BLM), indicating classical methods outperform on runtime.",
+          "Although VQE shows slightly better risk (0.0147 vs 0.0152/0.0155) and Sharpe ratio (0.624 vs 0.593/0.608), the improvement is small and demonstrated only on a 20‑asset toy instance without hardware scaling evidence."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

@@ -1,0 +1,318 @@
+{
+  "paper_id": "92b5369078cd",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:16:48+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "92b5369078cd_variational_quantum_factorization_vqf_using_different_variations_of_quantum_appr.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.583,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 0,
+    "validation_passed": true,
+    "quality_details": {
+      "score": 0.583,
+      "completeness": 0.583,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.583
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Variational Quantum Factorization (VQF) using Different Variations of Quantum Approximate Optimization Algorithm (QAOA)",
+    "authors": [
+      "Janhavi Hatwar",
+      "Nakul Aggarwal",
+      "Debanjan Bhowmik"
+    ],
+    "year": 2025,
+    "doi": "10.1109/COMSNETS63942.2025.10885675",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "cryptography-security",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper simulates Variational Quantum Factorization (VQF) using QAOA variants on Qiskit to factor integers 143, 291311, and 175 using 4, 6, and 3 qubits respectively. The best success probabilities reported are 0.92 for 143 (maQAOA), 0.56 for 291311 (CVaR‑maQAOA with α=0.75), and 0.99 for 175 (maQAOA). Results are obtained entirely via noiseless simulation with no classical baseline comparison.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Simulation study of variational quantum factorization (VQF) for factoring 143, 291311, and 175 using standard QAOA, multi-angle QAOA, CVaR QAOA, and CVaR multi-angle QAOA on Qiskit.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "standard QAOA; multi-angle QAOA (maQAOA); CVaR QAOA; CVaR maQAOA",
+        "ansatz": "QAOA ansatz with alternating problem and mixer unitaries",
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "problem_instances": [
+            "143",
+            "291311",
+            "175"
+          ],
+          "qubits_for_143": 4,
+          "qubits_for_291311": 6,
+          "qubits_for_175": 3,
+          "cvar_alpha_values": [
+            1,
+            0.75
+          ],
+          "standard_qaoa_parameters": "shared beta and gamma per layer",
+          "maqaoa_parameters": "distinct beta and gamma parameters per gate per layer"
+        },
+        "parameter_initialization": "not reported",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": {
+            "gamma": "[0, 2π)",
+            "beta": "[0, π)"
+          }
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "ising",
+        "encoding_details": "Binary factorization variables mapped to qubits; 1 qubit per binary variable in the reduced VQF formulation.",
+        "objective_function": "Minimize the Ising-form objective derived from VQF. For 143, the reduced classical objective is \\u0304f(x)=5-3p0-p1-q0+2p0q0-3p1q0+2p0p1q0-3q1+p0q1+2p1q1+2p1q0q1.",
+        "constraints_handling": "Penalty-free reduction via algebraic simplification of multiplication clauses; CVaR uses top-α fraction of measurement outcomes in expectation estimation.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": "For 143: Hc = -σz0σz1σz2/4 + σz0σz1/4 + 3σz0σz2/4 + σz0σz3/4 + σz0/2 - σz1σz2σz3/4 - σz1σz2/4 + 3σz1σz3/4 + σz1/4 + σz2σz3/4 + σz2/4 + σz3/2 + 2",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Factorization of bi-prime numbers 143 and 291311, and tri-prime number 175.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "benchmark_name": "integer factorization instances",
+          "ticker_symbols": null,
+          "date_range": null,
+          "preprocessing": null,
+          "train_test_split": null
+        },
+        "data_preprocessing_details": "Binary multiplication clauses were simplified using rules from Anschuetz et al. to reduce higher-order terms before mapping to an Ising Hamiltonian.",
+        "evaluation_methodology": "Success probability measured from quantum simulation measurement statistics; highest success probability reported across tested QAOA variants and layer counts."
+      },
+      "quantum_resources": {
+        "num_qubits": 6,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "classical optimization algorithm (not specified)",
+        "transpilation_settings": null,
+        "classical_preprocessing": "QAOA/CVaR objective evaluation and parameter optimization in simulation; factorization clauses reduced before Hamiltonian construction.",
+        "classical_postprocessing": "Measurement bitstrings interpreted as factors; success counted when product of inferred factors equals target number.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "success probability vs number of layers p",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "success_probability",
+          "value": 0.92,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 0.56,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 0.99,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No classical baseline or speedup analysis is reported; the paper only compares success probabilities across QAOA variants in simulation."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 143,
+          "num_qubits": 4,
+          "metric_name": "success_probability",
+          "metric_value": 0.92
+        },
+        {
+          "problem_size": 291311,
+          "num_qubits": 6,
+          "metric_name": "success_probability",
+          "metric_value": 0.56
+        },
+        {
+          "problem_size": 175,
+          "num_qubits": 3,
+          "metric_name": "success_probability",
+          "metric_value": 0.99
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "not reported",
+        "classical_complexity": "not reported",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "not analyzed; experiments only simulate 3–6 qubit circuits for small integer factorization instances.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "only noiseless Qiskit simulation",
+          "very small problem sizes (3–6 qubits)",
+          "no comparison with classical factoring algorithms",
+          "no asymptotic complexity or scaling study",
+          "variational optimization overhead not analyzed"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_other because the paper explicitly states Qiskit quantum simulation framework and does not name a real QPU.",
+          "num_qubits not given as a single global value; inferred per instance from the paper's stated qubit counts (4 for 143, 6 for 291311, 3 for 175).",
+          "Circuit depth not explicitly reported; only QAOA layer count p is discussed, so depth is not available as a concrete value.",
+          "No asymptotic speedup analysis is provided; the paper only compares empirical success probabilities across QAOA variants.",
+          "The paper compares QAOA variants only and does not benchmark against classical factoring algorithms.",
+          "All experiments are small-scale simulations; therefore no empirical quantum advantage claim is made."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

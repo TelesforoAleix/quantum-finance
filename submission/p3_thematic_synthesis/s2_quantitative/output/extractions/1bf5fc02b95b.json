@@ -1,0 +1,775 @@
+{
+  "paper_id": "1bf5fc02b95b",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:12:01+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "1bf5fc02b95b_qea_fad_quantum_enhanced_autoencoders_for_anomaly_detection_in_finance_and_healt.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.542,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 1,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[1].results[2].unit='transactions' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.542,
+      "completeness": 0.542,
+      "num_experiments": 4,
+      "experiment_scores": [
+        0.6,
+        0.6,
+        0.483,
+        0.483
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "QEA-FAD: Quantum Enhanced Autoencoders For Anomaly Detection in Finance and Healthcare",
+    "authors": [
+      "Sourodeep Kundu",
+      "Deepti Mishra",
+      "Nachiketa Tarasia",
+      "Rakesh Kumar Lenka",
+      "Rabindra K Barik"
+    ],
+    "year": 2025,
+    "doi": "10.1109/NETCRYPT65877.2025.11102801",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": [
+      "fraud-detection"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes QEA‑FAD, a variational quantum autoencoder framework for anomaly detection. On the Breast Cancer Wisconsin dataset (569 samples), the proposed ansatz achieves about 0.9 accuracy using a fidelity threshold of 0.845, outperforming two reproduced QAE baselines (0.24 and 0.81 accuracy). On the credit card fraud dataset (284,807 transactions), the model achieves compression fidelity ≈0.89 for normal transactions and ≈0.66 for fraudulent ones, with experiments run on simulators, IBM Guadalupe, and Rigetti Aspen‑11 QPUs.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum autoencoder anomaly detection on the Breast Cancer Wisconsin diagnostic dataset using the proposed QEA-FAD ansatz, evaluated on Qiskit simulation and IBM QPU hardware.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Quantum autoencoder (QAE) with entanglement-assisted encoder-decoder design; first ansatz / proposed QEA-FAD",
+        "ansatz": "variational quantum autoencoder circuit; amplitude embedding for one encoder and angle embedding for the second encoder; CNOT-based interaction between latent and trash qubits",
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "embedding_methods": [
+            "amplitude_embedding",
+            "angle_embedding"
+          ],
+          "dataset_features_used": [
+            32,
+            8
+          ],
+          "split_value": 0.845,
+          "accuracy": 0.9
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Breast cancer features are encoded into quantum states; paper states amplitude embedding and angle embedding are used. The first encoder uses amplitude embedding, the second uses angle embedding.",
+        "objective_function": "Train the autoencoder on non-anomalous data so that normal samples reconstruct with high fidelity and anomalous samples reconstruct with lower fidelity; anomaly score is based on compression/reconstruction fidelity.",
+        "constraints_handling": "Trash qubits are reset/compared to |00...00> via fidelity or SWAP test; classification uses a fidelity threshold (split value).",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Breast Cancer Wisconsin (Diagnostic) dataset anomaly detection: classify malignant vs benign cells as anomalous vs normal.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 32,
+        "dataset_size": 569,
+        "data_type": "public_benchmark",
+        "dataset_name": "Breast Cancer Wisconsin (Diagnostic) Dataset",
+        "dataset_specification": {
+          "description": "569 samples; 30 original numerical features plus 2 engineered features ('under average' and 'over average'); experiments used all 32 features or top 8 most relevant features."
+        },
+        "data_preprocessing_details": "Two additional features engineered to represent deviations beyond two standard deviations; top-8 feature subset also evaluated.",
+        "evaluation_methodology": "Comparison of compression fidelity distributions; threshold-based classification using split value 0.845; simulator and IBM QPU results compared."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": 2,
+        "two_qubit_gate_count": 2,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": null,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Feature engineering and feature selection (32 features or top 8 features).",
+        "classical_postprocessing": "Fidelity histogram thresholding using split value 0.845 to classify benign/malign cells.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "Compression fidelity and loss curves shown over epochs; exact numeric convergence not reported.",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_baselines": "classical autoencoder baseline comparison mentioned in Introduction and contributions",
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "accuracy",
+          "value": 0.9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "split_value",
+          "value": 0.845,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 569,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [],
+      "scalability_data": [],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": null,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "not_reported",
+        "resources_for_advantage": "not_reported",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "No formal complexity or speedup analysis",
+          "Comparison only against classical autoencoders without rigorous benchmarking",
+          "Small NISQ circuits with unspecified qubit counts",
+          "Amplitude encoding implies expensive classical state preparation",
+          "Hardware results show degraded separation due to noise"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware includes Qiskit simulation and IBM QPU hardware; simulator type inferred as simulator_other because the paper does not specify statevector vs noisy simulator.",
+          "Number of qubits not explicitly stated in the excerpt; inferred as not specified because only the circuit structure and feature counts are given, not a register size.",
+          "CNOT count inferred from the text describing two CNOT gates connecting the latent space of one encoder to the trash qubit of the other.",
+          "No asymptotic complexity or speedup order is characterized in the paper; speedup_order set to none_proven.",
+          "The paper suggests QAEs are 'superior' or more efficient but provides no rigorous runtime comparison or scaling analysis.",
+          "Results focus on classification accuracy (~0.9) rather than computational advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Quantum autoencoder anomaly detection on the Credit Card Fraud Detection dataset using the e2 encoder, evaluated on simulator, IBM Guadalupe QPU, and Rigetti Aspen-11 QPU via Amazon Braket.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Quantum autoencoder (e2 encoder) for fraud detection",
+        "ansatz": "e2 encoder / quantum autoencoder circuit",
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "compression_fidelity_non_fraudulent": 0.89,
+          "compression_fidelity_fraudulent": 0.66
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Credit card transaction features are embedded into a quantum autoencoder; the paper mentions amplitude embedding and angle embedding generally, but this experiment specifically reports the e2 encoder on the fraud dataset.",
+        "objective_function": "Train on non-fraudulent transactions so that they reconstruct with high fidelity; fraudulent transactions should reconstruct with lower fidelity.",
+        "constraints_handling": "Trash qubits compared against |00...00> using fidelity histograms; class separation based on compression fidelity.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Credit card fraud detection anomaly detection task.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 32,
+        "dataset_size": 284807,
+        "data_type": "public_benchmark",
+        "dataset_name": "Credit Card Fraud Detection Dataset",
+        "dataset_specification": {
+          "description": "284,807 transactions; 492 fraudulent and the rest non-fraudulent; 30 PCA-derived features plus Time and Amount."
+        },
+        "data_preprocessing_details": "Features are PCA-derived; dataset is highly imbalanced; Time and Amount included as additional features.",
+        "evaluation_methodology": "Compression fidelity comparison between fraudulent and non-fraudulent transactions; simulator and two QPU hardware runs reported."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM + Rigetti (via Amazon Braket)",
+        "device_name": "ibm_guadalupe; rigetti_aspen_11",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": null,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Use of best parameters derived from training the e2 encoder; dataset is PCA-preprocessed and imbalanced.",
+        "classical_postprocessing": "Histogram-based separation of fraudulent vs non-fraudulent compression fidelities.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "compression_fidelity",
+          "value": 0.89,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "compression_fidelity",
+          "value": 0.66,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 284807,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "transactions",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [],
+      "scalability_data": [],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "not_reported",
+        "resources_for_advantage": "not_reported",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "No classical runtime comparison or complexity analysis",
+          "Only reconstruction fidelity separation reported",
+          "Strong performance degradation on real hardware compared to simulator",
+          "Amplitude encoding introduces classical preprocessing overhead",
+          "Small-scale NISQ experiments"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "IBM Guadalupe and Rigetti Aspen-11 hardware are explicitly named; simulator type inferred as simulator_other because the paper does not specify the simulator backend.",
+          "The paper reports compression fidelities but does not state qubit count, circuit depth, or variational parameter count for this experiment.",
+          "No asymptotic complexity or speedup order is provided; speedup_order set to none_proven.",
+          "The experiment reports fidelity differences (0.89 vs 0.66) but does not claim computational advantage over classical fraud detection methods."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "Comparison experiment reproducing the second ansatz from prior work [23] on the breast cancer dataset, used as a benchmark against the proposed QEA-FAD design.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Recreated prior-work quantum autoencoder from Bravo-Prieto et al. (2021)",
+        "ansatz": "Circuit design from [23]",
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "split_value": 0.99,
+          "malign_classification_accuracy": 0.24
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Recreated benchmark autoencoder on the breast cancer dataset; exact mapping not specified in the excerpt.",
+        "objective_function": "Same anomaly-detection reconstruction objective as the proposed model.",
+        "constraints_handling": "Fidelity thresholding on compression output.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Breast cancer anomaly detection benchmark for comparison with prior work.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "public_benchmark",
+        "dataset_name": "Breast Cancer Wisconsin (Diagnostic) Dataset",
+        "dataset_specification": {
+          "description": "Recreated from prior work [23]."
+        },
+        "data_preprocessing_details": null,
+        "evaluation_methodology": "Reported split value 0.99 and malign classification accuracy 0.24."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": null,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": null,
+        "classical_postprocessing": null,
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "split_value",
+          "value": 0.99,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "malign_classification_accuracy",
+          "value": 0.24,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [],
+      "scalability_data": [],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not_reported",
+        "resources_for_advantage": "not_reported",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Benchmark reproduction only for architectural comparison",
+          "No classical baseline comparison",
+          "Simulation-only experiment",
+          "No scaling or complexity analysis"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "This is a reproduced prior-work quantum autoencoder benchmark; the paper does not specify hardware for this recreated ansatz in the excerpt, so hardware is not specified.",
+          "No qubit count or circuit depth is reported for the recreated benchmark.",
+          "No asymptotic complexity or speedup order is provided.",
+          "The experiment is purely a comparison between QAE circuit ansatz designs rather than a classical-vs-quantum benchmark."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_4",
+      "description": "Comparison experiment reproducing the third ansatz from prior work [24] on the breast cancer dataset, used as a benchmark against the proposed QEA-FAD design.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "Recreated prior-work quantum autoencoder from Romero et al. (2017)",
+        "ansatz": "Circuit design from [24]",
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "split_value": 0.96,
+          "malign_classification_accuracy": 0.81
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Recreated benchmark autoencoder on the breast cancer dataset; exact mapping not specified in the excerpt.",
+        "objective_function": "Same anomaly-detection reconstruction objective as the proposed model.",
+        "constraints_handling": "Fidelity thresholding on compression output.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Breast cancer anomaly detection benchmark for comparison with prior work.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "public_benchmark",
+        "dataset_name": "Breast Cancer Wisconsin (Diagnostic) Dataset",
+        "dataset_specification": {
+          "description": "Recreated from prior work [24]."
+        },
+        "data_preprocessing_details": null,
+        "evaluation_methodology": "Reported split value 0.96 and malign classification accuracy 0.81."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": null,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": null,
+        "classical_postprocessing": null,
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "split_value",
+          "value": 0.96,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "malign_classification_accuracy",
+          "value": 0.81,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [],
+      "scalability_data": [],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "data_loading_bottleneck": null
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "This is a reproduced prior-work quantum autoencoder benchmark; the paper does not specify hardware for this recreated ansatz in the excerpt, so hardware is not specified.",
+          "No qubit count or circuit depth is reported for the recreated benchmark.",
+          "No asymptotic complexity or speedup order is provided."
+        ]
+      }
+    }
+  ]
+}

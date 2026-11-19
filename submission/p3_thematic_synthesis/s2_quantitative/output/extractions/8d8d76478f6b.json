@@ -1,0 +1,737 @@
+{
+  "paper_id": "8d8d76478f6b",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:13:55+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "8d8d76478f6b_quantum_monte_carlo_simulations_for_predicting_electron_positron_pair_production.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.858,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 5,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[9].unit='queries' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='photons' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='cm^-3' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[7].unit='photons' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[8].unit='cm^-3' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.858,
+      "completeness": 0.858,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.933,
+        0.783
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 0.3333333333333333
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum Monte Carlo Simulations for predicting electron-positron pair production via the linear Breit-Wheeler process",
+    "authors": [
+      "Lucas Ivan Iñigo Gamiz",
+      "Óscar Amaro",
+      "Efstratios Koukoutsis",
+      "Marija Vranic"
+    ],
+    "year": 2026,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "simulation-monte-carlo",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper implements a NISQ‑compatible quantum Monte Carlo routine using Iterative Quantum Amplitude Estimation to estimate electron–positron pair production in the linear Breit–Wheeler process. Ideal simulations achieve ~99.8% mean accuracy relative to analytic predictions, while experiments on the IonQ Forte trapped‑ion QPU using a 3‑qubit work register achieve roughly 87–90% accuracy with 6144 shots. Classical Monte Carlo comparisons with equal query budgets show similar error levels (~0.19% classical vs. ~0.115–0.167% quantum in simulation).",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum Monte Carlo / iterative quantum amplitude estimation for predicting electron-positron pair production in the linear Breit-Wheeler process, evaluated in ideal simulation with three state-preparation methods (Qiskit native initialization, variational initialization, and Fourier Series Loader).",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Iterative Quantum Amplitude Estimation (IQAE) with polynomial embedding and state-preparation variants",
+        "ansatz": "CNOT-Ry ring ansatz for variational state preparation; Fourier series loading for FSL; Qiskit native initialization",
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "state_preparation_methods": [
+            "Qiskit initialization",
+            "variational",
+            "Fourier Series Loader (FSL)"
+          ],
+          "beam_energy_range_MeV": [
+            2,
+            10
+          ],
+          "gaussian_mean_energy_MeV": 6,
+          "gaussian_spread_sigma": 1,
+          "monoenergetic_beam_energy_MeV": "varied",
+          "number_of_photons_per_beam": 1000000000000,
+          "photon_density_cm^-3": 60000000000000000000,
+          "samples_or_queries": 6144,
+          "qubits_in_work_register": "varied (4,6,8 shown in scalability plots)",
+          "polynomial_degree": 2,
+          "confidence_interval": null,
+          "epsilon": null
+        },
+        "parameter_initialization": "Variational initialization uses a parameterized CNOT-Ry ring ansatz; other initialization methods are Qiskit native and Fourier-series-based state preparation",
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Photon energy distribution is discretized on an N-qubit work register; probabilities are loaded into amplitudes, and the Breit-Wheeler pair-production probability is embedded into an ancilla via controlled Ry rotations",
+        "objective_function": "Estimate expected pair-production probability μ = E_X[p(X)] and convert to expected number of pairs N_pairs = N_int μ",
+        "constraints_handling": "Probability function is rescaled to [0,1] before ancilla rotation; polynomial approximation used instead of exact cross-section",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "Head-on collision of two gamma-photon beams for linear Breit-Wheeler pair production; one beam monoenergetic and the other Gaussian-like in energy",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Monoenergetic beam energy varied from 2 to 10 MeV; Gaussian beam mean 6 MeV, sigma 1; additional sweeps over qubit count, distribution width, and skewness"
+        },
+        "data_preprocessing_details": "Breit-Wheeler cross-section approximated by a second-degree polynomial over the relevant energy interval; distribution discretized for state preparation; probabilities rescaled to [0,1]",
+        "evaluation_methodology": "Comparison against theoretical predictions; relative error reported; same number of oracle queries/samples as classical Monte Carlo (6144) for fair comparison; scalability studies over energy, qubit count, width, and skewness"
+      },
+      "quantum_resources": {
+        "num_qubits": 4,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 6144,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "not_specified",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "SciPy curve_fit for polynomial fitting; NumPy random sampling for classical Monte Carlo baseline",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Fit Breit-Wheeler cross-section with a second-degree polynomial; discretize energy distributions; prepare state via Qiskit initialization, variational ansatz, or Fourier series loading",
+        "classical_postprocessing": "Measure ancilla probability, invert rescaling, and multiply by number of interacting particles to obtain expected number of pairs",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "mean_accuracy",
+          "value": 99.8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "mean_relative_error",
+          "value": 0.156,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "mean_relative_error",
+          "value": 0.115,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "mean_relative_error",
+          "value": 0.167,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "mean_relative_error",
+          "value": 0.191,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "mean_accuracy",
+          "value": 99.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy_on_qpu",
+          "value": 87.0,
+          "uncertainty": null,
+          "num_runs": 6,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "relative_error_on_qpu",
+          "value": 10.0,
+          "uncertainty": null,
+          "num_runs": 6,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots",
+          "value": 6144,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": 6144,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "queries",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "one_qubit_median_gate_error",
+          "value": 0.02,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "two_qubit_median_gate_error",
+          "value": 0.45,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_photons_per_beam",
+          "value": 1000000000000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "photons",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "photon_density",
+          "value": 60000000000000000000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "cm^-3",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "polynomial_fit_error",
+          "value": 0.69,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical Monte Carlo",
+          "metric_name": "mean_relative_error",
+          "value": 0.191,
+          "unit": "%"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical Monte Carlo",
+          "conditions": "in principle for amplitude estimation; practical setup limited by polynomial approximation of the Breit-Wheeler cross-section",
+          "is_demonstrated": false,
+          "caveats": "The paper states that the setup does not show the quadratic speedup in practice because of approximation error from embedding the cross-section as a polynomial."
+        },
+        {
+          "type": "empirical",
+          "factor": "better accuracy than classical Monte Carlo at equal query/sample budget",
+          "baseline_method": "classical Monte Carlo",
+          "conditions": "same number of queries/samples = 6144",
+          "is_demonstrated": true,
+          "caveats": "Improvement is in mean relative error, not runtime; quantum methods still rely on ideal simulation or hardware with limited qubits."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 2.0,
+          "num_qubits": null,
+          "metric_name": "number_of_pairs",
+          "metric_value": null
+        },
+        {
+          "problem_size": 10.0,
+          "num_qubits": null,
+          "metric_name": "number_of_pairs",
+          "metric_value": null
+        },
+        {
+          "problem_size": 4.0,
+          "num_qubits": 4,
+          "metric_name": "number_of_pairs",
+          "metric_value": null
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 6,
+          "metric_name": "number_of_pairs",
+          "metric_value": null
+        },
+        {
+          "problem_size": 8.0,
+          "num_qubits": 8,
+          "metric_name": "number_of_pairs",
+          "metric_value": null
+        },
+        {
+          "problem_size": 0.25,
+          "num_qubits": null,
+          "metric_name": "number_of_pairs",
+          "metric_value": null
+        },
+        {
+          "problem_size": 1.0,
+          "num_qubits": null,
+          "metric_name": "number_of_pairs",
+          "metric_value": null
+        },
+        {
+          "problem_size": -2.0,
+          "num_qubits": 6,
+          "metric_name": "number_of_pairs",
+          "metric_value": null
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": 6,
+          "metric_name": "number_of_pairs",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "Quadratic speedup claimed for amplitude estimation in principle; practical setup limited by polynomial approximation",
+        "classical_complexity": "Classical Monte Carlo scales as O(1/epsilon^2) for sampling accuracy",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Fault‑tolerant quantum hardware capable of implementing exact cross‑section evaluation (e.g., quantum arithmetic) instead of polynomial approximation and supporting large work registers for high‑resolution distributions.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Polynomial approximation of the Breit–Wheeler cross‑section introduces error and prevents realizing the theoretical quadratic speedup",
+          "State preparation of probability distributions (variational/FSL) adds overhead",
+          "Small qubit counts (≤8 work qubits) limit resolution of the distribution",
+          "Quadratic speedup from amplitude estimation unlikely to overcome error‑correction overhead"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": null,
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware type inferred as simulator_statevector for the ideal simulations because the paper separately reports a trapped-ion QPU experiment; the ideal results are emulator/simulator runs.",
+          "Num qubits not given as a single fixed value for the ideal study; inferred from figures and methods as varying work-register sizes (4, 6, 8) and 1 ancilla qubit.",
+          "Circuit depth not explicitly quantified; only algorithmic components and state-preparation structures are described.",
+          "The paper discusses the theoretical quadratic speedup of quantum amplitude estimation but explicitly states the current implementation does not demonstrate the speedup due to polynomial approximation errors and NISQ limitations."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Quantum Monte Carlo / iterative quantum amplitude estimation for linear Breit-Wheeler pair production executed on IonQ Forte Enterprise trapped-ion hardware using reduced-qubit circuits and two state-preparation methods (FSL and variational).",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Iterative Quantum Amplitude Estimation (IQAE) on trapped-ion QPU with FSL and variational state preparation",
+        "ansatz": "CNOT-Ry ring ansatz for variational preparation; Fourier Series Loader for FSL",
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "state_preparation_methods": [
+            "FSL",
+            "variational"
+          ],
+          "monoenergetic_beam_energy_MeV": [
+            3,
+            6,
+            9
+          ],
+          "gaussian_mean_energy_MeV": 6,
+          "gaussian_spread_sigma": 1,
+          "shots": 6144,
+          "work_register_qubits": 3,
+          "number_of_photons_per_beam": 1000000000000,
+          "photon_density_cm^-3": 60000000000000000000
+        },
+        "parameter_initialization": "Variational parameters initialized as part of the parametric circuit; no explicit initialization scheme reported",
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Three-qubit work register initialized with a parametric circuit and Fourier series; Breit-Wheeler probability embedded into ancilla via controlled rotations",
+        "objective_function": "Estimate expected pair-production probability and expected number of pairs for head-on gamma-gamma collisions",
+        "constraints_handling": "Polynomial approximation of the cross-section and rescaling to [0,1] before ancilla rotation",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "Head-on collision of two photon beams for linear Breit-Wheeler pair production on IonQ hardware",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Monoenergetic beam energies 3, 6, and 9 MeV; other beam fixed to Gaussian distribution with mean 6 MeV and sigma 1"
+        },
+        "data_preprocessing_details": "Cross-section approximated by a second-degree polynomial; state prepared with 3 work qubits to reduce cost; results downloaded in JSON and post-processed locally",
+        "evaluation_methodology": "Six hardware simulations/runs with 6144 shots; compared against theoretical predictions and ideal simulations; mean accuracy reported relative to theory"
+      },
+      "quantum_resources": {
+        "num_qubits": 3,
+        "qubit_type": "physical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 6144,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_trapped_ion",
+        "provider": "IonQ",
+        "device_name": "Forte Enterprise",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "hardware_noise",
+        "error_mitigation_method": null,
+        "noise_parameters": {
+          "one_qubit_median_gate_error": 0.0002,
+          "two_qubit_median_gate_error": 0.0045
+        },
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": "IonQ Forte Enterprise backend",
+        "classical_solver": "SciPy curve_fit for polynomial fitting; local post-processing of JSON results",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Fit the Breit-Wheeler cross-section with a second-degree polynomial; prepare a 3-qubit work register using a parametric circuit and Fourier series",
+        "classical_postprocessing": "Convert measured ancilla probabilities to expected pair counts and compare with theory",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": 6
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "accuracy_on_qpu",
+          "value": 87.0,
+          "uncertainty": null,
+          "num_runs": 6,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "mean_accuracy_on_qpu",
+          "value": 87.0,
+          "uncertainty": null,
+          "num_runs": 6,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots",
+          "value": 6144,
+          "uncertainty": null,
+          "num_runs": 6,
+          "unit": "shots",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "work_register_qubits",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "total_qubits",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": null,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "one_qubit_median_gate_error",
+          "value": 0.02,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "two_qubit_median_gate_error",
+          "value": 0.45,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_photons_per_beam",
+          "value": 1000000000000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "photons",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "photon_density",
+          "value": 60000000000000000000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "cm^-3",
+          "higher_is_better": null,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical Monte Carlo",
+          "conditions": "in principle for amplitude estimation on NISQ-compatible circuits",
+          "is_demonstrated": false,
+          "caveats": "The paper reports hardware feasibility and accuracy, but not a runtime speedup on QPU."
+        },
+        {
+          "type": "empirical",
+          "factor": "over 90% accuracy without error correction",
+          "baseline_method": "theoretical predictions / ideal simulations",
+          "conditions": "IonQ Forte Enterprise, 3 work qubits, 6144 shots, monoenergetic beam energies 3, 6, 9 MeV",
+          "is_demonstrated": true,
+          "caveats": "The paper does not provide per-energy numerical accuracies; only the aggregate statement 'over 90% accurate' and mean accuracy of 87% relative to theory."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 3.0,
+          "num_qubits": 4,
+          "metric_name": "accuracy_on_qpu",
+          "metric_value": null
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 4,
+          "metric_name": "accuracy_on_qpu",
+          "metric_value": null
+        },
+        {
+          "problem_size": 9.0,
+          "num_qubits": 4,
+          "metric_name": "accuracy_on_qpu",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "Quadratic speedup claimed in principle for amplitude estimation",
+        "classical_complexity": "Classical Monte Carlo scales as O(1/epsilon^2) for sampling accuracy",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": false,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Large fault‑tolerant quantum computer implementing exact function evaluation and deeper amplitude estimation circuits with many logical qubits.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Very small circuits (3 work qubits + ancilla)",
+          "Hardware noise (IonQ Forte two‑qubit error ~0.45%) reduces accuracy to ~87–90%",
+          "Approximate polynomial embedding of physics model",
+          "Quadratic speedup from amplitude estimation insufficient under Hoefler constant‑factor analysis"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": null,
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware provider/device explicitly reported as IonQ Forte Enterprise trapped-ion QPU.",
+          "Num qubits inferred as 4 total qubits from the reported 3-qubit work register plus 1 ancilla qubit.",
+          "No explicit circuit depth or transpiled depth reported.",
+          "Hardware results demonstrate feasibility on a trapped‑ion QPU with ~87–90% accuracy relative to theory, but no performance advantage over classical Monte Carlo is experimentally demonstrated."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

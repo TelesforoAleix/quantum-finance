@@ -1,0 +1,727 @@
+{
+  "paper_id": "8e431c2a2616",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:15:04+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "8e431c2a2616_bq_bank_a_quantum_software_for_finance_and_banking.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.556,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 5,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='price units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='price units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='price units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[0].unit='value units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[1].unit='value units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.556,
+      "completeness": 0.556,
+      "num_experiments": 3,
+      "experiment_scores": [
+        0.683,
+        0.75,
+        0.233
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 0.3333333333333333
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.5,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "BQ-Bank: A Quantum Software for Finance and Banking",
+    "authors": [
+      "Hang Li",
+      "Tonghao Xing",
+      "Shijie Wei",
+      "Zhiyuan Liu",
+      "Jiang Zhang",
+      "Gui-Lu Long"
+    ],
+    "year": 2023,
+    "doi": "10.1155/2023/7810974",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "portfolio-optimization",
+    "secondary_silos": [
+      "derivative-pricing",
+      "risk-management",
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper introduces BQ‑Bank, a web‑based quantum finance software platform implementing three gate‑based algorithms: amplitude‑estimation–based option pricing, amplitude‑estimation–based VaR, and QAOA portfolio optimization. Demonstrations use simulated circuits with discretizations up to 512 sampling points and qualitative comparisons to classical Monte Carlo and Black–Scholes results, but no real quantum hardware runs or resource estimates are provided.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum amplitude estimation for European-style option pricing and option revenue estimation in BQ-Bank.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "quantum amplitude estimation (QAE) for option pricing",
+        "ansatz": "parameterized quantum circuits for state preparation",
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "n": "number of qubits used for discretization / user input",
+          "M": "2^n sampling points in the classical Monte Carlo comparison",
+          "c": "small constant used in the QAE payoff rotation approximation"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Underlying asset price distribution discretized into 2^n points and encoded into amplitudes of an n-qubit register; an extra qubit marks payoff regions and an ancillary qubit is rotated according to the normalized payoff.",
+        "objective_function": "Estimate E[f(S)] for option payoff f(S) (call: max(0,S-K); put analogous) and compute discounted option price e^{-rT}E[f(S)].",
+        "constraints_handling": "Payoff encoded via controlled rotation and amplitude estimation; no explicit constraints beyond discretization and normalization.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "European-style option pricing and expected option revenues under the Black-Scholes model.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Option price examples parameterized by current asset price, maturity, risk-free rate, volatility, strike price, and call/put choice; underlying price distribution modeled as lognormal/Black-Scholes."
+        },
+        "data_preprocessing_details": "Discretize the underlying asset price distribution into 2^n points; encode probabilities pi into amplitudes; compare against classical Monte Carlo and Black-Scholes benchmark.",
+        "evaluation_methodology": "User-facing examples in the BQ-Bank interface; results compared against Black-Scholes and classical Monte Carlo, with qualitative statement that quantum result is closer to Black-Scholes."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "noise_model": null,
+        "noise_parameters": null,
+        "mitigation_details": null,
+        "is_noisy": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": "http://biwonq.baqis.ac.cn/#/pages/finance",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Black-Scholes model; classical Monte Carlo simulation",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Discretize price distribution; construct payoff encoding; compare with Monte Carlo using 2^n samples.",
+        "classical_postprocessing": "Estimate option price from measured amplitude/probability and discount by e^{-rT}.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "option_price",
+          "value": 0.0209,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "price units",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "option_price",
+          "value": 0.0217,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "price units",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "option_price",
+          "value": 0.0198,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "price units",
+          "higher_is_better": false,
+          "data_source": "figure"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "Black-Scholes model",
+          "metric_name": "option_price",
+          "value": 0.0217,
+          "unit": "price units"
+        },
+        {
+          "method_name": "classical Monte Carlo simulation",
+          "metric_name": "option_price",
+          "value": 0.0198,
+          "unit": "price units"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical Monte Carlo",
+          "conditions": "for amplitude estimation-based option pricing",
+          "is_demonstrated": true,
+          "caveats": "Paper states the quantum result is closer to the Black-Scholes benchmark than Monte Carlo in the shown example; no runtime or hardware benchmark is reported."
+        }
+      ],
+      "scalability_data": [],
+      "complexity_analysis": {
+        "quantum_complexity": "quadratic speedup over classical Monte Carlo for amplitude estimation",
+        "classical_complexity": "O(M^-1/2) for Monte Carlo error scaling as stated in the paper",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not reported; discretization uses 2^n samples but no concrete n or scaling study provided.",
+        "resources_for_advantage": "Would require fault‑tolerant amplitude estimation circuits with large coherent depth and accurate state preparation for asset distributions; resource estimates not provided.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Only software simulations shown",
+          "No circuit depth or qubit counts reported",
+          "Comparison is qualitative (closer to Black‑Scholes) rather than scaling‑based",
+          "Amplitude estimation advantage ignores state‑preparation cost"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Paper states BQ-Bank can run on a real quantum computer such as a superconducting system or on an emulation system, but does not name a specific device for the reported examples; hardware.type is therefore reported as real_qpu_superconducting at the platform level only, not a named device.",
+          "The paper describes the QAE construction with an (n+1)-qubit system plus an ancillary qubit, but does not give a concrete n for the experiments; num_qubits is therefore not explicitly reported.",
+          "The paper repeatedly states that the quantum algorithm performs 'better' or 'more accurate' than classical Monte Carlo in the example plots.",
+          "However, results are only small illustrative simulations and do not demonstrate computational advantage."
+        ],
+        "advantage_status": "paper_reported"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Quantum amplitude estimation for Value at Risk (VaR) estimation.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "quantum amplitude estimation (QAE) for VaR",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "m": "number of sampled qubits, with M = 2^m discretization points",
+          "k": "threshold index used to define the VaR quantile",
+          "alpha": "confidence level",
+          "M": "2^m"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Random variable X discretized and mapped to an m-qubit basis state |i>; an ancillary qubit is flipped according to indicator function f(i)=1 for i<=k and 0 otherwise.",
+        "objective_function": "Estimate VaR_alpha(X) = -inf{x in R : F_X(x) > alpha} by estimating the cumulative probability up to threshold k via amplitude estimation.",
+        "constraints_handling": "Indicator-function encoding and QAE probability estimation; no penalty terms.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "VaR estimation for a portfolio of two assets (China Bao An and Ping An Bank) under a normal distribution model.",
+        "num_assets": 2,
+        "time_steps": 30,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "real_market",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Two assets, China Bao An and Ping An Bank, 10 units of each purchased; 0.95 confidence; 30 holding days; normal distribution model."
+        },
+        "data_preprocessing_details": "Historical data used to estimate mean and variance for parametric VaR; random variable discretized into 2^m points for the quantum method.",
+        "evaluation_methodology": "Comparison across sampling points 1,2,4,8,16,32,64,128,256,512 against H-VaR, P-VaR, MC-VaR, and quantum algorithm; quantum result compared to P-VaR."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "noise_model": null,
+        "noise_parameters": null,
+        "mitigation_details": null,
+        "is_noisy": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": "http://biwonq.baqis.ac.cn/#/pages/finance",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Historical VaR, Parametric VaR, Monte Carlo VaR",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Estimate distribution parameters from historical data; discretize the loss distribution; define threshold k for the confidence level.",
+        "classical_postprocessing": "Infer VaR from the estimated cumulative probability and compare with classical VaR methods.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "var",
+          "value": 21,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "value units",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "var",
+          "value": 22,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "value units",
+          "higher_is_better": false,
+          "data_source": "figure"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "historical VaR",
+          "metric_name": "var",
+          "value": 21,
+          "unit": "value units"
+        },
+        {
+          "method_name": "parametric VaR",
+          "metric_name": "var",
+          "value": 22,
+          "unit": "value units"
+        },
+        {
+          "method_name": "Monte Carlo VaR",
+          "metric_name": "var",
+          "value": 20,
+          "unit": "value units"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "Monte Carlo VaR",
+          "conditions": "VaR estimation via quantum amplitude estimation with discretization size M = 2^m",
+          "is_demonstrated": true,
+          "caveats": "Paper states precision O(M^-1) versus classical MC-VaR O(M^-1/2); the example figure shows the quantum result approaching P-VaR as sampling points increase, but no wall-clock timing is reported."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 1,
+          "num_qubits": null,
+          "metric_name": "var",
+          "metric_value": null
+        },
+        {
+          "problem_size": 2,
+          "num_qubits": null,
+          "metric_name": "var",
+          "metric_value": null
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": null,
+          "metric_name": "var",
+          "metric_value": null
+        },
+        {
+          "problem_size": 8,
+          "num_qubits": null,
+          "metric_name": "var",
+          "metric_value": null
+        },
+        {
+          "problem_size": 16,
+          "num_qubits": null,
+          "metric_name": "var",
+          "metric_value": null
+        },
+        {
+          "problem_size": 32,
+          "num_qubits": null,
+          "metric_name": "var",
+          "metric_value": null
+        },
+        {
+          "problem_size": 64,
+          "num_qubits": null,
+          "metric_name": "var",
+          "metric_value": null
+        },
+        {
+          "problem_size": 128,
+          "num_qubits": null,
+          "metric_name": "var",
+          "metric_value": null
+        },
+        {
+          "problem_size": 256,
+          "num_qubits": null,
+          "metric_name": "var",
+          "metric_value": null
+        },
+        {
+          "problem_size": 512,
+          "num_qubits": null,
+          "metric_name": "var",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(M^-1) precision for VaR estimation",
+        "classical_complexity": "O(M^-1/2) for Monte Carlo VaR as stated in the paper",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not provided; comparison only shows sampling points up to 512.",
+        "resources_for_advantage": "Large‑scale amplitude estimation circuits and efficient distribution loading for portfolio loss distributions.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Experiments are simulated within BQ‑Bank",
+          "No quantum hardware execution",
+          "No runtime comparison with optimized classical VaR implementations",
+          "Quadratic speedup only"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper gives the discretization as m qubits and M=2^m but does not specify the concrete m used in the example; num_qubits is therefore inferred only at the symbolic level, not numerically.",
+          "The paper claims the quantum algorithm performs better than Monte Carlo at the same sampling points (Figure 7).",
+          "This is based on simulation accuracy behavior rather than demonstrated runtime advantage."
+        ],
+        "advantage_status": "paper_reported"
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "QAOA-based portfolio optimization for selecting a subset of assets under budget and risk constraints.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "QAOA for mean-variance combinatorial portfolio optimization",
+        "ansatz": "standard QAOA alternating problem and mixer Hamiltonians",
+        "optimizer": "COBYLA",
+        "num_layers": null,
+        "convergence_criteria": "iterate classical optimization until the objective approximately reaches a minimum",
+        "hyperparameters": {
+          "p": "QAOA depth (number of layers), not numerically specified",
+          "q": "risk factor",
+          "A": "penalty parameter, usually set large",
+          "b": "investment budget / number of assets to purchase",
+          "minx": "minimum share per asset",
+          "maxx": "maximum share per asset"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "QUBO",
+        "encoding_details": "Binary decision variable xi indicates whether asset i is purchased; mapped to qubit operator via xi -> (I - sigma_z^i)/2.",
+        "objective_function": "min_x q x^T C x - mu^T x subject to 1^T x = b; implemented with penalty Lx = q sum_{i,j} C_{ji} x_i x_j - sum_i mu_i x_i + A(b - sum_i x_i)^2.",
+        "constraints_handling": "Quadratic penalty term A(b - sum_i x_i)^2; assets with minx > 0 are fixed as purchased before QAOA, reducing the active search space.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": "H_C = C(sigma_z^1, sigma_z^2, ..., sigma_z^n); mixer Hamiltonian H_B = sum_i sigma_x^i; binary-to-spin mapping xi -> (I - sigma_z^i)/2.",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Portfolio optimization over candidate financial assets with preset min/max shares and historical return data.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "real_market",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Historical period [t_i, t_f] for candidate assets; example shown in figures with three selected assets and corresponding return curve."
+        },
+        "data_preprocessing_details": "Assets with minx > 0 are assigned to a fixed set X1; remaining assets are optimized over with QAOA; then a trust-constr classical routine computes final proportions.",
+        "evaluation_methodology": "Example-based demonstration with an optimal portfolio diagram and historical return curve; no statistical repetition count reported."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "noise_model": null,
+        "noise_parameters": null,
+        "mitigation_details": null,
+        "is_noisy": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": "http://biwonq.baqis.ac.cn/#/pages/finance",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "COBYLA; trust-constr; classical post-processing of QAOA output",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Partition assets into fixed and variable sets based on minx; convert the loss function to a Hamiltonian.",
+        "classical_postprocessing": "Measure QAOA state, select likely optimal bitstring, then optimize asset proportions with trust-constr.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "optimal_portfolio",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "portfolio_weights",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "figure"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The paper presents QAOA as a hybrid method for portfolio optimization and shows an example portfolio, but does not report quantitative performance metrics, runtime, approximation ratio, feasibility percentage, or a classical benchmark for this module."
+        }
+      ],
+      "scalability_data": [],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not analyzed in the paper.",
+        "resources_for_advantage": "Would require large‑scale QAOA circuits with many qubits corresponding to candidate assets and deep optimization loops.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "No numerical benchmarking against classical portfolio optimization algorithms",
+          "QAOA depth and qubit counts not specified",
+          "Hybrid workflow relies heavily on classical optimization"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper describes QAOA conceptually and says it is used in the portfolio module, but does not report a concrete qubit count, circuit depth p, gate counts, or hardware device for the example.",
+          "The paper does not provide an asymptotic complexity comparison for QAOA portfolio optimization; speedup_order is therefore none_proven.",
+          "Section 2.3 mainly describes the algorithmic workflow; the example result (Figure 9) shows a portfolio outcome but not a performance comparison with classical solvers.",
+          "Therefore advantage cannot be assessed experimentally."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

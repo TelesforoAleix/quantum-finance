@@ -1,0 +1,593 @@
+{
+  "paper_id": "36432eaf1f31",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:30:19+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "36432eaf1f31_characterizing_asymmetric_and_bimodal_long_term_financial_return_distributions_t.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.7,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 11,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='trading_days' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='trading_days' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='trading_days' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='modes/classes of long-term returns' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='steps' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='steps' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='steps' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='bins' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[15].unit='radians' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[20].unit='O(n^2)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.7,
+      "completeness": 0.7,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.7
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Characterizing asymmetric and bimodal long-term financial return distributions through quantum walks",
+    "authors": [
+      "Stijn De Backer",
+      "Luis E. C. Rocha",
+      "Jan Ryckebusch",
+      "Koen Schoors"
+    ],
+    "year": 2025,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "risk-management",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper fits long-term (Δt ≈ 504 trading days) logarithmic return distributions for 31 financial assets using a discrete-time quantum walk model with four parameters (η, θ, φ, ω) optimized via hill climbing. Using n = 100 time steps (and a smoothed ensemble with n ~ N(100, 15²)), the model achieves mean absolute errors on the order of 0.5–1.2 × 10^-2 and KS statistics roughly 0.045–0.341, generally outperforming Gaussian fits for asymmetric distributions.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Discrete-time quantum walk model fitted to empirical long-term logarithmic return distributions of 31 financial assets, including bimodal and asymmetric cases, using fixed time steps n=100 and a smoothed variant with n sampled from a normal distribution.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "discrete-time quantum walk fit for financial return distributions",
+        "ansatz": null,
+        "optimizer": "steepest-ascent hill climbing",
+        "num_layers": null,
+        "convergence_criteria": "optimal parameters identified to precision of 0.0001 radians",
+        "hyperparameters": {
+          "coin_parameters": [
+            "eta",
+            "theta"
+          ],
+          "initial_condition_parameters": [
+            "phi",
+            "omega"
+          ],
+          "time_steps_n": 100,
+          "smoothed_time_steps_distribution": "N(mu=100, sigma^2=15^2)",
+          "number_of_sampled_distributions_for_smoothing": 1000,
+          "histogram_bins": "about 20 bins for bimodality assessment; Nbins selected per asset for fitting",
+          "local_search_initial_parameter_guesses": "large set covering parameter space with low resolution",
+          "parameter_shift_hyperparameter": "relative shift between empirical and quantum walk distributions",
+          "bin_adjustment_hyperparameter": "vary empirical histogram by up to 4 bins",
+          "precision_radians": 0.0001
+        },
+        "parameter_initialization": "large set of initial parameter guesses covering parameter space with low resolution",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": {
+            "eta": "[0, 2pi)",
+            "theta": "[0, pi/2]",
+            "phi": "[0, 2pi)",
+            "omega": "[-pi, pi]"
+          }
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "other",
+        "encoding_details": "Quantum walk position probabilities are mapped to discretized logarithmic return histograms; no qubit-encoding of market variables is described.",
+        "objective_function": "Minimize mean absolute error between empirical return histogram Pe(i) and quantum-walk histogram PQW(i): MAE = (1/Nbins) sum_i |Pe(i) - PQW(i)|",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Fit long-term logarithmic return distributions of financial assets over up to two trading years; focus on bimodal and asymmetric distributions.",
+        "num_assets": 31,
+        "time_steps": 504,
+        "num_features": null,
+        "dataset_size": 31,
+        "data_type": "real_market",
+        "dataset_name": "Yahoo Finance historical prices",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "6599.KL",
+            "AALI.JK",
+            "AAOI",
+            "AB",
+            "ACV",
+            "ADDYY",
+            "ADX",
+            "AEP",
+            "AFB",
+            "AFSI",
+            "AJX",
+            "AM",
+            "AMCX",
+            "AMG",
+            "AMX",
+            "ANY",
+            "ARI",
+            "AWK",
+            "BABA",
+            "DMO",
+            "EVTC",
+            "GBAB",
+            "IGI",
+            "ISL",
+            "MTGE",
+            "NSA",
+            "NVG",
+            "NZF",
+            "PAA",
+            "SAVE",
+            "TEAM"
+          ],
+          "date_range": "varies by asset; retrieved on 2024-10-14; start dates and end dates listed in Table A.2",
+          "benchmark_name": null,
+          "preprocessing": "non-trading days excluded; consecutive trading days treated as successive time points; logarithmic returns computed over varying horizons; histograms binned with low resolution to suppress local spikes",
+          "train_test_split": null
+        },
+        "data_preprocessing_details": "Compute logarithmic returns g = log S(t+Δt) - log S(t); exclude weekends and public holidays; use low-bin histograms (~20 bins) for bimodality assessment; smooth quantum walk distribution by aggregating every three consecutive non-zero-probability positions; for improved fits, average over 1000 quantum-walk distributions with n sampled from N(100,15^2) and rounded to nearest even integer.",
+        "evaluation_methodology": "Fit 31 assets at Δt = 2 trading years; classify distributions as unimodal or bimodal; compare quantum-walk fit against Gaussian fit using MAE and KS statistic; report results for selected assets and all 31 assets in Table 1."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 4,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "steepest-ascent hill climbing; Gaussian fit used as classical baseline",
+        "transpilation_settings": null,
+        "classical_preprocessing": "histogram construction; bin selection; optional bin adjustment; parameter search over coin and initial-state angles",
+        "classical_postprocessing": "MAE and KS statistic computation; comparison to Gaussian baseline; smoothing over sampled n values",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_assets",
+          "value": 31,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "time_horizon",
+          "value": 504,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "trading_days",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "time_horizon",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "trading_days",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "time_horizon",
+          "value": 252,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "trading_days",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_risk_factors",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "modes/classes of long-term returns",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "var_accuracy",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "cvar_estimation_error",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "tail_risk_estimate",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "bimodality_measure",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "skewness_absolute_value",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "time_steps_n",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "steps",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "smoothed_time_steps_mean",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": 1000,
+          "unit": "steps",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "smoothed_time_steps_std",
+          "value": 15,
+          "uncertainty": null,
+          "num_runs": 1000,
+          "unit": "steps",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "histogram_bins",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "bins",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "parameter_precision",
+          "value": 0.0001,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "radians",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "mae",
+          "value": 0.00524,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "mae",
+          "value": 0.01209,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "ks_statistic",
+          "value": 0.00456,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "ks_statistic",
+          "value": 0.03414,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "quantum_complexity",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "O(n^2)",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "Gaussian fit",
+          "metric_name": "mae",
+          "value": 0.00964,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Gaussian fit",
+          "metric_name": "mae",
+          "value": 0.00818,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Gaussian fit",
+          "metric_name": "mae",
+          "value": 0.00899,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Gaussian fit",
+          "metric_name": "mae",
+          "value": 0.00745,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Gaussian fit",
+          "metric_name": "mae",
+          "value": 0.00918,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Gaussian fit",
+          "metric_name": "mae",
+          "value": 0.00818,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Gaussian fit",
+          "metric_name": "mae",
+          "value": 0.00964,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Gaussian fit",
+          "metric_name": "mae",
+          "value": 0.01452,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Gaussian fit",
+          "metric_name": "ks_statistic",
+          "value": 0.02953,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Gaussian fit",
+          "metric_name": "ks_statistic",
+          "value": 0.01191,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Gaussian fit",
+          "metric_name": "ks_statistic",
+          "value": 0.02368,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Gaussian fit",
+          "metric_name": "ks_statistic",
+          "value": 0.0138,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Gaussian fit",
+          "metric_name": "ks_statistic",
+          "value": 0.01775,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Gaussian fit",
+          "metric_name": "ks_statistic",
+          "value": 0.03414,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No computational speedup is claimed or demonstrated; the paper reports modeling performance improvements over a Gaussian baseline, not algorithmic acceleration."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 31.0,
+          "num_qubits": null,
+          "metric_name": "mae",
+          "metric_value": 0.00524
+        },
+        {
+          "problem_size": 31.0,
+          "num_qubits": null,
+          "metric_name": "ks_statistic",
+          "metric_value": 0.00456
+        },
+        {
+          "problem_size": 31.0,
+          "num_qubits": null,
+          "metric_name": "mae",
+          "metric_value": 0.01209
+        },
+        {
+          "problem_size": 31.0,
+          "num_qubits": null,
+          "metric_name": "ks_statistic",
+          "metric_value": 0.03414
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(n^2) for computing the quantum walk probability distribution",
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Not applicable; the paper does not map the quantum walk model to qubits, circuits, or hardware resources.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "No gate-based quantum circuit implementation",
+          "All computations performed analytically/classically",
+          "No qubit counts, circuit depth, or hardware mapping",
+          "No comparison to classical algorithms solving the same computational task on quantum hardware"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "No physical or simulator hardware is used; the paper presents an analytical/classical-simulation study of a discrete-time quantum walk model.",
+          "The paper reports n=100 time steps and a smoothed ensemble over n sampled from N(100,15^2), but does not map the model to a qubit register size or circuit depth in qubits/gates.",
+          "num_variational_params=4 corresponds to the four fitted quantum-walk parameters (eta, theta, phi, omega), not a variational circuit ansatz.",
+          "The authors use a quantum-walk-inspired probabilistic model but run it as a classical calculation.",
+          "The comparison is against Gaussian statistical fits, not classical algorithms competing with a quantum implementation.",
+          "No claim of computational quantum advantage is made."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

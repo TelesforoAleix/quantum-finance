@@ -1,0 +1,608 @@
+{
+  "paper_id": "c6d03068fd05",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:51:29+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "c6d03068fd05_qfnn_ffd_quantum_federated_neural_network_for_financial_fraud_detection.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.525,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 7,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[6].unit='mse' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='mse' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='instances' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='instances' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='instances' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='clients' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.525,
+      "completeness": 0.525,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.9,
+        0.15
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "QFNN-FFD: Quantum Federated Neural Network for Financial Fraud Detection",
+    "authors": [
+      "Nouhaila Innan",
+      "Alberto Marchisio",
+      "Mohamed Bennai",
+      "Muhammad Shafique"
+    ],
+    "year": 2025,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "fraud-detection",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a federated variational quantum neural network (QFNN‑FFD) using 4 qubits and 32 parameters for fraud detection on the IEEE‑CIS dataset (144,233 samples). On simulator experiments with 15 federated clients and up to 100 iterations, the model reaches about 95% accuracy, 95% precision, and 96% recall, slightly outperforming a centralized QNN baseline (93% accuracy). All results are obtained using PennyLane simulation with Qiskit noise models rather than real quantum hardware.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Federated quantum neural network for IEEE-CIS financial fraud detection, trained locally across 15 clients and aggregated globally, evaluated under ideal simulation and six quantum noise models.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "Quantum Neural Network (QNN) within a federated learning framework (QFNN-FFD)",
+        "ansatz": null,
+        "optimizer": "Adam",
+        "num_layers": null,
+        "convergence_criteria": "up to 100 iterations per local/global training phase; early exit if convergence criteria are met",
+        "hyperparameters": {
+          "learning_rate": 0.1,
+          "num_clients": 15,
+          "local_iterations_max": 100,
+          "global_iterations_max": 100,
+          "num_qubits": 4,
+          "num_parameters": 32,
+          "dataset_train_size": 115386,
+          "dataset_validation_size": 28847,
+          "total_dataset_size": 144233,
+          "noise_models": [
+            "bitflip",
+            "phaseflip",
+            "bitphaseflip",
+            "depolarizing",
+            "amplitude damping",
+            "phase damping"
+          ]
+        },
+        "parameter_initialization": "randomly initialized in [0, 1]",
+        "optimizer_settings": {
+          "max_iterations": 100,
+          "learning_rate": 0.1,
+          "parameter_bounds": "[0, 1]"
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Each classical feature xi,j is mapped to two rotation angles using Ry and Rz rotations; entanglement is created with a chain of CNOT gates across successive qubits.",
+        "objective_function": "Binary fraud classification optimized with mean squared error loss",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Financial fraud detection on the IEEE-CIS Fraud Detection dataset",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 144233,
+        "data_type": "public_benchmark",
+        "dataset_name": "IEEE-CIS Fraud Detection",
+        "dataset_specification": {
+          "description": "Identity and transaction files linked by TransactionID; 80/20 train-validation split; categorical features one-hot encoded; numerical features standardized; class imbalance handled by up-sampling"
+        },
+        "data_preprocessing_details": "Memory optimization by refining data types; missing-value analysis; one-hot encoding for categorical variables; standardization for numerical variables; up-sampling to balance fraud and non-fraud classes",
+        "evaluation_methodology": "Average outcome of 10 trials; validation accuracy and loss tracked over 100 iterations; client-wise validation accuracy reported at iterations 10, 30, 50, 70, and 100"
+      },
+      "quantum_resources": {
+        "num_qubits": 4,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 32,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_noisy",
+        "provider": "not_specified",
+        "device_name": null,
+        "framework": "PennyLane with Qiskit noise simulation",
+        "transpilation_target": null
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "bitflip, phaseflip, bitphaseflip, depolarizing, amplitude damping, phase damping",
+        "error_mitigation_method": null,
+        "noise_parameters": {
+          "noise_parameter_range": "0 to 1"
+        },
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Data type refinement, missing-value analysis, one-hot encoding, standardization, up-sampling",
+        "classical_postprocessing": "Performance evaluation using accuracy, precision, recall, F1 score, and MSE loss",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 35,
+          "final_loss_value": 0.02,
+          "loss_curve_shape": "accuracy rises from 0.735 to 0.95; loss decreases from 0.275 to 0.02 and plateaus after about 35 iterations",
+          "variance_across_runs": 10.0,
+          "num_independent_runs": 10
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "accuracy",
+          "value": 95,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision",
+          "value": 95,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 96,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 95,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.95,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.735,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "loss",
+          "value": 0.02,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "mse",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "loss",
+          "value": 0.275,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "mse",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "iterations_to_converge",
+          "value": 35,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 144233,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "instances",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "train_size",
+          "value": 115386,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "instances",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "validation_size",
+          "value": 28847,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "instances",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_clients",
+          "value": 15,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "clients",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_parameters",
+          "value": 32,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "learning_rate",
+          "value": 0.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "max_iterations",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.97,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.09,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.78,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "QNN",
+          "metric_name": "accuracy",
+          "value": 93,
+          "unit": "%"
+        },
+        {
+          "method_name": "QNN",
+          "metric_name": "precision",
+          "value": 93,
+          "unit": "%"
+        },
+        {
+          "method_name": "QNN",
+          "metric_name": "recall",
+          "value": 94,
+          "unit": "%"
+        },
+        {
+          "method_name": "QNN",
+          "metric_name": "f1_score",
+          "value": 94,
+          "unit": "%"
+        },
+        {
+          "method_name": "QNN",
+          "metric_name": "accuracy",
+          "value": 0.93,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "QNN",
+          "metric_name": "precision",
+          "value": 0.93,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "QNN",
+          "metric_name": "recall",
+          "value": 0.94,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "QNN",
+          "metric_name": "f1_score",
+          "value": 0.94,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "[17]",
+          "metric_name": "precision",
+          "value": 84,
+          "unit": "%"
+        },
+        {
+          "method_name": "[17]",
+          "metric_name": "recall",
+          "value": 84.44,
+          "unit": "%"
+        },
+        {
+          "method_name": "[17]",
+          "metric_name": "f1_score",
+          "value": 75.68,
+          "unit": "%"
+        },
+        {
+          "method_name": "[17]",
+          "metric_name": "accuracy",
+          "value": 83.92,
+          "unit": "%"
+        },
+        {
+          "method_name": "[18]",
+          "metric_name": "precision",
+          "value": 96.1,
+          "unit": "%"
+        },
+        {
+          "method_name": "[18]",
+          "metric_name": "recall",
+          "value": 79.5,
+          "unit": "%"
+        },
+        {
+          "method_name": "[18]",
+          "metric_name": "f1_score",
+          "value": 86,
+          "unit": "%"
+        },
+        {
+          "method_name": "[18]",
+          "metric_name": "accuracy",
+          "value": 94.5,
+          "unit": "%"
+        },
+        {
+          "method_name": "[19]",
+          "metric_name": "precision",
+          "value": 90,
+          "unit": "%"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The paper reports performance improvements and a complexity estimate, but no runtime speedup or asymptotic quantum advantage is demonstrated."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 144233,
+          "num_qubits": 4,
+          "metric_name": "accuracy",
+          "metric_value": 0.95
+        },
+        {
+          "problem_size": 144233,
+          "num_qubits": 4,
+          "metric_name": "loss",
+          "metric_value": 0.02
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(nL) per sample; O(P) per gradient evaluation; O(TDP) per client overall",
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L2_noisy_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "not specified; experiment uses 4 qubits, 32 parameters, and simulator-based training across 15 federated clients",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "evaluation performed only on quantum simulators",
+          "very small circuit (4 qubits)",
+          "no classical ML baseline comparison",
+          "no asymptotic complexity advantage claimed",
+          "performance gain only vs other QML models"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "hardware.type inferred as simulator_noisy because the paper states PennyLane quantum simulator plus Qiskit noise simulators, with no real QPU device named.",
+          "circuit_depth not explicitly reported; only 4 qubits, 32 parameters, and a CNOT entangling chain are described.",
+          "speedup_order is not proven; the paper presents empirical performance and a complexity estimate but no asymptotic quantum advantage claim.",
+          "The paper does not claim computational quantum advantage; it reports improved fraud-detection accuracy relative to other QML models.",
+          "No complexity-theoretic speedup or scaling analysis demonstrating superiority over classical ML methods."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Standalone centralized Quantum Neural Network (QNN) trained without federated learning as an ablation baseline for fraud detection.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "Variational Quantum Neural Network (centralized training)",
+        "optimizer": "Adam",
+        "num_qubits": 4,
+        "num_parameters": 32,
+        "num_layers": null
+      },
+      "key_results": [
+        {
+          "metric": "accuracy",
+          "value": 93,
+          "unit": "%"
+        },
+        {
+          "metric": "precision",
+          "value": 93,
+          "unit": "%"
+        },
+        {
+          "metric": "recall",
+          "value": 94,
+          "unit": "%"
+        },
+        {
+          "metric": "f1_score",
+          "value": 94,
+          "unit": "%"
+        }
+      ]
+    }
+  ]
+}

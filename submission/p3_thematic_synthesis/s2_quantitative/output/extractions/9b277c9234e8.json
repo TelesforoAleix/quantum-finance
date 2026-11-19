@@ -1,0 +1,449 @@
+{
+  "paper_id": "9b277c9234e8",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:21:25+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "9b277c9234e8_a_variational_quantum_algorithm_for_the_feynman_kac_formula.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.9,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 8,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[2].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='time units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='steps' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='grid spacing' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='grid spacing' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='motions' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='dimensions' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='difference in u' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.9,
+      "completeness": 0.9,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.9
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "A variational quantum algorithm for the Feynman-Kac formula",
+    "authors": [
+      "Hedayat Alghassi",
+      "Amol Deshmukh",
+      "Noelle Ibrahim",
+      "Nicolas Robles",
+      "Stefan Woerner",
+      "Christa Zoufal"
+    ],
+    "year": 2022,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": [
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a variational quantum imaginary time evolution (VarQITE) algorithm to solve Feynman–Kac PDEs derived from stochastic differential equations. Numerical demonstrations simulate a 2‑D anisotropic heat equation using 6‑ and 8‑qubit circuits (1000 time steps, dt=0.001) and compare against classical forward Euler and Monte Carlo methods, showing qualitative agreement while preserving ℓ1 normalization. The authors argue a potential exponential speedup in approximate state evolution but only quadratic speedup for extracting observables.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Variational quantum imaginary time evolution (VarQITE) simulation of a two-dimensional anisotropic Feynman-Kac/heat equation with correlated Brownian motions, compared against classical forward Euler and Monte Carlo baselines at 6 and 8 qubits.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Variational quantum imaginary time evolution (VarQITE) with RealAmplitudes ansatz and ℓ1-norm enforcement",
+        "ansatz": "RealAmplitudes",
+        "optimizer": null,
+        "num_layers": 1,
+        "convergence_criteria": "Fixed-time evolution over NT=1000 steps; no optimizer stopping criterion reported",
+        "hyperparameters": {
+          "dt": 0.001,
+          "NT": 1000,
+          "dx": 1,
+          "dy": 1,
+          "n_layers_6_qubits": 1,
+          "n_layers_6_qubits_alt": 3,
+          "n_layers_8_qubits": 5,
+          "rho": 0.3333333333333333,
+          "sigma1": 1,
+          "sigma2": 1,
+          "num_brownian_motions": 2,
+          "num_dimensions": 2
+        },
+        "parameter_initialization": "Classically initialized by minimizing || |ψ(θ)⟩ - |ψ(0)⟩ ||; θ0 = argmin over parameters",
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Discretized PDE solution embedded into computational basis amplitudes on 6-qubit and 8-qubit registers; 2D grid mapped into basis states with periodic boundary conditions",
+        "objective_function": "Solve ∂u/∂t = (ρ ∂²/∂x∂y + 1/2 ∂²/∂x² + 1/2 ∂²/∂y²)u with initial condition u(x,y,0)=δ(x-x0)δ(y-y0)",
+        "constraints_handling": "Approximate ℓ1-norm enforcement via proxy normalization factor α(t)",
+        "num_binary_variables": null,
+        "problem_hamiltonian": "G = ρ ∂²/(∂x∂y) + 1/2 ∂²/(∂x²) + 1/2 ∂²/(∂y²)",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Two-dimensional anisotropic heat/Feynman-Kac PDE arising from two correlated Brownian motions",
+        "num_assets": null,
+        "time_steps": 1000,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Synthetic correlated Brownian motion system; initial condition is a Dirac delta at (x0,y0)"
+        },
+        "data_preprocessing_details": "Periodic boundary conditions; finite-difference discretization on a grid; no market data preprocessing",
+        "evaluation_methodology": "Comparison of VarQITE against forward Euler and Monte Carlo at multiple times t∈{0,0.2,0.4,0.6,0.8,1}; 1-norm and 2-norm difference plots reported"
+      },
+      "quantum_resources": {
+        "num_qubits": 6,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 13,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "Python/NumPy simulation environment (no quantum hardware)",
+        "device_name": null,
+        "framework": "Qiskit",
+        "framework_version": null,
+        "transpilation_target": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": null,
+        "classical_solver": "Forward Euler and Monte Carlo",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Finite-difference discretization with periodic boundary conditions; classical initialization of ansatz parameters",
+        "classical_postprocessing": "Extraction of amplitudes in computational basis; comparison of ℓ1 norms and ℓ2 differences",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 1000,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_qubits",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_variational_params",
+          "value": 13,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "time_step",
+          "value": 0.001,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "time units",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_time_steps",
+          "value": 1000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "steps",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "spatial_step",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "grid spacing",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "spatial_step",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "grid spacing",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "correlation_coefficient",
+          "value": 0.3333333333333333,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_brownian_motions",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "motions",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_dimensions",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimensions",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "l1_norm",
+          "value": 1,
+          "uncertainty": "approximately preserved; small deviations reported",
+          "num_runs": 1000,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "l2_norm_difference",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 1000,
+          "unit": "difference in u",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "price_error",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "greeks_accuracy",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "forward euler",
+          "metric_name": "l1_norm",
+          "value": 1,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "monte carlo",
+          "metric_name": "l1_norm",
+          "value": 1,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "forward euler",
+          "metric_name": "l2_norm_difference",
+          "value": null,
+          "unit": "difference in u"
+        },
+        {
+          "method_name": "monte carlo",
+          "metric_name": "l2_norm_difference",
+          "value": null,
+          "unit": "difference in u"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic speed-up for property extraction; exponential speed-up for approximate state evolution",
+          "baseline_method": "classical Monte Carlo and classical PDE solvers",
+          "conditions": "for extracting moments/properties via QPE or Hadamard tests; assuming the state evolution is approximated by VarQITE and readout is limited to selected observables",
+          "is_demonstrated": false,
+          "caveats": "The paper states the overall complexity is O(T poly(n) + sqrt(2^n)) and that readout only achieves at best a quadratic speed-up; full-state output is not available and the advantage depends on constructing the observable oracle and normalization factors."
+        },
+        {
+          "type": "theoretical",
+          "factor": "O(T/epsilon^2) Monte Carlo vs O(T 2^n) classical PDE solver vs O(T poly(n) + sqrt(2^n)) quantum",
+          "baseline_method": "Monte Carlo and classical PDE solver",
+          "conditions": "as stated in the complexity discussion for the Feynman-Kac PDE setting",
+          "is_demonstrated": false,
+          "caveats": "This is a complexity claim, not an empirical benchmark; the paper notes the comparison is not fully fair because the classical solver returns the full state while the quantum solver returns only selected properties."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 6.0,
+          "num_qubits": 6,
+          "metric_name": "qualitative_match_to_baselines",
+          "metric_value": 32.0
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 6,
+          "metric_name": "qualitative_match_to_baselines",
+          "metric_value": 32.0
+        },
+        {
+          "problem_size": 8.0,
+          "num_qubits": 8,
+          "metric_name": "qualitative_match_to_baselines",
+          "metric_value": 170.0
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(T poly(n) + sqrt(2^n)) for state evolution plus readout, as stated qualitatively in the paper",
+        "classical_complexity": "O(T 2^n) for classical PDE solver access to final state; Monte Carlo O(T/ε^2)",
+        "speedup_order": "exponential",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not specified; depends on n where classical PDE solver cost O(T·2^n) exceeds O(T·poly(n)+√2^n)",
+        "resources_for_advantage": "Fault‑tolerant quantum computer capable of running deep circuits for QPE‑based readout and large‑n state representations (far beyond 6–8 qubits used here).",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Experiments performed only on classical simulation (6 and 8 qubits).",
+          "Observable extraction provides at best quadratic speedup.",
+          "Construction of observable oracle Sf scales exponentially with dimension.",
+          "Full solution cannot be extracted without expensive tomography.",
+          "Ansatz expressivity limits accuracy for larger systems."
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_statevector because the paper states all numerical simulations were done in Python/NumPy and does not name a real QPU; no noise or hardware runs are reported.",
+          "Circuit depth not explicitly reported; only ansatz layer counts are given (1, 3, 5 layers), so depth was not directly stated.",
+          "Num_qubits reported from the text: six qubits and eight qubits are used; the experiment is summarized with the 6-qubit case as the primary configuration and scalability to 8 qubits is included in the same experiment.",
+          "The authors explicitly state that their complexity analysis indicates potential exponential speed‑up for state evolution but only quadratic speed‑up for extracting observables.",
+          "No empirical quantum advantage is demonstrated; experiments are small noiseless simulations."
+        ],
+        "advantage_status": "paper_reported"
+      }
+    }
+  ]
+}

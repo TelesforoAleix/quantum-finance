@@ -1,0 +1,394 @@
+{
+  "paper_id": "59cca9744140",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:45:08+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "59cca9744140_quantum_state_preparation_by_improved_mps_method.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.683,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 1,
+    "validation_warnings": 6,
+    "validation_passed": false,
+    "validation_error_details": [
+      "Schema error at experiments.0.quantum_resources.two_qubit_gate_count: 'reduced by approximately one-third for complex-valued amplitudes; fourth-order unitary realizations use 2 CNOT gates' is not of type 'integer', 'null'"
+    ],
+    "validation_warning_details": [
+      "experiments[0].results[2].unit='U-depth / layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='CNOT gates per fourth-order unitary' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='O(log n)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='(m+n)/2 on n x m grid chip' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='O(max(m,n)) for MPS rank <= 2 on n x m grid' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='random samples per data point' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.683,
+      "completeness": 0.683,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.683
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum State Preparation by Improved MPS Method",
+    "authors": [
+      "Chao Wang",
+      "Pengrui Zhou",
+      "Xi-Ning Zhuang",
+      "Ziwei Cui",
+      "Menghan Dou",
+      "Zhao-Yun Chen",
+      "Guo-Ping Guo"
+    ],
+    "year": null,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": [
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes an Improved MPS (IMPS) state‑preparation method that reduces circuit depth from O(n) to O(log n) using parallel disentangling and reduces two‑qubit gate cost from 3 CNOTs to 2 (≈33% reduction). Numerical simulations on up to ~16 qubits and a 12‑qubit 3×4 grid topology show higher fidelity and lower U‑depth (11 → 5–10) compared with traditional MPS preparation.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Numerical evaluation of improved MPS (IMPS) quantum state preparation for bounded-rank functions and benchmark distributions, comparing MPS, TTN, HTN, and HEN connectivity schemes, including a two-CNOT optimized fourth-order unitary decomposition.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Improved MPS (IMPS) state preparation / amplitude encoding",
+        "ansatz": "MPS/TTN/HTN/HEN tensor-network-inspired state-preparation circuits",
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "state_family": "bounded-MPS-rank functions and distributions",
+          "connectivity_schemes": [
+            "MPS",
+            "TTN",
+            "HTN",
+            "HEN"
+          ],
+          "unitary_optimization": "fourth-order unitary decomposed to 2 CNOTs + single-qubit gates",
+          "topology_examples": [
+            "arbitrary connectivity",
+            "hypercube tensor network",
+            "n x m grid chip",
+            "3 x 4 grid"
+          ]
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null,
+        "hyperparameters.connectivity_schemes": [
+          "MPS",
+          "TTN",
+          "HTN",
+          "HEN (hardware‑efficient network baseline)"
+        ]
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Classical functions/distributions are discretized into amplitudes of an n-qubit quantum state; the circuit approximately disentangles the target state to |0...0> and is then reversed for preparation.",
+        "objective_function": "Prepare a target amplitude-encoded quantum state with high fidelity while minimizing circuit depth and two-qubit gate count.",
+        "constraints_handling": "Approximate truncation/disentangling in MPS/TTN/HTN/HEN; topology-aware gate placement; KAK/CSD-based two-qubit gate reduction.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "State preparation for three bounded-rank functions and three benchmark distributions; additional random complex-amplitude tests; and a 3 x 4 grid-topology example.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "functions": [
+            "f1(x)",
+            "f2(x)",
+            "f3(x)"
+          ],
+          "distributions": [
+            "Gaussian",
+            "Log-Normal",
+            "Cauchy"
+          ],
+          "random_amplitudes": "randomly generated complex amplitudes",
+          "grid_example": "3-row, 4-column chip topology"
+        },
+        "data_preprocessing_details": "Functions/distributions are mapped to discretized amplitudes; random complex amplitudes are sampled multiple times for averaging.",
+        "evaluation_methodology": "Infidelity compared across methods as qubit number increases; 10 random samples per data point for random-amplitude tests; fidelity compared at fixed U-depths and across multiple layers."
+      },
+      "quantum_resources": {
+        "num_qubits": 6,
+        "qubit_type": "not_specified",
+        "circuit_depth": 11,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": null,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": "superconducting quantum computer topology is discussed as an example; no specific transpilation stack reported",
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "SVD-based construction of fourth-order unitary matrices from MPS representation; binary-index reordering for HTN; graph contraction for arbitrary topologies.",
+        "classical_postprocessing": "Infidelity/fidelity computation and averaging over random samples.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": 10.0,
+          "num_independent_runs": 10
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "infidelity",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "fidelity",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "U-depth / layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "two_qubit_gate_count",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "CNOT gates per fourth-order unitary",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "two_qubit_gate_reduction",
+          "value": 33,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "O(log n)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "(m+n)/2 on n x m grid chip",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "O(max(m,n)) for MPS rank <= 2 on n x m grid",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "random samples per data point",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "O(log n)",
+          "baseline_method": "conventional MPS / TTN-style state preparation",
+          "conditions": "without hardware topological constraints; for bounded-MPS-rank states",
+          "is_demonstrated": true,
+          "caveats": "The paper reports numerical validation and asymptotic analysis, not hardware execution."
+        },
+        {
+          "type": "theoretical",
+          "factor": "approximately one-third reduction in two-qubit gate count",
+          "baseline_method": "standard fourth-order unitary decomposition requiring 3 CNOT gates",
+          "conditions": "for complex-valued amplitudes; using KAK/CSD-based optimization",
+          "is_demonstrated": true,
+          "caveats": "Real-valued amplitudes already map efficiently and do not need this optimization."
+        },
+        {
+          "type": "empirical",
+          "factor": "U-depth reduced from 11 to 5 or 10",
+          "baseline_method": "traditional MPS on 12 qubits",
+          "conditions": "3 x 4 grid chip example; chip-adapted IMPS",
+          "is_demonstrated": true,
+          "caveats": "Reported as a concrete topology example in simulation."
+        },
+        {
+          "type": "theoretical",
+          "factor": "approximately square-root scaling in qubit count on comparable n x m grids",
+          "baseline_method": "generic linear-depth MPS on chain/ring-like layouts",
+          "conditions": "when m and n are comparable",
+          "is_demonstrated": false,
+          "caveats": "This is an asymptotic topology-dependent claim derived from the grid mapping discussion."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 6.0,
+          "num_qubits": 6,
+          "metric_name": "circuit_depth",
+          "metric_value": 5.0
+        },
+        {
+          "problem_size": 8.0,
+          "num_qubits": 8,
+          "metric_name": "circuit_depth",
+          "metric_value": 3.0
+        },
+        {
+          "problem_size": 12.0,
+          "num_qubits": 12,
+          "metric_name": "circuit_depth",
+          "metric_value": 11.0
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 12,
+          "metric_name": "circuit_depth",
+          "metric_value": 5.0
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(log n) circuit depth; on an n x m grid chip, approximately (m+n)/2 depth; for functions with MPS rank <= 2, O(max(m,n)) on an n x m grid",
+        "classical_complexity": null,
+        "speedup_order": "logarithmic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not analyzed; work focuses on circuit‑depth scaling rather than classical runtime comparison.",
+        "resources_for_advantage": "Not specified; advantage discussion concerns circuit depth reduction from O(n) to O(log n) for MPS‑rank‑bounded states, not full algorithmic speedup against classical state preparation.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "No hardware implementation",
+          "No comparison with classical state‑preparation cost or tensor‑network classical simulators",
+          "Evaluation limited to fidelity vs circuit depth in simulation",
+          "Amplitude encoding requires classical preprocessing (SVD/MPS construction)"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "No specific hardware execution is reported; the paper discusses topology-aware mapping to superconducting-grid chips as an example, but experiments are numerical simulations.",
+          "num_qubits inferred from the reported examples (6-qubit figure, 8-qubit HTN figure, 12-qubit scalability and 3x4 grid example) rather than a single fixed experimental register size.",
+          "circuit_depth reported as U-depth values and asymptotic O(log n) depth in the paper.",
+          "The paper claims circuit‑depth improvements (O(log n) vs O(n)) for state preparation but does not demonstrate algorithmic runtime advantage over classical methods.",
+          "All experiments are numerical simulations evaluating fidelity and circuit depth rather than full algorithm performance."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

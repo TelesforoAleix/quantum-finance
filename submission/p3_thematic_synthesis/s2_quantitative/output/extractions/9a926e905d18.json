@@ -1,0 +1,518 @@
+{
+  "paper_id": "9a926e905d18",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:21:27+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "9a926e905d18_a_new_stock_forecasting_model_by_hidden_quantum_markov_models.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.7,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 16,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='normalized portfolio weights' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='normalized portfolio weights' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='return' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='capital units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='return vector' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='matrix' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='normalized weights' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[16].unit='return' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[17].unit='return' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[18].unit='return' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[19].unit='return' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[20].unit='correlation' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[21].unit='correlation' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[22].unit='correlation' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.7,
+      "completeness": 0.7,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.7
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Portfolio Optimization Based on Quantum HHL Algorithm",
+    "authors": [
+      "Qinghai Li",
+      "Hao Wu",
+      "Weizhong Qian",
+      "Xiaoyu Li",
+      "Qinsheng Zhu",
+      "Shan Yang"
+    ],
+    "year": 2022,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "portfolio-optimization",
+    "secondary_silos": [
+      "quantum-ml-finance",
+      "trading-execution"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper applies the HHL quantum linear‑systems algorithm to a toy portfolio optimization problem with 3 assets, reformulated as an 8×8 linear system implemented in a 9‑qubit quantum circuit. The HHL approximate solution (0.1608, 0.2557, 0.5833) closely matches the classical exact solution (0.16216216, 0.25675676, 0.58108108), demonstrating feasibility on a small instance but without runtime comparison or real‑hardware execution.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Portfolio optimization formulated as a quadratic programming problem with equality constraints and solved using the HHL algorithm on IBM's quantum computing platform via Qiskit; the paper reports a 3-asset toy instance and compares the approximate quantum solution to the exact classical solution.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "HHL for portfolio optimization / quadratic programming with equality constraints",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "estimated_success_probability": 0.9,
+          "estimated_number_of_bits": 2
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "block_encoding",
+        "encoding_details": "The linear system derived from the constrained portfolio optimization is embedded into a quantum linear-systems problem A|x⟩=|b⟩; the paper expands the 3-asset instance to an 8-dimensional vector so that 3 qubits can represent |b⟩ and A is expanded to 8×8.",
+        "objective_function": "minimize ω^T Σ ω subject to μ^T ω = μ0 and P^T ω = ξ",
+        "constraints_handling": "Equality constraints are converted to a linear system using Lagrange multipliers; the HHL algorithm is then applied to the resulting linear system.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "Toy portfolio optimization instance with 3 assets, average returns μ=(0.05, 0.1, 0.2), correlation matrix Σ=[[1,0.5,0],[0.5,1,0.1],[0,0.1,1]], target return μ0=0.15, and total capital ξ=1.",
+        "num_assets": 3,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Synthetic 3-asset example; no market dataset or date range reported."
+        },
+        "data_preprocessing_details": "The 3-asset problem is reformulated into a linear system via the Lagrange method; the input vector b is padded with zeros to 8 dimensions for the quantum circuit.",
+        "evaluation_methodology": "The paper compares the normalized approximate solution from HHL with the exact classical solution and reports the ratio of solution components."
+      },
+      "quantum_resources": {
+        "num_qubits": 9,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": null,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Classical exact solution for comparison; no named classical optimization package reported",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Formulation of the portfolio optimization as a constrained quadratic program and conversion to a linear system using Lagrange multipliers; padding to 8 dimensions for qubit encoding.",
+        "classical_postprocessing": "Measurement of the ancilla qubit; when the ancilla is 1, the amplitudes on the solution register are interpreted as the approximate portfolio weights and normalized.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_assets",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "estimated_success_probability",
+          "value": 0.9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "estimated_number_of_bits",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "bits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits_for_b",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "approximate_solution_weights",
+          "value": "[0.1608, 0.2557, 0.5833]",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "normalized portfolio weights",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "exact_solution_weights",
+          "value": "[0.16216216, 0.25675676, 0.58108108]",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "normalized portfolio weights",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "approximate_solution_ratio",
+          "value": "3:5:12",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "exact_solution_ratio",
+          "value": "3:5:12",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "expected_return",
+          "value": 0.15,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "return",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "total_capital",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "capital units",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "asset_returns",
+          "value": "[0.05, 0.1, 0.2]",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "return vector",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "correlation_matrix",
+          "value": "[[1, 0.5, 0], [0.5, 1, 0.1], [0, 0.1, 1]]",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "matrix",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "approximate_solution_ratio",
+          "value": "[0.2428, 0.386, 0.8803]",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "approximate_solution",
+          "value": "[0.1608, 0.2557, 0.5833]",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "normalized weights",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "exact_solution_ratio",
+          "value": "[0.16216216, 0.25675676, 0.58108108]",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "average_return_asset_1",
+          "value": 0.05,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "return",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "average_return_asset_2",
+          "value": 0.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "return",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "average_return_asset_3",
+          "value": 0.2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "return",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "target_return",
+          "value": 0.15,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "return",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "correlation_matrix_entry_12",
+          "value": 0.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "correlation",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "correlation_matrix_entry_23",
+          "value": 0.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "correlation",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "correlation_matrix_entry_13",
+          "value": 0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "correlation",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical exact solution",
+          "metric_name": "exact_solution_weights",
+          "value": "[0.16216216, 0.25675676, 0.58108108]",
+          "unit": "normalized portfolio weights"
+        },
+        {
+          "method_name": "classical exact solution",
+          "metric_name": "exact_solution_ratio",
+          "value": "3:5:12",
+          "unit": "ratio"
+        },
+        {
+          "method_name": "exact classical solution",
+          "metric_name": "exact_solution_ratio",
+          "value": "[0.16216216, 0.25675676, 0.58108108]",
+          "unit": "ratio"
+        },
+        {
+          "method_name": "exact classical solution",
+          "metric_name": "approximate_solution",
+          "value": "[0.1608, 0.2557, 0.5833]",
+          "unit": "normalized weights"
+        },
+        {
+          "method_name": "exact classical solution",
+          "metric_name": "portfolio_weights_solution",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "exponential",
+          "baseline_method": "classical linear system solvers",
+          "conditions": "HHL background discussion; not demonstrated on this specific portfolio instance",
+          "is_demonstrated": false,
+          "caveats": "The paper cites the general HHL exponential speedup for linear systems, but does not derive a problem-specific asymptotic speedup for the portfolio instance."
+        },
+        {
+          "type": "theoretical",
+          "factor": "exponential",
+          "baseline_method": "classical linear-system solving",
+          "conditions": "HHL background discussion; not demonstrated on this portfolio instance",
+          "is_demonstrated": false,
+          "caveats": "The paper does not derive a problem-specific asymptotic speedup for the portfolio example; it only states that HHL provides exponential speedup for linear systems in general."
+        },
+        {
+          "type": "theoretical",
+          "factor": "exponential",
+          "baseline_method": "classical linear-system solving / classical portfolio optimization",
+          "conditions": "HHL background discussion; no problem-specific asymptotic bound derived for the 3-asset instance",
+          "is_demonstrated": false,
+          "caveats": "The paper reports a speculative HHL speedup claim in general terms, but does not demonstrate an empirical speedup for the portfolio instance."
+        },
+        {
+          "type": "theoretical",
+          "factor": "exponential",
+          "baseline_method": "classical linear-system / portfolio optimization methods",
+          "conditions": "HHL background discussion; not demonstrated for the 3-asset instance",
+          "is_demonstrated": false,
+          "caveats": "The paper discusses exponential speedup in the HHL context generally, but does not provide a problem-specific empirical speedup for the portfolio instance."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 3,
+          "num_qubits": 9,
+          "metric_name": "approximate_solution_weights",
+          "metric_value": 0.5833
+        },
+        {
+          "problem_size": 3,
+          "num_qubits": 9,
+          "metric_name": "num_qubits",
+          "metric_value": 9
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "Exponential speedup for linear systems is discussed in the HHL background; no problem-specific asymptotic bound is derived for this portfolio instance.",
+        "classical_complexity": null,
+        "speedup_order": "exponential",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported; demonstration limited to a 3‑asset toy instance expanded to an 8×8 linear system",
+        "resources_for_advantage": "Practical advantage would require large-scale fault‑tolerant quantum computers capable of implementing HHL with many logical qubits and deep phase‑estimation circuits.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Only a toy problem with 3 assets is demonstrated",
+          "No execution on real quantum hardware",
+          "State preparation cost for A and b is not addressed",
+          "Circuit depth and resource requirements for large portfolios are not analyzed",
+          "Speedup claim relies on theoretical HHL complexity assumptions"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "hardware.type is not tied to a specific IBM device; the paper only states the implementation was done with Qiskit on IBM's quantum computing platform.",
+          "num_qubits inferred from the paper's statement that the expanded input b uses 3 qubits and the full HHL circuit requires 9 qubits.",
+          "circuit depth was not numerically reported; the paper only describes the HHL stages and the 9-qubit circuit.",
+          "The paper references the theoretical exponential speedup of HHL but provides only a toy example solved via circuit construction.",
+          "No empirical comparison against classical runtime is reported; therefore advantage is theoretical rather than demonstrated."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

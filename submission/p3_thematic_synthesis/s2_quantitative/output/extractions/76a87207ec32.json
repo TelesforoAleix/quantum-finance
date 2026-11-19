@@ -1,0 +1,429 @@
+{
+  "paper_id": "76a87207ec32",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:00:03+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "76a87207ec32_quantum_principal_component_analysis_for_financial_fraud_detection.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.75,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 11,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[1].unit='features' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='logical qubits' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='depth' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='T gates' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='T depth' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='O(md^2)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='features' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='n + log(Md) + 2' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='2n + log(d) + 3' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='5n + log(Md) + 7' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='n + log(M) + 1' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.75,
+      "completeness": 0.75,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.75
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum Principal Component Analysis for Financial Fraud Detection",
+    "authors": [
+      "Giacomo Lancellotti",
+      "Alberto Guerrini",
+      "Giacomo Ranieri",
+      "Valeria Zaffaroni",
+      "Paolo Cremonesi"
+    ],
+    "year": 2025,
+    "doi": "10.1109/QAI63978.2025.00014",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "fraud-detection",
+    "secondary_silos": [
+      "quantum-ml-finance"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper presents a gate‑level design of a quantum PCA‑based anomaly detection algorithm using amplitude estimation and QRAM data access. For a real banking dataset with ~11×10^6 transactions and 20 features (using n=8‑bit encoding), the authors estimate ~1.41×10^10 logical qubits, ~1.16×10^14 gates, circuit depth ~5.8×10^6, T‑count ~1.99×10^13, and T‑depth ~2.26×10^6. They claim logarithmic circuit‑depth scaling in dataset size and an exponential asymptotic advantage over classical AD‑PCA, with a crossover around ~2×10^5 samples and 100 features under ideal QRAM assumptions.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Circuit-level gate-based quantum anomaly detection for financial fraud using AD-QPCA with amplitude estimation, including four quantum subroutines: sample mean, distance from sample mean, variance contributions, and total variance along the distance vector.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Quantum Principal Component Analysis (AD-QPCA) for anomaly detection",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "encoding_precision_bits": "n",
+          "dataset_samples": "M",
+          "num_features": "d",
+          "AE_error_tolerance": "δ",
+          "rotation_approximation_error": "ϵ"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Classical data are basis-encoded in QRAM; values are converted to amplitude encoding via a basis-to-amplitude (BtA) circuit for AE-based summation. Feature/sample indices are encoded in registers of size log(d) and log(M).",
+        "objective_function": "Anomaly score p(x0)=||x0-μ||^2-(x0-μ)^T C (x0-μ), with classification by threshold δ.",
+        "constraints_handling": "Thresholding on anomaly score; no QUBO/penalty formulation.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Financial fraud detection on a real-world bank transaction dataset from 2024.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 20,
+        "dataset_size": 11,
+        "data_type": "real_market",
+        "dataset_name": "real bank transaction dataset",
+        "dataset_specification": {
+          "description": "Bank transfers from January to September 2024; approximately 2% fraudulent transactions; features include timestamps, transaction amounts, textual descriptions, and device fingerprint."
+        },
+        "data_preprocessing_details": "After preprocessing and data cleaning; exact preprocessing steps beyond this are not specified.",
+        "evaluation_methodology": "Resource estimation and asymptotic comparison; no empirical classification benchmark protocol reported beyond resource analysis."
+      },
+      "quantum_resources": {
+        "num_qubits": 8,
+        "qubit_type": "logical",
+        "circuit_depth": 5,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": 1,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": 1,
+        "t_depth": 2,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_type": null,
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "Qiskit",
+        "framework_version": "1.4",
+        "transpilation_target": "Clifford+T universal gate set",
+        "classical_solver": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/ague01/quantum-pca-fraud-detection",
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": [
+            "Clifford",
+            "T"
+          ],
+          "routing_method": null
+        },
+        "classical_preprocessing": "Data cleaning and QRAM-style basis encoding; mean values and intermediate results are stored classically between steps.",
+        "classical_postprocessing": "AE outputs are classically post-processed to recover μj=2αj−1, ||x0−μ||^2=dα, and (x0−μ)^T C(x0−μ)=M/(M−1)·α; final anomaly score p(x0) is computed classically.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": null,
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "dataset_size",
+          "value": 11000000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_features",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "features",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "fraud_rate",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "logical_qubits",
+          "value": 14100000000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "logical qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "total_gate_count",
+          "value": 116000000000000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "total_depth",
+          "value": 5800000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "depth",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "t_count",
+          "value": 19900000000000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "T gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "t_depth",
+          "value": 2260000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "T depth",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "classical_complexity",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "O(md^2)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "crossover_point_samples",
+          "value": 200000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "crossover_point_features",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "features",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "step_1_logical_qubits",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "n + log(Md) + 2",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "step_2_logical_qubits",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "2n + log(d) + 3",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "step_3_logical_qubits",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "5n + log(Md) + 7",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "step_4_logical_qubits",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "n + log(M) + 1",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical AD-PCA",
+          "metric_name": "classical_complexity",
+          "value": "O(md^2)",
+          "unit": "operations"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "exponential",
+          "baseline_method": "classical AD-PCA",
+          "conditions": "assuming efficient QRAM-style data access, fault-tolerant gate-based quantum hardware, and the asymptotic circuit-depth analysis in the paper",
+          "is_demonstrated": true,
+          "caveats": "The paper reports a theoretical/logarithmic circuit-depth scaling and resource estimates, not an empirical runtime benchmark on quantum hardware."
+        },
+        {
+          "type": "asymptotic",
+          "factor": "logarithmic circuit depth in M and d",
+          "baseline_method": "classical AD-PCA",
+          "conditions": "for the complete AD-QPCA circuit with AE and QRAM-based loading",
+          "is_demonstrated": true,
+          "caveats": "The logarithmic scaling is stated for circuit depth; overall resource cost is dominated by QRAM and AE repetitions."
+        },
+        {
+          "type": "projected",
+          "factor": "approximately 2 orders of magnitude higher cost due to compilation and error correction overhead",
+          "baseline_method": "ideal fault-tolerant resource estimate",
+          "conditions": "when accounting for quantum compilation and error correction protocols",
+          "is_demonstrated": false,
+          "caveats": "This is an overhead estimate, not a speedup; it increases the cost rather than reducing it."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 11.0,
+          "num_qubits": 14100000000,
+          "metric_name": "logical_qubits",
+          "metric_value": 14100000000
+        },
+        {
+          "problem_size": 11.0,
+          "num_qubits": 14100000000,
+          "metric_name": "total_gate_count",
+          "metric_value": 116000000000000
+        },
+        {
+          "problem_size": 11.0,
+          "num_qubits": 14100000000,
+          "metric_name": "circuit_depth",
+          "metric_value": 5800000
+        },
+        {
+          "problem_size": 11.0,
+          "num_qubits": 14100000000,
+          "metric_name": "t_count",
+          "metric_value": 19900000000000
+        },
+        {
+          "problem_size": 11.0,
+          "num_qubits": 14100000000,
+          "metric_name": "t_depth",
+          "metric_value": 2260000
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "Logarithmic circuit depth in M and d for the AD-QPCA implementation; AE contributes O(δ^-1) oracle uses, and the paper states logarithmic scaling in circuit depth with respect to the number of training samples and feature dimensions.",
+        "classical_complexity": "O(md^2) for classical AD-PCA as cited in the paper.",
+        "speedup_order": "exponential",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": "O(2^n) executions of state-preparation circuits per AE step under the assumption δ,ϵ≤2^-(n+1); full resource estimates also given for n=8.",
+        "total_operations_classical": "O(md^2)",
+        "crossover_n": "Approximately 2×10^5 samples and 100 features (as stated in the paper’s asymptotic comparison).",
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "≈2×10^5 samples and ≈100 features (asymptotic circuit-depth comparison in Fig. 9)",
+        "resources_for_advantage": "Fault‑tolerant system capable of ~1.41×10^10 logical qubits, ~1.16×10^14 total gates, circuit depth ~5.8×10^6, T‑count ~1.99×10^13, and T‑depth ~2.26×10^6 for the real dataset example (M≈11×10^6, d=20, n=8).",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Algorithm assumes efficient QRAM with superposition access to the full dataset",
+          "Resource estimate requires ~10^10 logical qubits, far beyond projected early fault‑tolerant hardware",
+          "Amplitude Estimation repetitions scale as O(2^n) with encoding precision",
+          "Overall advantage analysis is based on asymptotic circuit depth rather than full system runtime",
+          "No empirical benchmark against classical implementations on the dataset"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "hardware.type inferred as simulator_other because the paper reports Qiskit implementation and resource estimation only, with no real QPU execution or named device.",
+          "num_qubits and circuit depth are reported both per step and as full-dataset asymptotic estimates; the full-dataset O(·) values are used in the resource summary.",
+          "Authors explicitly claim exponential speed‑up in circuit depth relative to classical AD‑PCA assuming QRAM access.",
+          "However, the work provides only circuit design and resource estimation; no execution on quantum hardware or full simulation of the algorithm."
+        ],
+        "advantage_status": "paper_reported"
+      }
+    }
+  ]
+}

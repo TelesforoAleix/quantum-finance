@@ -1,0 +1,599 @@
+{
+  "paper_id": "c1aa6c306cde",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:47:17+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "c1aa6c306cde_implementing_quantum_generative_adversarial_network_qgan_and_qcbm_in_finance.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.642,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 7,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[1].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='qubits_per_feature' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='values' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='loss' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='loss' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[0].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.642,
+      "completeness": 0.642,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.8,
+        0.483
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 0.5,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Implementing Quantum Generative Adversarial Network (qGAN) and QCBM in Finance",
+    "authors": [
+      "Santanu Ganguly"
+    ],
+    "year": null,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper implements two quantum generative models for financial data using a Qiskit Aer simulator: a qGAN with a 15‑qubit variational generator trained for 2000 epochs on ~5000 Binance cryptocurrency samples (batch size 1000) and a 5‑layer QCBM trained to reproduce the same distribution using optimizers such as COBYLA and SPSA. Results show expected GAN loss convergence (~0.693 equilibrium) and qualitative distribution matching, but all experiments are simulator-based with no quantitative classical baseline comparison.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "qGAN for learning an uncertainty model for option pricing using real Binance crypto-asset data, with a quantum generator and classical discriminator trained on a Qiskit Aer simulator.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "qGAN with variational quantum generator and classical binary discriminator",
+        "ansatz": "parametrized quantum circuit / variational form with single- and two-qubit gates",
+        "optimizer": "Adam",
+        "num_layers": null,
+        "convergence_criteria": "2000 training epochs",
+        "hyperparameters": {
+          "framework": "IBM Qiskit 0.39",
+          "classical_framework": "PyTorch",
+          "batch_size": 1000,
+          "training_epochs": 2000,
+          "data_resolution": [
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "assets": 5,
+          "shots": "defined by batch size on Qiskit Aer"
+        },
+        "parameter_initialization": "random initial configuration",
+        "optimizer_settings": {
+          "max_iterations": 2000,
+          "learning_rate_schedule": null,
+          "tolerance": null,
+          "step_size": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "5 assets discretized with 3 qubits per feature, giving 32 discrete values per asset; training samples mapped to discrete bins",
+        "objective_function": "learn the target probability distribution of financial data for option-pricing uncertainty modeling via adversarial training",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Option-pricing uncertainty model using real-world Binance cryptocurrency data",
+        "num_assets": 5,
+        "time_steps": null,
+        "num_features": 5,
+        "dataset_size": 5000,
+        "data_type": "real_market",
+        "dataset_name": "Binance API data",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "BNBBTC",
+            "ETHBTC",
+            "LTCBTC",
+            "NEOBTC",
+            "QTUMETH"
+          ],
+          "date_range": null,
+          "benchmark_name": null,
+          "preprocessing": "discard samples below 5th percentile and above 95th percentile; discretize to 32 values per asset using 3 qubits per feature",
+          "train_test_split": null
+        },
+        "data_preprocessing_details": "Loaded Binance API data, removed extreme 5% tails, converted arrays to tensors, created data loader, discretized samples into bins according to 3-qubit resolution per asset",
+        "evaluation_methodology": "training loss curves and fidelity evolution over iterations"
+      },
+      "quantum_resources": {
+        "num_qubits": 15,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 1000,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": "Qiskit Aer",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": "Qiskit 0.39",
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Binance API data loading, percentile trimming, tensor conversion, data loader creation, discretization",
+        "classical_postprocessing": "loss and fidelity plotting",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 2000,
+          "final_loss_value": 0.6931,
+          "loss_curve_shape": "generator and discriminator losses intersect and approach Nash equilibrium; fidelity increases with iterations",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "dataset_size",
+          "value": 5000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 15,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": true,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "training_epochs",
+          "value": 2000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "batch_size",
+          "value": 1000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "data_resolution",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits_per_feature",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "discrete_values_per_asset",
+          "value": 32,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "values",
+          "higher_is_better": null,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "final_loss_value",
+          "value": 0.6931,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "loss",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "equilibrium_loss",
+          "value": 0.6931,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "loss",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "fidelity",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "figure"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "projected",
+          "factor": null,
+          "baseline_method": "classical GAN",
+          "conditions": "The paper states qGAN produced expected results in far fewer iterations than a classical GAN, but no quantitative comparison is provided.",
+          "is_demonstrated": false,
+          "caveats": "No measured classical GAN runtime, iteration count, or benchmark table is given."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 5.0,
+          "num_qubits": 15,
+          "metric_name": "dataset_resolution",
+          "metric_value": 32
+        },
+        {
+          "problem_size": 5000.0,
+          "num_qubits": 15,
+          "metric_name": "training_epochs",
+          "metric_value": 2000
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "unknown; experiment uses ~15 qubits on an ideal Qiskit Aer simulator with 2000 training epochs and no scaling analysis",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Executed only on noiseless simulator (Qiskit Aer)",
+          "No classical GAN baseline quantitatively compared",
+          "Small discretized dataset (~5000 samples)",
+          "No asymptotic complexity or scaling analysis",
+          "Data loading of classical financial distributions into quantum states dominates cost"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "num_qubits inferred as 15 from 5 assets with 3 qubits per feature (5 x 3).",
+          "hardware.type inferred as simulator_other because the paper states Qiskit Aer simulator and no real QPU.",
+          "speedup_order not explicitly characterized asymptotically; only qualitative advantage claims are made.",
+          "The authors state that qGAN \"promises\" quantum advantage and that it converges in fewer iterations than classical GAN, but provide no direct classical benchmark or scaling evidence."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "QCBM for modeling a probability distribution from the same real Binance financial dataset, evaluated on a Qiskit simulator with different classical optimizers.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "Quantum Circuit Born Machine (QCBM) with interleaving layers",
+        "ansatz": "repeated layered quantum circuit with odd/even layer decomposition",
+        "optimizer": "COBYLA, SPSA, and Nelder-Mead",
+        "num_layers": 5,
+        "convergence_criteria": "optimization of cost function over 5 layers; comparison of optimizer performance",
+        "hyperparameters": {
+          "layers": 5,
+          "cost_function": "C(theta) = -(1/d) sum_d ln(P(x_d))",
+          "regularized_cost_function": "C(theta) = -(1/d) sum_d ln(max(epsilon, P_theta(x_d)))",
+          "epsilon": "small positive perturbation",
+          "optimizers": [
+            "COBYLA",
+            "SPSA",
+            "Nelder-Mead"
+          ]
+        },
+        "parameter_initialization": "not specified",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "probability distribution over bitstring states; circuit outputs basis-state probabilities P(x)=|<x|psi(theta)>|^2",
+        "objective_function": "minimize negative log-likelihood of target samples under the Born machine distribution",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Learning a target probability distribution from the same Binance-derived financial dataset",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "real_market",
+        "dataset_name": "Binance API data",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "BNBBTC",
+            "ETHBTC",
+            "LTCBTC",
+            "NEOBTC",
+            "QTUMETH"
+          ],
+          "date_range": null,
+          "benchmark_name": null,
+          "preprocessing": "histogram-based discretization; state vector verified to satisfy target distribution characteristics",
+          "train_test_split": null
+        },
+        "data_preprocessing_details": "Histogram generation and discretization for probability-distribution learning",
+        "evaluation_methodology": "comparison of optimizers; comparison of simulated distribution against real distribution"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": 5,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": "Qiskit simulator",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": "Qiskit",
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "histogram construction and dataset discretization",
+        "classical_postprocessing": "distribution comparison plots",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "optimizer comparison; SPSA simulation close to real distribution, COBYLA marginally better optimizer performance but wider gaps to real data",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_layers",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "cost_function",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "optimizer_performance",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "SPSA",
+          "metric_name": "distribution_match",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "COBYLA",
+          "metric_name": "optimizer_performance",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "Nelder-Mead",
+          "metric_name": "optimizer_performance",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The paper reports only qualitative optimizer comparison and distribution similarity; no speedup claim or runtime benchmark is provided."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 5.0,
+          "num_qubits": null,
+          "metric_name": "circuit_depth",
+          "metric_value": 5
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "unknown; QCBM with 5 variational layers simulated in Qiskit with classical optimizers (COBYLA, SPSA, Nelder-Mead)",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "No comparison to classical probabilistic models",
+          "No scaling study or complexity analysis",
+          "Simulation only (no real QPU)",
+          "Problem size and qubit count not clearly specified",
+          "Distribution learning relies on classical dataset discretization"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper explicitly states the QCBM circuit was constructed and decomposed in Qiskit, with 5 layers.",
+          "The exact qubit count is not stated in the provided text, so num_qubits remains null.",
+          "hardware.type inferred as simulator_other because the paper reports Qiskit simulator and no real device.",
+          "speedup_order not explicitly characterized asymptotically; only empirical optimizer comparison is given.",
+          "The QCBM experiment only compares classical optimizers and evaluates similarity to the empirical distribution; no claim or evidence of quantum advantage is provided."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

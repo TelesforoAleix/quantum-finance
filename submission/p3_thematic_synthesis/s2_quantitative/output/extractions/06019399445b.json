@@ -1,0 +1,1273 @@
+{
+  "paper_id": "06019399445b",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:00:01+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "06019399445b_quantum_relaxation_for_solving_multiple_knapsack_problems.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.633,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 0,
+    "validation_passed": true,
+    "quality_details": {
+      "score": 0.633,
+      "completeness": 0.633,
+      "num_experiments": 6,
+      "experiment_scores": [
+        0.95,
+        0.95,
+        0.85,
+        0.75,
+        0.15,
+        0.15
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum Relaxation for Solving Multiple Knapsack Problems",
+    "authors": [
+      "Monit Sharma",
+      "Jin Yan",
+      "Hoong Chuin Lau",
+      "Rudy Raymond"
+    ],
+    "year": 2024,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "risk-management",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper studies Quantum Random Access Optimization (QRAO) for constrained optimization, showing that QRAC encoding reduces qubit usage (≈7 qubits vs up to 20 for QAOA) on 100 multiple-knapsack instances while achieving similar solution quality (Magic rounding: 98% feasible, 70% optimal, 0.065 optimality gap). A hybrid QRAO + linear relaxation approach is tested on procurement optimization problems with ≥100 binary variables using a simulator.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Comparison of QAOA and QRAO on small randomly generated multiple knapsack problem instances (3 bins, 3 items; about 10 binary variables) using Qiskit AerSimulator, with QRAO evaluated under Pauli and Magic rounding.",
+      "algorithm": {
+        "family": "vqe",
+        "variant": "default QAOA ansatz",
+        "ansatz": null,
+        "optimizer": "COBYLA",
+        "num_layers": 5,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "layers": 5
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Binary decision variables x_ij for item-to-knapsack assignment; QAOA uses one qubit per binary variable. QRAO compresses multiple classical bits per qubit, but this experiment is the QAOA baseline/comparison on the same MKP instances.",
+        "objective_function": "Maximize sum_{i=1..m} sum_{j=1..n} p_j x_ij subject to knapsack capacity constraints and assignment constraints.",
+        "constraints_handling": "Standard constrained optimization formulation; the paper does not specify the exact QAOA penalty construction in the excerpt. QRAO uses relaxed Hamiltonian plus rounding.",
+        "num_binary_variables": 10,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Small-scale multiple knapsack problems with 3 bins and 3 items; approximately 10 binary variables and 6 constraints per instance.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 20,
+        "data_type": "synthetic",
+        "dataset_name": "randomly generated MKP instances",
+        "dataset_specification": {
+          "description": "3 bins, 3 items; bin capacities ci in [1,3], item weights wj in [1,3], item values pj in [1,10]."
+        },
+        "data_preprocessing_details": null,
+        "evaluation_methodology": "20 experiments on small-scale MKP instances; performance measured by frequency of solutions with optimality gap < 0.05% and by feasible/optimal rates and average optimality gap versus CPLEX optimum."
+      },
+      "quantum_resources": {
+        "num_qubits": 10,
+        "qubit_type": "logical",
+        "circuit_depth": 5,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_type": null,
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": "AerSimulator",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "COBYLA; CPLEX used for optimal objective values",
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": null,
+          "routing_method": null
+        },
+        "classical_preprocessing": null,
+        "classical_postprocessing": "Optimality gap computed against CPLEX optimum; feasibility and optimality rates reported.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": 20
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "feasible_rate",
+          "value": 98,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "optimal_rate",
+          "value": 63,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "optimality_gap",
+          "value": 0.092,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "CPLEX",
+          "metric_name": "optimal_rate",
+          "value": 100,
+          "unit": "%"
+        },
+        {
+          "method_name": "CPLEX",
+          "metric_name": "optimality_gap",
+          "value": 0,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": "CPLEX / QAOA",
+          "conditions": "small synthetic MKP instances on Qiskit AerSimulator",
+          "is_demonstrated": false,
+          "caveats": "No asymptotic or wall-clock speedup is claimed; results are comparative performance metrics only."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 3.0,
+          "num_qubits": 10,
+          "metric_name": "feasible_rate",
+          "metric_value": 98
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 10,
+          "metric_name": "optimal_rate",
+          "metric_value": 63
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 10,
+          "metric_name": "optimality_gap",
+          "metric_value": 0.092
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Not applicable; experiment only benchmarks ansatz architectures for QRAO.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Only ansatz comparison on toy problems",
+          "No classical baseline comparison",
+          "No scaling analysis"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "num_qubits inferred as 10 from 'approximately 10 binary variables' and QAOA using one qubit per variable.",
+          "hardware.type reported as Qiskit AerSimulator.",
+          "QAOA depth reported as 5 layers; exact transpiled depth not reported.",
+          "No asymptotic speedup analysis is provided.",
+          "Experiment purely compares ansatz architectures; no claim of quantum advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Comparison of QRAO on the same small MKP instances using two rounding schemes: Pauli rounding and Magic rounding, with a BrickWork ansatz on Qiskit AerSimulator.",
+      "algorithm": {
+        "family": "vqe",
+        "variant": "QRAO with BrickWork ansatz and quantum state rounding",
+        "ansatz": "BrickWork",
+        "optimizer": "COBYLA",
+        "num_layers": 8,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "layers": 8,
+          "rounding_schemes": [
+            "Pauli",
+            "Magic"
+          ]
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "QRAO encodes up to three classical bits per qubit using (3,1,p)-QRAC; the relaxed Hamiltonian is built from the MKP instance graph after LDF graph coloring.",
+        "objective_function": "Maximize sum_{i=1..m} sum_{j=1..n} p_j x_ij subject to knapsack capacity constraints and assignment constraints, solved via relaxed Hamiltonian maximization and rounding.",
+        "constraints_handling": "Relaxed Hamiltonian optimization plus Pauli or Magic rounding; no explicit penalty term details reported in the excerpt.",
+        "num_binary_variables": 10,
+        "problem_hamiltonian": "Relaxed Hamiltonian H_relax constructed from the MKP instance graph via QRAC encoding.",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Small-scale multiple knapsack problems with 3 bins and 3 items; approximately 10 binary variables and 6 constraints per instance.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 20,
+        "data_type": "synthetic",
+        "dataset_name": "randomly generated MKP instances",
+        "dataset_specification": {
+          "description": "3 bins, 3 items; bin capacities ci in [1,3], item weights wj in [1,3], item values pj in [1,10]."
+        },
+        "data_preprocessing_details": "Instance graph colored using Large Degree First (LDF) before QRAC qubit allocation.",
+        "evaluation_methodology": "20 experiments on small-scale MKP instances; performance measured by frequency of solutions with optimality gap < 0.05% and by feasible/optimal rates and average optimality gap versus CPLEX optimum."
+      },
+      "quantum_resources": {
+        "num_qubits": 4,
+        "qubit_type": "logical",
+        "circuit_depth": 8,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_type": null,
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": "AerSimulator",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "COBYLA; CPLEX used for optimal objective values",
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": null,
+          "routing_method": null
+        },
+        "classical_preprocessing": "LDF graph coloring; linear relaxation discussed elsewhere in paper but not part of this small MKP comparison.",
+        "classical_postprocessing": "Pauli rounding and Magic rounding; optimality gap computed against CPLEX optimum.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": 20
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "feasible_rate",
+          "value": 81,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "optimal_rate",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "optimality_gap",
+          "value": 0.606,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "feasible_rate",
+          "value": 98,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "optimal_rate",
+          "value": 70,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "optimality_gap",
+          "value": 0.065,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "CPLEX",
+          "metric_name": "optimal_rate",
+          "value": 100,
+          "unit": "%"
+        },
+        {
+          "method_name": "CPLEX",
+          "metric_name": "optimality_gap",
+          "value": 0,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": "CPLEX / QAOA",
+          "conditions": "small synthetic MKP instances on Qiskit AerSimulator",
+          "is_demonstrated": false,
+          "caveats": "Magic rounding outperformed Pauli rounding, but no speedup claim is made."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 3.0,
+          "num_qubits": null,
+          "metric_name": "feasible_rate",
+          "metric_value": 81
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": null,
+          "metric_name": "optimal_rate",
+          "metric_value": 4
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": null,
+          "metric_name": "optimality_gap",
+          "metric_value": 0.606
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": null,
+          "metric_name": "feasible_rate",
+          "metric_value": 98
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": null,
+          "metric_name": "optimal_rate",
+          "metric_value": 70
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": null,
+          "metric_name": "optimality_gap",
+          "metric_value": 0.065
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "parity_with_classical",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not established; experiments involve ~10 binary variables.",
+        "resources_for_advantage": "Would require large fault-tolerant systems capable of deep variational circuits with QRAC encoding.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Toy problem sizes (~10 variables)",
+          "Evaluation only on simulators",
+          "Classical optimal solutions computed easily with CPLEX",
+          "No asymptotic complexity advantage shown"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "QRAO is treated as a gate-based variational quantum algorithm; family mapped to vqe because the paper describes variational optimization of a relaxed Hamiltonian with an ansatz and classical optimizer.",
+          "Exact qubit count for this QRAO experiment is not explicitly stated; the paper reports an average of 7 qubits for the larger QAOA-vs-QRAO comparison, but not for this 3-bin/3-item setup, so num_qubits is left null.",
+          "hardware.type reported as Qiskit AerSimulator.",
+          "No asymptotic speedup analysis is provided.",
+          "QRAO results are compared with classical optimum and achieve similar quality but do not outperform classical solvers."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "Scalability comparison of QAOA versus QRAO on 100 randomly generated non-trivial MKP instances with 2 to 5 bins and 2 to 10 items, using QAOA with 5 layers and QRAO with 8 BrickWork layers; QRAO evaluated with Pauli and Magic rounding.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "default QAOA vs QRAO comparison",
+        "ansatz": null,
+        "optimizer": "COBYLA",
+        "num_layers": 5,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "qaoa_layers": 5,
+          "qrao_layers": 8,
+          "rounding_schemes": [
+            "Pauli",
+            "Magic"
+          ],
+          "instance_range": {
+            "bins": [
+              2,
+              5
+            ],
+            "items": [
+              2,
+              10
+            ]
+          }
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "QAOA uses one qubit per binary variable; QRAO compresses classical bits into qubits via (3,1,p)-QRAC. Instances have up to 20 binary variables.",
+        "objective_function": "Maximize total profit of selected items under multiple knapsack capacity and assignment constraints.",
+        "constraints_handling": "Standard constrained optimization formulation; QRAO uses relaxed Hamiltonian plus Pauli/Magic rounding.",
+        "num_binary_variables": 20,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "100 randomly generated non-trivial MKP instances with 2 to 5 bins and 2 to 10 items; maximum of 20 binary variables.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 100,
+        "data_type": "synthetic",
+        "dataset_name": "randomly generated MKP instances",
+        "dataset_specification": {
+          "description": "Weights and capacities in [1,3], values in [1,10], six constraints."
+        },
+        "data_preprocessing_details": null,
+        "evaluation_methodology": "100 problem instances; compared feasible rate, optimal rate, and average optimality gap against CPLEX optimum. QAOA and QRAO both run with COBYLA; QRAO evaluated with Pauli and Magic rounding."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "logical",
+        "circuit_depth": 8,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_type": null,
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": "AerSimulator",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "COBYLA optimizer for variational training; CPLEX used to compute optimal objective values for benchmarking",
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": null,
+          "routing_method": null
+        },
+        "classical_preprocessing": "LDF graph coloring for QRAO; QAOA uses direct binary-variable encoding.",
+        "classical_postprocessing": "Pauli rounding and Magic rounding for QRAO; optimality gap computed against CPLEX optimum.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": 100
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "feasible_rate",
+          "value": 98,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "optimal_rate",
+          "value": 63,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "optimality_gap",
+          "value": 0.092,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "feasible_rate",
+          "value": 81,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "optimal_rate",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "optimality_gap",
+          "value": 0.606,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "feasible_rate",
+          "value": 98,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "optimal_rate",
+          "value": 70,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "optimality_gap",
+          "value": 0.065,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "CPLEX",
+          "metric_name": "optimal_rate",
+          "value": 100,
+          "unit": "%"
+        },
+        {
+          "method_name": "CPLEX",
+          "metric_name": "optimality_gap",
+          "value": 0,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": "CPLEX / QAOA",
+          "conditions": "100 synthetic MKP instances on Qiskit AerSimulator",
+          "is_demonstrated": false,
+          "caveats": "The paper states QRAO uses fewer qubits and can achieve deeper circuits, but no formal speedup is quantified."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 20.0,
+          "num_qubits": 20,
+          "metric_name": "feasible_rate",
+          "metric_value": 98
+        },
+        {
+          "problem_size": 20.0,
+          "num_qubits": 20,
+          "metric_name": "optimal_rate",
+          "metric_value": 63
+        },
+        {
+          "problem_size": 20.0,
+          "num_qubits": 20,
+          "metric_name": "optimality_gap",
+          "metric_value": 0.092
+        },
+        {
+          "problem_size": 20.0,
+          "num_qubits": 20,
+          "metric_name": "feasible_rate",
+          "metric_value": 81
+        },
+        {
+          "problem_size": 20.0,
+          "num_qubits": 20,
+          "metric_name": "optimal_rate",
+          "metric_value": 4
+        },
+        {
+          "problem_size": 20.0,
+          "num_qubits": 20,
+          "metric_name": "optimality_gap",
+          "metric_value": 0.606
+        },
+        {
+          "problem_size": 20.0,
+          "num_qubits": 20,
+          "metric_name": "feasible_rate",
+          "metric_value": 98
+        },
+        {
+          "problem_size": 20.0,
+          "num_qubits": 20,
+          "metric_name": "optimal_rate",
+          "metric_value": 70
+        },
+        {
+          "problem_size": 20.0,
+          "num_qubits": 20,
+          "metric_name": "optimality_gap",
+          "metric_value": 0.065
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "parity_with_classical",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Unknown; tested only up to 20 binary variables.",
+        "resources_for_advantage": "Would require large-scale fault-tolerant qubit systems capable of deep circuits and large Hamiltonian encodings.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Simulation-only experiments",
+          "Problem sizes ≤20 variables",
+          "Classical CPLEX easily solves these instances",
+          "No asymptotic speedup proven"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "QAOA uses 20 qubits for the largest instances, explicitly stated in the paper.",
+          "QRAO average of 7 qubits is reported in the text, but the requested experiment is the combined scalability comparison; the actual QAOA register size is 20 qubits.",
+          "hardware.type reported as Qiskit AerSimulator.",
+          "No asymptotic speedup analysis is provided.",
+          "Magic rounding QRAO achieves 70% optimal solutions vs 63% for QAOA but both are compared against classical optimum computed by CPLEX."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_4",
+      "description": "QRAO with Linear Relaxation on the larger risk-aware procurement optimization problem with at least 100 binary variables, tested on 10 random instances and varying the fraction of fixed variables.",
+      "algorithm": {
+        "family": "vqe",
+        "variant": "QRAO with Linear Relaxation",
+        "ansatz": "BrickWork",
+        "optimizer": "COBYLA",
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "fixed_variable_fraction": [
+            1.0,
+            0.9,
+            0.85
+          ],
+          "delta_threshold": 0.1,
+          "instances": 10
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Binary procurement decision variables y_{i,j}; linear relaxation fixes variables near 0 or 1 before QRAO is applied to the reduced problem.",
+        "objective_function": "Minimize sum_{i in I} sum_{j in J} c_{i,j} y_{i,j} subject to demand and risk constraints.",
+        "constraints_handling": "Linear relaxation used as presolve; variables within delta of 0 or 1 are fixed, or alternatively 85%-90% of variables are fixed directly; remaining reduced problem solved by QRAO.",
+        "num_binary_variables": 100,
+        "problem_hamiltonian": "Relaxed Hamiltonian for the reduced procurement problem after linear relaxation.",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Risk-aware procurement optimization instances with at least 100 binary variables.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 10,
+        "data_type": "synthetic",
+        "dataset_name": "randomly generated risk-aware procurement optimization instances",
+        "dataset_specification": {
+          "description": "Multiple parts and suppliers; supplier risk scores in [0,9], per-part costs c_{i,j}, demands d_j, and risk tolerances psi_j."
+        },
+        "data_preprocessing_details": "Linear relaxation used to fix variables close to 0 or 1; compared random fixing versus directly fixing 90% or 85% of variables.",
+        "evaluation_methodology": "10 problem instances; compared feasible rate, optimal rate, and average optimality gap for different percentages of fixed variables."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_type": null,
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": "IBM Qiskit matrix product state simulator",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Linear relaxation presolve; COBYLA for QRAO; CPLEX used for optimal objective values",
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": null,
+          "routing_method": null
+        },
+        "classical_preprocessing": "Linear relaxation to fix variables near boundary values; random fixing and fixed-percentage strategies compared.",
+        "classical_postprocessing": "Optimality gap computed against CPLEX optimum.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": 10
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "feasible_rate",
+          "value": 80,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "optimality_gap",
+          "value": 0.053,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "feasible_rate",
+          "value": 70,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "optimal_rate",
+          "value": 50,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "optimality_gap",
+          "value": 0.088,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "feasible_rate",
+          "value": 70,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "optimal_rate",
+          "value": 50,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "optimality_gap",
+          "value": 0.072,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "CPLEX",
+          "metric_name": "optimality_gap",
+          "value": 0,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": "CPLEX",
+          "conditions": "risk-aware procurement optimization instances with at least 100 binary variables on IBM Qiskit matrix product state simulator",
+          "is_demonstrated": false,
+          "caveats": "The paper reports feasibility and optimality gaps under different variable-fixing percentages, but no speedup is quantified."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 100.0,
+          "num_qubits": null,
+          "metric_name": "feasible_rate",
+          "metric_value": 80
+        },
+        {
+          "problem_size": 100.0,
+          "num_qubits": null,
+          "metric_name": "optimality_gap",
+          "metric_value": 0.053
+        },
+        {
+          "problem_size": 100.0,
+          "num_qubits": null,
+          "metric_name": "feasible_rate",
+          "metric_value": 70
+        },
+        {
+          "problem_size": 100.0,
+          "num_qubits": null,
+          "metric_name": "optimal_rate",
+          "metric_value": 50
+        },
+        {
+          "problem_size": 100.0,
+          "num_qubits": null,
+          "metric_name": "optimality_gap",
+          "metric_value": 0.088
+        },
+        {
+          "problem_size": 100.0,
+          "num_qubits": null,
+          "metric_name": "feasible_rate",
+          "metric_value": 70
+        },
+        {
+          "problem_size": 100.0,
+          "num_qubits": null,
+          "metric_name": "optimal_rate",
+          "metric_value": 50
+        },
+        {
+          "problem_size": 100.0,
+          "num_qubits": null,
+          "metric_name": "optimality_gap",
+          "metric_value": 0.072
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "data_loading_bottleneck": null
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper states the simulator supports a maximum of 63 qubits and that problems with more than 50 qubits are impractical, but it does not give the exact qubit count for this reduced instance; num_qubits is therefore null.",
+          "Circuit depth is not explicitly reported for this experiment.",
+          "hardware.type reported as IBM's Qiskit matrix product state simulator.",
+          "No asymptotic speedup analysis is provided."
+        ]
+      }
+    },
+    {
+      "experiment_id": "exp_new_1",
+      "description": "Ansatz architecture benchmark for QRAO using different variational circuits (BrickWork, EfficientSU2 with full/linear entanglement, PauliTwoDesign, RealAmplitudes) across increasing circuit layers to determine best configuration.",
+      "algorithm": {
+        "family": "vqe",
+        "variant": "QRAO variational ansatz comparison",
+        "optimizer": "COBYLA",
+        "ansatz_candidates": [
+          "BrickWork",
+          "EfficientSU2 (full entanglement)",
+          "EfficientSU2 (linear entanglement)",
+          "PauliTwoDesign",
+          "RealAmplitudes"
+        ],
+        "layers_tested": [
+          0,
+          2,
+          3,
+          4
+        ],
+        "num_layers": null
+      },
+      "key_results": [
+        "BrickWork and EfficientSU2 (full entanglement) outperform PauliTwoDesign and RealAmplitudes.",
+        "BrickWork achieves best performance due to larger number of variational parameters.",
+        "Up to 20/20 instances solved with BrickWork at 3–4 layers (Table II)."
+      ]
+    },
+    {
+      "experiment_id": "exp_new_2",
+      "description": "Large-scale risk-aware procurement optimization (≥100 binary variables) solved using QRAO combined with classical linear relaxation to reduce dimensionality.",
+      "algorithm": {
+        "family": "vqe",
+        "variant": "QRAO with Linear Relaxation preprocessing",
+        "ansatz": "BrickWork",
+        "optimizer": "COBYLA",
+        "num_layers": null
+      },
+      "key_results": [
+        "Experiments run on 10 problem instances with ≥100 binary variables.",
+        "Variables near 0 or 1 after LP relaxation are fixed to reduce problem size.",
+        "Best configuration achieves 80% feasible solutions and 100% optimal solutions with 0.053 average optimality gap when using random fixing strategy.",
+        "Experiments executed on Qiskit Aer MPS simulator with ~63 qubit practical limit."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,417 @@
+{
+  "paper_id": "953d9d489a99",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:17:56+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "953d9d489a99_python_integrated_quantum_classical_computing_framework_for_intelligent_time_ser.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.733,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 5,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[4].unit='% reduction' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='% reduction' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='records' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='records' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='records' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.733,
+      "completeness": 0.733,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.733
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Python-Integrated Quantum–Classical Computing Framework for Intelligent Time-Series Prediction",
+    "authors": [
+      "K. Ponnukamu",
+      "Dr S. P. Sasirekha"
+    ],
+    "year": 2025,
+    "doi": "10.1109/ICACRS67045.2025.11324310",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a hybrid variational quantum circuit model for time-series prediction implemented in Python with Qiskit Aer simulation. On synthetic and financial datasets (30k–120k records), the hybrid model reports 93.7% prediction accuracy versus 89.3% for a classical baseline, with MSE 0.014, correlation 0.92, 22% faster training, and 18% lower execution latency, but all results are obtained on a simulator with unspecified quantum resources.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Python-integrated hybrid quantum-classical time-series prediction using variational quantum circuits with rotation encoding and entanglement layers, evaluated on synthetic nonlinear data and real financial series against classical baselines.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Python-integrated hybrid quantum-classical variational quantum circuit for time-series prediction",
+        "ansatz": "parameterized rotation gates with entanglement layers",
+        "optimizer": "Adam or SGD (paper mentions both as examples; implementation uses a classical optimizer in Python)",
+        "num_layers": null,
+        "convergence_criteria": "training loop iterated until convergence conditions are met or all encoded instances have been run",
+        "hyperparameters": {
+          "learning_rate": null,
+          "circuit_depth": null,
+          "batch_size": null,
+          "random_seed": null,
+          "alpha": null,
+          "window_size": [
+            60,
+            50
+          ],
+          "train_val_test_split": "70%-15%-15%",
+          "dataset_ids": [
+            "FIN-Daily",
+            "FIN-Intra",
+            "SYN-Nonlin"
+          ]
+        },
+        "parameter_initialization": "not_specified",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": "learning rate decay mentioned",
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "raw time-series windows are normalized and mapped to quantum states via rotation parameters; expectation values from the circuit are used as features for the classical side",
+        "objective_function": "minimize combined loss L_total = α L_quantum + (1 − α) L_classical",
+        "constraints_handling": "not_specified",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Time-series forecasting for synthetic nonlinear data and real financial series",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": "FIN-Daily, FIN-Intra, SYN-Nonlin",
+        "dataset_specification": {
+          "FIN-Daily": {
+            "records_approx": 30000,
+            "window_size": 60,
+            "features": [
+              "price",
+              "volume"
+            ]
+          },
+          "FIN-Intra": {
+            "records_approx": 120000,
+            "window_size": 50,
+            "features": [
+              "price",
+              "bid/ask"
+            ]
+          },
+          "SYN-Nonlin": {
+            "records_approx": 50000,
+            "window_size": 60,
+            "features": [
+              "engineered trends/noise"
+            ]
+          }
+        },
+        "data_preprocessing_details": "missing values removed; data normalized; time-ordered split; z-score scaling; fixed-length windowing; angle encoding of window values",
+        "evaluation_methodology": "multiple repeated runs with fixed seeds; error bars reported; ablation studies on quantum encoding and circuit depth; scalability tests across varying data sizes"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": null,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": "Python 3.10; Qiskit Aer simulator",
+        "transpilation_target": null,
+        "classical_solver": "Python classical optimizer",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Pandas/NumPy preprocessing; cleaning, normalization, windowing, z-score scaling, train/val/test split",
+        "classical_postprocessing": "expectation values assembled in Python dict; predictions saved with checkpoints",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 35,
+          "final_loss_value": null,
+          "loss_curve_shape": "convergent; quicker convergence than baselines",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "accuracy",
+          "value": 93.7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 89.3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "mean_squared_error",
+          "value": 0.014,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "correlation_coefficient",
+          "value": 0.92,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 22,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "% reduction",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "execution_latency",
+          "value": 18,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "% reduction",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "iterations_to_converge",
+          "value": 35,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 30000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "records",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 120000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "records",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 50000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "records",
+          "higher_is_better": false,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "conventional neural network",
+          "metric_name": "accuracy",
+          "value": 89.3,
+          "unit": "%"
+        },
+        {
+          "method_name": "LSTM",
+          "metric_name": "accuracy",
+          "value": 89.3,
+          "unit": "%"
+        },
+        {
+          "method_name": "GRU",
+          "metric_name": "accuracy",
+          "value": 89.3,
+          "unit": "%"
+        },
+        {
+          "method_name": "shallow feedforward model",
+          "metric_name": "accuracy",
+          "value": 89.3,
+          "unit": "%"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "22% faster training",
+          "baseline_method": "classical neural networks / LSTM / GRU / shallow feedforward model",
+          "conditions": "reported on synthetic and real financial time-series experiments with the same preprocessing",
+          "is_demonstrated": true,
+          "caveats": "No absolute training time is given; improvement is reported as a relative reduction."
+        },
+        {
+          "type": "empirical",
+          "factor": "18% lower execution latency",
+          "baseline_method": "classical neural networks / LSTM / GRU / shallow feedforward model",
+          "conditions": "reported on the hybrid model under the same evaluation setup",
+          "is_demonstrated": true,
+          "caveats": "No absolute latency values are provided."
+        },
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": "The paper reports empirical improvements only; no asymptotic or proven quantum speedup is established.",
+          "is_demonstrated": false,
+          "caveats": "Scalability tests indicate runtime increases with circuit depth while accuracy is preserved; this is not a speedup claim."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 30000.0,
+          "num_qubits": null,
+          "metric_name": "accuracy",
+          "metric_value": 93.7
+        },
+        {
+          "problem_size": 120000.0,
+          "num_qubits": null,
+          "metric_name": "accuracy",
+          "metric_value": 93.7
+        },
+        {
+          "problem_size": 50000.0,
+          "num_qubits": null,
+          "metric_name": "accuracy",
+          "metric_value": 93.7
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "not specified; qubit count, circuit depth, and gate counts are not provided in the paper",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Experiments performed only on Qiskit Aer simulator, not on quantum hardware",
+          "No reported qubit count, circuit depth, or gate complexity",
+          "Empirical improvement measured only against unspecified classical neural network baseline",
+          "No asymptotic complexity analysis or theoretical speedup claim",
+          "Potential data loading bottleneck due to classical time-series encoding into quantum states",
+          "Classical preprocessing and optimization dominate computation"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Qiskit Aer simulator is explicitly reported; no specific QPU device is named, so hardware.type is simulator_other.",
+          "The paper discusses multi-qubit simulation and variational circuits but does not state an exact qubit count or circuit depth, so these are left null and marked inferred/not reported.",
+          "No asymptotic complexity or proven speedup order is given; the paper only reports empirical improvements over classical baselines.",
+          "The authors report empirical improvements (93.7% vs 89.3% accuracy and 22% faster training) but do not claim or demonstrate a formal quantum advantage.",
+          "All experiments were run on a simulator, and no complexity-theoretic speedup or scaling analysis is provided."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

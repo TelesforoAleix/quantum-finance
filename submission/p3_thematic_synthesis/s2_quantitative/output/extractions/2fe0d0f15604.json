@@ -1,0 +1,673 @@
+{
+  "paper_id": "2fe0d0f15604",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:27:01+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "2fe0d0f15604_variational_quantum_eigensolver_for_classification_in_credit_sales_risk.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.525,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 6,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[15].unit='absolute_error' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[16].unit='absolute_error' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[17].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[18].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[21].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[23].unit='features' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.525,
+      "completeness": 0.525,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.9,
+        0.15
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Variational Quantum Eigensolver for Classification in Credit Sales Risk",
+    "authors": [
+      "Joanna Wiśniewska",
+      "Marek Sawerwain"
+    ],
+    "year": 2024,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": [
+      "credit-lending",
+      "risk-management"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a VQE + SWAP‑Test quantum classifier for credit sales risk using amplitude‑encoded data. Experiments on a dataset of 40 samples using a 9‑qubit simulated circuit (3 feature qubits) achieve up to 100% training accuracy after ansatz and threshold tuning, comparable to classical models such as SVM and Random Forest that also reach 100% accuracy. All experiments are performed via classical simulation rather than quantum hardware.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "VQE + SWAP-Test gate-based quantum classification of credit sales risk using a 3-qubit encoding of 8 features, with two ansatz variants and threshold tuning.",
+      "algorithm": {
+        "family": "vqe",
+        "variant": "VQE-based classification with SWAP-Test similarity check; two ansatz variants (universal ansatz A and simplified ansatz B)",
+        "ansatz": "Universal rotation-Y + controlled-Z ansatz (A) and simplified rotation-Y + controlled-NOT ansatz (B)",
+        "optimizer": "COBYLA; SPSA",
+        "num_layers": 2,
+        "convergence_criteria": "Repeated training/optimization until classification accuracy and threshold tuning were satisfactory; no formal stopping criterion reported",
+        "hyperparameters": {
+          "q": 3,
+          "f": 1,
+          "al": 1,
+          "al_2": 2,
+          "al_3": 3,
+          "q_8_variant": 8,
+          "f_2": 2,
+          "acceptance_threshold_initial": 0.5,
+          "acceptance_threshold_lower_bound": 0.0,
+          "optimizer_iterations_spsa": 500,
+          "optimizer_iterations_cobyla": null,
+          "epsilon_tuned": true
+        },
+        "parameter_initialization": "Not specified; parameters θ were optimized classically and some runs were repeated with manually tuned acceptance thresholds",
+        "optimizer_settings": {
+          "max_iterations": 500,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Seven input variables were classically normalized to [0,1], then converted to amplitudes of a 3-qubit state; an auxiliary 8th variable x8=0 was added so the 8 amplitudes of a 3-qubit register are filled",
+        "objective_function": "Minimize distance between the VQE-generated class pattern state and a sample state; SWAP-Test used to compare states and classify if probability lies within acceptance range",
+        "constraints_handling": "Acceptance threshold interval (Λ_c^g, Ω_c^g) used for class membership; threshold tuning reduces overlap between classes",
+        "num_binary_variables": null,
+        "problem_hamiltonian": "Generic VQE Hamiltonian H = sum_j ω_j P_j with Pauli operators P_j ∈ {X,Y,Z,I}",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Credit sales risk classification for customer reliability / sales blocking decision",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 7,
+        "dataset_size": 40,
+        "data_type": "proprietary",
+        "dataset_name": "Polish pharmaceutical wholesaler credit sales dataset",
+        "dataset_specification": {
+          "description": "Training data from 2003; two main classes (goods may be issued vs sale blocked); 7 original variables plus auxiliary x8=0 for quantum encoding"
+        },
+        "data_preprocessing_details": "Classical normalization of non-binary variables to [0,1] using min-max scaling; then quantum normalization to amplitudes; x8 added as zero-valued auxiliary feature; entanglement analysis performed on samples",
+        "evaluation_methodology": "Training-set accuracy reported for multiple VQE variants; comparison against classical classifiers; no cross-validation reported"
+      },
+      "quantum_resources": {
+        "num_qubits": 9,
+        "qubit_type": "logical",
+        "circuit_depth": 2,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "Python",
+        "framework_version": "Python 3.10.7",
+        "transpilation_target": null
+      },
+      "noise_model": {
+        "noise_model": null,
+        "noise_parameters": null,
+        "mitigation_details": null,
+        "is_noisy": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "GitHub repository referenced in paper [25]",
+        "framework_version": "Python 3.10.7",
+        "transpilation_target": null,
+        "classical_solver": "SciPy optimizers (COBYLA, SPSA)",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Min-max normalization; quantum amplitude normalization; PCA and Pearson analysis used for exploratory analysis",
+        "classical_postprocessing": "SWAP-Test probability thresholding to assign class; manual threshold tuning in some runs",
+        "total_execution_time": "~30 s for SPSA with 500 iterations on 3-qubit VQE; >600 s for 8-qubit VQE with COBYLA",
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 500,
+          "final_loss_value": 0.25,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "accuracy",
+          "value": 71.25,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 81.25,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 88.75,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 91.25,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 85.0,
+          "uncertainty": "22%",
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 95.0,
+          "uncertainty": "27%",
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 100.0,
+          "uncertainty": "0%",
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 87.5,
+          "uncertainty": "32%",
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 97.5,
+          "uncertainty": "7%",
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 98.5,
+          "uncertainty": "1%",
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 100.0,
+          "uncertainty": "0%",
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 30,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 35,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 600,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 700,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "final_loss_value",
+          "value": 0.25,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute_error",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "final_loss_value",
+          "value": 0.075,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute_error",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "acceptance_threshold_initial",
+          "value": 0.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "acceptance_threshold_lower_bound",
+          "value": 0.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "optimizer_iterations",
+          "value": 500,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_features",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "features",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": null,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "SVM (sigmoid kernel, C=10)",
+          "metric_name": "accuracy",
+          "value": 62.5,
+          "unit": "%"
+        },
+        {
+          "method_name": "SVM (linear kernel)",
+          "metric_name": "accuracy",
+          "value": 98.8,
+          "unit": "%"
+        },
+        {
+          "method_name": "SVM (rbf kernel)",
+          "metric_name": "accuracy",
+          "value": 98.8,
+          "unit": "%"
+        },
+        {
+          "method_name": "SVM (poly kernel)",
+          "metric_name": "accuracy",
+          "value": 100.0,
+          "unit": "%"
+        },
+        {
+          "method_name": "KNeighborsClassifier (n=3)",
+          "metric_name": "accuracy",
+          "value": 98.8,
+          "unit": "%"
+        },
+        {
+          "method_name": "GaussianProcessClassifier (RBF kernel)",
+          "metric_name": "accuracy",
+          "value": 100.0,
+          "unit": "%"
+        },
+        {
+          "method_name": "DecisionTreeClassifier (max_depth=5)",
+          "metric_name": "accuracy",
+          "value": 100.0,
+          "unit": "%"
+        },
+        {
+          "method_name": "RandomForestClassifier (max_depth=5, n_estimators=10, max_features=8)",
+          "metric_name": "accuracy",
+          "value": 100.0,
+          "unit": "%"
+        },
+        {
+          "method_name": "MLPClassifier (alpha=1, max_iter=1000)",
+          "metric_name": "accuracy",
+          "value": 98.8,
+          "unit": "%"
+        },
+        {
+          "method_name": "AdaBoostClassifier (default)",
+          "metric_name": "accuracy",
+          "value": 100.0,
+          "unit": "%"
+        },
+        {
+          "method_name": "GaussianNB (default)",
+          "metric_name": "accuracy",
+          "value": 75.0,
+          "unit": "%"
+        },
+        {
+          "method_name": "QuadraticDiscriminantAnalysis (default)",
+          "metric_name": "accuracy",
+          "value": 50.0,
+          "unit": "%"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "logarithmic qubit scaling; q_n = log2(d)",
+          "baseline_method": "classical representation of d-dimensional data",
+          "conditions": "for encoding a single probe of dimensionality d into a quantum register",
+          "is_demonstrated": false,
+          "caveats": "This is a resource-scaling statement, not an end-to-end proven runtime speedup."
+        },
+        {
+          "type": "theoretical",
+          "factor": "O(N·c_n·c_g·T_qtot) with poly-logarithmic VQE depth O(log_c(1/ε))",
+          "baseline_method": "classical exhaustive classification over classes/groups",
+          "conditions": "as stated in the paper's complexity analysis",
+          "is_demonstrated": false,
+          "caveats": "No empirical asymptotic speedup over classical methods is proven."
+        },
+        {
+          "type": "empirical",
+          "factor": "about 20x faster training time for 3-qubit SPSA vs 8-qubit COBYLA",
+          "baseline_method": "8-qubit VQE with COBYLA",
+          "conditions": "reported on the authors' hardware/software setup; 500 SPSA iterations",
+          "is_demonstrated": true,
+          "caveats": "Compares two quantum configurations/optimizers, not quantum vs classical."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 8.0,
+          "num_qubits": 8,
+          "metric_name": "accuracy",
+          "metric_value": 71.25
+        },
+        {
+          "problem_size": 8.0,
+          "num_qubits": 8,
+          "metric_name": "accuracy",
+          "metric_value": 81.25
+        },
+        {
+          "problem_size": 8.0,
+          "num_qubits": 8,
+          "metric_name": "accuracy",
+          "metric_value": 88.75
+        },
+        {
+          "problem_size": 8.0,
+          "num_qubits": 8,
+          "metric_name": "accuracy",
+          "metric_value": 91.25
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 3,
+          "metric_name": "accuracy",
+          "metric_value": 85.0
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 3,
+          "metric_name": "accuracy",
+          "metric_value": 95.0
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 3,
+          "metric_name": "accuracy",
+          "metric_value": 100.0
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 3,
+          "metric_name": "accuracy",
+          "metric_value": 87.5
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 3,
+          "metric_name": "accuracy",
+          "metric_value": 97.5
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 3,
+          "metric_name": "accuracy",
+          "metric_value": 98.5
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 3,
+          "metric_name": "accuracy",
+          "metric_value": 100.0
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(N·c_n·c_g·T_qtot); VQE depth poly-logarithmic O(log_c(1/ε)); qubit count q_n = log2(d)",
+        "classical_complexity": "Not explicitly characterized beyond comparison to classical ML classifiers",
+        "speedup_order": "logarithmic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": "~30 s for 3-qubit SPSA case; >600 s for 8-qubit COBYLA case",
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "parity_with_classical",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "unknown",
+        "resources_for_advantage": "Not specified; only small simulated circuits (3 feature qubits within a 9‑qubit register) and a dataset of 40 samples.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Evaluation performed only on a small dataset (40 samples)",
+          "Experiments executed via classical simulation rather than real quantum hardware",
+          "No held-out test evaluation or scaling study",
+          "Classical models already achieve 100% training accuracy (e.g., SVM with polynomial kernel, Random Forest)",
+          "Amplitude encoding requires state preparation that scales with data dimension"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware is not tied to a named QPU or simulator; paper only states experiments can be run on NISQ devices and were implemented in Python, so hardware.type remains not_specified.",
+          "Circuit depth of 2 is reported for the best-performing ansatz variant (Table 4, VQE3 std-ansatz / std-tuned-ansatz).",
+          "The paper reports logarithmic qubit scaling q_n = log2(d), which is a resource-scaling statement rather than a proven end-to-end speedup over classical methods.",
+          "Authors do not claim a demonstrated computational advantage; they emphasize compact circuit representation and logarithmic qubit scaling.",
+          "Classical baselines achieve up to 100% training accuracy (Table 3), matching or exceeding the reported VQE results."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_new_1",
+      "description": "VQE classification variant using direct 8-qubit feature encoding (no logarithmic compression) evaluated with different ansatz layer counts.",
+      "algorithm": {
+        "family": "vqe",
+        "variant": "VQE classifier without logarithmic encoding (VQE8 in Table 4)",
+        "ansatz": "Rotation-Y variational layers with entangling gates; layer counts varied (1–3)",
+        "optimizer": "COBYLA",
+        "num_layers": 3
+      },
+      "key_results": [
+        {
+          "metric": "accuracy",
+          "value": 71.25,
+          "unit": "%",
+          "source": "Table 4, row 1"
+        },
+        {
+          "metric": "accuracy",
+          "value": 81.25,
+          "unit": "%",
+          "source": "Table 4, row 2"
+        },
+        {
+          "metric": "accuracy",
+          "value": 88.75,
+          "unit": "%",
+          "source": "Table 4, row 3"
+        },
+        {
+          "metric": "accuracy",
+          "value": 91.25,
+          "unit": "%",
+          "source": "Table 4, row 4"
+        }
+      ]
+    }
+  ]
+}

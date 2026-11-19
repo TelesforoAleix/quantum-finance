@@ -1,0 +1,481 @@
+{
+  "paper_id": "871c63b61487",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:11:12+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "871c63b61487_extracting_a_function_encoded_in_amplitudes_of_a_quantum_state_by_tensor_network.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.425,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 16,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='absolute price difference' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='absolute price difference' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='absolute price difference' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='rank' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='basis degree' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='points per dimension' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='paths' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='points' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='currency units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='years' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='per year' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='rate' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[15].unit='as fraction of K' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[16].unit='as fraction of K' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.425,
+      "completeness": 0.425,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.7,
+        0.15
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Extracting a function encoded in amplitudes of a quantum state by tensor network and orthogonal function expansion",
+    "authors": [
+      "Koichi Miyamoto",
+      "Hiroshi Ueda"
+    ],
+    "year": 2023,
+    "doi": "10.1007/s11128-023-03937-y",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": [
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a gate-based quantum method to read out functions encoded in amplitudes using orthogonal-function expansion combined with a matrix product state (MPS) approximation. A classical numerical experiment on a 5‑asset worst‑of put option (D = r = 16) shows that an MPS representation with 12,544 parameters approximates the function with maximum error ≈0.51 relative to Monte Carlo while compressing the full cosine coefficient tensor (≈1,048,576 parameters) by two orders of magnitude. Additional experiments show power‑law error decay with increasing degrees of freedom.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Classical numerical experiment demonstrating the proposed gate-based quantum readout method by optimizing an MPS-encoded approximation of a five-asset worst-of put option price using cosine orthogonal functions; the quantum circuit is described as applicable to gate-based QC, but the reported experiment itself is performed classically with the quantum circuit absorbed into tensor calculations.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Tensor-network-encoded orthogonal-function readout via alternating optimization of MPS blocks",
+        "ansatz": "Matrix product state (MPS) circuit encoding of coefficient tensor",
+        "optimizer": "Alternating optimization via SVD updates of block unitaries",
+        "num_layers": null,
+        "convergence_criteria": "niter = 5 optimization loops",
+        "hyperparameters": {
+          "d": 5,
+          "D": 16,
+          "r": 16,
+          "niter": 5,
+          "orthogonal_functions": "cosine functions",
+          "grid_points": "minimal grid points with ngr = D in the classical experiment",
+          "bond_dimension": "r = 16",
+          "degree": "D = 16"
+        },
+        "parameter_initialization": "Initial values of the unitaries V^1,...,V^{d-1} may be chosen randomly",
+        "optimizer_settings": {
+          "max_iterations": 5,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Function values are expanded in tensorized cosine basis; coefficients are approximated by an MPS and encoded into a quantum state in the proposed method",
+        "objective_function": "Maximize fidelity F = <f|f~> between the target function-encoding state and the MPS-based approximation state",
+        "constraints_handling": "No explicit constraints beyond right-canonical MPS structure and unitary block updates",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Five-asset worst-of put option pricing under the Black-Scholes model",
+        "num_assets": 5,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 104,
+        "data_type": "synthetic",
+        "dataset_name": "Black-Scholes worst-of put option",
+        "dataset_specification": {
+          "description": "Underlying assets priced under BS model; parameters r_RF = 0, sigma_i = 0.2 for i=1..5, K = 100, T = 1; random sample points drawn from the distribution of S(t) at t=1 with initial value (K,...,K)"
+        },
+        "data_preprocessing_details": "Grid values of the target function computed by Monte Carlo integration with 10^5 sample paths; cosine basis used on hyperrectangle [L_i,U_i] with L_i = 0.01K and U_i set by Eq. (C6)",
+        "evaluation_methodology": "Accuracy evaluated on the diagonal line s1=...=sd and on 10^4 random sample points; compared against Monte Carlo values and full cosine expansion"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 12544,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": "ITensor (classical tensor-network library used for the numerical experiment)",
+        "framework_version": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": "https://github.com/google/tf-quant-finance",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "ITensor-based tensor calculations; Monte Carlo integration for target values",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Compute target function values on grid points via Monte Carlo integration; calculate cosine-expansion coefficients; use minimal grid ngr = D for the classical experiment",
+        "classical_postprocessing": "Construct MPS-based approximation and compare against Monte Carlo and full cosine expansion",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 5,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_underlyings",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 0.5086,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute price difference",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 0.5102,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute price difference",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 0.3164,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute price difference",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_variational_params",
+          "value": 12544,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "bond_dimension",
+          "value": 16,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "rank",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "orthogonal_function_degree",
+          "value": 16,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "basis degree",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "optimization_iterations",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "grid_points",
+          "value": 16,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "points per dimension",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "monte_carlo_paths",
+          "value": 100000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "paths",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sample_points",
+          "value": 10000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "points",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "option_strike",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "currency units",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "maturity",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "years",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "volatility",
+          "value": 0.2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "per year",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "risk_free_rate",
+          "value": 0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "rate",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "lower_bound_asset_price",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "as fraction of K",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "lower_bound_asset_price",
+          "value": 0.01,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "as fraction of K",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "monte_carlo_integration",
+          "metric_name": "price_error",
+          "value": 0.5086,
+          "unit": "absolute price difference"
+        },
+        {
+          "method_name": "monte_carlo_integration",
+          "metric_name": "price_error",
+          "value": 0.5102,
+          "unit": "absolute price difference"
+        },
+        {
+          "method_name": "full_cosine_expansion",
+          "metric_name": "price_error",
+          "value": 0.3164,
+          "unit": "absolute price difference"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "exponential reduction in readout bottleneck avoided; polynomial evaluation O(dr^2D + rD^2) instead of O(D^d)",
+          "baseline_method": "full tensorized orthogonal expansion / naive coefficient handling",
+          "conditions": "when the coefficient tensor is approximated by an MPS and evaluated classically from the compressed representation",
+          "is_demonstrated": true,
+          "caveats": "This is a complexity claim for the approximation/evaluation scheme, not a hardware-demonstrated runtime speedup. The numerical experiment was performed classically."
+        },
+        {
+          "type": "theoretical",
+          "factor": "avoids exponential dependence on d in coefficient extraction in principle",
+          "baseline_method": "direct amplitude readout or full tensorized orthogonal expansion",
+          "conditions": "assuming access to the proposed gate-based oracle and quantum circuit construction",
+          "is_demonstrated": false,
+          "caveats": "The paper does not provide a total query complexity bound or a demonstrated end-to-end quantum speedup."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 5.0,
+          "num_qubits": null,
+          "metric_name": "price_error",
+          "metric_value": 0.5086
+        },
+        {
+          "problem_size": 5.0,
+          "num_qubits": null,
+          "metric_name": "price_error",
+          "metric_value": 0.5102
+        },
+        {
+          "problem_size": 5.0,
+          "num_qubits": null,
+          "metric_name": "price_error",
+          "metric_value": 0.3164
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(dr^2D + rD^2) for evaluating the MPS-based approximation; proposed readout method aims to avoid exponential dependence on d in coefficient extraction",
+        "classical_complexity": "O(D^d) for full tensorized orthogonal expansion without MPS compression",
+        "speedup_order": "polynomial_other",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not provided",
+        "resources_for_advantage": "Requires access to an oracle O_f preparing |f⟩ and additional orthogonal-function state-preparation oracles V_OF^i; concrete qubit counts, depths, and logical resource estimates are not provided.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "No implementation on a quantum device",
+          "No total query-complexity bound for the readout procedure",
+          "Requires oracle preparation of |f⟩ and orthogonal-function states",
+          "Only classical numerical validation performed",
+          "Accuracy demonstrated only for a 5-dimensional finance function"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper presents a gate-based quantum circuit construction, but the only numerical experiment is performed classically; no actual QPU, qubit count, or circuit depth for a hardware run is reported.",
+          "num_variational_params inferred from the reported MPS DOF in the experiment: 12544.",
+          "hardware.type set to not_specified because the experiment uses classical tensor calculations rather than a quantum device.",
+          "The paper proposes a gate-based readout method but performs only classical numerical experiments; no quantum runtime comparison or empirical speedup is shown.",
+          "Speedup claims are complexity-theoretic and conditional on oracle availability."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Additional numerical experiment studying the relationship between approximation accuracy and degrees of freedom using an alternative quantum-circuit ansatz V'_MPS with sliding m_bl‑qubit blocks (Fig. 5), comparing error scaling versus DOF against truncated cosine expansions.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Sliding-block tensor-network circuit V'_MPS for coefficient encoding",
+        "ansatz": "Parameterized circuit with overlapping m_bl-qubit blocks replacing the standard MPS circuit",
+        "optimizer": "Alternating block optimization maximizing ⟨a|ã′⟩ similar to Algorithm 1",
+        "hyperparameters": {
+          "d": 5,
+          "mdeg": 4,
+          "mbl_range": "2–6",
+          "degree_D": 16
+        },
+        "num_layers": null
+      },
+      "key_results": [
+        "Approximation error versus degrees of freedom exhibits a power-law decay in the high-DOF regime (Fig. 6).",
+        "For comparable DOF, the tensor-network circuit approximation achieves significantly lower error than low-degree cosine expansions.",
+        "Scaling behavior similar to finite-entanglement scaling in tensor-network studies."
+      ]
+    }
+  ]
+}

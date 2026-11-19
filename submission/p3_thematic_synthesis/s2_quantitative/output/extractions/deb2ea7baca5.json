@@ -1,0 +1,440 @@
+{
+  "paper_id": "deb2ea7baca5",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T10:09:23+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "deb2ea7baca5_mixed_signal_quantum_circuit_design_for_option_pricing_using_design_compiler.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.883,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 9,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[1].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='radians' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='radians' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='radians' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='levels' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='index' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='O(n^2)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='O(n)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.883,
+      "completeness": 0.883,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.883
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Mixed-Signal Quantum Circuit Design for Option Pricing Using Design Compiler",
+    "authors": [
+      "Yu-Ting Kao",
+      "Yeong-Jar Chang",
+      "Ying-Wei Tseng"
+    ],
+    "year": null,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": [
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a mixed-signal gate-based quantum circuit design for option pricing using Quantum Amplitude Estimation, introducing exponential data preprocessing and digital calibration. In a 12‑qubit statevector simulation, the optimized circuit reduces gate count from 4095 to 392 and circuit depth from 2048 to 6 relative to the JP Morgan option-pricing circuit, while reducing maximum calculation error from 25.86% to 1.64%. However, nonlinear payoff and exponential components are not yet implemented and results are demonstrated only in simulation.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Gate-based quantum circuit for option pricing using quantum amplitude estimation, with exponential data pre-processing and digital calibration compared against the JP Morgan option-pricing circuit.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Quantum Amplitude Estimation (QAE) for option pricing with mixed-signal circuit optimizations",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "problem_size": "12-qubit case study",
+          "rotation_gate_range": "0 to π/2 radians after calibration",
+          "maximum_calculation_error": "1.64%",
+          "baseline_error": "25.86%",
+          "gate_count_reduction": "4095 to 392",
+          "depth_reduction": "2048 to 6"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Classical preprocessing maps lognormal distribution / weighted averages into rotation angles; digital calibration uses lookup-table correction for rotation inputs. Option-pricing payoff is based on weighted averages and QAE measurement.",
+        "objective_function": "Estimate option price / expected payoff via weighted average using QAE; paper references the JP Morgan option-pricing circuit and weighted-sum computation.",
+        "constraints_handling": "Digital calibration via LUT-based angle correction; classical preprocessing isolates relevant payoff region before quantum circuit.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "12-qubit option-pricing case study based on the JP Morgan quantum option pricing circuit; includes lognormal distribution preprocessing and Monte Carlo-style price simulation components.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": "JP Morgan option pricing benchmark / lognormal distribution case study",
+        "dataset_specification": {
+          "description": "12-qubit input; discretized into 32 output levels (0 to 31) with inputs ranging from 0 to 4095"
+        },
+        "data_preprocessing_details": "Classical preprocessing of piecewise linear payoff region; lognormal distribution discretization; LUT-based digital calibration of rotation angles; validation of linear portions only.",
+        "evaluation_methodology": "Comparison against JP Morgan baseline; reported gate count, depth, and maximum calculation error before/after calibration."
+      },
+      "quantum_resources": {
+        "num_qubits": 12,
+        "qubit_type": "not_specified",
+        "circuit_depth": 6,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": 392,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": null,
+        "device_name": null,
+        "framework": "Qiskit (statevector simulation for histogram analysis)",
+        "framework_version": null,
+        "transpilation_target": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": "analog noise / rotation-angle sensitivity",
+        "error_mitigation_method": "digital calibration / LUT-based correction"
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "classical_solver": "Synopsys Design Compiler",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Classical preprocessing of payoff region and lognormal distribution; LUT-based angle correction.",
+        "classical_postprocessing": "Comparison of circuit outputs to baseline error and Monte Carlo-style averages.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "gate_count",
+          "value": 392,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gate_count",
+          "value": 4095,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 2048,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "maximum_calculation_error",
+          "value": 1.64,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "baseline_error",
+          "value": 25.86,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "rotation_gate_range",
+          "value": 1.5707963267948966,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "radians",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "rotation_gate_range_lower_bound",
+          "value": 0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "radians",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "rotation_gate_range_upper_bound",
+          "value": 1.5707963267948966,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "radians",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "output_levels",
+          "value": 32,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "levels",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "input_range_max",
+          "value": 4095,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "index",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 12,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "claimed_gate_complexity",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "O(n^2)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "claimed_depth_complexity",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "O(n)",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "jp_morgan_option_pricing_circuit",
+          "metric_name": "gate_count",
+          "value": 4095,
+          "unit": "gates"
+        },
+        {
+          "method_name": "jp_morgan_option_pricing_circuit",
+          "metric_name": "circuit_depth",
+          "value": 2048,
+          "unit": "layers"
+        },
+        {
+          "method_name": "jp_morgan_option_pricing_circuit",
+          "metric_name": "maximum_calculation_error",
+          "value": 25.86,
+          "unit": "%"
+        },
+        {
+          "method_name": "classical_monte_carlo",
+          "metric_name": "average_stock_price_consistency",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "10.45x fewer gates",
+          "baseline_method": "jp_morgan_option_pricing_circuit",
+          "conditions": "12-qubit case study; exponential data pre-processing optimization",
+          "is_demonstrated": true,
+          "caveats": "Reported as gate-count reduction from 4095 to 392; not a runtime benchmark."
+        },
+        {
+          "type": "empirical",
+          "factor": "341.33x shallower depth",
+          "baseline_method": "jp_morgan_option_pricing_circuit",
+          "conditions": "12-qubit case study; exponential data pre-processing optimization",
+          "is_demonstrated": true,
+          "caveats": "Reported as depth reduction from 2048 to 6; not a runtime benchmark."
+        },
+        {
+          "type": "empirical",
+          "factor": "15.77x lower error",
+          "baseline_method": "jp_morgan_option_pricing_circuit",
+          "conditions": "digital calibration on rotation gates",
+          "is_demonstrated": true,
+          "caveats": "Computed from 25.86% to 1.64%; paper frames this as improved noise tolerance."
+        },
+        {
+          "type": "theoretical",
+          "factor": "O(n^2) gate complexity and O(n) depth",
+          "baseline_method": "exponential preprocessing circuit",
+          "conditions": "claimed for optimized exponential data pre-processing",
+          "is_demonstrated": false,
+          "caveats": "Stated as an expectation/claim rather than a measured asymptotic proof."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 12.0,
+          "num_qubits": 12,
+          "metric_name": "gate_count",
+          "metric_value": 392
+        },
+        {
+          "problem_size": 12.0,
+          "num_qubits": 12,
+          "metric_name": "circuit_depth",
+          "metric_value": 6
+        },
+        {
+          "problem_size": 12.0,
+          "num_qubits": 12,
+          "metric_name": "maximum_calculation_error",
+          "metric_value": 1.64
+        },
+        {
+          "problem_size": 12.0,
+          "num_qubits": 12,
+          "metric_name": "gate_count_baseline",
+          "metric_value": 4095
+        },
+        {
+          "problem_size": 12.0,
+          "num_qubits": 12,
+          "metric_name": "circuit_depth_baseline",
+          "metric_value": 2048
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(n^2) gate complexity and O(n) depth after optimization (claimed expectation for exponential data preprocessing)",
+        "classical_complexity": null,
+        "speedup_order": "polynomial_other",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Large-scale fault-tolerant circuits implementing full option-pricing pipeline including nonlinear payoff and exponential functions with amplitude estimation.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Only a 12-qubit statevector simulation is demonstrated.",
+          "Key nonlinear components (exponential and payoff functions) are explicitly not implemented.",
+          "Performance comparison is against another quantum circuit (JP Morgan) rather than classical runtime.",
+          "Gate-count and depth improvements do not translate to demonstrated computational speedup.",
+          "Heavy classical preprocessing (distribution discretization and LUT calibration) required before quantum execution."
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware type is not explicitly named; Qiskit/statevector is mentioned for figures, so no real QPU is reported.",
+          "12 qubits, gate count 392, and depth 6 are explicitly reported in the experimental results.",
+          "The paper claims reduction from exponential to polynomial complexity (O(n^2) gates, O(n) depth) for preprocessing.",
+          "The paper claims circuit efficiency improvements and potential quantum advantage via QAE but does not experimentally demonstrate advantage over classical option pricing.",
+          "Results are limited to statevector simulations and circuit resource comparisons."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

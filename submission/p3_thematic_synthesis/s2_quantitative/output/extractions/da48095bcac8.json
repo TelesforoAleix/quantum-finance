@@ -1,0 +1,314 @@
+{
+  "paper_id": "da48095bcac8",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T10:03:48+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "da48095bcac8_application_of_quantum_monte_carlo_integration_to_markovian_backward_stochastic_.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.333,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 2,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='queries' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.333,
+      "completeness": 0.333,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.333
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.5,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Application of quantum Monte Carlo integration to Markovian backward stochastic differential equations",
+    "authors": [
+      "Masato Fujita",
+      "Koichi Miyamoto",
+      "Jun Sekine"
+    ],
+    "year": 2024,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": [
+      "risk-management",
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a Quantum Least‑Squares Monte Carlo (QLSM) algorithm for solving Markovian BSDEs by replacing classical expectation estimation in least‑squares regression with quantum Monte Carlo integration. Using Montanaro’s QMCI subroutine, expectations can be estimated with O(1/ε) query complexity instead of the classical O(1/ε^2), yielding a quadratic theoretical speedup in the accuracy parameter ε. The work provides error bounds and a full runtime expression but reports no numerical experiments or hardware implementation.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum Least-Squares Monte Carlo (QLSM) algorithm for solving Markovian BSDEs using quantum Monte Carlo integration to estimate regression expectations in the least-squares Monte Carlo scheme.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Quantum Least-Squares Monte Carlo (QLSM) with quantum Monte Carlo integration",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "time_discretization_N": "N",
+          "basis_functions_per_time_step": "Ji",
+          "precision": "fixed-point encoding with c1,c2 bits",
+          "error_tolerances": "epsilon, delta",
+          "QMCI_failure_probability": "deltaA, deltay",
+          "QMCI_accuracy_targets": "eεA, eεy"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "other",
+        "encoding_details": "No QUBO/Ising encoding; the algorithm estimates regression expectations for BSDE least-squares coefficients using quantum Monte Carlo integration over discretized Brownian increments.",
+        "objective_function": "Solve Markovian BSDE by approximating Y_t and regression coefficients β_i via least-squares Monte Carlo, replacing classical expectation estimation with quantum Monte Carlo integration.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Markovian backward stochastic differential equations in a derivative-pricing / mathematical finance setting.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Continuous-time stochastic process model driven by d-dimensional Brownian motion; no market dataset specified."
+        },
+        "data_preprocessing_details": "Discretize time interval with h=T/N; simulate forward SDE for X_t using Euler-type update; represent real numbers in fixed-point form; approximate expectations via QMCI.",
+        "evaluation_methodology": "Theoretical error and runtime analysis; no numerical benchmark experiments reported in the paper text provided."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": "not_specified"
+      },
+      "noise_model": {
+        "noise_model": null,
+        "noise_parameters": null,
+        "mitigation_details": null,
+        "is_noisy": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "classical linear algebra for solving regression coefficients after quantum expectation estimation",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Construct basis functions, discretize BSDE, build regression matrices, and prepare fixed-point encodings.",
+        "classical_postprocessing": "Classically invert estimated regression matrices and compute regression coefficients; assemble Y_t estimates.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "success_probability",
+          "value": 0.6666666666666666,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "queries",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "price_error",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "greeks_accuracy",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "runtime",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "global_error_bound",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "theoretical_error_bound",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "oracle_queries",
+          "value": null,
+          "unit": "queries"
+        },
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "runtime",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "speedup over the classical Monte Carlo cost estimate from prior work",
+          "baseline_method": "classical Monte Carlo",
+          "conditions": "Under the paper's assumptions for quantum Monte Carlo integration and the QLSM error analysis; no numerical benchmark is reported.",
+          "is_demonstrated": false,
+          "caveats": "The paper states the method achieves a speedup compared with the estimation in [5], but does not provide an empirical runtime comparison or concrete speedup factor."
+        }
+      ],
+      "scalability_data": [],
+      "complexity_analysis": {
+        "quantum_complexity": "O(ec(L2 + ηy)βE3d2√d2 N3J5 / σmin^2 · (1/ε) · log(d2NJ2/δ) · log^{3/2}(ec(L2 + ηy)βE3√d2 NJ3 / σmin^2) · log(ec(L2 + ηy)βE3√d2 NJ3 / σmin^2) · (τX + τe + τf))",
+        "classical_complexity": "Not explicitly given; paper states the quantum method achieves a speedup compared with the classical Monte Carlo cost estimate from prior work.",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L0_theory",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Requires large fault‑tolerant quantum circuits implementing QMCI with oracles for SDE coefficients (b, σ, f, g), Brownian sampling circuits, and arithmetic circuits for fixed‑point operations; qubit counts and logical gate counts not specified.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Only quadratic Monte Carlo speedup (ε^-1 vs ε^-2)",
+          "Requires oracle access to stochastic process dynamics and basis functions",
+          "Large arithmetic and state‑preparation overhead for Brownian path generation",
+          "No resource estimates (qubits, logical gates, or depth)",
+          "No numerical experiments or hardware demonstrations"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper is theoretical and does not report an actual hardware run, qubit count, circuit depth, or shot count.",
+          "Algorithm uses quantum Monte Carlo integration in the standard circuit model with fixed-point arithmetic and quantum access oracles; this maps best to amplitude-estimation-style quantum integration rather than a variational or annealing method.",
+          "No explicit device, framework, or transpilation details are given.",
+          "The paper presents a theoretical algorithm (QLSM) and complexity analysis but no simulations or hardware runs.",
+          "Speedup claim is theoretical and derives from the Montanaro quantum Monte Carlo integration result used within the regression estimation."
+        ],
+        "advantage_status": "paper_reported"
+      }
+    }
+  ]
+}

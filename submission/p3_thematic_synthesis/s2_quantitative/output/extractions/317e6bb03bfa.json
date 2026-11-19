@@ -1,0 +1,365 @@
+{
+  "paper_id": "317e6bb03bfa",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:27:52+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "317e6bb03bfa_a_quantum_generative_adversarial_network_for_distributions.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.6,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 7,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='points' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='steps' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='steps' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='range_width' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='range_width' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.6,
+      "completeness": 0.6,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.6
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "A quantum generative adversarial network for distributions",
+    "authors": [
+      "Amine Assouel",
+      "Antoine Jacquier",
+      "Alexei Kondratyev"
+    ],
+    "year": 2022,
+    "doi": "10.1007/s42484-022-00083-z",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a fully quantum generative adversarial network (QuGAN) with a quantum generator and quantum discriminator and demonstrates it on a toy finance task: learning a discretized SVI implied‑volatility distribution with 2^4 = 16 points. The implementation is simulated in Qiskit with learning rates 0.9 (discriminator) and 0.05 (generator), training the discriminator 9 times per epoch and the generator once, showing qualitative convergence of fidelity/KL metrics but no numerical advantage over classical methods.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Fully quantum generative adversarial network (QuGAN) for learning a discretized SVI implied-volatility distribution in finance, trained with a quantum discriminator and quantum generator using Qiskit.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "fully connected quantum generative adversarial network (QuGAN)",
+        "ansatz": "custom quantum perceptron / entangled generator built from RY, cRY, X gates; discriminator built from quantum inner product and quantum phase estimation subcircuits",
+        "optimizer": "stochastic gradient ascent/descent",
+        "num_layers": null,
+        "convergence_criteria": "trained for a fixed number of epochs; discriminator trained 9 times and generator 1 time per epoch",
+        "hyperparameters": {
+          "discriminator_learning_rate": 0.9,
+          "generator_learning_rate": 0.05,
+          "discriminator_training_steps_per_epoch": 9,
+          "generator_training_steps_per_epoch": 1,
+          "epochs": "not explicitly stated",
+          "generator_parameters": "w1..w9 (paper shows example with 9 parameters)",
+          "discriminator_parameters": "w1..w4 in example; general form uses w"
+        },
+        "parameter_initialization": "discriminator weights initialized uniformly in [-1,1]; generator weights initialized in [0,2]",
+        "optimizer_settings": {
+          "learning_rate_schedule": null,
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "target SVI distribution discretized on a uniform grid over [-1,1] with 2^n points; binary mapping used to encode each grid point into qubit basis states",
+        "objective_function": "min_w max_w V(w,w) where V(w,w)=D_w(0|0_target)-D_w(0|0); discriminator maximizes correct labeling of real data and generator minimizes fooling probability",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 2
+      },
+      "problem_instance": {
+        "description": "Learning a discretized probability distribution derived from the SVI implied-volatility model for log-stock-price density",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 1,
+        "dataset_size": 2,
+        "data_type": "synthetic",
+        "dataset_name": "SVI distribution",
+        "dataset_specification": {
+          "description": "SVI parameters given in Eq. (4.6); distribution normalized on [-1,1] and discretized on a uniform grid"
+        },
+        "data_preprocessing_details": "compute SVI density from implied-volatility parameterization; normalize on [-1,1]; discretize uniformly; convert grid points to binary form",
+        "evaluation_methodology": "training curves reported for fidelity and KL divergence; discriminator trained 9 times and generator once per epoch"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "discretization of SVI density; binary encoding of grid points",
+        "classical_postprocessing": "fidelity and KL-divergence evaluation from sampled distributions",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "training curves shown; convergence discussed qualitatively",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "dataset_size",
+          "value": 16,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "points",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "discriminator_learning_rate",
+          "value": 0.9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "generator_learning_rate",
+          "value": 0.05,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "discriminator_training_steps_per_epoch",
+          "value": 9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "steps",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "generator_training_steps_per_epoch",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "steps",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_ancilla_qubits",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "generator_parameters",
+          "value": 9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "discriminator_parameters",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "fidelity",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "discriminator_initialization_range",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "range_width",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "generator_initialization_range",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "range_width",
+          "higher_is_better": null,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "exponential advantage",
+          "baseline_method": "classical adversarial networks / classical GANs",
+          "conditions": "stated in the introduction as a general claim for quantum GANs; not empirically demonstrated in this paper",
+          "is_demonstrated": false,
+          "caveats": "No quantitative speedup benchmark, runtime comparison, or asymptotic derivation specific to the reported experiment is provided."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 16,
+          "num_qubits": 4,
+          "metric_name": "dataset_size",
+          "metric_value": 16
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "not specified; no complexity comparison or scaling study provided",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Only simulator experiments using Qiskit; no real QPU execution",
+          "Very small toy distribution (16 discretization points)",
+          "No runtime comparison against classical generative models",
+          "No asymptotic resource analysis or crossover study",
+          "Distribution must be classically computed and discretized before encoding",
+          "Barren plateau risk limits circuit depth and expressivity"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_other because the paper states all numerics were performed using IBM-Qiskit in Python and does not name a real QPU.",
+          "The paper discusses a 4-qubit discretization example and ancilla counts, but does not provide a single explicit total qubit count for the full experiment; num_qubits therefore left null.",
+          "No explicit circuit depth, gate counts, shot counts, or transpiled resources are reported.",
+          "The paper claims only a theoretical exponential advantage in the introduction, but does not provide an empirical speedup characterization for this experiment.",
+          "The paper mentions possible exponential advantage of quantum GANs in the introduction but provides no empirical demonstration or complexity analysis for the presented experiment.",
+          "The reported study is a proof‑of‑concept QuGAN trained on a small discretized SVI distribution using classical simulation."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

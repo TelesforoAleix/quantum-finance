@@ -1,0 +1,404 @@
+{
+  "paper_id": "49aaab8109ac",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:38:48+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "49aaab8109ac_quantum_monte_carlo_integration_the_full_advantage_in_minimal_circuit_depth.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.85,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 9,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='points' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='to 7' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='slope of log-log RMSE fit' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='slope of log-log RMSE fit' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='slope of log-log RMSE fit' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='prefactor in RMSE fit' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='prefactor in RMSE fit' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='uses of P' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='sequential uses of Q' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.85,
+      "completeness": 0.85,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.85
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum Monte Carlo Integration: The Full Advantage in Minimal Circuit Depth",
+    "authors": [
+      "Steven Herbert"
+    ],
+    "year": 2022,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "simulation-monte-carlo",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a Fourier-series-based quantum Monte Carlo integration method that retains the quadratic amplitude-estimation speedup (MSE Θ(q^-2) vs classical Θ(q^-1)) without quantum arithmetic. A noiseless simulation on a 16-point distribution shows RMSE scaling ≈194·q^-1.02 for the proposed method versus ≈107·q^-1.05 for conventional QMCI and ≈q^-0.77 for rescaled QMCI, with a crossover against classical Monte Carlo at roughly 1100 uses of the state-preparation circuit and circuit depth of 8 Grover iterations.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Numerical proof-of-principle simulation of Fourier QMCI for estimating the mean of a 16-point univariate probability distribution, compared against classical MCI, rescaled QMCI, and conventional QMCI with quantum arithmetic.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Fourier QMCI using QAE without quantum arithmetic",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "distribution_size": 16,
+          "support": "{-8,-7,...,7}",
+          "target_function": "f(x)=x",
+          "runs_per_point": 500,
+          "reported_RMSE_fit_slope_fourier_qmci": -1.02,
+          "reported_RMSE_fit_slope_rescaled_qmci": -0.771,
+          "reported_RMSE_fit_slope_quantum_arithmetic_qmci": -1.05,
+          "reported_constant_factor_fourier_qmci": 194,
+          "reported_constant_factor_quantum_arithmetic_qmci": 107
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "A 16-point univariate probability distribution is encoded in a quantum state prepared by a shallow circuit; the mean of the sampled distribution is estimated via amplitude estimation on Fourier components.",
+        "objective_function": "Estimate E[f(X)] for X sampled from p(x), with f(x)=x in the numerical example.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Univariate discrete probability distribution used for proof-of-principle numerical results.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 16,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "16-point distribution supported on {-8,-7,...,7}"
+        },
+        "data_preprocessing_details": null,
+        "evaluation_methodology": "Simulated results averaged over 500 runs; RMSE versus number of uses of P was plotted and fitted with lines of best fit."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": 8,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Classical Monte Carlo integration; rescaled QMCI; conventional QMCI with quantum arithmetic (all used as comparison baselines)",
+        "transpilation_settings": null,
+        "classical_preprocessing": null,
+        "classical_postprocessing": "RMSE computed from 500 simulated runs; lines of best fit reported for log-log plots.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "RMSE decreases approximately as a power law with slope near -1 for Fourier QMCI",
+          "variance_across_runs": null,
+          "num_independent_runs": 500
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "dataset_size",
+          "value": 16,
+          "uncertainty": null,
+          "num_runs": 500,
+          "unit": "points",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "support_range",
+          "value": -8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "to 7",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": -1.02,
+          "uncertainty": null,
+          "num_runs": 500,
+          "unit": "slope of log-log RMSE fit",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": -0.771,
+          "uncertainty": null,
+          "num_runs": 500,
+          "unit": "slope of log-log RMSE fit",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": -1.05,
+          "uncertainty": null,
+          "num_runs": 500,
+          "unit": "slope of log-log RMSE fit",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "rmse",
+          "value": 194,
+          "uncertainty": null,
+          "num_runs": 500,
+          "unit": "prefactor in RMSE fit",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "rmse",
+          "value": 107,
+          "uncertainty": null,
+          "num_runs": 500,
+          "unit": "prefactor in RMSE fit",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": 1100,
+          "uncertainty": null,
+          "num_runs": 500,
+          "unit": "uses of P",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": 500,
+          "unit": "sequential uses of Q",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "speedup_order",
+          "value": "quadratic",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical monte carlo integration",
+          "metric_name": "convergence_rate",
+          "value": -1,
+          "unit": "MSE slope"
+        },
+        {
+          "method_name": "classical monte carlo integration",
+          "metric_name": "rmse",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "rescaled qmci",
+          "metric_name": "convergence_rate",
+          "value": -0.771,
+          "unit": "RMSE slope"
+        },
+        {
+          "method_name": "conventional qmci with quantum arithmetic",
+          "metric_name": "convergence_rate",
+          "value": -1.05,
+          "unit": "RMSE slope"
+        },
+        {
+          "method_name": "conventional qmci with quantum arithmetic",
+          "metric_name": "rmse",
+          "value": 107,
+          "unit": "RMSE prefactor"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical Monte Carlo integration",
+          "conditions": "for QMCI using Fourier decomposition with QAE subroutine; asymptotic MSE scales as Θ(q^-λ) with λ matching the underlying QAE convergence rate",
+          "is_demonstrated": true,
+          "caveats": "The paper claims the full quadratic advantage is retained without quantum arithmetic, but the numerical example is a simulation and the reported empirical RMSE fit is for a specific 16-point distribution."
+        },
+        {
+          "type": "empirical",
+          "factor": "about 1.81x larger RMSE prefactor than conventional QMCI",
+          "baseline_method": "conventional qmci with quantum arithmetic",
+          "conditions": "for the reported 16-point distribution and the fitted RMSE lines",
+          "is_demonstrated": true,
+          "caveats": "This is not a speedup; it is a constant-factor disadvantage in the fitted RMSE prefactor (194 vs 107)."
+        },
+        {
+          "type": "empirical",
+          "factor": "crossover at about 1100 uses of P",
+          "baseline_method": "classical monte carlo integration",
+          "conditions": "for the reported proof-of-principle distribution and the third Fourier-QMCI data point",
+          "is_demonstrated": true,
+          "caveats": "The paper states the crossover occurs very close to the third Fourier-QMCI data point."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 16,
+          "num_qubits": null,
+          "metric_name": "rmse",
+          "metric_value": 194
+        },
+        {
+          "problem_size": 16,
+          "num_qubits": null,
+          "metric_name": "rmse",
+          "metric_value": 107
+        },
+        {
+          "problem_size": 16,
+          "num_qubits": null,
+          "metric_name": "convergence_rate",
+          "metric_value": -1.02
+        },
+        {
+          "problem_size": 16,
+          "num_qubits": null,
+          "metric_name": "convergence_rate",
+          "metric_value": -0.771
+        },
+        {
+          "problem_size": 16,
+          "num_qubits": null,
+          "metric_name": "convergence_rate",
+          "metric_value": -1.05
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "Theta(q^-lambda) MSE with q uses of the state-preparation circuit P; for the numerical example RMSE scales approximately as q^-1.02",
+        "classical_complexity": "Theta(q^-1) MSE for classical Monte Carlo integration",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": "RMSE constant factor 194 for Fourier QMCI in the reported fit",
+        "constant_factor_classical": "RMSE constant factor 107 for conventional QMCI in the reported fit; classical MCI used as baseline in the figure",
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": "Approximately at the third Fourier-QMCI data point, corresponding to 1100 uses of P in total",
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "≈1100 uses of the state-preparation circuit P (for the toy 16-point distribution)",
+        "resources_for_advantage": "Requires repeated coherent uses of the state-preparation circuit P within amplitude estimation plus Fourier-component estimation; advantage assumes shallow preparation of |p⟩ and efficient classical computation of Fourier coefficients.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Advantage is only quadratic relative to classical Monte Carlo",
+          "Requires coherent amplitude estimation with many oracle calls",
+          "Assumes efficient state preparation for the probability distribution",
+          "Numerical validation only on a very small 16-point synthetic distribution",
+          "Fourier truncation introduces additional constant-factor overhead"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "No real hardware is used; the paper reports simulated numerical results only, so hardware.type is inferred as simulator_other.",
+          "The paper does not state an explicit qubit count for the numerical experiment; num_qubits is left null.",
+          "Circuit depth is reported qualitatively and via the example crossover point of 8 sequential uses of Q.",
+          "Quadratic speedup is explicitly claimed for the QMCI method relative to classical Monte Carlo.",
+          "The paper presents a theoretical algorithm with simulated proof-of-principle results only.",
+          "The claimed advantage is asymptotic (quadratic in query complexity) and not experimentally demonstrated on hardware or large problem sizes."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

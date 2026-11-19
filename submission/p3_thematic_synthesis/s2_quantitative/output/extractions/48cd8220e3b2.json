@@ -1,0 +1,719 @@
+{
+  "paper_id": "48cd8220e3b2",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:37:58+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "48cd8220e3b2_entanglement_scaling_in_matrix_product_state_representation_of_smooth_functions_.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.933,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 1,
+    "validation_warnings": 6,
+    "validation_passed": false,
+    "validation_error_details": [
+      "Schema error at experiments.0.quantum_resources.two_qubit_gate_count: 'same as CNOT count where reported; otherwise null' is not of type 'integer', 'null'"
+    ],
+    "validation_warning_details": [
+      "experiments[0].results[1].unit='not_reported_numerically' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[20].unit='bond_dimension' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[21].unit='threshold' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[22].unit='threshold' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[25].unit='calls' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[26].unit='O(n_chi2)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.933,
+      "completeness": 0.933,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.933
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Entanglement scaling in matrix product state representation of smooth functions and their shallow quantum circuit approximations",
+    "authors": [
+      "Vladyslav Bohun",
+      "Illia Lukin",
+      "Mykola Luhanko",
+      "Georgios Korpas",
+      "Philippe J.S. De Brouwer",
+      "Mykola Maksymenko",
+      "Maciej Koch-Janusz"
+    ],
+    "year": 2025,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "simulation-monte-carlo",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper derives analytical scaling laws for entanglement in MPS representations of smooth functions and uses them to build O(N)-gate quantum circuits for amplitude encoding. The method prepares probability distributions (normal, log-normal, Lévy, Gamma) and is experimentally executed on IBM devices with up to 25 qubits (passing KS statistical tests with 5000 shots) and up to 64 qubits qualitatively using Tensor Cross Interpolation–generated circuits. Reported encoding errors are low, with single-layer circuit infidelity around 10^-3–4×10^-3 on simulators.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "MPS-based shallow quantum circuit construction and execution for encoding smooth functions/probability distributions, benchmarked on ideal simulators and IBM superconducting devices for up to 64 qubits.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "MPS-based shallow state-preparation / function-encoding circuits with iterative disentangling V-layers",
+        "ansatz": "V-layers / staircase and double-staircase isometry-based circuit decomposition",
+        "optimizer": "variational optimization of the central gate via second Renyi entropy minimization",
+        "num_layers": 1,
+        "convergence_criteria": "not reported",
+        "hyperparameters": {
+          "epsilon_trunc": "10^-3 and 10^-4",
+          "layer_origin": "varied across bonds / central placement",
+          "distribution_types": [
+            "normal",
+            "log-normal",
+            "Lévy",
+            "Gamma"
+          ],
+          "support_interval_L": "varied",
+          "qubit_counts": "up to 64"
+        },
+        "parameter_initialization": "not reported",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Classical function values on a binary grid x = sum_i sigma_i 2^-i are encoded as amplitudes of an N-qubit state; MPS approximation is converted to a shallow circuit",
+        "objective_function": "Prepare a quantum state |f> whose amplitudes approximate discretized function values f(x) or sqrt(p(x)) for probability distributions",
+        "constraints_handling": "Bond truncation to chi=2; incomplete V-layers omit bonds with summed subleading singular values below epsilon_trunc",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Encoding smooth functions and heavy-tailed probability distributions, especially normal, log-normal, Lévy, and Gamma distributions, on finite intervals",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "distribution_types": [
+            "normal",
+            "log-normal",
+            "Lévy",
+            "Gamma"
+          ],
+          "support_intervals": [
+            "[0,1]",
+            "truncated intervals up to [0,2^19 L] and [0,2^11] in examples"
+          ],
+          "parameters": {
+            "normal": {
+              "mu": 0.5,
+              "sigma": [
+                0.125,
+                0.5,
+                2
+              ]
+            },
+            "log-normal": {
+              "mu": "varied",
+              "sigma": "varied"
+            },
+            "Lévy": {
+              "c": [
+                0.15,
+                1,
+                25,
+                50,
+                1310,
+                5000000000.0
+              ]
+            },
+            "Gamma": {
+              "shape_parameter_k": 1
+            }
+          }
+        },
+        "data_preprocessing_details": "Functions/distributions discretized on a binary grid; some examples truncated to finite support; TCI used to sample PDF values directly without storing full state vector",
+        "evaluation_methodology": "Compared exact vs approximated amplitudes, infidelity, KL divergence, KS test p-values, and qualitative agreement on sampled distributions; results reported for multiple qubit counts and support sizes"
+      },
+      "quantum_resources": {
+        "num_qubits": 64,
+        "qubit_type": "physical",
+        "circuit_depth": 1,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": 9,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 5000,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_superconducting",
+        "provider": "IBM",
+        "device_name": "ibm_torino, ibm_marrakesh, FakeToronto (noisy simulator backend)",
+        "framework": "not_specified"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "IBM device noise / noisy simulation",
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": "RX, RY, RZ and CNOT basis",
+        "classical_solver": null,
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": [
+            "RX",
+            "RY",
+            "RZ",
+            "CNOT"
+          ],
+          "routing_method": null
+        },
+        "classical_preprocessing": "Tensor Cross Interpolation (TCI) used to build MPS from PDF by sampling; discretization on binary grid; truncation of support intervals",
+        "classical_postprocessing": "KL divergence and KS tests on sampled outputs; comparison to exact distributions; infidelity computed from singular values",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "purity",
+          "value": 1.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "entanglement_entropy",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "not_reported_numerically",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "infidelity",
+          "value": 0.001,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "infidelity",
+          "value": 0.004,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.00031,
+          "uncertainty": "±0.00048",
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "ks_test_p_value",
+          "value": 0.23839,
+          "uncertainty": "±0.23489",
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "depth",
+          "value": 17.2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "cnot_count",
+          "value": 9.8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.00175,
+          "uncertainty": "±0.00086",
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "ks_test_p_value",
+          "value": 0.26624,
+          "uncertainty": "±0.22399",
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "depth",
+          "value": 15.6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "cnot_count",
+          "value": 9.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kl_divergence",
+          "value": 0.00149,
+          "uncertainty": "±0.00048",
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "ks_test_p_value",
+          "value": 0.50345,
+          "uncertainty": "±0.28411",
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "depth",
+          "value": 41.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "cnot_count",
+          "value": 27.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "qubit_count",
+          "value": 25,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "qubit_count",
+          "value": 64,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots",
+          "value": 5000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "ks_test_sample_size",
+          "value": 200,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "mps_bond_dimension",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "bond_dimension",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "epsilon_trunc",
+          "value": 0.0001,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "threshold",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "epsilon_trunc",
+          "value": 0.001,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "threshold",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "tcI_relative_error_mean",
+          "value": 6e-08,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "tcI_relative_error_max",
+          "value": 4e-07,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "tcI_pdf_map_calls",
+          "value": 80000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "calls",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "tcI_function_evaluations_scaling",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "O(n_chi2)",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "exact_distribution",
+          "metric_name": "kl_divergence",
+          "value": 0.0,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "exact_distribution",
+          "metric_name": "ks_test_p_value",
+          "value": 1.0,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "O(N) gates",
+          "baseline_method": "generic state preparation with exponential-depth circuits",
+          "conditions": "for smooth functions / probability distributions representable with low-bond-dimension MPS",
+          "is_demonstrated": true,
+          "caveats": "Circuit construction is approximate and relies on MPS truncation; exact preparation may still be hard in general."
+        },
+        {
+          "type": "theoretical",
+          "factor": "O(N chi^2) function evaluations",
+          "baseline_method": "full-state construction requiring 2^N function evaluations",
+          "conditions": "Tensor Cross Interpolation (TCI) construction from a computable PDF",
+          "is_demonstrated": true,
+          "caveats": "This is a classical preprocessing scaling claim, not a quantum runtime speedup."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 6.0,
+          "num_qubits": 6,
+          "metric_name": "kl_divergence",
+          "metric_value": 0.00031
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 6,
+          "metric_name": "ks_test_p_value",
+          "metric_value": 0.23839
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 6,
+          "metric_name": "depth",
+          "metric_value": 17.2
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 6,
+          "metric_name": "cnot_count",
+          "metric_value": 9.8
+        },
+        {
+          "problem_size": 10.0,
+          "num_qubits": 10,
+          "metric_name": "kl_divergence",
+          "metric_value": 0.00045
+        },
+        {
+          "problem_size": 10.0,
+          "num_qubits": 10,
+          "metric_name": "ks_test_p_value",
+          "metric_value": 0.49284
+        },
+        {
+          "problem_size": 10.0,
+          "num_qubits": 10,
+          "metric_name": "depth",
+          "metric_value": 26.2
+        },
+        {
+          "problem_size": 10.0,
+          "num_qubits": 10,
+          "metric_name": "cnot_count",
+          "metric_value": 17.8
+        },
+        {
+          "problem_size": 15.0,
+          "num_qubits": 15,
+          "metric_name": "kl_divergence",
+          "metric_value": 0.00046
+        },
+        {
+          "problem_size": 15.0,
+          "num_qubits": 15,
+          "metric_name": "ks_test_p_value",
+          "metric_value": 0.50486
+        },
+        {
+          "problem_size": 15.0,
+          "num_qubits": 15,
+          "metric_name": "depth",
+          "metric_value": 41.2
+        },
+        {
+          "problem_size": 15.0,
+          "num_qubits": 15,
+          "metric_name": "cnot_count",
+          "metric_value": 28.0
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 6,
+          "metric_name": "kl_divergence",
+          "metric_value": 0.00175
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 6,
+          "metric_name": "ks_test_p_value",
+          "metric_value": 0.26624
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 6,
+          "metric_name": "depth",
+          "metric_value": 15.6
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 6,
+          "metric_name": "cnot_count",
+          "metric_value": 9.0
+        },
+        {
+          "problem_size": 10.0,
+          "num_qubits": 10,
+          "metric_name": "kl_divergence",
+          "metric_value": 0.00172
+        },
+        {
+          "problem_size": 10.0,
+          "num_qubits": 10,
+          "metric_name": "ks_test_p_value",
+          "metric_value": 0.50047
+        },
+        {
+          "problem_size": 10.0,
+          "num_qubits": 10,
+          "metric_name": "depth",
+          "metric_value": 25.9
+        },
+        {
+          "problem_size": 10.0,
+          "num_qubits": 10,
+          "metric_name": "cnot_count",
+          "metric_value": 17.0
+        },
+        {
+          "problem_size": 15.0,
+          "num_qubits": 15,
+          "metric_name": "kl_divergence",
+          "metric_value": 0.00149
+        },
+        {
+          "problem_size": 15.0,
+          "num_qubits": 15,
+          "metric_name": "ks_test_p_value",
+          "metric_value": 0.50345
+        },
+        {
+          "problem_size": 15.0,
+          "num_qubits": 15,
+          "metric_name": "depth",
+          "metric_value": 41.0
+        },
+        {
+          "problem_size": 15.0,
+          "num_qubits": 15,
+          "metric_name": "cnot_count",
+          "metric_value": 27.0
+        },
+        {
+          "problem_size": 25.0,
+          "num_qubits": 25,
+          "metric_name": "ks_test_passed",
+          "metric_value": 1
+        },
+        {
+          "problem_size": 50.0,
+          "num_qubits": 50,
+          "metric_name": "qualitative_agreement",
+          "metric_value": 1
+        },
+        {
+          "problem_size": 64.0,
+          "num_qubits": 64,
+          "metric_name": "qualitative_agreement",
+          "metric_value": 1
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(N) gates for encoding circuits; TCI-based construction uses O(N chi^2) function evaluations",
+        "classical_complexity": "Standard full-state construction requires 2^N function evaluations; TCI reduces this to O(N chi^2)",
+        "speedup_order": "polynomial_other",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L4_qpu_scale",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "not specified; circuits demonstrated up to 25 qubits on ibm_torino and up to 64 qubits on ibm_marrakesh without fault tolerance",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "No classical runtime comparison demonstrating speedup",
+          "Algorithm addresses state preparation rather than end‑to‑end quantum application advantage",
+          "Circuit accuracy degrades under realistic noise as depth increases",
+          "Utility-scale experiments reproduce qualitative distributions but fail quantitative statistical tests"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Paper explicitly reports execution on IBM torino QPU up to 25 qubits and IBM marrakesh up to 64 qubits, plus noisy FakeToronto simulations.",
+          "Circuit depth is described as O(N) and linearly deep; exact depths are only given in tables for selected qubit counts.",
+          "The paper reports 5000 shots for QPU runs and 200 samples for KS tests.",
+          "The paper does not claim quantum advantage; it focuses on constructing shallow state-preparation circuits and analyzing entanglement scaling.",
+          "Experiments demonstrate feasibility of preparing probability distributions on IBM hardware (up to 25 qubits quantitatively and 64 qubits qualitatively) but provide no classical-vs-quantum runtime comparison."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

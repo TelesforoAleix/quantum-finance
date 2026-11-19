@@ -1,0 +1,863 @@
+{
+  "paper_id": "bb0210fb8e67",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:43:58+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "bb0210fb8e67_sapo_improving_the_scalability_and_accuracy_of_quantum_linear_solver_for_portfol.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.95,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 1,
+    "validation_warnings": 16,
+    "validation_passed": false,
+    "validation_error_details": [
+      "Schema error at experiments.0.quantum_resources.two_qubit_gate_count: 'reported as N_CNOT; paper only reports CNOT count' is not of type 'integer', 'null'"
+    ],
+    "validation_warning_details": [
+      "experiments[0].results[2].unit='x' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='x' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='x' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='x' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='x' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='x' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[15].unit='cosine_similarity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[16].unit='cosine_similarity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[17].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[18].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[19].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[20].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[21].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[26].unit='circuit_depth' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[27].unit='cnot_count' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[28].unit='complexity_score' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.95,
+      "completeness": 0.95,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.95
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "SAPO: Improving the Scalability and Accuracy of Quantum Linear Solver for Portfolio Optimization",
+    "authors": [
+      "Tianze Zhu",
+      "Liqiang Lu",
+      "Jiajun Chen",
+      "Yuhang Chen",
+      "Hengrui Chen",
+      "Meng Xi",
+      "Jinshan Zhang",
+      "Xiaoming Sun",
+      "Jianwei Yin"
+    ],
+    "year": 2025,
+    "doi": "10.1109/DAC63849.2025.11133130",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "portfolio-optimization",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes SAPO, a modified HHL-based quantum portfolio optimization method that scales Black’s model constraints and predicts min/max eigenvalues using SVR. In simulation on 2–6 asset problems using Nasdaq/NYSE/AMEX data, SAPO reduces compiled circuit complexity by about 34.64–36.94% and improves allocation accuracy by up to 1.52× versus Qiskit HHL and 1.46× versus hybrid HHL.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "SAPO: HHL-based quantum portfolio optimization with constraint scaling and min-max eigenvalue prediction, evaluated on real market datasets for 2- to 6-asset problems.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "SAPO (scaled HHL for Black's model with min-max eigenvalue predictor)",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "Hamiltonian_simulation_time_Ht": "pi",
+          "normalization_constant": "|lambda|min",
+          "QPE_qubits": "n_QPE >= 2 + ceil(log2(|lambda|max / (|lambda|min * epsilon)))",
+          "absolute_error_epsilon": [
+            "1/16",
+            "1/8",
+            "1/4"
+          ],
+          "scaling_factors": {
+            "Nasdaq": {
+              "s1": 0.56,
+              "s2": 0.0019
+            },
+            "NYSE": {
+              "s1": 0.25,
+              "s2": 0.00032
+            },
+            "AMEX": {
+              "s1": 0.28,
+              "s2": 0.00066
+            }
+          },
+          "eigenvalue_predictor": "SVR",
+          "alpha_scaling_for_labels": {
+            "|lambda|min": "3000/5000/4000",
+            "|lambda|max": "100/800/400"
+          },
+          "transpiler_optimization_level": 0
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "hamiltonian-simulation-based-linear-system",
+        "encoding_details": "Black's model is converted to a linear system via Lagrange multipliers; the HHL circuit solves the resulting matrix equation. The paper uses a 3-register HHL layout: Qv, QQPE, and Qa.",
+        "objective_function": "min_w w^T Sigma w subject to w^T R = E and w^T 1 = 1; after scaling: min_w w^T Sigma w s.t. s1 w^T R = s1 E and s2 w^T 1 = s2",
+        "constraints_handling": "Equivalent constraint scaling with two scaling factors s1 and s2; no penalty formulation. The auxiliary qubit uses Const = |lambda|min.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": "Lagrange matrix ML from Black's model; standardized matrix M_L^std = (l/|lambda|max) ML with l=0.5.",
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "Portfolio optimization on market data using randomly selected stocks from Nasdaq, NYSE, and AMEX; problems range from 2 to 6 assets.",
+        "num_assets": 2,
+        "time_steps": 251,
+        "num_features": null,
+        "dataset_size": 3100,
+        "data_type": "real_market",
+        "dataset_name": "Nasdaq, NYSE, AMEX",
+        "dataset_specification": {
+          "description": "Stock price tables from the three exchanges; 3100 Nasdaq stocks over 251 days used for predictor training; 400 NYSE stocks and 40 AMEX stocks also used. Randomly select 3 stocks to construct training instances for the eigenvalue predictor."
+        },
+        "data_preprocessing_details": "Compute daily increments/returns from adjacent days; estimate expected returns and covariance matrix using Eq. (2); construct Lagrange matrix; pad matrix to power-of-two size with zeros and a scaled identity matrix; standardize by |lambda|max; use historical financial data for SVR training.",
+        "evaluation_methodology": "Compare SAPO against basic HHL, Qiskit HHL, and hybrid HHL. Complexity evaluated for 2-6 assets and epsilon in {1/16,1/8,1/4}. Accuracy evaluated under fixed QPE qubit counts and fixed asset counts; results reported as averages and improvement ratios."
+      },
+      "quantum_resources": {
+        "num_qubits": 11,
+        "qubit_type": "logical",
+        "circuit_depth": 1,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": 1,
+        "cnot_count": 1,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": "not_specified",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": "Qiskit transpiler optimization level 0",
+        "classical_solver": "NumPy for exact eigenvalues; SciPy Nelder-Mead-inspired search; scikit-learn SVR",
+        "transpilation_settings": "optimization_level=0; PhaseEstimation and UCRYGate used; ExactReciprocal used for Qiskit HHL baseline; no basis_gates or routing_method reported",
+        "classical_preprocessing": "Construct returns, covariance, Lagrange matrices; search scaling factors offline; train SVR predictor on historical data",
+        "classical_postprocessing": "Measure auxiliary qubit and post-process quantum state vector to obtain allocation w~; compute cosine similarity accuracy",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 119,
+          "final_loss_value": null,
+          "loss_curve_shape": "average condition number decreases over iterations",
+          "variance_across_runs": null,
+          "num_independent_runs": 1500
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "complexity_reduction",
+          "value": 36.94,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "complexity_reduction",
+          "value": 34.64,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy_improvement_vs_basic_hhl",
+          "value": 1.52,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "x",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy_improvement_vs_hybrid_hhl",
+          "value": 1.46,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "x",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy_improvement_vs_qiskit_hhl",
+          "value": 1.28,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "x",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy_improvement_vs_hybrid_hhl",
+          "value": 1.39,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "x",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "scaling_factor_search_iterations",
+          "value": 119,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "scaling_factor_search_iterations",
+          "value": 152,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "scaling_factor_search_iterations",
+          "value": 125,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "condition_number_reduction",
+          "value": 98.59,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "condition_number_gap_vs_optimal",
+          "value": 8.56,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "x",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "condition_number_gap_vs_optimal",
+          "value": 1.23,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "x",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "relative_error_of_predicted_eigenvalues",
+          "value": 50,
+          "uncertainty": null,
+          "num_runs": 1500,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "relative_error_of_predicted_eigenvalues",
+          "value": 300,
+          "uncertainty": null,
+          "num_runs": 1500,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy_gap_using_predicted_vs_real_eigenvalues",
+          "value": 7.21,
+          "uncertainty": null,
+          "num_runs": 1500,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.901,
+          "uncertainty": null,
+          "num_runs": 1500,
+          "unit": "cosine_similarity",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.96,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "cosine_similarity",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "qpe_qubits",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "qpe_qubits",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "complexity_reduction_cnot",
+          "value": 99.996,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "median_complexity_metrics_asset_3",
+          "value": 13,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "median_complexity_metrics_asset_3",
+          "value": 404800.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "circuit_depth",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "median_complexity_metrics_asset_3",
+          "value": 213200.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "cnot_count",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "median_complexity_metrics_asset_3",
+          "value": 23.94,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "complexity_score",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "basic_hhl",
+          "metric_name": "complexity_reduction",
+          "value": 34.64,
+          "unit": "%"
+        },
+        {
+          "method_name": "qiskit_hhl",
+          "metric_name": "accuracy",
+          "value": null,
+          "unit": "cosine_similarity"
+        },
+        {
+          "method_name": "hybrid_hhl",
+          "metric_name": "accuracy",
+          "value": null,
+          "unit": "cosine_similarity"
+        },
+        {
+          "method_name": "basic_hhl",
+          "metric_name": "num_qubits",
+          "value": 19.77,
+          "unit": "qubits"
+        },
+        {
+          "method_name": "basic_hhl",
+          "metric_name": "num_qubits",
+          "value": 21.0,
+          "unit": "qubits"
+        },
+        {
+          "method_name": "basic_hhl",
+          "metric_name": "num_qubits",
+          "value": 21.88,
+          "unit": "qubits"
+        },
+        {
+          "method_name": "basic_hhl",
+          "metric_name": "num_qubits",
+          "value": 22.37,
+          "unit": "qubits"
+        },
+        {
+          "method_name": "basic_hhl",
+          "metric_name": "num_qubits",
+          "value": 22.75,
+          "unit": "qubits"
+        },
+        {
+          "method_name": "basic_hhl",
+          "metric_name": "circuit_depth",
+          "value": 2148000000.0,
+          "unit": "depth"
+        },
+        {
+          "method_name": "basic_hhl",
+          "metric_name": "cnot_count",
+          "value": 178200000.0,
+          "unit": "count"
+        },
+        {
+          "method_name": "basic_hhl",
+          "metric_name": "cnot_count",
+          "value": 627400000.0,
+          "unit": "count"
+        },
+        {
+          "method_name": "basic_hhl",
+          "metric_name": "cnot_count",
+          "value": 952600000.0,
+          "unit": "count"
+        },
+        {
+          "method_name": "basic_hhl",
+          "metric_name": "cnot_count",
+          "value": 955800000.0,
+          "unit": "count"
+        },
+        {
+          "method_name": "basic_hhl",
+          "metric_name": "complexity_score",
+          "value": 33.82,
+          "unit": "score"
+        },
+        {
+          "method_name": "basic_hhl",
+          "metric_name": "complexity_score",
+          "value": 36.76,
+          "unit": "score"
+        },
+        {
+          "method_name": "basic_hhl",
+          "metric_name": "complexity_score",
+          "value": 38.17,
+          "unit": "score"
+        },
+        {
+          "method_name": "basic_hhl",
+          "metric_name": "complexity_score",
+          "value": 38.94,
+          "unit": "score"
+        },
+        {
+          "method_name": "basic_hhl",
+          "metric_name": "complexity_score",
+          "value": 39.56,
+          "unit": "score"
+        },
+        {
+          "method_name": "qiskit_hhl",
+          "metric_name": "accuracy_improvement_vs_sapo",
+          "value": null,
+          "unit": "x"
+        },
+        {
+          "method_name": "hybrid_hhl",
+          "metric_name": "accuracy_improvement_vs_sapo",
+          "value": null,
+          "unit": "x"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "O(log n · kappa^2 / epsilon)",
+          "baseline_method": "basic HHL",
+          "conditions": "HHL upper-bound complexity for solving the portfolio-optimization linear system",
+          "is_demonstrated": false,
+          "caveats": "This is the asymptotic complexity of HHL cited in the paper; not a measured runtime speedup."
+        },
+        {
+          "type": "empirical",
+          "factor": "34.64%-36.94% lower total complexity",
+          "baseline_method": "basic HHL",
+          "conditions": "2- to 6-asset portfolio optimization; epsilon in {1/16, 1/8, 1/4}",
+          "is_demonstrated": true,
+          "caveats": "Complexity metric combines qubits, log CNOT count, and log circuit depth after compilation."
+        },
+        {
+          "type": "empirical",
+          "factor": "99.996% reduction in CNOT count",
+          "baseline_method": "basic HHL",
+          "conditions": "2-asset portfolio optimization",
+          "is_demonstrated": true,
+          "caveats": "Reported as maximum reduction; depends on scaling-factor technique."
+        },
+        {
+          "type": "empirical",
+          "factor": "1.52x higher accuracy",
+          "baseline_method": "qiskit_hhl",
+          "conditions": "fixed QPE qubit number",
+          "is_demonstrated": true,
+          "caveats": "Average improvement reported in text; accuracy defined as cosine similarity."
+        },
+        {
+          "type": "empirical",
+          "factor": "1.46x higher accuracy",
+          "baseline_method": "hybrid_hhl",
+          "conditions": "fixed QPE qubit number",
+          "is_demonstrated": true,
+          "caveats": "Average improvement reported in text; accuracy defined as cosine similarity."
+        },
+        {
+          "type": "empirical",
+          "factor": "1.28x higher accuracy",
+          "baseline_method": "qiskit_hhl",
+          "conditions": "fixed asset number (5 assets)",
+          "is_demonstrated": true,
+          "caveats": "Average improvement reported in text."
+        },
+        {
+          "type": "empirical",
+          "factor": "1.39x higher accuracy",
+          "baseline_method": "hybrid_hhl",
+          "conditions": "fixed asset number (5 assets)",
+          "is_demonstrated": true,
+          "caveats": "Average improvement reported in text."
+        },
+        {
+          "type": "empirical",
+          "factor": "1.74x-1.96x accuracy improvement",
+          "baseline_method": "SAPO without scaling factor",
+          "conditions": "5-qubit QPE module",
+          "is_demonstrated": true,
+          "caveats": "Reported in ablation study; range given in text."
+        },
+        {
+          "type": "empirical",
+          "factor": "1.10x-1.96x accuracy improvement",
+          "baseline_method": "SAPO without scaling factor",
+          "conditions": "5-asset portfolio optimization",
+          "is_demonstrated": true,
+          "caveats": "Reported in ablation study; range given in text."
+        },
+        {
+          "type": "empirical",
+          "factor": "1.21x-1.54x accuracy improvement",
+          "baseline_method": "SAPO without eigenvalue predictor",
+          "conditions": "fixed qubit number",
+          "is_demonstrated": true,
+          "caveats": "Reported in ablation study; range given in text."
+        },
+        {
+          "type": "empirical",
+          "factor": "1.05x-1.37x accuracy improvement",
+          "baseline_method": "SAPO without eigenvalue predictor",
+          "conditions": "fixed asset number",
+          "is_demonstrated": true,
+          "caveats": "Reported in ablation study; range given in text."
+        },
+        {
+          "type": "empirical",
+          "factor": "at least 98.59% reduction in condition number",
+          "baseline_method": "unscaled Lagrange matrix",
+          "conditions": "fixed scaling factor on dataset",
+          "is_demonstrated": true,
+          "caveats": "Reported as minimum reduction achieved by the scaling factor."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 2,
+          "num_qubits": null,
+          "metric_name": "num_qubits",
+          "metric_value": 11.8
+        },
+        {
+          "problem_size": 2,
+          "num_qubits": null,
+          "metric_name": "circuit_depth",
+          "metric_value": 42020.0
+        },
+        {
+          "problem_size": 2,
+          "num_qubits": null,
+          "metric_name": "cnot_count",
+          "metric_value": 1123000000.0
+        },
+        {
+          "problem_size": 2,
+          "num_qubits": null,
+          "metric_name": "complexity_score",
+          "metric_value": 21.05
+        },
+        {
+          "problem_size": 3,
+          "num_qubits": null,
+          "metric_name": "num_qubits",
+          "metric_value": 13.87
+        },
+        {
+          "problem_size": 3,
+          "num_qubits": null,
+          "metric_name": "circuit_depth",
+          "metric_value": 13280000.0
+        },
+        {
+          "problem_size": 3,
+          "num_qubits": null,
+          "metric_name": "cnot_count",
+          "metric_value": 93810000.0
+        },
+        {
+          "problem_size": 3,
+          "num_qubits": null,
+          "metric_name": "complexity_score",
+          "metric_value": 25.32
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": null,
+          "metric_name": "num_qubits",
+          "metric_value": 13.23
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": null,
+          "metric_name": "circuit_depth",
+          "metric_value": 339900.0
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": null,
+          "metric_name": "cnot_count",
+          "metric_value": 330400000.0
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": null,
+          "metric_name": "complexity_score",
+          "metric_value": 24.3
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": null,
+          "metric_name": "num_qubits",
+          "metric_value": 13.21
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": null,
+          "metric_name": "circuit_depth",
+          "metric_value": 371900.0
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": null,
+          "metric_name": "cnot_count",
+          "metric_value": 354900.0
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": null,
+          "metric_name": "complexity_score",
+          "metric_value": 24.27
+        },
+        {
+          "problem_size": 6,
+          "num_qubits": null,
+          "metric_name": "num_qubits",
+          "metric_value": 13.42
+        },
+        {
+          "problem_size": 6,
+          "num_qubits": null,
+          "metric_name": "circuit_depth",
+          "metric_value": 354900.0
+        },
+        {
+          "problem_size": 6,
+          "num_qubits": null,
+          "metric_name": "cnot_count",
+          "metric_value": 354900.0
+        },
+        {
+          "problem_size": 6,
+          "num_qubits": null,
+          "metric_name": "complexity_score",
+          "metric_value": 24.61
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(log n · kappa^2 / epsilon) for HHL",
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not_reported",
+        "resources_for_advantage": "Not provided; experiments only simulate circuits for 2–6 asset problems and report compiled resource estimates.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Experiments are simulation-based only with no QPU execution",
+          "Problem sizes extremely small (2–6 assets)",
+          "No comparison against best classical portfolio optimization solvers",
+          "HHL complexity depends on condition number and state preparation which may remove practical advantage",
+          "Large circuit depth and CNOT counts even for tiny instances"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_other because the paper states implementation in Qiskit and reports compiled resource counts, but no real QPU/device execution is described.",
+          "The paper compares against classical preprocessing and classical eigenvalue prediction models, but these are not separate quantum experiments.",
+          "Table IV reports resource counts after compilation; exact simulator backend is not named.",
+          "The paper mentions theoretical quantum speedups of HHL but does not experimentally compare against classical solvers for runtime or scaling.",
+          "Experiments only compare variants of HHL (SAPO vs Qiskit HHL vs hybrid HHL)."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

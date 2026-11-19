@@ -1,0 +1,379 @@
+{
+  "paper_id": "74c6ac2ca350",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:59:08+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "74c6ac2ca350_solving_general_qubos_with_warm_start_qaoa_via_a_reduction_to_max_cut.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.75,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 3,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[8].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='instances' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.75,
+      "completeness": 0.75,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.75
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Solving General QUBOs with Warm-Start QAOA via a Reduction to Max-Cut",
+    "authors": [
+      "Bikrant Bhattacharyya",
+      "Michael Capriotti",
+      "Reuben Tate"
+    ],
+    "year": 2025,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "portfolio-optimization",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper studies warm‑start strategies for QAOA on 16‑variable QUBO problems (mapped to 17‑qubit Max‑Cut instances) and evaluates depths p=0–5 on simulated circuits. Across 1000 synthetic instances per problem type, the Goemans‑Williamson 2‑D warm‑start (GW2) generally achieved the best approximation ratios and sampling probabilities compared with BM2/BM3 and QUBO‑relaxed warm‑starts. Experiments are performed entirely in a noiseless custom simulator and do not include comparisons with classical optimization algorithms.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Warm-start QAOA for general QUBOs via reduction to Max-Cut, benchmarked on random QUBOs, TSP, portfolio optimization, and MIS instances using several warm-start constructions (GW2, GW3, BM2, BM3, and QUBO-relaxed) across depths p=0..5.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "Warm-start QAOA with custom mixers / warm-start initial states; QUBO-to-Max-Cut reduction for GW/BM warm-starts",
+        "ansatz": "QAOA with custom separable mixer Hamiltonian",
+        "optimizer": "COBYLA",
+        "num_layers": 5,
+        "convergence_criteria": "fixed-depth evaluation for p=0..5; for each circuit, QAOA optimization loop run 10 times and best result selected",
+        "hyperparameters": {
+          "p_values": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "warmstarts": [
+            "No warmstart",
+            "BM2",
+            "BM3",
+            "GW2",
+            "GW3",
+            "QUBO-relaxed"
+          ],
+          "vertex_at_top_rotations": [
+            "First",
+            "Last",
+            "None"
+          ],
+          "QUBO_relaxed_initializations": [
+            10,
+            50
+          ],
+          "QUBO_relaxed_epsilon": 0.1,
+          "BM_eta": 0.05,
+          "GW_bases_sampled": 50,
+          "QAOA_optimization_restarts": 10
+        },
+        "parameter_initialization": "For p=1, parameters drawn uniformly; for p>1, 9 of 10 initializations drawn uniformly and 1 initialized from best parameters at depth p-1",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "QUBO",
+        "encoding_details": "Binary variables encoded directly into QAOA cost Hamiltonian; for GW/BM warm-starts, QUBO is reduced to a Max-Cut instance with one auxiliary variable/qubit",
+        "objective_function": "Maximize x^T Q x for QUBO; equivalent Max-Cut/Ising formulation used for GW/BM warm-starts",
+        "constraints_handling": "Penalty terms for TSP and MIS; portfolio optimization uses budget penalty; QUBO-relaxed warm-start uses continuous relaxation over [0,1]^n",
+        "num_binary_variables": 16,
+        "problem_hamiltonian": "H_Q^Q = sum_{i,j} Q_ij ((1-Z_i)/2)((1-Z_i)/2); H_A^M = -(1/4) sum_{i,j} A_ij Z_i Z_j",
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "Benchmark suite of 16-variable QUBOs: random continuous and discrete QUBOs, 5-city TSP, 16-asset portfolio optimization, MIS on Erdős–Rényi and Newman–Watts–Strogatz graphs",
+        "num_assets": 16,
+        "time_steps": 250,
+        "num_features": null,
+        "dataset_size": 1000,
+        "data_type": "synthetic",
+        "dataset_name": "Synthetic random QUBOs; synthetic TSP; synthetic portfolio optimization; synthetic MIS graphs",
+        "dataset_specification": {
+          "description": "Random QUBOs sampled from uniform [-1,1] or {−1,1}; TSP on 5 random points in [-1,1]^2; portfolio prices from geometric Brownian motion with n=16 assets and N=250 time steps; MIS on GNP (n=16,p=0.25) and NWS (n=16,k=3,p=0.5) graphs"
+        },
+        "data_preprocessing_details": "TSP uses rotational symmetry breaking by fixing x_0=1; portfolio uses covariance and mean returns from simulated prices; MIS uses penalty c=1.1; TSP penalty lambda=1.1 max(A_ij); portfolio lambda=sum(|Sigma|)+sum(|mu|)",
+        "evaluation_methodology": "1000 instances generated per problem type; 10 selected for depth p=1..5; metrics averaged with shaded regions of ±0.25 standard deviations; QAOA optimization repeated 10 times per circuit and best cost selected"
+      },
+      "quantum_resources": {
+        "num_qubits": 16,
+        "qubit_type": "logical",
+        "circuit_depth": 0,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "custom QAOA simulator",
+        "framework_version": null,
+        "transpilation_target": null
+      },
+      "noise_model": {
+        "noise_model": "noiseless_statevector_simulation",
+        "noise_parameters": null,
+        "mitigation_details": null,
+        "is_noisy": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/cc3-lanl/QUBO-to-MaxCut",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "L-BFGS-B for QUBO-relaxed warm-start; COBYLA for QAOA parameter optimization",
+        "transpilation_settings": null,
+        "classical_preprocessing": "QUBO-to-Max-Cut reduction; SDP/BM relaxations; random basis sampling for GWk; local optimization for QUBO-relaxed warm-start",
+        "classical_postprocessing": "Map Max-Cut solution back to QUBO variables; compute approximation ratio and optimal sampling probability",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": 10.0,
+          "num_independent_runs": 10
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.9987,
+          "uncertainty": "±0.0052",
+          "num_runs": 1000,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "ground_state_probability",
+          "value": 0.9099,
+          "uncertainty": "±0.2421",
+          "num_runs": 1000,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.9993,
+          "uncertainty": "±0.2266",
+          "num_runs": 1000,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "ground_state_probability",
+          "value": 0.9215,
+          "uncertainty": "±0.2266",
+          "num_runs": 1000,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.9645,
+          "uncertainty": "±0.0241",
+          "num_runs": 1000,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "ground_state_probability",
+          "value": 0.2405,
+          "uncertainty": "±0.3278",
+          "num_runs": 1000,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.955,
+          "uncertainty": "±0.0201",
+          "num_runs": 1000,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "ground_state_probability",
+          "value": 0.106,
+          "uncertainty": "±0.2090",
+          "num_runs": 1000,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 16,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 17,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 1000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "instances",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "qaoa_depth",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The paper reports empirical comparisons between warm-start strategies for QAOA only; it does not claim or demonstrate a classical speedup over a specific classical optimization baseline."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 16,
+          "num_qubits": 17,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.9987
+        },
+        {
+          "problem_size": 16,
+          "num_qubits": 17,
+          "metric_name": "ground_state_probability",
+          "metric_value": 0.9099
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "Not characterized asymptotically; QAOA depth p considered",
+        "classical_complexity": "Not characterized asymptotically; QUBO-relaxed can be NP-hard for arbitrary Q, convex in special cases",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Not analyzed; experiments run only on simulated circuits with 16–17 qubits and depth p≤5.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Only noiseless simulations",
+          "Problem size limited to 16 binary variables",
+          "No comparison against state‑of‑the‑art classical optimization algorithms",
+          "No complexity analysis or asymptotic speedup claims",
+          "Performance differences measured only between warm‑start heuristics within QAOA"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "num_qubits inferred as 17 because the paper states each 16-variable QUBO maps to a 17-vertex corresponding graph via one auxiliary qubit.",
+          "hardware.type inferred as simulator_other because the paper says all simulations were computed with a custom QAOA simulator and no real QPU is named.",
+          "speedup_order is none_proven because the paper reports empirical comparisons only and no asymptotic quantum advantage claim.",
+          "The authors do not claim quantum advantage; they compare different warm‑start strategies for QAOA.",
+          "All results are simulation-based and involve small toy instances (16 variables)."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

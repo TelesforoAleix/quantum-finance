@@ -1,0 +1,935 @@
+{
+  "paper_id": "69a4901976a9",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:56:19+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "69a4901976a9_generative_quantum_learning_of_joint_probability_distribution_functions.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 1.0,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 6,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[1].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='learning_rate' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='fraction per two_qubit_gate' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[0].unit='sizes' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[7].unit='datasets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[8].unit='sets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 1.0,
+      "completeness": 1.0,
+      "num_experiments": 2,
+      "experiment_scores": [
+        1.0,
+        1.0
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Generative quantum learning of joint probability distribution functions",
+    "authors": [
+      "Elton Yechao Zhu",
+      "Sonika Johri",
+      "Dave Bacon",
+      "Mert Esencan",
+      "Jungsang Kim",
+      "Mark Muir",
+      "Nikhil Murgai",
+      "Jason Nguyen",
+      "Neal Pisenti",
+      "Adam Schouela",
+      "Ksenia Sosnova",
+      "Ken Wright"
+    ],
+    "year": 2022,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper demonstrates quantum generative modeling of a two-variable financial dataset (AAPL/MSFT daily returns) using QGAN and QCBM circuits with up to 6 qubits (QGAN) and 8 qubits (QCBM) on IonQ trapped-ion hardware. The QGAN achieved DKS ≈ 0.0352 with p-value ≈ 0.357 on hardware, comparable to classical GAN and Gaussian copula baselines. Training required ~1000 iterations and up to two weeks of cloud QPU runtime for the QGAN experiment.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "QGAN-based generative learning of the joint distribution of AAPL and MSFT daily returns in copula space, trained on simulator and IonQ trapped-ion hardware.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "quantum generative adversarial network (QGAN) with qopula ansatz",
+        "ansatz": "qopula circuit: Bell-pair entangling layer followed by local single-qubit RZ/RX rotations and RXX entanglers",
+        "optimizer": "SPSA for quantum generator; stochastic gradient descent with adaptive optimizer (e.g., Adam) for classical discriminator (exact optimizer not explicitly specified)",
+        "num_layers": 1,
+        "convergence_criteria": "trained for 1000 iterations",
+        "hyperparameters": {
+          "generator_qubits": 6,
+          "generator_trainable_parameters": 24,
+          "discriminator_hidden_layer_size": 32,
+          "discriminator_input_dimension": 2,
+          "discriminator_output_dimension": 1,
+          "batch_size": 2048,
+          "spsa_a": 0.008,
+          "spsa_c": 0.01,
+          "spsa_niter": 5,
+          "spsa_gamma": 0.101,
+          "discriminator_learning_rate": 0.0015,
+          "measurement_random_bits_appended": 40,
+          "training_iterations": 1000
+        },
+        "parameter_initialization": "random initialization with same seed for simulator and experiment; parameters uniformly random from [0, 2π] for simulator runs",
+        "optimizer_settings": {
+          "max_iterations": 1000,
+          "step_size": "a/k and c/k^gamma for SPSA",
+          "learning_rate_schedule": "ak=a/k, ck=c/k^gamma",
+          "parameter_bounds": "[0, 2π] for random initialization"
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "daily returns transformed to copula space via probability integral transform; 3 qubits per variable used to represent discretized copula samples, with additional 40 random bits appended after measurement to reduce discretization artifacts",
+        "objective_function": "minimize binary cross-entropy loss between generated and real samples in copula space via adversarial training",
+        "constraints_handling": "uniform marginals enforced by copula transform; no explicit penalty terms",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Learning the joint distribution of two stock returns (AAPL and MSFT) from historical market data",
+        "num_assets": 2,
+        "time_steps": 2010,
+        "num_features": 2,
+        "dataset_size": null,
+        "data_type": "real_market",
+        "dataset_name": "AAPL/MSFT daily returns",
+        "dataset_specification": {
+          "description": "AAPL and MSFT close-price daily returns from 2010–2018; transformed to copula space"
+        },
+        "data_preprocessing_details": "daily returns computed as percentage change of close prices; probability integral transform applied to map to uniform marginals; synthetic samples mapped back to original space via inverse transform",
+        "evaluation_methodology": "2D Kolmogorov–Smirnov test comparing generated samples with bootstrapped training data; 2048 samples used for QGAN and classical GAN; p-values and DKS reported in Table I"
+      },
+      "quantum_resources": {
+        "num_qubits": 6,
+        "qubit_type": "physical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 2048,
+        "num_variational_params": 24,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_trapped_ion",
+        "provider": "IonQ",
+        "device_name": "IonQ cloud QPU",
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "depolarizing noise up to 4% after each two-qubit gate; hardware noise on IonQ cloud QPU",
+        "error_mitigation_method": null,
+        "noise_parameters": {
+          "depolarizing_noise_rate": "up to 4% per two-qubit gate"
+        },
+        "mitigation_details": "comparison against mixed-state noisy simulator; no explicit mitigation"
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "copula transform of returns; random bits appended to measurement outputs",
+        "classical_postprocessing": "inverse probability integral transform back to return space; 2D KS test evaluation",
+        "total_execution_time": "approximately 2 weeks for QGAN experiment on cloud QPU",
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 250,
+          "final_loss_value": null,
+          "loss_curve_shape": "generator and discriminator losses diverge then converge; stable after convergence",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "training_iterations",
+          "value": 1000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "generator_trainable_parameters",
+          "value": 24,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "generator_qubits",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "batch_size",
+          "value": 2048,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "spsa_a",
+          "value": 0.008,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "spsa_c",
+          "value": 0.01,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "spsa_niter",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "spsa_gamma",
+          "value": 0.101,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "discriminator_learning_rate",
+          "value": 0.0015,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "learning_rate",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "measurement_random_bits_appended",
+          "value": 40,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "bits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "iterations_to_converge",
+          "value": 250,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "iterations_to_converge",
+          "value": 400,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "depolarizing_noise_rate",
+          "value": 0.04,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "fraction per two_qubit_gate",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "ks_statistic",
+          "value": 0.0352,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "p_value",
+          "value": 0.357,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 1209600,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 360,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 240,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical_gan",
+          "metric_name": "training_iterations",
+          "value": 20000,
+          "unit": "iterations"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "training_time",
+          "value": 360,
+          "unit": "seconds"
+        },
+        {
+          "method_name": "parametric_gaussian_copula_model",
+          "metric_name": "ks_statistic",
+          "value": 0.0449,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "parametric_gaussian_copula_model",
+          "metric_name": "p_value",
+          "value": 0.117,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "ks_statistic",
+          "value": 0.0363,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "ks_statistic",
+          "value": 0.0508,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "p_value",
+          "value": 0.053,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "p_value",
+          "value": 0.309,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "20-1000x fewer iterations to converge",
+          "baseline_method": "classical_gan",
+          "conditions": "reported for the QGAN training on the AAPL/MSFT copula task; compared against equivalent classical models",
+          "is_demonstrated": true,
+          "caveats": "The paper states this as an observed result; exact iteration counts for the classical GAN convergence on the same benchmark are not fully detailed beyond 20000 training iterations in the comparison discussion."
+        },
+        {
+          "type": "empirical",
+          "factor": "better stability / resilience against noise",
+          "baseline_method": "classical_gan",
+          "conditions": "IonQ cloud QPU and noisy simulator with up to 4% depolarizing noise after each two-qubit gate",
+          "is_demonstrated": true,
+          "caveats": "This is qualitative rather than a numeric speedup."
+        },
+        {
+          "type": "theoretical",
+          "factor": "potential exponential advantage for some joint distributions",
+          "baseline_method": "classical sampling / classical neural networks",
+          "conditions": "for qopula circuits under complexity-theoretic assumptions (PH does not collapse to level 3)",
+          "is_demonstrated": false,
+          "caveats": "This is a complexity-theoretic argument, not a benchmark-specific demonstrated speedup."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 2.0,
+          "num_qubits": 6,
+          "metric_name": "ks_statistic",
+          "metric_value": 0.0352
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": 6,
+          "metric_name": "p_value",
+          "metric_value": 0.357
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": 6,
+          "metric_name": "iterations_to_converge",
+          "metric_value": 400
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "claimed advantage from shallow circuits; no explicit asymptotic runtime for QGAN training",
+        "classical_complexity": "not explicitly quantified for QGAN training; classical GAN training reported as 20000 iterations in comparison",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": "about 2 weeks",
+        "wall_clock_classical": "about 6 minutes for classical GAN on CPU-only machine"
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": null,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "Not established; authors speculate usefulness around ~50 qubits for practical datasets",
+        "resources_for_advantage": "Authors estimate ~5–10 qubits per variable and ~10–100 variables (≈50+ qubits total) may enable practical applications",
+        "data_loading_bottleneck": false,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Only 6 qubits used in experiment",
+          "Generative task evaluated on a 2-variable dataset",
+          "Classical GAN and Gaussian copula perform similarly",
+          "Quantum runtime extremely slow (≈2 weeks via cloud access)",
+          "No asymptotic speedup demonstrated for the practical learning task"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "circuit_depth not explicitly stated for QGAN; one ansatz layer is reported, but total depth is not given.",
+          "hardware.type reported from IonQ cloud QPU experiments.",
+          "speedup_order set to none_proven because the paper argues advantage but does not provide a fully established asymptotic speedup for the specific QGAN experiment.",
+          "Authors claim theoretical computational advantage based on IQP-style arguments and communication complexity.",
+          "However, the experimental results only show comparable performance to classical baselines on a very small dataset."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "QCBM-based generative learning of the same AAPL/MSFT copula distribution, evaluated on simulator, IonQ cloud QPU, and IonQ next-generation QPU across 2, 4, 6, and 8 qubits.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "quantum circuit born machine (QCBM) with qopula-inspired ansatz",
+        "ansatz": "one-layer qopula ansatz with local RZ/RX rotations and RXX entanglers; Bell/GHZ-style entangling initialization",
+        "optimizer": "SPSA",
+        "num_layers": 1,
+        "convergence_criteria": "200 iterations for experiments; minimum cost often found within 20 iterations for a=c=0.5",
+        "hyperparameters": {
+          "qubit_sizes": [
+            2,
+            4,
+            6,
+            8
+          ],
+          "ansatz_layers": 1,
+          "training_iterations": 200,
+          "spsa_a": 0.5,
+          "spsa_c": 0.5,
+          "alternative_spsa_a": 0.1,
+          "alternative_spsa_c": 0.1,
+          "shots_per_circuit": 500,
+          "datasets_generated_for_evaluation": 5,
+          "random_bit_averaging_sets": 20
+        },
+        "parameter_initialization": "initialized with optimal angles from previous smaller system size (transfer learning)",
+        "optimizer_settings": {
+          "max_iterations": 200,
+          "step_size": "a/k and c/k^gamma for SPSA",
+          "learning_rate_schedule": "not explicitly stated beyond SPSA schedule",
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "copula-space samples discretized into 2^(Nq/2) bins; measured bitstrings mapped back to [0,1] via linear transform and random-bit padding",
+        "objective_function": "minimize KL divergence between target discrete copula distribution p and circuit output distribution q",
+        "constraints_handling": "uniform marginals enforced by copula transform; clipped KL with pi,j floored at 1e-6",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Learning the joint distribution of AAPL and MSFT daily returns in copula space using a Born machine",
+        "num_assets": 2,
+        "time_steps": 2010,
+        "num_features": 2,
+        "dataset_size": null,
+        "data_type": "real_market",
+        "dataset_name": "AAPL/MSFT daily returns",
+        "dataset_specification": {
+          "description": "same AAPL/MSFT dataset as QGAN; evaluated for 2, 4, 6, and 8 qubits"
+        },
+        "data_preprocessing_details": "probability integral transform to copula space; binning into 2^(Nq/2) bins; inverse transform for visualization",
+        "evaluation_methodology": "training on simulator, IonQ cloud QPU, and IonQ next-generation QPU; average of 10 minimum cost values; 2D KS test and DKS/p-values reported"
+      },
+      "quantum_resources": {
+        "num_qubits": 2,
+        "qubit_type": "physical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 500,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_trapped_ion",
+        "provider": "IonQ",
+        "device_name": "IonQ cloud QPU; IonQ next-generation QPU",
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "hardware noise on trapped-ion QPUs; noisy behavior discussed qualitatively",
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": "no explicit mitigation; noisy hardware sometimes improved early optimization",
+        "classical_preprocessing": "copula transform and binning",
+        "classical_postprocessing": "random-bit padding and inverse transform for visualization",
+        "total_execution_time": "approximately 5 hours on next-generation QPU; about 9 hours on cloud system for 6-qubit case",
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": "within 20 iterations for a=c=0.5; slower convergence shown for a=c=0.1",
+          "final_loss_value": null,
+          "loss_curve_shape": "cost decreases with iterations; noisier for larger qubit counts",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        }
+      },
+      "implementation_details": {
+        "total_execution_time": "approximately 5 hours for 6-qubit training on next-generation QPU and approximately 9 hours on IonQ cloud system (200 iterations)",
+        "code_available": null,
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "qubit_sizes_tested",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "sizes",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_iterations",
+          "value": 200,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "spsa_a",
+          "value": 0.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "spsa_c",
+          "value": 0.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "alternative_spsa_a",
+          "value": 0.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "alternative_spsa_c",
+          "value": 0.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots_per_circuit",
+          "value": 500,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "datasets_generated_for_evaluation",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "datasets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "random_bit_averaging_sets",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "sets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "minimum_cost_found_within_iterations",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "ks_statistic",
+          "value": 0.033,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "ks_statistic",
+          "value": 0.0515,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "p_value",
+          "value": 0.0578,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "p_value",
+          "value": 0.4465,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 18000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 32400,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 7200,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical_gan",
+          "metric_name": "training_iterations",
+          "value": 20000,
+          "unit": "iterations"
+        },
+        {
+          "method_name": "gaussian_copula_parametric_model",
+          "metric_name": "ks_statistic",
+          "value": 0.0449,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "gaussian_copula_parametric_model",
+          "metric_name": "p_value",
+          "value": 0.117,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "ks_statistic",
+          "value": 0.0363,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "ks_statistic",
+          "value": 0.0508,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "p_value",
+          "value": 0.053,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_gan",
+          "metric_name": "p_value",
+          "value": 0.309,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "fewer iterations than classical GAN",
+          "baseline_method": "classical_gan",
+          "conditions": "QCBM training on AAPL/MSFT copula data; minimum cost often found within 20 iterations for a=c=0.5",
+          "is_demonstrated": true,
+          "caveats": "The paper does not provide a single exact classical iteration count for the same QCBM objective; the comparison is qualitative and based on the reported 20000 classical GAN iterations in the broader discussion."
+        },
+        {
+          "type": "theoretical",
+          "factor": "potential exponential advantage for some distributions",
+          "baseline_method": "classical sampling / shallow classical circuits",
+          "conditions": "complexity-theoretic arguments for qopula circuits and related shallow-circuit separations",
+          "is_demonstrated": false,
+          "caveats": "This is not a benchmark-specific measured speedup."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 2.0,
+          "num_qubits": 2,
+          "metric_name": "ks_statistic",
+          "metric_value": 0.033
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": 2,
+          "metric_name": "p_value",
+          "metric_value": 0.4465
+        },
+        {
+          "problem_size": 4.0,
+          "num_qubits": 4,
+          "metric_name": "ks_statistic",
+          "metric_value": 0.0515
+        },
+        {
+          "problem_size": 4.0,
+          "num_qubits": 4,
+          "metric_name": "p_value",
+          "metric_value": 0.0578
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 6,
+          "metric_name": "ks_statistic",
+          "metric_value": 0.0373
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 6,
+          "metric_name": "p_value",
+          "metric_value": 0.303
+        },
+        {
+          "problem_size": 8.0,
+          "num_qubits": 8,
+          "metric_name": "ks_statistic",
+          "metric_value": 0.051
+        },
+        {
+          "problem_size": 8.0,
+          "num_qubits": 8,
+          "metric_name": "p_value",
+          "metric_value": 0.0578
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "no explicit asymptotic runtime; paper argues shallow-circuit advantage and better scaling than classical for some distributions",
+        "classical_complexity": "not explicitly quantified for QCBM; classical comparison via GAN and parametric Gaussian copula",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": "about 5 hours (next-gen QPU, 6 qubits, 200 iterations)",
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": null,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "Not determined",
+        "resources_for_advantage": "Likely requires tens of qubits per variable and larger datasets to test expressivity advantages",
+        "data_loading_bottleneck": false,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Experiments limited to ≤8 qubits",
+          "Only two-dimensional dataset modeled",
+          "Shot noise and hardware noise affect training",
+          "No scaling comparison against classical generative models at larger dimension",
+          "Advantage arguments rely on worst-case circuit complexity rather than demonstrated learning performance"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "num_qubits recorded as the maximum tested size (8 qubits) because the experiment spans 2, 4, 6, and 8 qubits.",
+          "circuit_depth not explicitly stated; one ansatz layer is reported.",
+          "speedup_order set to none_proven because the paper provides theoretical advantage arguments but not a fully quantified asymptotic speedup for the specific benchmark.",
+          "The paper argues theoretical advantage via circuit complexity and entanglement expressivity.",
+          "Empirical results show similar performance to classical GAN but do not demonstrate superior scaling."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

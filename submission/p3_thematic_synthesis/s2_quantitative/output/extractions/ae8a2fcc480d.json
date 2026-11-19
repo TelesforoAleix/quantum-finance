@@ -1,0 +1,773 @@
+{
+  "paper_id": "ae8a2fcc480d",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:33:01+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "ae8a2fcc480d_improved_approximation_algorithms_for_bounded_degree_local_hamiltonians.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.25,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 15,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='additive energy lower bound' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='additive energy lower bound; locally optimal product states' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='approximation ratio' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='additive energy lower bound; quantum Max-Cut specialization' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='expectation over edges' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[0].unit='additive energy lower bound' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[1].unit='explicit bound from proof' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[3].unit='qubits in maximum lightcone' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[4].unit='gap' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[0].unit='expected additive energy lower bound' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[1].unit='expected additive energy lower bound; triangle-free graphs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[2].unit='sum of squared non-identity two-qubit Pauli coefficients' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[3].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[4].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.25,
+      "completeness": 0.25,
+      "num_experiments": 3,
+      "experiment_scores": [
+        0.283,
+        0.183,
+        0.283
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Improved approximation algorithms for bounded-degree local Hamiltonians",
+    "authors": [
+      "Anurag Anshu",
+      "David Gosset",
+      "Karen J. Morenz Korol",
+      "Mehdi Soleimanifar"
+    ],
+    "year": 2021,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "simulation-monte-carlo",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proves that for bounded‑degree 2‑local Hamiltonians, applying a shallow quantum circuit of depth (d+1) to a product state can increase the expected energy by Ω(Var(H)^2/(d^2|E|)), improving approximation ratios for problems such as quantum Max‑Cut. Additional results extend the bound to bounded‑depth input states with improvement Ω(Var(H)^2/(ℓ^10 d^2 |E|)) and show that random product states can be improved by Ω(quad(H)^2/(d|E|)) (or Ω(quad(H)/√d) on triangle‑free graphs). All contributions are analytical with no experimental benchmarking.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Theoretical gate-based shallow-circuit improvement algorithm for approximating the ground-state energy of bounded-degree 2-local Hamiltonians, including the product-state case and its specialization to quantum Max-Cut / local Hamiltonian instances.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Shallow commuting-gate circuit improvement over a product state; includes level-1 QAOA as a special case",
+        "ansatz": "V(θ⃗)=∏_{ {i,j}∈E } e^{i θ_{ij} P_i P_j}",
+        "optimizer": "efficient classical parameter selection (no named optimizer)",
+        "num_layers": 1,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "edge_parameters": "θ_{ij} for each edge",
+          "operator_choice": "P_i single-qubit operators with ⟨v_i|P_i|v_i⟩=0",
+          "degree_d": "maximum graph degree d",
+          "locality": "2-local Hamiltonian"
+        },
+        "parameter_initialization": "θ_{ij}=θ·sign(-i⟨v|[P_iP_j,h_{ij}]|v⟩) with θ chosen analytically",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "other",
+        "encoding_details": "No explicit binary/QUBO encoding; local Hamiltonian on a bounded-degree graph with product-state input",
+        "objective_function": "Maximize ⟨ψ|H|ψ⟩ as an approximation to λ_max(H) (equivalently approximate ground energy via sign flip)",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": "H=∑_{ {i,j}∈E } h_{ij}, with ∥h_{ij}∥≤1; includes quantum Max-Cut as a special case",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Bounded-degree 2-local Hamiltonians on d-regular graphs; special discussion of quantum Max-Cut and random product-state improvement",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Graph/Hamiltonian instances are theoretical; no empirical dataset"
+        },
+        "data_preprocessing_details": "Work in a local basis where the input product state is |0^n⟩",
+        "evaluation_methodology": "Theoretical approximation-ratio and energy-improvement bounds; no numerical benchmarking"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": 1,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "efficient classical algorithm to choose parameters θ⃗",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Choose local basis for the product state; select Pauli operators P_i",
+        "classical_postprocessing": null,
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": null,
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "energy_improvement",
+          "value": "Ω(Var_v(H)^2/(d^2|E|))",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "additive energy lower bound",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "energy_improvement",
+          "value": "Ω(Var_v(H)^2/(d|E|))",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "additive energy lower bound; locally optimal product states",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "approximation_ratio_improvement",
+          "value": "r + Ω(r^4/d)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "approximation ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "energy_improvement",
+          "value": "Ω(⟨v|H|v⟩^4/(d|E|^3))",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "additive energy lower bound; quantum Max-Cut specialization",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": "d+1",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "alpha_parameter",
+          "value": "α = E_{ {i,j}∈E } |⟨v_i,v_j|[P_iP_j,h_{ij}]|v_i,v_j⟩|",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "expectation over edges",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "product-state optimization baseline",
+          "metric_name": "energy_improvement",
+          "value": "0 additional improvement in the classical/diagonal case when Var_v(H)=0",
+          "unit": "additive energy lower bound"
+        },
+        {
+          "method_name": "random product state / level-1 QAOA special case",
+          "metric_name": "approximation_ratio_improvement",
+          "value": "r + Ω(r^4/d)",
+          "unit": "approximation ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "additive improvement Ω(Var_v(H)^2/(d^2|E|)) over a product state",
+          "baseline_method": "product state",
+          "conditions": "bounded-degree 2-local Hamiltonians; input state is a product state; variance condition Var_v(H)=Ω(|E|) for meaningful constant additive gain",
+          "is_demonstrated": true,
+          "caveats": "No empirical benchmark; improvement is a rigorous lower bound, not a measured runtime speedup."
+        },
+        {
+          "type": "theoretical",
+          "factor": "stronger additive improvement Ω(Var_v(H)^2/(d|E|))",
+          "baseline_method": "locally optimal product state",
+          "conditions": "when the input product state is locally optimal for H",
+          "is_demonstrated": true,
+          "caveats": "Special-case bound; still theoretical."
+        },
+        {
+          "type": "theoretical",
+          "factor": "approximation ratio improves by Ω(r^4/d)",
+          "baseline_method": "product-state approximation for quantum Max-Cut",
+          "conditions": "quantum Max-Cut Hamiltonian; initial approximation ratio r",
+          "is_demonstrated": true,
+          "caveats": "Derived from the energy-improvement theorem; not an experimental speedup."
+        }
+      ],
+      "scalability_data": [],
+      "complexity_analysis": {
+        "quantum_complexity": "Efficient classical selection of parameters plus depth-(d+1) circuit application; improvement scales as Ω(Var(H)^2/(d^2|E|))",
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L0_theory",
+        "crossover_size": "not provided",
+        "resources_for_advantage": "Unknown; would require implementing depth-(d+1) circuits on n-qubit Hamiltonian instances with variance scaling Var(H)=Ω(|E|)",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Purely analytical result with no numerical experiments",
+          "No comparison against concrete classical solvers on actual instances",
+          "Circuit depth scales with graph degree d",
+          "No resource estimates for practical Hamiltonian sizes"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": null,
+        "notes": [
+          "No physical hardware or runtime experiment is reported; this is a theoretical algorithmic result.",
+          "num_qubits is not explicitly stated as a circuit register size; inferred as n qubits from the n-qubit Hamiltonian/state setting.",
+          "The paper proves theoretical approximation-ratio improvements but does not claim or demonstrate empirical quantum advantage over classical algorithms."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Theoretical extension of the shallow-circuit improvement method to bounded-depth input states with limited lightcone size.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Improvement of bounded-depth states via a shallow circuit U=e^{iAθ} with A=i[H,F]",
+        "ansatz": "U=e^{iAθ}",
+        "optimizer": "analytic choice of θ",
+        "num_layers": 1,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "lightcone_size": "ℓ",
+          "graph_degree": "d",
+          "locality": "2-local Hamiltonian",
+          "spectral_gap": "γ (for the gapped-parent-Hamiltonian extension)"
+        },
+        "parameter_initialization": "θ chosen analytically as Var(H)/(2^10 d^2 ℓ^10 |E|) in the proof",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "other",
+        "encoding_details": "Input state is prepared by a bounded-depth circuit W; no explicit encoding of a combinatorial problem",
+        "objective_function": "Increase ⟨v|H|v⟩ for |v⟩=W|0^n⟩",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": "Same 2-local bounded-degree Hamiltonian H=∑_e h_e",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Bounded-depth quantum states on bounded-degree graphs; extension to unique ground states of gapped local Hamiltonians",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Theoretical family of states/Hamiltonians"
+        },
+        "data_preprocessing_details": "Define F=∑_j W|1⟩⟨1|_j W† and work with the lightcone structure of W",
+        "evaluation_methodology": "Theoretical energy-improvement bound"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "analytic proof-based parameter choice",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Construct F from the input circuit W and Hamiltonian H",
+        "classical_postprocessing": null,
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": null,
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "energy_improvement",
+          "value": "Ω(Var(H)^2/(ℓ^10 d^2 |E|))",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "additive energy lower bound",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "energy_improvement",
+          "value": "Var(H)^2/(2^10 d^2 ℓ^10 |E|)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "explicit bound from proof",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": "not reported",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "lightcone_size",
+          "value": "ℓ",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits in maximum lightcone",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "spectral_gap",
+          "value": "γ = Ω(1)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gap",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "bounded-depth input state without improvement circuit",
+          "metric_name": "energy_improvement",
+          "value": "0 additional improvement",
+          "unit": "additive energy lower bound"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "additive improvement Ω(Var(H)^2/(ℓ^10 d^2 |E|))",
+          "baseline_method": "bounded-depth state W|0^n⟩",
+          "conditions": "input state has maximum lightcone size ℓ; 2-local bounded-degree Hamiltonian; extension also applies to unique ground states of gapped local Hamiltonians",
+          "is_demonstrated": true,
+          "caveats": "No empirical data; the constructed circuit U is not necessarily constant-depth."
+        }
+      ],
+      "scalability_data": [],
+      "complexity_analysis": {
+        "quantum_complexity": "Energy improvement Ω(Var(H)^2/(ℓ^10 d^2 |E|)) for bounded-lightcone states",
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L0_theory",
+        "crossover_size": "not provided",
+        "resources_for_advantage": "Would require preparing bounded-depth states and implementing U=e^{iAθ} where A=i[H,F] with locality scaling in ℓ",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "No experimental or simulation results",
+          "Circuit implementing U is not constant-depth",
+          "Energy improvement bound scales with ℓ^10 which could be large",
+          "No practical benchmark comparisons"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": null,
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": null,
+        "notes": [
+          "No hardware experiment is reported; this is a theoretical extension.",
+          "num_qubits inferred from the n-qubit state |v⟩=W|0^n⟩.",
+          "Theorem 3 provides an analytical bound but no empirical demonstration or classical comparison."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "Theoretical improvement for random product states on general bounded-degree graphs using a randomized choice of local Pauli operators.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Random product-state improvement with randomized local Pauli basis choice",
+        "ansatz": "Depth-(d+1) commuting-gate circuit V(θ⃗)",
+        "optimizer": "randomized classical selection of local operators and parameters",
+        "num_layers": 1,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "quad(H)": "sum of squared non-identity two-qubit Pauli coefficients",
+          "graph_degree": "d",
+          "triangle_free": "optional stronger bound for triangle-free graphs",
+          "random_local_basis": "independent random Pauli basis per qubit"
+        },
+        "parameter_initialization": "Random Haar single-qubit product state and random phases μ_i∈[0,π/2]",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": {
+            "theta": "±θ"
+          }
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "other",
+        "encoding_details": "No explicit binary encoding; random product states on local Hamiltonians",
+        "objective_function": "Improve expected energy of a random product state for H",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": "Two-local Hamiltonian H=∑_{ {i,j}∈E } h_{ij}",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Random product states on bounded-degree graphs; triangle-free case yields stronger scaling",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Theoretical random product-state ensemble"
+        },
+        "data_preprocessing_details": "Choose random local bases and random single-qubit states",
+        "evaluation_methodology": "Expectation over random states and random basis choices; theoretical bound"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": 1,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "randomized classical procedure to choose local operators and signs",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Sample random product state and random local Pauli basis",
+        "classical_postprocessing": null,
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": null,
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "energy_improvement",
+          "value": "Ω(quad(H)^2/(d|E|))",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "expected additive energy lower bound",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "energy_improvement",
+          "value": "Ω(quad(H)/√d)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "expected additive energy lower bound; triangle-free graphs",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "quad_hamiltonian_norm",
+          "value": "quad(H) = Σ_{i<j} Σ_{x>0,y>0} (f^{ij}_{xy})^2",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "sum of squared non-identity two-qubit Pauli coefficients",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": "d+1",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "basis_randomization_probability",
+          "value": "1/2",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": null,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "random product state",
+          "metric_name": "energy_improvement",
+          "value": "1/4 Tr(H)",
+          "unit": "expected energy baseline"
+        },
+        {
+          "method_name": "local classical algorithm for triangle-free graphs",
+          "metric_name": "approximation_ratio_improvement",
+          "value": "Ω(1/√d)",
+          "unit": "scaling"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "expected improvement Ω(quad(H)^2/(d|E|))",
+          "baseline_method": "random product state",
+          "conditions": "general bounded-degree graphs; randomized choice of local Pauli operators and random product states",
+          "is_demonstrated": true,
+          "caveats": "Expectation over random states and random basis choices; no hardware experiment."
+        },
+        {
+          "type": "theoretical",
+          "factor": "stronger scaling Ω(quad(H)/√d)",
+          "baseline_method": "random product state",
+          "conditions": "triangle-free graphs",
+          "is_demonstrated": true,
+          "caveats": "The paper notes a local classical algorithm can also achieve the asymptotic Ω(1/√d) scaling."
+        }
+      ],
+      "scalability_data": [],
+      "complexity_analysis": {
+        "quantum_complexity": "Expected improvement Ω(quad(H)^2/(d|E|)); triangle-free bound Ω(quad(H)/√d)",
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L0_theory",
+        "crossover_size": "not provided",
+        "resources_for_advantage": "Requires random product-state preparation and depth-(d+1) commuting circuits with randomized local operators",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Only expectation bounds are derived",
+          "No classical vs quantum runtime comparison",
+          "Improvement guarantees expressed asymptotically (Ω terms)",
+          "Results depend on properties such as quad(H) and graph structure"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": null,
+        "notes": [
+          "No physical hardware or benchmark data is reported; this is a randomized theoretical algorithm.",
+          "num_qubits inferred from the n-qubit product-state setting.",
+          "Theorem 4 provides expected improvement guarantees but no empirical advantage demonstration."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

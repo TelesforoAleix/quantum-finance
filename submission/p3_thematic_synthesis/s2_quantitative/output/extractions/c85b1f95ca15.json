@@ -1,0 +1,471 @@
+{
+  "paper_id": "c85b1f95ca15",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:53:54+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "c85b1f95ca15_non_differentiable_leaning_of_quantum_circuit_born_machine_with_genetic_algorith.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.95,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 12,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[3].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='runs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='runs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='score' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='score' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='score' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='score' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='per_generation' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[15].unit='radians' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[16].unit='radians' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[17].unit='radians' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.95,
+      "completeness": 0.95,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.95
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Non-Differentiable Learning of Quantum Circuit Born Machine with Genetic Algorithm",
+    "authors": [
+      "Alexei Kondratyev"
+    ],
+    "year": 2020,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper evaluates a 12‑qubit quantum circuit Born machine (QCBM) with 84 variational parameters trained via a genetic algorithm to model financial return distributions. In simulations, the QCBM achieves a lower objective‑function error (mean 30.5, std 23.6 over 100 runs) than a comparable classical RBM baseline (mean 39.6, std 30.8) when generating samples from a 5,000‑point Gaussian mixture dataset, but all experiments are performed on a Qiskit simulator and do not demonstrate quantum advantage.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Training and evaluating a 12-qubit quantum circuit Born machine (QCBM) for generative modeling of two financial datasets, compared against a classical RBM baseline; QCBM trained with a genetic algorithm and simulated in Qiskit.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "Quantum circuit Born machine (QCBM) trained with a genetic algorithm",
+        "ansatz": "Hardware-efficient parametrized quantum circuit with 3 layers of 1-qubit rotations and 2 layers of fixed 2-qubit entangling gates",
+        "optimizer": "Genetic algorithm",
+        "num_layers": 5,
+        "convergence_criteria": "L = 200 generations; best objective value tracked across generations",
+        "hyperparameters": {
+          "N": 1000,
+          "M": 25,
+          "m": 7,
+          "alpha_initial": 1.0,
+          "beta": 0.013863,
+          "kappa": 50,
+          "L": 200,
+          "fixed_gate_type": "CX",
+          "rotation_gates": [
+            "Rx",
+            "Rz"
+          ],
+          "adjustable_parameters_per_qubit": 7,
+          "qubits": 12
+        },
+        "parameter_initialization": "Randomly draw each rotation angle from the uniform distribution over the discrete angle set defined by m",
+        "optimizer_settings": {
+          "max_iterations": 200,
+          "mutation_rate_schedule": "alpha <- alpha * exp(-beta) each generation",
+          "parameter_bounds": "rotation angles in [-pi, pi) discretized into 2^m values",
+          "selection": "top M solutions retained each generation",
+          "crossover": "not used"
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Continuous samples are converted to 12-digit binary representation; each data sample becomes 12 binary features per variable representation",
+        "objective_function": "F(θ̂) = sum_{k=1..K} (u_k - v_k(θ̂))^2, where u and v are sorted training and generated samples",
+        "constraints_handling": null,
+        "num_binary_variables": 12,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Generative modeling of financial and synthetic continuous distributions using binary-encoded samples",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 12,
+        "dataset_size": 5000,
+        "data_type": "synthetic",
+        "dataset_name": "Mixture of four normal distributions, USD-JPY spot FX daily log-returns",
+        "dataset_specification": {
+          "synthetic_dataset": "4-component Gaussian mixture with means [-3,-1,1,3], standard deviations [0.3,0.3,0.3,0.3], weights [0.1,0.2,0.3,0.4]",
+          "real_market_dataset": "USD-JPY daily log-returns from 2001 to 2017"
+        },
+        "data_preprocessing_details": "Real-valued samples converted to 12-digit binary features using min-max scaling and integer binarization; generated binary outputs converted back to real values by inverse mapping",
+        "evaluation_methodology": "QCBM and RBM trained on the datasets; 5,000 samples generated for dataset 1 and 4,382 for dataset 2; 100 runs used for objective-function statistics on dataset 1; PDF and QQ plots used for qualitative evaluation"
+      },
+      "quantum_resources": {
+        "num_qubits": 12,
+        "qubit_type": "logical",
+        "circuit_depth": 5,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 84,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Scikit-learn BernoulliRBM for classical baseline",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Binary feature construction from real-valued data via min-max scaling and discretization",
+        "classical_postprocessing": "Binary samples converted back to real-valued samples via inverse integer-to-real mapping",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 200,
+          "final_loss_value": null,
+          "loss_curve_shape": "decreasing with diminishing returns as mutation rate decays",
+          "variance_across_runs": 10.0,
+          "num_independent_runs": 20
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "dataset_size",
+          "value": 5000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 4382,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 12,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_variational_params",
+          "value": 84,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 40000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_runs",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "runs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_runs",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "runs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "objective_function_mean",
+          "value": 30.5,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "score",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "objective_function_std",
+          "value": 23.6,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "score",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "objective_function_mean",
+          "value": 39.6,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "score",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "objective_function_std",
+          "value": 30.8,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "score",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "mutation_rate_initial",
+          "value": 1.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "mutation_rate_final",
+          "value": 0.0625,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "mutation_decay_factor",
+          "value": 0.013863,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "per_generation",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "rotation_angle_step",
+          "value": 0.7853981633974483,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "radians",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "rotation_angle_step",
+          "value": 0.19634954084936207,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "radians",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "rotation_angle_step",
+          "value": 0.04908738521234052,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "radians",
+          "higher_is_better": false,
+          "data_source": "computed"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "rbm(12, 7)",
+          "metric_name": "objective_function_mean",
+          "value": 39.6,
+          "unit": "score"
+        },
+        {
+          "method_name": "rbm(12, 7)",
+          "metric_name": "objective_function_std",
+          "value": 30.8,
+          "unit": "score"
+        },
+        {
+          "method_name": "bernoullirbm",
+          "metric_name": "training_iterations",
+          "value": 40000,
+          "unit": "iterations"
+        },
+        {
+          "method_name": "bernoullirbm",
+          "metric_name": "learning_rate",
+          "value": 0.0005,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "bernoullirbm",
+          "metric_name": "batch_size",
+          "value": 10,
+          "unit": "samples"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "single circuit run per sample vs 10^3-10^4 forward/backward passes",
+          "baseline_method": "restricted boltzmann machine",
+          "conditions": "for generating an independent sample from the learned distribution; ignoring readout and other overheads",
+          "is_demonstrated": false,
+          "caveats": "This is a qualitative argument in the introduction, not an experimentally measured speedup."
+        },
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": "classical rbm",
+          "conditions": "empirical comparison in this paper",
+          "is_demonstrated": false,
+          "caveats": "The paper reports better objective-function statistics for QCBM than RBM, but does not quantify a runtime speedup."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 1.0,
+          "num_qubits": 12,
+          "metric_name": "objective_function_mean",
+          "metric_value": 30.5
+        },
+        {
+          "problem_size": 1.0,
+          "num_qubits": 12,
+          "metric_name": "objective_function_std",
+          "metric_value": 23.6
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": 12,
+          "metric_name": "qualitative_pdf_qq_plot_result",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "parity_with_classical",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Not analyzed; the experiment uses a simulated 12‑qubit QCBM with 84 parameters and no scaling study toward larger systems.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Experiment performed only on a classical simulator (Qiskit).",
+          "Very small system size (12 qubits, 84 parameters).",
+          "No runtime comparison or scaling analysis vs classical models.",
+          "Performance metric limited to distribution similarity objective.",
+          "Generative modeling task encoded with classical preprocessing."
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "notes": [
+          "QCBM runs were performed on the Qiskit simulator; no real QPU device is named, so hardware.type is simulator_other.",
+          "Circuit depth inferred as 5 from the described architecture: 3 layers of adjustable 1-qubit gates plus 2 layers of fixed 2-qubit gates.",
+          "Speedup order is not characterized asymptotically in the paper; only speculative quantum advantage is discussed.",
+          "Table 1 shows QCBM objective mean 30.5 vs RBM 39.6, indicating slightly better performance on the metric.",
+          "The authors explicitly state this 'cannot be seen as evidence of quantum advantage'.",
+          "Both models successfully learn the distribution, so results indicate comparable performance rather than demonstrated advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

@@ -1,0 +1,841 @@
+{
+  "paper_id": "68b9ec9dea63",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:54:33+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "68b9ec9dea63_quantum_enhanced_temporal_embeddings_via_a_hybrid_seq2seq_architecture.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.733,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 11,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='ratio per quarter' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='ratio per quarter' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='ratio per quarter' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='ratio per quarter' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='ratio per quarter' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='ratio per quarter' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='x' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='x' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='x' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[1].unit='x' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[0].unit='x' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.733,
+      "completeness": 0.733,
+      "num_experiments": 3,
+      "experiment_scores": [
+        0.8,
+        0.7,
+        0.7
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum-Enhanced Temporal Embeddings via a Hybrid Seq2Seq Architecture",
+    "authors": [
+      "Tien-Ching Hsieh",
+      "Yun-Cheng Tsai",
+      "Samuel Yen-Chi Chen"
+    ],
+    "year": 2026,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "portfolio-optimization",
+    "secondary_silos": [
+      "quantum-ml-finance"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a QLSTM Seq2Seq model embedding a depth‑1 variational quantum circuit inside each LSTM gate to learn 2‑D latent embeddings of S&P 500 weekly return sequences across 14 rolling quarters (2022–2025). Using these embeddings to construct RBF‑kernel portfolios, the RBF‑Graph strategy reaches about 2.40× cumulative value versus 1.45× for the S&P 500 benchmark and 1.10× for RBF‑DivMom, though the portfolio optimization itself is classical.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Hybrid QLSTM Seq2Seq autoencoder for learning 2D temporal embeddings of S&P 500 constituent weekly return sequences, with a depth-1 variational quantum circuit embedded inside each recurrent gate; evaluated in rolling quarterly windows from 2022Q2 to 2025Q2 and used to generate latent embeddings for downstream RBF-based portfolio strategies.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "QLSTM Seq2Seq autoencoder with depth-1 variational quantum circuit inside each recurrent gate",
+        "ansatz": "fixed-depth variational quantum circuit with entanglement and Pauli-Z expectation readout",
+        "optimizer": null,
+        "num_layers": 1,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "latent_dimension": 2,
+          "circuit_depth": 1,
+          "gates_augmented": [
+            "input",
+            "forget",
+            "output",
+            "candidate"
+          ],
+          "teacher_forcing_probability": "pTF",
+          "training_window": "12 months",
+          "evaluation_horizon": "subsequent quarter",
+          "rolling_windows": 14
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "not_specified",
+        "encoding_details": "Each gate input vt=[xt; ht-1] is compressed to a q-dimensional vector and encoded on a q-qubit register; the paper does not specify the exact feature-to-qubit map beyond this compression step.",
+        "objective_function": "Minimize sequence reconstruction mean squared error for Seq2Seq autoencoding: LMSE = (1/L) * sum_j ||x_j - xhat_j||^2",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Quarterly rolling autoencoding of weekly return sequences for S&P 500 constituents, producing latent embeddings for portfolio construction.",
+        "num_assets": null,
+        "time_steps": 12,
+        "num_features": null,
+        "dataset_size": 14,
+        "data_type": "real_market",
+        "dataset_name": "S&P 500 constituents",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "S&P 500 constituents"
+          ],
+          "date_range": "2022-2025",
+          "benchmark_name": "S&P 500",
+          "train_test_split": "rolling quarterly train on previous 12 months, test on subsequent quarter"
+        },
+        "data_preprocessing_details": "Weekly returns are used as input sequences; the final encoder state is projected to a 2D latent representation; sigma for the RBF kernel is set to the median pairwise distance.",
+        "evaluation_methodology": "Rolling quarterly backtests; model retrained from scratch for each window; out-of-sample evaluation on the subsequent quarter; performance summarized by CAGR, volatility, Sharpe ratio, and maximum drawdown."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": 1,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "noise_model": {
+          "is_noisy": null,
+          "noise_type": "NISQ-compatible shallow hybrid model",
+          "error_mitigation_method": null
+        },
+        "noise_parameters": null,
+        "mitigation_details": null,
+        "is_noisy": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Weekly return sequences are formed from S&P 500 constituents; each quarter uses the previous 12 months of data for training.",
+        "classical_postprocessing": "Encoder embeddings are converted into an RBF kernel for downstream portfolio strategies; latent trajectories and portfolio metrics are analyzed across rolling windows.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "cagr",
+          "value": 0.175,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio per quarter",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "volatility",
+          "value": 0.2291,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio per quarter",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "sharpe_ratio",
+          "value": 0.6965,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "max_drawdown",
+          "value": -0.0907,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "cagr",
+          "value": 0.9845,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio per quarter",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "volatility",
+          "value": 0.3609,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio per quarter",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "sharpe_ratio",
+          "value": 1.0703,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "max_drawdown",
+          "value": -0.1143,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "cagr",
+          "value": 0.1833,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio per quarter",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "volatility",
+          "value": 0.1548,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio per quarter",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "sharpe_ratio",
+          "value": 1.3152,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "max_drawdown",
+          "value": -0.061,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "final_net_value",
+          "value": 1.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "x",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "final_net_value",
+          "value": 2.4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "x",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "final_net_value",
+          "value": 1.45,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "x",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "S&P 500 benchmark",
+          "metric_name": "cagr",
+          "value": 0.1833,
+          "unit": "ratio per quarter"
+        },
+        {
+          "method_name": "S&P 500 benchmark",
+          "metric_name": "volatility",
+          "value": 0.1548,
+          "unit": "ratio per quarter"
+        },
+        {
+          "method_name": "S&P 500 benchmark",
+          "metric_name": "sharpe_ratio",
+          "value": 1.3152,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "S&P 500 benchmark",
+          "metric_name": "max_drawdown",
+          "value": -0.061,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The paper explicitly does not claim quantum advantage; it emphasizes NISQ feasibility and a constant-factor overhead from evaluating a fixed-depth quantum layer per time step."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 14.0,
+          "num_qubits": null,
+          "metric_name": "dataset_size",
+          "metric_value": 14
+        },
+        {
+          "problem_size": 14.0,
+          "num_qubits": null,
+          "metric_name": "rolling_windows",
+          "metric_value": 14
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": null,
+          "metric_name": "latent_dimension",
+          "metric_value": 2
+        },
+        {
+          "problem_size": 1.0,
+          "num_qubits": null,
+          "metric_name": "circuit_depth",
+          "metric_value": 1
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": "constant-factor overhead from evaluating a fixed-depth quantum layer per time step",
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "parity_with_classical",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Unknown; paper does not report qubit count, shots, or hardware implementation. The model only specifies a depth‑1 VQC per LSTM gate on an unspecified q‑qubit register.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "No hardware execution or noisy simulation reported",
+          "Qubit count and circuit ansatz size unspecified",
+          "Quantum circuit used only as a shallow nonlinear layer inside a classical model",
+          "No scaling analysis or complexity comparison with classical LSTM or transformer models",
+          "Sequential classical-to-quantum data encoding required at each time step"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "No specific hardware, provider, device, framework, qubit count, shot count, optimizer, or transpilation details are reported in the paper text provided.",
+          "num_qubits inferred only as a q-qubit register is used, but q is not numerically specified.",
+          "speedup_order inferred as none_proven because the paper discusses practical NISQ feasibility and explicitly does not claim quantum advantage.",
+          "Section V explicitly states the work improves embeddings 'without claiming quantum advantage.'",
+          "Performance improvements (e.g., portfolio outcomes) arise from the full hybrid pipeline rather than a demonstrated quantum computational advantage over classical models."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Downstream RBF-DivMom portfolio strategy using the learned QLSTM latent embeddings and an RBF similarity kernel to select a diversified momentum portfolio.",
+      "algorithm": {
+        "family": "hybrid",
+        "variant": "RBF-DivMom using QLSTM-derived latent embeddings",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "lambda": "0.15 representative setting; grid searched over 0.00, 0.15, ..., 1.00",
+          "selection_type": "discrete momentum selector",
+          "similarity_penalty": "RBF kernel similarity penalty"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "QUBO",
+        "encoding_details": "Not a gate-based quantum encoding; this is a classical downstream allocation rule operating on the learned latent kernel space. Included only as a hybrid experiment because it depends on the quantum-enhanced embeddings.",
+        "objective_function": "Momentum selection regularized by kernel similarity to penalize excessive co-movement and encourage diversification.",
+        "constraints_handling": "Similarity penalty via lambda; no quantum constraint handling reported.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Quarterly portfolio allocation on S&P 500 constituents using latent embeddings learned by the QLSTM encoder.",
+        "num_assets": null,
+        "time_steps": 2022,
+        "num_features": null,
+        "dataset_size": 14,
+        "data_type": "real_market",
+        "dataset_name": "S&P 500 constituents",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "S&P 500 constituents"
+          ],
+          "date_range": "2022-2025",
+          "benchmark_name": "S&P 500",
+          "train_test_split": "rolling quarterly"
+        },
+        "data_preprocessing_details": "Uses the same QLSTM latent embeddings and RBF kernel as the main framework; lambda grid search performed over the reported values.",
+        "evaluation_methodology": "Backtested across fourteen rolling windows; compared against RBF-Graph and S&P 500 benchmark; evaluated with CAGR, volatility, Sharpe ratio, and maximum drawdown."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "noise_model": {
+          "is_noisy": null,
+          "noise_type": null,
+          "error_mitigation_method": null
+        },
+        "noise_parameters": null,
+        "mitigation_details": null,
+        "is_noisy": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Uses the latent embeddings and RBF kernel produced by the QLSTM encoder; lambda is grid-searched across the reported range.",
+        "classical_postprocessing": "Portfolio equity curves and risk metrics are computed from quarterly compounded returns.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "sharpe_ratio",
+          "value": 0.95,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "final_net_value",
+          "value": 1.36,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "x",
+          "higher_is_better": true,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "RBF-Graph",
+          "metric_name": "sharpe_ratio",
+          "value": 1.07,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "RBF-Graph",
+          "metric_name": "final_net_value",
+          "value": 2.4,
+          "unit": "x"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "This is a classical downstream allocation rule, not a gate-based quantum solver. No quantum speedup is claimed."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 14.0,
+          "num_qubits": null,
+          "metric_name": "dataset_size",
+          "metric_value": 14
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "data_loading_bottleneck": null
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "This is a downstream classical allocation strategy, not a separate gate-based quantum solver; it is included because it is part of the paper's experimental evaluation built on the quantum-enhanced embeddings.",
+          "No quantum hardware or circuit resource details are reported for this portfolio stage.",
+          "speedup_order inferred as none_proven because no asymptotic quantum advantage is claimed."
+        ]
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "Downstream RBF-Graph portfolio strategy using the learned QLSTM latent embeddings and the same RBF kernel, optimized as a continuous graph-regularized allocation method.",
+      "algorithm": {
+        "family": "hybrid",
+        "variant": "RBF-Graph using QLSTM-derived latent embeddings",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "graph_regularization": "continuous optimization in kernel space",
+          "similarity_kernel": "RBF",
+          "final_net_value": "2.40x"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "QUBO",
+        "encoding_details": "Not a gate-based quantum encoding; this is a classical continuous optimizer operating on the latent kernel space. Included only as a hybrid experiment because it depends on the quantum-enhanced embeddings.",
+        "objective_function": "Continuous graph-regularized portfolio optimization in the latent RBF kernel space.",
+        "constraints_handling": "Graph regularization through the RBF kernel; no quantum constraint handling reported.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Quarterly portfolio allocation on S&P 500 constituents using latent embeddings learned by the QLSTM encoder.",
+        "num_assets": null,
+        "time_steps": 2022,
+        "num_features": null,
+        "dataset_size": 14,
+        "data_type": "real_market",
+        "dataset_name": "S&P 500 constituents",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "S&P 500 constituents"
+          ],
+          "date_range": "2022-2025",
+          "benchmark_name": "S&P 500",
+          "train_test_split": "rolling quarterly"
+        },
+        "data_preprocessing_details": "Uses the same QLSTM latent embeddings and RBF kernel as the main framework.",
+        "evaluation_methodology": "Backtested across fourteen rolling windows; compared against RBF-DivMom and S&P 500 benchmark; evaluated with CAGR, volatility, Sharpe ratio, and maximum drawdown."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "noise_model": {
+          "is_noisy": null,
+          "noise_type": null,
+          "error_mitigation_method": null
+        },
+        "noise_parameters": null,
+        "mitigation_details": null,
+        "is_noisy": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Uses the latent embeddings and RBF kernel produced by the QLSTM encoder.",
+        "classical_postprocessing": "Portfolio equity curves and risk metrics are computed from quarterly compounded returns.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "final_net_value",
+          "value": 2.4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "x",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sharpe_ratio",
+          "value": 1.07,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "RBF-DivMom",
+          "metric_name": "final_net_value",
+          "value": 1.36,
+          "unit": "x"
+        },
+        {
+          "method_name": "RBF-DivMom",
+          "metric_name": "sharpe_ratio",
+          "value": 0.95,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "S&P 500 benchmark",
+          "metric_name": "final_net_value",
+          "value": 1.45,
+          "unit": "x"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "This is a classical downstream allocation rule, not a gate-based quantum solver. No quantum speedup is claimed."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 14.0,
+          "num_qubits": null,
+          "metric_name": "dataset_size",
+          "metric_value": 14
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "data_loading_bottleneck": null
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "This is a downstream classical allocation strategy, not a separate gate-based quantum solver; it is included because it is part of the paper's experimental evaluation built on the quantum-enhanced embeddings.",
+          "No quantum hardware or circuit resource details are reported for this portfolio stage.",
+          "speedup_order inferred as none_proven because no asymptotic quantum advantage is claimed."
+        ]
+      }
+    }
+  ]
+}

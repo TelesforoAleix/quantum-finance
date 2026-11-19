@@ -1,0 +1,1017 @@
+{
+  "paper_id": "58470ab028ef",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:44:44+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "58470ab028ef_quantum_autoencoder_for_enhanced_fraud_detection_in_imbalanced_credit_card_datas.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.55,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 0,
+    "validation_passed": true,
+    "quality_details": {
+      "score": 0.55,
+      "completeness": 0.55,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.95,
+        0.15
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum Autoencoder for Enhanced Fraud Detection in Imbalanced Credit Card Dataset",
+    "authors": [
+      "Chansreynich Huot",
+      "Sovanmonynuth Heng",
+      "Tae-Kyung Kim",
+      "Youngsun Han"
+    ],
+    "year": 2024,
+    "doi": "10.1109/ACCESS.2024.3496901",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "fraud-detection",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a 4‑qubit variational quantum autoencoder (QAE‑FD) for credit‑card fraud detection using the ULB dataset. In simulation it achieves G‑mean ≈0.946 and AUC up to 0.974 at threshold 0.7, and under simulated IBM FakeCairo noise it reports precision 0.480, recall 0.765, and AUC 0.881. Experiments are limited to simulator studies with small circuits and do not demonstrate computational quantum advantage.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum autoencoder-based fraud detection (QAE-FD) on a highly imbalanced credit card fraud dataset, evaluated in noise-free simulation and on a noisy IBM fake backend, with threshold sensitivity analysis and circuit-layer ablation.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Quantum AutoEncoder-based Fraud Detection (QAE-FD) using only the encoder part of a QAE",
+        "ansatz": "Variational quantum circuit with angle encoding followed by layers of Rx, Ry, Rz and CNOT gates",
+        "optimizer": "Adam",
+        "num_layers": 4,
+        "convergence_criteria": "trained for 50 epochs",
+        "hyperparameters": {
+          "epochs": 50,
+          "batch_size": 16,
+          "learning_rate": 0.001,
+          "optimizer": "Adam",
+          "ansatz_layers": 4,
+          "qubits": 4,
+          "thresholds": [
+            0.5,
+            0.6,
+            0.7
+          ],
+          "framework": "PennyLane"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "max_iterations": 50,
+          "learning_rate": 0.001,
+          "parameter_bounds": null,
+          "step_size": null,
+          "tolerance": null,
+          "learning_rate_schedule": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Classical transaction features are normalized and encoded into qubit rotation angles via Rx on each qubit; the model uses 4 qubits and compresses the input from 4 to 3 qubits with one trash qubit measured for loss.",
+        "objective_function": "Minimize C(θ) = (1/K) Σ_i |1 - <Z_i>| on the trash qubit(s), and classify transactions by thresholding the probability of measuring |0>",
+        "constraints_handling": "Threshold assessment on measurement probability; no explicit penalty formulation reported",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Credit card fraud detection on a real-world imbalanced transaction dataset from European cardholders",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 30,
+        "dataset_size": null,
+        "data_type": "public_benchmark",
+        "dataset_name": "Credit Card Fraud Detection (ULB/Kaggle)",
+        "dataset_specification": {
+          "description": "30 features including Time, Amount, and PCA-derived V1-V28; labels are genuine (0) and fraudulent (1); random under-sampling used to balance classes for training"
+        },
+        "data_preprocessing_details": "Null handling, standardization, duplicate removal, PCA-based feature handling, random under-sampling of genuine transactions, normalization before angle encoding",
+        "evaluation_methodology": "Performance reported for thresholds T=0.5, 0.6, 0.7 in noise-free simulation; noisy evaluation at T=0.7 on FakeCairo; ablation over circuit layers L=1 to 6"
+      },
+      "quantum_resources": {
+        "num_qubits": 4,
+        "qubit_type": "not_specified",
+        "circuit_depth": 4,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": "FakeCairo",
+        "framework": "PennyLane"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "simulated hardware noise on IBM FakeCairo fake backend",
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "GitHub repository, QAE-FD",
+        "framework_version": null,
+        "transpilation_target": "IBM FakeCairo fake backend for noisy evaluation",
+        "classical_solver": "Adam optimizer",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Null handling, standardization, duplicate removal, PCA, random under-sampling, normalization",
+        "classical_postprocessing": "Threshold-based label assignment from measurement probabilities; confusion-matrix and metric computation",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 50,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "tn",
+          "value": 55953,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "fp",
+          "value": 911,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "fn",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "tp",
+          "value": 91,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "tn",
+          "value": 56430,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "fp",
+          "value": 434,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "fn",
+          "value": 13,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "tp",
+          "value": 85,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "tn",
+          "value": 56701,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "fp",
+          "value": 163,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "fn",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "tp",
+          "value": 88,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.09,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.928,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.17,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "specificity",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "g_mean",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.275,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.379,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.897,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.99,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.533,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "specificity",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "g_mean",
+          "value": 0.946,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 0.947,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "tn",
+          "value": 56783,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "fp",
+          "value": 81,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "tp",
+          "value": 75,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "fn",
+          "value": 23,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.48,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.765,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.99,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.59,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "specificity",
+          "value": 0.881,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "g_mean",
+          "value": 0.874,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 0.881,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.379,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.897,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.99,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.533,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "specificity",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "g_mean",
+          "value": 0.946,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 0.947,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.816,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.99,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "specificity",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "g_mean",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 0.907,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.945,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.795,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.92,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.379,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.897,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.99,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 0.947,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical autoencoder",
+          "metric_name": "precision",
+          "value": 0.09,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical autoencoder",
+          "metric_name": "recall",
+          "value": 0.917,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical autoencoder",
+          "metric_name": "accuracy",
+          "value": 0.8,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical autoencoder",
+          "metric_name": "auc_roc",
+          "value": null,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "quantum one-class support vector machine",
+          "metric_name": "precision",
+          "value": 0.7,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "quantum graph neural network",
+          "metric_name": "precision",
+          "value": 0.945,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "quantum graph neural network",
+          "metric_name": "recall",
+          "value": 0.795,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "quantum graph neural network",
+          "metric_name": "accuracy",
+          "value": 0.92,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The paper claims faster processing and better computational efficiency qualitatively, but does not provide a measured runtime comparison or asymptotic speedup over classical methods."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 4.0,
+          "num_qubits": 4,
+          "metric_name": "accuracy",
+          "metric_value": 0.99
+        },
+        {
+          "problem_size": 4.0,
+          "num_qubits": 4,
+          "metric_name": "g_mean",
+          "metric_value": 0.946
+        },
+        {
+          "problem_size": 4.0,
+          "num_qubits": 4,
+          "metric_name": "auc_roc",
+          "metric_value": 0.947
+        },
+        {
+          "problem_size": 1.0,
+          "num_qubits": 4,
+          "metric_name": "accuracy",
+          "metric_value": 0.99
+        },
+        {
+          "problem_size": 1.0,
+          "num_qubits": 4,
+          "metric_name": "precision",
+          "metric_value": 0.0
+        },
+        {
+          "problem_size": 1.0,
+          "num_qubits": 4,
+          "metric_name": "recall",
+          "metric_value": 0.0
+        },
+        {
+          "problem_size": 1.0,
+          "num_qubits": 4,
+          "metric_name": "auc_roc",
+          "metric_value": 0.5
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": 4,
+          "metric_name": "recall",
+          "metric_value": 0.816
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": 4,
+          "metric_name": "precision",
+          "metric_value": 0.5
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": 4,
+          "metric_name": "accuracy",
+          "metric_value": 0.99
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": 4,
+          "metric_name": "auc_roc",
+          "metric_value": 0.907
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 4,
+          "metric_name": "precision",
+          "metric_value": 0.379
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 4,
+          "metric_name": "recall",
+          "metric_value": 0.897
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 4,
+          "metric_name": "accuracy",
+          "metric_value": 0.99
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 4,
+          "metric_name": "g_mean",
+          "metric_value": 0.946
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 4,
+          "metric_name": "auc_roc",
+          "metric_value": 0.947
+        },
+        {
+          "problem_size": 4.0,
+          "num_qubits": 4,
+          "metric_name": null,
+          "metric_value": null
+        },
+        {
+          "problem_size": 5.0,
+          "num_qubits": 4,
+          "metric_name": null,
+          "metric_value": null
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 4,
+          "metric_name": null,
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(n) gates for angle encoding with n qubits/features",
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "not analyzed; experiment uses only 4 qubits and simulator execution",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "No asymptotic complexity or runtime comparison with classical algorithms",
+          "Small-scale circuit (4 qubits) evaluated only in simulation",
+          "Classical preprocessing and feature encoding dominate workload",
+          "Performance comparison focuses on ML metrics rather than computational advantage"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware type is reported as a noisy environment using the 27-qubit fake backend FakeCairo (IBM); no real QPU run is described.",
+          "Circuit depth is taken from the reported 4 ansatz layers; the paper does not provide transpiled depth or gate counts.",
+          "The paper discusses faster processing qualitatively but does not establish an asymptotic quantum speedup over classical methods.",
+          "Paper claims improved detection performance and 'faster processing' qualitatively but does not provide computational complexity or runtime benchmarks against classical methods.",
+          "Classical baseline comparisons are metric-based (precision/recall etc.) rather than demonstrating computational speedup."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Evaluation of the QAE-FD model under simulated hardware noise using the IBM FakeCairo 27‑qubit fake backend at threshold T = 0.7.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "QAE-FD (encoder-only quantum autoencoder)",
+        "ansatz": "Variational circuit with angle encoding and layers of Rx, Ry, Rz rotations followed by CNOT entangling gates",
+        "num_layers": 4,
+        "optimizer": "Adam"
+      },
+      "key_results": [
+        {
+          "metric": "precision",
+          "value": 0.48
+        },
+        {
+          "metric": "recall",
+          "value": 0.765
+        },
+        {
+          "metric": "accuracy",
+          "value": 0.99
+        },
+        {
+          "metric": "f1_score",
+          "value": 0.59
+        },
+        {
+          "metric": "specificity",
+          "value": 0.881
+        },
+        {
+          "metric": "g_mean",
+          "value": 0.874
+        },
+        {
+          "metric": "auc_roc",
+          "value": 0.881
+        }
+      ]
+    }
+  ]
+}

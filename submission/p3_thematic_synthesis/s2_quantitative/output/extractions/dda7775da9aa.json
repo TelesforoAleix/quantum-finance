@@ -1,0 +1,670 @@
+{
+  "paper_id": "dda7775da9aa",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T10:07:59+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "dda7775da9aa_circuithunt_automated_quantum_circuit_screening_for_superior_credit_card_fraud_d.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.525,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 5,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[17].unit='features' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[19].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[20].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[21].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[27].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.525,
+      "completeness": 0.525,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.9,
+        0.15
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "CircuitHunt: Automated Quantum Circuit Screening for Superior Credit-Card Fraud Detection",
+    "authors": [
+      "Nouhaila Innan",
+      "Akshat Singh",
+      "Muhammad Shafique"
+    ],
+    "year": 2025,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "fraud-detection",
+    "secondary_silos": [
+      "quantum-ml-finance"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper introduces CircuitHunt, an automated screening pipeline that selects parameterized quantum circuits from the KetGPT dataset for a hybrid QNN fraud detector. The selected 6‑qubit circuit with 9 trainable parameters achieves 97% test accuracy and ROC‑AUC 0.9946 on the Kaggle credit‑card fraud dataset (20,000 balanced samples). Removing the residual skip connection drops performance substantially, reducing AUC to 0.7706 and class accuracy to ~0.70.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Automated screening of KetGPT-generated parameterized quantum circuits embedded in a hybrid quantum-classical neural network for credit-card fraud detection, with the best circuit selected by validation macro-F1 and then retrained/tested.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "automated quantum circuit screening for hybrid QNNs",
+        "ansatz": "KetGPT candidate circuits embedded in a standardized hybrid QNN with angle encoding and residual skip connection",
+        "optimizer": "Adam",
+        "num_layers": null,
+        "convergence_criteria": "5-epoch screening training; best circuit retrained for 20 epochs; selected by highest validation macro-F1",
+        "hyperparameters": {
+          "screening_epochs": 5,
+          "final_training_epochs": 20,
+          "batch_size": 32,
+          "learning_rate": 0.01,
+          "loss_function": "Binary Cross-Entropy with Logits",
+          "validation_metric": "macro-F1",
+          "selection_criterion": "best validation macro-F1",
+          "residual_initialization_value": 0.1,
+          "pre_nn_layers": "Linear(28,64) -> ReLU -> Linear(64,n)",
+          "post_nn_layers": "Linear(n,16) -> ReLU -> Linear(16,1)",
+          "activation": "Sigmoid",
+          "candidate_qubit_range": "3-10",
+          "max_trainable_parameters": 30,
+          "dataset_split": "60/10/30 (train/val/test)",
+          "samples_per_class": 10000,
+          "encoding": "Angle Encoding"
+        },
+        "parameter_initialization": "zero-initialized parameters for circuit execution validation; model weights initialized as standard trainable network parameters (not otherwise specified)",
+        "optimizer_settings": {
+          "learning_rate": 0.01,
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Classical features are min-max scaled to [0, π] and encoded into q qubits matching the candidate circuit width; the quantum module uses parameterized rotation gates (e.g., RX) followed by the candidate KetGPT circuit and entangling operations",
+        "objective_function": "Binary fraud classification optimized via binary cross-entropy with logits; model selection based on validation macro-F1",
+        "constraints_handling": "Circuit filtering by qubit budget (3-10 qubits), at least one trainable gate, at most 30 trainable parameters, and successful finite execution; no explicit QUBO/Ising constraints",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Credit card fraud detection on an imbalanced binary classification benchmark",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 28,
+        "dataset_size": 20000,
+        "data_type": "public_benchmark",
+        "dataset_name": "Credit Card Fraud",
+        "dataset_specification": {
+          "description": "Kaggle creditcardfraud dataset; 28 PCA-transformed features; 10,000 samples per class after balancing; split 60/10/30 train/validation/test"
+        },
+        "data_preprocessing_details": "Apply SMOTE to balance classes; randomly select equal number of samples from each class; features already PCA-transformed; min-max normalize to [0, π]; stratified train/validation/test split",
+        "evaluation_methodology": "Screen candidate circuits with 5-epoch training on train set and validation macro-F1 checkpointing; retrain selected circuit from scratch for 20 epochs; report held-out test metrics and ROC-AUC"
+      },
+      "quantum_resources": {
+        "num_qubits": 6,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 9,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "PennyLane",
+        "device_name": "default.qubit",
+        "framework": "PennyLane"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "SMOTE balancing, min-max scaling to [0, π], stratified train/validation/test split, classical pre-quantum feature mapping via feedforward network",
+        "classical_postprocessing": "Post-quantum MLP outputs binary logit; metrics include accuracy, precision, recall, macro-F1, ROC-AUC",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "training and validation loss decrease steadily; selected model converges smoothly",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "accuracy",
+          "value": 97.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 97.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 0.9946,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.9704,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.97,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.97,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.9693,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.9696,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.9696,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 0.7706,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.7042,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.7044,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.7044,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.6967,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.6965,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.6965,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 20000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_features",
+          "value": 28,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "features",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_variational_params",
+          "value": 9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "screening_epochs",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "final_training_epochs",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "batch_size",
+          "value": 32,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "learning_rate",
+          "value": 0.01,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "samples_per_class",
+          "value": 10000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "qubit_range_min",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "qubit_range_max",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "max_trainable_parameters",
+          "value": 30,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "EstimatorQNN",
+          "metric_name": "precision",
+          "value": 0.89,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "EstimatorQNN",
+          "metric_name": "recall",
+          "value": 0.9,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "EstimatorQNN",
+          "metric_name": "f1_score",
+          "value": 0.9,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "EstimatorQNN",
+          "metric_name": "accuracy",
+          "value": 0.9,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "QGNN",
+          "metric_name": "precision",
+          "value": 0.96,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "QGNN",
+          "metric_name": "recall",
+          "value": 0.79,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "QGNN",
+          "metric_name": "f1_score",
+          "value": 0.86,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "QGNN",
+          "metric_name": "accuracy",
+          "value": 0.94,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "SQNN",
+          "metric_name": "precision",
+          "value": 1.0,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "SQNN",
+          "metric_name": "recall",
+          "value": 0.68,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "SQNN",
+          "metric_name": "f1_score",
+          "value": 0.68,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "SQNN",
+          "metric_name": "accuracy",
+          "value": 0.86,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "QFDNN",
+          "metric_name": "precision",
+          "value": 0.95,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "QFDNN",
+          "metric_name": "recall",
+          "value": 0.87,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "QFDNN",
+          "metric_name": "f1_score",
+          "value": 0.81,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "QFDNN",
+          "metric_name": "accuracy",
+          "value": 0.82,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "days to hours",
+          "baseline_method": "manual circuit design / manual screening",
+          "conditions": "architecture search and screening for the fraud-detection task using the CircuitHunt pipeline",
+          "is_demonstrated": true,
+          "caveats": "The paper states that architecture search time is reduced from days to hours, but does not provide a measured wall-clock benchmark or exact timing numbers."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 3.0,
+          "num_qubits": 3,
+          "metric_name": "candidate_circuit_filtering_range",
+          "metric_value": null
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 10,
+          "metric_name": "candidate_circuit_filtering_range",
+          "metric_value": null
+        },
+        {
+          "problem_size": 20000.0,
+          "num_qubits": 6,
+          "metric_name": "accuracy",
+          "metric_value": 0.97
+        },
+        {
+          "problem_size": 20000.0,
+          "num_qubits": 6,
+          "metric_name": "auc_roc",
+          "metric_value": 0.9946
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Not analyzed; experiment uses a 6‑qubit variational circuit with 9 parameters simulated on PennyLane default.qubit.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Evaluation performed only on a noiseless statevector simulator",
+          "Very small quantum model (6 qubits, 9 parameters)",
+          "No comparison against strong classical ML baselines for the same dataset",
+          "No complexity or runtime analysis showing asymptotic benefit"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred from explicit use of PennyLane default.qubit simulator.",
+          "num_qubits reported as 3 for the lower bound of the screened circuit set; the selected circuit is stated to use 6 qubits, but the paper also evaluates circuits across 3-10 qubits, so the experiment is represented as the hybrid screening study with the selected circuit's reported 6-qubit resource noted in the narrative; however, the quantum_resources.num_qubits field is set to 3 only because the schema allows a single value and the paper does not define one universal qubit count for the whole screening experiment.",
+          "circuit depth not reported; selected circuit index #221 and 9 trainable parameters are reported, but depth/gate counts are not.",
+          "No asymptotic speedup analysis is provided; performance claims are empirical only.",
+          "The paper reports strong classification performance (97% accuracy, AUC 0.9946) but does not claim computational quantum advantage over classical methods.",
+          "Comparisons are made only with other QML architectures, not with classical ML baselines."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Ablation study evaluating the same hybrid QNN architecture but without the residual skip connection to measure its impact on learning dynamics and fraud detection performance.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "CircuitHunt-selected hybrid QNN without residual skip connection",
+        "ansatz": "Same KetGPT-selected variational circuit (#221, 6 qubits, 9 parameters) but residual connection removed",
+        "optimizer": "Adam",
+        "num_layers": null
+      },
+      "key_results": [
+        {
+          "metric": "roc_auc",
+          "value": 0.7706,
+          "source": "Section IV.C and Fig. 4(d)"
+        },
+        {
+          "metric": "precision_non_fraud",
+          "value": 0.7042,
+          "source": "Table III"
+        },
+        {
+          "metric": "recall_non_fraud",
+          "value": 0.7044,
+          "source": "Table III"
+        },
+        {
+          "metric": "precision_fraud",
+          "value": 0.6967,
+          "source": "Table III"
+        },
+        {
+          "metric": "recall_fraud",
+          "value": 0.6965,
+          "source": "Table III"
+        }
+      ]
+    }
+  ]
+}

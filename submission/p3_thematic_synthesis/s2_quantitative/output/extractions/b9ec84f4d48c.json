@@ -1,0 +1,834 @@
+{
+  "paper_id": "b9ec84f4d48c",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:42:14+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "b9ec84f4d48c_towards_pricing_financial_derivatives_with_an_ibm_quantum_computer.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.817,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 2,
+    "validation_warnings": 8,
+    "validation_passed": false,
+    "validation_error_details": [
+      "Schema error at experiments.1.quantum_resources.two_qubit_gate_count: '>=6' is not of type 'integer', 'null'",
+      "Schema error at experiments.2.quantum_resources.two_qubit_gate_count: '>=18' is not of type 'integer', 'null'"
+    ],
+    "validation_warning_details": [
+      "experiments[0].results[5].unit='statevector coefficients' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='statevector coefficients' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='statevector coefficients' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='statevector coefficients' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='statevector coefficients' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[2].unit='bitstring' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[3].unit='statevector' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[3].unit='statevector coefficients' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.817,
+      "completeness": 0.817,
+      "num_experiments": 3,
+      "experiment_scores": [
+        0.85,
+        0.75,
+        0.85
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Towards Pricing Financial Derivatives with an IBM Quantum Computer",
+    "authors": [
+      "Ana Martin",
+      "Bruno Candelas",
+      "Ángel Rodríguez-Rozas",
+      "José D. Martín-Guerrero",
+      "Xi Chen",
+      "Lucas Lamata",
+      "Román Orús",
+      "Enrique Solano",
+      "Mikel Sanz"
+    ],
+    "year": 2019,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper implements a quantum principal component analysis (qPCA) prototype on the 5‑qubit IBMQX2 processor to estimate dominant eigenvectors of interest‑rate covariance matrices. A 2×2 matrix experiment used 3 qubits with 8192 shots per iteration and converged after ~4 iterations, while a 4×4 expansion (3 qubits total) required ≥18 entangling gates and produced unusable results on hardware due to noise. The work is a proof‑of‑principle NISQ demonstration for financial covariance analysis rather than a performance benchmark.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Hybrid qPCA experiment to estimate the dominant eigenvector/eigenvalue of a 2x2 cross-correlation matrix for two forward-rate maturities using IBMQX2 and Qiskit, with iterative eigenvector refinement and quantum phase estimation.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "quantum principal component analysis (qPCA) with iterative eigenvector refinement and quantum phase estimation",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": "Iterate until estimated eigenvector coefficients stabilize; paper reports stopping after 4 iterations for the 2x2 case",
+        "hyperparameters": {
+          "eigenvalue_precision_bits": 2,
+          "measurement_repetitions_per_iteration": 8192,
+          "measurement_bases": [
+            "z",
+            "x",
+            "y",
+            "arbitrary r basis"
+          ],
+          "arbitrary_basis_parameters": {
+            "alpha": 1.0,
+            "beta": 0.8,
+            "gamma": 0.16
+          },
+          "initial_state": "(|0> + |1>)/sqrt(2)"
+        },
+        "parameter_initialization": "Start from random/heuristic initial state |b0> = (|0>+|1>)/sqrt(2); use the previous iteration's estimated eigenvector as the next initial state",
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "2x2 covariance/cross-correlation matrix normalized by trace and encoded into a 1-qubit eigenvector register plus 2 qubits for 2-bit eigenvalue estimation",
+        "objective_function": "Estimate the largest eigenvalue and corresponding eigenvector of the normalized covariance matrix rho2 = sigma2 / tr(sigma2)",
+        "constraints_handling": "Post-selection/projection onto the binary subspace corresponding to the largest eigenvalue estimate (|11>)",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Historical interest-rate forward-rate cross-correlation matrix for two maturities",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 2,
+        "dataset_size": null,
+        "data_type": "real_market",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Based on historical data for two time-maturing forward rates; 2x2 submatrix of the 3x3 covariance matrix from Wilmott (Ref. 33)"
+        },
+        "data_preprocessing_details": "Normalize covariance matrix by its trace to form a density matrix; use historical cross-correlation data",
+        "evaluation_methodology": "4 iterative runs, each averaged over 8192 realizations; compare estimated coefficients across iterations and measure in multiple bases to infer relative phases"
+      },
+      "quantum_resources": {
+        "num_qubits": 3,
+        "qubit_type": "physical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 8192,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_superconducting",
+        "provider": "IBM",
+        "device_name": "IBMQX2",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "hardware noise / decoherence / gate and measurement errors",
+        "error_mitigation_method": "basis averaging over x, y, and arbitrary r measurements; iterative refinement to reduce coherent errors"
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Construct normalized covariance matrix from historical data",
+        "classical_postprocessing": "Convert measured bitstrings to eigenvector coefficients; average over measurement bases; estimate fidelity/error bars from IBM-provided qubit and measurement fidelity plus statistical error",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 4,
+          "final_loss_value": null,
+          "loss_curve_shape": "stabilization of eigenvector coefficients",
+          "variance_across_runs": null,
+          "num_independent_runs": 8192
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "eigenvalue_precision_bits",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "bits",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "measurement_repetitions_per_iteration",
+          "value": 8192,
+          "uncertainty": null,
+          "num_runs": 8192,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "iterations_to_converge",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "largest_eigenvalue",
+          "value": 0.8576,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "second_eigenvalue",
+          "value": 0.1424,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "estimated_dominant_eigenvector",
+          "value": null,
+          "uncertainty": "[(0.87 ± δ) - i(0.10 ± δ)]|0> + ((0.47 ± δ) + i(0.10 ± δ))|1>, with δ = 0.9",
+          "num_runs": 8192,
+          "unit": "statevector coefficients",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "basis_measurement_coefficients_z",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 8192,
+          "unit": "statevector coefficients",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "basis_measurement_coefficients_x",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 8192,
+          "unit": "statevector coefficients",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "basis_measurement_coefficients_y",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 8192,
+          "unit": "statevector coefficients",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "basis_measurement_coefficients_r",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 8192,
+          "unit": "statevector coefficients",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "Paper presents a NISQ proof-of-principle and does not report a classical baseline or empirical speedup."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 2.0,
+          "num_qubits": 3,
+          "metric_name": "iterations_to_converge",
+          "metric_value": 4
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": 3,
+          "metric_name": "measurement_repetitions_per_iteration",
+          "metric_value": 8192
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "Not estimated; experiment only demonstrated on a 2x2 covariance matrix.",
+        "resources_for_advantage": "Would require large-scale qPCA on high-dimensional covariance matrices with efficient state preparation and fault-tolerant phase estimation.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Very small problem size (2x2 matrix)",
+          "State preparation assumptions for qPCA not demonstrated",
+          "Hardware noise and limited qubit count",
+          "No classical runtime comparison"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "3 qubits are explicitly described for the 2x2 case: 2 qubits for eigenvalue estimation and 1 qubit for the eigenvector.",
+          "The paper reports 8192 realizations per iteration.",
+          "No explicit circuit depth or transpiled depth is given for this sub-experiment.",
+          "No asymptotic speedup order is characterized; the paper presents a NISQ proof-of-principle.",
+          "Authors present the work as a proof-of-principle NISQ demonstration and do not claim experimental quantum advantage.",
+          "Problem instance is trivially solvable classically (2x2 matrix eigen-decomposition)."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Quantum phase estimation refinement of the 2x2 qPCA experiment to estimate the dominant eigenvalue using the previously estimated eigenvector on IBMQX2 and Qiskit.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "quantum phase estimation (QPE) used after qPCA eigenvector estimation",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "eigenvalue_precision_bits": 3,
+          "measurement_bases": [
+            "computational basis"
+          ],
+          "input_eigenvector": "previously estimated |umax>"
+        },
+        "parameter_initialization": "Initialize the eigenvector register with the estimated dominant eigenvector from the first stage",
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "3 qubits for binary eigenvalue estimation and 1 qubit for the eigenvector register",
+        "objective_function": "Estimate the largest eigenvalue lambda_max of rho2 with 3-bit precision",
+        "constraints_handling": "Phase-estimation projection onto the eigenvalue subspace",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Same 2x2 normalized covariance matrix from the qPCA experiment",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 2,
+        "dataset_size": null,
+        "data_type": "real_market",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Historical forward-rate covariance matrix, 2x2 submatrix of sigma3"
+        },
+        "data_preprocessing_details": "Use the estimated eigenvector from the first stage as the input state for QPE",
+        "evaluation_methodology": "Compare simulator and real-chip output distributions; report fidelity of simulator-estimated eigenvector against the earlier estimate"
+      },
+      "quantum_resources": {
+        "num_qubits": 4,
+        "qubit_type": "physical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_superconducting",
+        "provider": "IBM",
+        "device_name": "IBMQX2",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "hardware noise / decoherence / entangling-gate accumulation",
+        "error_mitigation_method": "none explicit beyond using the previously estimated eigenvector and comparing with simulator"
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Use the eigenvector from the first stage as the input state",
+        "classical_postprocessing": "Interpret measured bitstring |111> as binary 0.111 = 0.875; compute fidelity between simulator output and estimated eigenvector",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "eigenvalue_precision_bits",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "bits",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "estimated_eigenvalue",
+          "value": 0.875,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "estimated_bitstring",
+          "value": null,
+          "uncertainty": "|111>",
+          "num_runs": null,
+          "unit": "bitstring",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "simulator_output_state",
+          "value": null,
+          "uncertainty": "|111> ⊗ [(0.808|0> + 0.600|1>)]",
+          "num_runs": null,
+          "unit": "statevector",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "fidelity",
+          "value": 0.977,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "entangling_gate_count",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No classical baseline or speedup claim is reported; paper only compares simulator and hardware behavior."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 2.0,
+          "num_qubits": 4,
+          "metric_name": "eigenvalue_precision_bits",
+          "metric_value": 3
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": 4,
+          "metric_name": "estimated_eigenvalue",
+          "metric_value": 0.875
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": 4,
+          "metric_name": "fidelity",
+          "metric_value": 0.977
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "Not provided; experiment uses a 2x2 matrix eigenvalue estimation.",
+        "resources_for_advantage": "Fault‑tolerant quantum phase estimation with large-scale Hamiltonian simulation of covariance matrices.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Circuit depth already exceeds coherence limits on 5‑qubit hardware",
+          "At least 6 entangling gates causing decoherence in the real device",
+          "No classical benchmark comparison",
+          "Toy-sized matrix"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "4 qubits are explicit: 3 for eigenvalue bits and 1 for the eigenvector.",
+          "The paper does not state a numeric circuit depth, only that the circuit depth grows and that at least 6 entangling gates are present.",
+          "No asymptotic speedup claim is made.",
+          "Real device results show near-uniform distributions due to decoherence; meaningful eigenvalue extraction only occurs in simulation.",
+          "No claim of outperforming classical eigenvalue algorithms."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "Hybrid qPCA experiment on a 4x4 expansion of the same covariance matrix, estimating the dominant eigenvector/eigenvalue with a 2-qubit eigenvector register and 1 qubit for eigenvalue estimation on IBMQX2 and Qiskit.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "quantum principal component analysis (qPCA) on 4x4 matrix with iterative eigenvector refinement",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": "Iterate until eigenvector coefficients stabilize; paper reports 4 iterations",
+        "hyperparameters": {
+          "measurement_repetitions_per_iteration": 8192,
+          "measurement_bases": [
+            "z",
+            "x",
+            "y",
+            "arbitrary basis"
+          ],
+          "initial_state": "(|00> + |01> + |10> + |11>)/2"
+        },
+        "parameter_initialization": "Start from uniform superposition over the 2-qubit eigenvector register; use previous iteration output as next input",
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "4x4 matrix encoded into a 2-qubit eigenvector register plus 1 qubit for eigenvalue estimation",
+        "objective_function": "Estimate the largest eigenvalue and corresponding eigenvector of rho4",
+        "constraints_handling": "Projection onto the dominant eigenvalue subspace",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "4x4 expansion of the historical forward-rate covariance matrix",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 4,
+        "dataset_size": null,
+        "data_type": "real_market",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "4x4 matrix derived from the same historical interest-rate data source as the 3x3 matrix"
+        },
+        "data_preprocessing_details": "Normalize by trace to form rho4; use the 4x4 expansion of the covariance matrix",
+        "evaluation_methodology": "4 iterations with 8192 realizations per iteration; compare chip and simulator coefficient estimates; measure in multiple bases to infer phases"
+      },
+      "quantum_resources": {
+        "num_qubits": 3,
+        "qubit_type": "physical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 8192,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_superconducting",
+        "provider": "IBM",
+        "device_name": "IBMQX2",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "hardware noise / decoherence / entangling-gate accumulation",
+        "error_mitigation_method": "basis averaging over x, y, and arbitrary r measurements"
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Normalize covariance matrix and prepare uniform superposition initial state",
+        "classical_postprocessing": "Average measurements across bases to estimate relative phases; interpret the final measured state as the dominant eigenvector approximation",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 4,
+          "final_loss_value": null,
+          "loss_curve_shape": "stabilization of eigenvector coefficients",
+          "variance_across_runs": null,
+          "num_independent_runs": 8192
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "iterations_to_converge",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "measurement_repetitions_per_iteration",
+          "value": 8192,
+          "uncertainty": null,
+          "num_runs": 8192,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "two_qubit_gate_count",
+          "value": 18,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "estimated_dominant_eigenvector",
+          "value": null,
+          "uncertainty": "(0.6287 + i0.3991)|00> + (0.4010 + i0.0693i)|01> + (0.4807 - i0.1964)|10> + (0.0305 + i0.0959)|11>",
+          "num_runs": 8192,
+          "unit": "statevector coefficients",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "estimated_error",
+          "value": 1.0,
+          "uncertainty": "over 100%",
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "Paper states the hardware result is meaningless due to >100% estimated error; no classical baseline or speedup claim is given."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 4.0,
+          "num_qubits": 3,
+          "metric_name": "iterations_to_converge",
+          "metric_value": 4
+        },
+        {
+          "problem_size": 4.0,
+          "num_qubits": 3,
+          "metric_name": "measurement_repetitions_per_iteration",
+          "metric_value": 8192
+        },
+        {
+          "problem_size": 4.0,
+          "num_qubits": 3,
+          "metric_name": "two_qubit_gate_count",
+          "metric_value": 18
+        },
+        {
+          "problem_size": 4.0,
+          "num_qubits": 3,
+          "metric_name": "estimated_error",
+          "metric_value": 1.0
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "Not estimated; experiment attempts a 4x4 matrix only.",
+        "resources_for_advantage": "Large-scale qPCA on high-dimensional covariance matrices with low-error multi-qubit phase estimation circuits.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Circuit depth too high for NISQ hardware",
+          ">=18 entangling gates leading to >100% estimated total error",
+          "5‑qubit device limits problem size",
+          "Result deemed experimentally meaningless by authors"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "3 qubits are explicit for the 4x4 case: 1 qubit for eigenvalue estimation and 2 qubits for the eigenvector register.",
+          "The paper explicitly states at least 18 entangling gates, but does not provide a full circuit depth or transpiled depth.",
+          "The paper notes the result is meaningless on hardware due to >100% estimated error, but no asymptotic speedup is claimed.",
+          "Authors explicitly state that experimental errors prevent extracting useful information for the 4x4 case.",
+          "Only simulator results show meaningful behavior."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

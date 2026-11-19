@@ -1,0 +1,561 @@
+{
+  "paper_id": "99b07636e459",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:20:26+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "99b07636e459_experimental_implementation_of_quantum_walk_based_portfolio_optimization.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.85,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 1,
+    "validation_warnings": 20,
+    "validation_passed": false,
+    "validation_error_details": [
+      "Schema error at experiments.0.quantum_resources.qubit_type: 'photonic_qudit' is not one of ['logical', 'physical', 'not_specified', None]"
+    ],
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='qudits/basis states in restricted subspace' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='dimensionless' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='s per setting' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='photons' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='states' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[16].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[17].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[18].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[19].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[20].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[21].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[22].unit='scaled cost/quality' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[23].unit='scaled cost/quality' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[24].unit='scaled cost/quality' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[25].unit='scaled cost/quality' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[26].unit='scaled cost/quality' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[27].unit='scaled cost/quality' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.85,
+      "completeness": 0.85,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.85
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Experimental implementation of quantum-walk-based portfolio optimization",
+    "authors": [
+      "Dengke Qu",
+      "Edric Matwiejew",
+      "Kunkun Wang",
+      "Jingbo Wang",
+      "Peng Xue"
+    ],
+    "year": 2024,
+    "doi": "10.1088/2058-9565/ad27e9",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "portfolio-optimization",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper experimentally implements the Quantum Walk‑based Optimization Algorithm (QWOA) operators using a single‑photon linear‑optical network encoding a 7‑dimensional qudit representing the 7 valid portfolios of a 3‑asset Markowitz problem. For circuit depths p=1–6, the probability of the optimal portfolio state increases experimentally from 0.324 to 0.797 (theory up to ≈0.998), demonstrating probability amplification consistent with the QWOA model.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Experimental implementation of the quantum-walk-based portfolio optimization (QWOA) mixing and phase-shift unitaries for a 3-asset portfolio using single-photon linear optics, evaluated for circuit depths p=1 to 6.",
+      "algorithm": {
+        "family": "quantum-walk",
+        "variant": "Quantum Walk-based Optimization Algorithm (QWOA) for portfolio optimization; restricted experimental implementation of phase-shift and continuous-time quantum walk unitaries",
+        "ansatz": "Alternating phase-shift unitary U_Q'(γ) and indexed-walk unitary U_w'(t)",
+        "optimizer": "BFGS",
+        "num_layers": 6,
+        "convergence_criteria": "not reported; parameters optimized separately for each p",
+        "hyperparameters": {
+          "portfolio_size_assets": 3,
+          "constraint_a": 0,
+          "valid_solution_space_size": 7,
+          "p_values": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "omega": 0.5,
+          "gamma_and_t_optimized_per_p": true,
+          "initial_parameter_sampling": "uniform random in [0, 2π]",
+          "repeats_per_p": 20,
+          "dephasing_rate_estimate": 0.97
+        },
+        "parameter_initialization": "uniform distribution between 0 and 2π for 20 repeats at each p",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": "γ and t initialized from [0, 2π] for optimization"
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Two qubits per asset encode three positions: |10⟩ short, |01⟩ long, |00⟩ or |11⟩ no position; for 3 assets this gives a 6-qubit full encoding, but the experiment restricts to the 7 valid solutions under constraint a=0 and implements them as a 7-dimensional qudit basis.",
+        "objective_function": "Mean-variance Markowitz cost C(s)=ω Σ_{i,j=1}^M σ_{ij} z_i z_j − (1−ω) Σ_{i=1}^M r_i z_i, with constraint a=Σ_i z_i=0",
+        "constraints_handling": "Constraint a=0 handled by restricting to the valid solution subspace S' of 7 portfolios; invalid states excluded by classical indexing/preparation",
+        "num_binary_variables": 6,
+        "problem_hamiltonian": "Diagonal quality operator Q=diag(q0,...,q6) over the valid-solution subspace; QWOA uses U_Q'(γ)=e^{-iγQ} and U_w'(t)=e^{-iWt} on K7",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Portfolio optimization for three stocks under a net-zero position constraint",
+        "num_assets": 3,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "real_market",
+        "dataset_name": "Yahoo Finance stock data",
+        "dataset_specification": {
+          "description": "Google, IBM, Microsoft; date range 2019-01-01 to 2020-12-31; adjusted closing prices used to compute returns and covariance"
+        },
+        "data_preprocessing_details": "Expected returns and covariance matrix computed from daily closing/opening prices; quality values q_i calculated classically from adjusted closing prices; q values scaled by factor 250 for optimization",
+        "evaluation_methodology": "Experimental and theoretical probability distributions compared for p=1 to 6; expectation value of quality operator measured; photon counts recorded for 10 s per setting with approximately 27,000 single photons registered"
+      },
+      "quantum_resources": {
+        "num_qubits": 7,
+        "qubit_type": "photonic_qudit",
+        "circuit_depth": 6,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_photonic",
+        "provider": "not_specified",
+        "device_name": null,
+        "framework": "not_specified"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "interferometer imperfections and wave-plate inaccuracies; dephasing estimated at ~0.97",
+        "error_mitigation_method": "none reported"
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "BFGS for parameter optimization; QuOp_MPI used for simulation/parameter search",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Classical computation of valid solutions, indexing, returns, covariance matrix, and optimal variational parameters",
+        "classical_postprocessing": "Projective measurement via PBS; probabilities estimated from photon-count ratios; expectation value of Q computed from measured distributions",
+        "total_execution_time": "10 s per measurement setting",
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "objective value decreases with p; probability of optimal state increases and stabilizes",
+          "variance_across_runs": null,
+          "num_independent_runs": 20
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_assets",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qudits/basis states in restricted subspace",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "ground_state_probability",
+          "value": 0.797,
+          "uncertainty": "±0.002",
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "ground_state_probability",
+          "value": 0.998,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "expected_value_of_quality_operator",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dephasing_rate",
+          "value": 0.97,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimensionless",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "measurement_duration",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "s per setting",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "single_photon_counts",
+          "value": 27000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "photons",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "valid_solution_space_size",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "states",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "p_values",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "p_values",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "p_values",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "p_values",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "p_values",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "p_values",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "theoretical_ground_state_probability",
+          "value": 0.363,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "theoretical_ground_state_probability",
+          "value": 0.567,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "theoretical_ground_state_probability",
+          "value": 0.876,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "theoretical_ground_state_probability",
+          "value": 0.97,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "theoretical_ground_state_probability",
+          "value": 0.998,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "theoretical_ground_state_probability",
+          "value": 0.998,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "quality_vector_value",
+          "value": 0.19537791107281657,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "scaled cost/quality",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "quality_vector_value",
+          "value": -0.1119084583542568,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "scaled cost/quality",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "quality_vector_value",
+          "value": 0.09592313540638248,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "scaled cost/quality",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "quality_vector_value",
+          "value": -0.038186379903069514,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "scaled cost/quality",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "quality_vector_value",
+          "value": -0.05124555365045395,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "scaled cost/quality",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "quality_vector_value",
+          "value": 0.12193130046716749,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "scaled cost/quality",
+          "higher_is_better": false,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "O(m^2) gate complexity",
+          "baseline_method": "classical portfolio optimization / prior QAOA-based methods",
+          "conditions": "as stated for QWOA in cited prior work; not experimentally benchmarked here",
+          "is_demonstrated": false,
+          "caveats": "This is a complexity statement from prior work, not a measured speedup in this experiment."
+        },
+        {
+          "type": "theoretical",
+          "factor": "reduced search space from 64 to 7 states",
+          "baseline_method": "full 3-asset encoding space",
+          "conditions": "for the 3-asset, a=0 portfolio instance",
+          "is_demonstrated": true,
+          "caveats": "This is a problem-restriction advantage, not a runtime speedup."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 3,
+          "num_qubits": 7,
+          "metric_name": "ground_state_probability",
+          "metric_value": 0.324
+        },
+        {
+          "problem_size": 3,
+          "num_qubits": 7,
+          "metric_name": "ground_state_probability",
+          "metric_value": 0.502
+        },
+        {
+          "problem_size": 3,
+          "num_qubits": 7,
+          "metric_name": "ground_state_probability",
+          "metric_value": 0.763
+        },
+        {
+          "problem_size": 3,
+          "num_qubits": 7,
+          "metric_name": "ground_state_probability",
+          "metric_value": 0.812
+        },
+        {
+          "problem_size": 3,
+          "num_qubits": 7,
+          "metric_name": "ground_state_probability",
+          "metric_value": 0.816
+        },
+        {
+          "problem_size": 3,
+          "num_qubits": 7,
+          "metric_name": "ground_state_probability",
+          "metric_value": 0.797
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(m^2) gate complexity for QWOA as stated in the paper (from cited prior work)",
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": null,
+        "resources_for_advantage": "Not analyzed; experiment restricted to a 7‑state solution subspace representing a 3‑asset portfolio.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Toy problem size (3 assets, 7 valid portfolios)",
+          "No classical baseline comparison in experiment",
+          "Optical implementation realizes only restricted subspace unitaries rather than full scalable circuit",
+          "Variational parameters optimized classically and precomputed via simulation",
+          "Scaling of optical interferometer network not demonstrated"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The experiment is photonic and gate-based (single photons, linear optics), not quantum annealing.",
+          "The paper explicitly states p=1 to 6 and gives the implemented unitaries U1...U6; circuit_depth recorded as 6 iterations.",
+          "num_qubits=7 is inferred from the 7-dimensional qudit implementation and the seven basis states; the paper also notes the full 3-asset encoding would be 6 qubits, but the experiment uses a 7-state restricted subspace.",
+          "The paper does not claim a demonstrated quantum advantage; it presents a proof‑of‑principle optical realization of QWOA operators.",
+          "Results only show agreement between experimental and theoretical probability amplification for a small 3‑asset portfolio instance."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

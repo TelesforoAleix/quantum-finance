@@ -1,0 +1,501 @@
+{
+  "paper_id": "b9898808569b",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:41:26+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "b9898808569b_empirical_evaluation_of_quantum_kernel_learning_for_sector_rotation_prediction_u.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 1.0,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 7,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[14].unit='trading_days' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[15].unit='trading_days' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[16].unit='trading_days' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[18].unit='features' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[19].unit='days' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[20].unit='days' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[21].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 1.0,
+      "completeness": 1.0,
+      "num_experiments": 1,
+      "experiment_scores": [
+        1.0
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Empirical Evaluation of Quantum Kernel Learning for Sector Rotation Prediction: Using Fama–French 10 Industry Portfolios",
+    "authors": [
+      "Tohru Nakajima"
+    ],
+    "year": 2026,
+    "doi": "10.20944/preprints202602.0745.v1",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "Using 2022–2024 Fama–French 10 Industry daily returns (1,506 trading days), the paper evaluates a ZZFeatureMap fidelity quantum kernel (Aer statevector simulator) with 1-NN classification. The quantum model achieves 50.0% mean accuracy across sectors versus 52.1% for a classical RBF SVM and 48.4% for a linear SVM, though it attains the best accuracy in two sectors (e.g., 55.0% in Non-Durables).",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum kernel learning for sector rotation prediction on Fama–French 10 Industry Portfolios using a ZZFeatureMap fidelity kernel and 1-NN classification, compared against classical SVC baselines.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "fidelity quantum kernel with ZZFeatureMap and 1-nearest neighbor classification",
+        "ansatz": "ZZFeatureMap",
+        "optimizer": null,
+        "num_layers": 1,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "feature_map": "ZZFeatureMap",
+          "reps": 1,
+          "classifier": "1-NN",
+          "reference_set_size": 100,
+          "backend": "AerSimulator",
+          "kernel_evaluation": "ComputeUncompute fidelity",
+          "training_split": 0.8,
+          "test_split": 0.2,
+          "feature_count": 9,
+          "lookback_window_days": 60,
+          "prediction_horizon_days": 5
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "not_specified",
+        "encoding_details": "Nine handcrafted financial features are encoded into a ZZFeatureMap quantum feature map; the paper does not specify a qubit-per-feature mapping beyond the feature map construction.",
+        "objective_function": "Binary classification of whether a sector's 5-day cumulative return exceeds the equal-weighted market average 5-day cumulative return.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Sector rotation prediction across 10 Fama–French industries using daily returns from 2022–2024.",
+        "num_assets": 10,
+        "time_steps": 1506,
+        "num_features": 9,
+        "dataset_size": 1506,
+        "data_type": "public_benchmark",
+        "dataset_name": "Fama–French 10 Industry Portfolios Daily Returns",
+        "dataset_specification": {
+          "description": "10 industries: NoDur, Durbl, Manuf, Enrgy, HiTec, Telcm, Shops, Hlth, Utils, Other; date range 2022-01-01 to 2024-12-31; chronological 80/20 split (1152 train days, 289 test days); features standardized using training statistics only."
+        },
+        "data_preprocessing_details": "Constructed 9 features from past 60 trading days: mean return, volatility, win rate, excess return vs equal-weighted market average, MA5, MA20, max drawdown, 5-day return, skewness; Z-score normalization using training set statistics; labels defined by whether sector 5-day cumulative return exceeds market 5-day cumulative return; no random shuffling; first 100 chronologically ordered training samples used as quantum reference set.",
+        "evaluation_methodology": "Accuracy on the test set, reported per sector plus mean and standard deviation across 10 sectors."
+      },
+      "quantum_resources": {
+        "num_qubits": 9,
+        "qubit_type": "not_specified",
+        "circuit_depth": 1,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "Qiskit Aer",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": "Qiskit Machine Learning v0.8.4; scikit-learn v1.7.2; Python 3.12",
+        "transpilation_target": null,
+        "classical_solver": "1-NN for quantum kernel post-processing; classical baselines use SVC with RBF and linear kernels",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Chronological train/test split; StandardScaler fit on training data only; deterministic selection of first 100 training samples for quantum reference set.",
+        "classical_postprocessing": "Kernel matrix computed via fidelity; 1-nearest neighbor prediction from maximum kernel similarity; accuracy aggregated across sectors.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": null,
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "accuracy",
+          "value": 55.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 54.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 52.9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 52.2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 47.8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 45.7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 59.9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 58.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 52.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 50.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 48.4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "standard_deviation",
+          "value": 3.2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "standard_deviation",
+          "value": 4.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "standard_deviation",
+          "value": 7.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 1506,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "trading_days",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_set_size",
+          "value": 1152,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "trading_days",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "test_set_size",
+          "value": 289,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "trading_days",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "reference_set_size",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "feature_count",
+          "value": 9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "features",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "lookback_window_days",
+          "value": 60,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "days",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "prediction_horizon_days",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "days",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical_rbf",
+          "metric_name": "accuracy",
+          "value": 52.9,
+          "unit": "%"
+        },
+        {
+          "method_name": "classical_linear",
+          "metric_name": "accuracy",
+          "value": 54.0,
+          "unit": "%"
+        },
+        {
+          "method_name": "classical_rbf",
+          "metric_name": "accuracy",
+          "value": 47.8,
+          "unit": "%"
+        },
+        {
+          "method_name": "classical_linear",
+          "metric_name": "accuracy",
+          "value": 45.7,
+          "unit": "%"
+        },
+        {
+          "method_name": "classical_linear",
+          "metric_name": "accuracy",
+          "value": 59.9,
+          "unit": "%"
+        },
+        {
+          "method_name": "classical_rbf",
+          "metric_name": "accuracy",
+          "value": 58.1,
+          "unit": "%"
+        },
+        {
+          "method_name": "classical_rbf",
+          "metric_name": "accuracy",
+          "value": 52.1,
+          "unit": "%"
+        },
+        {
+          "method_name": "classical_linear",
+          "metric_name": "accuracy",
+          "value": 48.4,
+          "unit": "%"
+        },
+        {
+          "method_name": "classical_rbf",
+          "metric_name": "standard_deviation",
+          "value": 4.0,
+          "unit": "%"
+        },
+        {
+          "method_name": "classical_linear",
+          "metric_name": "standard_deviation",
+          "value": 7.0,
+          "unit": "%"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No asymptotic or empirical computational speedup is reported; the paper focuses on classification accuracy and stability."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 1506,
+          "num_qubits": 9,
+          "metric_name": "accuracy",
+          "metric_value": 50.0
+        },
+        {
+          "problem_size": 100,
+          "num_qubits": 9,
+          "metric_name": "reference_set_size",
+          "metric_value": 100
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Not specified; experiment uses statevector simulation with a small feature-map circuit and 100 reference samples.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Classical RBF kernel achieves higher mean accuracy (52.1%) than the quantum kernel (50.0%).",
+          "Quantum evaluation limited to a 100-sample reference set due to computational cost.",
+          "Experiment uses noiseless statevector simulation rather than real quantum hardware.",
+          "Quantum classifier differs from classical baseline (1-NN vs SVC), limiting direct comparability.",
+          "No complexity or runtime advantage analysis provided."
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_statevector because the paper explicitly states AerSimulator and statevector simulation, with no real QPU used.",
+          "num_qubits inferred as 9 from the nine-feature ZZFeatureMap input; the paper does not explicitly state the qubit count, but the feature map implies one qubit per feature in this setup.",
+          "Speedup order not characterized in the paper; no asymptotic complexity comparison is provided.",
+          "Section 3.2 reports mean accuracy: Classical RBF 52.1%, Quantum ZZ 50.0%, Classical Linear 48.4%, indicating classical RBF performs best overall.",
+          "Authors explicitly state that they cannot conclude quantum kernels universally outperform classical baselines."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

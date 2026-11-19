@@ -1,0 +1,551 @@
+{
+  "paper_id": "6d5768682408",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:56:59+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "6d5768682408_solving_the_product_breakdown_structure_problem_with_constrained_qaoa.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.4,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 18,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='sites' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='sites' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='sites' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='sites' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='sites' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='sites' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='M·N logical qubits' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='O(p·M·N)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='O(p·M^2·N)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='O(M^2·N)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='O(M·N)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='O(M^2·N)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='O(M·N)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='O(log(N))' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='orders of magnitude' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[17].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[18].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[19].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.4,
+      "completeness": 0.4,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.65,
+        0.15
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Solving the Product Breakdown Structure Problem with constrained QAOA",
+    "authors": [
+      "René Zander",
+      "Raphael Seidel",
+      "Matteo Inajetovic",
+      "Niklas Steinmann",
+      "Matic Petrič"
+    ],
+    "year": 2024,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "other",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a constrained-QAOA approach for the Product Breakdown Structure (PBS) problem that prepares a uniform superposition of feasible solutions using M·N qubits and achieves circuit complexity O(p·M^2·N) gates and O(p·M·N) depth. Simulator experiments (3-layer QAOA) show probability amplification for near-optimal solutions and demonstrate a search-space reduction of up to 46 orders of magnitude at M=20 compared with unconstrained QUBO formulations. Additional simulations up to 24 qubits suggest reduced barren-plateau effects via gradient-variance analysis.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Constrained QAOA for the Product Breakdown Structure (PBS) problem, benchmarked on multiple randomly generated PBS tree instances with varying numbers of sites and tree structures, using Qrisp simulator.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "constrained QAOA with constraint-specific state preparation and constrained mixer",
+        "ansatz": "problem-specific constrained QAOA ansatz",
+        "optimizer": null,
+        "num_layers": 3,
+        "convergence_criteria": "fixed-depth benchmark with depth 3; additional sweep over 0 to 4 layers in figures",
+        "hyperparameters": {
+          "depth": 3,
+          "alpha": 0.1,
+          "max_iter": 100,
+          "init_type": "tqa"
+        },
+        "parameter_initialization": "Trotterized Quantum Annealing (TQA) parameter initialization protocol; initial state set to uniform superposition over feasible solutions",
+        "optimizer_settings": {
+          "max_iterations": 100,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "one_hot_encoding",
+        "encoding_details": "Each part is encoded as a one-hot QuantumVariable of N qubits; M parts use M·N qubits total",
+        "objective_function": "Minimize C = sum_{(r,s) in phi} c^r_{f(r),f(s)} subject to f(r) != f(s) for all (r,s) in {x} ∪ pred(x)",
+        "constraints_handling": "Constraints are enforced directly in the state preparation and mixer (feasible-subspace-preserving constrained mixer), not via penalty terms in the implemented QAOA; paper also discusses QUBO penalty formulation as a contrast",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Product Breakdown Structure (PBS) assignment problem on rooted directed tree instances; benchmark instances are randomly generated tree graphs and examples from prior PBS benchmark set",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 30,
+        "data_type": "synthetic",
+        "dataset_name": "PBS benchmark instances / randomly generated tree graphs",
+        "dataset_specification": {
+          "description": "Tree graphs with maximum degree N = floor(M/2) for scaling study; example instances include phi={(1,0),(2,0),(3,0)} and phi={(1,0),(2,0),(3,1)} with N in {4,5,6}"
+        },
+        "data_preprocessing_details": "Random tree generation for scaling study; no additional preprocessing reported",
+        "evaluation_methodology": "Simulator-based benchmarking; aggregated probabilities of measuring feasible solutions and success probability P0.1 over varying QAOA layers; 30 random graphs per M for scaling figure; 100 samples for gradient-variance study in Appendix B"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": 2,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        },
+        "mixer_depth": "Mixer includes state-preparation conjugation and is dominated by state preparation complexity O(M·N); the MCP tagging subroutine itself has depth O(log N)"
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": "Qrisp simulator running on Apple M2 MacBook Pro",
+        "framework": "Qrisp",
+        "framework_version": null,
+        "transpilation_target": null
+      },
+      "noise_model": {
+        "noise_model": "noiseless simulation; no noise model reported",
+        "noise_parameters": null,
+        "mitigation_details": null,
+        "is_noisy": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/renezander90/PBS-QAOA",
+        "framework_version": null,
+        "transpilation_target": "Qrisp compiler; no specific backend target reported",
+        "classical_solver": "classical optimizer for QAOA parameters not specified; classical dynamic programming PBS solver discussed only as baseline in appendix",
+        "transpilation_settings": null,
+        "classical_preprocessing": "PBS tree encoding and SymPy polynomial generation for cost operator",
+        "classical_postprocessing": "Measure bitstrings, compute classical cost function, and evaluate success probability P0.1 / aggregated cost probabilities",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "probability amplification over layers; no explicit loss curve reported",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "problem_size",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": 30,
+          "unit": "sites",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "problem_size",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": 30,
+          "unit": "sites",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "problem_size",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": 30,
+          "unit": "sites",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "problem_size",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "sites",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "problem_size",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "sites",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "problem_size",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "sites",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "M·N logical qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "O(p·M·N)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gate_count",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "O(p·M^2·N)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "state_preparation_gate_count",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "O(M^2·N)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "state_preparation_depth",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "O(M·N)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "cost_operator_gate_count",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "O(M^2·N)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "cost_operator_depth",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "O(M·N)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "mixer_depth",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "O(log(N))",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "search_space_reduction",
+          "value": 46,
+          "uncertainty": null,
+          "num_runs": 30,
+          "unit": "orders of magnitude",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "approximation_factor",
+          "value": 0.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "max_iterations",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "qaoa_layers",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "qaoa_layers",
+          "value": 0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "qaoa_layers",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gradient_variance_samples",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical dynamic programming PBS solver",
+          "metric_name": "runtime",
+          "value": null,
+          "unit": "O(M·N^(m+1))"
+        },
+        {
+          "method_name": "classical dynamic programming PBS solver",
+          "metric_name": "runtime",
+          "value": null,
+          "unit": "O(N^M) for star tree"
+        },
+        {
+          "method_name": "classical dynamic programming PBS solver",
+          "metric_name": "runtime",
+          "value": null,
+          "unit": "O(M·N^2) for chain"
+        },
+        {
+          "method_name": "classical dynamic programming PBS solver",
+          "metric_name": "runtime",
+          "value": null,
+          "unit": "O(M·N^3) for binary tree"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "46 orders of magnitude smaller search space",
+          "baseline_method": "quasi-constrained QUBO search space",
+          "conditions": "at M = 20 in the scaling discussion; comparing constrained feasible space to unconstrained/quasi-constrained space",
+          "is_demonstrated": true,
+          "caveats": "This is a state-space size comparison, not a measured runtime speedup."
+        },
+        {
+          "type": "theoretical",
+          "factor": "reduced search space / improved scalability",
+          "baseline_method": "QUBO-based or vanilla QAOA approaches",
+          "conditions": "because constraints are enforced in the mixer and state preparation rather than via penalty terms",
+          "is_demonstrated": true,
+          "caveats": "No asymptotic quantum advantage is proven."
+        },
+        {
+          "type": "theoretical",
+          "factor": "mitigates barren plateaus",
+          "baseline_method": "generic variational quantum algorithms",
+          "conditions": "due to reduced Hilbert space dimension from constrained subspace",
+          "is_demonstrated": true,
+          "caveats": "Supported by a small variance study in Appendix B; not a formal proof."
+        },
+        {
+          "type": "projected",
+          "factor": "potential advantage over classical algorithms",
+          "baseline_method": "classical algorithms on hard instances",
+          "conditions": "if near-optimal solution probability is boosted to inverse-polynomial in problem size",
+          "is_demonstrated": false,
+          "caveats": "Presented as a hypothetical scenario, not experimentally shown."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 4,
+          "num_qubits": null,
+          "metric_name": "feasible_solution_count",
+          "metric_value": 24
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": null,
+          "metric_name": "feasible_solution_count",
+          "metric_value": 120
+        },
+        {
+          "problem_size": 6,
+          "num_qubits": null,
+          "metric_name": "feasible_solution_count",
+          "metric_value": 360
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": null,
+          "metric_name": "feasible_solution_count",
+          "metric_value": 72
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": null,
+          "metric_name": "feasible_solution_count",
+          "metric_value": 480
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": null,
+          "metric_name": "feasible_solution_count",
+          "metric_value": 144
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(p·M^2·N) gates and O(p·M·N) depth",
+        "classical_complexity": "O(M·N^{m+1}) for the classical dynamic programming PBS solver; for special cases: star tree O(N^M), chain O(M·N^2), binary tree O(M·N^3)",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not analyzed",
+        "resources_for_advantage": "Algorithm requires M·N logical qubits and O(p·M^2·N) gates; no resource estimate for fault‑tolerant implementation or advantage-scale instance is provided.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Only noiseless simulator experiments",
+          "No empirical comparison against classical solvers",
+          "Problem instances are small toy cases",
+          "No crossover analysis or runtime comparison",
+          "Resource scaling still polynomial but potentially large constants"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_other because experiments are explicitly stated to be performed with the Qrisp simulator on an M2 MacBook Pro; no real QPU is named.",
+          "num_qubits reported as M·N from the paper's resource analysis for the PBS encoding.",
+          "Circuit depth reported as O(p·M·N) overall, with state preparation and cost operator depths given separately.",
+          "Speedup order set to none_proven because the paper reports favorable scaling and barren-plateau mitigation but does not establish asymptotic quantum advantage over the classical PBS solver.",
+          "Authors do not claim demonstrated quantum advantage; they discuss potential advantages from reduced search space and barren plateau mitigation.",
+          "Experiments only show probability amplification behavior on simulator benchmarks without classical runtime comparison."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_new_1",
+      "description": "Gradient variance experiment studying barren plateau mitigation for the constrained-QAOA ansatz across increasing problem sizes.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "constrained QAOA ansatz (gradient variance study)",
+        "ansatz": "problem-specific constrained QAOA ansatz",
+        "num_layers": null
+      },
+      "key_results": [
+        "Gradient variance estimated using finite-difference gradients with 100 samples.",
+        "Problem sizes tested correspond to 12, 16, 20, and 24 qubits (Table 1).",
+        "Log-variance plot (Figure 4) shows slower decay compared with typical barren plateau behavior reported in literature."
+      ]
+    }
+  ]
+}

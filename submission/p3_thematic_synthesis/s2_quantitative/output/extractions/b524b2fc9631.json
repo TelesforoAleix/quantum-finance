@@ -1,0 +1,679 @@
+{
+  "paper_id": "b524b2fc9631",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:39:07+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "b524b2fc9631_classical_and_quantum_computing_methods_for_estimating_loan_level_risk_distribut.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.75,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 17,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[1].unit='O(sqrt(M)) samples' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='O(M) samples' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='classical error O(1/sqrt(M)); QAE error O(1/M)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='asset' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='months' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='accounts' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='USD of conforming mortgages' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='simulations' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='simulations' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[1].unit='O(sqrt(M)) samples' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[2].unit='O(M) samples' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[3].unit='classical error O(1/sqrt(M)); QAE error O(1/M)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[4].unit='risks (default and prepayment)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[5].unit='N registers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[6].unit='4Nm qubits plus supporting qubits' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[8].unit='bins' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[9].unit='years' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.75,
+      "completeness": 0.75,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.7,
+        0.8
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Classical and quantum computing methods for estimating loan-level risk distributions",
+    "authors": [
+      "Joseph L. Breeden",
+      "Yevgeniya Leonova"
+    ],
+    "year": 2023,
+    "doi": "10.1080/01605682.2022.2115415",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "risk-management",
+    "secondary_silos": [
+      "credit-lending",
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper builds a classical Monte Carlo framework for loan-level lifetime default risk using Freddie Mac mortgage data (> $2T portfolio) and shows that the resulting lifetime PD distributions are well approximated by lognormal distributions, allowing estimation with ~50 simulations (~1.9 s per account) instead of 10,000. It then proposes a theoretical quantum Monte Carlo approach using quantum amplitude estimation with quadratic O(√M) sampling advantage, but no quantum experiment is executed and the full competing‑risks formulation would require about 4Nm qubits, exceeding near-term hardware.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum Monte Carlo / quantum amplitude estimation for estimating lifetime probability of default under a simplified unconditional default-probability model for loan risk distributions.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Quantum Monte Carlo simulation with Quantum Amplitude Estimation (QAE) following Egger et al./Woerner & Egger; bisection search for a target percentile",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "target_percentile": "95%",
+          "confidence_level": "95%",
+          "forecast_horizon": "N time steps",
+          "register_precision": "m qubits per distribution register",
+          "QAE_error_scaling": "O(1/M)",
+          "classical_MC_error_scaling": "O(1/sqrt(M))"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Each horizon t has an m-qubit register encoding the unconditional PD(t) distribution; registers are summed to form lifetime PD, and an indicator qubit marks whether the sum exceeds a threshold x for QAE.",
+        "objective_function": "Estimate the lifetime probability distribution / percentile (e.g., 95th percentile) of default probability from a sum of unconditional PD(t) distributions.",
+        "constraints_handling": "Threshold qubit C used to mark whether the summed value exceeds x; bisection search over x to find the desired percentile.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Loan-level risk distribution estimation for Freddie Mac mortgage accounts using a simplified unconditional default-probability model (not the full competing-risks model).",
+        "num_assets": 1,
+        "time_steps": 36,
+        "num_features": null,
+        "dataset_size": 2,
+        "data_type": "public_benchmark",
+        "dataset_name": "Freddie Mac mortgage data",
+        "dataset_specification": {
+          "description": "30-year fixed-rate conforming mortgages; account-level data including balance, delinquency, payments, payoff, origination date, origination score, postal code, LTV, DTI, number of borrowers, property type, and loan purpose"
+        },
+        "data_preprocessing_details": "Unconditional PD(t) modeled directly as booked-account default fraction; logit-normal distributions approximated by lognormal distributions for quantum loading; forecast horizon 36 months in the classical study, but the quantum section is described generically for N steps",
+        "evaluation_methodology": "The paper is conceptual/proof-of-principle for quantum feasibility; no hardware experiment or benchmark run is reported for the quantum algorithm"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": null,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Classical Monte Carlo simulation used to estimate lifetime PD distributions; 10,000 simulations used for figures, and approximately 50 simulations are sufficient when fitting a lognormal distribution, giving runtime ≈1.9 seconds per account.",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Fit multihorizon survival/APC models; estimate unconditional PD(t) distributions; approximate logit-normal with lognormal for easier loading",
+        "classical_postprocessing": "Bisection search over threshold x to recover percentile; QAE would estimate amplitude a corresponding to the target percentile",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "tail_risk_estimate",
+          "value": 95,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "quantum_complexity",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "O(sqrt(M)) samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "classical_complexity",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "O(M) samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "classical error O(1/sqrt(M)); QAE error O(1/M)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_risk_factors",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "asset",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "forecast_horizon",
+          "value": 36,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "months",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_test_accounts",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "accounts",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 2000000000000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "USD of conforming mortgages",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "classical_runtime",
+          "value": 1.9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "s",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "classical_mc_simulations",
+          "value": 50,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "simulations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "classical_mc_simulations",
+          "value": 10000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "simulations",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "tail_risk_estimate",
+          "value": 95,
+          "unit": "%"
+        },
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "classical_runtime",
+          "value": 1.9,
+          "unit": "s"
+        },
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "classical_mc_simulations",
+          "value": 50,
+          "unit": "simulations"
+        },
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "classical_mc_simulations",
+          "value": 10000,
+          "unit": "simulations"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical monte carlo",
+          "conditions": "for quantum amplitude estimation applied to the simplified unconditional default-probability model; assuming the distribution can be loaded efficiently",
+          "is_demonstrated": false,
+          "caveats": "The paper does not execute a quantum circuit; it only argues that QAE can achieve O(1/M) error versus classical O(1/sqrt(M)) error, implying a square-root sample reduction."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": null,
+          "num_qubits": null,
+          "metric_name": "qubit_scaling",
+          "metric_value": null
+        },
+        {
+          "problem_size": null,
+          "num_qubits": null,
+          "metric_name": "register_precision",
+          "metric_value": 2.0
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(sqrt(M)) samples for amplitude estimation versus classical Monte Carlo",
+        "classical_complexity": "O(M) samples for Monte Carlo estimation of a target percentile; classical convergence rate described as O(1/sqrt(M)) error",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L0_theory",
+        "crossover_size": "Not specified; depends on number of Monte Carlo samples M and forecast horizon N",
+        "resources_for_advantage": "Requires N registers of m qubits each plus support qubits for QAE; efficient distribution loading and sufficiently large M where quantum O(1/M) amplitude estimation scaling beats classical O(1/sqrt(M)).",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Quantum algorithm not executed on hardware",
+          "Quadratic speedup only (amplitude estimation)",
+          "Efficient loading of probability distributions into amplitude registers is non‑trivial",
+          "Large qubit counts required for multiple forecast horizons",
+          "Error correction and coherence requirements not addressed"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper does not report an executed gate-based quantum hardware experiment; it only sketches a future quantum Monte Carlo/QAE implementation.",
+          "num_qubits is taken from the text stating N separate m-qubit registers are needed for the unconditional-distribution version.",
+          "No specific device, framework, shot count, or transpiled circuit metrics are reported.",
+          "The paper proposes a QAE-based Monte Carlo method but does not run it on a simulator or QPU.",
+          "Speedup discussed theoretically as quadratic relative to classical Monte Carlo."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Quantum Monte Carlo / amplitude estimation for the full competing-risks loan default model with conditional default and prepayment probabilities.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Quantum Monte Carlo simulation with QAE for competing-risks cash-flow model; entangled-copy/in-place register-saving discussion",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "target_percentile": "95%",
+          "confidence_level": "95%",
+          "forecast_horizon": "N time steps",
+          "register_precision": "m qubits per distribution register",
+          "register_count_best_case": "4N registers",
+          "qubit_count_best_case": "4Nm qubits plus supporting qubits",
+          "QAE_error_scaling": "O(1/M)",
+          "classical_MC_error_scaling": "O(1/sqrt(M))"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "At each time step, conditional PD(t) and PA(t) distributions are loaded into m-qubit registers; an entangled copy of CPD(t) and a survival register S(t) are reused across steps to compute UPD(t)=CPD(t)·S(t).",
+        "objective_function": "Estimate the lifetime default distribution under a competing-risks model with conditional default and prepayment probabilities.",
+        "constraints_handling": "Entanglement via controlled gates is required so that reused registers remain perfectly correlated across calculations; no penalty formulation is used.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Loan-level competing-risks model for mortgage default and prepayment uncertainty using Freddie Mac mortgage data.",
+        "num_assets": 1,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 2,
+        "data_type": "public_benchmark",
+        "dataset_name": "Freddie Mac mortgage data",
+        "dataset_specification": {
+          "description": "30-year fixed-rate conforming mortgages; competing risks between default and pay-off; multihorizon survival/APC model with environmental extrapolation via second-order Ornstein-Uhlenbeck process"
+        },
+        "data_preprocessing_details": "Conditional PD and PA distributions derived from multihorizon survival models; confidence intervals on coefficients and environment forecasts assumed normal in logit space; Monte Carlo samples drawn from these distributions",
+        "evaluation_methodology": "The paper argues the full competing-risks quantum version is not yet feasible on near-term hardware; no quantum run is reported"
+      },
+      "quantum_resources": {
+        "num_qubits": 4,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": null,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Classical Monte Carlo simulation of the competing‑risks model used as the practical implementation; quantum competing‑risks algorithm analyzed theoretically only.",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Estimate APC lifecycle, vintage, and environment functions; fit panel logistic regressions; extrapolate environment with second-order Ornstein-Uhlenbeck process",
+        "classical_postprocessing": "Bisection search over threshold x would be used in a QAE setting to recover the desired percentile; not executed in the paper",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "tail_risk_estimate",
+          "value": 95,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "quantum_complexity",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "O(sqrt(M)) samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "classical_complexity",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "O(M) samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "classical error O(1/sqrt(M)); QAE error O(1/M)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_risk_factors",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "risks (default and prepayment)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "register_count_best_case",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "N registers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "qubit_count_best_case",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "4Nm qubits plus supporting qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "example_register_precision",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "example_bin_count",
+          "value": 256,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "bins",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "example_forecast_horizon",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "years",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "example_qubit_count",
+          "value": 1920,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "tail_risk_estimate",
+          "value": 95,
+          "unit": "%"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical monte carlo",
+          "conditions": "for the full competing-risks loan default/prepayment model using QAE, if the required registers can be loaded and entangled efficiently",
+          "is_demonstrated": false,
+          "caveats": "The paper states the full competing-risks approach is significantly more complex than prior quantum VaR work and is beyond near-term hardware; it estimates 4Nm qubits in the best case and notes the approach would require additional algorithm development."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": null,
+          "num_qubits": 4,
+          "metric_name": "qubit_scaling",
+          "metric_value": 4.0
+        },
+        {
+          "problem_size": 8.0,
+          "num_qubits": 1920,
+          "metric_name": "example_qubit_count",
+          "metric_value": 240.0
+        },
+        {
+          "problem_size": 5.0,
+          "num_qubits": 1920,
+          "metric_name": "example_qubit_count",
+          "metric_value": 1.0
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(sqrt(M)) samples for amplitude estimation",
+        "classical_complexity": "O(M) samples for classical Monte Carlo",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L0_theory",
+        "crossover_size": "Not given; authors state hardware requirements exceed near-term devices",
+        "resources_for_advantage": "Best‑case qubit requirement 4Nm plus supporting qubits for entangled registers across N forecast steps.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Very large qubit requirement scaling as 4Nm",
+          "Need for entangled register copies across time steps",
+          "Competing‑risks dependency structure increases circuit size",
+          "Distribution loading overhead",
+          "No implemented circuit or resource estimates beyond rough scaling"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper explicitly states the full competing-risks quantum approach would require about 4Nm qubits in the best case and is beyond near-term hardware.",
+          "No actual gate-based hardware, simulator, or circuit metrics are reported for this experiment; it is a feasibility analysis only.",
+          "Section 3.6 explicitly states the competing‑risks version 'far exceeds the number of qubits available for commercial applications over the next couple of years.'",
+          "No execution or benchmark results are provided."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

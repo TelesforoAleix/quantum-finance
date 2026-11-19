@@ -1,0 +1,429 @@
+{
+  "paper_id": "cf30c27e711a",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:58:50+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "cf30c27e711a_a_critical_analysis_of_a_multi_input_cnn_architecture_for_quantum_enhanced_forec.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.85,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 3,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='samples (approximate)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='samples/batch' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.85,
+      "completeness": 0.85,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.85
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "A Critical Analysis of a Multi-Input CNN Architecture for Quantum-Enhanced Forecasting",
+    "authors": [
+      "Ateef Mahmud"
+    ],
+    "year": 2025,
+    "doi": "10.1109/ICDMW69685.2025.00428",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper evaluates a hybrid pipeline where 20‑day SMA and Bollinger Band windows are encoded into 20×20 Quantum Gramian Angular Field (QGAF) images using a simulated Qiskit circuit and classified with a multi‑input CNN. On a test set of 1,250 samples the model achieves 54.2% accuracy, with strong bias toward predicting upward movements (recall_up = 0.928 vs recall_down = 0.085), demonstrating severe overfitting and no practical predictive advantage.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum Gramian Angular Field (QGAF) feature encoding of 20-day SMA and Bollinger Band windows, followed by a multi-input CNN for stock trend classification.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "QGAF encoding with simulated quantum circuit feature mapping",
+        "ansatz": "single-qubit U3 rotation used as feature map",
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "window_length": 20,
+          "technical_indicators": [
+            "20-day SMA",
+            "Bollinger Bands (Upper Band)"
+          ],
+          "image_size": "20x20",
+          "cnn_conv_filters": 32,
+          "cnn_kernel_size": "3x3",
+          "cnn_pool_size": "2x2",
+          "cnn_dense_units": 50,
+          "learning_rate": 0.001,
+          "batch_size": 32,
+          "epochs": 300,
+          "train_split": 0.7,
+          "validation_split": 0.15,
+          "test_split": 0.15
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Each value xi in a 20-day time-series window is mapped to the angle parameter of a U3 gate, U3(xi,0,0), and the resulting QGAF matrix is computed as Qi,j = cos(xi + xj). Separate QGAF images are generated for SMA and Bollinger Band series.",
+        "objective_function": "Binary classification of next-day stock movement (Up vs Down) from QGAF images derived from technical indicators.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Stock trend classification using historical daily prices of major U.S. equities.",
+        "num_assets": null,
+        "time_steps": 20,
+        "num_features": 2,
+        "dataset_size": 15000,
+        "data_type": "real_market",
+        "dataset_name": "U.S. major equities (AAPL, GOOGL) via yfinance",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "AAPL",
+            "GOOGL"
+          ],
+          "date_range": "2010-01-01 to 2024-01-01",
+          "benchmark_name": null,
+          "preprocessing": "Compute 20-day SMA and Bollinger Bands from daily close prices; segment into overlapping 20-day windows; label by next-day price movement; shuffle and split into train/validation/test.",
+          "train_test_split": "70/15/15"
+        },
+        "data_preprocessing_details": "Historical daily close prices were used to compute 20-day SMA and Bollinger Bands. The series were segmented into overlapping 20-day windows; the label was 1 if next-day close exceeded current close, else 0. Each indicator window was transformed into a 20x20 grayscale QGAF image.",
+        "evaluation_methodology": "Single train/validation/test split; final evaluation on held-out test set with accuracy, confusion matrix, precision, recall, and F1-score."
+      },
+      "quantum_resources": {
+        "num_qubits": 1,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": "AerSimulator",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": "noise-free simulation",
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": "Qiskit v0.44; TensorFlow v2.10",
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Compute SMA and Bollinger Bands from daily close prices; create overlapping 20-day windows; generate QGAF images.",
+        "classical_postprocessing": "CNN outputs sigmoid probability for Up class; evaluate accuracy, confusion matrix, precision, recall, and F1-score.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 300,
+          "final_loss_value": null,
+          "loss_curve_shape": "training loss decreased while validation loss remained high and flat; severe overfitting",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "dataset_size",
+          "value": 15000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples (approximate)",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "train_split",
+          "value": 0.7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "validation_split",
+          "value": 0.15,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "test_split",
+          "value": 0.15,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "epochs",
+          "value": 300,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "batch_size",
+          "value": 32,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples/batch",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "learning_rate",
+          "value": 0.001,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 54.2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.551,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.085,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.147,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.496,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.928,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.646,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "true_negatives",
+          "value": 54,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "false_positives",
+          "value": 580,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "false_negatives",
+          "value": 44,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "true_positives",
+          "value": 572,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "test_set_size",
+          "value": 1250,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": true,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "random_guess",
+          "metric_name": "accuracy",
+          "value": 50,
+          "unit": "%"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No quantum speedup or asymptotic advantage is claimed; the paper reports only empirical forecasting performance of a simulated quantum feature map."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 15000,
+          "num_qubits": 1,
+          "metric_name": "accuracy",
+          "metric_value": 54.2
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Not applicable; the work uses a simulated single‑qubit feature map for data encoding and performs the main learning with a classical CNN.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Only a noiseless simulator (AerSimulator) is used; no real QPU execution.",
+          "Quantum component is a trivial single‑qubit feature mapping with no demonstrated computational benefit.",
+          "Primary model (CNN) is entirely classical.",
+          "Empirical performance is weak (54.2% accuracy), only slightly above a random baseline.",
+          "No asymptotic complexity or runtime comparison with classical alternatives."
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_other because the paper explicitly states use of IBM AerSimulator and a noise-free simulated quantum environment.",
+          "num_qubits inferred as 1 because the QGAF encoding applies a single-qubit U3 gate to each xi; the paper does not state a larger register size.",
+          "circuit_depth not reported; only the feature-map construction is described.",
+          "No asymptotic speedup analysis is provided; the paper discusses empirical performance only.",
+          "The paper does not claim quantum speedup or advantage; it evaluates a quantum-inspired feature engineering pipeline.",
+          "Reported test accuracy is 54.2%, only marginally above a random-guess baseline (~50%), and the authors explicitly emphasize limitations and overfitting."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

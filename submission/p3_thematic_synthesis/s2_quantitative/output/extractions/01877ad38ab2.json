@@ -1,0 +1,954 @@
+{
+  "paper_id": "01877ad38ab2",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T07:58:26+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "01877ad38ab2_mixed_quantum_classical_method_for_fraud_detection_with_quantum_feature_selectio.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.713,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 6,
+    "validation_warnings": 0,
+    "validation_passed": false,
+    "validation_error_details": [
+      "Schema error at experiments.0.implementation_details.classical_postprocessing: ['Kernel matrix computed on quantum backend and classification solved classically', 'Accuracy and AUC aggregation over repeated trials'] is not of type 'string', 'null'",
+      "Schema error at experiments.0.implementation_details.classical_preprocessing: ['Feature selection by exhaustive permutation search over feature subsets', 'MinMax scaling to [-1, 1]', 'Under-sampling to balance classes'] is not of type 'string', 'null'",
+      "Schema error at experiments.1.implementation_details.classical_postprocessing: ['Kernel evaluation and classical optimization'] is not of type 'string', 'null'",
+      "Schema error at experiments.1.implementation_details.classical_preprocessing: ['Feature selection', 'Under-sampling', 'Normalization'] is not of type 'string', 'null'",
+      "Schema error at experiments.2.implementation_details.classical_postprocessing: ['Kernel evaluation and classical optimization'] is not of type 'string', 'null'",
+      "Schema error at experiments.2.implementation_details.classical_preprocessing: ['Feature selection', 'Under-sampling', 'Normalization'] is not of type 'string', 'null'"
+    ],
+    "quality_details": {
+      "score": 0.713,
+      "completeness": 0.713,
+      "num_experiments": 4,
+      "experiment_scores": [
+        1.0,
+        0.85,
+        0.85,
+        0.15
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Mixed Quantum-Classical Method For Fraud Detection with Quantum Feature Selection",
+    "authors": [
+      "Michele Grossi",
+      "Noelle Ibrahim",
+      "Voica Radescu",
+      "Robert Loredo",
+      "Kirsten Voigt",
+      "Constantin von Altrock",
+      "Andreas Rudnik"
+    ],
+    "year": 2022,
+    "doi": "10.1109/TQE.2020.DOI",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "fraud-detection",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper evaluates a QSVM with quantum feature maps for fraud detection on a heavily reduced dataset (1500 train / 1000 test, 7 qubits). The QSVM achieves ~0.78 accuracy and ~0.81 AUC on a statevector simulator, comparable to classical XGBoost (~0.78–0.80 accuracy). A hybrid ensemble of QSVM and XGBoost reaches ~0.81 accuracy, while noisy simulation reduces QSVM accuracy to ~0.55.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum Support Vector Machine (QSVM) fraud-detection experiment using quantum feature maps for feature selection and classification on a reduced balanced payment-fraud dataset, evaluated on simulator backends and IBM Quantum noisy models.",
+      "algorithm": {
+        "family": "quantum-svm",
+        "variant": "QSVM with ZZFeatureMap and ZFeatureMap; feature selection by exhaustive permutation search over feature subsets",
+        "ansatz": null,
+        "optimizer": "classical dual optimization (QSVM kernel method); specific optimizer not reported",
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "feature_map": [
+            "Z",
+            "ZZ"
+          ],
+          "depth": [
+            1,
+            2
+          ],
+          "entanglement": "full",
+          "alpha": 2.0,
+          "n_shots": 8192,
+          "training_size": 1500,
+          "feature_size": 7,
+          "test_size": 1000,
+          "order_of_expansion": "ZZ"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Each feature is mapped to a qubit via a quantum feature map; the paper states one qubit is associated with a feature. Data are normalized to [-1, 1] and mapped as angle rotations.",
+        "objective_function": "Binary fraud vs non-fraud classification via kernel-based QSVM; feature subsets are selected to maximize test accuracy (and AUC also reported).",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Real-world card payment fraud detection on a reduced, balanced subset of transaction data.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 69,
+        "dataset_size": null,
+        "data_type": "proprietary",
+        "dataset_name": "European cross-border payment portfolio / IBM Safer Payments dataset",
+        "dataset_specification": {
+          "description": "Original dataset contains about 2.4 million transactions with about 3k fraud labels; for QSVM experiments a drastically reduced balanced dataset was used (Table 1: train 1500, test 1000)."
+        },
+        "data_preprocessing_details": [
+          "Removal of highly correlated features",
+          "Categorical feature handling by selecting top categories where most fraud occurred and using them as separate features",
+          "Under-sampling of genuine transactions to balance the dataset",
+          "Normalization of all input data to [-1, 1] using MinMaxScaler",
+          "Chronological split for the original dataset; reduced balanced dataset used for quantum experiments"
+        ],
+        "evaluation_methodology": "5 random trials for balanced-data experiments; 6 trials for QSVM feature-selection comparison; accuracy and AUC reported, with modified ROC* curves also shown."
+      },
+      "quantum_resources": {
+        "num_qubits": 7,
+        "qubit_type": "not_specified",
+        "circuit_depth": 70,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 8192,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "noise_model": {
+          "is_noisy": true,
+          "noise_type": "readout and device-derived noise model",
+          "error_mitigation_method": "readout measurement error mitigation"
+        },
+        "noise_parameters": null,
+        "mitigation_details": "Noise model based on ibm_cairo backend; readout measurement error mitigation enabled.",
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": "ibm_cairo noise model / IBM Quantum backend",
+        "classical_solver": "classical QSVM dual optimization",
+        "is_noisy": null
+      },
+      "implementation_details": {
+        "transpilation_settings": {
+          "optimization_level": 3,
+          "basis_gates": null,
+          "routing_method": "Sabre layout and routing"
+        },
+        "classical_preprocessing": [
+          "Feature selection by exhaustive permutation search over feature subsets",
+          "MinMax scaling to [-1, 1]",
+          "Under-sampling to balance classes"
+        ],
+        "classical_postprocessing": [
+          "Kernel matrix computed on quantum backend and classification solved classically",
+          "Accuracy and AUC aggregation over repeated trials"
+        ],
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": 6
+        },
+        "code_available": null,
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "accuracy",
+          "value": 0.78,
+          "uncertainty": "±0.01",
+          "num_runs": 6,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 0.81,
+          "uncertainty": "±0.01",
+          "num_runs": 6,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.788,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.779,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.776,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.772,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.768,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.761,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.759,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.755,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.751,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.749,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.748,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.81,
+          "uncertainty": "±0.01",
+          "num_runs": 6,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "xgboost",
+          "metric_name": "accuracy",
+          "value": 0.781,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "xgboost",
+          "metric_name": "auc_roc",
+          "value": 0.834,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "random_forest",
+          "metric_name": "accuracy",
+          "value": 0.781,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "random_forest",
+          "metric_name": "auc_roc",
+          "value": 0.834,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "xgboost",
+          "metric_name": "accuracy",
+          "value": 0.998,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "xgboost",
+          "metric_name": "auc_roc",
+          "value": 0.824,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "random_forest",
+          "metric_name": "accuracy",
+          "value": 0.998,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "random_forest",
+          "metric_name": "auc_roc",
+          "value": 0.818,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "xgboost",
+          "metric_name": "accuracy",
+          "value": 0.777,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "xgboost",
+          "metric_name": "accuracy",
+          "value": 0.8,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "xgboost_opt",
+          "metric_name": "accuracy",
+          "value": 0.8,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No asymptotic or empirical computational speedup is claimed; the paper discusses complementarity and improved accuracy/feature selection only."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 7.0,
+          "num_qubits": 7,
+          "metric_name": "accuracy",
+          "metric_value": 0.78
+        },
+        {
+          "problem_size": 7.0,
+          "num_qubits": 7,
+          "metric_name": "auc_roc",
+          "metric_value": 0.81
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "parity_with_classical",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "unknown",
+        "resources_for_advantage": "Not specified; would require significantly larger qubit counts and deeper feature maps to test scaling.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Very small feature space (7 qubits)",
+          "Training set heavily reduced from 2.4M to ~1500 samples",
+          "Kernel evaluation dominated by classical preprocessing and sampling",
+          "No asymptotic speedup analysis",
+          "Performance comparable to classical baselines"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware type inferred as simulator_statevector because the paper explicitly says the workflow started with the ideal simulator (state_vector) and later used qasm/noisy simulation and IBM Quantum noise models; the reported KPI table includes statevector simulator results.",
+          "num_qubits inferred as 7 from the reported 'training size: 1500, feature size: 7, test size: 1000' and the paper's statement that each qubit is associated with a feature.",
+          "No asymptotic speedup analysis is provided; the paper discusses complementarity and speculative advantage only.",
+          "QSVM test accuracy (~0.78) is similar to classical XGBoost (~0.777–0.800) reported in Table 8.",
+          "Authors describe the quantum model as 'complementary' rather than superior."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "QSVM evaluated on qasm simulator without noise for the same fraud-detection setup.",
+      "algorithm": {
+        "family": "quantum-svm",
+        "variant": "QSVM with ZZFeatureMap / ZFeatureMap on qasm simulator without noise",
+        "ansatz": null,
+        "optimizer": "classical dual optimization (QSVM kernel method); specific optimizer not reported",
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "feature_map": [
+            "Z",
+            "ZZ"
+          ],
+          "depth": [
+            1,
+            2
+          ],
+          "entanglement": "full",
+          "alpha": 2.0,
+          "n_shots": 8192,
+          "training_size": 1500,
+          "feature_size": 7,
+          "test_size": 1000,
+          "order_of_expansion": "ZZ"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Feature-to-qubit mapping via quantum feature map; one qubit per feature.",
+        "objective_function": "Binary fraud classification via QSVM.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Reduced balanced payment-fraud dataset.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 69,
+        "dataset_size": null,
+        "data_type": "proprietary",
+        "dataset_name": "European cross-border payment portfolio / IBM Safer Payments dataset",
+        "dataset_specification": {
+          "description": "Balanced reduced dataset used for quantum experiments."
+        },
+        "data_preprocessing_details": [
+          "Removal of highly correlated features",
+          "Categorical feature handling",
+          "Under-sampling",
+          "Normalization to [-1, 1]"
+        ],
+        "evaluation_methodology": "Repeated trials; KPI table reports mean and standard deviation."
+      },
+      "quantum_resources": {
+        "num_qubits": 7,
+        "qubit_type": "not_specified",
+        "circuit_depth": 70,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 8192,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "noise_model": {
+          "is_noisy": false,
+          "noise_type": null,
+          "error_mitigation_method": null
+        },
+        "noise_parameters": null,
+        "mitigation_details": null,
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "classical QSVM dual optimization",
+        "is_noisy": null
+      },
+      "implementation_details": {
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": null,
+          "routing_method": null
+        },
+        "classical_preprocessing": [
+          "Feature selection",
+          "Under-sampling",
+          "Normalization"
+        ],
+        "classical_postprocessing": [
+          "Kernel evaluation and classical optimization"
+        ],
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": 6
+        },
+        "code_available": null,
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "accuracy",
+          "value": 0.77,
+          "uncertainty": "±0.03",
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 0.79,
+          "uncertainty": "±0.05",
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No speedup claim; this is a backend comparison for the same QSVM model."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 7.0,
+          "num_qubits": 7,
+          "metric_name": "accuracy",
+          "metric_value": 0.77
+        },
+        {
+          "problem_size": 7.0,
+          "num_qubits": 7,
+          "metric_name": "auc_roc",
+          "metric_value": 0.79
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "parity_with_classical",
+        "hoefler_viable": null,
+        "maturity_level": "L2_noisy_sim",
+        "crossover_size": "unknown",
+        "resources_for_advantage": "Would require much larger qubit counts and deeper circuits enabling richer feature maps.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Small dataset and qubit count",
+          "Kernel computation requires many circuit evaluations",
+          "No demonstrated scaling advantage",
+          "Classical baselines achieve similar or better metrics"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper explicitly reports qasm simulator without noise and gives KPI values for this backend.",
+          "num_qubits inferred from the 7 selected features / one qubit per feature mapping.",
+          "No advantage claimed; performance similar to classical models."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "QSVM evaluated on qasm simulator with noise, using a noise model derived from IBM Cairo and readout error mitigation.",
+      "algorithm": {
+        "family": "quantum-svm",
+        "variant": "QSVM with ZZFeatureMap / ZFeatureMap on noisy qasm simulator",
+        "ansatz": null,
+        "optimizer": "classical dual optimization (QSVM kernel method); specific optimizer not reported",
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "feature_map": [
+            "Z",
+            "ZZ"
+          ],
+          "depth": [
+            1,
+            2
+          ],
+          "entanglement": "full",
+          "alpha": 2.0,
+          "n_shots": 8192,
+          "training_size": 1500,
+          "feature_size": 7,
+          "test_size": 1000,
+          "order_of_expansion": "ZZ"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Feature-to-qubit mapping via quantum feature map; one qubit per feature.",
+        "objective_function": "Binary fraud classification via QSVM.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Reduced balanced payment-fraud dataset.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 69,
+        "dataset_size": null,
+        "data_type": "proprietary",
+        "dataset_name": "European cross-border payment portfolio / IBM Safer Payments dataset",
+        "dataset_specification": {
+          "description": "Balanced reduced dataset used for quantum experiments."
+        },
+        "data_preprocessing_details": [
+          "Removal of highly correlated features",
+          "Categorical feature handling",
+          "Under-sampling",
+          "Normalization to [-1, 1]"
+        ],
+        "evaluation_methodology": "Repeated trials; KPI table reports mean and standard deviation."
+      },
+      "quantum_resources": {
+        "num_qubits": 7,
+        "qubit_type": "not_specified",
+        "circuit_depth": 70,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 8192,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_noisy",
+        "provider": "IBM",
+        "device_name": "ibm_cairo",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "noise_model": {
+          "is_noisy": true,
+          "noise_type": "device-derived noise model",
+          "error_mitigation_method": "readout measurement error mitigation"
+        },
+        "noise_parameters": null,
+        "mitigation_details": "Noise source analyzed from ibm_cairo backend; readout measurement error mitigation enabled; transpilation optimization_level=3 with Sabre layout/routing.",
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": "ibm_cairo",
+        "classical_solver": "classical QSVM dual optimization",
+        "is_noisy": null
+      },
+      "implementation_details": {
+        "transpilation_settings": {
+          "optimization_level": 3,
+          "basis_gates": null,
+          "routing_method": "Sabre layout and routing"
+        },
+        "classical_preprocessing": [
+          "Feature selection",
+          "Under-sampling",
+          "Normalization"
+        ],
+        "classical_postprocessing": [
+          "Kernel evaluation and classical optimization"
+        ],
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": 6
+        },
+        "code_available": null,
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "accuracy",
+          "value": 0.55,
+          "uncertainty": "±0.10",
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 0.74,
+          "uncertainty": "±0.14",
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No speedup claim; noisy simulation is reported to assess robustness under device-derived noise and readout error mitigation."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 7.0,
+          "num_qubits": 7,
+          "metric_name": "accuracy",
+          "metric_value": 0.55
+        },
+        {
+          "problem_size": 7.0,
+          "num_qubits": 7,
+          "metric_name": "auc_roc",
+          "metric_value": 0.74
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": null,
+        "maturity_level": "L2_noisy_sim",
+        "crossover_size": "unknown",
+        "resources_for_advantage": "Requires substantial improvements in hardware fidelity and qubit counts.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Noise dramatically reduces accuracy (0.55)",
+          "Circuit depth ~70 for only 7 qubits",
+          "Error mitigation limited to readout mitigation",
+          "No advantage relative to classical ML"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper explicitly states the noisy simulation uses a noise source analyzed for the ibm_cairo backend and readout measurement error mitigation.",
+          "num_qubits inferred from the 7-feature quantum setup.",
+          "Noisy simulator accuracy (0.55) is far below classical models (~0.78–0.80)."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_new_1",
+      "description": "Hybrid quantum–classical ensemble where QSVM predictions are combined with classical XGBoost via a metaclassifier trained on disagreement cases.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "QSVM kernel + classical ensemble meta-classifier (SVM or logistic regression)",
+        "details": "Quantum kernel computed with QSVM; classical metaclassifier predicts which model (QSVM or XGBoost) to trust when predictions disagree.",
+        "num_layers": null
+      },
+      "key_results": {
+        "accuracy_qsvm_only": 0.788,
+        "accuracy_xgboost": 0.777,
+        "accuracy_xgboost_optimized": 0.8,
+        "accuracy_qsvm_xgboost_ensemble": 0.799,
+        "accuracy_qsvm_xgboost_optimized_ensemble": 0.81
+      },
+      "source": "Tables 8 and 9 and Section V (Mixed Quantum-Classical Method for Fraud Detection)"
+    }
+  ]
+}

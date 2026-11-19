@@ -1,0 +1,842 @@
+{
+  "paper_id": "bcfb2bcd887f",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:45:17+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "bcfb2bcd887f_adaptive_quantum_entanglement_networks_for_real_time_financial_fraud_detection_a.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.433,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 13,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[6].unit='seconds per transaction' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='MB' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='transactions' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='loss' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[15].unit='loss' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[18].unit='microseconds' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[20].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[23].unit='x' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[24].unit='x' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[25].unit='x' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[26].unit='x' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[27].unit='x' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.433,
+      "completeness": 0.433,
+      "num_experiments": 3,
+      "experiment_scores": [
+        1.0,
+        0.15,
+        0.15
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Adaptive Quantum Entanglement Networks for Real-Time Financial Fraud Detection: A Novel Framework with Temporal Correlation Analysis",
+    "authors": [
+      "Yalla Jnan Devi Satya Prasad"
+    ],
+    "year": 2025,
+    "doi": "https://doi.org/10.36227/techrxiv.175750771.12895702/v1",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "fraud-detection",
+    "secondary_silos": [
+      "quantum-ml-finance"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes an 8‑qubit variational quantum machine‑learning model (AQEN) for fraud detection and reports 94.7% accuracy and AUC 0.951 on a ~5,000‑transaction dataset, compared to 93.5% accuracy and AUC 0.923 for XGBoost. Experiments are performed on Qiskit Aer with an IBMQ Lima noise model (circuit depth 47, 7 CNOTs). Improvements are modest (~1.2% accuracy) and demonstrated only in simulation.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "AQEN / QFCC variational quantum machine-learning experiment for real-time financial fraud detection on synthetic and benchmark transaction datasets, evaluated against classical baselines and a standard VQC.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "Adaptive Quantum Entanglement Networks (AQEN) with Quantum Fraud Correlation Circuit (QFCC)",
+        "ansatz": "custom feature-encoding + adaptive entanglement + variational processing + QFT subcircuit",
+        "optimizer": "parameter-shift gradient descent",
+        "num_layers": null,
+        "convergence_criteria": "80 training epochs; stable convergence around epoch 80",
+        "hyperparameters": {
+          "epochs": 80,
+          "mini_batch_size": 16,
+          "shots": 1024,
+          "learning_rate": 0.05,
+          "noise_model": "IBMQ Lima noise model",
+          "optimization_level": 3,
+          "gate_error_rate_single_qubit": 0.001,
+          "gate_error_rate_two_qubit": 0.01,
+          "coherence_time_us": 100,
+          "circuit_depth_limit": 50,
+          "temporal_window_tau": 10,
+          "feature_count": 8,
+          "qubits_in_circuit": 8
+        },
+        "parameter_initialization": "fixed seeds for all circuit initializations; quantum-aware initialization (details not specified)",
+        "optimizer_settings": {
+          "learning_rate": 0.05,
+          "max_iterations": 80,
+          "parameter_bounds": "angles normalized to [0, π] for input features; variational parameter bounds not specified"
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "8-dimensional transaction features mapped to rotation angles; temporal features encoded via RY/RZ rotations over a sliding window; 1 qubit per primary feature plus temporal/correlation/auxiliary qubits",
+        "objective_function": "binary fraud classification minimizing classification loss on fraud/legitimate labels; Pfraud(Tt)=|<fraud|ψout_t>|^2",
+        "constraints_handling": "adaptive entanglement regularization; no explicit penalty formulation reported",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "Real-time financial fraud detection on synthetic financial transaction streams and public benchmark datasets",
+        "num_assets": null,
+        "time_steps": 10,
+        "num_features": 8,
+        "dataset_size": 5,
+        "data_type": "synthetic",
+        "dataset_name": "Synthetic Financial Dataset; IEEE-CIS; Credit Card (Kaggle); Synthetic Temporal",
+        "dataset_specification": {
+          "description": "Synthetic dataset with 8% fraud rate and 8 primary features; IEEE-CIS reduced from 392 features to 12 via PCA; Credit Card Kaggle with 30 anonymized features; Synthetic Temporal with 8 engineered temporal features"
+        },
+        "data_preprocessing_details": "continuous features normalized to [0, π]; feature engineering with temporal sliding windows, network-based features, and PCA for IEEE-CIS to 12 dimensions; quantum-specific scaling to rotation angles",
+        "evaluation_methodology": "20 independent runs for paired t-tests; 50 runs for statistical validation in appendix; bootstrap with 10,000 resamples; Wilcoxon signed-rank test n=50; train/validation convergence curves over 80 epochs"
+      },
+      "quantum_resources": {
+        "num_qubits": 8,
+        "qubit_type": "logical",
+        "circuit_depth": 47,
+        "circuit_depth_transpiled": 47,
+        "gate_count_total": 163,
+        "cnot_count": 7,
+        "two_qubit_gate_count": 7,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 1024,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_noisy",
+        "provider": "IBM",
+        "device_name": "Qiskit AerSimulator with IBMQ Lima noise model",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "IBMQ Lima noise model; gate errors and decoherence; measurement noise",
+        "error_mitigation_method": "zero-noise extrapolation and symmetry verification"
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": "Qiskit 0.45.1; AerSimulator v0.17.1",
+        "transpilation_target": "IBM Q Lima native set {RZ, SX, CNOT}",
+        "classical_solver": "scikit-learn / XGBoost baselines; not quantum solvers",
+        "transpilation_settings": {
+          "optimization_level": 3,
+          "basis_gates": [
+            "RZ",
+            "SX",
+            "CNOT"
+          ],
+          "routing_method": null
+        },
+        "classical_preprocessing": "stratified cross-validation; hyperparameter grid search; extensive feature engineering for baselines",
+        "classical_postprocessing": "paired t-tests, ROC/AUC analysis, bootstrap confidence intervals, Cohen's d",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": 0.15,
+        "convergence_data": {
+          "iterations_to_converge": 80,
+          "final_loss_value": 0.12,
+          "loss_curve_shape": "smooth monotonic decrease with close train/validation tracking",
+          "variance_across_runs": null,
+          "num_independent_runs": 20
+        },
+        "convergence_data.num_independent_runs": 50,
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "accuracy",
+          "value": 0.947,
+          "uncertainty": "95% CI [0.8%, 1.6%] for the improvement over XGBoost; p < 0.001",
+          "num_runs": 20,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.812,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.798,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.805,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 0.951,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 1.8,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "inference_time",
+          "value": 0.00012,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds per transaction",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "memory_usage",
+          "value": 45,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "MB",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 47,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 5000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "transactions",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "fraud_rate",
+          "value": 0.08,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "false_positive_rate",
+          "value": 0.063,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "false_positive_alert_reduction",
+          "value": 0.28,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_loss",
+          "value": 0.12,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "loss",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "validation_loss",
+          "value": 0.14,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "loss",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gate_error_rate_single_qubit",
+          "value": 0.001,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gate_error_rate_two_qubit",
+          "value": 0.01,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "coherence_time",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "microseconds",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots",
+          "value": 1024,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "epochs",
+          "value": 80,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "epochs",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "learning_rate",
+          "value": 0.05,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_compilation_time",
+          "value": 0.15,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "speedup_training",
+          "value": 6.7,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "x",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "speedup_inference",
+          "value": 7.4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "x",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "memory_reduction",
+          "value": 7.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "x",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "speedup_practical",
+          "value": 1000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "x",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "speedup_practical_inference",
+          "value": 10000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "x",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "Logistic Regression",
+          "metric_name": "accuracy",
+          "value": 0.924,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Random Forest",
+          "metric_name": "accuracy",
+          "value": 0.931,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "SVM",
+          "metric_name": "accuracy",
+          "value": 0.928,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "XGBoost",
+          "metric_name": "accuracy",
+          "value": 0.935,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Logistic Regression",
+          "metric_name": "precision",
+          "value": 0.756,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Random Forest",
+          "metric_name": "precision",
+          "value": 0.778,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "SVM",
+          "metric_name": "precision",
+          "value": 0.764,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "XGBoost",
+          "metric_name": "precision",
+          "value": 0.785,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Logistic Regression",
+          "metric_name": "recall",
+          "value": 0.681,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Random Forest",
+          "metric_name": "recall",
+          "value": 0.725,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "SVM",
+          "metric_name": "recall",
+          "value": 0.698,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "XGBoost",
+          "metric_name": "recall",
+          "value": 0.742,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Logistic Regression",
+          "metric_name": "f1_score",
+          "value": 0.716,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Random Forest",
+          "metric_name": "f1_score",
+          "value": 0.75,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "SVM",
+          "metric_name": "f1_score",
+          "value": 0.73,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "XGBoost",
+          "metric_name": "f1_score",
+          "value": 0.763,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Logistic Regression",
+          "metric_name": "auc_roc",
+          "value": 0.887,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Random Forest",
+          "metric_name": "auc_roc",
+          "value": 0.912,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "SVM",
+          "metric_name": "auc_roc",
+          "value": 0.901,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "XGBoost",
+          "metric_name": "auc_roc",
+          "value": 0.923,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Logistic Regression",
+          "metric_name": "training_time",
+          "value": 2.3,
+          "unit": "seconds"
+        },
+        {
+          "method_name": "Random Forest",
+          "metric_name": "training_time",
+          "value": 8.7,
+          "unit": "seconds"
+        },
+        {
+          "method_name": "SVM",
+          "metric_name": "training_time",
+          "value": 5.2,
+          "unit": "seconds"
+        },
+        {
+          "method_name": "XGBoost",
+          "metric_name": "training_time",
+          "value": 12.1,
+          "unit": "seconds"
+        },
+        {
+          "method_name": "Logistic Regression",
+          "metric_name": "inference_time",
+          "value": 0.00023,
+          "unit": "seconds per transaction"
+        },
+        {
+          "method_name": "Random Forest",
+          "metric_name": "inference_time",
+          "value": 0.00087,
+          "unit": "seconds per transaction"
+        },
+        {
+          "method_name": "SVM",
+          "metric_name": "inference_time",
+          "value": 0.00052,
+          "unit": "seconds per transaction"
+        },
+        {
+          "method_name": "XGBoost",
+          "metric_name": "inference_time",
+          "value": 0.00089,
+          "unit": "seconds per transaction"
+        },
+        {
+          "method_name": "Logistic Regression",
+          "metric_name": "false_positive_rate",
+          "value": 0.087,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "XGBoost",
+          "metric_name": "false_positive_rate",
+          "value": 0.087,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "6.7x",
+          "baseline_method": "XGBoost",
+          "conditions": "training time on the reported workstation using the same data splits and preprocessing",
+          "is_demonstrated": true,
+          "caveats": "Quantum simulation was single-threaded; classical baselines used all 48 CPU cores. Compilation time (~0.15 s per circuit) was excluded from inference timing."
+        },
+        {
+          "type": "empirical",
+          "factor": "7.4x",
+          "baseline_method": "XGBoost",
+          "conditions": "per-transaction inference latency on the reported workstation",
+          "is_demonstrated": true,
+          "caveats": "Quantum simulation was single-threaded; classical baselines used all 48 CPU cores. Compilation time was excluded from inference timing."
+        },
+        {
+          "type": "empirical",
+          "factor": "7.1x",
+          "baseline_method": "XGBoost",
+          "conditions": "memory usage comparison",
+          "is_demonstrated": true,
+          "caveats": "Reported as 45 MB vs 320 MB."
+        },
+        {
+          "type": "theoretical",
+          "factor": "O(log d) qubit encoding and polynomial scaling advantages",
+          "baseline_method": "classical temporal analysis",
+          "conditions": "under structured temporal correlations, bounded noise, and locality assumptions",
+          "is_demonstrated": false,
+          "caveats": "The paper states conditional/exponential advantage bounds and sample-complexity reductions, but these are theoretical and depend on assumptions."
+        },
+        {
+          "type": "theoretical",
+          "factor": "approximately 10^3",
+          "baseline_method": "classical methods",
+          "conditions": "for d = 100, τ = 10, q = 10",
+          "is_demonstrated": false,
+          "caveats": "This is a corollary from the sample-complexity bound, not an empirical benchmark."
+        },
+        {
+          "type": "theoretical",
+          "factor": "approximately 10^4",
+          "baseline_method": "classical temporal correlation analysis",
+          "conditions": "for d = 100, τ = 10, q = 8",
+          "is_demonstrated": false,
+          "caveats": "This is a corollary from the complexity analysis, not an empirical benchmark."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 100.0,
+          "num_qubits": 10,
+          "metric_name": "sample_complexity_improvement",
+          "metric_value": 1000
+        },
+        {
+          "problem_size": 100.0,
+          "num_qubits": 8,
+          "metric_name": "inference_speedup",
+          "metric_value": 10000
+        },
+        {
+          "problem_size": 10.0,
+          "num_qubits": null,
+          "metric_name": "scaling_behavior",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(n · q2 · τ · log d) training; O(q2 · τ · log d) inference; O(q2 + τ · d) memory",
+        "classical_complexity": "O(n · d2 · τ3) training; O(d2 · τ3) inference; O(d2 · τ2) memory",
+        "speedup_order": "polynomial_other",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": "1.8 s training; 0.12 ms inference per transaction",
+        "wall_clock_classical": "12.1 s training for XGBoost; 0.89 ms inference per transaction"
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": false,
+        "maturity_level": "L2_noisy_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Paper reports an 8‑qubit circuit with compiled depth 47 and 7 CNOT gates simulated on Aer with an IBMQ Lima noise model; no resource estimate for scaling to problem sizes where asymptotic advantage appears.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Results obtained only on a simulator, not real QPU hardware",
+          "Small dataset (≈5,000 transactions in main experiment)",
+          "Improvement over best classical baseline is small (94.7% vs 93.5% accuracy)",
+          "Reported speedups are constant-factor wall‑clock improvements in simulation rather than asymptotic algorithmic advantage",
+          "No demonstrated scaling experiment showing improved complexity at larger problem sizes",
+          "Data encoding overhead not analyzed"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware type inferred as simulator_noisy because the paper explicitly states Qiskit AerSimulator with IBMQ Lima noise model and no real QPU execution.",
+          "num_qubits reported from the QFCC circuit architecture (n = 8 qubits).",
+          "Circuit depth reported as 47 physical layers in Appendix B and Table 3.",
+          "Speedup order is polynomial_other because the paper reports constant-factor runtime improvements (6.7x training, 7.4x inference) rather than an asymptotic quantum speedup.",
+          "Authors repeatedly claim 'quantum advantage' and exponential scaling potential, but empirical results are small constant-factor improvements on simulated hardware.",
+          "Best classical baseline (XGBoost) performs very close to AQEN (93.5% vs 94.7% accuracy), so no decisive advantage is demonstrated."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_new_1",
+      "description": "Quantum Fraud Correlation Circuit (QFCC) evaluated as a standalone quantum baseline for fraud detection using the same datasets and evaluation pipeline.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Quantum Fraud Correlation Circuit (QFCC)",
+        "ansatz": "feature encoding + entanglement + variational layers + QFT processing",
+        "optimizer": "parameter-shift gradient descent",
+        "num_layers": null
+      },
+      "key_results": [
+        {
+          "metric": "accuracy",
+          "value": 0.943
+        },
+        {
+          "metric": "precision",
+          "value": 0.801
+        },
+        {
+          "metric": "recall",
+          "value": 0.785
+        },
+        {
+          "metric": "f1_score",
+          "value": 0.793
+        },
+        {
+          "metric": "auc_roc",
+          "value": 0.946
+        },
+        {
+          "metric": "training_time_seconds",
+          "value": 2.1
+        }
+      ]
+    },
+    {
+      "experiment_id": "exp_new_2",
+      "description": "Standard variational quantum classifier (VQC) baseline evaluated on the same fraud detection datasets to compare against AQEN and classical models.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Standard Variational Quantum Classifier (VQC)",
+        "ansatz": "standard parameterized quantum circuit classifier",
+        "optimizer": "parameter-shift gradient descent",
+        "num_layers": null
+      },
+      "key_results": [
+        {
+          "metric": "accuracy",
+          "value": 0.918
+        },
+        {
+          "metric": "precision",
+          "value": 0.742
+        },
+        {
+          "metric": "recall",
+          "value": 0.656
+        },
+        {
+          "metric": "f1_score",
+          "value": 0.696
+        },
+        {
+          "metric": "auc_roc",
+          "value": 0.874
+        },
+        {
+          "metric": "training_time_seconds",
+          "value": 3.4
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,483 @@
+{
+  "paper_id": "f123e5ead03b",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T10:18:32+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "f123e5ead03b_bermudan_option_pricing_by_quantum_amplitude_estimation_and_chebyshev_interpolat.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.483,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 19,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='oracle calls to underlying-asset evolution' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='oracle calls to underlying-asset evolution' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='absolute error tolerance on option price' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='calls per QAE run scaling threshold (N_QAE >= 7/epsilon)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='QAE repetitions lower bound factor (N_rep >= 12 ceil(log(gamma^-1)) + 1)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='oracle calls to underlying-asset evolution' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='total calls to O_step,k under Corollary 1' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='calls to underlying-asset evolution, with d underlying assets and K exercise dates' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='error decay rate' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='samples/oracle calls for classical Monte Carlo-based methods in the high-smoothness limit' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='error decay rate for LSM under technical assumptions' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='number of underlying assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[15].unit='exercise dates' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[16].unit='polynomial degree' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[18].unit='repetitions' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[19].unit='absolute error bound' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[20].unit='dimensionless' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.483,
+      "completeness": 0.483,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.483
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Bermudan option pricing by quantum amplitude estimation and Chebyshev interpolation",
+    "authors": [
+      "Koichi Miyamoto"
+    ],
+    "year": 2021,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": [
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a gate‑based quantum algorithm for Bermudan option pricing that combines Chebyshev interpolation with quantum amplitude estimation. Under analytic assumptions, the algorithm estimates the option price with error ε using O(ε^-1 log^d(ε^-1) polyloglog(ε^-1)) calls to the asset‑evolution oracle, compared with O(ε^-2) samples required by classical Monte Carlo or least‑squares Monte Carlo methods, implying a theoretical quadratic speedup.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Proposed gate-based quantum algorithm for Bermudan option pricing using quantum amplitude estimation to estimate continuation values at Chebyshev interpolation nodes, then reconstructing the continuation value by Chebyshev interpolation and pricing backward through exercise dates.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Quantum amplitude estimation (QAE) combined with Chebyshev interpolation for Bermudan option pricing",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "Chebyshev_degree_per_exercise_date": "m_k",
+          "QAE_iterations_per_run": "N_QAE_k",
+          "QAE_repetitions": "N_rep_k",
+          "interpolation_domain": "D_k",
+          "upper_bound_for_QAE_amplitude_scaling": "Vmax_k",
+          "error_tolerance": "epsilon"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "block_encoding",
+        "encoding_details": "Underlying asset-price transition oracle O_step,k prepares a superposition over discretized next-step asset prices conditional on current prices; QAE estimates the expected continuation value at Chebyshev nodes. No QUBO/binary-variable encoding is used.",
+        "objective_function": "Present Bermudan option price V_0 = E[V_1(S_1)], with V_k(s)=max(f_pay_k(s), Q_k(s)) and Q_k(s)=E[V_{k+1}(S_{k+1})|S_k=s].",
+        "constraints_handling": "Early-exercise handled by backward dynamic programming via max{payoff, continuation value}; out-of-domain values handled by either known boundary approximation V_k^OB or flat extrapolation F_k.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "General Bermudan option pricing with d underlying assets and K exercise dates; paper is algorithmic/theoretical and does not report a specific numerical benchmark instance.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": null,
+        "data_preprocessing_details": "Underlying asset paths are assumed generated from a discretized stochastic process / SDE model; continuous distributions are discretized for quantum state preparation.",
+        "evaluation_methodology": "Theoretical error and complexity analysis only; no numerical experiments or benchmark runs reported in the paper text provided."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "noise_model": null,
+        "noise_parameters": null,
+        "mitigation_details": null,
+        "is_noisy": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Chebyshev interpolation and classical post-processing; QAE median-of-runs amplification is described abstractly",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Set interpolation domains D_k, degrees m_k, and scaling bounds Vmax_k; prepare oracles for asset-price evolution and value evaluation.",
+        "classical_postprocessing": "Compute Chebyshev coefficients from QAE-estimated nodal values; apply max with payoff at each exercise date; final QAE on V_1 to estimate V_0.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "oracle_queries",
+          "value": "O(epsilon^-1)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "oracle calls to underlying-asset evolution",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": "O(epsilon^-2)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "oracle calls to underlying-asset evolution",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "speedup_order",
+          "value": "quadratic",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "price_error",
+          "value": "epsilon",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute error tolerance on option price",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 0.99,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": "1 - gamma",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "calls per QAE run scaling threshold (N_QAE >= 7/epsilon)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": 12,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "QAE repetitions lower bound factor (N_rep >= 12 ceil(log(gamma^-1)) + 1)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": "O(epsilon^-1 log^d(epsilon^-1) polyloglog(epsilon^-1))",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "oracle calls to underlying-asset evolution",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": "O(epsilon^-1 log^d(epsilon^-1) polyloglog(epsilon^-1))",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "total calls to O_step,k under Corollary 1",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": "O(epsilon^-1 log^d(epsilon^-1) polyloglog(epsilon^-1))",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "calls to underlying-asset evolution, with d underlying assets and K exercise dates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": "O(N_samp^-1/2)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "error decay rate",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": "O(epsilon^-2)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples/oracle calls for classical Monte Carlo-based methods in the high-smoothness limit",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": "O(N_samp^(-n(p-2)/(2n(p+2)+d(p-2))))",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "error decay rate for LSM under technical assumptions",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_underlyings",
+          "value": "d",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "number of underlying assets",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_exercise_dates",
+          "value": "K",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "exercise dates",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "chebyshev_degree_per_exercise_date",
+          "value": "m_k",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "polynomial degree",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "qae_iterations_per_run",
+          "value": "N_QAE_k",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "qae_repetitions",
+          "value": "N_rep_k",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "repetitions",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "interpolation_error_bound",
+          "value": "2^(d/2+1) * sqrt(d) * B * rho^-m * (1 - rho^-2)^(-d/2)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute error bound",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "lebesgue_constant_bound",
+          "value": "(2/pi * log(m + 1) + 1)^d",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimensionless",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "least_squares_monte_carlo",
+          "metric_name": "oracle_queries",
+          "value": "O(epsilon^-2)",
+          "unit": "oracle calls / samples"
+        },
+        {
+          "method_name": "classical_monte_carlo_based_methods",
+          "metric_name": "oracle_queries",
+          "value": "O(epsilon^-2)",
+          "unit": "oracle calls / samples"
+        },
+        {
+          "method_name": "least_squares_monte_carlo",
+          "metric_name": "convergence_rate",
+          "value": "O(N_samp^(-n(p-2)/(2n(p+2)+d(p-2))))",
+          "unit": "error decay rate"
+        },
+        {
+          "method_name": "monte_carlo_integration",
+          "metric_name": "convergence_rate",
+          "value": "O(N^-1/2)",
+          "unit": "error decay rate"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical Monte Carlo-based methods such as least-squares Monte Carlo",
+          "conditions": "under Assumptions 1 to 3, with QAE and Chebyshev interpolation, and for error tolerance epsilon",
+          "is_demonstrated": true,
+          "caveats": "The claim is based on asymptotic oracle-call complexity; no hardware experiment is reported. The bound includes log^d(epsilon^-1) and polyloglog factors, and the error bound can grow with the number of exercise dates K."
+        },
+        {
+          "type": "theoretical",
+          "factor": "O(epsilon^-1 log^d(epsilon^-1) polyloglog(epsilon^-1)) vs O(epsilon^-2)",
+          "baseline_method": "classical Monte Carlo-based methods / LSM",
+          "conditions": "high-smoothness limit for the classical method; stated under the paper's assumptions for the quantum method",
+          "is_demonstrated": true,
+          "caveats": "This is an asymptotic complexity comparison, not an empirical benchmark."
+        },
+        {
+          "type": "theoretical",
+          "factor": "quadratic speed-up in epsilon",
+          "baseline_method": "least-squares Monte Carlo",
+          "conditions": "when the continuation values are sufficiently smooth and the oracle assumptions hold",
+          "is_demonstrated": true,
+          "caveats": "The paper notes that the exponential-in-K factor appears in the error bound, though it may be pessimistic."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": null,
+          "num_qubits": null,
+          "metric_name": "oracle_queries",
+          "metric_value": -1.0
+        },
+        {
+          "problem_size": null,
+          "num_qubits": null,
+          "metric_name": "error_bound_factor",
+          "metric_value": 1.0
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(epsilon^-1 log^d(epsilon^-1) polyloglog(epsilon^-1)) oracle calls to underlying-asset evolution, under the stated assumptions and parameter choices",
+        "classical_complexity": "Monte Carlo / LSM-based methods scale as O(epsilon^-2) oracle calls in the high-smoothness limit; more generally LSM error bound given in the paper depends on sample size as a negative power",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L0_theory",
+        "crossover_size": "not specified; depends on Chebyshev degrees m_k, number of exercise dates K, and asset dimension d",
+        "resources_for_advantage": "Requires fault‑tolerant gate-based quantum computers capable of repeated QAE calls to the asset‑evolution oracle O_step,k with total oracle complexity O(epsilon^-1 log^d(epsilon^-1) polyloglog(epsilon^-1)); also requires quantum circuits for stochastic path generation and payoff evaluation.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Algorithm analyzed only theoretically; no simulation or hardware experiments.",
+          "Quadratic speedup from amplitude estimation is likely negated by fault‑tolerant overhead according to Hoefler et al.",
+          "Requires efficient quantum oracles for stochastic asset price evolution.",
+          "State preparation for probability distributions may dominate runtime.",
+          "Interpolation parameters and analytic assumptions (ρ_k, B_k) are not practically known."
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper is purely theoretical and does not report an implemented hardware experiment, qubit count, circuit depth, gate counts, shots, or noise data.",
+          "Quantum resources are therefore mostly not specified rather than inferred.",
+          "The paper explicitly claims quadratic speedup over classical Monte Carlo/LSM methods via QAE (oracle complexity O(epsilon^-1) vs O(epsilon^-2)).",
+          "However, no implementation, simulation, or empirical benchmark is provided; results are purely theoretical."
+        ],
+        "advantage_status": "paper_reported"
+      }
+    }
+  ]
+}

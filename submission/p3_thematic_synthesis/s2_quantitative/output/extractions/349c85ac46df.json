@@ -1,0 +1,495 @@
+{
+  "paper_id": "349c85ac46df",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:28:53+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "349c85ac46df_efficient_hamiltonian_simulation_for_solving_option_price_dynamics.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.65,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 8,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[3].unit='dimensionless' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='dimensionless' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='currency units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='currency units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='year' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.65,
+      "completeness": 0.65,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.65
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Efficient Hamiltonian Simulation for Solving Option Price Dynamics",
+    "authors": [
+      "Javier Gonzalez-Conde",
+      "Ángel Rodríguez-Rozas",
+      "Enrique Solano",
+      "Mikel Sanz"
+    ],
+    "year": 2024,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": [
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a gate‑based quantum algorithm that maps the Black–Scholes PDE to a non‑Hermitian Hamiltonian and simulates it using Hamiltonian simulation techniques with unitary dilation and QFT diagonalization. Numerical simulations show convergence to the analytical Black–Scholes solution using 9 logical qubits (8 spatial + 1 ancilla) and predict a post‑selection success probability above 60%. No hardware experiments are performed; results are theoretical and simulation‑based.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Digital quantum algorithm for solving the Black-Scholes PDE by mapping it to a non-Hermitian Hamiltonian, embedding the propagator with one ancillary qubit, and simulating the dynamics with QFT/QSP on a fault-tolerant gate-based quantum computer.",
+      "algorithm": {
+        "family": "quantum-simulation",
+        "variant": "Black-Scholes Hamiltonian simulation with unitary dilation and QFT-based diagonalization",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "time_to_maturity_T": "1 year (used in figures)",
+          "volatility_sigma": 0.2,
+          "risk_free_rate_r": 0.04,
+          "strike_K": 50,
+          "S_max": 150,
+          "x_max": "log(S_max)",
+          "boundary_condition": "periodic",
+          "duplication_of_initial_condition": true,
+          "ancillary_qubit_for_embedding": 1,
+          "qubits_for_spatial_discretization": 8,
+          "total_qubits_in_simulation": 9
+        },
+        "parameter_initialization": "Initial state prepared as duplicated European put payoff state; no variational parameters.",
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Position space discretized on Nx=2^n grid points encoded in n qubits; one additional ancilla qubit used for unitary dilation. Initial payoff duplicated by reflection to enforce periodic boundary conditions.",
+        "objective_function": "Solve the Black-Scholes PDE for European put option pricing by mapping to Schrödinger-like evolution under a non-Hermitian Hamiltonian and post-selecting the ancilla outcome |0>.",
+        "constraints_handling": "Unitary dilation with one ancilla qubit; post-selection on ancilla state |0>; duplication of initial condition to mitigate periodic boundary artifacts.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": "H_BS = i(σ^2/2) p^2 - (σ^2/2 - r)p + ir I",
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "European put option pricing under Black-Scholes dynamics; discretized stock-price domain with periodic boundary conditions and duplicated payoff initial condition.",
+        "num_assets": 1,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "strike_K": 50,
+          "S_max": 150,
+          "sigma": 0.2,
+          "r": 0.04,
+          "maturity_T": "1 year"
+        },
+        "data_preprocessing_details": "Change of variables S=exp(x); reverse time τ=T−t; discretize x on equispaced grid; duplicate payoff around x=0 to enforce periodicity.",
+        "evaluation_methodology": "Convergence and discretization error compared against analytical Black-Scholes solution across different qubit counts; success probability analyzed as a function of maturity, interest rate, number of points, and strike."
+      },
+      "quantum_resources": {
+        "num_qubits": 9,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": "not_specified",
+        "framework_version": null,
+        "transpilation_target": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/NQUIRE-Center/Black_Scholes",
+        "classical_solver": "analytical Black-Scholes solution / classical numerical comparison",
+        "classical_preprocessing": "State preparation for duplicated payoff; QFT-based diagonalization of momentum operator; oracle construction for known eigenvalues.",
+        "classical_postprocessing": "Post-selection on ancilla |0>; measurement of position register to recover option price; optional amplitude estimation suggested for improved sampling.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "transpilation_settings": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_qubits",
+          "value": 9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_ancilla_qubits",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "qubits_for_spatial_discretization",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "volatility_sigma",
+          "value": 0.2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimensionless",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "risk_free_rate_r",
+          "value": 0.04,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimensionless",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "strike_k",
+          "value": 50,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "currency units",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "s_max",
+          "value": 150,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "currency units",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "maturity_t",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "year",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 0.6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 0.6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability_lower_bound_gamma",
+          "value": 0.6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "quantum_complexity",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "qft_complexity",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "analytical black-scholes solution",
+          "metric_name": "price_error",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "classical numerical algorithms",
+          "metric_name": "price_error",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "finite differences",
+          "metric_name": "price_error",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "finite elements",
+          "metric_name": "price_error",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "monte carlo methods",
+          "metric_name": "price_error",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "fourier spectral methods",
+          "metric_name": "price_error",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "crank-nicolson",
+          "metric_name": "classical_complexity",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "fast_fourier_transform",
+          "metric_name": "classical_complexity",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "matrix_exponentiation",
+          "metric_name": "classical_complexity",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "classical_monte_carlo",
+          "metric_name": "expected_value_estimation_complexity",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "optimal sparse Hamiltonian simulation scaling O(td||H||_max + log(1/ε)/log log(1/ε))",
+          "baseline_method": "generic sparse Hamiltonian simulation / classical PDE solvers",
+          "conditions": "fault-tolerant gate-based quantum computer; Black-Scholes Hamiltonian treated as 1-sparse after QFT diagonalization",
+          "is_demonstrated": false,
+          "caveats": "This is a subroutine-level complexity claim, not an end-to-end pricing speedup; no wall-clock benchmark is reported."
+        },
+        {
+          "type": "theoretical",
+          "factor": "quadratic speedup in sampling via amplitude estimation",
+          "baseline_method": "classical sampling / classical Monte Carlo",
+          "conditions": "if amplitude estimation is used for estimating the option price amplitude",
+          "is_demonstrated": false,
+          "caveats": "Mentioned as a possible post-processing improvement; not experimentally demonstrated in this paper."
+        },
+        {
+          "type": "projected",
+          "factor": "comparable accuracy to classical numerical algorithms with 9 qubits",
+          "baseline_method": "classical numerical algorithms",
+          "conditions": "fault-tolerant quantum computer; simulated numerically, not on hardware",
+          "is_demonstrated": false,
+          "caveats": "The paper states expected accuracy levels comparable to classical methods, but does not provide a direct numerical error table in the text excerpt."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 1.0,
+          "num_qubits": 1,
+          "metric_name": "discretization_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": 2,
+          "metric_name": "discretization_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 3,
+          "metric_name": "discretization_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 4.0,
+          "num_qubits": 4,
+          "metric_name": "discretization_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 5.0,
+          "num_qubits": 5,
+          "metric_name": "discretization_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 6,
+          "metric_name": "discretization_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 7.0,
+          "num_qubits": 7,
+          "metric_name": "discretization_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 8.0,
+          "num_qubits": 8,
+          "metric_name": "discretization_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 9.0,
+          "num_qubits": 9,
+          "metric_name": "discretization_error",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(td||H||_max + log(1/ϵ)/log log(1/ϵ)) for QSP-based sparse Hamiltonian simulation; QFT subroutine O(n log n)",
+        "classical_complexity": "O(2^n) for direct classical evaluation / exponential cost for generic state preparation; table also lists Crank-Nicolson O(T_steps 2^n) and FFT O((n+1)2^n)",
+        "speedup_order": "polynomial_other",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Requires a fault‑tolerant quantum computer capable of Hamiltonian simulation via QSP with ~9 logical qubits for the toy discretization but far more logical qubits and deep circuits for realistic grids, plus reliable state preparation and amplitude estimation.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Algorithm evaluated only via classical simulation and analytical comparison",
+          "Assumes fault‑tolerant quantum computer; no NISQ hardware implementation",
+          "State preparation of payoff functions can be exponential in general (acknowledged in paper)",
+          "End‑to‑end complexity advantage for option pricing not demonstrated",
+          "Post‑selection overhead and amplitude estimation cost for extracting prices"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware type is not tied to a specific device; the paper discusses a fault-tolerant digital quantum computer and Qiskit-style implementation, so hardware.type is left as not_specified.",
+          "9 qubits comes from 8 spatial-discretization qubits plus 1 ancilla qubit, explicitly stated in the paper.",
+          "No explicit circuit depth, gate counts, shot count, or transpiled depth are reported in the text provided.",
+          "Speedup is not a proven asymptotic end-to-end advantage; the paper claims efficient Hamiltonian simulation and compares costs in a subroutine sense.",
+          "The authors discuss efficient Hamiltonian simulation scaling and possible quadratic speedups via amplitude estimation, but no empirical quantum‑vs‑classical benchmark or runtime comparison is performed.",
+          "All results are analytical or classical simulations of the algorithm with ~9 qubits for a discretized toy problem."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

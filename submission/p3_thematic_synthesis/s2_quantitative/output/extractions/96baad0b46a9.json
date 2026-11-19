@@ -1,0 +1,649 @@
+{
+  "paper_id": "96baad0b46a9",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:19:05+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "96baad0b46a9_quantum_computational_finance_monte_carlo_pricing_of_financial_derivatives.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.7,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 12,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='power_law_exponent' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='power_law_exponent' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='absolute_error' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='absolute_error' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='applications_of_U' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='asset' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[0].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[1].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[2].unit='applications_of_U' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[3].unit='asset' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.7,
+      "completeness": 0.7,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.7,
+        0.7
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum computational finance: Monte Carlo pricing of financial derivatives",
+    "authors": [
+      "Patrick Rebentrost",
+      "Brajesh Gupt",
+      "Thomas R. Bromley"
+    ],
+    "year": 2018,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": [
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a gate‑based quantum Monte Carlo algorithm for pricing derivatives using amplitude estimation, achieving theoretical sample complexity O(1/ε) compared to classical Monte Carlo O(1/ε²). A classical simulation of the phase‑estimation subroutine for a European call option (S0=$100, K=$50, r=0.05, σ=0.2, T=1) shows error scaling with exponent −0.982 versus −0.5 classically, consistent with the predicted quadratic improvement.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum Monte Carlo pricing of a European call option using amplitude estimation on a discretized Black-Scholes-Merton Brownian motion distribution.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Quantum Monte Carlo with amplitude estimation / phase estimation",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "confidence": "> 99.5% in numerical simulations",
+          "strike_price": "K = $50",
+          "initial_price": "S0 = $100",
+          "risk_free_rate": "r = 0.05",
+          "volatility": "σ = 0.2",
+          "maturity": "T = 1",
+          "distribution_cutoff": "xmax = O(√T)",
+          "discretization": "2^n points for Brownian motion",
+          "ancilla_measurement": "measure |1⟩ probability",
+          "amplitude_estimation_success_probability": "at least 8/π^2 for a single run; boosted by median of D runs",
+          "median_repetitions": "D ≈ 24 in simulations"
+        },
+        "parameter_initialization": "State preparation via Grover-Rudolph distribution loading; phase estimation uses a known phase derived from the analytical option price in the numerical simulation section",
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Brownian motion distribution discretized on n qubits; payoff encoded by controlled rotation on an ancilla qubit after computing discretized call payoff values",
+        "objective_function": "Estimate Π = e^{-rT} E_Q[max(0, S_T - K)] via amplitude estimation",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "European call option under the Black-Scholes-Merton model",
+        "num_assets": 1,
+        "time_steps": 1,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": "Black-Scholes-Merton model",
+        "dataset_specification": {
+          "description": "S0 = $100, K = $50, r = 0.05, σ = 0.2, T = 1"
+        },
+        "data_preprocessing_details": "Discretize Gaussian Brownian motion on a finite interval [−xmax, xmax] with 2^n points; approximate payoff function with n-bit fixed-point arithmetic",
+        "evaluation_methodology": "Classical numerical simulations comparing quantum phase-estimation scaling against classical Monte Carlo; confidence matched to >99.5% using D ≈ 24 independent phase-estimation runs"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "Strawberry Fields / ProjectQ (mentioned for simulation)",
+        "framework_version": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "transpilation_target": null,
+        "classical_solver": "classical Monte Carlo baseline",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Analytical Black-Scholes price Π = $10.5 used to compute the phase θ = 2 arccos(1 − 2Π/S0) for the single-qubit phase estimation simulation",
+        "classical_postprocessing": "Estimate option price from measured phase / ancilla probability; discount by e^{-rT}",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "error scaling reported as power law; fitted quantum slope ζQ = -0.982",
+          "variance_across_runs": null,
+          "num_independent_runs": 24
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "success_probability",
+          "value": 0.8105694691,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 0.995,
+          "uncertainty": null,
+          "num_runs": 24,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": -0.982,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "power_law_exponent",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": -0.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "power_law_exponent",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 0.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute_error",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "price_error",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute_error",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "applications_of_U",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_underlyings",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "asset",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "convergence_rate",
+          "value": -0.5,
+          "unit": "power_law_exponent"
+        },
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "price_error",
+          "value": null,
+          "unit": "absolute_error"
+        },
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "oracle_queries",
+          "value": null,
+          "unit": "samples"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical monte carlo",
+          "conditions": "assuming efficient state preparation and payoff evaluation; for bounded-variance mean estimation and additive error epsilon",
+          "is_demonstrated": true,
+          "caveats": "The paper reports an almost quadratic empirical scaling in simulation (fitted quantum exponent -0.982) and a theoretical upper bound of -1; the asymptotic claim is in terms of sample complexity O(1/epsilon) vs O(1/epsilon^2)."
+        },
+        {
+          "type": "empirical",
+          "factor": "approximately 1.964x in scaling exponent magnitude",
+          "baseline_method": "classical monte carlo",
+          "conditions": "numerical simulation for a european call option with S0 = 100, K = 50, r = 0.05, sigma = 0.2, T = 1, D = 24",
+          "is_demonstrated": true,
+          "caveats": "This is inferred from fitted exponents zeta_Q = -0.982 and zeta_C = -0.5; the paper describes it as almost quadratic."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": null,
+          "num_qubits": null,
+          "metric_name": "price_error",
+          "metric_value": -0.982
+        },
+        {
+          "problem_size": null,
+          "num_qubits": null,
+          "metric_name": "price_error",
+          "metric_value": -0.5
+        },
+        {
+          "problem_size": 50.0,
+          "num_qubits": null,
+          "metric_name": "price_error",
+          "metric_value": 2.0
+        },
+        {
+          "problem_size": 60.0,
+          "num_qubits": null,
+          "metric_name": "price_error",
+          "metric_value": 1.9
+        },
+        {
+          "problem_size": 70.0,
+          "num_qubits": null,
+          "metric_name": "price_error",
+          "metric_value": 1.9
+        },
+        {
+          "problem_size": 80.0,
+          "num_qubits": null,
+          "metric_name": "price_error",
+          "metric_value": 2.0
+        },
+        {
+          "problem_size": 90.0,
+          "num_qubits": null,
+          "metric_name": "price_error",
+          "metric_value": 2.1
+        },
+        {
+          "problem_size": 100.0,
+          "num_qubits": null,
+          "metric_name": "price_error",
+          "metric_value": 2.1
+        },
+        {
+          "problem_size": 110.0,
+          "num_qubits": null,
+          "metric_name": "price_error",
+          "metric_value": 2.2
+        },
+        {
+          "problem_size": 120.0,
+          "num_qubits": null,
+          "metric_name": "price_error",
+          "metric_value": 2.2
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "˜O(λ/ϵ) applications of U for bounded-variance mean estimation; quadratic improvement over classical Monte Carlo",
+        "classical_complexity": "O(1/ϵ^2) samples for Monte Carlo estimation",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not quantified; paper only shows asymptotic scaling improvement (O(1/ε) vs O(1/ε²)) without constant-factor resource estimates.",
+        "resources_for_advantage": "Requires efficient state preparation of the risk‑neutral distribution, reversible payoff circuits, and large-scale fault‑tolerant amplitude estimation with repeated controlled-Q operations.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Quadratic speedup only (amplitude estimation)",
+          "Distribution loading (Grover–Rudolph state preparation) overhead",
+          "Large reversible arithmetic circuits for payoff computation",
+          "No concrete qubit or gate estimates for realistic financial portfolios",
+          "Current hardware cannot implement deep controlled-Q phase estimation circuits"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": null,
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "No actual QPU is used; the paper states the phase-estimation subroutine can be simulated with Strawberry Fields / ProjectQ, so hardware is inferred as simulator_other.",
+          "The paper does not give a concrete qubit count for the numerical experiment; n depends on discretization, so num_qubits is left null/inferred as not specified.",
+          "Circuit depth is not explicitly quantified, so left null.",
+          "Authors explicitly claim a quadratic quantum speedup in Monte Carlo sample complexity using amplitude estimation.",
+          "However, the paper only demonstrates scaling numerically via classical simulation of phase estimation and provides no hardware experiment."
+        ],
+        "advantage_status": "paper_reported"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Quantum Monte Carlo pricing of an arithmetic Asian call option using amplitude estimation with multi-time-step Brownian path preparation.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Quantum Monte Carlo with amplitude estimation for Asian options",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "option_type": "Asian call",
+          "payoff": "max(0, A_T - K)",
+          "arithmetic_mean": "A_arith_T = (1/L) Σ_l S_tl",
+          "geometric_mean": "A_geo_T = exp((1/L) Σ_l log S_tl)",
+          "time_grid": "0 < t1 < ... < tL ≤ T",
+          "equal_spacing": "Δt = T/L",
+          "distribution_preparation": "Grover-Rudolph state preparation for each time step",
+          "median_repetitions": "D ≈ 24 in numerical phase-estimation discussion (applied generally to the quantum algorithm)"
+        },
+        "parameter_initialization": "Prepare L copies of the Gaussian increment state |p_Δt⟩ and sequentially compute the path-dependent average payoff",
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "L Gaussian increment registers, each discretized on m qubits; path label |j1,...,jL⟩ mapped to stock path and average payoff register",
+        "objective_function": "Estimate Π = e^{-rT} E_Q[max(0, A_T - K)] for arithmetic Asian option",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "Arithmetic Asian call option under the Black-Scholes-Merton model",
+        "num_assets": 1,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": "Black-Scholes-Merton model",
+        "dataset_specification": {
+          "description": "Equal time spacing Δt = T/L; stock path generated from Gaussian Brownian increments"
+        },
+        "data_preprocessing_details": "Discretize each Brownian increment on m qubits; compute stock path recursively in the log domain or price domain; compute arithmetic average along the path",
+        "evaluation_methodology": "Theoretical resource discussion; no separate numerical Asian-option benchmark reported"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": null,
+        "framework_version": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Prepare product state of L Gaussian increment distributions; compute stock path and running average classically within reversible arithmetic circuit",
+        "classical_postprocessing": "Measure ancilla probability and discount to obtain option price",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "success_probability",
+          "value": 0.8105694691,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": 0.995,
+          "uncertainty": null,
+          "num_runs": 24,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "applications_of_U",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_underlyings",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "asset",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "convergence_rate",
+          "value": -0.5,
+          "unit": "power_law_exponent"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical monte carlo",
+          "conditions": "arithmetic asian option pricing under the black-scholes-merton model with bounded-variance mean estimation and efficient reversible arithmetic",
+          "is_demonstrated": true,
+          "caveats": "The paper gives a theoretical resource analysis and states a similar speedup via Theorem 3; no separate numerical Asian-option benchmark is reported."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": null,
+          "num_qubits": null,
+          "metric_name": "oracle_queries",
+          "metric_value": null
+        },
+        {
+          "problem_size": null,
+          "num_qubits": null,
+          "metric_name": "num_qubits",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "Similar ˜O(λ/ϵ) scaling via amplitude estimation / mean estimation with bounded variance",
+        "classical_complexity": "Monte Carlo scaling O(1/ϵ^2)",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L0_theory",
+        "crossover_size": "Not analyzed; only asymptotic scaling arguments provided.",
+        "resources_for_advantage": "Would require L Gaussian increment registers (Lm qubits) plus registers for stock path computation, averaging, and ancilla rotation, all within a fault-tolerant amplitude estimation framework.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Quadratic speedup only",
+          "Large number of qubits needed for multi-step Brownian paths",
+          "Deep reversible arithmetic circuits for path simulation and averaging",
+          "State preparation overhead repeated for each time step"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": null,
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper discusses the Asian-option circuit and resource scaling theoretically, but does not give a concrete qubit count for a specific numerical run; num_qubits is therefore left null.",
+          "No hardware platform is specified because this is a theoretical resource analysis, not an execution on a device.",
+          "Section VI provides only a theoretical construction for Asian options without numerical or hardware experiments."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

@@ -1,0 +1,427 @@
+{
+  "paper_id": "a46c5a11b5dd",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:27:28+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "a46c5a11b5dd_variational_quantum_simulations_of_stochastic_differential_equations.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.633,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 11,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[1].unit='points' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='layers (range 2-3)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='t units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='grid spacing' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='rate' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='rate' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='rate' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='rate' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='rate' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='time points (t=0 to 4 inclusive, as reported)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.633,
+      "completeness": 0.633,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.633
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Variational quantum simulations of stochastic differential equations",
+    "authors": [
+      "Kenji Kubo",
+      "Yuya O. Nakagawa",
+      "Suguru Endo",
+      "Shota Nagayama"
+    ],
+    "year": 2021,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "simulation-monte-carlo",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a hybrid variational quantum simulation (VQS) algorithm for stochastic differential equations using a trinomial-tree discretization and direct amplitude embedding of probability distributions. Numerical validation is performed via noiseless classical simulation on a 4‑qubit circuit with ansatz depths k=2 and k=3 (12 and 16 parameters respectively), reproducing probability distributions, means, and variances for geometric Brownian motion (r=0.1, σ=0.2) and Ornstein–Uhlenbeck processes (r=7, σ=0.5, η=0.01) over t∈[0,4].",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Variational quantum simulation of stochastic differential equations on a 4-qubit statevector simulation, evaluated on geometric Brownian motion and Ornstein-Uhlenbeck processes with depth-2 and depth-3 hardware-efficient ansatz circuits.",
+      "algorithm": {
+        "family": "hybrid",
+        "variant": "variational quantum simulation (VQS) for non-unitary time evolution of probability distributions",
+        "ansatz": "hardware-efficient real-amplitude ansatz with repeated CNOT and RY entangling blocks",
+        "optimizer": null,
+        "num_layers": 2,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "num_qubits": 4,
+          "ansatz_repetitions": [
+            2,
+            3
+          ],
+          "time_interval": [
+            0,
+            4
+          ],
+          "delta_x": 1,
+          "geometric_brownian_motion_parameters": {
+            "r": 0.1,
+            "sigma": 0.2
+          },
+          "ornstein_uhlenbeck_parameters": {
+            "r": 7,
+            "sigma": 0.5,
+            "eta": 0.01
+          }
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Probability distribution of the discretized SDE state is directly embedded in the computational basis amplitudes of a 4-qubit register with Nx = 2^n - 1 = 15 lattice points.",
+        "objective_function": "Simulate the time evolution of the probability distribution P(x,t) of an SDE via the linear differential equation dP/dt = L(t)P obtained from a trinomial tree approximation.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "Two stochastic process prototypes: geometric Brownian motion and Ornstein-Uhlenbeck process.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Synthetic SDE instances; no market dataset used."
+        },
+        "data_preprocessing_details": "Trinomial tree discretization of the SDE on a lattice with delta_x = 1 and time interval t in [0,4].",
+        "evaluation_methodology": "Classical noiseless simulation of the quantum circuits using numpy and jax; results compared against analytical solutions of the SDE and Runge-Kutta solutions of the linear differential equation. Figures show k=2 and k=3 ansatz depths."
+      },
+      "quantum_resources": {
+        "num_qubits": 4,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 12,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": null,
+        "device_name": null,
+        "framework": "numpy/jax",
+        "framework_version": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Runge-Kutta method and analytical SDE/Fokker-Planck solutions as baselines",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Tree-model approximation of the SDE; polynomial expansion of drift and diffusion terms; ansatz with CNOT and RY gates.",
+        "classical_postprocessing": "Compute means and variances from simulated probability distributions; compare to analytical and Runge-Kutta results.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_qubits",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_lattice_points",
+          "value": 15,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "points",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "ansatz_repetitions",
+          "value": 2.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers (range 2-3)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "time_interval",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "t units",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "delta_x",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "grid spacing",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "geometric_brownian_motion_drift",
+          "value": 0.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "rate",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "geometric_brownian_motion_volatility",
+          "value": 0.2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "rate",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "ornstein_uhlenbeck_mean_reversion_level",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "rate",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "ornstein_uhlenbeck_volatility",
+          "value": 0.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "rate",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "ornstein_uhlenbeck_mean_reversion_speed",
+          "value": 0.01,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "rate",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "ansatz_parameters",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "simulation_time_points",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "time points (t=0 to 4 inclusive, as reported)",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "mean_and_variance_evaluation",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": null,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "analytical_sde_solution",
+          "metric_name": "probability_distribution_match",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "runge_kutta_method",
+          "metric_name": "mean",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "runge_kutta_method",
+          "metric_name": "variance",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "analytical_sde_solution",
+          "metric_name": "mean",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "analytical_sde_solution",
+          "metric_name": "variance",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "O(Poly(n))",
+          "baseline_method": "quantum linear solver algorithm (QLSA)",
+          "conditions": "when polynomial orders of drift/diffusion are small; VQS uses shallow circuits and few ancilla qubits",
+          "is_demonstrated": false,
+          "caveats": "The paper states VQS is less resource-intensive than QLSA, but does not provide a proven asymptotic speedup over classical methods for the full simulation task."
+        },
+        {
+          "type": "theoretical",
+          "factor": "O(1/epsilon^2) measurements with Hadamard test; O(log(1/(gamma epsilon))) with QPE",
+          "baseline_method": "classical Monte Carlo",
+          "conditions": "for expectation-value evaluation of the SDE solution; gamma is a problem-dependent factor",
+          "is_demonstrated": false,
+          "caveats": "This is a complexity comparison, not an empirical benchmark. The paper notes QPE can match the O(1/epsilon^2) Monte Carlo scaling only under favorable gamma."
+        },
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical Monte Carlo",
+          "conditions": "for expectation-value estimation using QPE-based evaluation of unitary terms",
+          "is_demonstrated": false,
+          "caveats": "The paper says this can provide quantum advantage when gamma is not too small, but does not demonstrate it experimentally."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 4.0,
+          "num_qubits": 4,
+          "metric_name": "ansatz_depth_repetitions",
+          "metric_value": 2
+        },
+        {
+          "problem_size": 4.0,
+          "num_qubits": 4,
+          "metric_name": "ansatz_depth_repetitions",
+          "metric_value": 3
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(Poly(n)) for VQS simulation when polynomial orders of drift/diffusion are small; expectation-value evaluation can be O(d^2 n^2 L+2) unitaries and O(d^2 n^2 L+2 / (gamma epsilon^2)) measurements with Hadamard test or O(d^2 n^2 L+2 log(1/(gamma epsilon))) with QPE.",
+        "classical_complexity": "Monte Carlo expectation estimation is O(1/epsilon^2); QLSA-based approaches are discussed as deeper and more resource-intensive but no explicit asymptotic classical baseline beyond Monte Carlo is given.",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Would require large-scale fault-tolerant quantum hardware capable of implementing QPE-based expectation estimation with deep circuits and many controlled unitary applications; the paper only demonstrates a 4‑qubit noiseless simulation.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Only 4-qubit noiseless classical simulation",
+          "No empirical comparison with classical Monte Carlo or PDE solvers on real hardware",
+          "Quantum advantage argument depends on QPE-based expectation estimation not implemented in experiments",
+          "Variational optimization cost and state-preparation scaling not analyzed for large systems",
+          "Constant-factor overhead from VQS measurements and circuit decomposition"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_statevector because the paper states the circuits were simulated without noise using numpy and jax, with no physical QPU named.",
+          "Circuit depth is only partially reported: the paper specifies ansatz repetition counts k=2 and k=3, but not a full compiled depth metric.",
+          "The authors discuss possible speedups for expectation estimation using QPE but do not demonstrate any quantum advantage experimentally.",
+          "All numerical results are classical simulations of a 4-qubit circuit."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

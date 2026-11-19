@@ -1,0 +1,1188 @@
+{
+  "paper_id": "64beee021f17",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:51:22+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "64beee021f17_hybrid_quantum_network_for_classification_of_finance_and_mnist_data.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.63,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 6,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[12].unit='observations' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[10].unit='observations' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[12].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[4].unit='observations' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[6].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.63,
+      "completeness": 0.63,
+      "num_experiments": 5,
+      "experiment_scores": [
+        0.95,
+        0.95,
+        0.95,
+        0.15,
+        0.15
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Hybrid Quantum Network for classification of finance and MNIST data",
+    "authors": [
+      "Gerhard Hellstern"
+    ],
+    "year": 2021,
+    "doi": "10.1109/ICSA-C52384.2021.00027",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": [
+      "credit-lending"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper evaluates a hybrid classical–quantum neural network using simulated variational circuits (≈8 qubits, 8 layers) for credit‑scoring and MNIST classification. On the finance dataset the best hybrid model reaches test AUC 0.72 versus a classical neural network’s 0.77, while on MNIST both models achieve about 0.81 test accuracy (QNet 0.98/0.81 train/test vs NNet 0.83/0.81). All results are obtained on noiseless simulators using TensorFlow Quantum.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Hybrid classical-quantum neural network (QNet) for binary finance credit-scoring classification on a balanced dataset sample, compared against a classical neural network baseline.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Hybrid quantum-classical neural network with data re-uploading and a variational quantum circuit",
+        "ansatz": "Per-qubit Ry-Rz-Ry rotations followed by CNOT entanglement; repeated for nlayers",
+        "optimizer": "Adam",
+        "num_layers": 8,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "nqubits": 8,
+          "nlayers": 8,
+          "learning_rate": 0.01,
+          "loss_function": "categorical crossentropy",
+          "dataset_sample": "balanced sample I",
+          "training_set_size": 340,
+          "test_set_size": null
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "learning_rate": 0.01,
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Classical features are first compressed by a classical neural network into parameters for the quantum circuit; quantum data loading uses rotation angles on 8 qubits, with data re-uploading in one variant",
+        "objective_function": "Minimize categorical crossentropy for binary classification",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Credit scoring / default prediction on a finance dataset, balanced to 50% default rate",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 6,
+        "dataset_size": 340,
+        "data_type": "public_benchmark",
+        "dataset_name": "Lending Club credit scoring dataset",
+        "dataset_specification": {
+          "description": "Six features scaled to [0,1]; balanced sample I with default rate lifted to 50%; training data consists of 340 observations"
+        },
+        "data_preprocessing_details": "Features scaled to [0,1]; class balance adjusted to 50% for sample I",
+        "evaluation_methodology": "Reported training and test ACC/AUC; compared QNet with and without data re-uploading against a classical NNet baseline"
+      },
+      "quantum_resources": {
+        "num_qubits": 8,
+        "qubit_type": "not_specified",
+        "circuit_depth": 8,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 192,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "Google",
+        "device_name": null,
+        "framework": "TensorFlow Quantum"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Classical neural network compresses input features before quantum circuit; ADAM optimizer in TensorFlow",
+        "classical_postprocessing": "Quantum measurement outputs are fed into a final classical layer with softmax activation",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "Training curves shown; QNet converges faster than classical NNet",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "accuracy",
+          "value": 0.68,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 0.74,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.59,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 0.65,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.78,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 0.86,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.68,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 0.72,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.62,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 0.66,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.62,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 0.77,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 340,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "observations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_layers",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical_nnet",
+          "metric_name": "accuracy",
+          "value": 0.62,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_nnet",
+          "metric_name": "auc_roc",
+          "value": 0.66,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_nnet",
+          "metric_name": "accuracy",
+          "value": 0.62,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_nnet",
+          "metric_name": "auc_roc",
+          "value": 0.77,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No asymptotic or runtime speedup claim is made; only empirical classification performance comparisons are reported."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 340,
+          "num_qubits": 8,
+          "metric_name": "accuracy",
+          "metric_value": 0.68
+        },
+        {
+          "problem_size": 340,
+          "num_qubits": 8,
+          "metric_name": "auc_roc",
+          "metric_value": 0.74
+        },
+        {
+          "problem_size": 340,
+          "num_qubits": 8,
+          "metric_name": "accuracy",
+          "metric_value": 0.59
+        },
+        {
+          "problem_size": 340,
+          "num_qubits": 8,
+          "metric_name": "auc_roc",
+          "metric_value": 0.65
+        },
+        {
+          "problem_size": 340,
+          "num_qubits": 8,
+          "metric_name": "accuracy",
+          "metric_value": 0.78
+        },
+        {
+          "problem_size": 340,
+          "num_qubits": 8,
+          "metric_name": "auc_roc",
+          "metric_value": 0.86
+        },
+        {
+          "problem_size": 340,
+          "num_qubits": 8,
+          "metric_name": "accuracy",
+          "metric_value": 0.68
+        },
+        {
+          "problem_size": 340,
+          "num_qubits": 8,
+          "metric_name": "auc_roc",
+          "metric_value": 0.72
+        },
+        {
+          "problem_size": 340,
+          "num_qubits": 8,
+          "metric_name": "accuracy",
+          "metric_value": 0.62
+        },
+        {
+          "problem_size": 340,
+          "num_qubits": 8,
+          "metric_name": "auc_roc",
+          "metric_value": 0.66
+        },
+        {
+          "problem_size": 340,
+          "num_qubits": 8,
+          "metric_name": "accuracy",
+          "metric_value": 0.62
+        },
+        {
+          "problem_size": 340,
+          "num_qubits": 8,
+          "metric_name": "auc_roc",
+          "metric_value": 0.77
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Unknown; experiments performed only on small simulated circuits (8 qubits, 8 layers).",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Only simulator experiments (no QPU evaluation)",
+          "Very small dataset (340 samples)",
+          "Classical neural network baseline achieves higher AUC on the test set (0.77 vs 0.72)",
+          "No complexity-theoretic speedup analysis",
+          "Hybrid architecture dominated by classical preprocessing"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_other because the paper states all calculations were done on a simulator and no physical QPU is used.",
+          "Circuit depth inferred from nqubits=nlayers=8 and the described repeated variational structure; exact transpiled depth not reported.",
+          "Speedup order set to none_proven because the paper reports empirical performance comparisons only, not an asymptotic speedup claim.",
+          "Table I shows the classical NNet has higher AUC on the test set (0.77) than the best QNet configuration (0.72).",
+          "Authors state the hybrid approach 'shows better performance' in some settings, but reported metrics do not consistently outperform the classical baseline."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Hybrid classical-quantum neural network (QNet) for binary finance credit-scoring classification on an unbalanced dataset sample, compared against a classical neural network baseline.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Hybrid quantum-classical neural network with data re-uploading and a variational quantum circuit",
+        "ansatz": "Per-qubit Ry-Rz-Ry rotations followed by CNOT entanglement; repeated for nlayers",
+        "optimizer": "Adam",
+        "num_layers": 8,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "nqubits": 8,
+          "nlayers": 8,
+          "learning_rate": 0.01,
+          "loss_function": "categorical crossentropy",
+          "dataset_sample": "unbalanced sample II",
+          "training_set_size": 900,
+          "test_set_size": null
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "learning_rate": 0.01,
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Classical features are first compressed by a classical neural network into parameters for the quantum circuit; quantum data loading uses rotation angles on 8 qubits, with data re-uploading in one variant",
+        "objective_function": "Minimize categorical crossentropy for binary classification",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Credit scoring / default prediction on a finance dataset, using the original unbalanced class distribution",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 6,
+        "dataset_size": 900,
+        "data_type": "public_benchmark",
+        "dataset_name": "Lending Club credit scoring dataset",
+        "dataset_specification": {
+          "description": "Six features scaled to [0,1]; unbalanced sample II with original default rate about 16.67%; training data consists of 900 observations"
+        },
+        "data_preprocessing_details": "Features scaled to [0,1]; original unbalanced class distribution retained",
+        "evaluation_methodology": "Reported training and test ACC/AUC; compared QNet with and without data re-uploading against a classical NNet baseline"
+      },
+      "quantum_resources": {
+        "num_qubits": 8,
+        "qubit_type": "not_specified",
+        "circuit_depth": 8,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 192,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "Google",
+        "device_name": null,
+        "framework": "TensorFlow Quantum"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Classical neural network compresses input features before quantum circuit; ADAM optimizer in TensorFlow",
+        "classical_postprocessing": "Quantum measurement outputs are fed into a final classical layer with softmax activation",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "Training curves shown; QNet converges faster than classical NNet",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "accuracy",
+          "value": 0.84,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 0.72,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.83,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 0.55,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.84,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 0.77,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.83,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 0.55,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.83,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 0.66,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 900,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "observations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_layers",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical_nnet",
+          "metric_name": "accuracy",
+          "value": 0.83,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_nnet",
+          "metric_name": "auc_roc",
+          "value": 0.66,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_nnet",
+          "metric_name": "accuracy",
+          "value": 0.83,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_nnet",
+          "metric_name": "auc_roc",
+          "value": 0.51,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No speedup claim is made; the paper only notes that accuracy alone is misleading for the unbalanced dataset and compares AUC values."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 900,
+          "num_qubits": 8,
+          "metric_name": "accuracy",
+          "metric_value": 0.84
+        },
+        {
+          "problem_size": 900,
+          "num_qubits": 8,
+          "metric_name": "auc_roc",
+          "metric_value": 0.72
+        },
+        {
+          "problem_size": 900,
+          "num_qubits": 8,
+          "metric_name": "accuracy",
+          "metric_value": 0.83
+        },
+        {
+          "problem_size": 900,
+          "num_qubits": 8,
+          "metric_name": "auc_roc",
+          "metric_value": 0.55
+        },
+        {
+          "problem_size": 900,
+          "num_qubits": 8,
+          "metric_name": "accuracy",
+          "metric_value": 0.84
+        },
+        {
+          "problem_size": 900,
+          "num_qubits": 8,
+          "metric_name": "auc_roc",
+          "metric_value": 0.77
+        },
+        {
+          "problem_size": 900,
+          "num_qubits": 8,
+          "metric_name": "accuracy",
+          "metric_value": 0.83
+        },
+        {
+          "problem_size": 900,
+          "num_qubits": 8,
+          "metric_name": "auc_roc",
+          "metric_value": 0.55
+        },
+        {
+          "problem_size": 900,
+          "num_qubits": 8,
+          "metric_name": "accuracy",
+          "metric_value": 0.83
+        },
+        {
+          "problem_size": 900,
+          "num_qubits": 8,
+          "metric_name": "auc_roc",
+          "metric_value": 0.51
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "parity_with_classical",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Unknown; experiments limited to simulated 8‑qubit circuits.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Simulator-only evaluation",
+          "Accuracy identical to trivial majority-class baseline (~0.83–0.84)",
+          "AUC values only marginally above classical baseline",
+          "Small dataset size (900 samples)",
+          "No algorithmic speedup claim or complexity analysis"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_other because the paper states all calculations were done on a simulator and no physical QPU is used.",
+          "Circuit depth inferred from nqubits=nlayers=8 and the described repeated variational structure; exact transpiled depth not reported.",
+          "Speedup order set to none_proven because the paper reports empirical performance comparisons only, not an asymptotic speedup claim.",
+          "Table II shows similar accuracy for quantum and classical models (~0.83–0.84).",
+          "AUC improvements are minor and do not constitute clear advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "Hybrid classical-quantum neural network (QNet) for multiclass MNIST digit classification, compared against a classical neural network baseline.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Hybrid quantum-classical neural network with data re-uploading and a variational quantum circuit",
+        "ansatz": "Per-qubit Ry-Rz-Ry rotations followed by CNOT entanglement; repeated for nlayers",
+        "optimizer": "Adam",
+        "num_layers": 10,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "nqubits": 10,
+          "nlayers": 10,
+          "learning_rate": 0.01,
+          "loss_function": "categorical crossentropy",
+          "training_set_size": 1000,
+          "test_set_size": 10000,
+          "num_classes": 10
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "learning_rate": 0.01,
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "A classical neural network compresses 784 MNIST pixel features down to the number of available qubits; quantum circuit uses rotation angles and data re-uploading",
+        "objective_function": "Minimize categorical crossentropy for 10-class classification",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "MNIST handwritten digit classification",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 784,
+        "dataset_size": 11000,
+        "data_type": "public_benchmark",
+        "dataset_name": "MNIST",
+        "dataset_specification": {
+          "description": "60,000 training images and 10,000 test images exist in the benchmark; this experiment uses 1,000 training images and the full 10,000-image test set"
+        },
+        "data_preprocessing_details": "Grayscale 28x28 images; classical preprocessing compresses 784 features to match available qubits",
+        "evaluation_methodology": "Reported training and test accuracy; confusion matrix shown for training data; compared QNet against classical NNet"
+      },
+      "quantum_resources": {
+        "num_qubits": 10,
+        "qubit_type": "not_specified",
+        "circuit_depth": 10,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 300,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "Google",
+        "device_name": null,
+        "framework": "TensorFlow Quantum"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Classical neural network compresses 784 input features before quantum circuit; ADAM optimizer in TensorFlow",
+        "classical_postprocessing": "Quantum measurement outputs are fed into a final classical layer with softmax activation",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "Training curves shown; QNet converges faster than classical NNet",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "accuracy",
+          "value": 0.98,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.81,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.83,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 0.81,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 11000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "observations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_layers",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical_nnet",
+          "metric_name": "accuracy",
+          "value": 0.83,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_nnet",
+          "metric_name": "accuracy",
+          "value": 0.81,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No runtime or asymptotic speedup claim is made; the paper only states that convergence is faster for the QNet than for the classical NNet."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 11000,
+          "num_qubits": 10,
+          "metric_name": "accuracy",
+          "metric_value": 0.98
+        },
+        {
+          "problem_size": 11000,
+          "num_qubits": 10,
+          "metric_name": "accuracy",
+          "metric_value": 0.81
+        },
+        {
+          "problem_size": 11000,
+          "num_qubits": 10,
+          "metric_name": "accuracy",
+          "metric_value": 0.83
+        },
+        {
+          "problem_size": 11000,
+          "num_qubits": 10,
+          "metric_name": "accuracy",
+          "metric_value": 0.81
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "parity_with_classical",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Not analyzed in the paper.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Simulator-only training",
+          "Small subset of MNIST used (1000 training images)",
+          "Classical baseline achieves identical test accuracy (0.81)",
+          "Quantum model shows stronger overfitting (0.98 train vs 0.81 test)",
+          "Heavy classical feature compression before quantum circuit"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_other because the paper states all calculations were done on a simulator and no physical QPU is used.",
+          "num_qubits and circuit_depth inferred from the text stating '10 qubits and 10 layers' for the MNIST experiment.",
+          "Speedup order set to none_proven because the paper reports empirical performance comparisons only, not an asymptotic speedup claim.",
+          "Section V reports QNet accuracy 0.98 (train) and 0.81 (test) versus NNet 0.83 (train) and 0.81 (test).",
+          "Equal test accuracy indicates no empirical advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_new_1",
+      "description": "Finance credit‑scoring classification (balanced sample I) using the hybrid quantum network WITHOUT data re‑uploading.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Hybrid variational quantum classifier without data re‑uploading",
+        "num_qubits": 8,
+        "num_layers": 8,
+        "optimizer": "Adam"
+      },
+      "key_results": [
+        "ACCtrain = 0.68",
+        "AUCtrain = 0.74",
+        "ACCtest = 0.59",
+        "AUCtest = 0.65"
+      ]
+    },
+    {
+      "experiment_id": "exp_new_2",
+      "description": "Finance credit‑scoring classification (unbalanced sample II) using the hybrid quantum network WITHOUT data re‑uploading.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Hybrid variational quantum classifier without data re‑uploading",
+        "num_qubits": 8,
+        "num_layers": 8,
+        "optimizer": "Adam"
+      },
+      "key_results": [
+        "ACCtrain = 0.84",
+        "AUCtrain = 0.72",
+        "ACCtest = 0.83",
+        "AUCtest = 0.55"
+      ]
+    }
+  ]
+}

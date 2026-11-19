@@ -1,0 +1,595 @@
+{
+  "paper_id": "0fb65bb44954",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T10:34:43+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "0fb65bb44954_benchmarking_the_performance_of_portfolio_optimization_with_qaoa.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 1.0,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 1,
+    "validation_warnings": 18,
+    "validation_passed": false,
+    "validation_error_details": [
+      "Schema error at experiments.0.quantum_resources.two_qubit_gate_count: 'Same as CNOT count where reported; XY mixers use two-qubit gates for each pair in the mixer decomposition' is not of type 'integer', 'null'"
+    ],
+    "validation_warning_details": [
+      "experiments[0].results[8].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[16].unit='normalized noise strength' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[17].unit='normalized noise strength' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[18].unit='normalized noise strength' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[19].unit='normalized noise strength' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[20].unit='normalized noise strength' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[21].unit='normalized noise strength' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[22].unit='depolarizing noise strength' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[23].unit='depolarizing noise strength' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[24].unit='depolarizing noise strength' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[25].unit='depolarizing noise strength' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[26].unit='CNOTs per qubit pair' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[27].unit='CNOTs per qubit pair' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 1.0,
+      "completeness": 1.0,
+      "num_experiments": 1,
+      "experiment_scores": [
+        1.0
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Benchmarking the performance of portfolio optimization with QAOA",
+    "authors": [
+      "Sebastian Brandhofer",
+      "Daniel Braun",
+      "Vanessa Dehn",
+      "Gerhard Hellstern",
+      "Matthias Hils",
+      "Yanjun Ji",
+      "Ilia Polian",
+      "Amandeep Singh Bhatia",
+      "Thomas Wellens"
+    ],
+    "year": 2021,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "portfolio-optimization",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper benchmarks QAOA for portfolio optimization using real DAX‑30 market data with 5‑ and 10‑asset instances (5–10 qubits). In noiseless simulations, the full XY and QAMPA mixers reach approximation ratios >0.99 for n=5 and about 0.98 with ~0.6 probability of the optimal portfolio for n=10 at depth p=7. The study also analyzes noise effects using depolarizing channels and shows that simpler mixers can outperform XY mixers under higher noise.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "QAOA portfolio optimization benchmark comparing standard mixer, four XY-mixer variants (ring, parity ring, full, QAMPA), and different classical optimizers on real DAX market instances under ideal and noisy simulation.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "QAOA for portfolio optimization with standard mixer and XY-mixer variants (ring, parity ring, full, QAMPA)",
+        "ansatz": "QAOA alternating phase-separation and mixer layers; XY-mixer uses Dicke-state initial state; QAMPA reorders mixer and phase gates",
+        "optimizer": "SLSQP for statevector simulations; Nelder-Mead for qasm simulations; COBYLA for noisy density-matrix simulations in Sec. 4.3",
+        "num_layers": 7,
+        "convergence_criteria": "Classical optimizer run until its internal stopping criterion / max iterations; for Nelder-Mead max iterations limited to 10 times number of parameters",
+        "hyperparameters": {
+          "risk_preference_q": "1/3",
+          "budget_B": "2 for n=5 instances; 5 for n=10 instances",
+          "penalty_factor_A": "chosen by classical procedure; example A=0.2 in easy/hard analysis; otherwise instance-dependent",
+          "global_scaling_factor_lambda": "chosen so that spectral width of F matches mixer M; example lambda=6 in easy/hard analysis",
+          "shots": "1000 for qasm simulator",
+          "noise_strengths_normalized": "{0, 0.1, 1, 2, 4, 10} in optimization-landscape noise study",
+          "noise_strengths_unormalized": "{0, 0.001, 0.002, 0.01} in performance-under-noise study",
+          "max_depth_p": "7 in main mixer comparison; 6 in easy/hard analysis",
+          "instance_count": "20 random instances for each of n=5 and n=10 benchmarks",
+          "optimizer_restarts": "4 optimization runs per depth p (previous-depth extrapolation, linear ansatz, quadratic ansatz, zero-angles)",
+          "grid_search_points": "100 starting-point combinations for p=1 initialization"
+        },
+        "parameter_initialization": "For p=1, grid search over 100 logarithmically spaced (m1,m2) pairs; for p>1, extrapolation from previous depth plus three alternatives: linear ansatz, quadratic ansatz, and zero-angle initialization",
+        "optimizer_settings": {
+          "statevector_optimizer": "SLSQP",
+          "qasm_optimizer": "Nelder-Mead",
+          "noisy_optimizer": "COBYLA",
+          "nelder_mead_initial_simplex_size": "0.5",
+          "nelder_mead_max_iterations": "10 * number_of_parameters",
+          "shots": "1000",
+          "density_matrix_samples": "8192"
+        },
+        "classical_baselines": "Classical brute-force search for feasible portfolios to compute F_min and F_max and determine optimal solutions for small n"
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "One qubit per binary asset-selection variable z_i ∈ {0,1}; feasible portfolios satisfy sum_i z_i = B",
+        "objective_function": "Minimize F(z)=1/2 * sum_{i,j} z_i z_j sigma_ij - (1-q) * sum_i z_i mu_i, subject to sum_i z_i = B; penalty version adds A*(sum_i z_i - B)^2",
+        "constraints_handling": "Standard QAOA uses penalty term; XY-mixers enforce feasibility by preserving Hamming weight; QAMPA is a reordered full XY mixer",
+        "num_binary_variables": 5,
+        "problem_hamiltonian": "F(A)=F + A(sum_i z_i - B)^2 mapped to Ising form with Z operators; F = sum_{i<j} w_ij Z_i Z_j + sum_i w_i Z_i + constant",
+        "num_ancilla_qubits": 0
+      },
+      "problem_instance": {
+        "description": "Portfolio selection on German stock market data; benchmark instances sampled from DAX 30 constituents",
+        "num_assets": 5,
+        "time_steps": 1,
+        "dataset_size": 30,
+        "data_type": "real_market",
+        "dataset_name": "German DAX 30",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "DAX constituents; appendix lists LINDE.DE, BAYN.DE, VNA.DE, MTX.DE, MUV2.DE for one 5-asset instance"
+          ],
+          "date_range": "2016-01-01 to 2020-12-31",
+          "benchmark_name": "DAX 30 / MDAX 50 (for additional correlation analysis)",
+          "preprocessing": "Daily percentage returns computed from historical prices; annualized returns and covariance matrix computed with factor 252"
+        },
+        "data_preprocessing_details": "Compute daily returns r_i(k)=(P_i(k)-P_i(k-1))/P_i(k-1); annualize returns and covariance with 252 trading days; normalize correlations to Pearson coefficients for hardness analysis",
+        "evaluation_methodology": "20 random instances for each benchmark size; compare approximation ratio and ground-state probability versus QAOA depth; noisy studies use density-matrix simulator with 8192 samples or qasm with 1000 shots; easy/hard analysis keeps 20 best and 20 worst of 2400 random baskets",
+        "num_features": null
+      },
+      "quantum_resources": {
+        "num_qubits": 5,
+        "qubit_type": "logical",
+        "circuit_depth": 7,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": 4,
+        "cnot_count": 4,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 1000,
+        "num_variational_params": 2,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit",
+        "framework_version": null
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "measurement sampling noise in qasm simulator; depolarizing channel noise in density-matrix simulations",
+        "error_mitigation_method": null,
+        "noise_parameters": {
+          "depolarizing_noise_strengths_normalized": "{0, 0.1, 1, 2, 4, 10}",
+          "depolarizing_noise_strengths_unormalized": "{0, 0.001, 0.002, 0.01}",
+          "shots": "1000",
+          "samples": "8192"
+        }
+      },
+      "implementation_details": {
+        "transpilation_target": null,
+        "classical_solver": "SciPy optimize.minimize",
+        "classical_preprocessing": "Classical brute-force evaluation of feasible portfolios for Fmin/Fmax and penalty selection; scaling factor lambda chosen to match spectral widths",
+        "classical_postprocessing": "Compute approximation ratio r and ground-state probability P from measured bitstrings",
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_settings": null,
+        "mitigation_details": null,
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "num_independent_runs": 20,
+          "variance_across_runs": 20.0,
+          "final_loss_value": null,
+          "loss_curve_shape": "Approximation ratio and ground-state probability generally improve with depth; full XY and QAMPA converge fastest in ideal simulation",
+          "iterations_to_converge": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.99,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "ground_state_probability",
+          "value": 0.6,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.98,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "ground_state_probability",
+          "value": 0.6,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.99,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "ground_state_probability",
+          "value": 0.6,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": 0.98,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "ground_state_probability",
+          "value": 0.6,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_shots",
+          "value": 1000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_samples",
+          "value": 8192,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "noise_strength",
+          "value": 0.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "normalized noise strength",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "noise_strength",
+          "value": 0.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "normalized noise strength",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "noise_strength",
+          "value": 1.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "normalized noise strength",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "noise_strength",
+          "value": 2.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "normalized noise strength",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "noise_strength",
+          "value": 4.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "normalized noise strength",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "noise_strength",
+          "value": 10.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "normalized noise strength",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "noise_strength",
+          "value": 0.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "depolarizing noise strength",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "noise_strength",
+          "value": 0.001,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "depolarizing noise strength",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "noise_strength",
+          "value": 0.002,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "depolarizing noise strength",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "noise_strength",
+          "value": 0.01,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "depolarizing noise strength",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "cnot_count",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "CNOTs per qubit pair",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "cnot_count",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "CNOTs per qubit pair",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "cnot_reduction_factor",
+          "value": 0.75,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical brute-force search",
+          "metric_name": "approximation_ratio",
+          "value": 1.0,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical brute-force search",
+          "metric_name": "ground_state_probability",
+          "value": 1.0,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "SLSQP",
+          "metric_name": "approximation_ratio",
+          "value": null,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Nelder-Mead",
+          "metric_name": "approximation_ratio",
+          "value": null,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "COBYLA",
+          "metric_name": "approximation_ratio",
+          "value": null,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The paper benchmarks QAOA performance but does not claim or demonstrate asymptotic quantum speedup."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 5,
+          "num_qubits": 5,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.99
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": 5,
+          "metric_name": "ground_state_probability",
+          "metric_value": 0.6
+        },
+        {
+          "problem_size": 10,
+          "num_qubits": 10,
+          "metric_name": "approximation_ratio",
+          "metric_value": 0.98
+        },
+        {
+          "problem_size": 10,
+          "num_qubits": 10,
+          "metric_name": "ground_state_probability",
+          "metric_value": 0.6
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "Not explicitly characterized asymptotically for this portfolio-QAOA benchmark",
+        "classical_complexity": "Not explicitly characterized asymptotically; brute-force used only for small n",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L2_noisy_sim",
+        "crossover_size": "Not estimated; authors speculate that several hundred qubits might be required for speedup based on prior Max‑Cut studies.",
+        "resources_for_advantage": "Likely hundreds of logical qubits and deeper QAOA circuits (p >> 7) with low noise; current experiments use only 5–10 qubits in simulation.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Experiments limited to very small problem sizes (5–10 qubits/assets)",
+          "No comparison against scalable classical portfolio optimizers",
+          "Variational parameter optimization cost grows exponentially",
+          "Noise sensitivity of XY mixers on realistic hardware",
+          "No demonstrated runtime or complexity advantage"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "hardware.type inferred as simulator_statevector because the paper explicitly uses Qiskit statevector simulator for ideal runs; qasm simulator and density-matrix simulator are also used in separate evaluations, but the paper does not name a real QPU.",
+          "num_qubits inferred from problem size n because the paper states n=5 and n=10 assets correspond to five and ten qubits.",
+          "circuit_depth inferred from reported QAOA depth p values.",
+          "speedup_order set to none_proven because the paper discusses performance benchmarking only and does not claim asymptotic quantum advantage.",
+          "The paper benchmarks QAOA variants but does not claim a demonstrated quantum advantage.",
+          "All results are obtained via classical simulation of quantum circuits with up to 10 qubits."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

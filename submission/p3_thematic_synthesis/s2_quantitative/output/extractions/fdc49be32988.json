@@ -1,0 +1,1252 @@
+{
+  "paper_id": "fdc49be32988",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T10:21:24+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "fdc49be32988_coherent_feed_forward_quantum_neural_network.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.697,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 13,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[7].unit='features' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[7].unit='features' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[4].unit='features' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[5].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[7].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[9].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[3].results[0].unit='mse' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[3].results[1].unit='mse' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[3].results[2].unit='mse' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[3].results[3].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[3].results[4].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[3].results[6].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[3].results[7].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.697,
+      "completeness": 0.697,
+      "num_experiments": 5,
+      "experiment_scores": [
+        0.75,
+        0.75,
+        1.0,
+        0.833,
+        0.15
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 0.3333333333333333
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Coherent feed-forward quantum neural network",
+    "authors": [
+      "Utkarsh Singh",
+      "Aaron Z. Goldberg",
+      "Khabat Heshami"
+    ],
+    "year": 2024,
+    "doi": "10.1007/s42484-024-00222-8",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": [
+      "fraud-detection"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a coherent feed‑forward quantum neural network (CFFQNN) architecture that encodes multiple features onto few qubits and reports ~91% accuracy on the Wisconsin breast cancer dataset and ~85% on a credit‑card fraud dataset using a 6‑qubit statevector simulation, claiming 5–10% improvement over prior QNN models while reducing circuit depth and CNOT count by roughly 50%. All results are obtained in noiseless simulation and compared mainly against other QNN variants rather than strong classical baselines.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Simulation-based evaluation of a coherent feed-forward quantum neural network (CFFQNN) and a fixed-parameter variant on the balanced credit card fraud detection dataset, compared against a conventional QNN and a classical MLP baseline.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "CFFQNN; FixedCFFQNN",
+        "ansatz": "coherent feed-forward circuit with Ry encoding and controlled-Ry layers",
+        "optimizer": "COBYLA",
+        "num_layers": null,
+        "convergence_criteria": "iterative optimization until parameters converge; 100 iterations reported for some runs",
+        "hyperparameters": {
+          "network_structure": "[3,2,1]",
+          "features_used": 7,
+          "dataset": "credit card fraud detection (balanced)",
+          "measurement_strategy": "single measurement of final qubit for CFFQNN; partial measurement for FixedCFFQNN",
+          "alpha": "π/2",
+          "QNN_comparison_model": "ZZFeatureMap + RealAmplitudes",
+          "QNN_repetitions": "2",
+          "QNN35_variant": "QNN with 35 parameters for balanced comparison"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "max_iterations": 100,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Seven PCA-reduced features are encoded via Ry rotations; the first layer redundantly uploads the same data onto three qubits, then two hidden-layer qubits and one output qubit are used",
+        "objective_function": "binary classification of fraudulent vs non-fraudulent transactions",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Binary classification on the balanced credit card fraud detection dataset",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 7,
+        "dataset_size": 984,
+        "data_type": "public_benchmark",
+        "dataset_name": "Credit Card Fraud Detection (balanced)",
+        "dataset_specification": {
+          "description": "30 original features reduced to 7 principal components by PCA; class imbalance addressed by removing excess class instances; training size 688, testing size 296"
+        },
+        "data_preprocessing_details": "PCA to 7 features; class balancing by downsampling the majority class",
+        "evaluation_methodology": "Held-out test set evaluation; metrics reported include accuracy, recall, F1 score, and precision"
+      },
+      "quantum_resources": {
+        "num_qubits": 6,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": 16,
+        "two_qubit_gate_count": 12,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "GitHub repository mentioned but not provided in text",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "COBYLA",
+        "transpilation_settings": null,
+        "classical_preprocessing": "PCA dimensionality reduction; class balancing",
+        "classical_postprocessing": "Expectation value of final qubit mapped through a classical nonlinear function to produce class label",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "accuracy",
+          "value": 91,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "precision",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "recall",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 984,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_size",
+          "value": 688,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "testing_size",
+          "value": 296,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_features",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "features",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "cnot_count",
+          "value": 12,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "mlpclassifier",
+          "metric_name": "accuracy",
+          "value": null,
+          "unit": "%"
+        },
+        {
+          "method_name": "qnn",
+          "metric_name": "accuracy",
+          "value": null,
+          "unit": "%"
+        },
+        {
+          "method_name": "qnn35",
+          "metric_name": "accuracy",
+          "value": null,
+          "unit": "%"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "approximately 50% fewer quantum resources",
+          "baseline_method": "conventional qnn (zzfeaturemap + realamplitudes)",
+          "conditions": "credit card fraud detection dataset; 7 PCA features; balanced dataset; cffqnn and fixedcffqnn compared to qnn and qnn35",
+          "is_demonstrated": true,
+          "caveats": "The paper reports reduced circuit depth, cnot count, and runtime qualitatively, but does not provide exact depth/runtime numbers in the main text for this experiment."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 984,
+          "num_qubits": 6,
+          "metric_name": "accuracy",
+          "metric_value": 91
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "controlled-gate count grows at most quadratically with nodes per layer and linearly with depth",
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "parity_with_classical",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not analyzed",
+        "resources_for_advantage": "Not provided; experiments run on a 6‑qubit noiseless statevector simulator with small datasets.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Evaluation performed only on noiseless simulation",
+          "Very small qubit count (6 qubits)",
+          "No asymptotic complexity advantage proven",
+          "Dataset size small and PCA‑compressed",
+          "Classical MLP baseline performs similarly"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": null,
+        "notes": [
+          "hardware.type inferred as simulator_statevector because the paper states Qiskit Statevector simulator was used and no physical QPU is named",
+          "num_qubits inferred from the described CFFQNN architecture: 3 qubits in the first layer + 2 in the second + 1 output qubit = 6",
+          "circuit depth for the CFFQNN is not explicitly given; only relative resource reductions and CNOT counts are reported",
+          "Paper claims improved performance compared to existing QNN models but does not demonstrate superiority over classical neural networks."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Simulation-based evaluation of a coherent feed-forward quantum neural network (CFFQNN) and a fixed-parameter variant on the Wisconsin breast cancer diagnostic dataset, compared against a conventional QNN and a classical MLP baseline.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "CFFQNN; FixedCFFQNN",
+        "ansatz": "coherent feed-forward circuit with Ry encoding and controlled-Ry layers",
+        "optimizer": "COBYLA",
+        "num_layers": null,
+        "convergence_criteria": "iterative optimization until parameters converge; 100 iterations reported for some runs",
+        "hyperparameters": {
+          "network_structure": "[3,2,1]",
+          "features_used": 7,
+          "dataset": "breast cancer diagnostic (Wisconsin)",
+          "measurement_strategy": "single measurement of final qubit for CFFQNN; partial measurement for FixedCFFQNN",
+          "alpha": "π/2",
+          "QNN_comparison_model": "ZZFeatureMap + RealAmplitudes",
+          "QNN_repetitions": "2"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "max_iterations": 100,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Seven PCA-reduced features are encoded via Ry rotations; the first layer redundantly uploads the same data onto three qubits, then two hidden-layer qubits and one output qubit are used",
+        "objective_function": "binary classification of malignant vs benign breast cancer",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Binary classification on the Wisconsin breast cancer diagnostic dataset",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 7,
+        "dataset_size": 569,
+        "data_type": "public_benchmark",
+        "dataset_name": "Breast Cancer Diagnostic (Wisconsin)",
+        "dataset_specification": {
+          "description": "30 original features reduced to 7 principal components by PCA; training size 455, testing size 114"
+        },
+        "data_preprocessing_details": "PCA to 7 features",
+        "evaluation_methodology": "Held-out test set evaluation; metrics reported include accuracy, recall, F1 score, and precision"
+      },
+      "quantum_resources": {
+        "num_qubits": 6,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": 16,
+        "two_qubit_gate_count": 12,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "GitHub repository mentioned but not provided in text",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "COBYLA",
+        "transpilation_settings": null,
+        "classical_preprocessing": "PCA dimensionality reduction",
+        "classical_postprocessing": "Expectation value of final qubit mapped through a classical nonlinear function to produce class label",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "accuracy",
+          "value": 91,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "precision",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "recall",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 569,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_size",
+          "value": 455,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "testing_size",
+          "value": 114,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_features",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "features",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "cnot_count",
+          "value": 12,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "mlpclassifier",
+          "metric_name": "accuracy",
+          "value": null,
+          "unit": "%"
+        },
+        {
+          "method_name": "qnn",
+          "metric_name": "accuracy",
+          "value": null,
+          "unit": "%"
+        },
+        {
+          "method_name": "qnn35",
+          "metric_name": "accuracy",
+          "value": null,
+          "unit": "%"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "approximately 50% fewer quantum resources",
+          "baseline_method": "conventional qnn (zzfeaturemap + realamplitudes)",
+          "conditions": "breast cancer diagnostic dataset; 7 PCA features; cffqnn and fixedcffqnn compared to qnn and qnn35",
+          "is_demonstrated": true,
+          "caveats": "The paper states the qnn models require significantly more cnot gates; exact depth/runtime values for this experiment are not numerically specified in the text excerpt."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 569,
+          "num_qubits": 6,
+          "metric_name": "accuracy",
+          "metric_value": 91
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "controlled-gate count grows at most quadratically with nodes per layer and linearly with depth",
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not analyzed",
+        "resources_for_advantage": "Not provided; only small‑scale simulation with PCA‑reduced dataset.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Evaluation limited to noiseless simulation",
+          "Very small circuits (6 qubits)",
+          "No demonstrated asymptotic speedup",
+          "Classical MLP baseline still competitive or better",
+          "Dataset dimension artificially reduced with PCA"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": null,
+        "notes": [
+          "hardware.type inferred as simulator_statevector because the paper states Qiskit Statevector simulator was used and no physical QPU is named",
+          "num_qubits inferred from the described CFFQNN architecture: 3 qubits in the first layer + 2 in the second + 1 output qubit = 6",
+          "circuit depth for the CFFQNN is not explicitly given; only relative resource reductions and CNOT counts are reported",
+          "Paper reports CFFQNN outperforming other QNN architectures but does not demonstrate improvement over classical baselines."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "Additional simulation-based evaluation of the CFFQNN on a heart disease classification dataset, compared against an existing QNN with ZZFeatureMap and RealAmplitudes.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "CFFQNN",
+        "ansatz": "coherent feed-forward circuit with Ry encoding and controlled-Ry layers",
+        "optimizer": "COBYLA",
+        "num_layers": null,
+        "convergence_criteria": "iterative optimization until parameters converge",
+        "hyperparameters": {
+          "dataset": "heart disease",
+          "features_used": 7,
+          "layer_structures_tested": [
+            "[2,3,1]",
+            "[1,1,1]",
+            "[1,2,1]",
+            "[1,3,1]",
+            "[1,4,1]",
+            "[2,1,1]",
+            "[2,2,1]",
+            "[3,1,1]",
+            "[3,2,1]",
+            "[3,3,1]"
+          ],
+          "QNN_comparison_model": "ZZFeatureMap + RealAmplitudes"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Seven PCA-reduced features are encoded via Ry rotations; layer structures vary, with the best-performing structure [2,3,1]",
+        "objective_function": "binary classification of presence vs absence of heart disease",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Binary classification on the heart disease dataset",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 7,
+        "dataset_size": 918,
+        "data_type": "public_benchmark",
+        "dataset_name": "Heart Disease",
+        "dataset_specification": {
+          "description": "13 original features reduced to 7 principal components by PCA"
+        },
+        "data_preprocessing_details": "PCA to 7 features",
+        "evaluation_methodology": "Accuracy reported for multiple layer structures; comparison against existing QNN"
+      },
+      "quantum_resources": {
+        "num_qubits": 6,
+        "qubit_type": "not_specified",
+        "circuit_depth": 26,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": 18,
+        "two_qubit_gate_count": 18,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "GitHub repository mentioned but not provided in text",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "COBYLA",
+        "transpilation_settings": null,
+        "classical_preprocessing": "PCA dimensionality reduction",
+        "classical_postprocessing": "Expectation value of final qubit mapped through a classical nonlinear function to produce class label",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "accuracy",
+          "value": 78.8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 76.09,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 65.76,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 918,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_features",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "features",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 26,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "cnot_count",
+          "value": 18,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 14,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "cnot_count",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 39,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "cnot_count",
+          "value": 36,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "zzfeaturemap + realamplitudes qnn",
+          "metric_name": "accuracy",
+          "value": 65.76,
+          "unit": "%"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "about 13.04 percentage points higher accuracy",
+          "baseline_method": "zzfeaturemap + realamplitudes qnn",
+          "conditions": "heart disease dataset; 7 PCA features; best cffqnn layer structure [2,3,1]",
+          "is_demonstrated": true,
+          "caveats": "The paper also reports a simpler [1,1,1] cffqnn achieving 76.09% accuracy; performance varies non-monotonically with depth."
+        },
+        {
+          "type": "empirical",
+          "factor": "about 50% fewer cnot gates",
+          "baseline_method": "zzfeaturemap + realamplitudes qnn",
+          "conditions": "heart disease dataset; best cffqnn layer structure [2,3,1]",
+          "is_demonstrated": true,
+          "caveats": "The paper reports 18 cnot gates for [2,3,1] versus 36 for the baseline qnn."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 918,
+          "num_qubits": 6,
+          "metric_name": "accuracy",
+          "metric_value": 78.8
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "controlled-gate count grows at most quadratically with nodes per layer and linearly with depth",
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not analyzed",
+        "resources_for_advantage": "Not specified; experiments limited to small simulated circuits.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Comparison only against another QNN baseline",
+          "No comparison with strong classical ML methods",
+          "Simulation only",
+          "No complexity‑theoretic speedup shown"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": null,
+        "notes": [
+          "hardware.type inferred as simulator_statevector because the paper states Qiskit Statevector simulator was used and no physical QPU is named",
+          "num_qubits inferred from the described CFFQNN architecture: 3 qubits in the first layer + 2 in the second + 1 output qubit = 6",
+          "circuit depth 26 is explicitly reported for the [2,3,1] heart-disease configuration in the appendix",
+          "Appendix results show improved accuracy over a baseline QNN but not over classical algorithms."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_4",
+      "description": "Additional simulation-based evaluation of the fixed-parameter CFFQNN on a student performance regression dataset, compared against the standard CFFQNN and an existing QNN.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "FixedCFFQNN",
+        "ansatz": "coherent feed-forward circuit with Ry encoding and controlled-Ry layers",
+        "optimizer": "COBYLA",
+        "num_layers": null,
+        "convergence_criteria": "iterative optimization until parameters converge",
+        "hyperparameters": {
+          "dataset": "student performance (multiple linear regression)",
+          "task": "regression",
+          "QNN_comparison_model": "ZZFeatureMap + RealAmplitudes"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Classical features encoded into a coherent feed-forward quantum circuit; first-layer weights are fixed in the FixedCFFQNN variant",
+        "objective_function": "predict student performance score (regression)",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Regression on the student performance dataset",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "public_benchmark",
+        "dataset_name": "Student performance (multiple linear regression)",
+        "dataset_specification": {
+          "description": "Kaggle dataset; exact feature count and split not reported in the provided text"
+        },
+        "data_preprocessing_details": null,
+        "evaluation_methodology": "Mean squared error reported; resource comparison against existing QNN"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": 20,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": 12,
+        "two_qubit_gate_count": 12,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 11,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "GitHub repository mentioned but not provided in text",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "COBYLA",
+        "transpilation_settings": null,
+        "classical_preprocessing": null,
+        "classical_postprocessing": "Regression output evaluated by mean squared error",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "mean_squared_error",
+          "value": 0.0102,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "mse",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "mean_squared_error",
+          "value": 0.1869,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "mse",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "mean_squared_error",
+          "value": 0.1982,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "mse",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_parameters",
+          "value": 11,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "cnot_count",
+          "value": 12,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 31,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_parameters",
+          "value": 15,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "cnot_count",
+          "value": 24,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "zzfeaturemap + realamplitudes qnn",
+          "metric_name": "mean_squared_error",
+          "value": 0.1982,
+          "unit": "mse"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "about 94.9% lower mse than the existing qnn",
+          "baseline_method": "zzfeaturemap + realamplitudes qnn",
+          "conditions": "student performance regression dataset; fixedcffqnn",
+          "is_demonstrated": true,
+          "caveats": "The paper reports the fixedcffqnn as the best-performing regression model, but does not provide dataset size or feature count in the excerpt."
+        },
+        {
+          "type": "empirical",
+          "factor": "50% fewer cnot gates",
+          "baseline_method": "zzfeaturemap + realamplitudes qnn",
+          "conditions": "student performance regression dataset; fixedcffqnn",
+          "is_demonstrated": true,
+          "caveats": "Reported cnot counts are 12 for fixedcffqnn versus 24 for the existing qnn."
+        },
+        {
+          "type": "empirical",
+          "factor": "about 35.5% lower circuit depth",
+          "baseline_method": "zzfeaturemap + realamplitudes qnn",
+          "conditions": "student performance regression dataset; fixedcffqnn",
+          "is_demonstrated": true,
+          "caveats": "Reported circuit depths are 20 for fixedcffqnn versus 31 for the existing qnn."
+        }
+      ],
+      "scalability_data": [],
+      "complexity_analysis": {
+        "quantum_complexity": "controlled-gate count grows at most quadratically with nodes per layer and linearly with depth",
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "data_loading_bottleneck": null
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": null,
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": null,
+        "notes": [
+          "hardware.type inferred as simulator_statevector because the paper states Qiskit Statevector simulator was used and no physical QPU is named",
+          "the paper reports depth, parameters, and CNOTs for the student-performance FixedCFFQNN but does not explicitly state the qubit count in the appendix excerpt provided",
+          "circuit depth 20 and 12 CNOT gates are explicitly reported for the FixedCFFQNN in the appendix"
+        ]
+      }
+    },
+    {
+      "experiment_id": "exp_new_4",
+      "description": "Regression evaluation of CFFQNN and FixedCFFQNN on a student performance dataset to predict student performance scores.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "CFFQNN; FixedCFFQNN",
+        "optimizer": "COBYLA",
+        "ansatz": "coherent feed-forward circuit with Ry encoding and controlled-Ry layers",
+        "num_layers": null
+      },
+      "key_results": [
+        "CFFQNN mean squared error (MSE): 0.1869",
+        "FixedCFFQNN MSE: 0.0102",
+        "Baseline QNN MSE: 0.1982",
+        "Circuit resources: CFFQNN depth 20 with 12 CNOT gates; baseline QNN depth 31 with 24 CNOT gates"
+      ]
+    }
+  ]
+}

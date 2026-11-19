@@ -1,0 +1,1043 @@
+{
+  "paper_id": "c57f6422ed7b",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:50:45+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "c57f6422ed7b_quantum_generative_adversarial_networks_for_learning_and_loading_random_distribu.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.883,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 1,
+    "validation_warnings": 2,
+    "validation_passed": false,
+    "validation_error_details": [
+      "Schema error at experiments.0.quantum_resources.qubit_type: 'simulated' is not one of ['logical', 'physical', 'not_specified', None]"
+    ],
+    "validation_warning_details": [
+      "experiments[1].results[3].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[4].unit='measurements' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.883,
+      "completeness": 0.883,
+      "num_experiments": 3,
+      "experiment_scores": [
+        0.8,
+        1.0,
+        0.85
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum Generative Adversarial Networks for learning and loading random distributions",
+    "authors": [
+      "Christa Zoufal",
+      "Aurélien Lucchi",
+      "Stefan Woerner"
+    ],
+    "year": 2019,
+    "doi": "10.1038/s41534-019-0223-2",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": [
+      "derivative-pricing",
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper introduces a hybrid qGAN for approximate quantum state preparation of probability distributions, demonstrated with 3-qubit circuits (depth k≤3) trained on 20,000 samples. Training is validated via Kolmogorov–Smirnov statistics and relative entropy, including a hardware run on IBM Q Boeblingen. The trained generator is used in a simulated Quantum Amplitude Estimation example for European option pricing, using 8 evaluation qubits and showing comparable confidence intervals to Monte Carlo while using 256 vs 1024 samples.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "qGAN distribution learning and loading on a quantum simulator for three target distributions (log-normal, triangular, bimodal) with varying initialization and circuit depth.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "Quantum Generative Adversarial Network (qGAN) with variational quantum generator and classical discriminator",
+        "ansatz": "Variational circuit with alternating layers of RY rotations and CZ entangling blocks",
+        "optimizer": "AMSGRAD",
+        "num_layers": null,
+        "convergence_criteria": "Training repeated for 10 runs per setting; performance assessed via Kolmogorov–Smirnov statistic and relative entropy rather than a fixed stopping rule",
+        "hyperparameters": {
+          "n_qubits": 3,
+          "target_distributions": [
+            "log-normal",
+            "triangular",
+            "bimodal"
+          ],
+          "samples_per_distribution": 20000,
+          "generator_depths": [
+            1,
+            2,
+            3
+          ],
+          "initializations": [
+            "uniform",
+            "normal",
+            "random"
+          ],
+          "batch_size": 2000,
+          "learning_rate": 0.0001,
+          "discriminator_hidden_layers": [
+            50,
+            20,
+            1
+          ],
+          "gradient_penalty": true
+        },
+        "parameter_initialization": "Uniform initialization: input state prepared as discrete uniform distribution and parameters sampled from U[-0.1,0.1]; normal initialization: input state prepared from truncated discretized normal distribution with empirical mean/std and parameters sampled from U[-0.1,0.1]; random initialization: input state |0...0> and parameters sampled from U[-pi,pi]",
+        "optimizer_settings": {
+          "learning_rate": 0.0001,
+          "optimizer": "AMSGRAD",
+          "batch_size": 2000
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "3 qubits represent 8 discrete values {0,...,7}; classical samples are truncated to [0,7] and rounded to integers; generator outputs basis-state probabilities",
+        "objective_function": "Learn an approximate probability distribution over discrete basis states matching the training data distribution",
+        "constraints_handling": "None reported beyond training objective and gradient penalty on discriminator",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Learning discrete approximations of log-normal, triangular, and bimodal distributions from 20,000 samples each",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 20000,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Log-normal: mu=1, sigma=1; triangular: lower=0, upper=7, mode=2; bimodal: mixture of Gaussians with (mu1=0.5,sigma1=1) and (mu2=3.5,sigma2=0.5), all truncated to [0,7] and rounded to integers"
+        },
+        "data_preprocessing_details": "Truncate samples to [0,7] and round to integer grid values",
+        "evaluation_methodology": "10 independent training runs per setting; evaluate with Kolmogorov–Smirnov statistic and relative entropy"
+      },
+      "quantum_resources": {
+        "num_qubits": 3,
+        "qubit_type": "simulated",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 2000,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/Qiskit/qiskit",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Classical data samples are truncated and rounded to a discrete grid; discriminator implemented in PyTorch",
+        "classical_postprocessing": "Compute Kolmogorov–Smirnov statistic and relative entropy from sampled generator outputs",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "Reported via relative entropy and loss curves; no fixed convergence threshold",
+          "variance_across_runs": 10.0,
+          "num_independent_runs": 10
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "kolmogorov_smirnov_statistic",
+          "value": 0.0522,
+          "uncertainty": "±0.0214",
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "relative_entropy",
+          "value": 0.0454,
+          "uncertainty": "±0.0856",
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kolmogorov_smirnov_statistic",
+          "value": 0.0699,
+          "uncertainty": "±0.0204",
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "relative_entropy",
+          "value": 0.0739,
+          "uncertainty": "±0.0510",
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kolmogorov_smirnov_statistic",
+          "value": 0.0576,
+          "uncertainty": "±0.0206",
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "relative_entropy",
+          "value": 0.0309,
+          "uncertainty": "±0.0206",
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kolmogorov_smirnov_statistic",
+          "value": 0.1301,
+          "uncertainty": "±0.1016",
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "relative_entropy",
+          "value": 0.1379,
+          "uncertainty": "±0.1449",
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kolmogorov_smirnov_statistic",
+          "value": 0.138,
+          "uncertainty": "±0.0347",
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "relative_entropy",
+          "value": 0.1283,
+          "uncertainty": "±0.0716",
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kolmogorov_smirnov_statistic",
+          "value": 0.081,
+          "uncertainty": "±0.0491",
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "relative_entropy",
+          "value": 0.0435,
+          "uncertainty": "±0.0560",
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kolmogorov_smirnov_statistic",
+          "value": 0.0821,
+          "uncertainty": "±0.0466",
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "relative_entropy",
+          "value": 0.0916,
+          "uncertainty": "±0.0678",
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kolmogorov_smirnov_statistic",
+          "value": 0.078,
+          "uncertainty": "±0.0337",
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "relative_entropy",
+          "value": 0.0639,
+          "uncertainty": "±0.0463",
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kolmogorov_smirnov_statistic",
+          "value": 0.0541,
+          "uncertainty": "±0.0174",
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "relative_entropy",
+          "value": 0.0436,
+          "uncertainty": "±0.0456",
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kolmogorov_smirnov_statistic",
+          "value": 0.088,
+          "uncertainty": "±0.0632",
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "relative_entropy",
+          "value": 0.0624,
+          "uncertainty": "±0.0535",
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kolmogorov_smirnov_statistic",
+          "value": 0.0336,
+          "uncertainty": "±0.0174",
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "relative_entropy",
+          "value": 0.0091,
+          "uncertainty": "±0.0042",
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kolmogorov_smirnov_statistic",
+          "value": 0.0695,
+          "uncertainty": "±0.1028",
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "relative_entropy",
+          "value": 0.076,
+          "uncertainty": "±0.1929",
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kolmogorov_smirnov_statistic",
+          "value": 0.0251,
+          "uncertainty": "±0.0067",
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "relative_entropy",
+          "value": 0.0033,
+          "uncertainty": "±0.0038",
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kolmogorov_smirnov_statistic",
+          "value": 0.0843,
+          "uncertainty": "±0.0635",
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "relative_entropy",
+          "value": 0.105,
+          "uncertainty": "±0.1387",
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kolmogorov_smirnov_statistic",
+          "value": 0.0538,
+          "uncertainty": "±0.0294",
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "relative_entropy",
+          "value": 0.0387,
+          "uncertainty": "±0.0486",
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kolmogorov_smirnov_statistic",
+          "value": 0.0438,
+          "uncertainty": "±0.0163",
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "relative_entropy",
+          "value": 0.0201,
+          "uncertainty": "±0.0194",
+          "num_runs": 10,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 20000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": null,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "O(poly n) gates vs O(2^n) gates",
+          "baseline_method": "exact quantum state preparation for a generic distribution",
+          "conditions": "approximate loading of generic probability distributions into an n-qubit state",
+          "is_demonstrated": false,
+          "caveats": "This is a complexity claim, not an empirical runtime comparison."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 3.0,
+          "num_qubits": 3,
+          "metric_name": "representable_values",
+          "metric_value": 8
+        },
+        {
+          "problem_size": 1.0,
+          "num_qubits": 3,
+          "metric_name": "kolmogorov_smirnov_statistic",
+          "metric_value": 0.0522
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": 3,
+          "metric_name": "kolmogorov_smirnov_statistic",
+          "metric_value": 0.0699
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 3,
+          "metric_name": "kolmogorov_smirnov_statistic",
+          "metric_value": 0.0576
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(poly n) gates for approximate loading; variational circuit uses (k+1)n single-qubit gates and kn two-qubit gates",
+        "classical_complexity": "O(2^n) gates for exact loading of a generic state",
+        "speedup_order": "polynomial_other",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Not analyzed; experiments use only n=3 qubits (8 discrete states) with shallow variational circuits (k≤3).",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Toy-scale problem (3 qubits, 8 discrete states)",
+          "No comparison with classical generative models on equivalent tasks",
+          "Training cost dominated by classical optimization and sampling",
+          "No end-to-end quantum algorithm demonstrating runtime improvement"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware is a quantum simulator used with Qiskit; no specific simulator backend name is given.",
+          "Circuit depth is reported as generator depth k in {1,2,3}, but total compiled depth is not reported.",
+          "The authors present the qGAN as an approximate state-preparation method but do not experimentally demonstrate computational advantage over classical distribution learning."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "qGAN distribution learning and loading on IBM Q Boeblingen superconducting hardware for a log-normal distribution.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "Quantum Generative Adversarial Network (qGAN) with variational quantum generator and classical discriminator",
+        "ansatz": "Variational circuit with alternating layers of RY rotations and CZ entangling blocks",
+        "optimizer": "AMSGRAD",
+        "num_layers": 1,
+        "convergence_criteria": "Training run for 200 optimization epochs; performance assessed with Kolmogorov–Smirnov statistic and relative entropy",
+        "hyperparameters": {
+          "n_qubits": 3,
+          "target_distribution": "log-normal",
+          "samples_per_distribution": 20000,
+          "generator_depth": 1,
+          "initialization": "random",
+          "batch_size": 2000,
+          "learning_rate": 0.001,
+          "gradient_evaluation_measurements": 8000,
+          "discriminator_hidden_layers": [
+            50,
+            20,
+            1
+          ],
+          "gradient_penalty": true
+        },
+        "parameter_initialization": "Random initialization: input state |0...0> and parameters sampled from U[-pi,pi]",
+        "optimizer_settings": {
+          "learning_rate": 0.001,
+          "optimizer": "AMSGRAD",
+          "max_iterations": 200,
+          "batch_size": 2000
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "3 qubits represent 8 discrete values {0,...,7}; samples truncated to [0,7] and rounded to integers",
+        "objective_function": "Learn an approximate probability distribution over discrete basis states matching the log-normal training data",
+        "constraints_handling": "None reported beyond training objective and gradient penalty on discriminator",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Learning a discretized log-normal distribution for use as a data-loading unitary",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 20000,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Log-normal with mu=1, sigma=1, truncated to [0,7] and rounded to integers"
+        },
+        "data_preprocessing_details": "Truncate samples to [0,7] and round to integer grid values",
+        "evaluation_methodology": "Single hardware run compared against noisy simulation; evaluate with Kolmogorov–Smirnov statistic and relative entropy"
+      },
+      "quantum_resources": {
+        "num_qubits": 3,
+        "qubit_type": "physical",
+        "circuit_depth": 1,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 2000,
+        "num_variational_params": 6,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_superconducting",
+        "provider": "IBM",
+        "device_name": "IBM Q Boeblingen",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "hardware noise",
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/Qiskit/qiskit",
+        "framework_version": null,
+        "transpilation_target": "IBM Q Boeblingen",
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Classical data samples truncated and rounded; discriminator implemented in PyTorch",
+        "classical_postprocessing": "Compute Kolmogorov–Smirnov statistic and relative entropy from sampled generator outputs",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 200,
+          "final_loss_value": null,
+          "loss_curve_shape": "Relative entropy decreases toward zero over training",
+          "variance_across_runs": null,
+          "num_independent_runs": 1
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "kolmogorov_smirnov_statistic",
+          "value": 0.042,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "kolmogorov_smirnov_statistic",
+          "value": 0.0224,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 20000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_epochs",
+          "value": 200,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "epochs",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gradient_evaluation_measurements",
+          "value": 8000,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "measurements",
+          "higher_is_better": null,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "noisy quantum simulation",
+          "metric_name": "kolmogorov_smirnov_statistic",
+          "value": 0.042,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "This experiment demonstrates feasibility on hardware, not a speedup over classical methods."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 3.0,
+          "num_qubits": 3,
+          "metric_name": "kolmogorov_smirnov_statistic",
+          "metric_value": 0.0224
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(poly n) gates for approximate loading; variational circuit uses (k+1)n single-qubit gates and kn two-qubit gates",
+        "classical_complexity": "O(2^n) gates for exact loading of a generic state",
+        "speedup_order": "polynomial_other",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "not analyzed",
+        "resources_for_advantage": "Unknown; experiment uses only 3 qubits on IBM Q Boeblingen with shallow circuit depth k=1.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Extremely small circuit (3 qubits)",
+          "Noise and calibration drift noted by authors",
+          "Hybrid training dominated by classical computation",
+          "No runtime or accuracy comparison against classical generative models"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "IBM Q Boeblingen is explicitly named as the hardware backend.",
+          "The paper reports 200 optimization epochs and 8000 measurements for analytic gradients, but not a full gate count or transpiled depth.",
+          "Hardware experiment demonstrates feasibility of qGAN training on a real device but does not claim or show performance advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "QAE-based European call option pricing using a qGAN-trained data-loading unitary learned on IBM Q Boeblingen.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Quantum Amplitude Estimation (QAE) with qGAN-trained data-loading unitary",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": "Fixed evaluation with m=8 evaluation qubits",
+        "hyperparameters": {
+          "evaluation_qubits": 8,
+          "strike_price": 2,
+          "distribution": "log-normal",
+          "trained_generator_source": "IBM Q Boeblingen"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null,
+        "hyperparameters.evaluation_qubits": 8
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Distribution over discretized spot prices loaded into a quantum state; payoff encoded for European call option max(ST-K,0)",
+        "objective_function": "Estimate expected payoff E[max(ST-K,0)] for a European call option",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Pricing a European call option under a log-normal spot-price model using a qGAN-trained distribution loader",
+        "num_assets": 1,
+        "time_steps": 1,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": "Black-Scholes log-normal model",
+        "dataset_specification": {
+          "description": "Spot price at maturity ST assumed log-normally distributed; strike K=$2"
+        },
+        "data_preprocessing_details": "Use qGAN-trained approximate distribution from IBM Q Boeblingen; compare against analytic value and Monte Carlo estimate",
+        "evaluation_methodology": "Compare analytic evaluation, Monte Carlo with 1024 samples, and QAE with 256 quantum samples; report 95% confidence intervals"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 256,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/Qiskit/qiskit",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Monte Carlo baseline on IBM Q Boeblingen hardware for comparison",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Use qGAN-trained generator parameters from hardware experiment",
+        "classical_postprocessing": "Estimate expected payoff and confidence intervals",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": 1
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "expected_payoff",
+          "value": 1.0602,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "USD",
+          "higher_is_better": null,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "expected_payoff",
+          "value": 0.974,
+          "uncertainty": "±0.0848",
+          "num_runs": 1024,
+          "unit": "USD",
+          "higher_is_better": null,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "expected_payoff",
+          "value": 1.1391,
+          "uncertainty": "±0.0710",
+          "num_runs": 256,
+          "unit": "USD",
+          "higher_is_better": null,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "analytic evaluation",
+          "metric_name": "expected_payoff",
+          "value": 1.0602,
+          "unit": "USD"
+        },
+        {
+          "method_name": "monte_carlo",
+          "metric_name": "expected_payoff",
+          "value": 0.974,
+          "unit": "USD"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical Monte Carlo simulation",
+          "conditions": "for QAE with N=2^n samples / evaluation qubits; approximate data loading via qGAN",
+          "is_demonstrated": true,
+          "caveats": "The QAE result is classically simulated using generator parameters trained on hardware; the paper notes that running QAE on actual quantum hardware would require better coherence and gate fidelities."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 8.0,
+          "num_qubits": null,
+          "metric_name": "samples",
+          "metric_value": 256
+        },
+        {
+          "problem_size": 1024.0,
+          "num_qubits": null,
+          "metric_name": "expected_payoff",
+          "metric_value": 0.974
+        },
+        {
+          "problem_size": 256.0,
+          "num_qubits": null,
+          "metric_name": "expected_payoff",
+          "metric_value": 1.1391
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "Grover-type error scaling O(1/N) for QAE",
+        "classical_complexity": "Monte Carlo error scaling O(1/sqrt(N))",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not estimated",
+        "resources_for_advantage": "Would require large fault-tolerant QAE circuits with many evaluation qubits and deep controlled operations.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "QAE only simulated classically",
+          "Distribution encoded with only 3 qubits",
+          "Quadratic speedup over Monte Carlo (O(1/N) vs O(1/sqrt(N))) insufficient under realistic error-correction overhead",
+          "State preparation still requires variational training"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The QAE evaluation is stated to be classically simulated, so hardware.type is simulator_other.",
+          "The paper reports m=8 evaluation qubits and 2^8=256 quantum samples, but does not explicitly state the total qubit count of the full QAE circuit; num_qubits is therefore not directly reported.",
+          "Authors state that QAE can provide quadratic improvement over classical Monte Carlo but demonstrate it only in simulation using a toy discretized model."
+        ],
+        "advantage_status": "paper_reported"
+      }
+    }
+  ]
+}

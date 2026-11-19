@@ -1,0 +1,605 @@
+{
+  "paper_id": "cf8de5885b73",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T10:55:10+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "cf8de5885b73_grover_search_for_portfolio_selection.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.775,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 12,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='items' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='portfolios' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='absolute' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='O(sqrt(N))' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='O(sqrt(N/M))' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='O(N)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[0].unit='items' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[1].unit='portfolios' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[3].unit='absolute' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[7].unit='1 - 1/2^c' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[8].unit='O(sqrt(N))' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[9].unit='O(N)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.775,
+      "completeness": 0.775,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.85,
+        0.7
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Grover Search for Portfolio Selection",
+    "authors": [
+      "A. Ege Yilmaz",
+      "Stefan Stettler",
+      "Thomas Ankenbrand",
+      "Urs Rhyner"
+    ],
+    "year": 2023,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "portfolio-optimization",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper implements Grover-based portfolio selection circuits using QES and Grover Adaptive Search on Qiskit simulators. Experiments use a toy dataset of 8 efficient portfolios, requiring 18 qubits for the single‑list maximum‑search circuit and 37 qubits for the two‑list conditional slicing oracle with resolving power d=0.01. Results demonstrate correct selection of threshold‑filtered portfolios and the maximum Sharpe ratio but only on noiseless simulators.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Grover-based conditional slicing to select efficient portfolios whose returns exceed a threshold and standard deviations fall below a threshold, implemented with QES and tested on Qiskit simulators.",
+      "algorithm": {
+        "family": "grover",
+        "variant": "Quantum Exponential Search (QES) with explicit threshold oracles for portfolio selection",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "lambda": 1.1428571428571428,
+          "time_out_for_M_equals_0": "O(sqrt(N))",
+          "resolving_power_d": 0.01,
+          "list_size_sampled": 8
+        },
+        "parameter_initialization": "Threshold values supplied from classical efficient-frontier outputs; QES starts with m=1 and random j in [0,m).",
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Eight portfolio return values and eight standard-deviation values are encoded in registers; values are treated as phase-encoded decimals in [0,1) and compared via a GT-gate. The search space size is N=8, so 3 qubits encode the index register.",
+        "objective_function": "Select portfolios satisfying r_k > S1 and sigma_k < S2 (conditional slicing on efficient portfolios).",
+        "constraints_handling": "Oracle marks states satisfying the threshold conditions; QES is used to find a marked item. No penalty formulation.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Selection among a subsample of efficient portfolios using return and standard-deviation thresholds.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 2,
+        "dataset_size": 8,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Subsample of efficient portfolios; returns and standard deviations each reduced to 8 values. Risk-return pairs are assumed available as input from classical mean-variance optimization."
+        },
+        "data_preprocessing_details": "Classical mean-variance optimization with no-short-selling is used to generate efficient portfolios; values are restricted to [0,1) and integer parts are not compared.",
+        "evaluation_methodology": "Implemented and tested on simulators; success described qualitatively, with time-out used for the M=0 case."
+      },
+      "quantum_resources": {
+        "num_qubits": 37,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/HSLU-IFZ-Competence-Center-Investments/Quantum-Portfolio-Selection/blob/main/QAIF_PortfOpt.ipynb",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Classical mean-variance optimization (no-short-selling)",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Generate efficient frontier classically; subsample to 8 return and 8 standard-deviation values; choose resolving power d=0.01.",
+        "classical_postprocessing": "Measure output and interpret as selected portfolio; time-out used when no solution exists.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "dataset_size",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "items",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "portfolios",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "resolving_power",
+          "value": 0.01,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 18,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gt_gate_qubits",
+          "value": 15,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "index_register_qubits",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "time_out_for_m_equals_0",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "O(sqrt(N))",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "quantum_complexity",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "O(sqrt(N/M))",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "classical_complexity",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "O(N)",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical mean-variance optimization (no-short-selling)",
+          "metric_name": "dataset_size",
+          "value": 8,
+          "unit": "items"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical search over N items",
+          "conditions": "for Grover-based conditional slicing with QES; assuming M marked solutions and access to explicit threshold oracles",
+          "is_demonstrated": true,
+          "caveats": "The paper reports simulator implementation and theoretical oracle/query complexity, not wall-clock speedup on hardware."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 8,
+          "num_qubits": 18,
+          "metric_name": "num_qubits",
+          "metric_value": 18
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(sqrt(N/M))",
+        "classical_complexity": "O(N)",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not estimated; experiment uses N=8 portfolios.",
+        "resources_for_advantage": "Would require large N lists and fault-tolerant Grover oracles capable of evaluating portfolio thresholds at scale; current implementation uses only 37 qubits and simulator execution.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Only demonstrated on a simulator with N=8 portfolios",
+          "Quadratic Grover speedup only",
+          "Oracle construction requires phase encoding of classical data",
+          "No comparison against optimized classical search",
+          "State preparation and data loading dominate cost"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_other because the paper states the circuits were implemented using IBM's Qiskit SDK simulators and no physical QPU is named.",
+          "18 qubits reported from 3 index qubits plus 15 qubits for the GT-gate at resolving power d=0.01.",
+          "Circuit depth not explicitly reported; only gate scaling and qubit counts are given.",
+          "The paper reports theoretical Grover complexity O(sqrt(N/M)) but performs only small-scale simulator demonstrations.",
+          "No empirical comparison with classical algorithms is presented."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Grover Adaptive Search to find the portfolio with the maximum Sharpe ratio among efficient portfolios, implemented with Qiskit simulators.",
+      "algorithm": {
+        "family": "grover",
+        "variant": "Grover Adaptive Search (GAS) for maximum Sharpe ratio",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": "After c GAS repetitions, success probability is at least 1 - 1/2^c.",
+        "hyperparameters": {
+          "risk_free_rate": 0.0,
+          "resolving_power_d": 0.01,
+          "list_size_sampled": 8,
+          "success_probability_after_c_runs": "1 - 1/2^c"
+        },
+        "parameter_initialization": "Initial threshold is a randomly chosen list value; later thresholds are updated from QES outcomes.",
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Sharpe ratios for 8 portfolios are encoded; 3 qubits encode the index register and 15 qubits are used for the GT-gate at d=0.01.",
+        "objective_function": "Find the portfolio index with maximum Sharpe ratio.",
+        "constraints_handling": "GAS iteratively updates the threshold to the best-known value and uses QES as a subroutine.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Maximum Sharpe-ratio search over a subsample of efficient portfolios.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 1,
+        "dataset_size": 8,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Subsample of efficient portfolios; Sharpe ratios computed with a 0% risk-free rate."
+        },
+        "data_preprocessing_details": "Sharpe ratios are calculated classically from the efficient portfolios; all values are in [0,1).",
+        "evaluation_methodology": "Implemented and tested on simulators; successful retrieval of the highest Sharpe-ratio portfolio is reported qualitatively."
+      },
+      "quantum_resources": {
+        "num_qubits": 18,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/HSLU-IFZ-Competence-Center-Investments/Quantum-Portfolio-Selection/blob/main/QAIF_PortfOpt.ipynb",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Classical Sharpe-ratio computation from efficient portfolios",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Compute Sharpe ratios classically using a 0% risk-free rate; select a random initial threshold value from the list.",
+        "classical_postprocessing": "Measure the index of the maximum Sharpe-ratio portfolio; GAS repeats c times to boost success probability.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "dataset_size",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "items",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "portfolios",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "risk_free_rate",
+          "value": 0.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "fraction",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "resolving_power",
+          "value": 0.01,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 18,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gt_gate_qubits",
+          "value": 15,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "index_register_qubits",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability_after_c_runs",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "1 - 1/2^c",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "quantum_complexity",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "O(sqrt(N))",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "classical_complexity",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "O(N)",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical Sharpe-ratio computation from efficient portfolios",
+          "metric_name": "sharpe_ratio",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical search over N items",
+          "conditions": "for Grover Adaptive Search on an unsorted list of portfolio Sharpe ratios; assuming threshold updates via QES",
+          "is_demonstrated": true,
+          "caveats": "The paper reports theoretical O(sqrt(N)) query complexity and simulator-based implementation, but no empirical runtime comparison."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 8,
+          "num_qubits": 18,
+          "metric_name": "num_qubits",
+          "metric_value": 18
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(sqrt(N))",
+        "classical_complexity": "O(N)",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not estimated; tested with N=8 portfolios.",
+        "resources_for_advantage": "Fault-tolerant Grover Adaptive Search over large financial datasets with efficient Sharpe-ratio oracle evaluation.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Quadratic speedup only (Grover-based)",
+          "Very small toy problem size (8 portfolios)",
+          "Simulator-only evaluation",
+          "Oracle requires classical preprocessing and encoding",
+          "No classical runtime benchmark"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_other because the paper states the circuits were implemented using IBM's Qiskit SDK simulators and no physical QPU is named.",
+          "18 qubits reported from 3 index qubits plus 15 qubits for the GT-gate at resolving power d=0.01.",
+          "Circuit depth not explicitly reported; only gate scaling and qubit counts are given.",
+          "The authors demonstrate successful retrieval of the maximum Sharpe ratio on a simulator but provide no empirical classical comparison.",
+          "The claimed benefit is the theoretical O(sqrt(N)) Grover speedup."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

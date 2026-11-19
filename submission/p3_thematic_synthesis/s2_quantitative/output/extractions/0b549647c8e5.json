@@ -1,0 +1,560 @@
+{
+  "paper_id": "0b549647c8e5",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:01:11+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "0b549647c8e5_scaling_analysis_of_quantum_amplitude_estimation_for_tokenized_asset_option_pric.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 1.0,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 13,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='$' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='$' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='$' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='$' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='$' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='$' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='x per qubit doubling' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='gates depth' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[15].unit='bins' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[16].unit='bins' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[17].unit='bins' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[18].unit='bins' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[19].unit='$' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 1.0,
+      "completeness": 1.0,
+      "num_experiments": 1,
+      "experiment_scores": [
+        1.0
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Scaling Analysis of Quantum Amplitude Estimation for Tokenized Asset Option Pricing: Validation and Barriers to Practical Advantage",
+    "authors": [
+      "Abraham Itzhak Weinberg"
+    ],
+    "year": 2026,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": [
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper implements quantum amplitude estimation for European call option pricing on a tokenized Bitcoin asset using Qiskit Aer simulation with ~9 qubits, ~150 circuit depth, and 8,192 shots. Across 3–6 price qubits (8–64 bins), discretization error decreases exactly 2× per qubit doubling (from $49,616 to $6,202), empirically validating the expected scaling, but the practical estimate at 5 qubits ($14,288 ± $12,404) is far less precise than classical Monte Carlo.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "End-to-end quantum amplitude estimation for European call option pricing on a tokenized Bitcoin asset, evaluated across 3–6 price-qubit discretization levels in idealized simulation.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Quantum Amplitude Estimation (QAE) with QFT-based phase estimation",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "price_qubits_q": "3-6",
+          "evaluation_qubits_m": 3,
+          "total_qubits_example": 9,
+          "shots": 8192,
+          "noise_model": "none",
+          "asset": "Bitcoin token (BTC-TOKEN-001)",
+          "S0": 50000,
+          "sigma": 0.8,
+          "r": 0.05,
+          "T": 1,
+          "strike_K": 55000,
+          "price_bins": "8-64"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Terminal log-normal price distribution discretized into 2^q bins; price probabilities encoded as amplitudes over q price qubits. An objective qubit marks in-the-money states for the European call payoff.",
+        "objective_function": "Estimate discounted European call price C = e^{-rT} E[max(S_T - K, 0)] via amplitude estimation over discretized terminal price distribution.",
+        "constraints_handling": "In-the-money states are marked by the payoff oracle; no explicit penalty terms.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "European call option pricing for a tokenized Bitcoin asset under a log-normal terminal price model.",
+        "num_assets": 1,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "ticker_symbols": [
+            "BTC-TOKEN-001"
+          ],
+          "date_range": null,
+          "benchmark_name": "Black-Scholes / Monte Carlo comparison",
+          "preprocessing": "Discretize log-normal terminal distribution into 2^q bins over [mu-3sigma, mu+3sigma].",
+          "train_test_split": null
+        },
+        "data_preprocessing_details": "Compute bin probabilities from the log-normal CDF; encode sqrt(p_i) amplitudes for each bin; mark states with S_i > K as in-the-money.",
+        "evaluation_methodology": "Idealized noise-free Qiskit Aer statevector simulation with 8192 shots; compare quantum estimate against Black-Scholes and classical Monte Carlo baselines across qubit counts 3, 4, 5, and 6."
+      },
+      "quantum_resources": {
+        "num_qubits": 7,
+        "qubit_type": "not_specified",
+        "circuit_depth": 150,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": 250,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 8192,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "Qiskit Aer (software simulator)",
+        "device_name": null,
+        "framework": "Qiskit Aer"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": "idealized / noise-free",
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": "linear nearest-neighbor topology",
+        "classical_solver": "Black-Scholes and classical Monte Carlo for comparison",
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": null,
+          "routing_method": null
+        },
+        "classical_preprocessing": "Classical computation of discretized log-normal bin probabilities and oracle thresholds.",
+        "classical_postprocessing": "Convert estimated amplitude to discounted option price; compare against Black-Scholes and Monte Carlo.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "price_error",
+          "value": 49616,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "$",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 24808,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "$",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 12404,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "$",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 6202,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "$",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price_estimate",
+          "value": 14288.01,
+          "uncertainty": 12404.05,
+          "num_runs": null,
+          "unit": "$",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "relative_error",
+          "value": 3.25,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "error_bar",
+          "value": 12404.05,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "$",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "execution_time",
+          "value": 0.0001,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "s",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": 2.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "x per qubit doubling",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 150,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates depth",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gate_count_total",
+          "value": 250,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots",
+          "value": 8192,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "price_bins",
+          "value": 32,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "bins",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "price_bins",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "bins",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price_bins",
+          "value": 16,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "bins",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "price_bins",
+          "value": 64,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "bins",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "true_price_black_scholes",
+          "value": 14767.74,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "$",
+          "higher_is_better": null,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "Black-Scholes",
+          "metric_name": "price_estimate",
+          "value": 14767.74,
+          "unit": "$"
+        },
+        {
+          "method_name": "Black-Scholes",
+          "metric_name": "price_error",
+          "value": 0,
+          "unit": "$"
+        },
+        {
+          "method_name": "classical Monte Carlo",
+          "metric_name": "price_estimate",
+          "value": 15676.31,
+          "unit": "$"
+        },
+        {
+          "method_name": "classical Monte Carlo",
+          "metric_name": "error_bar",
+          "value": 1249.3,
+          "unit": "$"
+        },
+        {
+          "method_name": "classical Monte Carlo",
+          "metric_name": "execution_time",
+          "value": 0.0003,
+          "unit": "s"
+        },
+        {
+          "method_name": "classical Monte Carlo",
+          "metric_name": "price_estimate",
+          "value": 15283.44,
+          "unit": "$"
+        },
+        {
+          "method_name": "classical Monte Carlo",
+          "metric_name": "error_bar",
+          "value": 394.55,
+          "unit": "$"
+        },
+        {
+          "method_name": "classical Monte Carlo",
+          "metric_name": "execution_time",
+          "value": 0.0006,
+          "unit": "s"
+        },
+        {
+          "method_name": "classical Monte Carlo",
+          "metric_name": "price_estimate",
+          "value": 14801.25,
+          "unit": "$"
+        },
+        {
+          "method_name": "classical Monte Carlo",
+          "metric_name": "error_bar",
+          "value": 121.75,
+          "unit": "$"
+        },
+        {
+          "method_name": "classical Monte Carlo",
+          "metric_name": "execution_time",
+          "value": 0.0053,
+          "unit": "s"
+        },
+        {
+          "method_name": "classical Monte Carlo",
+          "metric_name": "price_estimate",
+          "value": 14751.82,
+          "unit": "$"
+        },
+        {
+          "method_name": "classical Monte Carlo",
+          "metric_name": "error_bar",
+          "value": 38.54,
+          "unit": "$"
+        },
+        {
+          "method_name": "classical Monte Carlo",
+          "metric_name": "execution_time",
+          "value": 0.0409,
+          "unit": "s"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "asymptotic",
+          "factor": "quadratic",
+          "baseline_method": "classical Monte Carlo",
+          "conditions": "idealized QAE query complexity for pricing error epsilon",
+          "is_demonstrated": true,
+          "caveats": "State preparation cost excluded; practical advantage not demonstrated."
+        },
+        {
+          "type": "empirical",
+          "factor": "2.00x error reduction per qubit doubling",
+          "baseline_method": "within-experiment scaling across 3-6 price qubits",
+          "conditions": "noise-free simulation with 8,192 shots",
+          "is_demonstrated": true,
+          "caveats": "This reflects discretization scaling, not end-to-end practical utility."
+        },
+        {
+          "type": "theoretical",
+          "factor": "~8x query-complexity advantage",
+          "baseline_method": "classical Monte Carlo",
+          "conditions": "as shown in Figure 2 bottom-right, at theoretically equivalent 65k samples",
+          "is_demonstrated": false,
+          "caveats": "Discretization error dominates, making the advantage purely theoretical."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 8,
+          "num_qubits": 3,
+          "metric_name": "price_error",
+          "metric_value": 49616
+        },
+        {
+          "problem_size": 16,
+          "num_qubits": 4,
+          "metric_name": "price_error",
+          "metric_value": 24808
+        },
+        {
+          "problem_size": 32,
+          "num_qubits": 5,
+          "metric_name": "price_error",
+          "metric_value": 12404
+        },
+        {
+          "problem_size": 64,
+          "num_qubits": 6,
+          "metric_name": "price_error",
+          "metric_value": 6202
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(1/epsilon)",
+        "classical_complexity": "O(1/epsilon^2)",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not quantified; paper estimates ~12 price qubits needed for ~1% accuracy but does not compute a classical–quantum runtime crossover.",
+        "resources_for_advantage": "Authors estimate ~12 price qubits (≈16 total qubits including evaluation/objective) to reach ~1% pricing accuracy; improved hardware fidelity (>99.9%) and better state-preparation methods would also be required.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Large discretization error at feasible qubit counts (±$12,404 at 5 price qubits)",
+          "State preparation cost potentially O(2^n) classical preprocessing",
+          "Simulation-only results with no hardware noise",
+          "Classical Monte Carlo achieves <1% uncertainty in milliseconds",
+          "Quadratic speedup only (O(1/ε) vs O(1/ε²))"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_statevector from explicit 'Qiskit Aer with statevector simulation' and 'noise-free' setup.",
+          "Circuit depth and gate count are reported approximately in the implementation section (about 150 depth, about 250 gates).",
+          "The paper reports scaling across 3-6 price qubits; total qubits example is 9 for q=5, m=3.",
+          "Authors explicitly state the work does not demonstrate practical advantage and that classical Monte Carlo outperforms the quantum approach at current qubit counts (Sections 7.2 and 8).",
+          "Table 2 shows quantum AE uncertainty ±$12,404 versus classical MC uncertainty $121.75 with 100k samples."
+        ],
+        "advantage_status": "paper_reported"
+      }
+    }
+  ]
+}

@@ -1,0 +1,623 @@
+{
+  "paper_id": "4715aa3cb8e4",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:37:24+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "4715aa3cb8e4_a_quantum_neural_network_for_fraud_detection_using_a_data_driven_priority_entang.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 1.0,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 2,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[28].unit='transactions' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[29].unit='minutes to 15 hours depending on qubits/depth/pairs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 1.0,
+      "completeness": 1.0,
+      "num_experiments": 1,
+      "experiment_scores": [
+        1.0
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "A Quantum Neural Network for Fraud Detection Using a Data-Driven Priority Entanglement Scheme",
+    "authors": [
+      "Yousaf Khaliq",
+      "Donglin Wang"
+    ],
+    "year": 2025,
+    "doi": "https://doi.org/10.21203/rs.3.rs-7991330/v1",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": [
+      "fraud-detection"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper evaluates a hybrid variational quantum neural network for fraud detection on the Kaggle credit-card dataset (10,000 legitimate + 492 fraud samples). A 15‑qubit, 1‑layer circuit with correlation-guided entanglement achieves PR‑AUC 0.9229±0.006 and recall ≈0.93, slightly outperforming the best classical baseline (logistic regression PR‑AUC 0.9150±0.014) under matched parameter budgets.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Hybrid quantum-classical fraud detection classifier using a variational quantum circuit with data re-uploading and priority entanglement, evaluated on the Kaggle credit card fraud dataset against a matched classical neural-network baseline.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Hybrid QNN / variational quantum circuit classifier with data re-uploading and data-driven priority entanglement",
+        "ansatz": "Angle embedding + CNOT priority entanglers + strongly entangling layer (SEL)",
+        "optimizer": "Adam",
+        "num_layers": 5,
+        "convergence_criteria": "10 training epochs",
+        "hyperparameters": {
+          "qubits": [
+            10,
+            15
+          ],
+          "quantum_layers": [
+            1,
+            3,
+            5
+          ],
+          "priority_pairs": [
+            0,
+            10,
+            30,
+            80,
+            135
+          ],
+          "batch_size": 32,
+          "learning_rate": 0.001,
+          "epochs": 10,
+          "decision_threshold": 0.3,
+          "train_validation_test_split": "50/25/25",
+          "majority_class_downsample_size": 10000,
+          "fraud_cases_kept": 492,
+          "runs_10q": 100,
+          "runs_15q": 20
+        },
+        "parameter_initialization": "randomized runs with distinct seeds for initialization and minibatch order",
+        "optimizer_settings": {
+          "max_iterations": 10,
+          "learning_rate": 0.001,
+          "step_size": null,
+          "tolerance": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "30 PCA-like features are re-uploaded through Q qubits in C=ceil(30/Q) chunks; features are mapped to qubits after correlation-based reordering; RY rotations used for encoding",
+        "objective_function": "Binary cross-entropy with logits, weighted by class imbalance: L = -w+ y log σ(h) - (1-y) log(1-σ(h)), with w+ = N0/N1",
+        "constraints_handling": "Class weighting in loss; priority entanglement pairs restricted to features in the same re-uploading chunk; no QUBO/Ising formulation",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Credit card fraud detection on the Kaggle credit card fraud dataset with extreme class imbalance",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 30,
+        "dataset_size": 10492,
+        "data_type": "public_benchmark",
+        "dataset_name": "Kaggle Credit Card Fraud Detection",
+        "dataset_specification": {
+          "description": "284,807 original transactions; 492 frauds retained; majority class downsampled to 10,000 legitimate transactions; 30 PCA-like features plus derived hour-of-day feature from Time, then Time dropped; stratified 50/25/25 train/validation/test split; random_state=42"
+        },
+        "data_preprocessing_details": "PCA-like features already present; add hour-of-day feature from (Time/3600) mod 24; drop Time; downsample majority class to 10,000; keep all 492 frauds; fit StandardScaler on training set only; compute Pearson correlations on training set only; reorder features to place high-correlation pairs in same chunk",
+        "evaluation_methodology": "100 randomized runs for 10-qubit settings and 20 randomized runs for 15-qubit settings; report precision, recall, PR-AUC, and CPU time on held-out test set"
+      },
+      "quantum_resources": {
+        "num_qubits": 15,
+        "qubit_type": "not_specified",
+        "circuit_depth": 1,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "PennyLane",
+        "device_name": "default.qubit",
+        "framework": "PennyLane with PyTorch interface"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/ykhaliq2/QNNFraudDetection",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "PyTorch classical neural network baseline; logistic regression, XGBoost, and SVM baselines also reported",
+        "transpilation_settings": null,
+        "classical_preprocessing": "StandardScaler fit on training data only; stratified split; class weighting in BCEWithLogitsLoss",
+        "classical_postprocessing": "Decision threshold default 0.3 for classification; metrics computed on test set",
+        "total_execution_time": "10-qubit configs: ~9 to 49 minutes depending on depth/pairs; 15-qubit configs: ~6 to 15 hours depending on depth/pairs",
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 10,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": 100.0,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "precision",
+          "value": 0.65859,
+          "uncertainty": "±0.072",
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.88324,
+          "uncertainty": "±0.014",
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "pr_auc",
+          "value": 0.9036,
+          "uncertainty": "±0.008",
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.93886,
+          "uncertainty": "±0.074",
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.85903,
+          "uncertainty": "±0.021",
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "pr_auc",
+          "value": 0.915,
+          "uncertainty": "±0.014",
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.93921,
+          "uncertainty": "±0.021",
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.87283,
+          "uncertainty": "±0.030",
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "pr_auc",
+          "value": 0.9144,
+          "uncertainty": "±0.017",
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.92759,
+          "uncertainty": "±0.021",
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.85872,
+          "uncertainty": "±0.041",
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "pr_auc",
+          "value": 0.912,
+          "uncertainty": "±0.013",
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.59639,
+          "uncertainty": "±0.068",
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.90869,
+          "uncertainty": "±0.017",
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "pr_auc",
+          "value": 0.9172,
+          "uncertainty": "±0.007",
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "cpu_time",
+          "value": 9.0,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "minutes",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.56106,
+          "uncertainty": "±0.073",
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.9235,
+          "uncertainty": "±0.017",
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "pr_auc",
+          "value": 0.9181,
+          "uncertainty": "±0.009",
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "cpu_time",
+          "value": 19.5,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "minutes",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.56936,
+          "uncertainty": "±0.069",
+          "num_runs": 20,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.93008,
+          "uncertainty": "±0.011",
+          "num_runs": 20,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "pr_auc",
+          "value": 0.9229,
+          "uncertainty": "±0.006",
+          "num_runs": 20,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "cpu_time",
+          "value": 6.5,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "hours",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.27097,
+          "uncertainty": "±0.041",
+          "num_runs": 20,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.96953,
+          "uncertainty": "±0.006",
+          "num_runs": 20,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "pr_auc",
+          "value": 0.9205,
+          "uncertainty": "±0.006",
+          "num_runs": 20,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "cpu_time",
+          "value": 10.0,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "hours",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 10492,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "transactions",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 9.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "minutes to 15 hours depending on qubits/depth/pairs",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical neural network",
+          "metric_name": "precision",
+          "value": 0.65859,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical neural network",
+          "metric_name": "recall",
+          "value": 0.88324,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical neural network",
+          "metric_name": "pr_auc",
+          "value": 0.9036,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "logistic regression",
+          "metric_name": "precision",
+          "value": 0.93886,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "logistic regression",
+          "metric_name": "recall",
+          "value": 0.85903,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "logistic regression",
+          "metric_name": "pr_auc",
+          "value": 0.915,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "xgboost",
+          "metric_name": "precision",
+          "value": 0.93921,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "xgboost",
+          "metric_name": "recall",
+          "value": 0.87283,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "xgboost",
+          "metric_name": "pr_auc",
+          "value": 0.9144,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "support_vector_machine",
+          "metric_name": "precision",
+          "value": 0.92759,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "support_vector_machine",
+          "metric_name": "recall",
+          "value": 0.85872,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "support_vector_machine",
+          "metric_name": "pr_auc",
+          "value": 0.912,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No asymptotic or proven computational speedup is claimed; the paper reports empirical performance and runtime only."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 10492,
+          "num_qubits": 10,
+          "metric_name": "pr_auc",
+          "metric_value": 0.9172
+        },
+        {
+          "problem_size": 10492,
+          "num_qubits": 10,
+          "metric_name": "pr_auc",
+          "metric_value": 0.9192
+        },
+        {
+          "problem_size": 10492,
+          "num_qubits": 15,
+          "metric_name": "pr_auc",
+          "metric_value": 0.9229
+        },
+        {
+          "problem_size": 10492,
+          "num_qubits": 15,
+          "metric_name": "pr_auc",
+          "metric_value": 0.9205
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": "~9 minutes to ~15 hours depending on qubits/depth/pairs",
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "parity_with_classical",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not analyzed in the paper; no asymptotic comparison provided.",
+        "resources_for_advantage": "Unknown; paper evaluates 10- and 15-qubit circuits on a noiseless statevector simulator with shallow depth (1–5 layers). No scaling analysis toward larger datasets or hardware resources is provided.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "No real QPU experiments (statevector simulator only)",
+          "Very small qubit counts (10–15 qubits)",
+          "No complexity-theoretic speedup or scaling analysis",
+          "Performance improvement limited to small PR-AUC differences",
+          "Training instability and precision–recall trade-offs at deeper circuits",
+          "Potential data-loading overhead from classical feature embedding"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware is explicitly reported as PennyLane default.qubit simulator.",
+          "The paper reports a simulator-only study and does not provide asymptotic complexity or a proven speedup order; 'none_proven' is used because no asymptotic advantage is characterized.",
+          "Quantum layer depth is reported as 1, 3, or 5 layers, with re-uploading over 2 or 3 chunks depending on qubit count.",
+          "The paper reports modest metric improvements (e.g., PR-AUC 0.9229 vs 0.9150 for the best classical baseline) but does not claim computational quantum advantage or speedup.",
+          "Experiments are conducted entirely on a noiseless simulator with small circuits; improvements are empirical model-performance differences rather than algorithmic complexity advantages."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

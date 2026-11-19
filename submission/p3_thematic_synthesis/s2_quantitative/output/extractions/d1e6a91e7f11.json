@@ -1,0 +1,492 @@
+{
+  "paper_id": "d1e6a91e7f11",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T10:00:59+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "d1e6a91e7f11_financial_fraud_detection_using_quantum_graph_neural_networks.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.8,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 1,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='transactions' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.8,
+      "completeness": 0.8,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.8
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Financial Fraud Detection using Quantum Graph Neural Networks",
+    "authors": [
+      "Nouhaila Innan",
+      "Abhishek Sawaika",
+      "Ashim Dhor",
+      "Siddhant Dutta",
+      "Sairupa Thota",
+      "Husayn Gokal",
+      "Nandan Patel",
+      "Muhammad Al-Zafar Khan",
+      "Ioannis Theodonis",
+      "Mohamed Bennai"
+    ],
+    "year": 2023,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "fraud-detection",
+    "secondary_silos": [
+      "quantum-ml-finance"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a variational Quantum Graph Neural Network (QGNN) for credit‑card fraud detection and evaluates it on the ULB/Kaggle dataset (284,807 transactions). On a simulator using 6 qubits and one VQC layer, the QGNN achieves 94.5% accuracy and F1=0.86 with AUC‑PR≈0.85, compared with a classical GraphSAGE baseline achieving 92.3% accuracy and F1=0.83.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum graph neural network (QGNN) for credit card fraud detection using a variational quantum circuit, compared against a classical GraphSAGE baseline on a public credit card fraud dataset.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "Quantum Graph Neural Network with VQC and TDA-based graph construction",
+        "ansatz": "two-local ansatz with Rx, Ry, and CNOT gates",
+        "optimizer": "Adam",
+        "num_layers": 2,
+        "convergence_criteria": "trained for 10 epochs; best configuration selected by validation performance",
+        "hyperparameters": {
+          "qubit_counts": [
+            6,
+            16
+          ],
+          "layers": [
+            1,
+            2
+          ],
+          "optimizer": "Adam",
+          "epochs": 10,
+          "batch_size": 5,
+          "aggregation_method": "mean",
+          "encoding": "angle encoding",
+          "ansatz_gates": [
+            "Rx",
+            "Ry",
+            "CNOT"
+          ],
+          "measurement": "Pauli-Z expectation",
+          "feature_compression": "linear layer",
+          "graph_construction": "topological data analysis with DBSCAN clustering"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "max_iterations": 10,
+          "learning_rate_schedule": null,
+          "tolerance": null,
+          "step_size": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Transaction features are converted into graph representations via TDA; node features are compressed to a q-dimensional vector and encoded into a quantum state using angle encoding with q qubits (tested for q in {6,16}).",
+        "objective_function": "Binary classification of transactions as fraudulent vs non-fraudulent using QGNN outputs and a linear classifier.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Credit card fraud detection on a public European cardholder transaction dataset; each transaction is represented as a graph derived from 28 encrypted features plus time and amount.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 30,
+        "dataset_size": 284807,
+        "data_type": "public_benchmark",
+        "dataset_name": "Credit Card Fraud Detection (Kaggle/ULB)",
+        "dataset_specification": {
+          "description": "284,807 transactions; 492 frauds; 28 PCA-encrypted features plus amount and time; random undersampling applied to non-fraud class; graphs built per transaction using TDA and DBSCAN."
+        },
+        "data_preprocessing_details": "PCA-encrypted features used; transaction vector V=[Time,V1..V28,Amount]; for each transaction, 3D points [Time_i,V_j,Amount_i] are projected to 1D, clustered with DBSCAN, and converted into a graph; random undersampling used to address class imbalance.",
+        "evaluation_methodology": "Performance evaluated on validation/test data using accuracy, precision, recall, F1 score, ROC/AUC for GraphSAGE, and precision-recall AUC for QGNN; compared across qubit counts and layer counts."
+      },
+      "quantum_resources": {
+        "num_qubits": 6,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 200,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "Qiskit",
+        "framework_version": null,
+        "transpilation_target": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "classical_solver": "Adam",
+        "transpilation_settings": null,
+        "classical_preprocessing": "PCA-encrypted credit card features; random undersampling of majority class; TDA projection and DBSCAN clustering to form graphs.",
+        "classical_postprocessing": "Average pooling over quantum outputs; linear layer for classification; thresholding to binary labels; precision-recall curve and AUC-PR computation.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 10,
+          "final_loss_value": null,
+          "loss_curve_shape": "decreasing training and validation loss",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "dataset_size",
+          "value": 284807,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "transactions",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 94.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision",
+          "value": 96.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 79.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.86,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 92.06,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision",
+          "value": 86.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 77.3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.81,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 91.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision",
+          "value": 93.3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 65.6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.76,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy",
+          "value": 89.2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision",
+          "value": 86.6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 72,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.77,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "auc_pr",
+          "value": 0.85,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 0.77,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "GraphSAGE",
+          "metric_name": "accuracy",
+          "value": 92.3,
+          "unit": "%"
+        },
+        {
+          "method_name": "GraphSAGE",
+          "metric_name": "precision",
+          "value": 95.2,
+          "unit": "%"
+        },
+        {
+          "method_name": "GraphSAGE",
+          "metric_name": "recall",
+          "value": 76.3,
+          "unit": "%"
+        },
+        {
+          "method_name": "GraphSAGE",
+          "metric_name": "f1_score",
+          "value": 0.83,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "GraphSAGE",
+          "metric_name": "auc_roc",
+          "value": 0.77,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "approximately 3% improvement",
+          "baseline_method": "GraphSAGE",
+          "conditions": "best QGNN configuration reported as 6 qubits and 1 layer on the public credit card fraud dataset",
+          "is_demonstrated": true,
+          "caveats": "No asymptotic or theoretical speedup analysis is provided; improvement is empirical and based on classification metrics, not runtime."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 284807.0,
+          "num_qubits": 6,
+          "metric_name": "accuracy",
+          "metric_value": 94.5
+        },
+        {
+          "problem_size": 284807.0,
+          "num_qubits": 16,
+          "metric_name": "accuracy",
+          "metric_value": 92.06
+        },
+        {
+          "problem_size": 284807.0,
+          "num_qubits": 6,
+          "metric_name": "f1_score",
+          "metric_value": 0.86
+        },
+        {
+          "problem_size": 284807.0,
+          "num_qubits": 16,
+          "metric_name": "f1_score",
+          "metric_value": 0.81
+        },
+        {
+          "problem_size": 284807.0,
+          "num_qubits": 6,
+          "metric_name": "auc_pr",
+          "metric_value": 0.85
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "unknown; only small simulated circuits (6–16 qubits, shallow VQC) are evaluated and no scaling analysis is provided",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "experiments performed on simulator via Qiskit rather than physical QPU",
+          "very small circuit sizes (6–16 qubits)",
+          "no runtime comparison with classical baselines",
+          "only ~3% improvement in classification metrics",
+          "no asymptotic complexity or scaling analysis",
+          "classical preprocessing and feature engineering dominate the workflow",
+          "data encoding of 30 classical features into quantum states introduces potential loading overhead"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_other because the paper reports experiments performed using Qiskit but does not name a physical QPU or noisy backend.",
+          "Num qubits reported from Table 4 and circuit description (6 and 16 qubit configurations; best result at 6 qubits).",
+          "Circuit depth not explicitly reported; only number of layers is given, so depth is not set beyond the layer count.",
+          "No asymptotic speedup analysis is provided; the paper only reports empirical performance improvements.",
+          "The authors suggest quantum methods could achieve 'quantum advantage' in the future but only show slightly higher accuracy (94.5% vs 92.3%) on a simulator.",
+          "No runtime, complexity, or scaling comparison is provided; therefore Hoefler-style advantage cannot be demonstrated."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

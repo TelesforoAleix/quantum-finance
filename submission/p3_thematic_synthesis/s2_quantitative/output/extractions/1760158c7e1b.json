@@ -1,0 +1,1309 @@
+{
+  "paper_id": "1760158c7e1b",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:08:28+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "1760158c7e1b_option_pricing_using_quantum_computers.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.55,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 15,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[10].unit='currency units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='currency units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='asset' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[18].unit='absolute probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[19].unit='absolute probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[23].unit='currency units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[9].unit='currency units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[10].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[11].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[0].unit='asset' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[3].results[2].unit='paths' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[3].results[3].unit='currency units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[3].results[4].unit='currency units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[3].results[5].unit='steps' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[3].results[6].unit='asset' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.55,
+      "completeness": 0.55,
+      "num_experiments": 5,
+      "experiment_scores": [
+        0.85,
+        0.6,
+        0.45,
+        0.7,
+        0.15
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.5,
+          "results": 0.5,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Option Pricing using Quantum Computers",
+    "authors": [
+      "Nikitas Stamatopoulos",
+      "Daniel J. Egger",
+      "Yue Sun",
+      "Christa Zoufal",
+      "Raban Iten",
+      "Ning Shen",
+      "Stefan Woerner"
+    ],
+    "year": 2020,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": [
+      "simulation-monte-carlo",
+      "quantum-ml-finance"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper implements gate-based quantum circuits for option pricing using amplitude estimation, demonstrating simulations for vanilla, basket, Asian, and barrier options and a 3‑qubit hardware proof-of-concept on IBM Q Tokyo. Hardware experiments used 8192 shots repeated 20 times and an optimized circuit with 18 CNOT and 33 single‑qubit gates. Simulations show the expected quadratic error scaling (O(M^-1)) of amplitude estimation compared to Monte Carlo (O(M^-1/2)).",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Amplitude-estimation pricing of a European call option on a gate-based quantum computer, including simulation results across multiple sampling-qubit counts and a real-hardware demonstration on IBM Q Tokyo with error mitigation.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "standard amplitude estimation with QPE; also maximum-likelihood amplitude estimation without phase estimation for hardware runs",
+        "ansatz": null,
+        "optimizer": "maximum likelihood estimation (for the no-QPE hardware variant)",
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "sampling_qubits_m": [
+            3,
+            5,
+            7,
+            9
+          ],
+          "quantum_samples_M": [
+            8,
+            32,
+            128,
+            512
+          ],
+          "shots_per_experiment": 8192,
+          "repetitions_per_setting": 20,
+          "approximation_scaling_c": 0.25,
+          "strike_price_K": 2.0,
+          "initial_spot_price_S0": 2.0,
+          "volatility_sigma": 0.4,
+          "risk_free_rate_r": 0.05,
+          "m_hardware_variant": 1,
+          "uncertainty_qubits": 2,
+          "payoff_qubits": 1
+        },
+        "parameter_initialization": "Distribution-loading rotation angles set from the chosen log-normal discretization; no variational initialization reported",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        },
+        "hyperparameters.strike_price_K": 1.74,
+        "hyperparameters.initial_spot_price_S0": "varied from 1.8 to 2.5 in increments of 0.1",
+        "hyperparameters.volatility_sigma": 0.4
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Two qubits encode a 4-point discretized log-normal distribution of the terminal asset price; a third qubit encodes the payoff via controlled Y-rotations. For the hardware variant, the payoff is implemented with uniformly controlled Y-rotations instead of explicit comparator circuits.",
+        "objective_function": "Estimate the undiscounted expected payoff E[max(0, S_T - K)] for a European call option",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "European call option on a single underlying asset with log-normal terminal distribution",
+        "num_assets": 1,
+        "time_steps": 1,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Black-Scholes-Merton log-normal model; for the main simulation figure, S0=2, sigma=10%, r=4%, T=300/365; for hardware experiments, S0 varied from 1.8 to 2.5 in steps of 0.1 with sigma=40%, r=5%, T=40/365, strike K=1.74"
+        },
+        "data_preprocessing_details": "Distribution truncated to three standard deviations around the mean and discretized to 2 qubits (4 values) for hardware experiments; simulation figure uses a 3-qubit discretization example",
+        "evaluation_methodology": "Simulation results shown for m in {3,5,7,9}; hardware experiments repeated 20 times with 8192 shots each and averaged; readout mitigation and Richardson extrapolation applied for hardware runs"
+      },
+      "quantum_resources": {
+        "num_qubits": 3,
+        "qubit_type": "physical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 8192,
+        "num_variational_params": null,
+        "gate_fidelity": {
+          "single_qubit": 0.997,
+          "two_qubit": 0.978
+        },
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_superconducting",
+        "provider": "IBM",
+        "device_name": "IBM Q Tokyo",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "hardware noise; readout error and two-qubit gate errors",
+        "error_mitigation_method": "readout error mitigation via calibration matrix; Richardson extrapolation by CNOT stretching for zero-noise extrapolation"
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": "IBM Q Tokyo connectivity; qubits 6, 10, 11 used",
+        "classical_solver": "maximum likelihood estimation post-processing for amplitude estimation",
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": null,
+          "routing_method": "no swaps required due to fully connected qubits"
+        },
+        "classical_preprocessing": "Log-normal distribution discretization; payoff angles computed with approximation scaling c=0.25; for hardware, only the rotation angles for the initial distribution vary with S0",
+        "classical_postprocessing": "Maximum-likelihood estimation of the amplitude from measured probabilities; readout-matrix correction; second-order Richardson extrapolation for mitigated estimates",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "convergence of estimated option price toward analytical value as m increases; hardware ML estimates improved after mitigation",
+          "variance_across_runs": 20.0,
+          "num_independent_runs": 20
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "sampling_qubits_m",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sampling_qubits_m",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sampling_qubits_m",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sampling_qubits_m",
+          "value": 9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "quantum_samples",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "quantum_samples",
+          "value": 32,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "quantum_samples",
+          "value": 128,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "quantum_samples",
+          "value": 512,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots_per_experiment",
+          "value": 8192,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "shots",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "approximation_scaling_c",
+          "value": 0.25,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "strike_price",
+          "value": 2.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "currency units",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "initial_spot_price",
+          "value": 2.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "currency units",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "volatility",
+          "value": 0.4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "risk_free_rate",
+          "value": 0.05,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_underlyings",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "asset",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gate_fidelity_single_qubit",
+          "value": 0.997,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gate_fidelity_two_qubit",
+          "value": 0.978,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "readout_error_reduction",
+          "value": 0.06,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "readout_error_reduction",
+          "value": 0.04,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "average_error_reduction",
+          "value": 0.62,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "fraction",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "average_error_reduction",
+          "value": 0.21,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "fraction",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "probability_std_across_runs",
+          "value": 0.02,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "fraction",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "expected_option_price_range",
+          "value": 0.4046,
+          "uncertainty": "range [0.0754, 0.7338]",
+          "num_runs": null,
+          "unit": "currency units",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "cnot_count",
+          "value": 18,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "single_qubit_gate_count",
+          "value": 33,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "price_error",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "classical analytical black-scholes-merton value",
+          "metric_name": "option_price",
+          "value": null,
+          "unit": "currency units"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical Monte Carlo",
+          "conditions": "standard amplitude estimation; asymptotic scaling in number of quantum samples M",
+          "is_demonstrated": true,
+          "caveats": "The hardware experiment uses maximum-likelihood amplitude estimation without phase estimation; the quadratic speedup is retained in terms of M but the real-device run is limited by noise and uses only a small 3-qubit circuit."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 3.0,
+          "num_qubits": null,
+          "metric_name": "estimated_option_price_distribution",
+          "metric_value": null
+        },
+        {
+          "problem_size": 5.0,
+          "num_qubits": null,
+          "metric_name": "estimated_option_price_distribution",
+          "metric_value": null
+        },
+        {
+          "problem_size": 7.0,
+          "num_qubits": null,
+          "metric_name": "estimated_option_price_distribution",
+          "metric_value": null
+        },
+        {
+          "problem_size": 9.0,
+          "num_qubits": null,
+          "metric_name": "estimated_option_price_distribution",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(M^-1) for standard amplitude estimation; O(1/(M sqrt(N))) empirically for the no-QPE maximum-likelihood variant",
+        "classical_complexity": "O(M^-1/2) for Monte Carlo",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "Not estimated in the paper; advantage would require very large M where AE quadratic scaling overtakes Monte Carlo.",
+        "resources_for_advantage": "Fault‑tolerant quantum computers capable of running deep amplitude-estimation circuits with hundreds–thousands of logical qubits and long coherent circuits.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Only 3 physical qubits used on hardware",
+          "Amplitude estimation circuits require deep phase-estimation structures in practical use",
+          "Quadratic speedup insufficient to overcome fault-tolerant overhead",
+          "Distribution loading cost can dominate runtime"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "num_qubits=3 is reported for the hardware experiment (2 uncertainty qubits + 1 payoff qubit). Circuit depth is not explicitly reported for the hardware experiment, so left null.",
+          "The paper claims a theoretical quadratic speedup of amplitude estimation over Monte Carlo but demonstrates only a 3‑qubit hardware proof-of-concept."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Simulation study of amplitude-estimation pricing for a basket call option on three underlying assets, comparing estimation error against classical Monte Carlo as the number of quantum samples increases.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "standard amplitude estimation with QPE",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "sampling_qubits_m": [
+            3,
+            5,
+            7,
+            9
+          ],
+          "quantum_samples_M": [
+            8,
+            32,
+            128,
+            512
+          ],
+          "asset_correlation": 0.8,
+          "strike_price_K": 2.0,
+          "num_assets": 3
+        },
+        "parameter_initialization": "Not reported",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Multivariate log-normal distribution loaded into separate registers for each asset; weighted sum of the three assets is computed into an accumulator register; comparator and payoff rotation encode max(0, basket-K)",
+        "objective_function": "Estimate E[max(0, w·S - K)] for a basket call option",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Basket call option on three identical, equally weighted assets",
+        "num_assets": 3,
+        "time_steps": 1,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Black-Scholes-Merton multivariate log-normal model; identical assets with pairwise correlation 0.8; parameters of Fig. 3; strike K=2.0"
+        },
+        "data_preprocessing_details": "Synthetic multivariate log-normal distribution; discretized for quantum loading",
+        "evaluation_methodology": "Amplitude-estimation error compared to classical Monte Carlo at the 8/pi^2 confidence interval; Monte Carlo repeated 10,000 times for each sample number"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit (quantum simulator)"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "classical Monte Carlo baseline",
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": null,
+          "routing_method": null
+        },
+        "classical_preprocessing": "Weighted-sum operator for basket aggregation; log-normal multivariate distribution loading",
+        "classical_postprocessing": "Error comparison against Monte Carlo; 81% confidence interval analysis",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "estimation error decreases with increasing M, consistent with O(M^-1) scaling",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "sampling_qubits_m",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sampling_qubits_m",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sampling_qubits_m",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sampling_qubits_m",
+          "value": 9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "quantum_samples",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "quantum_samples",
+          "value": 32,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "quantum_samples",
+          "value": 128,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "quantum_samples",
+          "value": 512,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "asset_correlation",
+          "value": 0.8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "strike_price",
+          "value": 2.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "currency units",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_underlyings",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "confidence_interval",
+          "value": 0.81,
+          "uncertainty": "8/pi^2 ≈ 81%",
+          "num_runs": 10000,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "price_error",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical Monte Carlo",
+          "conditions": "amplitude estimation with M quantum samples; comparison made at the 8/pi^2 ≈ 81% confidence interval",
+          "is_demonstrated": true,
+          "caveats": "The paper reports the expected O(M^-1) vs O(M^-1/2) scaling and shows an error comparison plot; exact numeric error values are not tabulated in the excerpt."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 8.0,
+          "num_qubits": null,
+          "metric_name": "estimation_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 32.0,
+          "num_qubits": null,
+          "metric_name": "estimation_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 128.0,
+          "num_qubits": null,
+          "metric_name": "estimation_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 512.0,
+          "num_qubits": null,
+          "metric_name": "estimation_error",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(M^-1)",
+        "classical_complexity": "O(M^-1/2)",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not quantified; simulation only illustrates asymptotic scaling.",
+        "resources_for_advantage": "Large-scale fault‑tolerant quantum computer capable of executing many Grover iterations and deep AE circuits.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Simulation only",
+          "Quadratic speedup only",
+          "State preparation and arithmetic overhead",
+          "No realistic resource estimate for crossover"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "This experiment is presented as a simulation on a quantum simulator; no explicit qubit count for the full basket circuit is given in the text excerpt, so num_qubits is left null.",
+          "The basket option experiment demonstrates asymptotic AE vs Monte Carlo scaling in simulation but does not demonstrate practical advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "Simulation study of amplitude-estimation pricing for an arithmetic-average Asian call option with multiple time steps.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "standard amplitude estimation with QPE",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "time_steps_d": null,
+          "strike_price_K": null
+        },
+        "parameter_initialization": "Not reported",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "A d-dimensional multivariate log-normal distribution over asset prices at discrete time points is loaded into d registers; a weighted-sum operator computes the arithmetic average; comparator and payoff rotation encode max(0, average-K)",
+        "objective_function": "Estimate E[max(0, S_bar - K)] where S_bar is the arithmetic average of the asset price over time",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Arithmetic-average Asian call option on a single asset",
+        "num_assets": 1,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Log-normal asset-price process sampled at multiple discrete time points up to maturity"
+        },
+        "data_preprocessing_details": "Time discretization with delta t = T/d; multivariate distribution over time points; equal weights 1/d for averaging",
+        "evaluation_methodology": "Described as a circuit construction and simulation result; no explicit repeated-run protocol reported"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": null,
+          "routing_method": null
+        },
+        "classical_preprocessing": "Weighted-sum operator computes the average over time points",
+        "classical_postprocessing": null,
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_underlyings",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "asset",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "time_steps",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical Monte Carlo",
+          "conditions": "amplitude estimation for arithmetic-average Asian options",
+          "is_demonstrated": false,
+          "caveats": "The excerpt describes the circuit construction and states the same asymptotic scaling as other AE-based pricing methods, but no explicit numerical simulation results are given for this Asian option."
+        }
+      ],
+      "scalability_data": [],
+      "complexity_analysis": {
+        "quantum_complexity": "O(M^-1)",
+        "classical_complexity": "O(M^-1/2)",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "data_loading_bottleneck": null
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper describes the Asian option circuit and simulation but does not give a concrete qubit count or depth for this specific experiment in the excerpt."
+        ]
+      }
+    },
+    {
+      "experiment_id": "exp_4",
+      "description": "Simulation study of amplitude-estimation pricing for a knock-in barrier option with two time steps, including barrier monitoring and payoff activation upon barrier crossing.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "standard amplitude estimation with QPE",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "sampling_qubits_m": 7,
+          "quantum_samples_M": 128,
+          "time_steps": 2,
+          "barrier_B": 2.0,
+          "strike_price_K": 1.9,
+          "shots": 100000
+        },
+        "parameter_initialization": "Not reported",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Two time-step asset-price registers are loaded; barrier qubits mark whether the asset crosses B at each time step; an OR register aggregates barrier crossings; strike comparator and payoff rotation encode the knock-in payoff",
+        "objective_function": "Estimate E[max(0, S_T - K) * 1{exists t: S_t >= B}]",
+        "constraints_handling": "Barrier condition enforced by comparator qubits and logical OR; payoff rotation controlled by barrier-activation qubit",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Knock-in barrier option on the asset of Fig. 3 with two timesteps T/2 and T",
+        "num_assets": 1,
+        "time_steps": 2,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Log-normal process sampled at t=T/2 and t=T; strike K=1.9; barrier B=2.0 on both timesteps"
+        },
+        "data_preprocessing_details": "Two-qubit representation per timestep; barrier and strike comparisons performed on discretized asset values",
+        "evaluation_methodology": "Amplitude-estimation estimate compared against classical Monte Carlo with 100,000 paths; results shown for m=7 sampling qubits"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 100000,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "classical Monte Carlo baseline",
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": null,
+          "routing_method": null
+        },
+        "classical_preprocessing": "Barrier monitoring via comparator circuits; weighted-sum and payoff encoding",
+        "classical_postprocessing": "Comparison of AE estimate to Monte Carlo benchmark",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "sampling_qubits_m",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "quantum_samples",
+          "value": 128,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": true,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "shots",
+          "value": 100000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "paths",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "strike_price",
+          "value": 1.9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "currency units",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "barrier_level",
+          "value": 2.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "currency units",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "time_steps",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "steps",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_underlyings",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "asset",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "option_price",
+          "value": null,
+          "unit": "currency units"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical Monte Carlo",
+          "conditions": "amplitude estimation for knock-in barrier options",
+          "is_demonstrated": true,
+          "caveats": "The figure shows a simulator-based AE estimate versus a Monte Carlo benchmark with 100,000 paths; exact numeric option prices are not stated in the excerpt."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 7.0,
+          "num_qubits": null,
+          "metric_name": "estimated_option_price_distribution",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(M^-1)",
+        "classical_complexity": "O(M^-1/2)",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "data_loading_bottleneck": null
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The barrier-option figure reports m=7 and 100,000 Monte Carlo paths, but the full qubit count and circuit depth for this specific circuit are not explicitly stated in the excerpt."
+        ]
+      }
+    },
+    {
+      "experiment_id": "exp_new_barrier_1",
+      "description": "Simulation of amplitude-estimation pricing for a barrier option with two time steps using a quantum simulator.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "standard amplitude estimation with QPE",
+        "details": "Barrier option payoff encoded via comparator circuits and logical OR across barrier indicators, followed by payoff rotation.",
+        "num_layers": null
+      },
+      "key_results": [
+        "Barrier option with strike K = 1.9 and barrier B = 2.0 evaluated using amplitude estimation with m = 7 sampling qubits.",
+        "Simulation results show the AE estimate distribution centered around the classical Monte Carlo estimate computed with 100,000 paths.",
+        "Demonstrates convergence of AE estimator toward the Monte Carlo value."
+      ]
+    }
+  ]
+}

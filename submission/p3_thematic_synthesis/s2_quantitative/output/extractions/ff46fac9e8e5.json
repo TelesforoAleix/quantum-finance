@@ -1,0 +1,876 @@
+{
+  "paper_id": "ff46fac9e8e5",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T10:23:13+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "ff46fac9e8e5_hqnn_fsp_a_hybrid_classical_quantum_neural_network_for_regression_based_financia.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.9,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 0,
+    "validation_passed": true,
+    "quality_details": {
+      "score": 0.9,
+      "completeness": 0.9,
+      "num_experiments": 3,
+      "experiment_scores": [
+        0.9,
+        0.9,
+        0.9
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "HQNN-FSP: A Hybrid Classical-Quantum Neural Network for Regression-Based Financial Stock Market Prediction",
+    "authors": [
+      "Prashant Kumar Choudhary",
+      "Nouhaila Innan",
+      "Muhammad Shafique",
+      "Rajeev Singh"
+    ],
+    "year": 2025,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper evaluates three quantum models (CustomQNN, HybridQNN1, HybridQNN2) for stock prediction using 3–5 qubits on a QULACS simulator. HybridQNN1 achieves the best hybrid performance (RMSE ≈ 0.0174) and HybridQNN2 ≈ 0.0192, but classical models such as LSTM achieve significantly lower error (RMSE ≈ 0.00649). All experiments are simulator-based with shallow (~10 depth) circuits and show no quantum advantage.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Standalone custom quantum neural network regressor for stock price prediction using a parameterized quantum circuit with angle encoding and entangling gates.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "CustomQNN / Hamiltonian-based parameterized quantum circuit regressor",
+        "ansatz": "customized ansatz with parameterized single-qubit rotations and entangling CNOT/CZ layers",
+        "optimizer": "Adam",
+        "num_layers": null,
+        "convergence_criteria": "max 500 iterations with early stopping (patience=10)",
+        "hyperparameters": {
+          "lookback_period": 2,
+          "batch_size": 32,
+          "max_iterations": 500,
+          "early_stopping_patience": 10,
+          "learning_rate_schedule": "applied",
+          "qubits": [
+            3,
+            4,
+            5
+          ],
+          "feature_selection_k": [
+            3,
+            4,
+            5
+          ]
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "max_iterations": 500,
+          "learning_rate_schedule": "applied",
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Each selected feature is encoded on one qubit using RY(arcsin(f(xi))) followed by RZ(arccos(g(xi)))",
+        "objective_function": "minimize mean squared error for stock price regression",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": "H = Hsingle + HCNOT + HCZ",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Regression-based prediction of stock closing prices from historical stock market data with technical indicators",
+        "num_assets": 1,
+        "time_steps": null,
+        "num_features": 5,
+        "dataset_size": null,
+        "data_type": "public_benchmark",
+        "dataset_name": "Stock market data - Nifty 100 stocks (5 min) data",
+        "dataset_specification": {
+          "description": "Historical stock prices (open, close, high, low, date) augmented with RSI, MACD, ADX, and SMA features; 80% train / 20% test split; TimeSeriesSplit and k-fold cross-validation"
+        },
+        "data_preprocessing_details": "Read CSV; handle missing values; convert date-time; compute SMA5/SMA20, RSI, MACD, ADX; SelectKBest feature selection; MinMax scaling; sequence construction with lookback=2",
+        "evaluation_methodology": "TimeSeriesSplit cross-validation and k-fold cross-validation; RMSE; prediction vs actual plots; error histograms/violin plots; SHAP interpretation"
+      },
+      "quantum_resources": {
+        "num_qubits": 5,
+        "qubit_type": "not_specified",
+        "circuit_depth": 10,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "Qiskit + scikit-QULACS (QULACS simulator)",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Adam optimizer on classical HPC/GPU cluster"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Feature engineering, SelectKBest, MinMax scaling, sequence generation, TimeSeriesSplit/k-fold",
+        "classical_postprocessing": "Inverse scaling, residual/error analysis, SHAP explainability",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "rmse",
+          "value": 0.07603,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "rmse",
+          "value": 0.05528,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "rmse",
+          "value": 0.0612,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 120765.63,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 155362.05,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 139337.06,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "lstm",
+          "metric_name": "rmse",
+          "value": 0.00649,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "rnn",
+          "metric_name": "rmse",
+          "value": 0.00659,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "bilstm",
+          "metric_name": "rmse",
+          "value": 0.00669,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "gru",
+          "metric_name": "rmse",
+          "value": 0.00669,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [],
+      "scalability_data": [
+        {
+          "problem_size": 3,
+          "num_qubits": 3,
+          "metric_name": "rmse",
+          "metric_value": 0.07603
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": 4,
+          "metric_name": "rmse",
+          "metric_value": 0.05528
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": 5,
+          "metric_name": "rmse",
+          "metric_value": 0.0612
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Unknown; current experiments use only 3–5 qubits on a simulator with shallow (~10 depth) circuits.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Very small qubit counts (3–5)",
+          "Evaluation only on a classical simulator",
+          "Standalone QNN RMSE (~0.055–0.076) far worse than classical baselines (~0.0065–0.0078)",
+          "No complexity-theoretic speedup analysis",
+          "Classical feature preprocessing dominates the pipeline"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Quantum experiments were run using Qiskit and scikit-QULACS on a quantum simulator (QULACS) and HPC cluster; no real QPU device is named, so hardware.type is simulator_other.",
+          "The paper reports qubit counts of 3, 4, and 5; the experiment entry uses the smallest explicitly reported qubit count as the base configuration and captures the scalability in hyperparameters.",
+          "Circuit depth=10 is explicitly shown in Fig. 3 for the quantum model.",
+          "No asymptotic quantum speedup analysis is provided; only empirical RMSE/runtime comparisons are reported.",
+          "Table III shows classical models (e.g., LSTM RMSE ≈ 0.00649) outperform CustomQNN (RMSE ≈ 0.055–0.076).",
+          "Authors explicitly state classical models remain superior in RMSE."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "HybridQNN1: classical deep feature extraction followed by quantum processing with a QNN regressor.",
+      "algorithm": {
+        "family": "hybrid",
+        "variant": "HybridQNN1 (classical feature extraction + QNN regressor)",
+        "ansatz": "customized quantum ansatz / QNN regressor with parameterized single-qubit rotations and entangling gates",
+        "optimizer": "Adam",
+        "num_layers": null,
+        "convergence_criteria": "max 500 iterations with early stopping (patience=10)",
+        "hyperparameters": {
+          "lookback_period": 2,
+          "batch_size": 32,
+          "max_iterations": 500,
+          "early_stopping_patience": 10,
+          "learning_rate_schedule": "applied",
+          "qubits": [
+            3,
+            4,
+            5
+          ],
+          "feature_selection_k": [
+            3,
+            4,
+            5
+          ]
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "max_iterations": 500,
+          "learning_rate_schedule": "applied",
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Classical LSTM/feature-extraction output is encoded into quantum states using angle encoding; one qubit per selected feature",
+        "objective_function": "minimize mean squared error for stock price regression",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": "H = Hsingle + HCNOT + HCZ",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Hybrid regression model for stock closing price prediction using historical stock data and technical indicators",
+        "num_assets": 1,
+        "time_steps": null,
+        "num_features": 5,
+        "dataset_size": null,
+        "data_type": "public_benchmark",
+        "dataset_name": "Stock market data - Nifty 100 stocks (5 min) data",
+        "dataset_specification": {
+          "description": "Historical stock prices with technical indicators; 80% train / 20% test split; TimeSeriesSplit and k-fold cross-validation"
+        },
+        "data_preprocessing_details": "Read CSV; compute SMA5/SMA20, RSI, MACD, ADX; SelectKBest; MinMax scaling; sequence generation with lookback=2; classical LSTM feature extraction before quantum stage",
+        "evaluation_methodology": "TimeSeriesSplit cross-validation and k-fold cross-validation; RMSE; prediction vs actual plots; error histograms/violin plots; SHAP interpretation"
+      },
+      "quantum_resources": {
+        "num_qubits": 5,
+        "qubit_type": "not_specified",
+        "circuit_depth": 10,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "Qiskit + scikit-QULACS (QULACS simulator)",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Adam optimizer on classical HPC/GPU cluster"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Classical LSTM feature extraction, feature selection, scaling, sequence generation",
+        "classical_postprocessing": "Inverse scaling, residual/error analysis, SHAP explainability",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "rmse",
+          "value": 0.02605,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "rmse",
+          "value": 0.02161,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "rmse",
+          "value": 0.0174,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 121020.84,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 155336.05,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 227781.18,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "lstm",
+          "metric_name": "rmse",
+          "value": 0.00649,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "rnn",
+          "metric_name": "rmse",
+          "value": 0.00659,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "bilstm",
+          "metric_name": "rmse",
+          "value": 0.00669,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "gru",
+          "metric_name": "rmse",
+          "value": 0.00669,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [],
+      "scalability_data": [
+        {
+          "problem_size": 3,
+          "num_qubits": 3,
+          "metric_name": "rmse",
+          "metric_value": 0.02605
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": 4,
+          "metric_name": "rmse",
+          "metric_value": 0.02161
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": 5,
+          "metric_name": "rmse",
+          "metric_value": 0.0174
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Unknown; hybrid model tested with only 3–5 qubits and simulator execution.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "HybridQNN1 RMSE (~0.0174 best) still significantly worse than classical deep learning models (~0.0065)",
+          "Simulator-based evaluation rather than QPU execution",
+          "Quantum component processes very small feature dimension",
+          "No theoretical scaling advantage or complexity analysis"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "HybridQNN1 is explicitly described as a classical-to-quantum pipeline using an LSTM-based feature extractor and a QNN regressor.",
+          "Qiskit/scikit-QULACS and simulator wording indicate simulator-based execution rather than a real QPU.",
+          "No asymptotic speedup claim is made.",
+          "Table III: HybridQNN1 RMSE ≈ 0.01740 (best) while classical LSTM ≈ 0.00649.",
+          "Paper explicitly notes classical models still outperform hybrid models."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "HybridQNN2: jointly optimized end-to-end hybrid quantum-classical model with parallel classical LSTM and quantum circuit branches fused before prediction.",
+      "algorithm": {
+        "family": "hybrid",
+        "variant": "HybridQNN2 (jointly optimized classical LSTM + QNN fusion model)",
+        "ansatz": "customized quantum ansatz / Hamiltonian-derived PQC with parameterized single-qubit rotations and entangling gates",
+        "optimizer": "Adam",
+        "num_layers": null,
+        "convergence_criteria": "max 500 iterations with early stopping (patience=10)",
+        "hyperparameters": {
+          "lookback_period": 2,
+          "batch_size": 32,
+          "max_iterations": 500,
+          "early_stopping_patience": 10,
+          "learning_rate_schedule": "applied",
+          "qubits": [
+            3,
+            4,
+            5
+          ],
+          "feature_selection_k": [
+            3,
+            4,
+            5
+          ]
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "max_iterations": 500,
+          "learning_rate_schedule": "applied",
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Preprocessed data is fed in parallel to a classical LSTM and a parameterized quantum circuit; quantum branch uses angle encoding on selected features",
+        "objective_function": "minimize mean squared error for stock price regression",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": "H = Hsingle + HCNOT + HCZ",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "End-to-end hybrid regression model for stock closing price prediction using historical stock data and technical indicators",
+        "num_assets": 1,
+        "time_steps": null,
+        "num_features": 5,
+        "dataset_size": null,
+        "data_type": "public_benchmark",
+        "dataset_name": "Stock market data - Nifty 100 stocks (5 min) data",
+        "dataset_specification": {
+          "description": "Historical stock prices with technical indicators; 80% train / 20% test split; TimeSeriesSplit and k-fold cross-validation"
+        },
+        "data_preprocessing_details": "Read CSV; compute SMA5/SMA20, RSI, MACD, ADX; SelectKBest; MinMax scaling; sequence generation with lookback=2; joint training of classical and quantum branches",
+        "evaluation_methodology": "TimeSeriesSplit cross-validation and k-fold cross-validation; RMSE; prediction vs actual plots; error histograms/violin plots; SHAP interpretation"
+      },
+      "quantum_resources": {
+        "num_qubits": 5,
+        "qubit_type": "not_specified",
+        "circuit_depth": 10,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "Qiskit + scikit-QULACS (QULACS simulator)",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Adam optimizer on classical HPC/GPU cluster"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Classical LSTM branch, feature selection, scaling, sequence generation",
+        "classical_postprocessing": "Inverse scaling, residual/error analysis, SHAP explainability",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "rmse",
+          "value": 0.02312,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "rmse",
+          "value": 0.01959,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "rmse",
+          "value": 0.0192,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 69841.69,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 92337.84,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "training_time",
+          "value": 118833.32,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "lstm",
+          "metric_name": "rmse",
+          "value": 0.00649,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "rnn",
+          "metric_name": "rmse",
+          "value": 0.00659,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "bilstm",
+          "metric_name": "rmse",
+          "value": 0.00669,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "gru",
+          "metric_name": "rmse",
+          "value": 0.00669,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [],
+      "scalability_data": [
+        {
+          "problem_size": 3,
+          "num_qubits": 3,
+          "metric_name": "rmse",
+          "metric_value": 0.02312
+        },
+        {
+          "problem_size": 4,
+          "num_qubits": 4,
+          "metric_name": "rmse",
+          "metric_value": 0.01959
+        },
+        {
+          "problem_size": 5,
+          "num_qubits": 5,
+          "metric_value": 0.0192,
+          "metric_name": "rmse"
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Unknown; hybrid architecture evaluated only with 3–5 qubits and shallow circuits on simulator.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "HybridQNN2 RMSE (~0.0192 best) worse than classical baselines (~0.0065)",
+          "Evaluation limited to simulator with small qubit counts",
+          "No algorithmic speedup or scaling analysis",
+          "Heavy classical preprocessing and LSTM branch dominate learning"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "HybridQNN2 is explicitly described as jointly optimized end-to-end with classical and quantum branches fused before prediction.",
+          "Simulator-based execution is inferred from the paper's use of Qiskit/scikit-QULACS and the absence of any named physical QPU.",
+          "No asymptotic speedup claim is provided.",
+          "Although HybridQNN2 is the best quantum-enhanced model (RMSE ≈ 0.0192), classical models remain substantially better.",
+          "Paper discussion explicitly states hybrid models do not yet surpass classical deep learning methods."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

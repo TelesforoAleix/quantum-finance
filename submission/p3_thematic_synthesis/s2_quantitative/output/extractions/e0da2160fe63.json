@@ -1,0 +1,548 @@
+{
+  "paper_id": "e0da2160fe63",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T10:12:04+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "e0da2160fe63_time_domain_multiplexed_gaussian_boson_sampling_for_graph_problems_in_finance.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.275,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 9,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[4].unit='nodes' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='account_nodes' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='pii_nodes' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='nodes' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='nodes' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='modes' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='timesteps' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='rounds' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.275,
+      "completeness": 0.275,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.55,
+        0.0
+      ],
+      "details": [
+        {
+          "algorithm": 0.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 0.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Time-domain-multiplexed Gaussian Boson sampling for graph problems in finance",
+    "authors": [
+      "Shuo He",
+      "Boxuan Ai",
+      "Pengfei Gao",
+      "Hongbao Liu",
+      "Jun-Jie He",
+      "Ke-Ming Hu",
+      "Yu-Ze Zhu",
+      "Jie Wu"
+    ],
+    "year": 2025,
+    "doi": "https://doi.org/10.1016/j.chip.2025.100181",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "fraud-detection",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a time‑domain‑multiplexed (TDM) photonic architecture for Gaussian Boson Sampling applied to financial graph problems and shows via DeepQuantum simulations that a 4‑mode TDM circuit can approximate a 20×20 unitary with fidelity 0.9908 using 10 timesteps. The method is demonstrated on small 20‑node graphs for clique finding, dense subgraph detection, and AML pattern matching, and additional simulations show improved robustness to optical loss compared with a Clements interferometer for unitary sizes up to 100×100.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Time-domain-multiplexed Gaussian Boson Sampling (GBS) used to solve four financial graph problems: community detection, synthetic identity fraud via dense subgraph detection, collusive stock manipulation via clique enumeration, and anti-money laundering via isomorphic subgraph matching; includes numerical simulation of a 4-mode TDM photonic circuit fitted to a 20x20 target unitary and compared against an ideal spatial 20-mode GBS distribution.",
+      "algorithm": {
+        "family": "other",
+        "variant": "Gaussian Boson Sampling with time-domain-multiplexed photonic circuit",
+        "ansatz": null,
+        "optimizer": "Adam",
+        "num_layers": null,
+        "convergence_criteria": "best fidelity over 8 rounds of batched optimization; 350 epochs per round",
+        "hyperparameters": {
+          "learning_rate": 0.08,
+          "batch_size": 80,
+          "epochs_per_round": 350,
+          "optimization_rounds": 8,
+          "timesteps": 10,
+          "physical_modes": 4,
+          "spatial_blocks": 4,
+          "temporal_blocks": 5,
+          "n_tau": 1,
+          "target_unitary_size": "20x20",
+          "mean_photon_number": "scaled to physically achievable range"
+        },
+        "parameter_initialization": "randomly initialized circuit parameters across 640 optimization instances",
+        "optimizer_settings": {
+          "max_iterations": 350,
+          "learning_rate": 0.08,
+          "parameter_bounds": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Graph adjacency matrix encoded into GBS physical parameters via Takagi-Autonne decomposition; squeezing parameters set by eigenvalues of adjacency matrix; output Fock states post-selected to fixed photon number k for k-node subgraphs",
+        "objective_function": "Maximize probability/Hafnian signature of dense or pattern-matching subgraphs in financial graphs; for unitary fitting, maximize fidelity |Tr(U^† U_fit)|/N",
+        "constraints_handling": "Post-selection on fixed-size subgraphs; auxiliary nodes added for isomorphic subgraph matching when needed",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Synthetic and small-scale financial graph datasets for four tasks: community detection on a synthetic network; dense subgraph detection on a 20-node subgraph from a financial fraud dataset; clique finding on a synthetic stock-manipulation graph; AML pattern matching on a 20-node subgraph containing a 6-node cycle",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 20,
+        "data_type": "synthetic",
+        "dataset_name": "Synthetic financial graphs; Hidden financial fraud dataset; AMLSim-generated banking transaction graphs",
+        "dataset_specification": {
+          "description": "Community graph synthetically generated; dense-subgraph example from ref. 27; collusion graph synthetically generated; AML example extracted as 20-node subgraph from 8,000-node AMLSim dataset"
+        },
+        "data_preprocessing_details": "Transaction data converted to graph adjacency matrices; for AML, a 6-node cycle pattern is augmented with auxiliary nodes when needed; for GBS simulation, states with si in {0,1} and total photon number exactly k are selected",
+        "evaluation_methodology": "Numerical simulations in DeepQuantum; fidelity reported for unitary fitting; probability distributions compared for top-50 output states; robustness evaluated by averaging over 10 random unitary matrices for each of 36x36, 64x64, and 100x100 cases"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": 10,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "TuringQ",
+        "device_name": null,
+        "framework": "DeepQuantum"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/TuringQ/deepquantum",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Graph construction from transaction data; Takagi-Autonne decomposition; scaling eigenvalues to control mean photon number; sliding-window search for best embedded submatrix",
+        "classical_postprocessing": "Select high-probability Fock states; compare Hafnian values for isomorphic matching; rank output states by probability for clique identification",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 350,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": 640.0,
+          "num_independent_runs": 640
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "fidelity",
+          "value": 0.9908,
+          "uncertainty": null,
+          "num_runs": 640,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "fidelity",
+          "value": 0.9908,
+          "uncertainty": null,
+          "num_runs": 1,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "graph_density",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "probability",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "nodes",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 29851,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "account_nodes",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 61159,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "pii_nodes",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 8000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "nodes",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 128000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "nodes",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_modes",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "modes",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "timesteps",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "timesteps",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "optimization_rounds",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "rounds",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "epochs_per_round",
+          "value": 350,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "epochs",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "batch_size",
+          "value": 80,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "learning_rate",
+          "value": 0.08,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "clique_count_4_node",
+          "value": 36,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "clique_count_5_node",
+          "value": 28,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "clique_count_6_node",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "clique_count_7_node",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "number_of_detected_isomorphic_subgraphs",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "count",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "mean_photon_number",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": null,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "randomly sampled subgraphs",
+          "metric_name": "graph_density",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "randomly sampled 4-node subgraphs",
+          "metric_name": "graph_density",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "randomly sampled 6-node subgraphs",
+          "metric_name": "graph_density",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "ideal spatial 20-mode gbs device",
+          "metric_name": "probability",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic reduction in hardware complexity",
+          "baseline_method": "spatial Clements architecture / fully spatial GBS",
+          "conditions": "using the proposed spatial-temporal hybrid time-domain-multiplexed photonic architecture",
+          "is_demonstrated": true,
+          "caveats": "Achieved by sacrificing universality; the paper emphasizes scalability and hardware efficiency rather than a proven computational speedup over classical algorithms."
+        },
+        {
+          "type": "theoretical",
+          "factor": "O(sqrt(N)) width and O(sqrt(N)) depth",
+          "baseline_method": "purely spatial Clements architecture and purely temporal loop-based architectures",
+          "conditions": "for the proposed hybrid TDM circuit architecture",
+          "is_demonstrated": true,
+          "caveats": "This is an architectural scaling claim, not an end-to-end runtime advantage."
+        },
+        {
+          "type": "empirical",
+          "factor": "over 99% fidelity",
+          "baseline_method": "target 20x20 unitary matrix fitting",
+          "conditions": "4-mode TDM circuit with 10 timesteps",
+          "is_demonstrated": true,
+          "caveats": "Fidelity is for unitary fitting, not a direct fraud-detection accuracy metric."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 20,
+          "num_qubits": null,
+          "metric_name": "fidelity",
+          "metric_value": 0.9908
+        },
+        {
+          "problem_size": 36,
+          "num_qubits": null,
+          "metric_name": "fidelity",
+          "metric_value": null
+        },
+        {
+          "problem_size": 64,
+          "num_qubits": null,
+          "metric_name": "fidelity",
+          "metric_value": null
+        },
+        {
+          "problem_size": 100,
+          "num_qubits": null,
+          "metric_name": "fidelity",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(sqrt(N)) width and O(sqrt(N)) depth for the proposed hybrid architecture",
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Not specified; paper demonstrates simulation of a 4‑mode TDM circuit approximating a 20×20 unitary with fidelity 0.9908 but provides no resource estimate for outperforming classical graph algorithms.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "No runtime comparison against classical algorithms",
+          "Experiments limited to simulation and small 20‑node examples",
+          "No demonstrated computational speedup for fraud detection tasks",
+          "Classical algorithms for dense subgraph and clique detection already scale efficiently on many instances",
+          "Photonic hardware loss and scaling constraints"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "This paper is photonic and uses Gaussian Boson Sampling, so qubit count is not applicable; num_qubits left null.",
+          "Hardware type inferred as real_qpu_photonic because the paper describes a photonic quantum circuit and GBS platform, but the reported results are numerical simulations in DeepQuantum rather than a named physical device.",
+          "Speedup order is not explicitly characterized as an asymptotic advantage over classical methods; the paper claims scalability and near-term promise, so none_proven is used.",
+          "Authors position GBS as 'promising' for near‑term advantage but provide no empirical runtime comparison with classical baselines.",
+          "All results are numerical simulations and qualitative demonstrations on small graphs."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_new_1",
+      "description": "Noise robustness comparison between the proposed spatial‑temporal hybrid TDM photonic architecture and the spatial Clements interferometer under optical loss, evaluated by fitting random unitary matrices of size 36×36, 64×64, and 100×100 and measuring fidelity as a function of component transmittance.",
+      "algorithm": {
+        "family": "other",
+        "variant": "Gaussian Boson Sampling photonic unitary fitting using TDM architecture",
+        "optimizer": "Adam (for fitting stage)",
+        "num_layers": null
+      },
+      "key_results": [
+        {
+          "metric": "fidelity_vs_loss",
+          "value": "TDM architecture maintains significantly higher fidelity than spatial Clements mesh as transmittance decreases",
+          "source": "Figure 5 and accompanying discussion"
+        },
+        {
+          "metric": "matrix_sizes_tested",
+          "value": [
+            36,
+            64,
+            100
+          ],
+          "unit": "dimension",
+          "source": "Noise analysis section and Fig. 5 caption"
+        },
+        {
+          "metric": "num_random_unitaries",
+          "value": 10,
+          "unit": "instances",
+          "source": "Text: 'we randomly generated 10 different unitary matrices and averaged the performance for each matrix size'"
+        }
+      ]
+    }
+  ]
+}

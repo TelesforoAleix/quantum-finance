@@ -1,0 +1,606 @@
+{
+  "paper_id": "d097cb51b8b1",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T10:00:20+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "d097cb51b8b1_modification_of_a_quantum_inspired_genetic_algorithm_for_numerical_optimization_.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.633,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 13,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='dimension' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='dimension' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='objective value' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='objective value' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='objective value' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='objective value' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='objective value' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='mae' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='mae' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='mae' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='p-value' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='p-value' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[15].unit='p-value' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.633,
+      "completeness": 0.633,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.633
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Modification of a Quantum-inspired Genetic Algorithm for Numerical Optimization Using Qudit under Conditions of Simulating Quantum Decoherence",
+    "authors": [
+      "Vladimir V. Maslennikov",
+      "Liliya A. Demidova"
+    ],
+    "year": 2024,
+    "doi": "10.33693/2313-223X-2024-11-2-58-85",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "other",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a classical quantum‑inspired genetic algorithm (MQIGA) using simulated qudit states and decoherence. On benchmark optimization functions (n=2 and n=15), MQIGA reaches the global optimum in up to 100% of runs and shows faster convergence than GA, DE, PSO, and QIGA baselines; it also improves regression accuracy in ELM tuning (e.g., MAE 1.86 on Boston Housing vs 3.35 for standard ELM). All experiments run on a classical CPU (Intel Core i9‑13980HX) with no gate‑based quantum hardware.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Modified quantum-inspired genetic algorithm (MQIGA) for numerical optimization using a qudit-based simulation of quantum decoherence, evaluated on benchmark functions, a hybrid flow-shop scheduling problem, and ELM regression tuning.",
+      "algorithm": {
+        "family": "classical-simulation",
+        "variant": "Modified Quantum-Inspired Genetic Algorithm (MQIGA) with qudit-based state representation and simulated decoherence",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": "max generations reached (gen_num < gen_max - 1)",
+        "hyperparameters": {
+          "pop_size": 100,
+          "chrom_len": 4,
+          "qudit_len": 5,
+          "tau": 0.01,
+          "pop_mut": 0.01,
+          "mut_prob": 0.001,
+          "gen_max": 450,
+          "num_runs": 50,
+          "benchmark_dimensions": [
+            2,
+            15
+          ],
+          "wilcoxon_p_threshold": 0.05,
+          "ELM_cross_validation_folds": 10,
+          "ELM_max_iterations": 300
+        },
+        "parameter_initialization": "Quantum genes initialized via generalized Hadamard superposition and qudit state amplitudes; rotation angles initialized as tau * N(0,1)",
+        "optimizer_settings": {
+          "max_iterations": 450,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Binary classical chromosomes are derived from measured qudit-based quantum chromosomes; qudit length 5 used to generate state probabilities and binary gene values",
+        "objective_function": "Maximize benchmark test functions f1-f8; maximize financial cost objective f(x)=CL+CE+CR+CP for hybrid flow-shop scheduling; minimize MAE for ELM tuning (reported as improved forecasting accuracy)",
+        "constraints_handling": "For optimization benchmarks, values outside the objective domain X are replaced with random values from X; crossover/mutation use qudit rotation updates and probabilistic bit flips",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "(1) Eight benchmark optimization functions at dimensions n=2 and n=15; (2) cost-based hybrid flow-shop scheduling with 10 jobs and 5 stages; (3) compact ELM regression tuning on three public datasets",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "public_benchmark",
+        "dataset_name": "Rastrigin, Sphere, Griewank, Schwefel 1.2, Ackley, Rosenbrock, Zakharov, Styblinski-Tang, CPU Performance, Auto Imports, Boston Housing",
+        "dataset_specification": {
+          "benchmark_functions": [
+            "f1-f8"
+          ],
+          "dimensions": [
+            2,
+            15
+          ],
+          "scheduling_instances": [
+            "J10c5a2",
+            "J10c5b1",
+            "J10c5c1"
+          ],
+          "scheduling_instance_details": {
+            "J10c5a2": {
+              "jobs": 10,
+              "stages": 5,
+              "machine_configuration": [
+                2,
+                2,
+                1,
+                2,
+                2
+              ]
+            },
+            "J10c5b1": {
+              "jobs": 10,
+              "stages": 5,
+              "machine_configuration": [
+                1,
+                2,
+                2,
+                2,
+                2
+              ]
+            },
+            "J10c5c1": {
+              "jobs": 10,
+              "stages": 5,
+              "machine_configuration": [
+                3,
+                3,
+                2,
+                3,
+                3
+              ]
+            }
+          },
+          "ELM_datasets": [
+            "CPU Performance",
+            "Auto Imports",
+            "Boston Housing"
+          ],
+          "ELM_preprocessing": "10-fold cross-validation"
+        },
+        "data_preprocessing_details": "Benchmark functions evaluated over specified search ranges; scheduling objective built from labor, energy, maintenance, and tardiness costs; ELM evaluated with 10-fold cross-validation",
+        "evaluation_methodology": "50 independent runs for benchmark optimization; 10 runs for scheduling instances; 10-fold cross-validation for ELM; Wilcoxon signed-rank test for pairwise comparisons"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "simulated decoherence / additive normal noise N(0,1) in qudit rotation angles",
+        "error_mitigation_method": null,
+        "noise_parameters": {
+          "tau": 0.01,
+          "distribution": "N(0,1)",
+          "angle_model": "theta = tau * xi"
+        }
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "mealpy classical optimizers used as baselines (GA, DE, PSO, NRO, ACOR)",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Initialization of qudit angles; conversion of measured qudit probabilities to binary chromosomes; replacement of out-of-range values with random values from objective domain",
+        "classical_postprocessing": "Selection of best chromosome per generation; conversion from binary to decimal; statistical comparison via Wilcoxon test",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "convergence graphs reported; MQIGA generally faster convergence than baselines",
+          "variance_across_runs": null,
+          "num_independent_runs": 50
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "problem_size",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": 50,
+          "unit": "dimension",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "problem_size",
+          "value": 15,
+          "uncertainty": null,
+          "num_runs": 50,
+          "unit": "dimension",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "best_objective_value",
+          "value": 78.3323,
+          "uncertainty": null,
+          "num_runs": 50,
+          "unit": "objective value",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "best_objective_value",
+          "value": 586.4596,
+          "uncertainty": null,
+          "num_runs": 50,
+          "unit": "objective value",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "best_objective_value",
+          "value": 1234.26,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "objective value",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "best_objective_value",
+          "value": 1175.8808,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "objective value",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "best_objective_value",
+          "value": 472.4012,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "objective value",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "mae",
+          "value": 1.86,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "mae",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "mae",
+          "value": 5.3,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "mae",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "mae",
+          "value": 2080,
+          "uncertainty": null,
+          "num_runs": 10,
+          "unit": "mae",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "execution_time",
+          "value": 1.0036,
+          "uncertainty": null,
+          "num_runs": 50,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "execution_time",
+          "value": 1.0293,
+          "uncertainty": null,
+          "num_runs": 50,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "execution_time",
+          "value": 1.1895,
+          "uncertainty": null,
+          "num_runs": 50,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "wilcoxon_p_value",
+          "value": 0.0097,
+          "uncertainty": null,
+          "num_runs": 50,
+          "unit": "p-value",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "wilcoxon_p_value",
+          "value": 0.054,
+          "uncertainty": null,
+          "num_runs": 50,
+          "unit": "p-value",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "wilcoxon_p_value",
+          "value": 0.1464,
+          "uncertainty": null,
+          "num_runs": 50,
+          "unit": "p-value",
+          "higher_is_better": false,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "qiga",
+          "metric_name": "best_objective_value",
+          "value": 78.3323,
+          "unit": "objective value"
+        },
+        {
+          "method_name": "ga",
+          "metric_name": "best_objective_value",
+          "value": 78.3323,
+          "unit": "objective value"
+        },
+        {
+          "method_name": "de",
+          "metric_name": "best_objective_value",
+          "value": 78.3323,
+          "unit": "objective value"
+        },
+        {
+          "method_name": "pso",
+          "metric_name": "best_objective_value",
+          "value": 78.3323,
+          "unit": "objective value"
+        },
+        {
+          "method_name": "nro",
+          "metric_name": "best_objective_value",
+          "value": 78.3323,
+          "unit": "objective value"
+        },
+        {
+          "method_name": "qiga",
+          "metric_name": "best_objective_value",
+          "value": 586.4596,
+          "unit": "objective value"
+        },
+        {
+          "method_name": "ga",
+          "metric_name": "best_objective_value",
+          "value": 587.4893,
+          "unit": "objective value"
+        },
+        {
+          "method_name": "de",
+          "metric_name": "best_objective_value",
+          "value": 506.9896,
+          "unit": "objective value"
+        },
+        {
+          "method_name": "pso",
+          "metric_name": "best_objective_value",
+          "value": 587.4925,
+          "unit": "objective value"
+        },
+        {
+          "method_name": "nro",
+          "metric_name": "best_objective_value",
+          "value": 587.3307,
+          "unit": "objective value"
+        },
+        {
+          "method_name": "qiga",
+          "metric_name": "best_objective_value",
+          "value": 1233.9747,
+          "unit": "objective value"
+        },
+        {
+          "method_name": "ga",
+          "metric_name": "best_objective_value",
+          "value": 1231.2381,
+          "unit": "objective value"
+        },
+        {
+          "method_name": "pso",
+          "metric_name": "best_objective_value",
+          "value": 1589.2163,
+          "unit": "objective value"
+        },
+        {
+          "method_name": "acor",
+          "metric_name": "best_objective_value",
+          "value": 908.6921,
+          "unit": "objective value"
+        },
+        {
+          "method_name": "qiga",
+          "metric_name": "mae",
+          "value": 7.8,
+          "unit": "mae"
+        },
+        {
+          "method_name": "ga",
+          "metric_name": "mae",
+          "value": 9.1,
+          "unit": "mae"
+        },
+        {
+          "method_name": "de",
+          "metric_name": "mae",
+          "value": 13.6,
+          "unit": "mae"
+        },
+        {
+          "method_name": "pso",
+          "metric_name": "mae",
+          "value": 8.0,
+          "unit": "mae"
+        },
+        {
+          "method_name": "nro",
+          "metric_name": "mae",
+          "value": 6.6,
+          "unit": "mae"
+        },
+        {
+          "method_name": "elm",
+          "metric_name": "mae",
+          "value": 12.9,
+          "unit": "mae"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "faster than qiga and ga in execution time; no single universal factor reported",
+          "baseline_method": "qiga, ga, de, pso, nro, acor",
+          "conditions": "benchmark functions f1-f8 at dimensions 2 and 15; 50 runs for benchmarks, 10 runs for scheduling, 10-fold CV for ELM",
+          "is_demonstrated": true,
+          "caveats": "Speed advantage is problem-dependent; MQIGA is not fastest on all functions and sizes. No asymptotic quantum speedup is claimed because this is a quantum-inspired classical algorithm."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 2,
+          "num_qubits": null,
+          "metric_name": "best_objective_value",
+          "metric_value": 78.3323
+        },
+        {
+          "problem_size": 15,
+          "num_qubits": null,
+          "metric_name": "best_objective_value",
+          "metric_value": 586.4596
+        },
+        {
+          "problem_size": 10,
+          "num_qubits": null,
+          "metric_name": "best_objective_value",
+          "metric_value": 1234.26
+        },
+        {
+          "problem_size": 209,
+          "num_qubits": null,
+          "metric_name": "mae",
+          "metric_value": 5.3
+        },
+        {
+          "problem_size": 206,
+          "num_qubits": null,
+          "metric_name": "mae",
+          "metric_value": 2080
+        },
+        {
+          "problem_size": 506,
+          "num_qubits": null,
+          "metric_name": "mae",
+          "metric_value": 1.86
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L0_theory",
+        "crossover_size": null,
+        "resources_for_advantage": null,
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Algorithm is quantum‑inspired but implemented entirely on classical hardware",
+          "No quantum circuits, qubits, or gate‑based computation",
+          "Performance improvements are purely classical metaheuristic improvements over GA/PSO/DE baselines"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "This is a quantum-inspired classical algorithm, not a gate-based quantum circuit experiment. The paper reports qudit-based simulation and normal-noise decoherence modeling, but no actual quantum hardware, qubit count, circuit depth, or gate counts.",
+          "Classical baselines include GA, DE, PSO, NRO, and ACOR; these are not separate experiments.",
+          "The authors do not run any gate‑based quantum algorithm; all experiments are classical simulations of a quantum‑inspired genetic algorithm.",
+          "Therefore quantum advantage cannot be evaluated under the Hoefler framework."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

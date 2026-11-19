@@ -1,0 +1,982 @@
+{
+  "paper_id": "81f92de64876",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:07:31+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "81f92de64876_quantum_enhanced_simulation_based_optimization.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.529,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 18,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='objective value' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='to 2.0' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[3].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[4].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[6].unit='price per newspaper batch' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[7].unit='price per newspaper batch' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[8].unit='mean demand units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[9].unit='standard deviation demand units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[10].unit='demand units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[13].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[14].unit='scale factor' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[2].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[3].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[6].unit='weight' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[7].unit='quantile level' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[8].unit='scale factor' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[2].results[10].unit='qubits per asset' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.529,
+      "completeness": 0.529,
+      "num_experiments": 4,
+      "experiment_scores": [
+        0.633,
+        0.633,
+        0.7,
+        0.15
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum-Enhanced Simulation-Based Optimization",
+    "authors": [
+      "Julien Gacon",
+      "Christa Zoufal",
+      "Stefan Woerner"
+    ],
+    "year": 2020,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "portfolio-optimization",
+    "secondary_silos": [
+      "risk-management",
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper introduces Quantum Simulation-Based Optimization (QSBO), which combines quantum amplitude estimation (QAE) with classical optimization to evaluate stochastic objectives with theoretical O(M^-1) error scaling versus O(M^-1/2) for classical Monte Carlo. The authors demonstrate the approach on small simulated instances: a quadratic objective with 8 qubits (including 5 QAE evaluation qubits), an 8‑qubit newsvendor problem, and a 2‑asset portfolio optimization requiring 12–13 qubits. All experiments are noiseless Qiskit simulations illustrating feasibility rather than performance advantage.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Continuous simulation-based optimization of a quadratic objective E[(X-y)^2] using quantum amplitude estimation with a truncated normal distribution and a continuous decision variable y.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "canonical QAE and QAE with maximum-likelihood post-processing",
+        "ansatz": null,
+        "optimizer": "COBYLA",
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "distribution": "X ~ N(1,1) truncated to [0,2]",
+          "decision_variable_range": "y in [0,2]",
+          "discretization_qubits_for_X": 2,
+          "approximation_factor_c": null,
+          "QAE_evaluation_qubits_m": 5,
+          "QAE_variant": "canonical QAE; maximum-likelihood post-processing variant also evaluated"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": "y in [0,2]"
+        },
+        "hyperparameters.QAE_evaluation_qubits_m": 5
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "X discretized on n=2 qubits; objective value encoded into one objective qubit via controlled Ry rotations approximating sin(c(x-y))",
+        "objective_function": "min_y E[(X - y)^2]",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Illustrative continuous optimization problem with truncated normal uncertainty.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "X ~ N(1,1) truncated to [0,2]"
+        },
+        "data_preprocessing_details": "X discretized to 2 qubits; affine map phi from {0,...,2^n-1} to [0,2]",
+        "evaluation_methodology": "Objective function evaluated for different y values; comparison shown between canonical QAE and maximum-likelihood QAE"
+      },
+      "quantum_resources": {
+        "num_qubits": 8,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "COBYLA",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Truncated normal distribution loaded exactly into quantum states using Qiskit uncertainty model; objective approximated via sine-based rotation mapping",
+        "classical_postprocessing": "QAE output rescaled by 1/c^2; for canonical QAE, discrete estimate mapped from measured integer y to a via sin^2(y*pi/M)",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "objective curve over y; canonical QAE produces step-like approximation, maximum-likelihood variant smoother",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "expected_return",
+          "value": 1.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "objective value",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "qae_evaluation_qubits",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "distribution_qubits_for_x",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "objective_domain",
+          "value": 0.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "to 2.0",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "expected_return",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical Monte Carlo simulation",
+          "conditions": "for estimation of expected values in simulation-based optimization using QAE",
+          "is_demonstrated": false,
+          "caveats": "Claim is asymptotic; no empirical runtime comparison is reported."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 2.0,
+          "num_qubits": 3,
+          "metric_name": "num_qubits",
+          "metric_value": 3
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(M) circuit depth for QAE; estimation error O(M^-1)",
+        "classical_complexity": "Monte Carlo estimation error O(M^-1/2)",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not estimated in paper; advantage depends on very large Monte Carlo sample counts M.",
+        "resources_for_advantage": "Requires large-scale fault‑tolerant circuits implementing deep amplitude estimation with many Grover iterations; current example uses only 8 qubits.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Quadratic speedup only (QAE vs Monte Carlo)",
+          "Deep circuits due to repeated Grover operator applications",
+          "State preparation cost for loading probability distributions",
+          "Demonstrated only on very small toy instances"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_other because the paper reports Qiskit-based implementations but no specific QPU or hardware run.",
+          "3 qubits inferred from n=2 qubits for X plus 1 objective qubit.",
+          "Circuit depth not explicitly reported; QAE depth scales with number of Grover iterations M, but no numeric depth given.",
+          "Paper states QAE provides quadratic speedup over Monte Carlo but performs only small-scale numerical simulations.",
+          "No empirical runtime comparison with classical Monte Carlo on meaningful problem sizes."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Discrete simulation-based optimization of the newsvendor problem using QAE with a binary-encoded stock decision variable and a normal demand distribution.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "QSBO for discrete decision variables with QAE",
+        "ansatz": "Ry trial state with linear CNOT entanglement",
+        "optimizer": "COBYLA",
+        "num_layers": 2,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "demand_distribution": "D ~ N(2,1) truncated to [0,7]",
+          "demand_qubits_n": 3,
+          "decision_qubits_k": 3,
+          "trial_state_repetitions": 2,
+          "buy_price": 0.2,
+          "sell_price": 0.5,
+          "rescaling_factor_c": 0.001,
+          "additional_comparison_ancilla": 1,
+          "total_qubits_reported": 8
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Decision variable s encoded on k=3 qubits; demand D encoded on n=3 qubits; one ancilla qubit used for comparison in piecewise objective",
+        "objective_function": "min_s E[f(s,D)] where f(s,d)= (d-s)(psell-pbuy) if d>=s, else (s-d)pbuy",
+        "constraints_handling": "Comparison operator used to implement piecewise objective; conditional addition of opportunity-cost term controlled on d>=s",
+        "num_binary_variables": 3,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "Inventory management newsvendor problem with uncertain demand.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Demand modeled as normal distribution N(2,1) truncated to [0,7]"
+        },
+        "data_preprocessing_details": "Demand discretized on 3 qubits; stock decision represented in binary on 3 qubits",
+        "evaluation_methodology": "Objective function evaluated and optimized; result state interpreted as probability distribution over stock levels"
+      },
+      "quantum_resources": {
+        "num_qubits": 8,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 6,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "COBYLA",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Demand distribution loaded exactly using Qiskit uncertainty model; piecewise linear cost implemented via comparison and sine approximation",
+        "classical_postprocessing": "Optimization result interpreted as probability distribution P[s=s*]=|<s|s(theta*)>|^2",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "objective function minimized at s=2; probability mass concentrates near optimal stock size",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "expected_return",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "cvar",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "feasibility_percentage",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "ground_state_probability",
+          "value": 1.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "buy_price",
+          "value": 0.2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "price per newspaper batch",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "sell_price",
+          "value": 0.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "price per newspaper batch",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "demand_mean",
+          "value": 2.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "mean demand units",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "demand_std",
+          "value": 1.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "standard deviation demand units",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "demand_range_upper",
+          "value": 7.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "demand units",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "decision_qubits",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "demand_qubits",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "trial_state_repetitions",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "rescaling_factor",
+          "value": 0.001,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "scale factor",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "cvar",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical Monte Carlo simulation",
+          "conditions": "for QAE-based objective evaluation in the newsvendor problem",
+          "is_demonstrated": false,
+          "caveats": "No empirical runtime or direct classical-vs-quantum benchmark is reported."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 3.0,
+          "num_qubits": 8,
+          "metric_name": "num_qubits",
+          "metric_value": 8
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "QAE-based objective evaluation with O(M) depth and O(M^-1) estimation error",
+        "classical_complexity": "Monte Carlo estimation error O(M^-1/2)",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not quantified; depends on Monte Carlo sample complexity for expectation estimation.",
+        "resources_for_advantage": "Large fault‑tolerant QAE circuits with repeated Grover iterations and comparator arithmetic circuits for piecewise objective evaluation.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Quadratic speedup only from amplitude estimation",
+          "Complex arithmetic and comparison circuits",
+          "Optimization loop requiring repeated QAE calls",
+          "Demonstrated on only 8 qubits"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_other because only Qiskit-based implementation is described and no QPU is named.",
+          "8 qubits explicitly reported in the text for the newsvendor instance.",
+          "Number of variational parameters inferred as 6 from 3 qubits with two repetitions of the Ry-linear-CNOT ansatz (3 parameters per repetition).",
+          "Authors demonstrate feasibility of QSBO on a toy newsvendor instance but do not benchmark against classical optimization or Monte Carlo solvers."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_3",
+      "description": "Discrete portfolio optimization over two assets using QAE to evaluate expected return and VaR-based objective with a binary decision vector.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "QSBO for discrete portfolio optimization with QAE-based expected return and VaR evaluation",
+        "ansatz": "Ry trial state with linear CNOT entanglement",
+        "optimizer": "COBYLA",
+        "num_layers": 2,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "num_assets": 2,
+          "decision_qubits_k": 2,
+          "distribution_qubits_per_asset_n": 2,
+          "joint_distribution_qubits": 4,
+          "risk_factor_q": 0.9,
+          "alpha": 0.05,
+          "trial_state_repetitions": 2,
+          "total_qubits_expected_return": 12,
+          "total_qubits_VaR": 13,
+          "rescaling_factor_c": 0.02
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        },
+        "num_variational_params": 4
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Binary decision vector y in {0,1}^k encoded on k=2 qubits; each asset return dimension encoded on n=2 qubits; dot product y^T x computed in sum register of size log2(k2^n)",
+        "objective_function": "maximize E[y^T X] - q VaR_alpha(y^T X) with q=0.9 and alpha=0.05",
+        "constraints_handling": "VaR computed via comparator-based CDF estimation; no explicit hard constraints beyond binary asset selection",
+        "num_binary_variables": 2,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Two-asset portfolio selection problem with lognormal asset returns.",
+        "num_assets": 2,
+        "time_steps": null,
+        "num_features": 2,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "log(X) ~ N(μ, Σ) with μ = (0.8, 1)^T and Σ = [[1, -1], [-1, 10]], with Ω_X = [0,1]^2"
+        },
+        "data_preprocessing_details": "Joint distribution loaded exactly into quantum states; expected return computed via controlled addition / linear sine approximation",
+        "evaluation_methodology": "Optimization result shown as probability distribution over 2-bit asset-selection strings; best solution is selecting only the first asset"
+      },
+      "quantum_resources": {
+        "num_qubits": 12,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 4,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "COBYLA",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Joint lognormal distribution loaded exactly; dot product y^T x computed with controlled additions; VaR via comparator and CDF estimation",
+        "classical_postprocessing": "Optimization output interpreted as probability distribution over asset-selection bitstrings; best solution identified by highest probability",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "objective favors selecting only the first asset; probability of optimal bitstring approximately 0.9",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "expected_return",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "cvar",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "ground_state_probability",
+          "value": 0.9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 13,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits_expected_return",
+          "value": 12,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "risk_factor",
+          "value": 0.9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "weight",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "alpha",
+          "value": 0.05,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "quantile level",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "rescaling_factor",
+          "value": 0.02,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "scale factor",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "decision_qubits",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "distribution_qubits_per_asset",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits per asset",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "cvar",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical Monte Carlo simulation",
+          "conditions": "for QAE-based evaluation of expected return and VaR in portfolio optimization",
+          "is_demonstrated": false,
+          "caveats": "The paper reports asymptotic scaling only; no empirical speedup benchmark is provided."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 2.0,
+          "num_qubits": 13,
+          "metric_name": "num_qubits",
+          "metric_value": 13
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": 12,
+          "metric_name": "num_qubits_expected_return",
+          "metric_value": 12
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "QAE-based objective evaluation with O(M) depth and O(M^-1) estimation error",
+        "classical_complexity": "Monte Carlo estimation error O(M^-1/2)",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Unknown; paper does not estimate the problem size where QAE-based portfolio optimization would outperform classical risk estimation.",
+        "resources_for_advantage": "Fault‑tolerant circuits implementing amplitude estimation, multivariate distribution loading, controlled additions for dot products, and comparator circuits for VaR.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Quadratic speedup only from amplitude estimation",
+          "Large arithmetic circuits for dot-product and VaR computation",
+          "State preparation of multivariate distributions",
+          "Demonstration limited to a 2‑asset toy problem (12–13 qubits)"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_other because the paper reports Qiskit implementations without a named QPU.",
+          "13 qubits explicitly reported for the VaR computation; 12 qubits for expected return are also reported, but the experiment is summarized with the larger resource requirement for the full portfolio objective.",
+          "Number of variational parameters inferred as 4 from 2 qubits with two repetitions of the Ry-linear-CNOT ansatz.",
+          "The paper claims quadratic speedup in objective evaluation via QAE but provides only simulated toy demonstrations without classical performance comparison."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_new_1",
+      "description": "Discrete version of the quadratic objective optimization problem where the decision variable y is encoded in qubits and optimized via a variational trial state V(θ) combined with QAE evaluation.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "QSBO with variational discrete decision encoding",
+        "ansatz": "Ry trial state with linear CNOT entanglement",
+        "optimizer": "COBYLA",
+        "num_layers": null
+      },
+      "key_results": [
+        "Demonstrates translation of the quadratic objective example to a discrete decision variable encoded in qubits.",
+        "Shows that total qubits increase to n + k + 1 when encoding y explicitly.",
+        "No quantitative performance metrics or plots beyond conceptual description."
+      ]
+    }
+  ]
+}

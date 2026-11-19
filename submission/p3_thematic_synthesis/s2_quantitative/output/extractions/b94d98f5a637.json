@@ -1,0 +1,419 @@
+{
+  "paper_id": "b94d98f5a637",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:40:32+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "b94d98f5a637_a_quantum_walk_model_of_financial_options.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.55,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 9,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='steps' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='simulation runs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='grid units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='years' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='price units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='price units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='runs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='degrees' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='degrees' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.55,
+      "completeness": 0.55,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.55
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "A Quantum Walk Model of Financial Options",
+    "authors": [
+      "David Orrell"
+    ],
+    "year": 2021,
+    "doi": "10.1002/wilm.10918",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a discrete-time quantum walk option-pricing model using a Hadamard coin and 1‑D position grid, illustrated with 100-step walks and ensembles of 400 simulations. Using parameters such as 20% annual volatility, 2% risk‑free rate, and 6‑month maturity, the model generates option prices and implied-volatility surfaces that qualitatively resemble classical binomial/Black–Scholes results when combined with a supply–demand model. All results are obtained via classical simulations of the quantum-walk equations; no gate-based quantum hardware experiment is reported.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Discrete-time quantum walk model used to price European-style call options, compared against the classical binomial/Jarrow-Rudd model and then combined with a quantum supply-and-demand model to form a market price and implied-volatility surface.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "discrete-time quantum walk with Hadamard coin; biased initial coin state; optional decoherent coin perturbation",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "coin_operator": "Hadamard coin",
+          "initial_state_balanced": "(1/sqrt(2))|up> + (i/sqrt(2))|down>",
+          "initial_state_biased": "small bias toward higher prices; appendix uses start angle 50 degrees vs neutral 45 degrees",
+          "decoherence_sigma_dec": 1,
+          "decoherent_coin_form": "Rn = (1/sqrt(2))[[1, e^{i zeta}],[e^{-i zeta}, -1]] with zeta ~ Normal(0, sigma_dec)",
+          "steps": 100,
+          "ensemble_runs": 400,
+          "grid_spacing_delta_x": 1,
+          "maturity_time": 0.5,
+          "initial_purchase_price": 1,
+          "annualized_volatility": 0.2,
+          "risk_free_rate": 0.02,
+          "seller_margin": 0.1,
+          "buyer_margin": 0.2,
+          "transaction_price_floor": 0.001,
+          "transaction_price_std_total": 0.15,
+          "volatility_for_volume_surface": 0.4,
+          "expiration_range": "up to 1 year"
+        },
+        "parameter_initialization": "Balanced or slightly biased initial coin state; appendix sets start angle to 50 degrees (neutral 45 degrees)",
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "position basis states |x_j> represent discrete log-price grid points; coin state controls left/right movement",
+        "objective_function": "Compute option value V_n = < (1/(1+r)^n) [exp(S_n)-K]_+ > from the final quantum-walk probability distribution over log prices",
+        "constraints_handling": "Decoherence can be added to recover classical behavior; market price formed by combining buyer and seller propensities from quantum and classical prices",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "European call option pricing on a one-dimensional discrete log-price grid; market-price extension includes supply/demand and implied volatility/volume surfaces",
+        "num_assets": 1,
+        "time_steps": 100,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Synthetic option-pricing setup with initial price 1, strike varied, annualized volatility 20%, risk-free rate 2%"
+        },
+        "data_preprocessing_details": "Log-price interpretation of walk position; price increment adjusted to match target volatility; drift added for risk-free rate",
+        "evaluation_methodology": "Analytical/numerical computation of final probability distribution and option price; ensemble average over 400 simulations for decoherent case; comparison to classical binomial model and implied-volatility/volume surfaces"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "noise_model": {
+          "is_noisy": false,
+          "noise_type": "decoherent coin perturbation (modelled analytically/simulated)",
+          "error_mitigation_method": null
+        },
+        "noise_parameters": {
+          "T1": null,
+          "T2": null,
+          "gate_error_rates": null,
+          "readout_error_rates": null
+        },
+        "mitigation_details": null,
+        "noise_model.is_noisy": true,
+        "is_noisy": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://david-systemsforecasting.shinyapps.io/QuantumOption/",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "classical binomial/Jarrow-Rudd model; optimization routine for implied volatility; supply-and-demand model from Orrell (2020c,d)",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Set seller price to classical binomial price plus 10% margin; buyer price to quantum price plus 20% margin; add 0.001 floor; use 50-degree start angle",
+        "classical_postprocessing": "Compute market compromise price, implied volatility by inverting classical binomial model, and transaction volume surface",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": 400
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_steps",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "steps",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_steps",
+          "value": 400,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "simulation runs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "grid_spacing",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "grid units",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "maturity_time",
+          "value": 0.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "years",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "initial_purchase_price",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "price units",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "annualized_volatility",
+          "value": 0.2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "fraction",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "risk_free_rate",
+          "value": 0.02,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "fraction",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "seller_margin",
+          "value": 0.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "fraction",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "buyer_margin",
+          "value": 0.2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "fraction",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "transaction_price_floor",
+          "value": 0.001,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "price units",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "transaction_price_std_total",
+          "value": 0.15,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "fraction",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "volatility_for_volume_surface",
+          "value": 0.4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "fraction",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "ensemble_runs",
+          "value": 400,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "runs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "start_angle",
+          "value": 50,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "degrees",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "neutral_start_angle",
+          "value": 45,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "degrees",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical binomial model (Jarrow-rudd equal probabilities)",
+          "metric_name": "option_price",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "classical binomial model (used to invert implied volatility)",
+          "metric_name": "implied_volatility",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "can be run directly on a quantum device; potential speed advantages for certain classes of problem",
+          "baseline_method": "classical binomial option-pricing model",
+          "conditions": "if implemented on a quantum device; time step can be scaled to match final variance",
+          "is_demonstrated": false,
+          "caveats": "No concrete asymptotic or empirical speedup is quantified; the paper only states a potential advantage."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 100.0,
+          "num_qubits": null,
+          "metric_name": "probability_distribution_shape",
+          "metric_value": null
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": null,
+          "metric_name": "option_price",
+          "metric_value": null
+        },
+        {
+          "problem_size": 1.0,
+          "num_qubits": null,
+          "metric_name": "implied_volatility_surface",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "Not explicitly stated; paper notes quantum walk can be run directly on a quantum device and suggests speed advantages for certain classes of problem",
+        "classical_complexity": "Not explicitly stated; classical binomial model implied",
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Not specified. The paper does not provide qubit counts, circuit depth, or a concrete gate-based implementation of the quantum walk required to achieve any runtime advantage.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "No gate-based circuit implementation of the quantum walk is provided",
+          "All results are classical simulations or analytical calculations",
+          "No asymptotic complexity comparison with classical option pricing methods",
+          "No qubit, gate, or runtime resource estimates",
+          "Speed advantage mentioned only qualitatively"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper describes a quantum walk model and states it can be implemented directly on a quantum computer, but it does not specify a concrete gate-based hardware platform, qubit count, circuit depth, shot count, or transpilation details.",
+          "The 'decoherence' case is a model parameterization within the quantum-walk simulation, not a separate hardware noise study.",
+          "The paper only states that the quantum-walk model 'can be implemented directly on a quantum computer' and may offer speed advantages for certain classes of problem (Section 5).",
+          "No empirical or theoretical runtime comparison demonstrating advantage is presented."
+        ],
+        "advantage_status": "paper_reported"
+      }
+    }
+  ]
+}

@@ -1,0 +1,718 @@
+{
+  "paper_id": "f9e5b6ee139d",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T10:20:51+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "f9e5b6ee139d_quantum_multiple_kernel_learning_in_financial_classification_tasks.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.617,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 5,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='ROC-AUC' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='ROC-AUC' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='ROC-AUC' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[4].unit='ROC-AUC' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[5].unit='ROC-AUC' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.617,
+      "completeness": 0.617,
+      "num_experiments": 3,
+      "experiment_scores": [
+        0.7,
+        1.0,
+        0.15
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum Multiple Kernel Learning in Financial Classification Tasks",
+    "authors": [
+      "Shungo Miyabe",
+      "Brian Quanz",
+      "Noriaki Shimada",
+      "Abhijit Mitra",
+      "Takahiro Yamamoto",
+      "Vladimir Rastunkov",
+      "Dimitris Alevras",
+      "Mekena Metcalf",
+      "Daniel J.M. King",
+      "Mohammad Mamouei",
+      "Matthew D. Jackson",
+      "Martin Brown",
+      "Philip Intallura",
+      "Jae-Eun Park"
+    ],
+    "year": 2023,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": [
+      "fraud-detection",
+      "credit-lending"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes Quantum Multiple Kernel Learning (QMKL), combining several quantum kernels for SVM classification on financial datasets. Simulator experiments with 4–20 qubits on three datasets show improved ROC‑AUC compared with single quantum kernels and sometimes classical kernels, while hardware experiments on IBM ibm_auckland evaluate fidelity and projected kernels up to 20 qubits with 8192 shots and error mitigation, achieving kernel correlations up to r² ≈ 0.98 with simulation and about a 12.5% classification improvement of MKL over single quantum kernels at 16 qubits.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum multiple kernel learning (QMKL) for financial binary classification on simulator across HSBC digital payment fraud, German Credit, and Bank Marketing datasets, comparing fidelity, projected, and hybrid quantum kernels with several kernel-weighting schemes.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "quantum multiple kernel learning (QMKL) with fidelity quantum kernel (FQ-MKL), projected quantum kernel (PQ-MKL), and hybrid quantum-classical kernel (CQ-MKL)",
+        "ansatz": null,
+        "optimizer": "classical solvers for kernel-weight optimization (SDP, centered alignment, projection-based alignment); SVM used for classification",
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "feature_map_pauli_strings": [
+            "Z",
+            "XZ",
+            "X-ZY",
+            "Y-XX",
+            "Y-XY",
+            "Y-XZ",
+            "Y-YX",
+            "Y-YZ",
+            "Y-ZX",
+            "Z-XX",
+            "Z-ZZ"
+          ],
+          "alpha_values": [
+            0.2,
+            0.3,
+            0.4,
+            0.6,
+            0.8,
+            1.0,
+            1.2,
+            1.4,
+            1.6,
+            2.0,
+            4.0,
+            6.0,
+            8.0,
+            10.0,
+            12.0,
+            14.0,
+            20.0
+          ],
+          "reps": [
+            1,
+            2
+          ],
+          "entanglement": "linear",
+          "kernel_types": [
+            "fidelity",
+            "projected",
+            "hybrid"
+          ],
+          "weight_optimization_methods": [
+            "AVE",
+            "SDP",
+            "CENT",
+            "PROJ"
+          ],
+          "pca_feature_dimensions": [
+            4,
+            6,
+            10,
+            12,
+            14,
+            18,
+            20
+          ],
+          "train_test_split": "33% test, 67% train/validation",
+          "cross_validation": "4-fold on training/validation split",
+          "samples_per_dataset": 20
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "n features encoded into n qubits; feature values used as rotation angles in data-dependent feature maps with single-qubit and pairwise entangling terms",
+        "objective_function": "maximize kernel alignment with target kernel for classification; then train SVM on combined kernel",
+        "constraints_handling": "nonnegative kernel weights; kernel matrix positive semidefinite by construction",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Binary classification on financial datasets: HSBC digital payment fraud, German Credit, and Bank Marketing",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 4,
+        "dataset_size": 400,
+        "data_type": "public_benchmark",
+        "dataset_name": "HSBC Digital Payment fraud, German Credit, Bank Marketing",
+        "dataset_specification": {
+          "train_test_split": "33% test; remaining 67% used for 4-fold cross validation",
+          "preprocessing": "standardization, PCA, feature scaling to 0-2 range"
+        },
+        "data_preprocessing_details": "Features standardized by subtracting mean and scaling to unit variance; dimensionality reduced with PCA; features scaled to 0-2 range to keep rotation angles reasonable",
+        "evaluation_methodology": "20 randomly drawn samples; average test ROC-AUC reported; comparison across feature dimensions and kernel-weighting schemes"
+      },
+      "quantum_resources": {
+        "num_qubits": 4,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit",
+        "transpilation_target": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "SVM; kernel-weight optimization via SDP / centered alignment / projection-based alignment",
+        "transpilation_settings": null,
+        "classical_preprocessing": "standardization, PCA, feature scaling",
+        "classical_postprocessing": "ROC-AUC evaluation; kernel alignment and SVM classification",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": 20.0,
+          "num_independent_runs": 20
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "auc_roc",
+          "value": 0.0,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "ROC-AUC",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 0.0,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "ROC-AUC",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 0.0,
+          "uncertainty": null,
+          "num_runs": 20,
+          "unit": "ROC-AUC",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "r_squared",
+          "value": 0.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "best classical model",
+          "metric_name": "auc_roc",
+          "value": null,
+          "unit": "ROC-AUC"
+        },
+        {
+          "method_name": "C-MKL CENT",
+          "metric_name": "auc_roc",
+          "value": null,
+          "unit": "ROC-AUC"
+        },
+        {
+          "method_name": "C-MKL AVE",
+          "metric_name": "auc_roc",
+          "value": null,
+          "unit": "ROC-AUC"
+        },
+        {
+          "method_name": "Single (C)",
+          "metric_name": "auc_roc",
+          "value": null,
+          "unit": "ROC-AUC"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No explicit computational speedup is claimed; the paper reports classification-performance improvements and robustness benefits."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 4.0,
+          "num_qubits": 4,
+          "metric_name": "auc_roc",
+          "metric_value": null
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 6,
+          "metric_name": "auc_roc",
+          "metric_value": null
+        },
+        {
+          "problem_size": 10.0,
+          "num_qubits": 10,
+          "metric_name": "auc_roc",
+          "metric_value": null
+        },
+        {
+          "problem_size": 14.0,
+          "num_qubits": 14,
+          "metric_name": "auc_roc",
+          "metric_value": null
+        },
+        {
+          "problem_size": 18.0,
+          "num_qubits": 18,
+          "metric_name": "auc_roc",
+          "metric_value": null
+        },
+        {
+          "problem_size": 20.0,
+          "num_qubits": 20,
+          "metric_name": "auc_roc",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(n^2) for fidelity kernel; O(3nm) for projected kernel",
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "parity_with_classical",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Not specified; simulations use 4–20 qubits with PCA‑reduced features and small evaluation sets (400 samples).",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "No formal quantum speedup or complexity advantage demonstrated.",
+          "Kernel evaluation cost grows with dataset size; classical SVM still dominates overall pipeline.",
+          "Feature encoding requires one qubit per feature dimension.",
+          "Performance improvements are empirical and dataset‑dependent."
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "num_qubits inferred as 4 to 20 from feature dimensions used in the study and hardware scaling to 20 qubits; the paper explicitly states feature dimensions between 4 and 20 and that pulse transpilation enabled scaling up to 20 qubits.",
+          "hardware.type set to simulator_other because the simulator section is explicitly described and no specific simulator backend is named.",
+          "Authors state quantum MKL can outperform classical MKL on some datasets but provide no complexity‑theoretic advantage.",
+          "Results are small‑scale simulator studies with similar performance to classical kernels."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Quantum kernel evaluation on IBM hardware for Bank Marketing data, comparing noisy vs error-mitigated fidelity and projected kernels at 12 and 16 qubits.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "quantum kernel classification with fidelity and projected kernels plus error mitigation pipeline",
+        "ansatz": null,
+        "optimizer": "classical SVM; no variational quantum optimizer",
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "feature_map": "Z-ZZ",
+          "reps": 1,
+          "alpha": 2,
+          "entanglement": "linear",
+          "data_map_function": "(π - x)(π - y)",
+          "qubit_sizes": [
+            12,
+            16
+          ],
+          "shots": 8192,
+          "pauli_twirling_sequences": 16,
+          "measurement_error_calibration_shots_per_qubit": 2000
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Bank Marketing features encoded into a Z-ZZ feature map on 12 and 16 qubits; one qubit per feature dimension in the evaluated regime",
+        "objective_function": "compute quantum kernel matrices for SVM classification and compare hardware kernel values to ideal simulation",
+        "constraints_handling": "error mitigation via randomized compiling and measurement calibration; no optimization constraints beyond kernel computation",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Hardware validation of quantum kernels for Bank Marketing classification",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": 12,
+        "dataset_size": 100,
+        "data_type": "public_benchmark",
+        "dataset_name": "Bank Marketing",
+        "dataset_specification": {
+          "preprocessing": "standardized as in simulator section",
+          "train_test_split": "30 test out of 100 total"
+        },
+        "data_preprocessing_details": "Dataset standardized following the simulator procedure; 11 data points selected for kernel regression comparison in the kernel-quality study",
+        "evaluation_methodology": "linear regression between ideal simulation and hardware kernel values; ROC-AUC comparison for SVM models; results reported for noisy and error-mitigated runs"
+      },
+      "quantum_resources": {
+        "num_qubits": 4,
+        "qubit_type": "physical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 8192,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_superconducting",
+        "provider": "IBM",
+        "device_name": "ibm_auckland",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "hardware noise; coherent and measurement errors",
+        "error_mitigation_method": "randomized compiling (Pauli twirling) and measurement error mitigation"
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": "native gate set on IBM cross-resonance hardware; pulse-efficient transpilation using UZZ decomposition and Cartan decomposition for SU(4) unitaries",
+        "classical_solver": "SVM; linear regression for kernel-quality assessment",
+        "transpilation_settings": {
+          "basis_gates": [
+            "UZ(θ)",
+            "√X",
+            "UZZ(θ)"
+          ],
+          "randomized_compiling_sequences": 16,
+          "measurement_calibration_basis_states": "2^N basis states"
+        },
+        "classical_preprocessing": "standardization; selection of 11 data points with kernel magnitudes evenly distributed in [0,1] for kernel-quality regression",
+        "classical_postprocessing": "linear regression (slope, r2) comparing hardware to ideal simulation; ROC-AUC for classification",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "transpilation_settings.measurement_calibration_basis_states": "2^N basis states with calibration matrix fitting applied to subsequent measurements",
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "r_squared",
+          "value": 0.984,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "r_squared",
+          "value": 0.926,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "r_squared",
+          "value": 0.048,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "r_squared",
+          "value": 0.812,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 0.897,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ROC-AUC",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 0.716,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ROC-AUC",
+          "higher_is_better": true,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "ideal simulation",
+          "metric_name": "r_squared",
+          "value": 1.0,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "ideal simulation",
+          "metric_name": "auc_roc",
+          "value": 0.966,
+          "unit": "ROC-AUC"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The paper reports improved agreement with ideal simulation under error mitigation, not a runtime or asymptotic speedup."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 12.0,
+          "num_qubits": 12,
+          "metric_name": "r_squared",
+          "metric_value": 0.984
+        },
+        {
+          "problem_size": 16.0,
+          "num_qubits": 16,
+          "metric_name": "r_squared",
+          "metric_value": 0.926
+        },
+        {
+          "problem_size": 12.0,
+          "num_qubits": 12,
+          "metric_name": "auc_roc",
+          "metric_value": 0.897
+        },
+        {
+          "problem_size": 16.0,
+          "num_qubits": 16,
+          "metric_name": "auc_roc",
+          "metric_value": 0.716
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(n^2) for fidelity kernel; O(3nm) for projected kernel",
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "not reported",
+        "resources_for_advantage": "Experiments executed on ibm_auckland with up to 20 qubits, 8192 shots, randomized compiling (16 sequences), and measurement mitigation.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "current_nisq",
+        "limiting_factors": [
+          "Primary goal is kernel fidelity validation, not algorithmic advantage.",
+          "Small datasets and qubit counts.",
+          "Hardware noise requires extensive mitigation.",
+          "No classical runtime comparison."
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "device_name ibm_auckland explicitly reported.",
+          "num_qubits reported as 12 and 16 qubits in the hardware section.",
+          "circuit depth not reported; only pulse-efficient transpilation and gate decompositions are described.",
+          "Section IV.B evaluates kernel quality via regression metrics rather than classical vs quantum computational advantage.",
+          "Focus is hardware feasibility and noise mitigation effectiveness."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_new_1",
+      "description": "Hardware evaluation of SVM classification performance using multiple quantum kernels (MKL) versus single quantum kernels on IBM ibm_auckland with projected quantum kernels for the Bank Marketing dataset.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "projected quantum kernel SVM with multiple kernel learning (MKL) vs single kernel",
+        "optimizer": "classical SVM and MKL weight optimization (AVE, PROJ, SDP, CENT)",
+        "feature_map": "various Pauli feature maps (e.g., Y, ZZ, X-ZZ, Y-ZZ, Z-ZZ)",
+        "alpha_values": [
+          0.2,
+          0.3,
+          0.4,
+          0.7,
+          0.8
+        ],
+        "num_layers": null
+      },
+      "key_results": [
+        "Experiments performed at 8, 12, and 16 qubits using projected quantum kernels.",
+        "Single-kernel SVM performance was unstable across qubit counts (e.g., Y‑ZZ α=0.4 dropped to ROC‑AUC ≈0.716 test at 16 qubits).",
+        "MKL models achieved consistently higher performance, with many configurations reaching ≈0.94–1.00 ROC‑AUC in ideal simulation and ≈0.93 test ROC‑AUC at 16 qubits with error mitigation (Table VII).",
+        "Authors report an average ≈12.5% improvement at 16 qubits compared with the best single quantum kernel."
+      ]
+    }
+  ]
+}

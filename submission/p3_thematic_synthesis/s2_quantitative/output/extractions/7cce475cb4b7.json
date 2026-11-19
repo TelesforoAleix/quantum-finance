@@ -1,0 +1,575 @@
+{
+  "paper_id": "7cce475cb4b7",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:03:50+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "7cce475cb4b7_a_variational_quantum_perceptron_with_grover_s_algorithm_for_efficient_classific.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.783,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 2,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[2].unit='approximate' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[2].unit='approximate' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.783,
+      "completeness": 0.783,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.783,
+        0.783
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 0.3333333333333333
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Simulation of a Variational Quantum Perceptron using Grover’s Algorithm",
+    "authors": [
+      "Nouhaila Innan",
+      "Mohamed Bennai"
+    ],
+    "year": 2023,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "other",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper simulates two 2‑qubit quantum classifiers on the Iris dataset: a variational quantum perceptron (QVP) and a QVP augmented with a Grover amplitude‑amplification circuit. On an IBM QASM simulator, QVP reaches 0.90 validation accuracy after 100 iterations, while the Grover‑augmented model reaches 0.99, compared with 0.96 for a classical perceptron baseline. All experiments are simulator-based with no resource scaling or runtime analysis.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Variational quantum perceptron (QVP) trained and evaluated on the Iris dataset using a gate-based variational circuit on IBM QASM simulator.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "quantum variational perceptron",
+        "ansatz": "parameterized two-qubit variational circuit with generic unitary gates and CNOT gates",
+        "optimizer": "batch stochastic gradient descent",
+        "num_layers": null,
+        "convergence_criteria": "trained over 100 iterations",
+        "hyperparameters": {
+          "dataset": "Iris",
+          "qubits": 2,
+          "encoding": "amplitude encoding",
+          "measurement": "first qubit",
+          "iterations": 100
+        },
+        "parameter_initialization": "randomly initialized parameters are implied for the variational circuit; explicit initialization not reported",
+        "optimizer_settings": {
+          "max_iterations": 100,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "classical data encoded into amplitudes of a 2-qubit state; paper states amplitude encoding with n = log(N*M) qubits in general, but the experiment uses two qubits",
+        "objective_function": "minimize loss L(θ) = (1/N) Σ_i l(π(x_i;θ), y_i) for binary classification",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Binary classification on the Iris dataset using a quantum perceptron model",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "public_benchmark",
+        "dataset_name": "Iris",
+        "dataset_specification": null,
+        "data_preprocessing_details": "inputs rescaled to fit rotation angles; amplitude encoding used",
+        "evaluation_methodology": "accuracy and loss tracked over iterations; compared against classical perceptron and QVP-Grover"
+      },
+      "quantum_resources": {
+        "num_qubits": 2,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": "ibmq_qasm_simulator",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": null,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "batch stochastic gradient descent",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Iris inputs rescaled to fit angles",
+        "classical_postprocessing": "classification accuracy and loss computed from measurement outcomes",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 100,
+          "final_loss_value": null,
+          "loss_curve_shape": "loss decreases over iterations; exact curve not numerically tabulated for QVP alone",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "accuracy_train",
+          "value": 1.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy_validation",
+          "value": 0.99,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "loss",
+          "value": 0.4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "approximate",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "iterations_to_converge",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "problem_size",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": null,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical perceptron",
+          "metric_name": "accuracy_validation",
+          "value": 0.96,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical perceptron",
+          "metric_name": "accuracy_train",
+          "value": 0.97,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical search / unstructured search baseline",
+          "conditions": "Grover-style amplitude amplification is used within the hybrid variational perceptron",
+          "is_demonstrated": false,
+          "caveats": "The paper discusses Grover's O(sqrt(N)) search complexity in general, but does not provide a measured runtime speedup for the QVP experiment."
+        },
+        {
+          "type": "empirical",
+          "factor": "fewer iterations to reach high validation accuracy",
+          "baseline_method": "classical perceptron",
+          "conditions": "on the Iris dataset over 100 training iterations",
+          "is_demonstrated": true,
+          "caveats": "The paper claims the quantum models reach high validation accuracy in fewer iterations, but does not provide a formal runtime benchmark."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": null,
+          "num_qubits": 2,
+          "metric_name": "accuracy_validation",
+          "metric_value": 0.99
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 2,
+          "metric_name": "loss",
+          "metric_value": 0.4
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(sqrt(N))",
+        "classical_complexity": "O(N)",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not analyzed",
+        "resources_for_advantage": "not specified; experiment uses only a 2‑qubit variational circuit on a simulator",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Only 2 qubits and a toy dataset (Iris)",
+          "Amplitude encoding requires expensive state preparation not accounted for",
+          "Simulation only (no QPU evaluation)",
+          "Classical perceptron achieves higher validation accuracy (0.96 vs 0.90)",
+          "No runtime or scaling benchmarks"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper explicitly states the QVP was evaluated using the ibmq qasm simulator.",
+          "The exact circuit depth, gate counts, and number of trainable parameters are not reported in the text provided.",
+          "Grover is not part of this experiment; it is a separate experiment below.",
+          "Table I shows classical perceptron validation accuracy of 0.96 while QVP reaches only 0.90 at 100 iterations.",
+          "Although the paper suggests quantum models may be more efficient, the reported metrics show the classical baseline outperforming the QVP model."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Variational quantum perceptron augmented with Grover-style amplitude amplification (QVP-Grover) trained and evaluated on the Iris dataset using IBM QASM simulator.",
+      "algorithm": {
+        "family": "grover",
+        "variant": "quantum variational perceptron with Grover algorithm",
+        "ansatz": "same two-qubit variational circuit as QVP, followed by Grover circuit with Hadamard, CNOT, controlled-Z, and Pauli-X gates",
+        "optimizer": "batch stochastic gradient descent",
+        "num_layers": null,
+        "convergence_criteria": "trained over 100 iterations",
+        "hyperparameters": {
+          "dataset": "Iris",
+          "qubits": 2,
+          "encoding": "amplitude encoding",
+          "measurement": "probability of a particular qubit configuration",
+          "iterations": 100,
+          "grover_circuit": "added after variational circuit"
+        },
+        "parameter_initialization": "randomly initialized parameters are implied for the variational circuit; explicit initialization not reported",
+        "optimizer_settings": {
+          "max_iterations": 100,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "classical data encoded into amplitudes of a 2-qubit state; Grover circuit used to amplify target-state amplitude",
+        "objective_function": "minimize loss for binary classification by amplifying the target output state and improving classification accuracy",
+        "constraints_handling": "Grover amplitude amplification on the target state",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Binary classification on the Iris dataset using a quantum perceptron enhanced with Grover amplitude amplification",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "public_benchmark",
+        "dataset_name": "Iris",
+        "dataset_specification": null,
+        "data_preprocessing_details": "inputs rescaled to fit angles; amplitude encoding used",
+        "evaluation_methodology": "accuracy and loss tracked over iterations; compared against classical perceptron and QVP"
+      },
+      "quantum_resources": {
+        "num_qubits": 2,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": "ibmq_qasm_simulator",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": null,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "batch stochastic gradient descent",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Iris inputs rescaled to fit angles",
+        "classical_postprocessing": "classification accuracy and loss computed from measurement outcomes",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 100,
+          "final_loss_value": 0.4,
+          "loss_curve_shape": "loss converges to a lower value than QVP and classical perceptron; exact curve not numerically tabulated beyond approximate final loss",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "accuracy_train",
+          "value": 1.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "accuracy_validation",
+          "value": 0.99,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "loss",
+          "value": 0.4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "approximate",
+          "higher_is_better": false,
+          "data_source": "figure"
+        },
+        {
+          "metric_name": "iterations_to_converge",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "problem_size",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": null,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical perceptron",
+          "metric_name": "accuracy_validation",
+          "value": 0.96,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical perceptron",
+          "metric_name": "accuracy_train",
+          "value": 0.97,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "quantum variational perceptron",
+          "metric_name": "accuracy_validation",
+          "value": 0.9,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "quantum variational perceptron",
+          "metric_name": "accuracy_train",
+          "value": 1.0,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical search / unstructured search baseline",
+          "conditions": "Grover circuit is appended to the variational perceptron to amplify the target state",
+          "is_demonstrated": false,
+          "caveats": "The O(sqrt(N)) claim is about Grover's algorithm generally; the paper does not measure asymptotic scaling for the classification task."
+        },
+        {
+          "type": "empirical",
+          "factor": "higher validation accuracy and lower loss than QVP and classical perceptron",
+          "baseline_method": "quantum variational perceptron and classical perceptron",
+          "conditions": "on the Iris dataset over 100 iterations using ibmq_qasm_simulator",
+          "is_demonstrated": true,
+          "caveats": "The paper reports approximate final loss (~0.4) and a best validation accuracy of 0.99, but does not provide statistical uncertainty or multiple-run averages."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": null,
+          "num_qubits": 2,
+          "metric_name": "accuracy_validation",
+          "metric_value": 0.99
+        },
+        {
+          "problem_size": null,
+          "num_qubits": 2,
+          "metric_name": "loss",
+          "metric_value": 0.4
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(sqrt(N))",
+        "classical_complexity": "O(N)",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not analyzed",
+        "resources_for_advantage": "not specified; experiment uses a 2‑qubit circuit with a small Grover amplification block",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Experiment performed only on simulator",
+          "Toy dataset (Iris) with extremely small model size",
+          "No runtime comparison or scaling analysis",
+          "Amplitude encoding cost ignored",
+          "Grover quadratic speedup unlikely to overcome constant-factor overheads"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper explicitly states the QVP-Grover model was run on the ibmq qasm simulator.",
+          "The Grover circuit is described qualitatively (Hadamard, CNOT, CZ, X), but no gate counts or depth are reported.",
+          "The reported loss value is approximate from the discussion (≈0.4).",
+          "Authors claim the QVP‑Grover model is more efficient and achieves higher validation accuracy (0.99 vs 0.96 for the classical perceptron) in Table I.",
+          "However the experiment uses a tiny 2‑qubit simulation on the Iris dataset with no runtime or scaling analysis, so practical advantage is not demonstrated."
+        ],
+        "advantage_status": "paper_reported"
+      }
+    }
+  ]
+}

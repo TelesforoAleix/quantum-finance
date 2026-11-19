@@ -1,0 +1,452 @@
+{
+  "paper_id": "4b22c753a5a4",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:39:30+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "4b22c753a5a4_the_cross_sectional_stock_return_predictions_via_quantum_neural_network_and_tens.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.9,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 6,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[3].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='features' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='years' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.9,
+      "completeness": 0.9,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.9
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "The cross-sectional stock return predictions via quantum neural network and tensor network",
+    "authors": [
+      "Nozomu Kobayashi",
+      "Yoshiyuki Suimon",
+      "Koichi Miyamoto",
+      "Kosuke Mitarai"
+    ],
+    "year": 2024,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "portfolio-optimization",
+    "secondary_silos": [
+      "quantum-ml-finance"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper evaluates a 10‑qubit variational quantum circuit learning (QCL) model for cross‑sectional stock return prediction on the TOPIX500 dataset (2008–2021). In backtesting, QCL achieved 1.35% annualized excess return with 6.18% tracking error (information ratio 0.22), underperforming classical neural networks (IR up to 0.41) and a tensor‑network model (IR 0.69). Experiments were performed on a noiseless Qulacs simulator with a depth‑3 ansatz and 90 trainable parameters.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum circuit learning (QCL) for cross-sectional stock return prediction on TOPIX500 Japanese stocks, evaluated via rolling monthly backtesting against linear regression and classical neural networks.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "quantum circuit learning (Mitarai et al. style variational quantum classifier/regressor)",
+        "ansatz": "data-encoding circuit V(x) with RZ and RY rotations; parameterized circuit U(θ) with repeated blocks of RX-RZ-RX rotations interleaved with fixed random evolution gates",
+        "optimizer": "Adam",
+        "num_layers": 3,
+        "convergence_criteria": "20 training epochs",
+        "hyperparameters": {
+          "num_qubits": 10,
+          "depth_d": 3,
+          "observable": "Pauli Z on first qubit",
+          "encoding_gates": "RZ(cos^-1(x^2)) and RY(sin^-1(x)) per feature qubit",
+          "parameterized_block": "RX-RZ-RX on each qubit",
+          "random_evolution_gate": "Urand = exp(-iHτ)",
+          "hamiltonian_terms": "H = sum_j a_j X_j + sum_{j>k} J_jk Z_j Z_k",
+          "random_parameter_distribution": "uniform[-1,1] for a_j and J_jk",
+          "input_features": 10,
+          "epochs": 20,
+          "optimizer": "Adam"
+        },
+        "parameter_initialization": "random parameters for the fixed random Hamiltonian coefficients a_j and J_jk are sampled uniformly from [-1,1]; initialization of trainable θ not specified",
+        "optimizer_settings": {
+          "max_iterations": 20,
+          "learning_rate": null,
+          "step_size": null,
+          "tolerance": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "10 normalized cross-sectional features are encoded on 10 qubits using RZ(cos^-1(x^2)) and RY(sin^-1(x)) rotations; output is expectation of Z on first qubit",
+        "objective_function": "minimize mean squared error between predicted and realized one-month stock returns",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Cross-sectional prediction of one-month-ahead stock returns for TOPIX500 constituents",
+        "num_assets": 500,
+        "time_steps": 2008,
+        "num_features": 10,
+        "dataset_size": null,
+        "data_type": "real_market",
+        "dataset_name": "TOPIX500 universe",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "TOPIX500 constituents"
+          ],
+          "date_range": "June 2008 to May 2021",
+          "benchmark_name": "TOPIX500 index",
+          "preprocessing": "features and returns ranked cross-sectionally at each time step; input vectors normalized to [-1,1] for quantum encoding; monthly rolling train/test split with 3-year training and 1-year test windows",
+          "train_test_split": "rolling 3-year train / 1-year test, re-estimated once per year"
+        },
+        "data_preprocessing_details": "cross-sectional ranking of each feature at each month; quantum inputs normalized to [-1,1]",
+        "evaluation_methodology": "backtesting over the full period using long-only top-quintile portfolios; metrics are annualized excess return, tracking error, and information ratio"
+      },
+      "quantum_resources": {
+        "num_qubits": 10,
+        "qubit_type": "not_specified",
+        "circuit_depth": 3,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 90,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": "Qulacs",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Adam / TensorFlow"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": "noiseless simulation",
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_preprocessing": "cross-sectional ranking of features and returns; monthly rolling window training",
+        "classical_postprocessing": "construct long-only portfolio from top quintile of predicted returns; compute excess return vs TOPIX500",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "annualized_excess_return",
+          "value": 3.71,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "tracking_error",
+          "value": 5.41,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "information_ratio",
+          "value": 0.69,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 500,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_features",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "features",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_variational_params",
+          "value": 90,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_epochs",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "epochs",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "backtesting_period_years",
+          "value": 13,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "years",
+          "higher_is_better": null,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "Linear",
+          "metric_name": "annualized_excess_return",
+          "value": -0.28,
+          "unit": "%"
+        },
+        {
+          "method_name": "Linear",
+          "metric_name": "tracking_error",
+          "value": 6.64,
+          "unit": "%"
+        },
+        {
+          "method_name": "Linear",
+          "metric_name": "information_ratio",
+          "value": -0.04,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "NN1",
+          "metric_name": "annualized_excess_return",
+          "value": 1.27,
+          "unit": "%"
+        },
+        {
+          "method_name": "NN1",
+          "metric_name": "tracking_error",
+          "value": 3.79,
+          "unit": "%"
+        },
+        {
+          "method_name": "NN1",
+          "metric_name": "information_ratio",
+          "value": 0.34,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "NN2",
+          "metric_name": "annualized_excess_return",
+          "value": 1.76,
+          "unit": "%"
+        },
+        {
+          "method_name": "NN2",
+          "metric_name": "tracking_error",
+          "value": 4.28,
+          "unit": "%"
+        },
+        {
+          "method_name": "NN2",
+          "metric_name": "information_ratio",
+          "value": 0.41,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "QCL",
+          "metric_name": "annualized_excess_return",
+          "value": 1.35,
+          "unit": "%"
+        },
+        {
+          "method_name": "QCL",
+          "metric_name": "tracking_error",
+          "value": 6.18,
+          "unit": "%"
+        },
+        {
+          "method_name": "QCL",
+          "metric_name": "information_ratio",
+          "value": 0.22,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "TN",
+          "metric_name": "annualized_excess_return",
+          "value": 3.71,
+          "unit": "%"
+        },
+        {
+          "method_name": "TN",
+          "metric_name": "tracking_error",
+          "value": 5.41,
+          "unit": "%"
+        },
+        {
+          "method_name": "TN",
+          "metric_name": "information_ratio",
+          "value": 0.69,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No asymptotic or empirical computational speedup claim is made; the paper reports investment-performance comparisons only."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 500,
+          "num_qubits": 10,
+          "metric_name": "annualized_excess_return",
+          "metric_value": 3.71
+        },
+        {
+          "problem_size": 500,
+          "num_qubits": 10,
+          "metric_name": "tracking_error",
+          "metric_value": 5.41
+        },
+        {
+          "problem_size": 500,
+          "num_qubits": 10,
+          "metric_name": "information_ratio",
+          "metric_value": 0.69
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Not specified; experiment uses 10 qubits and simulator-only training with no scaling analysis",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "No real quantum hardware evaluation (noiseless simulator only)",
+          "Small feature dimension (10 qubits) imposed by simulation cost",
+          "No computational speedup or complexity analysis",
+          "Classical tensor network model achieves best financial performance",
+          "Quantum model has worse risk-adjusted return (IR 0.22) than classical neural networks (IR up to 0.41)"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware inferred as simulator_other because the paper explicitly states use of the Qulacs quantum circuit simulator and a noiseless setting, with no real QPU.",
+          "Speedup order is not characterized in the paper; no asymptotic quantum advantage claim is made.",
+          "Table 2 shows QCL IR=0.22 versus NN2 IR=0.41 and TN IR=0.69; therefore classical models outperform the quantum model.",
+          "Authors do not claim computational or practical quantum advantage; they only suggest potential ability to capture nonlinearities."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

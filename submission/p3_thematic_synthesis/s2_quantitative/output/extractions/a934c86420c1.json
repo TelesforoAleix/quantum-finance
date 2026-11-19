@@ -1,0 +1,797 @@
+{
+  "paper_id": "a934c86420c1",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:30:24+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "a934c86420c1_applying_quantum_autoencoders_for_time_series_anomaly_detection.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 1.0,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 14,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[3].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='datasets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='time_steps' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='time_steps' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='time_steps' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[0].unit='hours per experiment' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[1].unit='hours per experiment' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[4].unit='epochs' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[5].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[7].unit='windows' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[8].unit='time_steps' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[9].unit='dataset' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[12].unit='boolean' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 1.0,
+      "completeness": 1.0,
+      "num_experiments": 2,
+      "experiment_scores": [
+        1.0,
+        1.0
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Applying quantum autoencoders for time series anomaly detection",
+    "authors": [
+      "Robin Frehner",
+      "Kurt Stockinger"
+    ],
+    "year": 2025,
+    "doi": "10.1007/s42484-025-00285-1",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper evaluates 7‑qubit quantum autoencoders (9 qubits during training) for time‑series anomaly detection on UCR datasets using variational circuits with 21–77 parameters. In simulator experiments averaged over five runs, the quantum autoencoder reportedly outperformed a classical autoencoder while using 60–230× fewer parameters and ~5× fewer training iterations. A hardware experiment on the 133‑qubit IBM Torino device using a 9‑qubit circuit and quasi‑amplitude encoding successfully detected an anomaly on one dataset, requiring ~5.25 hours of quantum compute time.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum autoencoder anomaly detection on UCR time-series benchmark using simulator, comparing multiple ansatz families and two anomaly scoring methods (reconstruction MSE and Swap-Test measurement).",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "Quantum autoencoder for time-series anomaly detection; trainable encoder with either reconstruction-based decoding or Swap-Test-only anomaly scoring",
+        "ansatz": "RealAmplitudes; PauliTwoDesign",
+        "optimizer": "COBYLA",
+        "num_layers": null,
+        "convergence_criteria": "45 optimization iterations / epochs for quantum autoencoders",
+        "hyperparameters": {
+          "window_size": 128,
+          "stride": 1,
+          "latent_qubits": 6,
+          "data_encoding_qubits": 7,
+          "training_qubits": 9,
+          "shots": 5000,
+          "optimizer": "COBYLA",
+          "optimizer_settings": "default",
+          "epochs": 45,
+          "num_executions_per_setting": 5,
+          "ansatz_depths": [
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "entanglement_patterns": [
+            "circular",
+            "full",
+            "linear",
+            "SCA",
+            "pairwise CZ"
+          ],
+          "moving_average_window": 128
+        },
+        "parameter_initialization": "Not reported",
+        "optimizer_settings": {
+          "max_iterations": 45,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Each 128-point sliding window is amplitude-encoded into a 7-qubit state; the autoencoder compresses to 6 latent qubits with 1 trash qubit reset during training",
+        "objective_function": "Minimize Swap-Test 1-counts for benign training data; alternatively minimize reconstruction MSE between input and decoded output",
+        "constraints_handling": "Trash qubit reset; Swap-Test training objective; thresholding / max post-processed value for anomaly classification",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 2
+      },
+      "problem_instance": {
+        "description": "Time-series anomaly detection on UCR Time Series Anomaly Archive datasets",
+        "num_assets": null,
+        "time_steps": 128,
+        "num_features": 1,
+        "dataset_size": 28,
+        "data_type": "public_benchmark",
+        "dataset_name": "UCR Time Series Anomaly Archive",
+        "dataset_specification": {
+          "description": "Sliding windows of size 128 with stride 1; training data contains only benign windows; test set contains a single anomaly and surrounding context"
+        },
+        "data_preprocessing_details": "No normalization before windowing; amplitude encoding normalizes each window into a quantum state; moving average postprocessing with window size 128",
+        "evaluation_methodology": "Average over 5 executions per ansatz/dataset/configuration; anomaly detected if the time step with largest post-processed value falls in the valid detection range"
+      },
+      "quantum_resources": {
+        "num_qubits": 9,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 5000,
+        "num_variational_params": 21,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": "Qiskit 1.0.0; Qiskit Aer 0.13.1",
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Sliding-window extraction; amplitude encoding of each window",
+        "classical_postprocessing": "Mean squared error or Swap-Test measurement followed by moving average smoothing; anomaly flagged by maximum post-processed value",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 45,
+          "final_loss_value": null,
+          "loss_curve_shape": "Reported training loss curves; performance depends strongly on ansatz and depth",
+          "variance_across_runs": 5.0,
+          "num_independent_runs": 5
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "anomaly_detection_rate",
+          "value": 1.0,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "anomaly_detection_rate",
+          "value": 0.0,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "training_iterations",
+          "value": 45,
+          "uncertainty": null,
+          "num_runs": 5,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_parameters",
+          "value": 21,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "num_parameters",
+          "value": 77,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "datasets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "window_size",
+          "value": 128,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "time_steps",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "stride",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "time_steps",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "latent_qubits",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "data_encoding_qubits",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_qubits",
+          "value": 9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots",
+          "value": 5000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "moving_average_window",
+          "value": 128,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "time_steps",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical_autoencoder",
+          "metric_name": "anomaly_detection_rate",
+          "value": 0.2,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_autoencoder",
+          "metric_name": "num_parameters",
+          "value": 4686,
+          "unit": "parameters"
+        },
+        {
+          "method_name": "classical_autoencoder",
+          "metric_name": "training_iterations",
+          "value": 250,
+          "unit": "epochs"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "60-230x fewer parameters",
+          "baseline_method": "classical_autoencoder",
+          "conditions": "Across the tested UCR anomaly datasets and ansatz families on the simulator",
+          "is_demonstrated": true,
+          "caveats": "This is a parameter-count reduction, not a runtime or asymptotic computational speedup."
+        },
+        {
+          "type": "empirical",
+          "factor": "5x fewer training iterations",
+          "baseline_method": "classical_autoencoder",
+          "conditions": "Quantum autoencoders trained for 45 epochs versus 250 epochs for the classical baseline",
+          "is_demonstrated": true,
+          "caveats": "Reported as fewer training iterations/epochs, not wall-clock time."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 28.0,
+          "num_qubits": 9,
+          "metric_name": "anomaly_detection_rate",
+          "metric_value": 0.4
+        },
+        {
+          "problem_size": 54.0,
+          "num_qubits": 9,
+          "metric_name": "anomaly_detection_rate",
+          "metric_value": 1.0
+        },
+        {
+          "problem_size": 99.0,
+          "num_qubits": 9,
+          "metric_name": "anomaly_detection_rate",
+          "metric_value": 0.4
+        },
+        {
+          "problem_size": 118.0,
+          "num_qubits": 9,
+          "metric_name": "anomaly_detection_rate",
+          "metric_value": 1.0
+        },
+        {
+          "problem_size": 138.0,
+          "num_qubits": 9,
+          "metric_name": "anomaly_detection_rate",
+          "metric_value": 0.8
+        },
+        {
+          "problem_size": 176.0,
+          "num_qubits": 9,
+          "metric_name": "anomaly_detection_rate",
+          "metric_value": 1.0
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not analyzed",
+        "resources_for_advantage": "Not specified; experiments use 7 data qubits (9 during training) with ≤77 parameters and 5000 shots.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "No asymptotic complexity analysis or provable quantum speedup",
+          "Small NISQ circuits (7–9 qubits)",
+          "Amplitude encoding cost dominates scaling",
+          "Performance advantage measured only against a single classical autoencoder baseline"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "num_qubits reported as 9 during training and 7 for data encoding; 9 used here because it is the full training circuit size.",
+          "circuit_depth not explicitly reported; inferred that depth varies with ansatz depth/repetitions but no total depth given.",
+          "speedup_order set to none_proven because the paper reports empirical performance improvements but no asymptotic complexity analysis.",
+          "The authors report better anomaly detection success rates than a classical autoencoder and fewer parameters/epochs, but no complexity analysis or scalable advantage is demonstrated.",
+          "All results are simulator experiments on small benchmarks."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Quantum autoencoder anomaly detection on IBM Torino real quantum hardware using quasi-amplitude encoding and Swap-Test-based scoring for a single dataset.",
+      "algorithm": {
+        "family": "quantum-ml",
+        "variant": "Quantum autoencoder with quasi-amplitude encoding and Swap-Test-only anomaly detection on hardware",
+        "ansatz": "PauliTwoDesign",
+        "optimizer": "COBYLA",
+        "num_layers": 2,
+        "convergence_criteria": "45 epochs; best epoch selected by lowest loss",
+        "hyperparameters": {
+          "dataset": "54",
+          "training_windows": 150,
+          "test_window_span": "100 windows before + valid detection range + 85 after",
+          "latent_qubits": 6,
+          "data_encoding_qubits": 7,
+          "training_qubits": 9,
+          "shots": 8192,
+          "optimizer": "COBYLA",
+          "optimizer_settings": "default",
+          "epochs": 45,
+          "ansatz_repetitions": 2,
+          "num_trainable_parameters": 21,
+          "moving_average_window": 30,
+          "sampler_primitive": "IBM Sampler",
+          "error_mitigation": "built-in quasi-probability error mitigation"
+        },
+        "parameter_initialization": "Not reported",
+        "optimizer_settings": {
+          "max_iterations": 45,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Exact amplitude encoding was replaced by quasi-amplitude encoding using Qiskit EfficientSU2 circuits to approximate each 128-point window; the encoded state is then fed into the quantum autoencoder",
+        "objective_function": "Minimize Swap-Test measurement on benign training windows",
+        "constraints_handling": "Swap-Test-only training; no reconstruction step; anomaly flagged by largest post-processed Swap-Test value",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 2
+      },
+      "problem_instance": {
+        "description": "Single UCR anomaly dataset evaluated on real hardware",
+        "num_assets": null,
+        "time_steps": 128,
+        "num_features": 1,
+        "dataset_size": 150,
+        "data_type": "public_benchmark",
+        "dataset_name": "UCR Time Series Anomaly Archive, dataset 54",
+        "dataset_specification": {
+          "description": "Training range ts=400 to te=677 (150 windows); test range ts=2993 to te=3490? (paper states te=3363+127, total 497 time steps)"
+        },
+        "data_preprocessing_details": "Quasi-amplitude encoding generated on a classical computer using EfficientSU2 with two repetitions and 7 qubits; best of 100 runs selected per window by minimum MSE; test windows selected around the valid detection range; Mann–Whitney U test used to compare residuals of encoded training and test data",
+        "evaluation_methodology": "Four executions for hardware training curves; anomaly considered found if the selected maximum post-processed value lies in the valid detection range; distribution overlap between benign and anomalous windows reported"
+      },
+      "quantum_resources": {
+        "num_qubits": 9,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 8192,
+        "num_variational_params": 21,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_superconducting",
+        "provider": "IBM",
+        "device_name": "IBM Torino (133‑qubit superconducting device)",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "NISQ hardware noise; built-in Sampler quasi-probability error mitigation",
+        "error_mitigation_method": "IBM Sampler primitive with built-in error mitigation"
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": "Qiskit / IBM Quantum Sampler (version not fully specified)",
+        "transpilation_target": "IBM Torino",
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Quasi-amplitude encoding via EfficientSU2 optimization on classical computer; selection of best encoding circuit out of 100 runs per window",
+        "classical_postprocessing": "Swap-Test measurements smoothed with moving average window size 30; anomaly flagged by largest post-processed value",
+        "total_execution_time": "≈8.25 h wall‑clock per experiment (≈5.25 h quantum compute time); ≈21 h total quantum compute time",
+        "quantum_execution_time": "Approximately 5.25h per experiment; about 7 min quantum computing time per epoch",
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 45,
+          "final_loss_value": null,
+          "loss_curve_shape": "Gradual decline on hardware; simulator converges faster and lower, hardware more robust with fewer spikes",
+          "variance_across_runs": null,
+          "num_independent_runs": 4
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "training_time",
+          "value": 5.25,
+          "uncertainty": null,
+          "num_runs": 4,
+          "unit": "hours per experiment",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "total_execution_time",
+          "value": 8.25,
+          "uncertainty": null,
+          "num_runs": 4,
+          "unit": "hours per experiment",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "total_quantum_computing_time",
+          "value": 21.0,
+          "uncertainty": null,
+          "num_runs": 4,
+          "unit": "hours",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "time_per_epoch",
+          "value": 7.0,
+          "uncertainty": null,
+          "num_runs": 4,
+          "unit": "minutes",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "epochs",
+          "value": 45,
+          "uncertainty": null,
+          "num_runs": 4,
+          "unit": "epochs",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_trainable_parameters",
+          "value": 21,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots",
+          "value": 8192,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_windows",
+          "value": 150,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "windows",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "test_time_steps",
+          "value": 497,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "time_steps",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dataset",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "distribution_overlap",
+          "value": 0.619,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "distribution_overlap",
+          "value": 0.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "anomaly_found",
+          "value": 1.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "boolean",
+          "higher_is_better": true,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical_autoencoder",
+          "metric_name": "distribution_overlap",
+          "value": 0.987,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_autoencoder",
+          "metric_name": "distribution_overlap",
+          "value": 0.535,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_autoencoder",
+          "metric_name": "anomaly_found",
+          "value": 0.0,
+          "unit": "boolean"
+        },
+        {
+          "method_name": "classical_autoencoder",
+          "metric_name": "mean_train_benign_metric",
+          "value": 6.3e-05,
+          "unit": "mse"
+        },
+        {
+          "method_name": "classical_autoencoder",
+          "metric_name": "test_benign_metric",
+          "value": 6.4e-05,
+          "unit": "mse"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": "classical_autoencoder",
+          "conditions": "No asymptotic or runtime speedup is claimed; the paper reports empirical anomaly-detection performance and hardware cost/time only",
+          "is_demonstrated": false,
+          "caveats": "The paper emphasizes feasibility on NISQ hardware and reports substantial quantum computing time, not speedup."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 54.0,
+          "num_qubits": 9,
+          "metric_name": "anomaly_found",
+          "metric_value": 1.0
+        },
+        {
+          "problem_size": 54.0,
+          "num_qubits": 9,
+          "metric_name": "distribution_overlap",
+          "metric_value": 0.619
+        },
+        {
+          "problem_size": 54.0,
+          "num_qubits": 9,
+          "metric_name": "distribution_overlap",
+          "metric_value": 0.0
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": "~5.25h quantum computing time per experiment",
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": null,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "not analyzed",
+        "resources_for_advantage": "Experiment used a 9‑qubit circuit (7 data qubits + 2 ancilla/reference) on IBM Torino with 21 trainable parameters and 8192 shots.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Very small dataset (150 training windows) and single benchmark instance",
+          "Approximate encoding required due to hardware constraints",
+          "Large quantum runtime cost (~5.25 hours QPU time per experiment)",
+          "No scaling study or complexity comparison with classical methods"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "num_qubits reported as 9 for the full hardware circuit; 7 qubits for quasi-encoded data and 2 ancilla/reference qubits.",
+          "circuit_depth not explicitly reported; only ansatz repetitions and training epochs are given.",
+          "speedup_order set to none_proven because the paper reports empirical hardware performance and cost, not asymptotic complexity.",
+          "Authors state the quantum autoencoder on real hardware 'matches simulated performance' and outperforms the classical autoencoder on this dataset, but the experiment is extremely small and does not demonstrate scalable advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

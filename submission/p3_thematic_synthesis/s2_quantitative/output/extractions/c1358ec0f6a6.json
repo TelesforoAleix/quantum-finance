@@ -1,0 +1,724 @@
+{
+  "paper_id": "c1358ec0f6a6",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:46:44+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "c1358ec0f6a6_quantum_computation_for_pricing_caps_using_the_libor_market_model.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.8,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 19,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='a.u.' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='a.u.' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='logical qubits' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='logical qubits' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='std dev' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='std dev' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='std dev' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='a.u.' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='mean of discretized lognormal distribution' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='mean of true distribution' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[0].unit='a.u.' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[1].unit='std dev' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[2].unit='std dev' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[3].unit='std dev' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[4].unit='logical qubits' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[5].unit='logical qubits' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[6].unit='a.u.' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[7].unit='mean of discretized lognormal distribution' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[8].unit='mean of true distribution' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.8,
+      "completeness": 0.8,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.8,
+        0.8
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum Computation for Pricing Caps using the LIBOR Market Model",
+    "authors": [
+      "Hao Tang",
+      "Wenxun Wu",
+      "Xian-Min Jin"
+    ],
+    "year": 2022,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": [
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes using iterative quantum amplitude estimation (IQAE) to accelerate LIBOR Market Model cap pricing. A hybrid approach loads a 3‑qubit discretized log‑normal distribution for the final tenor and compares convergence against classical Monte Carlo over 50 trials, while a pure‑quantum circuit example uses 18 qubits (3+6+9) to encode three caplets. The authors report faster convergence trends consistent with QAE’s O(1/M) error scaling versus Monte Carlo’s O(1/√M), but experiments are small noiseless simulations without hardware execution.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Hybrid classical-quantum cap pricing under the LIBOR Market Model using Monte Carlo simulation for earlier tenors and iterative quantum amplitude estimation for the last tenor; evaluated against Black-76 theoretical values and classical Monte Carlo baselines.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "iterative quantum amplitude estimation (IQAE) within a hybrid classical-quantum cap-pricing workflow",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "distribution_loading_qubits": "n=3 for the hybrid method",
+          "cap_length_examples": "T=3,6,10 years in evaluation",
+          "trials": "50 replicated experiments for error analysis",
+          "samples": "Monte Carlo sample counts varied in plots"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "A discretized log-normal distribution of the forward rate is loaded into a 3-qubit register; the payoff is encoded via Ry rotations and measured with QAE. Classical Monte Carlo simulates the forward path up to the second-last alive tenor, then QAE estimates the final-tenor expectation.",
+        "objective_function": "Estimate the expected caplet payoff E[(L(T_{i-1},T_i)-K)+] under the LIBOR Market Model and sum caplets to obtain cap price.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Interest-rate cap pricing under the LIBOR Market Model using benchmark forward rates and implied volatilities from Brigo and Mercurio (2006).",
+        "num_assets": null,
+        "time_steps": 3,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "public_benchmark",
+        "dataset_name": "Brigo and Mercurio (2006) benchmark LMM parameters",
+        "dataset_specification": {
+          "description": "Observed initial LIBOR rate 4.69%; example cap rate K=9.6; tenor structure T={1,2,3} shown in figure; piecewise-constant implied volatilities by tenor."
+        },
+        "data_preprocessing_details": "Forward rates are simulated under the LMM with piecewise-constant volatility; discretized log-normal distribution loaded with n=3 qubits for the hybrid method.",
+        "evaluation_methodology": "Comparison against Black-76 theoretical value; absolute estimation error averaged over 50 trials; convergence versus number of Monte Carlo simulations; results shown for different cap lengths T."
+      },
+      "quantum_resources": {
+        "num_qubits": 3,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": "Qiskit",
+        "framework_version": null,
+        "transpilation_target": null
+      },
+      "noise_model": {
+        "is_noisy": null,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "classical_solver": "classical Monte Carlo simulation",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Monte Carlo simulation of forward rates until the second-last alive tenor; discretization of the log-normal distribution for state loading.",
+        "classical_postprocessing": "Cap price obtained by summing caplet prices; comparison to Black-76 theoretical benchmark; error analysis over repeated trials.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "error decreases with more Monte Carlo samples; hybrid method converges faster than classical Monte Carlo",
+          "variance_across_runs": 50.0,
+          "num_independent_runs": 50
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "price_error",
+          "value": 0.0,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "a.u.",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 0.0285,
+          "uncertainty": "95% CI around sample mean; theoretical value 2.84×10^-2, sample mean 2.85×10^-2",
+          "num_runs": 50,
+          "unit": "a.u.",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 50,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "oracle_queries",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "success_probability",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": null,
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "logical qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 48,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "logical qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 0.00141,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "std dev",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 0.00155,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "std dev",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 0.00165,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "std dev",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 0.0285,
+          "uncertainty": "95% CI; sample mean 2.85×10^-2, theoretical 2.84×10^-2",
+          "num_runs": 50,
+          "unit": "a.u.",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 0.07391,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "mean of discretized lognormal distribution",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 0.07406,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "mean of true distribution",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "price_error",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "black-76 theoretical benchmark",
+          "metric_name": "price_error",
+          "value": 0.0284,
+          "unit": "a.u."
+        },
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "price_error",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical monte carlo",
+          "conditions": "QAE error scaling compared with Monte Carlo; discussed for caplet pricing under the LIBOR Market Model",
+          "is_demonstrated": true,
+          "caveats": "The paper notes that pure quantum circuits require large depth/qubit resources; the hybrid method is the practical focus."
+        },
+        {
+          "type": "empirical",
+          "factor": "faster convergence",
+          "baseline_method": "classical monte carlo",
+          "conditions": "50 replicated trials; hybrid method with 3 qubits for distribution loading",
+          "is_demonstrated": true,
+          "caveats": "No explicit wall-clock speedup or oracle-query count is reported."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 3.0,
+          "num_qubits": 3,
+          "metric_name": "price_error",
+          "metric_value": 0.0285
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 3,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 10.0,
+          "num_qubits": 3,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 48,
+          "metric_name": "num_qubits",
+          "metric_value": 48
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "Quadratic speedup from amplitude estimation relative to Monte Carlo is discussed; QAE error scales as O(1/M) versus Monte Carlo O(1/sqrt(M))",
+        "classical_complexity": "Monte Carlo error scales as O(1/sqrt(M))",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not estimated in paper; advantage discussed only via asymptotic QAE error scaling",
+        "resources_for_advantage": "Would require fault‑tolerant QAE circuits and efficient state preparation of log‑normal distributions for each Monte Carlo path; paper only demonstrates a 3‑qubit distribution-loading toy example.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Quadratic speedup only (QAE vs Monte Carlo)",
+          "Costly distribution loading circuits",
+          "Hybrid workflow still requires classical Monte Carlo sampling",
+          "No real hardware experiments",
+          "Circuit depth grows rapidly with maturity and number of caplets"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": null,
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "hardware.type is not specified in the paper; Qiskit is mentioned for implementation, but no specific QPU or simulator backend is named.",
+          "num_qubits=3 is explicitly stated for the hybrid method's distribution loading.",
+          "The paper discusses iterative QAE but does not report circuit depth or gate counts; those remain null.",
+          "Quadratic speedup is explicitly claimed via QAE vs Monte Carlo error scaling.",
+          "Authors claim faster convergence than classical Monte Carlo due to QAE error scaling (Section III), but experiments are small simulated circuits (3 qubits) and not executed on hardware.",
+          "No wall-clock comparison or resource accounting demonstrating practical advantage."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Pure quantum cap pricing using QAE to estimate the expected payoff of the entire cap, with separate distribution-loading registers for each caplet; evaluated against Black-76 theoretical values and compared to hybrid and classical Monte Carlo methods.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "pure quantum QAE cap-pricing circuit with iterative QAE",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "distribution_loading_qubits": "18 total qubits in the example (3+6+9)",
+          "cap_length_examples": "3-year cap example; scalability discussed for T=3,6,10",
+          "trials": "50 replicated experiments for confidence intervals",
+          "sample_qubits_examples": "n=1,2,3 in Fig. 4(a)"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Each caplet's log-normal distribution is loaded on its own register; the paper states 3i qubits for a caplet with maturity Ti, giving 18 qubits total for three caplets (3+6+9). Comparator circuits mark states above strike.",
+        "objective_function": "Estimate the expected payoff of the full cap by summing caplet payoffs computed via QAE.",
+        "constraints_handling": "Comparator circuit C[id < K] sets an indicator qubit when the caplet value exceeds the strike; payoff is then measured through amplitude estimation.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Interest-rate cap pricing under the LIBOR Market Model using the same benchmark dataset and Black-76 benchmark as the hybrid experiment.",
+        "num_assets": null,
+        "time_steps": 3,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "public_benchmark",
+        "dataset_name": "Brigo and Mercurio (2006) benchmark LMM parameters",
+        "dataset_specification": {
+          "description": "Initial LIBOR 4.69%; piecewise-constant implied volatilities; pure quantum circuit uses 18 qubits for the 3-caplet example."
+        },
+        "data_preprocessing_details": "Probability distributions discretized and loaded into quantum registers; higher maturity caplets require more qubits (3i qubits for maturity Ti).",
+        "evaluation_methodology": "Sample mean and 95% confidence interval over 50 replicated experiments; comparison to theoretical Black-76 value; sensitivity to number of loaded qubits n and cap length T."
+      },
+      "quantum_resources": {
+        "num_qubits": 18,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": "Qiskit",
+        "framework_version": null,
+        "transpilation_target": null
+      },
+      "noise_model": {
+        "is_noisy": null,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "classical_solver": "Black-76 theoretical benchmark; classical Monte Carlo for comparison",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Discretization of log-normal distributions; loading of multivariate distributions for caplets.",
+        "classical_postprocessing": "Cap price compared to theoretical Black-76 value; confidence intervals computed from repeated experiments.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "sample mean approaches theoretical value as number of loaded qubits increases; pure quantum method more accurate at low simulation counts but harder to improve due to circuit depth/qubit cost",
+          "variance_across_runs": 50.0,
+          "num_independent_runs": 50
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "price_error",
+          "value": 0.0285,
+          "uncertainty": "95% CI; sample mean 2.85×10^-2, theoretical 2.84×10^-2",
+          "num_runs": 50,
+          "unit": "a.u.",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 0.00141,
+          "uncertainty": null,
+          "num_runs": 50,
+          "unit": "std dev",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 0.00155,
+          "uncertainty": null,
+          "num_runs": 50,
+          "unit": "std dev",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 0.00165,
+          "uncertainty": null,
+          "num_runs": 50,
+          "unit": "std dev",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 18,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "logical qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": 50,
+          "unit": "logical qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 0.0284,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "a.u.",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 0.07391,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "mean of discretized lognormal distribution",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "price_error",
+          "value": 0.07406,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "mean of true distribution",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "black-76 theoretical benchmark",
+          "metric_name": "price_error",
+          "value": 0.0284,
+          "unit": "a.u."
+        },
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "price_error",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical monte carlo",
+          "conditions": "QAE versus Monte Carlo error scaling",
+          "is_demonstrated": true,
+          "caveats": "The paper emphasizes that the pure quantum method is resource-intensive and harder to improve due to circuit depth."
+        },
+        {
+          "type": "empirical",
+          "factor": "better accuracy at low simulation counts",
+          "baseline_method": "classical monte carlo",
+          "conditions": "pure quantum method with 18 qubits in the 3-caplet example",
+          "is_demonstrated": true,
+          "caveats": "No explicit oracle-query count, success probability, or wall-clock runtime is reported."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 1.0,
+          "num_qubits": 1,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": 2,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 3,
+          "metric_name": "price_error",
+          "metric_value": 0.0285
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 18,
+          "metric_name": "num_qubits",
+          "metric_value": 18
+        },
+        {
+          "problem_size": 6.0,
+          "num_qubits": 18,
+          "metric_name": "price_error",
+          "metric_value": null
+        },
+        {
+          "problem_size": 10.0,
+          "num_qubits": 18,
+          "metric_name": "price_error",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "QAE provides quadratic improvement in estimation error over Monte Carlo; resource cost grows substantially with maturity because the pure quantum circuit uses 3i qubits per caplet and total qubits scale approximately as nT^2 + nT in Table I",
+        "classical_complexity": "Monte Carlo error scales as O(1/sqrt(M))",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": false,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not estimated; qubit count grows roughly ~nT^2 + nT according to Table I",
+        "resources_for_advantage": "Large logical qubit counts (>=18 for distribution loading even in the toy example) plus QAE ancilla and deep circuits for inverse QFT-like operations.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "Rapid growth in qubit requirements with number of caplets",
+          "Large circuit depth for QAE",
+          "Expensive multivariate distribution loading",
+          "Only small toy instances studied",
+          "No hardware execution"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": null,
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "hardware.type is not specified; no device/backend is named, only Qiskit is cited.",
+          "num_qubits=18 is explicitly stated for the pure-quantum example in Fig. 3(a).",
+          "Circuit depth is not numerically reported; the paper only states that the pure quantum technique has enormous circuit depth.",
+          "Quadratic speedup is explicitly discussed via QAE error scaling versus Monte Carlo.",
+          "Paper argues that QAE provides quadratic improvement over Monte Carlo but explicitly notes that accuracy improvement is difficult due to circuit depth and qubit requirements (Section III).",
+          "Results are simulation-based comparisons with classical Monte Carlo and analytic Black-76 values."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

@@ -1,0 +1,443 @@
+{
+  "paper_id": "0cfd33edfd1a",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:01:56+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "0cfd33edfd1a_empowering_credit_scoring_systems_with_quantum_enhanced_machine_learning.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.8,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 1,
+    "validation_warnings": 0,
+    "validation_passed": false,
+    "validation_error_details": [
+      "Schema error at experiments.0.quantum_resources.two_qubit_gate_count: '1-3 entangling blocks (reported as average entangling blocks, not exact gate counts)' is not of type 'integer', 'null'"
+    ],
+    "quality_details": {
+      "score": 0.8,
+      "completeness": 0.8,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.8
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Empowering Credit Scoring Systems with Quantum-Enhanced Machine Learning",
+    "authors": [
+      "Javier Mancilla",
+      "André Sequeira",
+      "Tomas Tagliani",
+      "Francisco Llaneza",
+      "Claudio Beiza"
+    ],
+    "year": 2024,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "credit-lending",
+    "secondary_silos": [
+      "quantum-ml-finance",
+      "risk-management"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes Systemic Quantum Score (SQS), an evolutionary search method for quantum kernel feature maps evaluated on a 4,763-loan credit-risk dataset. Using simulated 2–10 qubit circuits, the method achieves kernel fitness up to 0.998 and an AUC of 0.658 when trained on only 10% of the data, slightly outperforming classical SVC (0.638) and XGBoost (0.632) in that extreme low-data scenario, while XGBoost performs best on the full dataset.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Systemic Quantum Score (SQS): evolutionary search for quantum kernel feature maps for credit-risk classification, evaluated on downsampled and full Fintonic loan-default datasets using simulated quantum kernels and compared against classical baselines.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "evolutionary quantum kernel discovery / Systemic Quantum Score (SQS)",
+        "ansatz": null,
+        "optimizer": "gradient-based local optimization within evolutionary loop; evolutionary selection/crossover/mutation",
+        "num_layers": null,
+        "convergence_criteria": "stop when bestFitness >= targetFitness or maximumGenerations reached",
+        "hyperparameters": {
+          "maximumGenerations": 50,
+          "initial_population_sizes": [
+            10,
+            100,
+            1000
+          ],
+          "geneChainSize": null,
+          "populationSize": null,
+          "crossover": null,
+          "mutationPercentage": null,
+          "eliteSize": null,
+          "qubitSize_range": [
+            2,
+            10
+          ],
+          "quantumDim": 10,
+          "targetFitness": null,
+          "dataset_sizes_evaluated": [
+            500,
+            1000,
+            2000,
+            3000,
+            "full dataset"
+          ],
+          "test_split": 0.2,
+          "training_fraction_for_generalization_experiment": 0.1
+        },
+        "parameter_initialization": "InitialPopulation of random individuals; alpha parameters randomly initialized for each individual",
+        "optimizer_settings": {
+          "max_iterations": 50,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Classical features are reduced from 350 to 10 by mutual information selection, then to up to 10 dimensions via LDA/standardization; quantum feature maps use n-qubit Pauli-word circuits with data re-uploading via R_mi(alpha_mi x) rotations",
+        "objective_function": "maximize kernel target alignment / maximum eigenvalue of the kernel matrix relative to ideal target K* = yy^T",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Binary credit-default prediction for Fintonic/Wanna loan applications using aggregated banking information",
+        "num_assets": null,
+        "time_steps": 3,
+        "num_features": 350,
+        "dataset_size": 4763,
+        "data_type": "proprietary",
+        "dataset_name": "Fintonic/Wanna risk dataset",
+        "dataset_specification": {
+          "description": "4763 loans from 2017-2023; 10% positive class (defaulters); features derived from 3 months of transactions prior to signature date; evaluated on subsamples of 500, 1000, 2000, 3000 and full dataset; 20% test split for kernel evaluation; 10% training / 90% testing for generalization experiment"
+        },
+        "data_preprocessing_details": "duplicate transaction removal, missing-field imputation, feature engineering with featuretools/deep feature synthesis, mutual-information feature selection to top 10 features, LDA dimensionality reduction and standardization to fit quantum feature maps",
+        "evaluation_methodology": "multiple cycles with initial populations 10/100/1000 and up to 50 generations; test set of 20% for kernel evaluation; separate generalization experiment with 10% training and 90% testing; metrics reported include normalized fitness and AUC"
+      },
+      "quantum_resources": {
+        "num_qubits": 2,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "XGBoost baseline; SVC baseline",
+        "transpilation_settings": null,
+        "classical_preprocessing": "feature selection, LDA, standardization, mutual information ranking",
+        "classical_postprocessing": null,
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "normalized_fitness",
+          "value": 0.973,
+          "uncertainty": "±0.005",
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "normalized_fitness",
+          "value": 0.992,
+          "uncertainty": "±0.005",
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "normalized_fitness",
+          "value": 0.96,
+          "uncertainty": "±0.054",
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "normalized_fitness",
+          "value": 0.988,
+          "uncertainty": "±0.028",
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "normalized_fitness",
+          "value": 0.998,
+          "uncertainty": "±0.004",
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "normalized_fitness",
+          "value": 0.998,
+          "uncertainty": "±0.015",
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "normalized_fitness",
+          "value": 0.994,
+          "uncertainty": "±0.026",
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "normalized_fitness",
+          "value": 0.995,
+          "uncertainty": "±0.018",
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "normalized_fitness",
+          "value": 0.995,
+          "uncertainty": "±0.020",
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "normalized_fitness",
+          "value": 0.991,
+          "uncertainty": "±0.03",
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 0.658,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 0.638,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "auc_roc",
+          "value": 0.632,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "svc",
+          "metric_name": "auc_roc",
+          "value": 0.638,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "xgboost",
+          "metric_name": "auc_roc",
+          "value": 0.632,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "svc",
+          "metric_name": "auc_roc",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "xgboost",
+          "metric_name": "auc_roc",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No asymptotic or computational speedup is analyzed. The paper reports only empirical performance comparisons and speculative quantum advantage in data-scarce regimes."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 500,
+          "num_qubits": 2,
+          "metric_name": "normalized_fitness",
+          "metric_value": null
+        },
+        {
+          "problem_size": 2000,
+          "num_qubits": 2,
+          "metric_name": "normalized_fitness",
+          "metric_value": null
+        },
+        {
+          "problem_size": 500,
+          "num_qubits": 2,
+          "metric_name": "auc_roc",
+          "metric_value": null
+        },
+        {
+          "problem_size": 1000,
+          "num_qubits": 2,
+          "metric_name": "auc_roc",
+          "metric_value": null
+        },
+        {
+          "problem_size": 2000,
+          "num_qubits": 2,
+          "metric_name": "auc_roc",
+          "metric_value": null
+        },
+        {
+          "problem_size": 3000,
+          "num_qubits": 2,
+          "metric_name": "auc_roc",
+          "metric_value": null
+        },
+        {
+          "problem_size": 4763,
+          "num_qubits": 2,
+          "metric_name": "auc_roc",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not analyzed in the paper.",
+        "resources_for_advantage": "Unknown; experiments used simulated quantum kernels with 2–10 qubits and shallow feature maps (~1–3 entangling blocks).",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "All experiments executed on simulators (no hardware validation).",
+          "Very small quantum systems (2–10 qubits).",
+          "Heavy classical preprocessing (feature selection and LDA) dominates pipeline.",
+          "No runtime or complexity comparison against classical methods.",
+          "Classical XGBoost outperforms SQS on the full dataset."
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Paper explicitly states all experiments were performed under simulators and that execution on real quantum devices was left unexplored.",
+          "Qubit counts are reported as feature-map sizes ranging from 2 to 10 qubits.",
+          "No exact circuit depth, transpiled depth, shot count, or gate counts are reported; only average entangling blocks and qualitative depth/complexity discussion are given.",
+          "No asymptotic speedup analysis is provided; only empirical performance comparisons against classical baselines.",
+          "Authors suggest quantum kernels may help in data-scarce regimes, but they do not demonstrate computational or scaling advantage.",
+          "Empirical results show SQS outperforming SVC and XGBoost only in small subsampled datasets, while XGBoost performs best on the full dataset (Figure 6)."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

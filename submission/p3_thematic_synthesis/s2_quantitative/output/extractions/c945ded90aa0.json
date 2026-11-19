@@ -1,0 +1,607 @@
+{
+  "paper_id": "c945ded90aa0",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:54:57+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "c945ded90aa0_efficient_option_pricing_with_unary_based_photonic_computing_chip_and_generative.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.792,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 14,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='bins' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='levels' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='waveguides' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='amplitude-amplification steps' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='measurements' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='payoff units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='payoff units' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='dB' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='order' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='order' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[0].unit='bins' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[2].unit='dB' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[3].unit='types' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.792,
+      "completeness": 0.792,
+      "num_experiments": 2,
+      "experiment_scores": [
+        1.0,
+        0.583
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Efficient option pricing with unary-based photonic computing chip and generative adversarial learning",
+    "authors": [
+      "Hui Zhang",
+      "Lingxiao Wan",
+      "Sergi Ramos-Calderer",
+      "Yuancheng Zhan",
+      "Wai-Keong Mok",
+      "Hong Cai",
+      "Feng Gao",
+      "Xianshu Luo",
+      "Guo-Qiang Lo",
+      "Leong Chuan Kwek",
+      "Jose Ignacio Latorre",
+      "Ai Qun Liu"
+    ],
+    "year": 2023,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "derivative-pricing",
+    "secondary_silos": [
+      "simulation-monte-carlo",
+      "quantum-ml-finance"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper demonstrates a silicon photonic chip implementing a unary quantum option-pricing pipeline with distribution loading, payoff rotation, and iterative amplitude estimation. A proof-of-principle experiment prices a European option with 3 discretized asset values (6 waveguides) and up to 50 amplitude-estimation iterations, reducing payoff estimation standard deviation from ~0.2 to <0.004 over repeated measurements. A hybrid photonic–classical GAN is also trained on-chip to learn 8-bin log-normal and normal distributions, reaching an ℓ2 error of about −18 dB after ~100 training iterations.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Photonic-chip implementation of unary European option pricing with distribution loading, payoff calculation, and iterative amplitude estimation for a 3-asset / 3-bin proof-of-principle case.",
+      "algorithm": {
+        "family": "amplitude-estimation",
+        "variant": "Unary option pricing with iterative amplitude estimation (without phase estimation)",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": "Repeated amplitude amplification steps up to m=50 to improve payoff estimation accuracy",
+        "hyperparameters": {
+          "m_max": 50,
+          "number_of_assets": 3,
+          "number_of_bins": 3,
+          "ancilla_dimension": 2
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Continuous asset-price distribution is binned into a unary basis; each bin is represented by a waveguide mode, with an additional ancilla waveguide per bin to emulate the ancilla qubit. For the 3-asset example, 6 waveguides are used.",
+        "objective_function": "Estimate the expected European option payoff C(ST,K)=∫_K^∞(ST-K)dST via measurement of the ancilla state |1⟩ after payoff rotation and amplitude estimation.",
+        "constraints_handling": "Post-selection / measurement of ancilla waveguides encoding state |1⟩; unary mapping avoids non-local controlled gates.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": 1
+      },
+      "problem_instance": {
+        "description": "European option pricing on a photonic chip, proof-of-principle with three asset values; distribution loading demonstrated on 8 bins for GAN training, and option pricing demonstrated on 3 asset values.",
+        "num_assets": 3,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Market data used to define target log-normal and normal distributions for GAN training; no ticker/date range specified."
+        },
+        "data_preprocessing_details": "Asset-price distribution is discretized into bins; for the GAN, target distributions are log-normal and normal examples. The paper states the GAN captures the probability distribution underlying market data, but does not specify a detailed preprocessing pipeline.",
+        "evaluation_methodology": "Amplitude estimation performance evaluated over increasing m; 50 measurements performed in each step of amplitude estimation; GAN training shown over 100 iterations."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "physical",
+        "circuit_depth": 50,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 50,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": "SNSPD efficiency 85% (detector efficiency), dark counts 100 Hz",
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_photonic",
+        "provider": "Advanced Micro Foundry (fabrication) / A*STAR IME collaboration",
+        "device_name": "fabricated integrated photonic chip",
+        "framework": "not_specified"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "photonic experimental imperfections, crosstalk, detector noise",
+        "error_mitigation_method": "post-selection strategy for unary scheme; GAN training incorporates chip imperfections",
+        "noise_parameters": "SNSPD dark counts 100 Hz; detector efficiency 85%",
+        "mitigation_details": "Post-selection strategy mentioned for error mitigation; no further quantitative mitigation protocol reported"
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": "linear optical / waveguide circuit",
+        "classical_solver": "classical Monte Carlo baseline",
+        "transpilation_settings": null,
+        "classical_preprocessing": "GAN discriminator implemented classically in TensorFlow; generator trained with evolutionary optimization and Wasserstein distance",
+        "classical_postprocessing": "Measured ancilla probabilities converted to payoff estimate; raw angles shifted back to original angles in analysis",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": 2.0,
+          "loss_curve_shape": "payoff error and standard deviation decrease with increasing amplitude-estimation iterations; GAN training converges over 100 iterations",
+          "variance_across_runs": 50.0,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_underlyings",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_bins",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "bins",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "ancilla_dimension",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "levels",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_waveguides",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "waveguides",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "m_max",
+          "value": 50,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "amplitude-amplification steps",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_measurements_per_step",
+          "value": 50,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "measurements",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "standard_deviation",
+          "value": 0.2,
+          "uncertainty": null,
+          "num_runs": 50,
+          "unit": "payoff units",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "standard_deviation",
+          "value": 0.004,
+          "uncertainty": null,
+          "num_runs": 50,
+          "unit": "payoff units",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "final_std_db",
+          "value": -18,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "dB",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": 0.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "order",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "convergence_rate",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "order",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "convergence_rate",
+          "value": 0.5,
+          "unit": "order"
+        },
+        {
+          "method_name": "classical monte carlo",
+          "metric_name": "convergence_rate",
+          "value": 1,
+          "unit": "order"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "quadratic",
+          "baseline_method": "classical monte carlo",
+          "conditions": "iterative amplitude estimation without phase estimation; in terms of number of calls to D and P operators / number of quantum samples",
+          "is_demonstrated": true,
+          "caveats": "Paper reports a proof-of-principle photonic implementation and states the asymptotic scaling O(1/sqrt(m)) versus O(1/m) for Monte Carlo; exact wall-clock speedup is not reported."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 3,
+          "num_qubits": null,
+          "metric_name": "num_underlyings",
+          "metric_value": 3
+        },
+        {
+          "problem_size": 3,
+          "num_qubits": null,
+          "metric_name": "num_waveguides",
+          "metric_value": 6
+        },
+        {
+          "problem_size": 50,
+          "num_qubits": null,
+          "metric_name": "m_max",
+          "metric_value": 50
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(1/√m) scaling of error with quantum samples; quadratic speedup over classical Monte Carlo in number of calls to D and P operators",
+        "classical_complexity": "O(1/m) for Monte Carlo convergence as stated in the paper's comparison",
+        "speedup_order": "quadratic",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": false,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "Not estimated; current demonstration limited to 3 bins / asset values.",
+        "resources_for_advantage": "Large-scale photonic processor capable of representing many bins (high-dimensional qudit states) and executing many amplitude amplification iterations with low loss and high detection efficiency.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Only 3-bin proof-of-principle option pricing instance",
+          "Quadratic speedup from amplitude estimation only",
+          "No classical runtime benchmark on realistic financial datasets",
+          "Unary encoding scales linearly in hardware resources (waveguides)",
+          "Photon loss and detector noise limit scaling",
+          "Distribution loading overhead may dominate runtime"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper reports a photonic chip with 6 waveguide inputs for the 3-asset proof-of-principle, but does not state a qubit count explicitly; num_qubits is inferred from the unary encoding plus ancilla structure and therefore left as null in the strict qubit sense.",
+          "Circuit depth is described qualitatively as linear depth for distribution loading and repeated amplitude amplification up to m=50, but no exact compiled depth is given.",
+          "The paper claims quadratic speedup over Monte Carlo due to amplitude estimation but demonstrates only a small proof-of-principle with three asset values.",
+          "No empirical comparison with classical runtimes on meaningful financial problem sizes."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "On-chip generative adversarial network training to learn and load target asset-price distributions into the photonic unary encoder, demonstrated on log-normal and normal distributions with up to 8 bins.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Hybrid GAN with photonic generator and classical discriminator",
+        "ansatz": "Variational photonic circuit",
+        "optimizer": "evolutionary optimization for generator; gradient descent for discriminator",
+        "num_layers": null,
+        "convergence_criteria": "Training complete when generator fools discriminator / Wasserstein critic stabilizes; reported over 100 iterations",
+        "hyperparameters": {
+          "distribution_types": [
+            "log-normal",
+            "normal"
+          ],
+          "bins": 8,
+          "training_iterations": 100,
+          "loss_metric": "Wasserstein distance",
+          "final_l2_norm": "-18 dB"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "learning_rate_schedule": null,
+          "max_iterations": 100,
+          "tolerance": null,
+          "step_size": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "Probability distribution is encoded into waveguide occupation probabilities of the unary basis; generator parameters are phase shifters on the photonic chip.",
+        "objective_function": "Learn a generator distribution matching the target market distribution using GAN/Wasserstein training.",
+        "constraints_handling": "Wasserstein critic used to stabilize GAN training; generator optimized with gradient-free evolutionary algorithm due to stochastic measurements.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Distribution learning / loading for asset-price distributions used by the option-pricing pipeline.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "Target distributions are log-normal and normal examples derived from market-data-inspired samples; no explicit dataset name or ticker list given."
+        },
+        "data_preprocessing_details": "Real samples are drawn from the desired probability distribution; fake samples are photon occupation probabilities across waveguide modes.",
+        "evaluation_methodology": "Comparison of generated and target distributions; ℓ2 norm tracked over 100 training iterations for both log-normal and normal cases."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "physical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": "SNSPD efficiency 85% (detector efficiency), dark counts 100 Hz",
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_photonic",
+        "provider": "Advanced Micro Foundry (fabrication) / A*STAR IME collaboration",
+        "device_name": "fabricated integrated photonic chip",
+        "framework": "TensorFlow for classical discriminator; photonic chip control not otherwise specified"
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "photonic experimental imperfections and stochastic measurement noise",
+        "error_mitigation_method": "Wasserstein GAN training and evolutionary optimization to handle stochastic gradients",
+        "noise_parameters": "SNSPD dark counts 100 Hz; detector efficiency 85%",
+        "mitigation_details": "Hybrid training strategy with gradient-free generator optimization and Wasserstein critic"
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": "integrated photonic waveguide circuit",
+        "classical_solver": "classical discriminator neural network",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Classical discriminator implemented in TensorFlow; real samples from target distributions; evolutionary algorithm used for generator training",
+        "classical_postprocessing": "ℓ2 norm between fake and real distributions computed to assess convergence",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 100,
+          "final_loss_value": -18.0,
+          "loss_curve_shape": "monotonic convergence of ℓ2 norm over training iterations",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_bins",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "bins",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "training_iterations",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "final_l2_norm",
+          "value": -18,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dB",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "distribution_types",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "types",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "No asymptotic or empirical speedup is claimed for the GAN training module itself; the paper’s speedup claim pertains to the amplitude-estimation option-pricing module."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 8,
+          "num_qubits": null,
+          "metric_name": "num_bins",
+          "metric_value": 8
+        },
+        {
+          "problem_size": 100,
+          "num_qubits": null,
+          "metric_name": "training_iterations",
+          "metric_value": 100
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "Not analyzed",
+        "resources_for_advantage": "Not applicable — experiment demonstrates distribution learning on photonic hardware but does not benchmark against classical GAN training cost.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Only 8-bin toy distribution learning",
+          "No classical baseline comparison",
+          "Hybrid training dominated by classical discriminator",
+          "Unclear scaling of photonic generator parameters"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper explicitly describes a photonic generator and classical discriminator, but does not state a qubit count; the photonic implementation is therefore treated as physical hardware with qubit count not explicitly reported.",
+          "No asymptotic speedup is claimed for the GAN training itself; the speedup claim in the paper pertains to the amplitude-estimation option-pricing module, not the GAN.",
+          "The GAN component is presented as a method for loading probability distributions into the photonic circuit rather than demonstrating computational advantage.",
+          "No performance comparison with classical generative models."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

@@ -1,0 +1,816 @@
+{
+  "paper_id": "f190da5cb928",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T10:19:09+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "f190da5cb928_constraint_aware_quantum_optimization_via_hamming_weight_operators.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.867,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 4,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[6].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[6].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[7].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.867,
+      "completeness": 0.867,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.9,
+        0.833
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 0.3333333333333333
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Constraint-Aware Quantum Optimization via Hamming Weight Operators",
+    "authors": [
+      "Yajie Hao",
+      "Qiming Ding",
+      "Xiao Yuan",
+      "Xiaoting Wang"
+    ],
+    "year": 2026,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "portfolio-optimization",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper introduces Adaptive Hamming Weight Operator QAOA (AHWO-QAOA), a constraint-preserving mixer for QAOA that keeps the state within the feasible subspace. In noiseless simulations on constrained portfolio optimization and two‑jet clustering problems with 6–20 qubits, AHWO-QAOA achieves 100% constraint satisfaction, converges in ~30 iterations versus ~90–410 for penalty-QAOA on a 12‑qubit case, and uses roughly 470 gates at 20 qubits compared with ~1270 for a 5‑layer penalty-based QAOA baseline.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Numerical simulation study of Adaptive Hamming Weight Operator QAOA (AHWO-QAOA) versus penalty-based QAOA on randomly generated constrained portfolio optimization instances.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "Adaptive Hamming Weight Operator QAOA (AHWO-QAOA)",
+        "ansatz": "full-parameter / multi-angle QAOA with adaptive mixer pool",
+        "optimizer": null,
+        "num_layers": 1,
+        "convergence_criteria": "until convergence in iterative adaptive construction; exact stopping rule not specified",
+        "hyperparameters": {
+          "penalty_factors": [
+            10,
+            100
+          ],
+          "problem_sizes_qubits": [
+            6,
+            8,
+            10,
+            12,
+            16,
+            20
+          ],
+          "random_instances_per_size": 100,
+          "parameter_initialization_range": "uniform random in (-0.1, 0.1)",
+          "approximation_ratio_definition": "1 - |<Hc> - E0| / |E0|, set to 0 when constraint violated"
+        },
+        "parameter_initialization": "variational parameters gamma and beta initialized uniformly at random in (-0.1, 0.1)",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "1 qubit per binary decision variable; portfolio selection variables xi mapped to qubits via xi -> (1 - sigma_z)/2",
+        "objective_function": "min_x f(x) = sum_{i,j} mu_ij x_i x_j + sum_k eta_k x_k, subject to sum_i omega_i x_i = b",
+        "constraints_handling": "constraint-preserving Hamming Weight Operators in the mixer; compared against penalty terms in baseline QAOA",
+        "num_binary_variables": 6,
+        "problem_hamiltonian": "Hc = 1/4 sum_{i,j} mu_ij (1 - sigma_i^z)(1 - sigma_j^z) + 1/2 sum_k eta_k (1 - sigma_k^z)",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Randomly generated constrained portfolio optimization instances",
+        "num_assets": 6,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 100,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "random coefficients mu_ij and eta_k; randomly chosen linear constraints consistent with Eq. (1)"
+        },
+        "data_preprocessing_details": null,
+        "evaluation_methodology": "100 independent random problem instances for each size; compare constraint ratio, approximation ratio, convergence, and gate counts"
+      },
+      "quantum_resources": {
+        "num_qubits": 6,
+        "qubit_type": "logical",
+        "circuit_depth": 1,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": 470,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": null,
+        "classical_postprocessing": null,
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 30,
+          "final_loss_value": null,
+          "loss_curve_shape": "AHWO-QAOA converges faster with minor early fluctuations; penalty-based QAOA converges slowly with large variance",
+          "variance_across_runs": 100.0,
+          "num_independent_runs": 100
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "constraint_ratio",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "iterations_to_converge",
+          "value": 30,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gate_count_total",
+          "value": 470,
+          "uncertainty": null,
+          "num_runs": 100,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gate_count_total",
+          "value": 1270,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_layers",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_layers",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "penalty-based qaoa",
+          "metric_name": "constraint_ratio",
+          "value": null,
+          "unit": "%"
+        },
+        {
+          "method_name": "penalty-based qaoa",
+          "metric_name": "approximation_ratio",
+          "value": null,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "penalty-based qaoa",
+          "metric_name": "iterations_to_converge",
+          "value": 90,
+          "unit": "iterations"
+        },
+        {
+          "method_name": "penalty-based qaoa",
+          "metric_name": "iterations_to_converge",
+          "value": 410,
+          "unit": "iterations"
+        },
+        {
+          "method_name": "penalty-based qaoa",
+          "metric_name": "gate_count_total",
+          "value": 1270,
+          "unit": "gates"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "about 2x fewer gates",
+          "baseline_method": "penalty-based qaoa",
+          "conditions": "at 20 qubits; AHWO-QAOA with 1 layer compared against penalty-based QAOA with 5 layers",
+          "is_demonstrated": true,
+          "caveats": "The paper says 'approximately half as many gates'; exact gate counts are reported as about 470 vs about 1270 in the portfolio benchmark resource comparison."
+        },
+        {
+          "type": "empirical",
+          "factor": "about 3x to 14x fewer iterations",
+          "baseline_method": "penalty-based qaoa",
+          "conditions": "12-qubit instance; compared against 5-layer penalty-based QAOA with lambda=10 and lambda=100",
+          "is_demonstrated": true,
+          "caveats": "AHWO-QAOA converges in about 30 iterations versus about 90 iterations for lambda=10 and over 410 iterations for lambda=100."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 6,
+          "num_qubits": 6,
+          "metric_name": "constraint_ratio",
+          "metric_value": null
+        },
+        {
+          "problem_size": 8,
+          "num_qubits": 8,
+          "metric_name": "constraint_ratio",
+          "metric_value": null
+        },
+        {
+          "problem_size": 10,
+          "num_qubits": 10,
+          "metric_name": "constraint_ratio",
+          "metric_value": null
+        },
+        {
+          "problem_size": 12,
+          "num_qubits": 12,
+          "metric_name": "constraint_ratio",
+          "metric_value": null
+        },
+        {
+          "problem_size": 16,
+          "num_qubits": 16,
+          "metric_name": "constraint_ratio",
+          "metric_value": null
+        },
+        {
+          "problem_size": 20,
+          "num_qubits": 20,
+          "metric_name": "constraint_ratio",
+          "metric_value": null
+        },
+        {
+          "problem_size": 6,
+          "num_qubits": 6,
+          "metric_name": "approximation_ratio",
+          "metric_value": null
+        },
+        {
+          "problem_size": 8,
+          "num_qubits": 8,
+          "metric_name": "approximation_ratio",
+          "metric_value": null
+        },
+        {
+          "problem_size": 10,
+          "num_qubits": 10,
+          "metric_name": "approximation_ratio",
+          "metric_value": null
+        },
+        {
+          "problem_size": 12,
+          "num_qubits": 12,
+          "metric_name": "approximation_ratio",
+          "metric_value": null
+        },
+        {
+          "problem_size": 16,
+          "num_qubits": 16,
+          "metric_name": "approximation_ratio",
+          "metric_value": null
+        },
+        {
+          "problem_size": 20,
+          "num_qubits": 20,
+          "metric_name": "approximation_ratio",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not analyzed",
+        "resources_for_advantage": "not specified; experiments limited to simulated systems of 6–20 qubits",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "requires_fault_tolerance",
+        "limiting_factors": [
+          "experiments performed only in noiseless numerical simulation",
+          "problem sizes limited to ≤20 qubits",
+          "no comparison with state-of-the-art classical portfolio optimization heuristics or solvers",
+          "no asymptotic complexity or runtime scaling analysis"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "No real QPU or simulator framework is named; experiments are described as numerical simulations, so hardware.type is inferred as simulator_other.",
+          "The paper reports scalability up to 20 qubits and compares 1-layer vs 5-layer circuits; exact transpiled depth and optimizer are not specified.",
+          "No asymptotic speedup claim is characterized; only empirical performance/resource comparisons are given.",
+          "Authors suggest the method could help enable scalable constrained optimization but do not demonstrate quantum advantage.",
+          "Results only show improved approximation ratio, convergence speed, and gate counts compared with penalty-based QAOA on small simulated instances (≤20 qubits)."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Numerical simulation study of AHWO-QAOA versus penalty-based QAOA and penalty-based DC-QAOA on the two-jet clustering with energy balance problem.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "Adaptive Hamming Weight Operator QAOA (AHWO-QAOA)",
+        "ansatz": "full-parameter / multi-angle QAOA with adaptive mixer pool",
+        "optimizer": null,
+        "num_layers": 1,
+        "convergence_criteria": "until convergence in iterative adaptive construction; exact stopping rule not specified",
+        "hyperparameters": {
+          "penalty_factors": [
+            10,
+            100
+          ],
+          "problem_sizes_qubits": [
+            6,
+            8,
+            10,
+            12,
+            16,
+            20
+          ],
+          "random_instances_per_size": null,
+          "parameter_initialization_range": "not explicitly restated here; same paper-wide initialization used in portfolio study",
+          "approximation_ratio_definition": "as defined in the paper; exact formula not restated in this subsection"
+        },
+        "parameter_initialization": "not explicitly restated in this subsection; paper-wide initialization is random uniform in (-0.1, 0.1)",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "basis_encoding",
+        "encoding_details": "1 qubit per binary decision variable; xi indicates assignment of particle i to jet A or B",
+        "objective_function": "maximize inter-jet separation, f(x) = sum_{i,j} mu_ij x_i (1 - x_j), subject to sum_i epsilon_i x_i = 1/2 sum_i epsilon_i",
+        "constraints_handling": "constraint-preserving Hamming Weight Operators in the mixer; compared against penalty terms in baseline QAOA and DC-QAOA",
+        "num_binary_variables": 6,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Two-jet clustering with energy balance on randomly generated particle instances",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "random angular coefficients mu_ij and particle energies epsilon_i"
+        },
+        "data_preprocessing_details": null,
+        "evaluation_methodology": "simulations on problem sizes 6 to 20 qubits; compare constraint ratio, approximation ratio, convergence, and gate counts against QAOA and DC-QAOA baselines"
+      },
+      "quantum_resources": {
+        "num_qubits": 6,
+        "qubit_type": "logical",
+        "circuit_depth": 1,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": 470,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": null,
+        "classical_postprocessing": null,
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": 30,
+          "final_loss_value": null,
+          "loss_curve_shape": "AHWO-QAOA converges faster and more stably than penalty-based QAOA and DC-QAOA",
+          "variance_across_runs": 100.0,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "constraint_ratio",
+          "value": 100,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "%",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "approximation_ratio",
+          "value": null,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "iterations_to_converge",
+          "value": 30,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "iterations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gate_count_total",
+          "value": 470,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gate_count_total",
+          "value": 1270,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_layers",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_layers",
+          "value": 5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "penalty-based qaoa",
+          "metric_name": "constraint_ratio",
+          "value": null,
+          "unit": "%"
+        },
+        {
+          "method_name": "penalty-based qaoa",
+          "metric_name": "approximation_ratio",
+          "value": null,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "penalty-based qaoa",
+          "metric_name": "iterations_to_converge",
+          "value": 90,
+          "unit": "iterations"
+        },
+        {
+          "method_name": "penalty-based qaoa",
+          "metric_name": "iterations_to_converge",
+          "value": 410,
+          "unit": "iterations"
+        },
+        {
+          "method_name": "penalty-based qaoa",
+          "metric_name": "gate_count_total",
+          "value": 1270,
+          "unit": "gates"
+        },
+        {
+          "method_name": "penalty-based dc-qaoa",
+          "metric_name": "constraint_ratio",
+          "value": null,
+          "unit": "%"
+        },
+        {
+          "method_name": "penalty-based dc-qaoa",
+          "metric_name": "approximation_ratio",
+          "value": null,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "penalty-based dc-qaoa",
+          "metric_name": "gate_count_total",
+          "value": null,
+          "unit": "gates"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "about 2x fewer gates",
+          "baseline_method": "penalty-based qaoa",
+          "conditions": "at 20 qubits; AHWO-QAOA with 1 layer compared against 5-layer penalty-based baselines",
+          "is_demonstrated": true,
+          "caveats": "The paper states AHWO-QAOA requires only about 470 gates at 20 qubits, while penalty-based QAOA requires about 1270 gates; DC-QAOA is said to have comparable or higher cost due to counterdiabatic terms."
+        },
+        {
+          "type": "empirical",
+          "factor": "faster convergence",
+          "baseline_method": "penalty-based qaoa and penalty-based dc-qaoa",
+          "conditions": "12-qubit instance; convergence comparison in simulation",
+          "is_demonstrated": true,
+          "caveats": "The paper reports about 30 iterations for AHWO-QAOA versus about 90 and over 410 iterations for penalty-based QAOA at lambda=10 and lambda=100, respectively; DC-QAOA is described as similarly slower but no exact iteration count is given."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 6,
+          "num_qubits": 6,
+          "metric_name": "constraint_ratio",
+          "metric_value": null
+        },
+        {
+          "problem_size": 8,
+          "num_qubits": 8,
+          "metric_name": "constraint_ratio",
+          "metric_value": null
+        },
+        {
+          "problem_size": 10,
+          "num_qubits": 10,
+          "metric_name": "constraint_ratio",
+          "metric_value": null
+        },
+        {
+          "problem_size": 12,
+          "num_qubits": 12,
+          "metric_name": "constraint_ratio",
+          "metric_value": null
+        },
+        {
+          "problem_size": 16,
+          "num_qubits": 16,
+          "metric_name": "constraint_ratio",
+          "metric_value": null
+        },
+        {
+          "problem_size": 20,
+          "num_qubits": 20,
+          "metric_name": "constraint_ratio",
+          "metric_value": null
+        },
+        {
+          "problem_size": 6,
+          "num_qubits": 6,
+          "metric_name": "approximation_ratio",
+          "metric_value": null
+        },
+        {
+          "problem_size": 8,
+          "num_qubits": 8,
+          "metric_name": "approximation_ratio",
+          "metric_value": null
+        },
+        {
+          "problem_size": 10,
+          "num_qubits": 10,
+          "metric_name": "approximation_ratio",
+          "metric_value": null
+        },
+        {
+          "problem_size": 12,
+          "num_qubits": 12,
+          "metric_name": "approximation_ratio",
+          "metric_value": null
+        },
+        {
+          "problem_size": 16,
+          "num_qubits": 16,
+          "metric_name": "approximation_ratio",
+          "metric_value": null
+        },
+        {
+          "problem_size": 20,
+          "num_qubits": 20,
+          "metric_name": "approximation_ratio",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "advantage_claimed_not_demonstrated",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not analyzed",
+        "resources_for_advantage": "not specified; experiments limited to simulated systems of 6–20 qubits",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "only noiseless simulations up to 20 qubits",
+          "comparison limited to other QAOA variants rather than classical jet-clustering methods",
+          "no runtime or scaling comparison with classical algorithms",
+          "no complexity-based speedup claim"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_inferred",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "No real QPU or simulator framework is named; experiments are described as numerical simulations, so hardware.type is inferred as simulator_other.",
+          "The paper reports qubit ranges and layer counts, but not transpiled depth or optimizer details.",
+          "No asymptotic speedup claim is characterized; only empirical performance/resource comparisons are given.",
+          "Paper shows AHWO-QAOA outperforming penalty-based QAOA and DC-QAOA in approximation ratio, convergence speed, and gate counts on simulated jet-clustering instances.",
+          "No claim or evidence of outperforming classical algorithms."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

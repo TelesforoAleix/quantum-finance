@@ -1,0 +1,823 @@
+{
+  "paper_id": "d05bf542e350",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T10:00:44+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "d05bf542e350_variational_quantum_circuit_based_reinforcement_learning_for_dynamic_portfolio_o.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.525,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 14,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[1].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='daily observations' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='minutes cloud job duration' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='seconds per circuit execution (reported as < 1 s)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='seconds per forward pass on cloud QPU' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='folds' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[1].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[2].unit='daily observations' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[3].unit='minutes cloud job duration' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[4].unit='seconds per circuit execution (reported as < 1 s)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[5].unit='seconds per forward pass on cloud QPU' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[6].unit='parameters' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[9].unit='folds' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.525,
+      "completeness": 0.525,
+      "num_experiments": 4,
+      "experiment_scores": [
+        0.9,
+        0.9,
+        0.15,
+        0.15
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 0.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Variational Quantum Circuit-Based Reinforcement Learning for Dynamic Portfolio Optimization",
+    "authors": [
+      "Vincent Gurgul",
+      "Ying Chen",
+      "Stefan Lessmann"
+    ],
+    "year": 2026,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "portfolio-optimization",
+    "secondary_silos": [
+      "quantum-ml-finance"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes variational quantum circuit reinforcement learning (QRL) for dynamic portfolio optimization over 15 assets using real market data (2011–2025). The best quantum model (Quantum DDPG with 60 parameters) achieved a Sharpe ratio of 0.7281, while the best classical baseline (DQN with 160k parameters) achieved 0.8237, indicating comparable but not superior performance with far fewer parameters.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum DDPG for dynamic portfolio optimization using a variational quantum circuit actor-critic architecture, trained on a noiseless statevector simulator and deployed for inference on IBM Eagle r3 superconducting hardware.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Quantum DDPG with VQC actor and VQC critic",
+        "ansatz": "parameterized variational quantum circuit with alternating single-qubit rotations and entangling gates; amplitude-encoded feature map plus trainable layers",
+        "optimizer": "Adam",
+        "num_layers": null,
+        "convergence_criteria": "50 epochs with early stopping patience 10",
+        "hyperparameters": {
+          "lookback_window_days": 30,
+          "forecast_window_days": 7,
+          "soft_update_coefficient_tau": 0.005,
+          "epochs": 50,
+          "early_stopping_patience": 10,
+          "learning_rate_range": "[1e-4, 1e-1]",
+          "l2_regularization_lambda_range": "[1e-6, 1e-1]",
+          "risk_preference_range": "[-1, -1e-2]",
+          "discount_factor_gamma_range": "[1e-3, 1e-1]",
+          "optimizer_choices": [
+            "Adam",
+            "SGD"
+          ],
+          "shots_per_qpu_circuit_evaluation": 10000
+        },
+        "parameter_initialization": "not_specified",
+        "optimizer_settings": {
+          "learning_rate_schedule": null,
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Classical financial state is normalized, expanded with feature map Z(x)=[x, x⊙2, sin(x), cos(x)], then amplitude-encoded; first N qubits are measured and ℓ1-normalized to portfolio weights",
+        "objective_function": "maximize risk-adjusted portfolio return over time; reward rt = w_t^T μ_{t-L:t+F+1} - η w_t^T Σ_{t-L:t+F+1} w_t",
+        "constraints_handling": "portfolio weights are ℓ1-normalized to satisfy full-investment constraint; short selling permitted up to 100% of initial portfolio value",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Dynamic portfolio optimization over 15 assets with 30-day lookback and 7-day forecast, rebalanced every 30 days",
+        "num_assets": 15,
+        "time_steps": 5049,
+        "num_features": null,
+        "dataset_size": 5049,
+        "data_type": "real_market",
+        "dataset_name": "Unspecified real-world financial dataset",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "AAPL",
+            "EFA",
+            "GLD",
+            "IWM",
+            "JNJ",
+            "JPM",
+            "LQD",
+            "MSFT",
+            "QQQ",
+            "SPY",
+            "TLT",
+            "USO",
+            "XLF",
+            "XLV",
+            "XOM"
+          ],
+          "date_range": "August 2011 to September 2025",
+          "benchmark_name": null,
+          "preprocessing": "logarithmic returns from daily closing prices; normalized asset prices; 7-day Auto ARIMA forecast appended to state",
+          "train_test_split": "7-fold increasing rolling-window time-series cross-validation with training/validation/test splits"
+        },
+        "data_preprocessing_details": "daily closing prices converted to log returns; 30-day rolling normalized price window; 7-day Auto ARIMA forecast; transaction costs of 0.15% per trade included in evaluation",
+        "evaluation_methodology": "7-fold expanding-window time-series cross-validation; mean and standard deviation of Sharpe ratio across folds"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 10000,
+        "num_variational_params": 30,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_superconducting",
+        "provider": "IBM",
+        "device_name": "IBM Eagle r3",
+        "framework": "not_specified"
+      },
+      "noise_model": {
+        "noise_model": "not_specified",
+        "noise_parameters": null,
+        "mitigation_details": null,
+        "is_noisy": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/VincentGurgul/qrl-dpo-public",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Adam/SGD for training; no separate classical optimization solver reported",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Bayesian hyperparameter search; statevector simulation for training; Auto ARIMA forecasting; transaction cost modeling",
+        "classical_postprocessing": "Pauli-Z expectation values converted to marginal probabilities and ℓ1-normalized into portfolio weights",
+        "total_execution_time": "23 minutes cloud job duration for QPU inference",
+        "quantum_execution_time": "< 1 s per circuit execution reported at circuit level; ~12 s per forward pass on cloud QPU",
+        "quantum_fraction_of_runtime": "not_specified",
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": 7.0,
+          "num_independent_runs": 7
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "sharpe_ratio",
+          "value": 0.4179,
+          "uncertainty": "±0.6113",
+          "num_runs": 7,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 15,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 5049,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "daily observations",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "execution_time",
+          "value": 23,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "minutes cloud job duration",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "quantum_execution_time",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds per circuit execution (reported as < 1 s)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "forward_pass_latency",
+          "value": 12,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds per forward pass on cloud QPU",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_variational_params",
+          "value": 30,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "shots_per_qpu_circuit_evaluation",
+          "value": 10000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "cross_validation_folds",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "folds",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "equal_weights_portfolio",
+          "metric_name": "sharpe_ratio",
+          "value": 0.4375,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "mvo",
+          "metric_name": "sharpe_ratio",
+          "value": 0.5919,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_ddpg_13.5k_params",
+          "metric_name": "sharpe_ratio",
+          "value": 0.4287,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_dqn_13.5k_params",
+          "metric_name": "sharpe_ratio",
+          "value": 0.4446,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_ddpg_27k_params",
+          "metric_name": "sharpe_ratio",
+          "value": 0.4384,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_dqn_27k_params",
+          "metric_name": "sharpe_ratio",
+          "value": 0.4939,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_ddpg_160k_params",
+          "metric_name": "sharpe_ratio",
+          "value": 0.7926,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_dqn_160k_params",
+          "metric_name": "sharpe_ratio",
+          "value": 0.8237,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": "no proven asymptotic speedup",
+          "baseline_method": "classical deep rl and classical portfolio baselines",
+          "conditions": "current noisy cloud-based quantum deployment; finite-shot inference on IBM Eagle r3",
+          "is_demonstrated": false,
+          "caveats": "Paper emphasizes parameter efficiency and comparable risk-adjusted performance, but does not claim or demonstrate an asymptotic quantum speedup. End-to-end latency is dominated by cloud overhead."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 15,
+          "num_qubits": null,
+          "metric_name": "sharpe_ratio",
+          "metric_value": 0.4179
+        },
+        {
+          "problem_size": 15,
+          "num_qubits": null,
+          "metric_name": "num_variational_params",
+          "metric_value": 30
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": "< 1 s circuit execution; 23 min cloud job duration",
+        "wall_clock_classical": "7 s for classical DDPG with 13.5k params; 14 s for classical DDPG with 160k params"
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": null,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "not_established",
+        "resources_for_advantage": "Paper does not provide asymptotic complexity or scaling evidence; experiments limited to VQCs with ≤60 parameters and circuits small enough to run on ~20 qubits.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Best classical Sharpe ratio (0.8237) exceeds quantum results",
+          "Training performed only on statevector simulator",
+          "Small circuit size and limited qubit counts",
+          "Amplitude encoding requires expensive state preparation scaling O(2^n)",
+          "Cloud QPU latency dominates end‑to‑end runtime"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": null,
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "notes": [
+          "num_qubits not explicitly stated for the QRL circuit; inferred as not directly reported because the paper only states amplitude encoding uses O(log d) qubits and that available GPU limited circuit width to roughly 20 qubits, but no exact circuit width for the deployed model is given.",
+          "speedup_order inferred as none_proven because the paper discusses practical latency and parameter efficiency but does not claim an asymptotic quantum speedup.",
+          "Authors state quantum agents achieve comparable performance with fewer parameters but explicitly note that classical models still achieve higher Sharpe ratios in their experiments."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Quantum DQN for dynamic portfolio optimization using a variational quantum circuit value-function approximator, trained on a noiseless statevector simulator and deployed for inference on IBM Eagle r3 superconducting hardware.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Quantum DQN with VQC actor/value approximation",
+        "ansatz": "parameterized variational quantum circuit with alternating single-qubit rotations and entangling gates; amplitude-encoded feature map plus trainable layers",
+        "optimizer": "Adam",
+        "num_layers": null,
+        "convergence_criteria": "50 epochs with early stopping patience 10",
+        "hyperparameters": {
+          "lookback_window_days": 30,
+          "forecast_window_days": 7,
+          "soft_update_coefficient_tau": 0.005,
+          "epochs": 50,
+          "early_stopping_patience": 10,
+          "learning_rate_range": "[1e-4, 1e-1]",
+          "l2_regularization_lambda_range": "[1e-6, 1e-1]",
+          "risk_preference_range": "[-1, -1e-2]",
+          "discount_factor_gamma_range": "[1e-3, 1e-1]",
+          "optimizer_choices": [
+            "Adam",
+            "SGD"
+          ],
+          "number_of_next_action_samples": 10,
+          "shots_per_qpu_circuit_evaluation": 10000
+        },
+        "parameter_initialization": "not_specified",
+        "optimizer_settings": {
+          "learning_rate_schedule": null,
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "amplitude_encoding",
+        "encoding_details": "Classical financial state is normalized, expanded with feature map Z(x)=[x, x⊙2, sin(x), cos(x)], then amplitude-encoded; first N qubits are measured and ℓ1-normalized to portfolio weights",
+        "objective_function": "maximize risk-adjusted portfolio return over time; reward rt = w_t^T μ_{t-L:t+F+1} - η w_t^T Σ_{t-L:t+F+1} w_t",
+        "constraints_handling": "portfolio weights are ℓ1-normalized to satisfy full-investment constraint; short selling permitted up to 100% of initial portfolio value",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Dynamic portfolio optimization over 15 assets with 30-day lookback and 7-day forecast, rebalanced every 30 days",
+        "num_assets": 15,
+        "time_steps": 5049,
+        "num_features": null,
+        "dataset_size": 5049,
+        "data_type": "real_market",
+        "dataset_name": "Unspecified real-world financial dataset",
+        "dataset_specification": {
+          "ticker_symbols": [
+            "AAPL",
+            "EFA",
+            "GLD",
+            "IWM",
+            "JNJ",
+            "JPM",
+            "LQD",
+            "MSFT",
+            "QQQ",
+            "SPY",
+            "TLT",
+            "USO",
+            "XLF",
+            "XLV",
+            "XOM"
+          ],
+          "date_range": "August 2011 to September 2025",
+          "benchmark_name": null,
+          "preprocessing": "logarithmic returns from daily closing prices; normalized asset prices; 7-day Auto ARIMA forecast appended to state",
+          "train_test_split": "7-fold increasing rolling-window time-series cross-validation with training/validation/test splits"
+        },
+        "data_preprocessing_details": "daily closing prices converted to log returns; 30-day rolling normalized price window; 7-day Auto ARIMA forecast; transaction costs of 0.15% per trade included in evaluation",
+        "evaluation_methodology": "7-fold expanding-window time-series cross-validation; mean and standard deviation of Sharpe ratio across folds"
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 10000,
+        "num_variational_params": 30,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "real_qpu_superconducting",
+        "provider": "IBM",
+        "device_name": "IBM Eagle r3",
+        "framework": "not_specified"
+      },
+      "noise_model": {
+        "noise_model": "not_specified",
+        "noise_parameters": null,
+        "mitigation_details": null,
+        "is_noisy": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/VincentGurgul/qrl-dpo-public",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Adam/SGD for training; no separate classical optimization solver reported",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Bayesian hyperparameter search; statevector simulation for training; Auto ARIMA forecasting; transaction cost modeling",
+        "classical_postprocessing": "Pauli-Z expectation values converted to marginal probabilities and ℓ1-normalized into portfolio weights",
+        "total_execution_time": "43 minutes cloud job duration for QPU inference",
+        "quantum_execution_time": "< 1 s circuit execution; ~12 s per forward pass on cloud QPU",
+        "quantum_fraction_of_runtime": "not_specified",
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": 7.0,
+          "num_independent_runs": 7
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "sharpe_ratio",
+          "value": 0.4776,
+          "uncertainty": "±0.6650",
+          "num_runs": 7,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 15,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 5049,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "daily observations",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "execution_time",
+          "value": 43,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "minutes cloud job duration",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "quantum_execution_time",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds per circuit execution (reported as < 1 s)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "forward_pass_latency",
+          "value": 12,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds per forward pass on cloud QPU",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_variational_params",
+          "value": 30,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameters",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "shots_per_qpu_circuit_evaluation",
+          "value": 10000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "number_of_next_action_samples",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "samples",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "cross_validation_folds",
+          "value": 7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "folds",
+          "higher_is_better": true,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "equal_weights_portfolio",
+          "metric_name": "sharpe_ratio",
+          "value": 0.4375,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "mvo",
+          "metric_name": "sharpe_ratio",
+          "value": 0.5919,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_ddpg_13.5k_params",
+          "metric_name": "sharpe_ratio",
+          "value": 0.4287,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_dqn_13.5k_params",
+          "metric_name": "sharpe_ratio",
+          "value": 0.4446,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_ddpg_27k_params",
+          "metric_name": "sharpe_ratio",
+          "value": 0.4384,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_dqn_27k_params",
+          "metric_name": "sharpe_ratio",
+          "value": 0.4939,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_ddpg_160k_params",
+          "metric_name": "sharpe_ratio",
+          "value": 0.7926,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "classical_dqn_160k_params",
+          "metric_name": "sharpe_ratio",
+          "value": 0.8237,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": "no proven asymptotic speedup",
+          "baseline_method": "classical deep rl and classical portfolio baselines",
+          "conditions": "current noisy cloud-based quantum deployment; finite-shot inference on IBM Eagle r3",
+          "is_demonstrated": false,
+          "caveats": "Paper emphasizes parameter efficiency and comparable risk-adjusted performance, but does not claim or demonstrate an asymptotic quantum speedup. End-to-end latency is dominated by cloud overhead."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 15,
+          "num_qubits": null,
+          "metric_name": "sharpe_ratio",
+          "metric_value": 0.4776
+        },
+        {
+          "problem_size": 15,
+          "num_qubits": null,
+          "metric_name": "num_variational_params",
+          "metric_value": 30
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": "< 1 s circuit execution; 43 min cloud job duration",
+        "wall_clock_classical": "11 s for classical DQN with 13.5k params; 27 s for classical DQN with 160k params"
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": null,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": "not_established",
+        "resources_for_advantage": "No complexity scaling analysis or theoretical speedup claimed; experiments limited to small VQC models deployed for inference on IBM Eagle r3.",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Classical DQN with 160k parameters achieves Sharpe 0.8237 vs quantum models ≤0.6537–0.7281",
+          "Limited circuit size and shallow VQC architecture",
+          "Statevector training restricts scaling",
+          "Amplitude encoding state preparation overhead",
+          "Cloud access latency dominates execution time"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": null,
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "notes": [
+          "num_qubits not explicitly stated for the QRL circuit; inferred as not directly reported because the paper only states amplitude encoding uses O(log d) qubits and that available GPU limited circuit width to roughly 20 qubits, but no exact circuit width for the deployed model is given.",
+          "speedup_order inferred as none_proven because the paper discusses practical latency and parameter efficiency but does not claim an asymptotic quantum speedup.",
+          "Paper emphasizes parameter efficiency rather than performance superiority; classical RL models achieve higher Sharpe ratios."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_new_3",
+      "description": "Quantum DDPG with a larger VQC (60 trainable parameters) for dynamic portfolio optimization, trained on a statevector simulator and deployed on IBM Eagle r3 hardware for inference.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Quantum DDPG with VQC actor and VQC critic (60 parameters)",
+        "ansatz": "variational quantum circuit with amplitude encoding and alternating rotation–entanglement layers",
+        "optimizer": "Adam",
+        "num_layers": null
+      },
+      "key_results": {
+        "sharpe_ratio_mean": 0.7281,
+        "sharpe_ratio_std": 0.7395,
+        "execution_time": "< 1 s circuit execution; ~23 min cloud job duration",
+        "comparison_reference": "Table 5.1"
+      }
+    },
+    {
+      "experiment_id": "exp_new_4",
+      "description": "Quantum DQN with a larger VQC (60 trainable parameters) for dynamic portfolio optimization, trained on a statevector simulator and deployed on IBM Eagle r3 hardware for inference.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Quantum DQN with VQC value function (60 parameters)",
+        "ansatz": "variational quantum circuit with amplitude encoding and alternating rotation–entanglement layers",
+        "optimizer": "Adam",
+        "num_layers": null
+      },
+      "key_results": {
+        "sharpe_ratio_mean": 0.6537,
+        "sharpe_ratio_std": 0.6155,
+        "execution_time": "< 1 s circuit execution; ~43 min cloud job duration",
+        "comparison_reference": "Table 5.1"
+      }
+    }
+  ]
+}

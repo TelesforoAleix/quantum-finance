@@ -1,0 +1,703 @@
+{
+  "paper_id": "c7c7d7851588",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:52:35+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "c7c7d7851588_fermionic_quantum_approximate_optimization_algorithm.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.95,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 21,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='dimensionless' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='dimensionless' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='dimensionless' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='E/W' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='E/W' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='E/W' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='E/W' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[13].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='E/W' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[15].unit='E/W' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[16].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[17].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[18].unit='E/W' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[19].unit='E/W' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[20].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[21].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.95,
+      "completeness": 0.95,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.95
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Fermionic quantum approximate optimization algorithm",
+    "authors": [
+      "Takuya Yoshioka",
+      "Keita Sasada",
+      "Yuichiro Nakano",
+      "Keisuke Fujii"
+    ],
+    "year": 2023,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "portfolio-optimization",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes Fermionic QAOA (FQAOA) that enforces equality constraints through fermionic particle‑number conservation and evaluates it on a portfolio optimization problem with N=8 assets (16 qubits). In noiseless simulation up to depth p=10, optimized FQAOA achieves residual energy ΔE/W = 0.017 and low‑energy probability F(W/100) = 0.521, outperforming XY‑QAOA baselines and improving the probability of low‑energy states by about 40× at p=4.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Fermionic QAOA (FQAOA) applied to a portfolio optimization problem with short positions allowed, evaluated via numerical simulation and compared against X-QAOA and XY-QAOA baselines.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "fermionic QAOA (FQAOA) with hard constraints via particle-number conservation",
+        "ansatz": "Π_j Um(β_j) Up(γ_j) with fermionic driver Hamiltonian and Slater-determinant initial state",
+        "optimizer": "BFGS; conjugate gradient (CG)",
+        "num_layers": 0,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "lambda": 0.9,
+          "A": 0.003,
+          "D": 2,
+          "N": 8,
+          "M": 4,
+          "t_parallel": "W/Wt",
+          "t_perp": "W/Wt",
+          "W": "energy range of Hp under constraints",
+          "Wt": "energy range of Ht at t_parallel=t_perp=1",
+          "W_delta_t": 10
+        },
+        "parameter_initialization": "Fixed-angle parameters from time-discretized QAA, (gamma_j^(0), beta_j^(0)) = ((2j-1)/(2p) * Delta t, (1 - (2j-1)/(2p)) * Delta t), then used as initial values for local optimization",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "unary_encoding",
+        "encoding_details": "Unary encoding for each stock position with D=2 legs; binary variables x_{l,d} mapped to fermionic occupation numbers n_{l,d}. For short positions, w_l = I/2 - sum_d f_d x_{l,d} with f_d=1 and I=D.",
+        "objective_function": "E(w) = (lambda/M^2) sum_{l,l'} sigma_{l,l'} w_l w_{l'} - ((1-lambda)/M) sum_l mu_l w_l, subject to sum_l w_l = M",
+        "constraints_handling": "Hard constraint enforced by fixed particle number C = sum_{l,d} n_{l,d}; no penalty term in FQAOA",
+        "num_binary_variables": 16,
+        "problem_hamiltonian": "Hp = (lambda/M^2) sum_{l,l'} sigma_{l,l'} sum_{d,d'} (n_{l,d}-1/2)(n_{l',d'}-1/2) + ((1-lambda)/M) sum_l mu_l sum_d (n_{l,d}-1/2)",
+        "num_ancilla_qubits": 0
+      },
+      "problem_instance": {
+        "description": "Portfolio optimization with short positions allowed",
+        "num_assets": 8,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "public_benchmark",
+        "dataset_name": "Instance from Hodson et al. (Ref. [2])",
+        "dataset_specification": {
+          "description": "Uses covariance matrix sigma_{l,l'} from Fig. 2 and average returns mu_l from Table IV of Ref. [2]; eight stocks, M=4, D=2"
+        },
+        "data_preprocessing_details": null,
+        "evaluation_methodology": "Noiseless numerical simulation; results reported for p=0 to 10, with detailed comparisons at p=4 and p=10; statistical box plots from sufficiently large sampling; low-energy probability F(W/100) reported"
+      },
+      "quantum_resources": {
+        "num_qubits": 16,
+        "qubit_type": "logical",
+        "circuit_depth": 10,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": 1,
+        "cnot_count": null,
+        "two_qubit_gate_count": 656,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 2,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": null,
+        "device_name": null,
+        "framework": "qulacs",
+        "framework_version": null
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "transpilation_target": null,
+        "classical_solver": "BFGS or CG for FQAOA; stochastic BFGS with 100 basin hopping for X-QAOA and XY-QAOA-II; Nelder-Mead for XY-QAOA-I (baseline)",
+        "transpilation_settings": null,
+        "classical_preprocessing": null,
+        "classical_postprocessing": "Energy expectation Ep(gamma,beta), cumulative probability F(E), residual energy DeltaE, and low-energy probability F(W/100) computed from sampled bitstrings",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_assets",
+          "value": 8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 16,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "lambda",
+          "value": 0.9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimensionless",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "penalty_strength",
+          "value": 0.003,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimensionless",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "p",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "fixed_angle_w_delta_t",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "dimensionless",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "residual_energy",
+          "value": 0.043,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "E/W",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "residual_energy",
+          "value": 0.017,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "E/W",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "low_energy_probability",
+          "value": 0.357,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "low_energy_probability",
+          "value": 0.521,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "residual_energy",
+          "value": 0.094,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "E/W",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "residual_energy",
+          "value": 0.047,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "E/W",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "low_energy_probability",
+          "value": 0.127,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "low_energy_probability",
+          "value": 0.275,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "residual_energy",
+          "value": 0.913,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "E/W",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "residual_energy",
+          "value": 0.418,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "E/W",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "low_energy_probability",
+          "value": 0.004,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "low_energy_probability",
+          "value": 0.005,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "residual_energy",
+          "value": 0.12,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "E/W",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "residual_energy",
+          "value": 0.089,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "E/W",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "low_energy_probability",
+          "value": 0.092,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "low_energy_probability",
+          "value": 0.237,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "gate_count_single_qubit",
+          "value": 556,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gate_count_two_qubit",
+          "value": 656,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gate_count_single_qubit",
+          "value": 936,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gate_count_two_qubit",
+          "value": 1092,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gate_count_single_qubit",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "gate_count_two_qubit",
+          "value": 4,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "gates",
+          "higher_is_better": false,
+          "data_source": "computed"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "X-QAOA",
+          "metric_name": "residual_energy",
+          "value": 0.913,
+          "unit": "E/W"
+        },
+        {
+          "method_name": "X-QAOA",
+          "metric_name": "residual_energy",
+          "value": 0.418,
+          "unit": "E/W"
+        },
+        {
+          "method_name": "X-QAOA",
+          "metric_name": "low_energy_probability",
+          "value": 0.004,
+          "unit": "probability"
+        },
+        {
+          "method_name": "X-QAOA",
+          "metric_name": "low_energy_probability",
+          "value": 0.005,
+          "unit": "probability"
+        },
+        {
+          "method_name": "XY-QAOA-I",
+          "metric_name": "residual_energy",
+          "value": 0.3,
+          "unit": "E/W"
+        },
+        {
+          "method_name": "XY-QAOA-I",
+          "metric_name": "low_energy_probability",
+          "value": 0.007,
+          "unit": "probability"
+        },
+        {
+          "method_name": "XY-QAOA-II",
+          "metric_name": "residual_energy",
+          "value": 0.12,
+          "unit": "E/W"
+        },
+        {
+          "method_name": "XY-QAOA-II",
+          "metric_name": "residual_energy",
+          "value": 0.089,
+          "unit": "E/W"
+        },
+        {
+          "method_name": "XY-QAOA-II",
+          "metric_name": "low_energy_probability",
+          "value": 0.092,
+          "unit": "probability"
+        },
+        {
+          "method_name": "XY-QAOA-II",
+          "metric_name": "low_energy_probability",
+          "value": 0.237,
+          "unit": "probability"
+        },
+        {
+          "method_name": "XY-QAOA-I",
+          "metric_name": "gate_count_single_qubit",
+          "value": 936,
+          "unit": "gates"
+        },
+        {
+          "method_name": "XY-QAOA-I",
+          "metric_name": "gate_count_two_qubit",
+          "value": 1092,
+          "unit": "gates"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "empirical",
+          "factor": "about 2x fewer gate operations",
+          "baseline_method": "XY-QAOA-I at p=4",
+          "conditions": "fixed-angle FQAOA at p=1 versus previous study; gate counts reported as 556 single-qubit and 656 two-qubit gates for FQAOA compared with 936 single-qubit and 1092 two-qubit gates for XY-QAOA-I",
+          "is_demonstrated": true,
+          "caveats": "This is a gate-count comparison, not a proven asymptotic speedup; based on the specific 8-asset, D=2 benchmark instance."
+        },
+        {
+          "type": "empirical",
+          "factor": "about 40x higher low-energy probability",
+          "baseline_method": "XY-QAOA-I at p=4",
+          "conditions": "parameter-optimized FQAOA at p=4 compared with previous study",
+          "is_demonstrated": true,
+          "caveats": "The paper states the probability of achieving low-energy states is improved by a factor of 40; exact baseline probability is not numerically tabulated in the text excerpt."
+        },
+        {
+          "type": "theoretical",
+          "factor": "reduces to QAA in the large-p limit",
+          "baseline_method": "quantum adiabatic algorithm (QAA)",
+          "conditions": "as p -> infinity with fixed-angle parameters from time-discretized QAA",
+          "is_demonstrated": true,
+          "caveats": "This is a limit statement, not a classical speedup claim."
+        },
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": "No asymptotic quantum advantage is proven in the paper",
+          "is_demonstrated": false,
+          "caveats": "The paper explicitly frames quantum advantage as an open problem and does not claim a proven asymptotic speedup."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 8,
+          "num_qubits": 16,
+          "metric_name": "residual_energy",
+          "metric_value": 0.043
+        },
+        {
+          "problem_size": 8,
+          "num_qubits": 16,
+          "metric_name": "residual_energy",
+          "metric_value": 0.017
+        },
+        {
+          "problem_size": 8,
+          "num_qubits": 16,
+          "metric_name": "low_energy_probability",
+          "metric_value": 0.357
+        },
+        {
+          "problem_size": 8,
+          "num_qubits": 16,
+          "metric_name": "low_energy_probability",
+          "metric_value": 0.521
+        },
+        {
+          "problem_size": 8,
+          "num_qubits": 16,
+          "metric_name": "residual_energy",
+          "metric_value": 0.094
+        },
+        {
+          "problem_size": 8,
+          "num_qubits": 16,
+          "metric_name": "residual_energy",
+          "metric_value": 0.047
+        },
+        {
+          "problem_size": 8,
+          "num_qubits": 16,
+          "metric_name": "low_energy_probability",
+          "metric_value": 0.127
+        },
+        {
+          "problem_size": 8,
+          "num_qubits": 16,
+          "metric_name": "low_energy_probability",
+          "metric_value": 0.275
+        },
+        {
+          "problem_size": 8,
+          "num_qubits": 16,
+          "metric_name": "residual_energy",
+          "metric_value": 0.913
+        },
+        {
+          "problem_size": 8,
+          "num_qubits": 16,
+          "metric_name": "residual_energy",
+          "metric_value": 0.418
+        },
+        {
+          "problem_size": 8,
+          "num_qubits": 16,
+          "metric_name": "low_energy_probability",
+          "metric_value": 0.004
+        },
+        {
+          "problem_size": 8,
+          "num_qubits": 16,
+          "metric_name": "low_energy_probability",
+          "metric_value": 0.005
+        },
+        {
+          "problem_size": 8,
+          "num_qubits": 16,
+          "metric_name": "residual_energy",
+          "metric_value": 0.12
+        },
+        {
+          "problem_size": 8,
+          "num_qubits": 16,
+          "metric_name": "residual_energy",
+          "metric_value": 0.089
+        },
+        {
+          "problem_size": 8,
+          "num_qubits": 16,
+          "metric_name": "low_energy_probability",
+          "metric_value": 0.092
+        },
+        {
+          "problem_size": 8,
+          "num_qubits": 16,
+          "metric_name": "low_energy_probability",
+          "metric_value": 0.237
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "No asymptotic speedup claim; FQAOA reduces to QAA in large p limit",
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not analyzed",
+        "resources_for_advantage": "not specified; experiment only simulates N=8 assets (16 qubits) on a statevector simulator",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "only noiseless classical simulation (qulacs)",
+          "very small problem size (N=8 assets, 16 qubits)",
+          "no comparison with classical optimization algorithms such as convex solvers or heuristics",
+          "results compare only different quantum ansätze (X‑QAOA, XY‑QAOA)",
+          "no complexity-theoretic speedup or crossover analysis"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_inferred",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": null,
+        "notes": [
+          "num_qubits inferred as 16 from N=8 and D=2, giving ND=16 qubits in the unary fermionic encoding.",
+          "hardware.type inferred as simulator_statevector because the paper reports numerical simulations using the qulacs simulator and no real QPU.",
+          "two_qubit_gate_count taken from the reported p=1 comparison (656 two-qubit gates) in the text; the paper also provides general gate-count formulas in Appendix B.",
+          "The authors explicitly state that quantum advantage remains an open problem and do not claim practical advantage.",
+          "All results are from noiseless simulation and only compare different QAOA variants rather than quantum vs classical optimization."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

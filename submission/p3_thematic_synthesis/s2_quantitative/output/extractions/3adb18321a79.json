@@ -1,0 +1,686 @@
+{
+  "paper_id": "3adb18321a79",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:32:51+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "3adb18321a79_quantum_quantitative_trading_high_frequency_statistical_arbitrage_algorithm.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.45,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 20,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='asymptotic time complexity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='asymptotic average query complexity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='asymptotic time complexity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='asymptotic benchmark complexity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='qubits (more than 50 reported)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='time points' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='stocks' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='hours/day' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='days/year' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='portfolios (approximate, C(8000,3) > 10^9)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[12].unit='portfolios (usually less than)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[14].unit='threshold' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[0].unit='asymptotic time complexity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[1].unit='asymptotic alternative residual-generation complexity' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[2].unit='asymptotic complexity of first quantum linear regression' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[3].unit='asymptotic complexity of second quantum linear regression' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[4].unit='classical matrix multiplication / residual subtraction' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[5].unit='error bound' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[6].unit='parameter definition' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[7].unit='parameter definition' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.45,
+      "completeness": 0.45,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.65,
+        0.25
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.0,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.0,
+          "hardware": 0.0,
+          "results": 0.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum Quantitative Trading: High-Frequency Statistical Arbitrage Algorithm",
+    "authors": [
+      "Xi-Ning Zhuang",
+      "Zhao-Yun Chen",
+      "Yu-Chun Wu",
+      "Guo-Ping Guo"
+    ],
+    "year": 2021,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "trading-execution",
+    "secondary_silos": [
+      "portfolio-optimization"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a fully theoretical gate-based quantum workflow for high‑frequency statistical arbitrage consisting of (1) a variable‑time preselection algorithm for detecting multicollinearity with complexity O(√d κ0² log²(1/ε)) and (2) a quantum cointegration test using quantum linear regression with complexity O(d^2.5 κ^3 / δ² polylog(dκ/δ)). In a stylized U.S. stock‑market scenario with ~8000 stocks and ~1.2×10^7 time points, the authors argue the classical workload (~10^18 operations) could be reduced to ~10^8 operations under idealized quantum assumptions requiring >50 qubits and qRAM.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum statistical arbitrage preselection using variable-time preselection and quantum condition number comparison to identify multicollinear stock portfolios before cointegration testing.",
+      "algorithm": {
+        "family": "hhl",
+        "variant": "Variable Time Preselection Algorithm (VTPA) with Quantum Condition Number Comparison Algorithm (QCNCA)",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "kappa_0": "threshold for preselection",
+          "epsilon": "desired precision",
+          "kappa_j": "2^j progressive thresholds",
+          "M": "ceil(log kappa_0)"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "qRAM",
+        "encoding_details": "Historical stock prices are loaded into qRAM as |j⟩|t⟩|z⟩ -> |j⟩|t⟩|z ⊕ p_t^(j)⟩; portfolios are represented as matrices and converted to a Hermitian block matrix A = [[0, X],[X^T, 0]] for condition-number testing.",
+        "objective_function": "Preselect portfolios with condition number kappa >= kappa_0, i.e., detect multicollinearity / small eigenvalues as a proxy for potential cointegration.",
+        "constraints_handling": "Threshold-based filtering via repeated condition-number comparison; portfolios below threshold are discarded.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": "A = [[0, X],[X^T, 0]]",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "High-frequency statistical arbitrage over portfolios of stocks using historical quote data.",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 8000,
+        "data_type": "real_market",
+        "dataset_name": "U.S. stock market historical quotes",
+        "dataset_specification": {
+          "description": "No specific ticker list or date range given; example uses 8000 stocks, 6.5 trading hours/day, half-second quotes, 253 trading days/year."
+        },
+        "data_preprocessing_details": "Prices stored as bit strings in qRAM; portfolios loaded as amplitude-like superpositions over time and stock indices.",
+        "evaluation_methodology": "Theoretical complexity analysis; no empirical benchmark runs reported."
+      },
+      "quantum_resources": {
+        "num_qubits": 35,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": null,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "qRAM loading of historical prices; construction of Hermitian block matrix from portfolio data.",
+        "classical_postprocessing": "Classical decision on whether to keep/discard portfolios after quantum threshold test.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": null,
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "quantum_complexity",
+          "value": "O(sqrt(d) * kappa_0^2 * log(1/epsilon)^2)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "asymptotic time complexity",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "quantum_complexity",
+          "value": "O(sqrt(d) * log(1/epsilon)^2 * sum_j 4^j * j * P_j)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "asymptotic average query complexity",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "classical_complexity",
+          "value": "O(N^3)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "asymptotic time complexity",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "classical_complexity",
+          "value": "O(N^2 * d)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "asymptotic benchmark complexity",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 35,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 50,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits (more than 50 reported)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "dataset_size",
+          "value": 12000000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "time points",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 8000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "stocks",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "trading_hours_per_day",
+          "value": 6.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "hours/day",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "quote_interval",
+          "value": 0.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "trading_days_per_year",
+          "value": 253,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "days/year",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "portfolio_count",
+          "value": 1000000000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "portfolios (approximate, C(8000,3) > 10^9)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "multicollinear_portfolio_count",
+          "value": 1000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "portfolios (usually less than)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "non_multicollinear_portfolio_fraction",
+          "value": 1e-06,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "fraction",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "condition_number_threshold",
+          "value": 1000,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "threshold",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "matrix factorization",
+          "metric_name": "classical_complexity",
+          "value": "O(N^3)",
+          "unit": "asymptotic time complexity"
+        },
+        {
+          "method_name": "classical benchmark",
+          "metric_name": "classical_complexity",
+          "value": "O(N^2 * d)",
+          "unit": "asymptotic time complexity"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "polynomial speedup; from O(N^2 d) to O(sqrt(d) * kappa_0^2 * log(1/epsilon)^2)",
+          "baseline_method": "classical benchmark for statistical arbitrage / matrix factorization preselection",
+          "conditions": "assuming qRAM access and uniform condition-number distribution for the stated simplified bound",
+          "is_demonstrated": true,
+          "caveats": "No hardware experiment; advantage is theoretical and depends on condition-number distribution and qRAM assumptions."
+        },
+        {
+          "type": "theoretical",
+          "factor": "from O(N^3) to O(sqrt(d) * log(1/epsilon)^2 * sum_j 4^j j P_j)",
+          "baseline_method": "classical matrix factorization preselection",
+          "conditions": "general distribution of condition numbers",
+          "is_demonstrated": true,
+          "caveats": "Average complexity depends on the distribution P_j; uniform distribution yields the simplified O(sqrt(d) * kappa_0^2 * log(1/epsilon)^2) bound."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 1.2,
+          "num_qubits": 35,
+          "metric_name": "num_qubits",
+          "metric_value": 35
+        },
+        {
+          "problem_size": 1.2,
+          "num_qubits": 50,
+          "metric_name": "num_qubits",
+          "metric_value": 50
+        },
+        {
+          "problem_size": 8000.0,
+          "num_qubits": null,
+          "metric_name": "portfolio_count",
+          "metric_value": 1000000000
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(sqrt(d) kappa_0^2 log(1/epsilon)^2) for uniform condition-number distribution; more generally O(sqrt(d) log(1/epsilon)^2 sum_j 4^j j P_j)",
+        "classical_complexity": "O(N^2 d) benchmark for the overall statistical arbitrage task; O(N^3) for matrix factorization in preselection",
+        "speedup_order": "polynomial_other",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L0_theory",
+        "crossover_size": "Not quantified; advantage assumes very large N (~10^7 time points) and qRAM access",
+        "resources_for_advantage": ">50 logical qubits plus efficient qRAM storing ~10^7 time-series entries; fault‑tolerant phase estimation and Hamiltonian simulation circuits",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Requires large-scale qRAM to load historical price matrices",
+          "Algorithm relies on block-encoded matrix access and Hamiltonian simulation assumptions",
+          "No explicit constant-factor resource estimates for fault-tolerant implementation",
+          "Condition-number dependence κ0^2 may be large in financial datasets",
+          "No empirical validation on simulator or hardware"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "No actual hardware or experimental run is reported; this is a theoretical algorithm paper. The qubit count is estimated in the discussion (about 35 for initial state, more than 50 for VTPA), not tied to a specific device.",
+          "Authors claim complexity reduction from classical O(N^2 d) or O(N^3) style procedures to O(sqrt(d) κ0^2 log(1/ε)^2) for preselection, but the work is purely analytical with no implementation."
+        ],
+        "advantage_status": "paper_reported"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "Quantum cointegration test for preselected stock portfolios using quantum linear regression followed by a classical Augmented Dickey-Fuller-style residual test.",
+      "algorithm": {
+        "family": "hhl",
+        "variant": "Quantum Cointegration Test Algorithm (QCT) with two-stage quantum linear regression",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "kappa": "condition number of regression design matrix",
+          "kappa_prime": "condition number for second regression",
+          "delta": "min{1/d, epsilon}",
+          "delta_prime": "min{1/(L+2), sqrt(L)+2 epsilon^2}",
+          "L": "lag length in ADF test",
+          "epsilon": "desired precision"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "qRAM",
+        "encoding_details": "Amplitude-encoded design matrix and target vector are loaded from historical stock data; first regression estimates coefficients beta, then residuals are formed classically and used in a second regression on time and lagged residuals.",
+        "objective_function": "Test whether a linear combination of stock prices is stationary/cointegrated via Engle-Granger two-step method; compute regression coefficients beta and ADF test statistic DF_T = gamma_hat / SE(gamma_hat).",
+        "constraints_handling": "Classical comparison of the test statistic with critical values from a Dickey-Fuller table.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Cointegration verification on stock portfolios after multicollinearity preselection.",
+        "num_assets": 2,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 1,
+        "data_type": "real_market",
+        "dataset_name": "U.S. stock market historical quotes",
+        "dataset_specification": {
+          "description": "No specific tickers or date range given; uses historical price matrix X and target vector y."
+        },
+        "data_preprocessing_details": "Residuals computed as u = y - X beta; lagged residuals Delta u_t = u_t - u_{t-1}; then second regression on time trend and lagged residuals.",
+        "evaluation_methodology": "Theoretical complexity analysis; no empirical runs reported."
+      },
+      "quantum_resources": {
+        "num_qubits": null,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": null,
+        "device_name": null,
+        "framework": null
+      },
+      "noise_model": {
+        "is_noisy": null,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": false,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "Classical matrix multiplication, vector subtraction, and Dickey-Fuller critical-value comparison",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Classical residual construction after quantum regression; classical computation of standard error and test statistic.",
+        "classical_postprocessing": "Compare DF_T with critical value table to decide cointegration.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": null,
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "quantum_complexity",
+          "value": "O(d^2.5 * kappa^3 / delta^2 * poly(log^2(d * kappa / delta)) + dN + (L+2)^2.5 * kappa'^3 / delta'^2 * poly(log^2((L+2) * kappa' / delta')))",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "asymptotic time complexity",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "classical_complexity",
+          "value": "O(N * log(N) * kappa^2 * epsilon^-3)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "asymptotic alternative residual-generation complexity",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "quantum_complexity",
+          "value": "O(d^2.5 * kappa^3 / delta^2 * poly(log^2(d * kappa / delta)))",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "asymptotic complexity of first quantum linear regression",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "quantum_complexity",
+          "value": "O((L+2)^2.5 * kappa'^3 / delta'^2 * poly(log^2((L+2) * kappa' / delta')))",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "asymptotic complexity of second quantum linear regression",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "classical_complexity",
+          "value": "O(dN)",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "classical matrix multiplication / residual subtraction",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "error_bound",
+          "value": "sqrt(L + 2) * epsilon^2",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "error bound",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "delta",
+          "value": "min{1/d, epsilon}",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameter definition",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "delta_prime",
+          "value": "min{1/(L+2), sqrt(L)+2 epsilon^2}",
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "parameter definition",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical matrix multiplication and vector subtraction",
+          "metric_name": "classical_complexity",
+          "value": "O(dN)",
+          "unit": "asymptotic time complexity"
+        },
+        {
+          "method_name": "classical residual-generation method",
+          "metric_name": "classical_complexity",
+          "value": "O(N * log(N) * kappa^2 * epsilon^-3)",
+          "unit": "asymptotic time complexity"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "theoretical",
+          "factor": "polynomial speedup in d and N for the regression subroutine; quantum regression replaces classical residual-generation scaling",
+          "baseline_method": "classical residual generation and matrix operations",
+          "conditions": "assuming qRAM access and well-behaved design matrices with singular values in [1/kappa, 1]",
+          "is_demonstrated": true,
+          "caveats": "The full cointegration test is hybrid; classical postprocessing remains necessary for residual construction, standard error, and Dickey-Fuller comparison."
+        },
+        {
+          "type": "theoretical",
+          "factor": "quantum linear regression complexity O(d^2.5 kappa^3 / delta^2 poly(log^2(d kappa / delta)))",
+          "baseline_method": "classical least-squares / residual generation",
+          "conditions": "for the first regression stage",
+          "is_demonstrated": true,
+          "caveats": "No empirical runtime or hardware validation reported."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": null,
+          "num_qubits": null,
+          "metric_name": "quantum_complexity",
+          "metric_value": 2.5
+        },
+        {
+          "problem_size": 2.0,
+          "num_qubits": null,
+          "metric_name": "quantum_complexity",
+          "metric_value": 2.0
+        },
+        {
+          "problem_size": 1.2,
+          "num_qubits": null,
+          "metric_name": "classical_complexity",
+          "metric_value": null
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": "O(d^2.5 kappa^3 / delta^2 poly(log^2(d kappa / delta)) + dN + (L+2)^2.5 kappa'^3 / delta'^2 poly(log^2((L+2) kappa' / delta')) )",
+        "classical_complexity": "Not given as a single explicit asymptotic bound for the full cointegration test; residual generation by alternative classical-style method cited as O(N log N kappa^2 epsilon^-3)",
+        "speedup_order": "polynomial_other",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": false,
+        "maturity_level": "L0_theory",
+        "crossover_size": "Not quantified; depends on very large regression problems with large N and moderate d",
+        "resources_for_advantage": "Fault‑tolerant implementation of quantum linear system / regression algorithms (HHL-style) with qRAM access to the design matrix and target vector",
+        "data_loading_bottleneck": true,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Relies on quantum linear regression derived from HHL with strong assumptions (well-conditioned matrices, efficient oracle access)",
+          "Requires qRAM for amplitude encoding of financial time-series data",
+          "Hybrid algorithm still requires classical residual construction and statistical testing",
+          "No empirical resource counts or hardware demonstration"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "This is also a theoretical algorithm with no hardware execution. The paper explicitly states the second stage is hybrid: quantum regression plus classical matrix multiplication, subtraction, and test-statistic computation.",
+          "Paper claims polynomial complexity improvements for regression-based cointegration testing using quantum linear regression, but provides only asymptotic analysis without implementation."
+        ],
+        "advantage_status": "paper_reported"
+      }
+    }
+  ]
+}

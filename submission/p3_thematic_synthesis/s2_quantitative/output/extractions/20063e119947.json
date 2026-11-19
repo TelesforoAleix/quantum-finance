@@ -1,0 +1,532 @@
+{
+  "paper_id": "20063e119947",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:15:21+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "20063e119947_quantum_walk_inspired_fourier_operators_for_markovian_dynamics_and_modular_struc.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.95,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 1,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[9].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.95,
+      "completeness": 0.95,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.95
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum Walk–Inspired Fourier Operators for Markovian Dynamics and Modular Structure Detection",
+    "authors": [
+      "Yanfei Ma",
+      "Daozheng Qu",
+      "Yibo Wang"
+    ],
+    "year": 2025,
+    "doi": "10.1109/ICMLCA66850.2025.11336551",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "risk-management",
+    "secondary_silos": [
+      "quantum-ml-finance"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes QFM‑CommNet, a quantum‑walk‑inspired Fourier operator framework for dynamic community detection. On datasets up to 100K nodes, it reports modularity 0.561 ± 0.010, NMI 0.739 ± 0.009, and ARI 0.671 ± 0.011, outperforming classical baselines such as Infomap and GNN+modularity loss. However, all experiments are classical; quantum elements (e.g., QAOA with p ≤ 3 on a 20‑qubit Qiskit simulator) are only mentioned conceptually and not empirically evaluated.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum walk–inspired Fourier operator framework (QFM-CommNet) for dynamic community detection on synthetic and real-world networks, with QAOA-inspired refinement used as a hybrid quantum-classical component.",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "QFM-CommNet with QAOA-inspired modularity refinement",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": 3,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "qaoa_depth": "p <= 3",
+          "qubits": "20"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "other",
+        "encoding_details": "Dynamic graph community detection using Markov transition matrices and a Fourier–Markov operator; no explicit qubit-to-variable encoding is given. QAOA is used only as a refinement step for modularity optimization.",
+        "objective_function": "Maximize modularity Q(FQ, C) over community partition C, where Q(FQ, C) = sum over communities c of sum_{i,j in c} (FQ(i,j) - gamma * k_i k_j / (2m)).",
+        "constraints_handling": "Modularity-based refinement; QAOA-inspired search or simulated annealing mentioned for high-modularity partitions.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Community detection in dynamic networks across synthetic and real-world datasets.",
+        "num_assets": null,
+        "time_steps": 20,
+        "num_features": null,
+        "dataset_size": 5,
+        "data_type": "public_benchmark",
+        "dataset_name": "LFR, SBM, Enron, DBLP, PPI, Brain fMRI, Stock, Crypto",
+        "dataset_specification": {
+          "description": "Synthetic LFR and SBM graphs; Enron and DBLP social networks; PPI and Brain fMRI biological networks; Stock and Crypto financial correlation networks."
+        },
+        "data_preprocessing_details": "Synthetic graphs are undirected and unweighted with isolated nodes removed and community size distribution normalized. Social networks are directed and unweighted with timestamp alignment and duplicate interaction removal. Biological networks use weighted undirected edges with edge weights normalized and low-confidence interactions pruned at threshold 0.05. Financial networks use rolling-window Pearson correlation, Fisher-z transformation, and sparsification at the 0.1 quantile.",
+        "evaluation_methodology": "Results reported as mean ± std over 5 random seeds; cross-validation used to optimize hyperparameters."
+      },
+      "quantum_resources": {
+        "num_qubits": 20,
+        "qubit_type": "not_specified",
+        "circuit_depth": 3,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "not_specified",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "k-means for spectral initialization; QAOA with p <= 3 for refinement; simulated annealing also mentioned as an alternative refinement method",
+        "transpilation_settings": null,
+        "classical_preprocessing": "Construct transition matrices, average over snapshots, compute Laplacian and graph Fourier basis, extract dominant eigenvectors, then cluster embeddings with k-means.",
+        "classical_postprocessing": "Modularity-based partition refinement and evaluation against baselines.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": 5.0,
+          "num_independent_runs": 5
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "modularity",
+          "value": 0.561,
+          "uncertainty": "±0.010",
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "normalized_mutual_information",
+          "value": 0.739,
+          "uncertainty": "±0.009",
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "adjusted_rand_index",
+          "value": 0.671,
+          "uncertainty": "±0.011",
+          "num_runs": 5,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "temporal_smoothness",
+          "value": 0.593,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "runtime",
+          "value": 13.9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "runtime",
+          "value": 122.7,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "runtime",
+          "value": 641.5,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "runtime",
+          "value": 1412.8,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 20,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_depth",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "Spectral Clustering",
+          "metric_name": "modularity",
+          "value": 0.412,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "MCL",
+          "metric_name": "modularity",
+          "value": 0.458,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Infomap",
+          "metric_name": "modularity",
+          "value": 0.472,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Quantum Walk",
+          "metric_name": "modularity",
+          "value": 0.495,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "GNN + Modularity Loss",
+          "metric_name": "modularity",
+          "value": 0.518,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Spectral Clustering",
+          "metric_name": "normalized_mutual_information",
+          "value": 0.621,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "MCL",
+          "metric_name": "normalized_mutual_information",
+          "value": 0.654,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Infomap",
+          "metric_name": "normalized_mutual_information",
+          "value": 0.671,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Quantum Walk",
+          "metric_name": "normalized_mutual_information",
+          "value": 0.683,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "GNN + Modularity Loss",
+          "metric_name": "normalized_mutual_information",
+          "value": 0.701,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Spectral Clustering",
+          "metric_name": "adjusted_rand_index",
+          "value": 0.534,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "MCL",
+          "metric_name": "adjusted_rand_index",
+          "value": 0.562,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Infomap",
+          "metric_name": "adjusted_rand_index",
+          "value": 0.589,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Quantum Walk",
+          "metric_name": "adjusted_rand_index",
+          "value": 0.601,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "GNN + Modularity Loss",
+          "metric_name": "adjusted_rand_index",
+          "value": 0.624,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "Spectral Clustering",
+          "metric_name": "runtime",
+          "value": 12.3,
+          "unit": "seconds"
+        },
+        {
+          "method_name": "MCL",
+          "metric_name": "runtime",
+          "value": 15.7,
+          "unit": "seconds"
+        },
+        {
+          "method_name": "Infomap",
+          "metric_name": "runtime",
+          "value": 14.1,
+          "unit": "seconds"
+        },
+        {
+          "method_name": "Quantum Walk (Simulated)",
+          "metric_name": "runtime",
+          "value": 19.8,
+          "unit": "seconds"
+        },
+        {
+          "method_name": "Spectral Clustering",
+          "metric_name": "runtime",
+          "value": 118.4,
+          "unit": "seconds"
+        },
+        {
+          "method_name": "MCL",
+          "metric_name": "runtime",
+          "value": 142.9,
+          "unit": "seconds"
+        },
+        {
+          "method_name": "Infomap",
+          "metric_name": "runtime",
+          "value": 131.6,
+          "unit": "seconds"
+        },
+        {
+          "method_name": "Quantum Walk (Simulated)",
+          "metric_name": "runtime",
+          "value": 176.2,
+          "unit": "seconds"
+        },
+        {
+          "method_name": "Spectral Clustering",
+          "metric_name": "runtime",
+          "value": 624.1,
+          "unit": "seconds"
+        },
+        {
+          "method_name": "MCL",
+          "metric_name": "runtime",
+          "value": 713.3,
+          "unit": "seconds"
+        },
+        {
+          "method_name": "Infomap",
+          "metric_name": "runtime",
+          "value": 679.4,
+          "unit": "seconds"
+        },
+        {
+          "method_name": "Quantum Walk (Simulated)",
+          "metric_name": "runtime",
+          "value": 851.7,
+          "unit": "seconds"
+        },
+        {
+          "method_name": "Spectral Clustering",
+          "metric_name": "runtime",
+          "value": 1389.7,
+          "unit": "seconds"
+        },
+        {
+          "method_name": "MCL",
+          "metric_name": "runtime",
+          "value": 1604.5,
+          "unit": "seconds"
+        },
+        {
+          "method_name": "Infomap",
+          "metric_name": "runtime",
+          "value": 1507.2,
+          "unit": "seconds"
+        },
+        {
+          "method_name": "Quantum Walk (Simulated)",
+          "metric_name": "runtime",
+          "value": 1890.3,
+          "unit": "seconds"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The paper reports competitive runtime and polynomial scaling, but no explicit speedup factor or asymptotic quantum advantage claim is given."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 1.0,
+          "num_qubits": 20,
+          "metric_name": "runtime",
+          "metric_value": 13.9
+        },
+        {
+          "problem_size": 10.0,
+          "num_qubits": 20,
+          "metric_name": "runtime",
+          "metric_value": 122.7
+        },
+        {
+          "problem_size": 50.0,
+          "num_qubits": 20,
+          "metric_name": "runtime",
+          "metric_value": 641.5
+        },
+        {
+          "problem_size": 100.0,
+          "num_qubits": 20,
+          "metric_name": "runtime",
+          "metric_value": 1412.8
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not_specified",
+        "resources_for_advantage": "Not specified; the paper only mentions a possible QAOA refinement on a 20‑qubit Qiskit simulator with p ≤ 3 but provides no resource scaling analysis.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "No actual quantum circuit experiments reported",
+          "All quantitative results produced by classical spectral/graph processing pipeline",
+          "QAOA only mentioned conceptually as 'QAOA-inspired search'",
+          "No Hamiltonian formulation or qubit encoding of the community detection problem",
+          "No complexity or scaling analysis demonstrating advantage"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "The paper explicitly states use of Qiskit simulators with 20 qubits and QAOA depth p <= 3.",
+          "No explicit QPU/device is named, so hardware.type is inferred as simulator_other.",
+          "The paper discusses scalability and competitive runtime but does not provide an asymptotic quantum speedup claim.",
+          "The paper evaluates only the classical QFM‑CommNet operator framework on large graph datasets.",
+          "Although QAOA and Qiskit simulators are mentioned in the experimental setup, no quantum results, circuit metrics, or comparisons are reported."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

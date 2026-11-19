@@ -1,0 +1,468 @@
+{
+  "paper_id": "d37354bd1037",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T10:01:59+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "d37354bd1037_quantum_computing_for_multi_period_asset_allocation.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.8,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 6,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='years' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='standard deviations' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='matrix entries (scaled by 1e-4)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[10].unit='matrix entries (scaled by 1e-4)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[11].unit='matrix entries (scaled by 1e-4)' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.8,
+      "completeness": 0.8,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.8
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum Computing for Multi Period Asset Allocation",
+    "authors": [
+      "Queenie Sun",
+      "Nicholas Grablevsky",
+      "Huaizhang Deng",
+      "Pooya Azadi"
+    ],
+    "year": 2024,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "portfolio-optimization",
+    "secondary_silos": [
+      "simulation-monte-carlo"
+    ]
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper implements a quantum circuit to generate multivariate normal return samples for a 3‑asset portfolio using 3 qubits per asset (9 qubits total) and 120 shots to simulate 10 years of monthly returns. The circuit was tested on an IBM simulator and on an IBM Quantum System One (Eagle, 127‑qubit device), with circuit construction scaling from a few seconds for a [3,3,3] qubit array to ~20 minutes for [5,5,5], where the physical QPU run failed after ~6 minutes.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Multi-period asset allocation simulation using a quantum circuit to generate multivariate normal returns for three asset classes, evaluated on IBM Quantum System One and an IBM simulator at multiple qubit-array sizes.",
+      "algorithm": {
+        "family": "quantum-simulation",
+        "variant": "Quantum circuit for multivariate normal distribution / return generation",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "asset_classes": 3,
+          "qubits_per_asset_class": [
+            3,
+            3,
+            3
+          ],
+          "alternative_qubit_arrays_tested": [
+            [
+              4,
+              4,
+              4
+            ],
+            [
+              5,
+              5,
+              5
+            ]
+          ],
+          "shots_per_execution": 120,
+          "distribution_bounds": "±3 standard deviations around expected returns",
+          "expected_returns": [
+            0.1,
+            0.1,
+            0.06
+          ],
+          "rebalancing_rules": [
+            "monthly",
+            "quarterly",
+            "semi-annually",
+            "annually"
+          ]
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": null
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "A quantum circuit is constructed to generate a discretized normal distribution for each asset class using 3 qubits per asset class; the three circuits are combined to model a multivariate normal return distribution.",
+        "objective_function": "Simulate multi-asset, multi-period portfolio returns from a multivariate log-normal model using quantum-generated samples; compare input and output covariance matrices and use generated returns for rebalancing-rule evaluation.",
+        "constraints_handling": null,
+        "num_binary_variables": null,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Three-asset portfolio allocation simulation with US equities, international equities, and global fixed income.",
+        "num_assets": 3,
+        "time_steps": 10,
+        "num_features": null,
+        "dataset_size": 20,
+        "data_type": "real_market",
+        "dataset_name": "S&P 500, MSCI All Country World Index ex US, Bloomberg Global Aggregate",
+        "dataset_specification": {
+          "ticker_symbols": null,
+          "date_range": "past 20 years (exact dates not reported)",
+          "benchmark_name": null,
+          "preprocessing": "Historical data used to compute volatilities and covariance matrix; expected returns set manually to 10%, 10%, and 6%",
+          "train_test_split": null
+        },
+        "data_preprocessing_details": "Compute volatilities and covariance matrix from 20 years of historical index data; assume multivariate log-normal distribution; monthly simulation; bounds set to three standard deviations above and below expected returns.",
+        "evaluation_methodology": "Run 120 shots per execution; compare covariance matrix of input vs output; test multiple qubit-array sizes on simulator and physical IBM quantum computer; evaluate different rebalancing rules."
+      },
+      "quantum_resources": {
+        "num_qubits": 9,
+        "qubit_type": "physical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 120,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "not_specified",
+        "provider": "IBM",
+        "device_name": "ibm_rensselaer (IBM Quantum System One / IBM Quantum Eagle Processor)",
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "noise_type": null,
+        "is_noisy": null,
+        "error_mitigation_method": null
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": "IBM Quantum System One / IBM Eagle processor",
+        "classical_solver": null,
+        "transpilation_settings": null,
+        "classical_preprocessing": "Historical data used to estimate covariance and volatilities; expected returns specified; circuit built for multivariate normal distribution.",
+        "classical_postprocessing": "Convert qubit measurements into returns; compare covariance matrices; evaluate rebalancing performance.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": "Simulator: [3,3,3] built within a few seconds; [4,4,4] about one minute; [5,5,5] about 20 minutes. Physical QPU: [3,3,3] completed in a few seconds; [4,4,4] build time 30 seconds; [5,5,5] failed after around 6 minutes.",
+        "convergence_data": null,
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_assets",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "qubits_per_asset_class",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "total_qubits",
+          "value": 9,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "computed"
+        },
+        {
+          "metric_name": "shots_per_execution",
+          "value": 120,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "simulation_horizon",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "years",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "distribution_bounds",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "standard deviations",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "expected_return",
+          "value": 0.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "fraction",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "expected_return",
+          "value": 0.1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "fraction",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "expected_return",
+          "value": 0.06,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "fraction",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "covariance_matrix_difference",
+          "value": 0.000153,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "matrix entries (scaled by 1e-4)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "covariance_matrix_difference",
+          "value": 0.000161,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "matrix entries (scaled by 1e-4)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "covariance_matrix_difference",
+          "value": 5.2e-05,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "matrix entries (scaled by 1e-4)",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_build_time",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_build_time",
+          "value": 60,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_build_time",
+          "value": 1200,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_build_time_physical_qpu",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_build_time_physical_qpu",
+          "value": 30,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "circuit_failure_time_physical_qpu",
+          "value": 360,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "seconds",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "classical multivariate normal distribution simulation",
+          "metric_name": "expected_return",
+          "value": null,
+          "unit": null
+        },
+        {
+          "method_name": "classical covariance calculation from historical data",
+          "metric_name": "covariance_matrix_difference",
+          "value": null,
+          "unit": null
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The paper does not claim or demonstrate an asymptotic or empirical speedup over classical methods; it states the problem is classically solvable and focuses on software development and simulation."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 3.0,
+          "num_qubits": 9,
+          "metric_name": "circuit_build_time_simulator",
+          "metric_value": 3
+        },
+        {
+          "problem_size": 4.0,
+          "num_qubits": 12,
+          "metric_name": "circuit_build_time_simulator",
+          "metric_value": 60
+        },
+        {
+          "problem_size": 5.0,
+          "num_qubits": 15,
+          "metric_name": "circuit_build_time_simulator",
+          "metric_value": 1200
+        },
+        {
+          "problem_size": 3.0,
+          "num_qubits": 9,
+          "metric_name": "circuit_build_time_physical_qpu",
+          "metric_value": 3
+        },
+        {
+          "problem_size": 4.0,
+          "num_qubits": 12,
+          "metric_name": "circuit_build_time_physical_qpu",
+          "metric_value": 30
+        },
+        {
+          "problem_size": 5.0,
+          "num_qubits": 15,
+          "metric_name": "circuit_failure_time_physical_qpu",
+          "metric_value": 360
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "theoretical_only",
+        "hoefler_viable": null,
+        "maturity_level": "L3_qpu_small",
+        "crossover_size": null,
+        "resources_for_advantage": "Not discussed; experiment uses 9 qubits for the main configuration and exploratory tests up to 15 qubits in circuit construction.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Very small problem size (3 assets, 9 qubits)",
+          "No classical runtime comparison or benchmark",
+          "Circuit construction time grows rapidly with qubit count",
+          "Physical hardware failures for the largest tested circuit ([5,5,5])",
+          "Application is essentially a proof-of-concept sampling circuit rather than an optimization algorithm"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "num_qubits inferred from 3 qubits per each of 3 asset classes = 9 total qubits.",
+          "hardware.type reported as IBM Quantum System One / IBM Eagle processor; mapped to real_qpu_superconducting.",
+          "circuit_depth not explicitly reported; only build times and qubit-array sizes are given.",
+          "speedup_order set to none_proven because the paper does not characterize asymptotic speedup.",
+          "The authors explicitly state the problem is classically solvable and position the work as software exploration rather than demonstrating quantum speedup.",
+          "No quantitative comparison against classical simulation runtime or accuracy is reported."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

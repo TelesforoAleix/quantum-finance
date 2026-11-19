@@ -1,0 +1,594 @@
+{
+  "paper_id": "30582038a7ba",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:27:06+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "30582038a7ba_periodic_unitary_encoding_for_quantum_anomaly_detection_of_temporal_series.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.85,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 0,
+    "validation_passed": true,
+    "quality_details": {
+      "score": 0.85,
+      "completeness": 0.85,
+      "num_experiments": 1,
+      "experiment_scores": [
+        0.85
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Periodic Unitary Encoding for Quantum Anomaly Detection of Temporal Series",
+    "authors": [
+      "Daniele Lizzio Bosco",
+      "Riccardo Romanello",
+      "Giuseppe Serra"
+    ],
+    "year": 2025,
+    "doi": "10.5220/0013537800004525",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "quantum-ml-finance",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper proposes a periodic-unitary quantum kernel for time-series anomaly detection and evaluates it using 2‑qubit noiseless Qiskit simulations on the NYC Taxi dataset. The best quantum model (7‑period Hamiltonian) achieves balanced accuracy 0.816 ± 0.148 and F1-score 0.733 ± 0.263, but classical baselines outperform it, with an RBF kernel reaching balanced accuracy 0.869 ± 0.153 and F1-score 0.814 ± 0.222.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Quantum kernel-based one-class SVM for anomaly detection on the NYC taxi request time series, comparing a random Hamiltonian temporal kernel, a 1-period Hamiltonian kernel, and a 7-period Hamiltonian kernel (the proposed periodic unitary encoding).",
+      "algorithm": {
+        "family": "other-gate-based",
+        "variant": "Quantum temporal kernel / quantum kernel-based One-Class SVM with periodic unitary encoding",
+        "ansatz": null,
+        "optimizer": null,
+        "num_layers": null,
+        "convergence_criteria": null,
+        "hyperparameters": {
+          "kernel_type": "quantum temporal kernel",
+          "periodic_hamiltonian_periods": [
+            1,
+            7
+          ],
+          "random_hamiltonian_baseline": true,
+          "feature_encoding": "RX(xπ)",
+          "qubits": 2,
+          "repetitions_per_experiment": 30,
+          "nu": "selected by validation",
+          "threshold": "selected by validation"
+        },
+        "parameter_initialization": "Periodic Hamiltonians constructed from random eigenvalues uniformly sampled in {-15,...,15}; random Hamiltonian baseline uses random eigenvalues; no trainable quantum parameters reported.",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "angle_encoding",
+        "encoding_details": "Each time-step feature vector xt is encoded with angle encoding RX(xπ) on 2 qubits, then combined with a time-dependent unitary exp(-iHt).",
+        "objective_function": "One-Class SVM anomaly detection using a quantum kernel similarity matrix; classify windows as anomalous vs non-anomalous based on kernel-induced decision boundary.",
+        "constraints_handling": "One-Class SVM formulation; no explicit quantum constraints beyond kernel construction.",
+        "num_binary_variables": null,
+        "problem_hamiltonian": "U(t)=exp(-2πiHPt) for periodic Hamiltonians; kernel uses φ(xt,t)=U(xt)exp(-iHt)|0⟩⊗n.",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Collective anomaly detection on weekly windows of the NYC taxi request time series, with anomalies corresponding to documented special events.",
+        "num_assets": null,
+        "time_steps": 7,
+        "num_features": 1,
+        "dataset_size": null,
+        "data_type": "public_benchmark",
+        "dataset_name": "NYC Taxi Request dataset",
+        "dataset_specification": {
+          "description": "Taxi requests recorded by NYC and Limousine Commission from July 2014 to January 2015; 5 documented anomalies (NYC Marathon, Thanksgiving, Christmas, New Year’s Day, severe New England blizzard)."
+        },
+        "data_preprocessing_details": "Series divided into windows of size 7 days; each window labeled anomalous if it contains one of the five anomalous days; training uses only non-anomalous windows; train/validation/test split of non-anomalous data 0.7/0.3, then remaining samples split 0.3/0.7 for validation/test.",
+        "evaluation_methodology": "Each experiment repeated 30 times; hyperparameters selected by maximizing balanced accuracy on validation set; final evaluation on test set using Precision, Recall, F1-score, and Balanced Accuracy."
+      },
+      "quantum_resources": {
+        "num_qubits": 2,
+        "qubit_type": "not_specified",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/Dan-LB/Periodic-Unitary-Encoding",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "One-Class SVM",
+        "transpilation_settings": {
+          "optimization_level": null,
+          "basis_gates": null,
+          "routing_method": null
+        },
+        "classical_preprocessing": "Windowing of the time series; validation-based selection of ν and threshold.",
+        "classical_postprocessing": "Kernel matrix computed classically from quantum circuit overlaps; SVM decision threshold applied to classify anomalies.",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": 30.0,
+          "num_independent_runs": 30
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "precision",
+          "value": 0.86,
+          "uncertainty": "±0.272",
+          "num_runs": 30,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.678,
+          "uncertainty": "±0.297",
+          "num_runs": 30,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.733,
+          "uncertainty": "±0.263",
+          "num_runs": 30,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "balanced_accuracy",
+          "value": 0.816,
+          "uncertainty": "±0.148",
+          "num_runs": 30,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.764,
+          "uncertainty": "±0.376",
+          "num_runs": 30,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.589,
+          "uncertainty": "±0.358",
+          "num_runs": 30,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.63,
+          "uncertainty": "±0.329",
+          "num_runs": 30,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "balanced_accuracy",
+          "value": 0.761,
+          "uncertainty": "±0.17",
+          "num_runs": 30,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.721,
+          "uncertainty": "±0.396",
+          "num_runs": 30,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.578,
+          "uncertainty": "±0.381",
+          "num_runs": 30,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.61,
+          "uncertainty": "±0.356",
+          "num_runs": 30,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "balanced_accuracy",
+          "value": 0.756,
+          "uncertainty": "±0.185",
+          "num_runs": 30,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.855,
+          "uncertainty": "±0.275",
+          "num_runs": 30,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.478,
+          "uncertainty": "±0.243",
+          "num_runs": 30,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.581,
+          "uncertainty": "±0.218",
+          "num_runs": 30,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "balanced_accuracy",
+          "value": 0.716,
+          "uncertainty": "±0.11",
+          "num_runs": 30,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.871,
+          "uncertainty": "±0.268",
+          "num_runs": 30,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.5,
+          "uncertainty": "±0.244",
+          "num_runs": 30,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.604,
+          "uncertainty": "±0.222",
+          "num_runs": 30,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "balanced_accuracy",
+          "value": 0.73,
+          "uncertainty": "±0.109",
+          "num_runs": 30,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.882,
+          "uncertainty": "±0.156",
+          "num_runs": 30,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.8,
+          "uncertainty": "±0.241",
+          "num_runs": 30,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.802,
+          "uncertainty": "±0.155",
+          "num_runs": 30,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "balanced_accuracy",
+          "value": 0.85,
+          "uncertainty": "±0.111",
+          "num_runs": 30,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "precision",
+          "value": 0.941,
+          "uncertainty": "±0.122",
+          "num_runs": 30,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "recall",
+          "value": 0.778,
+          "uncertainty": "±0.295",
+          "num_runs": 30,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "f1_score",
+          "value": 0.814,
+          "uncertainty": "±0.222",
+          "num_runs": 30,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "balanced_accuracy",
+          "value": 0.869,
+          "uncertainty": "±0.153",
+          "num_runs": 30,
+          "unit": "ratio",
+          "higher_is_better": true,
+          "data_source": "table"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "linear kernel",
+          "metric_name": "precision",
+          "value": 0.855,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "linear kernel",
+          "metric_name": "recall",
+          "value": 0.478,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "linear kernel",
+          "metric_name": "f1_score",
+          "value": 0.581,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "linear kernel",
+          "metric_name": "balanced_accuracy",
+          "value": 0.716,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "polynomial kernel",
+          "metric_name": "precision",
+          "value": 0.871,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "polynomial kernel",
+          "metric_name": "recall",
+          "value": 0.5,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "polynomial kernel",
+          "metric_name": "f1_score",
+          "value": 0.604,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "polynomial kernel",
+          "metric_name": "balanced_accuracy",
+          "value": 0.73,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "dynamic time warping",
+          "metric_name": "precision",
+          "value": 0.882,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "dynamic time warping",
+          "metric_name": "recall",
+          "value": 0.8,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "dynamic time warping",
+          "metric_name": "f1_score",
+          "value": 0.802,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "dynamic time warping",
+          "metric_name": "balanced_accuracy",
+          "value": 0.85,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "radial basis function",
+          "metric_name": "precision",
+          "value": 0.941,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "radial basis function",
+          "metric_name": "recall",
+          "value": 0.778,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "radial basis function",
+          "metric_name": "f1_score",
+          "value": 0.814,
+          "unit": "ratio"
+        },
+        {
+          "method_name": "radial basis function",
+          "metric_name": "balanced_accuracy",
+          "value": 0.869,
+          "unit": "ratio"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": null,
+          "conditions": null,
+          "is_demonstrated": false,
+          "caveats": "The paper reports performance comparisons only; it does not claim or demonstrate any computational speedup."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 30.0,
+          "num_qubits": 2,
+          "metric_name": "balanced_accuracy",
+          "metric_value": 0.816
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "Not analyzed",
+        "resources_for_advantage": "Not specified; experiment uses only 2 qubits and simulated kernels without scaling analysis.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Classical baselines outperform the quantum model (RBF balanced accuracy 0.869 vs quantum best 0.816).",
+          "Only 2-qubit noiseless simulation; no hardware execution.",
+          "No algorithmic speedup or complexity advantage claimed or analyzed.",
+          "Kernel evaluation cost scales with pairwise circuit evaluations if implemented on hardware."
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": null,
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Paper explicitly states quantum kernels are obtained with 2-qubit circuits simulated in a noiseless environment with Qiskit; no real QPU is used.",
+          "No circuit depth, gate counts, shot counts, or variational parameter counts are reported.",
+          "The paper compares quantum kernels against classical kernels and DTW but does not provide asymptotic complexity analysis or a speedup claim.",
+          "Table 1 shows the best classical model (RBF kernel) achieving balanced accuracy 0.869 and F1-score 0.814, outperforming the best quantum model (7‑P Hamiltonian) with balanced accuracy 0.816 and F1-score 0.733.",
+          "Authors explicitly note that RBF achieves superior performance and that the task may not require temporal understanding (Section 5.2 Discussion).",
+          "No quantum advantage claim is made in the paper."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

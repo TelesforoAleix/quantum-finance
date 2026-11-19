@@ -1,0 +1,620 @@
+{
+  "paper_id": "822dbee7acfe",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T09:07:30+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "822dbee7acfe_scaling_portfolio_diversification_with_quantum_circuit_cutting_techniques.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 0.742,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 12,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='assets / qubits' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='probability' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[0].unit='assets / qubits' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[1].unit='threshold' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[2].unit='cuts/layer' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[3].unit='layers' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[4].unit='score' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[5].unit='edge_weight_sum' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[1].results[6].unit='edge_weight_sum' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 0.742,
+      "completeness": 0.742,
+      "num_experiments": 2,
+      "experiment_scores": [
+        0.633,
+        0.85
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 0.0,
+          "problem_instance": 0.3333333333333333
+        },
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 0.5,
+          "hardware": 0.5,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "SCALING PORTFOLIO DIVERSIFICATION WITH QUANTUM CIRCUIT CUTTING TECHNIQUES",
+    "authors": [
+      "Vicente P. Soloviev",
+      "Antonio Márquez Romero",
+      "Josh Kirsopp",
+      "Michal Krompiec"
+    ],
+    "year": 2025,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "portfolio-optimization",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper introduces QuantCut, an automatic circuit-cutting framework, and demonstrates it on QAOA for portfolio diversification using a 71‑qubit Max‑Cut formulation derived from S&P 500 data. A toy 10‑qubit noisy simulation shows improved convergence behavior with circuit cutting, while the 71‑qubit experiment (p=1 with three gate cuts per layer) achieves Max‑Cut 43.41 but is outperformed by a classical evolutionary algorithm (46.51).",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "Toy Max-Cut QAOA noise-resilience experiment on a 10-node Erdős-Rényi graph, comparing circuit cutting vs no circuit cutting under a readout-noise model.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "QAOA with circuit cutting",
+        "ansatz": "QAOA ansatz",
+        "optimizer": "classical optimizer not specified",
+        "num_layers": 1,
+        "convergence_criteria": "not specified; convergence tracked over iterations",
+        "hyperparameters": {
+          "num_nodes": 10,
+          "graph_model": "Erdős-Rényi",
+          "layers_tested": [
+            1,
+            2,
+            3
+          ],
+          "readout_noise_matrix": "[[0.99,0.01],[0.01,0.99]]",
+          "gate_cuts_per_layer": 1
+        },
+        "parameter_initialization": "not specified",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": "parameters in [0, 2π] as described for QAOA"
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "ising / max-cut Hamiltonian encoding",
+        "encoding_details": "Max-Cut on a 10-node graph encoded with 1 qubit per node",
+        "objective_function": "Max-Cut(G) = sum_{(v_i,v_j) in E} w_ij x_i (1 - x_j)",
+        "constraints_handling": "implicit Max-Cut binary assignment; no additional constraints reported",
+        "num_binary_variables": 10,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Synthetic random graph Max-Cut instance for noise-resilience testing",
+        "num_assets": null,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": "Erdős-Rényi random graph",
+        "dataset_specification": {
+          "description": "10 nodes; random graph generated for toy example"
+        },
+        "data_preprocessing_details": "not applicable",
+        "evaluation_methodology": "Expectation value convergence compared across 1, 2, and 3 QAOA layers, with and without circuit cutting, under a readout-noise model"
+      },
+      "quantum_resources": {
+        "num_qubits": 10,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": 0.99,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_noisy",
+        "provider": null,
+        "device_name": null,
+        "framework": "pytket",
+        "transpilation_target": null
+      },
+      "noise_model": {
+        "is_noisy": true,
+        "noise_type": "readout noise",
+        "error_mitigation_method": "circuit cutting (used as comparison/approximation strategy)"
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "evolutionary algorithm baseline; random sampling baseline",
+        "transpilation_settings": null,
+        "classical_preprocessing": null,
+        "classical_postprocessing": "circuit-cutting reconstruction of expectation values",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "decreasing expectation value over iterations; compared across 1, 2, and 3 layers",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_assets",
+          "value": 10,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets / qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "readout_fidelity",
+          "value": 0.99,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "probability",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "layers_tested",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "layers_tested",
+          "value": 2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "layers_tested",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": null,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [],
+      "speedup_claims": [],
+      "scalability_data": [
+        {
+          "problem_size": 10,
+          "num_qubits": 10,
+          "metric_name": "num_assets",
+          "metric_value": 10
+        },
+        {
+          "problem_size": 1,
+          "num_qubits": 10,
+          "metric_name": "layers",
+          "metric_value": 1
+        },
+        {
+          "problem_size": 2,
+          "num_qubits": 10,
+          "metric_name": "layers",
+          "metric_value": 2
+        },
+        {
+          "problem_size": 3,
+          "num_qubits": 10,
+          "metric_name": "layers",
+          "metric_value": 3
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "not_assessed",
+        "hoefler_viable": null,
+        "maturity_level": "L2_noisy_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Not analyzed; experiment is a 10‑qubit noisy simulation intended only to compare circuit cutting vs. no cutting.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "Toy problem size (10 qubits)",
+          "No classical runtime comparison",
+          "Goal is error-mitigation validation rather than performance advantage",
+          "Simulated noise model only"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_reported",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware is a noisy simulation with a readout error model; no real QPU is named.",
+          "10 qubits inferred directly from the 10-node graph and 1 qubit per node mapping.",
+          "Circuit depth not explicitly reported; p layers are reported, but total depth is not.",
+          "Speedup order is not characterized in the paper.",
+          "Authors do not claim quantum advantage; the experiment evaluates convergence and noise resilience with circuit cutting."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    },
+    {
+      "experiment_id": "exp_2",
+      "description": "71-qubit portfolio diversification QAOA experiment on S&P 500 assets using QuantCut circuit cutting, compared against random sampling and a classical evolutionary algorithm baseline.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "QAOA with automatic gate cutting (QuantCut) for portfolio diversification",
+        "ansatz": "QAOA ansatz",
+        "optimizer": "classical optimizer not specified",
+        "num_layers": 1,
+        "convergence_criteria": "not specified; iterative minimization of expectation value",
+        "hyperparameters": {
+          "num_assets_selected": 71,
+          "graph_threshold_alpha": 0.2,
+          "gate_cuts_per_layer": 3,
+          "layers": 1,
+          "backend_for_state_retrieval": "tensor-network/MPS via cuQuantum",
+          "GPU": "NVIDIA A100"
+        },
+        "parameter_initialization": "not specified",
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": "parameters in [0, 2π] as described for QAOA"
+        }
+      },
+      "problem_formulation": {
+        "encoding_method": "ising / max-cut Hamiltonian encoding",
+        "encoding_details": "1 qubit per asset; 71 assets mapped to 71 qubits; graph edges from pairwise covariances above threshold alpha=0.2",
+        "objective_function": "Max-Cut(G) = sum_{(v_i,v_j) in E} w_ij x_i (1 - x_j)",
+        "constraints_handling": "portfolio diversification via Max-Cut formulation; thresholded correlation graph; repeated bisection mentioned for >2 portfolios",
+        "num_binary_variables": 71,
+        "problem_hamiltonian": null,
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Real-world portfolio diversification over selected S&P 500 stocks",
+        "num_assets": 71,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": 71,
+        "data_type": "real_market",
+        "dataset_name": "S&P 500 stock market dataset from Kaggle",
+        "dataset_specification": {
+          "description": "71 selected tickers from the S&P 500; correlation graph built from historical stock prices; threshold alpha=0.2"
+        },
+        "data_preprocessing_details": "normalize each time series to [0,1]; standardize to mean 0 and standard deviation 1; compute Pearson correlation/covariance matrix; threshold correlations below 0.2",
+        "evaluation_methodology": "QAOA expectation-value minimization over iterations; compared against random sampling and an evolutionary algorithm baseline; solution quality assessed via Max-Cut(G) and intra-subportfolio edge weight Acum(G_i)"
+      },
+      "quantum_resources": {
+        "num_qubits": 71,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": null,
+        "num_variational_params": 2,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_other",
+        "provider": "NVIDIA",
+        "device_name": "A100",
+        "framework": "pytket",
+        "transpilation_target": "cuQuantum tensor-network/MPS backend"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": "circuit cutting / tensor-network reconstruction"
+      },
+      "implementation_details": {
+        "code_available": null,
+        "code_url": null,
+        "framework_version": null,
+        "transpilation_target": "cuQuantum integrated in pytket",
+        "classical_solver": "evolutionary algorithm (EA) baseline; random sampling baseline",
+        "transpilation_settings": null,
+        "classical_preprocessing": "data engineering, correlation thresholding, graph construction",
+        "classical_postprocessing": "QuantCut reconstruction of expectation values and tensor-network sampling to extract the largest-amplitude basis state",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": "decreasing expectation value over optimization steps",
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "num_assets",
+          "value": 71,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets / qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "graph_threshold_alpha",
+          "value": 0.2,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "threshold",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "gate_cuts_per_layer",
+          "value": 3,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "cuts/layer",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_layers",
+          "value": 1,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "layers",
+          "higher_is_better": null,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "max_cut_g",
+          "value": 43.41,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "score",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "acum_g0",
+          "value": 2.439,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "edge_weight_sum",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "acum_g1",
+          "value": 4.113,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "edge_weight_sum",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 71,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "random_sampling",
+          "metric_name": "max_cut_g",
+          "value": 26.1,
+          "unit": "score"
+        },
+        {
+          "method_name": "random_sampling",
+          "metric_name": "max_cut_g",
+          "value": 2.1,
+          "unit": "score"
+        },
+        {
+          "method_name": "random_sampling",
+          "metric_name": "acum_g0",
+          "value": 15.2,
+          "unit": "edge_weight_sum"
+        },
+        {
+          "method_name": "random_sampling",
+          "metric_name": "acum_g0",
+          "value": 5.0,
+          "unit": "edge_weight_sum"
+        },
+        {
+          "method_name": "random_sampling",
+          "metric_name": "acum_g1",
+          "value": 7.9,
+          "unit": "edge_weight_sum"
+        },
+        {
+          "method_name": "random_sampling",
+          "metric_name": "acum_g1",
+          "value": 7.1,
+          "unit": "edge_weight_sum"
+        },
+        {
+          "method_name": "evolutionary_algorithm",
+          "metric_name": "max_cut_g",
+          "value": 46.51,
+          "unit": "score"
+        },
+        {
+          "method_name": "evolutionary_algorithm",
+          "metric_name": "acum_g0",
+          "value": 1.19,
+          "unit": "edge_weight_sum"
+        },
+        {
+          "method_name": "evolutionary_algorithm",
+          "metric_name": "acum_g1",
+          "value": 2.11,
+          "unit": "edge_weight_sum"
+        }
+      ],
+      "speedup_claims": [],
+      "scalability_data": [
+        {
+          "problem_size": 71,
+          "num_qubits": 71,
+          "metric_name": "max_cut_g",
+          "metric_value": 43.41
+        },
+        {
+          "problem_size": 71,
+          "num_qubits": 71,
+          "metric_name": "acum_g0",
+          "metric_value": 2.439
+        },
+        {
+          "problem_size": 71,
+          "num_qubits": 71,
+          "metric_name": "acum_g1",
+          "metric_value": 4.113
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": null,
+        "resources_for_advantage": "Would require deeper QAOA circuits (larger p) and execution on real hardware capable of handling >70 logical qubits without classical tensor-network simulation.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": "far_future_10_plus_years",
+        "limiting_factors": [
+          "Classical evolutionary algorithm outperforms QAOA (Max-Cut 46.51 vs 43.41)",
+          "Single-layer QAOA (p=1) limits solution quality",
+          "Results obtained via tensor-network simulation rather than QPU",
+          "Circuit cutting introduces exponential overhead in number of cuts"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_inferred",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "Hardware is not a QPU; the paper states calculations were made on a single NVIDIA A100 GPU using cuQuantum tensor-network methods for state retrieval.",
+          "71 qubits are explicitly stated for the portfolio experiment and 1 qubit per asset is described.",
+          "Total circuit depth is not explicitly reported; only p=1 and 3 gate cuts per layer are reported.",
+          "Speedup order is not characterized in the paper.",
+          "Table 1 shows the classical evolutionary algorithm achieving better Max-Cut scores than QAOA.",
+          "Authors explicitly state classical EA achieves better results and suggest increasing QAOA depth as future work."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}

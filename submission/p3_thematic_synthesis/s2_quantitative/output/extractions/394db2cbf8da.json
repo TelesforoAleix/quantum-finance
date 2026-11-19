@@ -1,0 +1,388 @@
+{
+  "paper_id": "394db2cbf8da",
+  "extraction_metadata": {
+    "extraction_date": "2026-04-22",
+    "run_timestamp": "2026-04-22T08:31:23+00:00",
+    "schema_version": "benchmark_extraction_v1.0",
+    "prompt_version_hash": "e799c7bcf3aaa2a3",
+    "scope": "gate_based",
+    "models_used": {
+      "2": "gpt-5.4-mini",
+      "3": "gpt-5.4-mini",
+      "4": "gpt-5.3"
+    },
+    "source_file": "394db2cbf8da_quantum_approximate_optimization_algorithm_for_portfolio_selection_a_comparative.md",
+    "pipeline": "3-step-v3",
+    "quality_score": 1.0,
+    "validation_flagged": 0,
+    "validation_total": 0,
+    "validation_errors": 0,
+    "validation_warnings": 10,
+    "validation_passed": true,
+    "validation_warning_details": [
+      "experiments[0].results[0].unit='absolute' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[1].unit='absolute' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[2].unit='cost' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[3].unit='absolute' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[4].unit='absolute' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[5].unit='cost' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[6].unit='absolute' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[7].unit='absolute' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[8].unit='cost' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)",
+      "experiments[0].results[9].unit='assets' not in standard vocabulary (allowed: seconds, ms, percent, ratio, unitless, ...)"
+    ],
+    "quality_details": {
+      "score": 1.0,
+      "completeness": 1.0,
+      "num_experiments": 1,
+      "experiment_scores": [
+        1.0
+      ],
+      "details": [
+        {
+          "algorithm": 1.0,
+          "quantum_resources": 1.0,
+          "hardware": 1.0,
+          "results": 1.0,
+          "baselines": 1.0,
+          "problem_instance": 1.0
+        }
+      ]
+    }
+  },
+  "paper_metadata": {
+    "title": "Quantum Approximate Optimization Algorithm for Portfolio Selection: A Comparative Study with Classical Markowitz Optimization",
+    "authors": [
+      "Gabriel Padilla"
+    ],
+    "year": 2025,
+    "doi": "",
+    "scope": "gate_based"
+  },
+  "finance_domain": {
+    "primary_silo": "portfolio-optimization",
+    "secondary_silos": []
+  },
+  "has_quantitative_results": true,
+  "summary": "The paper demonstrates QAOA for a small synthetic portfolio optimization instance with 6 assets (6 qubits) using Qiskit Aer and 1024 shots. QAOA achieves QUBO costs of −17.740 (p=1) and −17.630 (p=2), compared with the exact classical QUBO optimum of −17.745. The study explicitly reports no quantum advantage and frames the experiment as a pedagogical demonstration of mapping portfolio optimization to QAOA.",
+  "experiments": [
+    {
+      "experiment_id": "exp_1",
+      "description": "QAOA applied to a 6-asset discrete portfolio selection QUBO, evaluated at depths p=1 and p=2 on a Qiskit simulator and compared against an exact classical QUBO solver baseline.",
+      "algorithm": {
+        "family": "qaoa",
+        "variant": "standard QAOA for QUBO portfolio selection",
+        "ansatz": null,
+        "optimizer": "COBYLA",
+        "num_layers": 2,
+        "convergence_criteria": "fixed iteration limit",
+        "hyperparameters": {
+          "shots": 1024,
+          "problem_size_assets": 6,
+          "depths_evaluated": [
+            1,
+            2
+          ],
+          "backend": "qiskit aer simulator (statevector)"
+        },
+        "parameter_initialization": null,
+        "optimizer_settings": {
+          "max_iterations": null,
+          "tolerance": null,
+          "step_size": null,
+          "learning_rate_schedule": null,
+          "parameter_bounds": null
+        },
+        "hyperparameters.backend": "qiskit aer simulator"
+      },
+      "problem_formulation": {
+        "encoding_method": "QUBO",
+        "encoding_details": "1 qubit per binary asset-selection variable; xi in {0,1} indicates whether asset i is included",
+        "objective_function": "Cost(x) = - sum_i mu_i x_i + lambda * sum_{i,j} Sigma_ij x_i x_j + penalty terms",
+        "constraints_handling": "penalty terms for cardinality and portfolio-size/budget constraints",
+        "num_binary_variables": 6,
+        "problem_hamiltonian": "H_C = sum_i h_i Z_i + sum_{i<j} J_ij Z_i Z_j + constant",
+        "num_ancilla_qubits": null
+      },
+      "problem_instance": {
+        "description": "Small synthetic discrete portfolio selection instance",
+        "num_assets": 6,
+        "time_steps": null,
+        "num_features": null,
+        "dataset_size": null,
+        "data_type": "synthetic",
+        "dataset_name": null,
+        "dataset_specification": {
+          "description": "synthetically generated expected returns and covariance matrix; no real market dataset used"
+        },
+        "data_preprocessing_details": "synthetic generation of mu_i and Sigma_ij to create a controlled, reproducible small instance",
+        "evaluation_methodology": "Single instance evaluated with QAOA at p=1 and p=2; results compared to exact classical QUBO optimum"
+      },
+      "quantum_resources": {
+        "num_qubits": 6,
+        "qubit_type": "logical",
+        "circuit_depth": null,
+        "circuit_depth_transpiled": null,
+        "gate_count_total": null,
+        "cnot_count": null,
+        "two_qubit_gate_count": null,
+        "t_count": null,
+        "t_depth": null,
+        "num_shots": 1024,
+        "num_variational_params": null,
+        "gate_fidelity": null,
+        "readout_fidelity": null,
+        "error_correction": {
+          "code_distance": null,
+          "physical_qubits_per_logical": null,
+          "total_physical_qubits": null,
+          "logical_error_rate": null,
+          "physical_error_rate_assumed": null
+        }
+      },
+      "hardware": {
+        "type": "simulator_statevector",
+        "provider": "IBM",
+        "device_name": null,
+        "framework": "Qiskit"
+      },
+      "noise_model": {
+        "is_noisy": false,
+        "noise_type": null,
+        "error_mitigation_method": null,
+        "noise_parameters": null,
+        "mitigation_details": null
+      },
+      "implementation_details": {
+        "code_available": true,
+        "code_url": "https://github.com/gabrielpadilla24/QuantumApproximateOptimizationAlgorithm",
+        "framework_version": null,
+        "transpilation_target": null,
+        "classical_solver": "exact classical QUBO solver",
+        "transpilation_settings": null,
+        "classical_preprocessing": "synthetic generation of returns/covariance and QUBO construction",
+        "classical_postprocessing": "bitstring extraction and comparison of expected return, variance, and QUBO cost",
+        "total_execution_time": null,
+        "quantum_execution_time": null,
+        "quantum_fraction_of_runtime": null,
+        "circuit_compilation_time": null,
+        "convergence_data": {
+          "iterations_to_converge": null,
+          "final_loss_value": null,
+          "loss_curve_shape": null,
+          "variance_across_runs": null,
+          "num_independent_runs": null
+        },
+        "classical_mc_samples": null,
+        "num_layers": null,
+        "ansatz_depth": null,
+        "p_rounds": null
+      },
+      "results": [
+        {
+          "metric_name": "expected_return",
+          "value": 0.25,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "variance",
+          "value": 0.137,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "qubo_cost",
+          "value": -17.74,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "cost",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "expected_return",
+          "value": 0.35,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "variance",
+          "value": 0.198,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "qubo_cost",
+          "value": -17.63,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "cost",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "expected_return",
+          "value": 0.28,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute",
+          "higher_is_better": true,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "variance",
+          "value": 0.144,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "absolute",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "qubo_cost",
+          "value": -17.745,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "cost",
+          "higher_is_better": false,
+          "data_source": "table"
+        },
+        {
+          "metric_name": "num_assets",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "assets",
+          "higher_is_better": true,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "num_qubits",
+          "value": 6,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "qubits",
+          "higher_is_better": false,
+          "data_source": "text"
+        },
+        {
+          "metric_name": "shots",
+          "value": 1024,
+          "uncertainty": null,
+          "num_runs": null,
+          "unit": "shots",
+          "higher_is_better": false,
+          "data_source": "text"
+        }
+      ],
+      "classical_baselines": [
+        {
+          "method_name": "exact classical qubo solver",
+          "metric_name": "qubo_cost",
+          "value": -17.745,
+          "unit": "cost"
+        },
+        {
+          "method_name": "exact classical qubo solver",
+          "metric_name": "expected_return",
+          "value": 0.28,
+          "unit": "absolute"
+        },
+        {
+          "method_name": "exact classical qubo solver",
+          "metric_name": "variance",
+          "value": 0.144,
+          "unit": "absolute"
+        }
+      ],
+      "speedup_claims": [
+        {
+          "type": "none",
+          "factor": null,
+          "baseline_method": "exact classical qubo solver",
+          "conditions": "small 6-asset instance on a classical simulator; paper explicitly states no practical advantage over classical methods",
+          "is_demonstrated": false,
+          "caveats": "No quantum advantage is claimed; QAOA is presented as pedagogical/exploratory. p=2 performed slightly worse than p=1 due to non-convex optimization."
+        }
+      ],
+      "scalability_data": [
+        {
+          "problem_size": 6,
+          "num_qubits": 6,
+          "metric_name": "qubo_cost",
+          "metric_value": -17.74
+        },
+        {
+          "problem_size": 6,
+          "num_qubits": 6,
+          "metric_name": "qubo_cost",
+          "metric_value": -17.63
+        },
+        {
+          "problem_size": 6,
+          "num_qubits": 6,
+          "metric_name": "qubo_cost",
+          "metric_value": -17.745
+        }
+      ],
+      "complexity_analysis": {
+        "quantum_complexity": null,
+        "classical_complexity": null,
+        "speedup_order": "none_proven",
+        "constant_factor_quantum": null,
+        "constant_factor_classical": null,
+        "total_operations_quantum": null,
+        "total_operations_classical": null,
+        "crossover_n": null,
+        "wall_clock_quantum": null,
+        "wall_clock_classical": null
+      },
+      "advantage_assessment": {
+        "advantage_status": "classical_still_better",
+        "hoefler_viable": null,
+        "maturity_level": "L1_noiseless_sim",
+        "crossover_size": "not reported; experiment limited to n = 6 assets (6 qubits)",
+        "resources_for_advantage": "Not analyzed in the paper; scaling would require far more qubits and deeper circuits than available NISQ devices.",
+        "data_loading_bottleneck": null,
+        "feasibility_horizon": null,
+        "limiting_factors": [
+          "experiment performed only on a classical simulator",
+          "very small problem size (6 qubits / 6 assets)",
+          "no asymptotic speedup or complexity advantage claimed",
+          "variational optimization instability (p=2 worse than p=1)",
+          "classical exact QUBO solver reaches slightly lower cost (-17.745 vs -17.740)"
+        ]
+      },
+      "provenance": {
+        "hardware_type": "paper_reported",
+        "num_qubits": "paper_reported",
+        "circuit_depth": "paper_inferred",
+        "speedup_order": "paper_reported",
+        "quantum_complexity": "paper_reported",
+        "classical_complexity": "paper_reported",
+        "notes": [
+          "circuit_depth not explicitly given as a total depth; inferred only that depths p=1 and p=2 were evaluated, so total circuit depth is left null and num_layers records the evaluated QAOA depths.",
+          "hardware.type reported as Qiskit aer simulator (statevector).",
+          "No asymptotic speedup is claimed; paper explicitly states no practical advantage over classical methods for the small simulated instance.",
+          "The authors explicitly state that no quantum advantage is expected for the small instance.",
+          "The classical exact QUBO solver achieves the best cost (-17.745) compared with QAOA results (-17.740 for p=1 and -17.630 for p=2).",
+          "The work is described as pedagogical and exploratory rather than performance-driven."
+        ],
+        "advantage_status": "paper_inferred"
+      }
+    }
+  ]
+}
