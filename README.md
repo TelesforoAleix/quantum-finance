@@ -28,6 +28,11 @@ The thesis is a pipeline of four phases. Each phase feeds the next one.
 - **P1 Framework synthesis.** We extracted problems and methods from existing surveys of quantum finance. The output is a taxonomy and codebook: 8 problem domains × 11 solution categories.
 - **P2 Systematic review.** We screened the literature with human reviewers and LLM support. The output is a classified corpus of 777 papers; 755 of them are used downstream.
 - **P3 Thematic synthesis.** We coded the papers within 8 finance silos and extracted their benchmark results. We then assessed each advantage claim in four layers based on published frameworks, plus an optional noise veto (4 + 1 layers).
+
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/diagrams/p3-corpus-flow-dark.svg">
+    <img alt="Phase 3 corpus flow: S1 silo scoping takes 777 papers to 658 papers in 8 silos and routes them into three tracks. Quantitative: S2 extraction (501 papers, 1,046 experiments) and S3 advantage assessment (936 records, 76 viable). Qualitative: S4 thematic coding (95 descriptive and 45 analytical themes) and S5 cross-silo synthesis (7 meta-themes). Descriptive: S6 finance framing (629 papers, 8 silo briefs). All tracks feed the integrated synthesis, and the viable candidates from S3 feed the 71 circuits of P4." src="docs/diagrams/p3-corpus-flow-light.svg" width="100%">
+  </picture>
 - **P4 Resource-estimation experiments.** We built 71 circuits from the most viable papers and costed them with the Resource Estimator. The output is 2,556 estimator records and the test of the 13 closest circuits against the five criteria.
 
 ## How AI was used, and how humans kept control
@@ -46,6 +51,13 @@ LLMs supported screening, classification and synthesis. Humans set the criteria 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/diagrams/llm-classification-dark.svg">
   <img alt="LLM classification: each of 777 processed papers goes through six sequential LLM calls on the same paper text (source classification, metadata, methodology, findings, limitations, synthesis and tagging). The result is a structured profile plus extraction JSON, and 755 papers are used downstream. Limit: single LLM, single pass." src="docs/diagrams/llm-classification-light.svg" width="100%">
+</picture>
+
+**Thematic coding.** LLMs coded each paper, wrote a memo, and then built themes per silo. Two deterministic checks (L1 and L2) match each quote to the paper text and trace each memo claim back to its codes. L3, an adversarial LLM review, generates concerns for review; it does not filter papers. R1 is the human acceptance gate: researchers reviewed a stratified sample of 153 memos, and this sample set the acceptance rules for theme construction. C2 checks each analytical theme with a model from another vendor, and researchers must revise, demote or drop each unsupported theme; the archive's log still lists these 11 decisions as pending.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/diagrams/s4-s5-thematic-dark.svg">
+  <img alt="S4 to S5 thematic chain with lanes for LLM, automatic checks and researchers. Per paper: A1 open coding, L1 quote check, A2 memo, L2 claim trace, L3 adversarial review, and the R1 researcher review gate on 153 sampled memos; an overlay re-reads 365 multi-silo papers. Per silo: B1 descriptive themes, B2 analytical themes, C2 cross-vendor grounding (2 grounded, 32 partial, 11 unsupported), researcher disposition of unsupported themes, and S5 with 7 cross-silo meta-themes. The R1 sample informs the acceptance rules for theme construction." src="docs/diagrams/s4-s5-thematic-light.svg" width="100%">
 </picture>
 
 **Limits.** Classification used a single LLM in a single pass. No second coder checked the extraction tags. P1 extraction also used a single LLM. These limits are stated in [`submission/FREEZE.md`](submission/FREEZE.md).
